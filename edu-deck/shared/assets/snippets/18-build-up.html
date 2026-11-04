@@ -1,0 +1,43 @@
+<!--
+  아키타입 build-up (변형: 기본)
+  언제: 요소를 하나씩 더할수록 결과가 좋아지는 시연(data-add 로 덧붙인 문구 강조).
+  단계: 요소 하나 = 1단계
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+<section class="slide" data-archetype="build-up" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤12자»</p><h2 class="title">«제목: 한 문장 ≤20자»</h2></div>
+  <div class="row" style="gap:16px">
+    <div class="pb" data-lit="1"><b>«강조 앞부분 ≤4자»</b><div class="col"><b style="font-size:30px">«강조 앞부분 ≤4자»</b><span>«짧은 문구 ≤9자»</span></div></div>
+    <div class="pb" data-lit="2"><b>«강조 앞부분 ≤4자»</b><div class="col"><b style="font-size:30px">«강조 앞부분 ≤4자»</b><span>«짧은 문구 ≤11자»</span></div></div>
+    <div class="pb" data-lit="3"><b>«강조 앞부분 ≤4자»</b><div class="col"><b style="font-size:30px">«강조 앞부분 ≤4자»</b><span>«짧은 문구 ≤6자»</span></div></div>
+    <div class="pb" data-lit="4"><b>«강조 앞부분 ≤4자»</b><div class="col"><b style="font-size:30px">«강조 앞부분 ≤4자»</b><span>«짧은 문구 ≤6자»</span></div></div>
+  </div>
+  <div class="row" style="flex:1;min-height:0">
+    <div class="win f1">
+      <div class="win-bar"><i></i><i></i><i></i><span class="wt">«창 제목 ≤5자»</span></div>
+      <div class="win-body"><div class="main"><div class="msgs">
+        <div class="u" style="max-width:100%"><span class="add" data-add="1">«요청 말풍선 ≤28자» </span><span class="add" data-add="2">«요청 말풍선 ≤34자» </span><span class="add" data-add="3">«요청 말풍선 ≤15자» </span><span class="add" data-add="4">«요청 말풍선 ≤24자» </span><span>«요청 말풍선 ≤8자»</span></div>
+      </div></div></div>
+    </div>
+    <div class="col f1" style="gap:16px">
+      <div class="win f1">
+        <div class="win-bar"><i></i><i></i><i></i><span class="wt">«창 제목 ≤5자»</span></div>
+        <div class="win-body"><div class="main"><div class="msgs">
+          <div class="a" data-only="0"><span class="av">«짧은 문구 ≤4자»</span><div class="at"><p>«결과/답변 ≤28자»<br>«결과/답변 ≤24자»</p></div></div>
+          <div class="a" data-only="1"><span class="av">«짧은 문구 ≤4자»</span><div class="at"><p>«결과/답변 ≤63자»</p></div></div>
+          <div class="a" data-only="2"><span class="av">«짧은 문구 ≤4자»</span><div class="at"><p>«결과/답변 ≤218자»</p></div></div>
+          <div class="a" data-only="3"><span class="av">«짧은 문구 ≤4자»</span><div class="at"><p>«결과/답변 ≤14자»<br>«결과/답변 ≤38자»<br>«결과/답변 ≤29자»</p></div></div>
+          <div class="a" data-only="4"><span class="av">«짧은 문구 ≤4자»</span><div class="at"><p>«결과/답변 ≤14자»<br>«결과/답변 ≤38자»<br>«결과/답변 ≤30자»<br>«결과/답변 ≤27자»</p></div></div>
+        </div></div></div>
+      </div>
+      <p class="verdict" data-only="0">«판정 한 줄 ≤23자»</p>
+      <p class="verdict" data-only="1">«판정 한 줄 ≤21자»</p>
+      <p class="verdict" data-only="2">«판정 한 줄 ≤17자»</p>
+      <p class="verdict" data-only="3">«판정 한 줄 ≤12자»</p>
+      <p class="verdict" data-only="4">«판정 한 줄 ≤6자»</p>
+    </div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>

@@ -1,0 +1,14 @@
+<!--
+  탭 전환 (patterns 부분 조각 · .tabs) — 한 자리에서 여러 화면·변형을 나눠 보여 줄 때
+  규칙: .tab-bar 의 button 수와 .tab-pane 수는 1:1로 맞춘다. 조각에 스크립트를 넣지 않는다.
+  동작: 첫 탭이 기본. 클릭과 ←/→ 방향키로 전환한다(셸이 role·aria-selected 를 채운다).
+    인쇄·자습·움직임 줄이기(정적 모드)에서는 모든 패널이 탭 이름과 함께 펼쳐져 보인다.
+  연결: 다른 장에서 <button class="go" data-go="N" data-tab="2"> 로 N번 슬라이드의 2번 탭을 바로 연다.
+  주의: 이 파일은 슬라이드가 아니라 부분이다 — 호스트 아키타입의 본문 안에 넣는다.
+-->
+<div class="tabs">
+  <div class="tab-bar"><button>① «첫 탭 이름 ≤8자»</button><button>② «둘째 탭 이름 ≤8자»</button><button>③ «셋째 탭 이름 ≤8자»</button></div>
+  <div class="tab-pane"><p class="body">«첫 탭 내용»</p></div>
+  <div class="tab-pane"><p class="body">«둘째 탭 내용»</p></div>
+  <div class="tab-pane"><p class="body">«셋째 탭 내용»</p></div>
+</div>

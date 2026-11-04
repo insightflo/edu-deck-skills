@@ -1,0 +1,15 @@
+<section class="slide pack pack-casebook" data-design="casebook" data-archetype="before-after">
+  <header class="casebook-tab"><span class="pack-mark">CASEBOOK</span><p class="pack-topic">{{TITLE}}</p><p class="pack-kicker">{{KICKER}}</p></header>
+  <!-- t2 2톤 문법: 핵심 어절(주로 마지막 어절, 문장당 1회·1~2 어절)을 <em class="t2">…</em>로 감싸면 강조색이 붙는다. flows.json 토큰 값엔 태그를 넣지 않는다(이스케이프됨). 규칙: references/expression.md 1절 -->
+  <h1 class="pack-prompt casebook-question">{{PROMPT}}</h1>
+  <div class="casebook-file">
+    <article class="casebook-narrative"><span class="pack-label">기록 A · 상황과 맥락</span><p class="pack-body">{{BODY}}</p></article>
+    <aside class="casebook-exhibit"><div class="casebook-stamp">기록 B / 근거</div><p class="pack-evidence">{{EVIDENCE}}</p><p class="casebook-caution">기록된 사실과<br>나의 해석을 구분합니다.</p></aside>
+  </div>
+  <footer class="pack-footer casebook-decision"><span class="casebook-bracket" aria-hidden="true">↳</span><div><span class="pack-label">이 사례에서 내릴 판단</span><p class="pack-action">{{ACTION}}</p></div></footer>
+  <aside class="notes">{{KICKER}}
+상황을 읽은 뒤 바로 정답을 설명하지 마세요. 학습자가 기록된 사실과 해석을 구분하고 판단의 근거를 말하게 하세요.
+{{BODY}}
+확인할 근거: {{EVIDENCE}}
+학습 활동: {{ACTION}}</aside>
+</section>

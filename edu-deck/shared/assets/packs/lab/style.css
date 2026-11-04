@@ -1,0 +1,8 @@
+/* Laboratory notebook: ruled observation ledger and an explicit revision loop. */
+.slide.pack-lab{background-image:linear-gradient(color-mix(in srgb,var(--success) 6%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--success) 6%,transparent) 1px,transparent 1px);background-size:32px 32px;padding-left:112px;border-left:2px solid var(--success);gap:32px}
+.lab-question{display:grid;grid-template-columns:300px 1fr;gap:40px;border-top:2px solid var(--ink);padding-top:24px}.lab-question .pack-kicker{padding-top:16px}.lab-question .pack-prompt{font-size:50px}
+.lab-log{display:grid;grid-template-columns:1.25fr 1fr;gap:0;border:2px solid var(--line);background:var(--paper)}
+.lab-observation,.lab-evidence{padding:24px 32px 32px}.lab-observation{border-right:2px solid var(--line)}
+.lab-tab{display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:24px;font-size:23px;font-weight:700}.lab-tab .pack-index{color:var(--accent)}
+.lab-cycle{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:32px;padding-top:16px;border-top:1px dashed var(--line);font-size:25px}.lab-cycle span{border-bottom:2px solid var(--accent);padding:0 8px 8px}.lab-cycle b{font-weight:400}
+.lab-next{display:flex;align-items:start;gap:32px;border-top:2px solid var(--accent);padding:24px 0 0}.lab-next>.pack-index{padding-top:0px;color:var(--accent)}.lab-next .pack-label{margin-bottom:8px}

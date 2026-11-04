@@ -1,0 +1,28 @@
+<!--
+  아키타입 meter (변형: 기본)
+  언제: 정해진 전체를 나눠 쓰는 개념(한도·구성비·예산·시간 배분). 누적 막대 + 설명 카드.
+  단계: 구간을 하나씩 채움
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+<section class="slide" data-archetype="meter" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <div class="meter-wrap">
+    <div class="meter-top"><p class="label">«라벨 ≤15자»</p><p class="meter-use">«문구 ≤4자» <span data-only="0">«값 ≤4자»</span><span data-only="1">«값 ≤4자»</span><span data-only="2">«값 ≤4자»</span><span data-only="3">«값 ≤4자»</span><span data-only="4">«값 ≤4자»</span><span data-only="5">«값 ≤4자»</span><span data-only="6">«값 ≤4자»</span><span data-only="7">«값 ≤4자»</span></p></div>
+    <div class="meter-bar">
+      <div class="meter-seg meter-c1" data-step="1" style="width:8%">«문구 ≤4자»</div>
+      <div class="meter-seg meter-c2" data-step="2" style="width:22%">«문구 ≤6자»</div>
+      <div class="meter-seg meter-c3" data-step="3" style="width:32%">«문구 ≤6자»</div>
+      <div class="meter-seg meter-c4" data-step="4" style="width:20%">«문구 ≤6자»</div>
+      <div class="meter-seg meter-c5" data-step="5" style="width:14%">«문구 ≤5자»</div>
+    </div>
+    <div class="meter-axis"><span>«값 ≤4자»</span><span>«짧은 문구 ≤24자»</span></div>
+  </div>
+  <div class="row" style="gap:24px">
+    <div class="card f1" data-step="6" style="padding:32px 32px;gap:8px"><h3 style="font-size:32px">«카드 제목 ≤12자»</h3><p class="small">«설명 ≤56자»</p></div>
+    <div class="card f1" data-step="6" style="padding:32px 32px;gap:8px"><h3 style="font-size:32px">«카드 제목 ≤17자»</h3><p class="small">«설명 ≤53자»</p></div>
+    <div class="card f1" data-step="7" style="padding:32px 32px;gap:8px;border-color:var(--accent);background:var(--paper)"><h3 style="font-size:32px">«카드 제목 ≤9자»</h3><p class="small">«설명 ≤60자»</p></div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>

@@ -1,0 +1,158 @@
+{
+ "schema_version": 1,
+ "stage": {
+  "width": 1920,
+  "height": 1080
+ },
+ "base_css": "base.css",
+ "template_tokens": [
+  "TITLE",
+  "KICKER",
+  "PROMPT",
+  "BODY",
+  "EVIDENCE",
+  "ACTION"
+ ],
+ "token_guide": {
+  "PROMPT": "팩 질문 큰 제목. 평문으로 쓰되 핵심 어절(주로 마지막 어절)을 <em class=\"t2\">강조</em>로 감싸 2톤으로 마무리한다(문장당 1회, 어절 1~2개 이하). 예: 이 원칙을 우리 현장에 <em class=\"t2\">적용할까요?</em> 태그는 src/*.html 을 직접 쓸 때만 넣는다 — flows.json 토큰 값은 HTML 이스케이프되므로 태그를 넣지 않는다. 규칙: references/expression.md 1절.",
+  "STAT_STRIP": "숫자 증거 띠(legacy 조각 31 · 아키타입 stat-strip). 조사로 확인된 정량 근거를 표지 하단·목차 상단·마무리 상단 중 한 곳에만 1회 붙여 넣는다 — 본문 중간에 반복하지 않는다. 지표 3~6개 = 큰 숫자(.stat-num[data-count], 아라비아 숫자+쉼표·%, 단위는 라벨) + 한 줄 라벨(.stat-label) + 지표별 data-src=\"Fxx\" 사실 id(원문대조·두출처일치만). 등장 시 metric-rally 카운트업, reduced-motion·인쇄·자습은 최종 값. 팩 스테이지 지면에는 해당하지 않는다(legacy 표지·목차·마무리 조각에 넣는다). 규칙: references/expression.md 1절 · 배치: references/layouts.md 31행",
+  "SCREEN_CITE": "실물 화면 인용(조각 32 · .screen-cite 그림). 사용자가 제공한 화면 이미지(base64 data: URI)를 브라우저 모형 프레임에 넣어 있는 그대로 보여 준다. 캡션 3요소(출처 .sc-src[data-src=\"Fxx\"] · 조회일 .sc-date · 「이 화면이 증명하는 것」 요지 .sc-gist)가 필수이고 alt 는 화면의 요지를 말한다. 에이전트 웹 캡처 금지 — 제공 이미지가 없으면 이 조각을 선택하지 않는다(빈 프레임 검사 ERROR). 예산: 이미지 1장 ≤700KB 권장(screen_image_kb) · 덱 라스터 합계 1.5MB(screen_total_mb). 기본은 mapping 호스트, 비교 변형(screens)은 compare-2 호스트에 넣는다(모션은 호스트 시그니처). 규칙: references/expression.md 1·6절 · 배치: references/layouts.md 32행"
+ },
+ "content_budget": {
+  "unit": "characters",
+  "title": 60,
+  "kicker": 32,
+  "prompt": 70,
+  "body": 160,
+  "evidence": 100,
+  "stat_number": 12,
+  "stat_label": 16,
+  "screen_image_kb": 700,
+  "screen_total_mb": 1.5,
+  "action": 90,
+  "note": "Authoring upper bounds, not automatic truncation. Preview every slide; split dense content rather than shrinking type. No external font downloads; local Korean font metrics vary."
+ },
+ "provenance": "Original CSS, markup and atlas SVG created for these packs. No copied legacy visual assets or external assets.",
+ "designs": [
+  {
+   "id": "editorial",
+   "name": "편집 잡지형",
+   "description": "큰 질문, 본문 열, 여백의 근거로 읽고 연결하는 편집 지면",
+   "best_for": [
+    "개념 해설",
+    "관점 비교"
+   ],
+   "composition": "three-column editorial spread with marginal evidence",
+   "typography": "Pretendard question / reading columns",
+   "density": "medium",
+   "diagram": "reading columns and action rule",
+   "css": "editorial/style.css",
+   "template": "editorial/template.html"
+  },
+  {
+   "id": "lab",
+   "name": "실험 노트형",
+   "description": "격자 바탕의 관찰 기록과 검증·수정 순환",
+   "best_for": [
+    "탐구",
+    "가설 검증"
+   ],
+   "composition": "question header, observation ledger, revision loop",
+   "typography": "sans / tabular observation indices",
+   "density": "medium",
+   "diagram": "observation-verification-revision sequence",
+   "css": "lab/style.css",
+   "template": "lab/template.html"
+  },
+  {
+   "id": "field",
+   "name": "현장 매뉴얼형",
+   "description": "방향 표지와 번호 절차를 따라 이해·확인·실행",
+   "best_for": [
+    "현장 교육",
+    "절차 실습"
+   ],
+   "composition": "vertical sign and numbered work protocol",
+   "typography": "strong sans headings / compact instructions",
+   "density": "high",
+   "diagram": "vertical numbered protocol",
+   "css": "field/style.css",
+   "template": "field/template.html"
+  },
+  {
+   "id": "casebook",
+   "name": "사례 기록형",
+   "description": "상황 기록과 근거 문서를 나란히 놓고 판단하는 사례철",
+   "best_for": [
+    "사례 분석",
+    "판단 연습"
+   ],
+   "composition": "dossier tab, narrative record, exhibit and decision",
+   "typography": "Pretendard question / documentary body",
+   "density": "medium",
+   "diagram": "record-to-decision bracket",
+   "css": "casebook/style.css",
+   "template": "casebook/template.html"
+  },
+  {
+   "id": "atlas",
+   "name": "지도·도해형",
+   "description": "개념에서 근거와 적용으로 이어지는 관계 지도",
+   "best_for": [
+    "구조 이해",
+    "개념 연결"
+   ],
+   "composition": "spatial origin with two connected destinations",
+   "typography": "sans / coordinate labels",
+   "density": "medium",
+   "diagram": "original SVG relational paths; no quantitative encoding",
+   "css": "atlas/style.css",
+   "template": "atlas/template.html"
+  },
+  {
+   "id": "workbook",
+   "name": "워크북형",
+   "description": "읽는 면과 해보는 면을 나눈 활동지와 단계별 자기 점검",
+   "best_for": [
+    "개인 실습",
+    "자기 설명"
+   ],
+   "composition": "facing reading and practice pages",
+   "typography": "compact sans reading / prominent action",
+   "density": "high",
+   "diagram": "ruled paper response area, not an input control",
+   "css": "workbook/style.css",
+   "template": "workbook/template.html"
+  },
+  {
+   "id": "briefing",
+   "name": "데이터 브리핑형",
+   "description": "핵심·근거·행동을 정렬해 판단을 돕는 정보 장부",
+   "best_for": [
+    "자료 해석",
+    "의사 결정"
+   ],
+   "composition": "thesis and three aligned evidence-ledger rows",
+   "typography": "sans / tabular row labels",
+   "density": "high",
+   "diagram": "semantic evidence ledger without fabricated numeric charts",
+   "css": "briefing/style.css",
+   "template": "briefing/template.html"
+  },
+  {
+   "id": "seminar",
+   "name": "세미나형",
+   "description": "큰 질문과 조용한 참고 영역으로 생각·경청·대화를 유도",
+   "best_for": [
+    "토론",
+    "관점 공유"
+   ],
+   "composition": "question floor, preparation rail and speaking invitation",
+   "typography": "large Pretendard question / restrained reference",
+   "density": "low",
+   "diagram": "think-listen-connect discussion sequence",
+   "css": "seminar/style.css",
+   "template": "seminar/template.html"
+  }
+ ]
+}

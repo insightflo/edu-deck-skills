@@ -1,0 +1,33 @@
+<!--
+  아키타입 hub (변형: 기본)
+  언제: 가운데 중심 + 둘레 구성 요소(고리 조각) + 오른쪽 설명 줄.
+  단계: 요소별 1단계, 고리 조각이 함께 켜짐(data-lit)
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+<section class="slide" data-archetype="hub" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤22자»</p><h2 class="title">«제목: 한 문장 ≤30자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;gap:48px;align-items:center">
+    <svg class="dg" viewBox="0 0 700 620" style="width:640px;flex:none" aria-label="«그림 설명»">
+      <path class="seg" data-lit="1" d="M159.1 119.1A270 270 0 0 1 540.9 119.1L456.1 203.9A150 150 0 0 0 243.9 203.9Z"/>
+      <path class="seg" data-lit="2" d="M540.9 119.1A270 270 0 0 1 540.9 500.9L456.1 416.1A150 150 0 0 0 456.1 203.9Z"/>
+      <path class="seg" data-lit="3" d="M540.9 500.9A270 270 0 0 1 159.1 500.9L243.9 416.1A150 150 0 0 0 456.1 416.1Z"/>
+      <path class="seg" data-lit="4" d="M159.1 500.9A270 270 0 0 1 159.1 119.1L243.9 203.9A150 150 0 0 0 243.9 416.1Z"/>
+      <text x="350" y="96" text-anchor="middle" class="t-seg">«≤5자»</text><text x="350" y="130" text-anchor="middle" class="t-segn">1</text>
+      <text x="566" y="304" text-anchor="middle" class="t-seg">«≤2자»</text><text x="566" y="338" text-anchor="middle" class="t-seg">«≤2자»</text>
+      <text x="350" y="508" text-anchor="middle" class="t-seg">«≤6자»</text><text x="350" y="474" text-anchor="middle" class="t-segn">3</text>
+      <text x="134" y="304" text-anchor="middle" class="t-seg">«≤2자»</text><text x="134" y="338" text-anchor="middle" class="t-seg">«≤2자»</text>
+      <circle cx="350" cy="310" r="132" fill="var(--paper)" stroke="var(--blue)" stroke-width="2"/>
+      <use href="#i-bulb" x="280" y="230" width="140" height="140" style="color:var(--blue)"/>
+      <text x="350" y="398" text-anchor="middle" class="t-l b">«≤2자»</text>
+    </svg>
+    <div class="col f1" style="gap:16px">
+      <div class="hrow" data-step="1"><span class="mk">1</span><div><h4>«항목 제목 ≤6자»</h4><p>«문구 ≤56자»</p></div></div>
+      <div class="hrow" data-step="2"><span class="mk">2</span><div><h4>«항목 제목 ≤6자»</h4><p>«문구 ≤47자»</p></div></div>
+      <div class="hrow" data-step="3"><span class="mk">3</span><div><h4>«항목 제목 ≤8자»</h4><p>«문구 ≤51자»</p></div></div>
+      <div class="hrow" data-step="4"><span class="mk">4</span><div><h4>«항목 제목 ≤6자»</h4><p>«문구 ≤30자»</p></div></div>
+    </div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>

@@ -1,0 +1,60 @@
+<!--
+  실물 화면 인용 (조각 32 · .screen-cite 그림) — 호스트 아키타입 안에 붙여 넣는다
+  언제: 사용자가 제공한 실물 화면(앱 화면·CLI 터미널·문서 화면)을 있는 그대로 보여 주어 설명의 근거로 삼을 때.
+    모형 창(.win)이 "이렇게 생겼다"를 흉내 낸다면 이 그림은 "실제로 있다"를 보여 준다.
+  이미지 규칙: 사용자가 제공한 화면 이미지(base64 data: URI)만 넣는다. 에이전트가 웹을 돌아다니며 임의로
+    캡처해 넣는 행위는 금지한다(출처 불명·저작권). 제공 이미지가 없으면 이 조각을 선택하지 않는다 —
+    프레임만 있는 빈 조각은 check_deck ERROR다.
+  캡션 3요소: 출처(.sc-src — 도메인·문서명, data-src="Fxx" 사실 id) · 조회일(.sc-date) ·
+    「이 화면이 증명하는 것」 요지(.sc-gist). 이미지 alt 는 화면의 요지를 한 줄로 말해야 한다.
+  예산: 이미지 1장 ≤700KB 권장, 덱 라스터 합계 1.5MB 이내(기존 규칙). 넘으면 check_deck 이 잡는다.
+  배치·모션: 기본 변형은 mapping 호스트(좌 실물 화면 + 우 번호 카드), 비교 변형(data-variant="screens")은
+    compare-2 호스트(좌우 실물 화면 + 정리). data-archetype 은 호스트 것을 쓰고 모션도 호스트의 기존
+    시그니처(paired-connection · opposed-faces)가 발화한다 — 이 그림 자체는 새 시그니처를 갖지 않는다.
+  단계: 기본 = 번호 카드마다 1(그림은 항상 보임), 비교 = 왼쪽 → 오른쪽 → 정리
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+    «사용자가 제공한 화면 이미지…» 자리에는 사용자가 준 화면 이미지 파일을 base64 로 인코딩해 넣는다.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  배치 설명: references/layouts.md · 클래스: references/classes.md · 규칙: references/expression.md 1·6절
+-->
+<section class="slide" data-archetype="mapping" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <div class="row" style="flex:1;min-height:0">
+    <figure class="screen-cite f3">
+      <div class="b-chrome"><span class="b-dots"><i></i><i></i><i></i></span><span class="b-url">«주소(도메인) ≤22자»</span></div>
+      <div class="b-view"><img class="b-shot" src="«사용자가 제공한 화면 이미지(data:image/…;base64,…)»" alt="«이 화면의 요지 한 줄 ≤40자»"></div>
+      <figcaption class="sc-cap">
+        <p class="sc-line"><span class="sc-src" data-src="«F01»"><b>«도메인 ≤14자»</b>, 「«문서명 ≤22자»」</span><span class="sc-date">«조회일 2026-11-03»</span></p>
+        <p class="sc-gist"><b>이 화면이 증명하는 것</b> — «요지 한 줄 ≤30자»</p>
+      </figcaption>
+    </figure>
+    <div class="col f2" style="gap:16px">
+      <div class="card" data-step="1" style="padding:24px 32px;gap:0"><p class="label"><span class="mk">1</span> «라벨 ≤6자»</p><h3 style="font-size:34px">«카드 제목 ≤16자»</h3><p class="small">«설명 ≤28자»</p></div>
+      <div class="card" data-step="2" style="padding:24px 32px;gap:0"><p class="label" style="color:var(--blue)"><span class="mk" style="background:var(--blue)">2</span> «라벨 ≤6자»</p><h3 style="font-size:34px">«카드 제목 ≤16자»</h3><p class="small">«설명 ≤28자»</p></div>
+    </div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<section class="slide" data-archetype="compare-2" data-variant="screens" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤14자»</p><h2 class="title">«제목: 한 문장 ≤24자»</h2></div>
+  <div class="row" style="flex:1;min-height:0">
+    <figure class="card screen-cite f1" data-step="1" style="padding:24px;border-top:2px solid var(--blue)">
+      <div class="b-chrome"><span class="b-dots"><i></i><i></i><i></i></span><span class="b-url">«주소(도메인) ≤18자»</span></div>
+      <div class="b-view"><img class="b-shot" src="«사용자가 제공한 화면 이미지(data:image/…;base64,…)»" alt="«이 화면의 요지 한 줄 ≤34자»"></div>
+      <figcaption class="sc-cap">
+        <p class="sc-line"><span class="sc-src" data-src="«F01»"><b>«도메인 ≤12자»</b>, 「«문서명 ≤18자»」</span><span class="sc-date">«조회일 2026-11-03»</span></p>
+        <p class="sc-gist"><b>이 화면이 증명하는 것</b> — «조건 요지 ≤24자»</p>
+      </figcaption>
+    </figure>
+    <figure class="card screen-cite f1" data-step="2" style="padding:24px;border-top:2px solid var(--accent)">
+      <div class="b-chrome"><span class="b-dots"><i></i><i></i><i></i></span><span class="b-url">«주소(도메인) ≤18자»</span></div>
+      <div class="b-view"><img class="b-shot" src="«사용자가 제공한 화면 이미지(data:image/…;base64,…)»" alt="«이 화면의 요지 한 줄 ≤34자»"></div>
+      <figcaption class="sc-cap">
+        <p class="sc-line"><span class="sc-src" data-src="«F02»"><b>«도메인 ≤12자»</b>, 「«문서명 ≤18자»」</span><span class="sc-date">«조회일 2026-11-03»</span></p>
+        <p class="sc-gist"><b>이 화면이 증명하는 것</b> — «조건 요지 ≤24자»</p>
+      </figcaption>
+    </figure>
+  </div>
+  <div class="callout" data-step="3" style="font-size:30px"><b>«강조 앞부분 ≤8자»</b> «정리 문장 ≤40자»</div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>

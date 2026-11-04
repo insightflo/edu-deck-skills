@@ -1,0 +1,14 @@
+<section class="slide pack pack-seminar" data-design="seminar" data-archetype="hub">
+  <header class="pack-topline"><p class="pack-topic">{{TITLE}}</p><span class="pack-mark">SEMINAR / 함께 생각하기</span></header>
+  <div class="seminar-room">
+    <!-- t2 2톤 문법: 핵심 어절(주로 마지막 어절, 문장당 1회·1~2 어절)을 <em class="t2">…</em>로 감싸면 강조색이 붙는다. flows.json 토큰 값엔 태그를 넣지 않는다(이스케이프됨). 규칙: references/expression.md 1절 -->
+    <div class="seminar-floor"><p class="pack-kicker">{{KICKER}}</p><span class="seminar-quote" aria-hidden="true">“</span><h1 class="pack-prompt">{{PROMPT}}</h1><div class="seminar-turns" aria-label="생각하기, 나누기, 연결하기"><span>혼자 생각</span><b aria-hidden="true">/</b><span>서로 듣기</span><b aria-hidden="true">/</b><span>함께 연결</span></div></div>
+    <aside class="seminar-preparation"><article><span class="pack-label">대화의 출발점</span><p class="pack-body">{{BODY}}</p></article><div class="seminar-source"><span class="pack-label">대화에 가져올 근거</span><p class="pack-evidence">{{EVIDENCE}}</p></div></aside>
+  </div>
+  <footer class="pack-footer seminar-invitation"><span class="seminar-signal" aria-hidden="true">↗</span><div><span class="pack-label">이제, 여러분의 차례</span><p class="pack-action">{{ACTION}}</p></div></footer>
+  <aside class="notes">{{KICKER}}
+먼저 조용히 생각할 시간을 주세요. 서로 다른 답을 듣고, 각 답이 어떤 근거에 기대는지 질문하세요. 동의 여부보다 이유를 설명하도록 돕습니다.
+{{BODY}}
+확인할 근거: {{EVIDENCE}}
+학습 활동: {{ACTION}}</aside>
+</section>

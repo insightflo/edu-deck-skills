@@ -1,0 +1,66 @@
+<!--
+  아키타입 mock-legend (변형: tour, cases)
+  언제: 실제 화면 둘러보기. 화면 위 주황 번호 ↔ 오른쪽 설명.
+  단계: 번호별 1단계
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+<section class="slide" data-archetype="mock-legend" data-variant="tour">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤14자»</p><h2 class="title">«제목: 한 문장 ≤9자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;gap:56px">
+    <div class="win" style="flex:none;width:1080px">
+      <div class="win-bar"><i></i><i></i><i></i><span class="wt">«창 제목 ≤6자»</span></div>
+      <div class="win-body">
+        <div class="side">
+          <p class="brand">«앱 이름 ≤6자»</p>
+          <div style="display:flex;align-items:center;gap:8px"><div class="newchat hl f1">«버튼 ≤9자»</div><span class="mk">1</span></div>
+          <div style="display:flex;align-items:center;gap:8px"><p class="sec f1">«메뉴 구분 ≤10자»</p><span class="mk">2</span></div>
+          <p class="item on">«메뉴 항목 ≤16자»</p>
+          <p class="item">«메뉴 항목 ≤11자»</p>
+          <p class="item">«메뉴 항목 ≤10자»</p>
+          <p class="item">«메뉴 항목 ≤14자»</p>
+        </div>
+        <div class="main">
+          <div style="display:flex;align-items:center;gap:16px"><div class="modes hl"><span>«짧은 문구 ≤4자»</span><span class="on">«짧은 문구 ≤6자»</span></div><span class="mk">3</span></div>
+          <div class="msgs">
+            <div class="u">«요청 말풍선 ≤36자»</div>
+            <div class="a"><span class="av">«짧은 문구 ≤4자»</span><div class="at"><p>«결과/답변 ≤40자»</p><span class="filechip">«결과/답변 ≤22자»</span></div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:16px">
+            <div class="input f1"><span class="folder hl">«짧은 문구 ≤12자»</span><span class="mk">4</span><span class="ph">«입력칸 안내 ≤11자»</span><span class="model hl">«선택 표시 ≤11자»</span><span class="mk">5</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="legend f1">
+      <div class="li" data-step="1"><span class="mk">1</span><div><h4>«항목 제목 ≤6자»</h4><p>«목록 항목 ≤16자»</p></div></div>
+      <div class="li" data-step="2"><span class="mk">2</span><div><h4>«항목 제목 ≤10자»</h4><p>«목록 항목 ≤21자»</p></div></div>
+      <div class="li" data-step="3"><span class="mk">3</span><div><h4>«항목 제목 ≤10자»</h4><p>«목록 항목 ≤20자»</p></div></div>
+      <div class="li" data-step="4"><span class="mk">4</span><div><h4>«항목 제목 ≤6자»</h4><p>«목록 항목 ≤21자»</p></div></div>
+      <div class="li" data-step="5"><span class="mk">5</span><div><h4>«항목 제목 ≤8자»</h4><p>«목록 항목 ≤20자»</p></div></div>
+    </div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<section class="slide" data-archetype="mock-legend" data-variant="cases">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤12자»</p><h2 class="title">«제목: 한 문장 ≤10자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;gap:48px">
+    <div class="win f3">
+      <div class="win-bar"><i></i><i></i><i></i><span class="wt">«창 제목 ≤6자»</span></div>
+      <div class="win-body"><div class="main"><div class="msgs">
+        <div class="u" data-step="1">«요청 말풍선 ≤27자»</div>
+        <div data-step="2" style="display:flex;align-items:flex-start;gap:16px"><div class="a f1"><span class="av">«짧은 문구 ≤4자»</span><div class="at"><p>«결과/답변 ≤60자»</p></div></div><span class="mk">A</span></div>
+        <div class="u" data-step="3">«요청 말풍선 ≤22자»</div>
+        <div data-step="4" style="display:flex;align-items:flex-start;gap:16px"><div class="a f1"><span class="av">«짧은 문구 ≤4자»</span><div class="at"><p>«결과/답변 ≤75자»</p></div></div><span class="mk">B</span></div>
+      </div></div></div>
+    </div>
+    <div class="col f2" style="gap:24px">
+      <div class="card" data-step="2" style="padding:32px 32px;gap:8px"><div style="display:flex;gap:16px;align-items:center"><span class="mk">A</span><h3 style="font-size:34px">«카드 제목 ≤12자»</h3></div><p class="small">«설명 ≤18자»</p></div>
+      <div class="card" data-step="4" style="padding:32px 32px;gap:8px"><div style="display:flex;gap:16px;align-items:center"><span class="mk">B</span><h3 style="font-size:34px">«카드 제목 ≤15자»</h3></div><p class="small">«설명 ≤23자»</p></div>
+      <div class="callout" data-step="5" style="font-size:32px;padding:32px 32px"><b>«강조 앞부분 ≤9자»</b><br>«정리 문장 ≤15자»</div>
+    </div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>

@@ -1,0 +1,28 @@
+<!--
+  아키타입 sequence (변형: 기본)
+  언제: 주체(사람·부서·시스템) 사이 주고받는 순서. 세로 레인 + 번호 + 반복 상자.
+  단계: 주고받기 한 번에 1단계
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+<section class="slide" data-archetype="sequence" style="gap:16px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤18자»</p><h2 class="title">«제목: 한 문장 ≤17자»</h2></div>
+  <svg class="dg" viewBox="0 0 1664 600" aria-label="«그림 설명»">
+    <g class="lane"><rect x="60" y="6" width="220" height="74" rx="16"/><use href="#i-person" x="78" y="17" width="52" height="52" style="color:var(--ink)"/><text x="146" y="54" class="t-l">«≤2자»</text></g>
+    <g class="lane"><rect x="490" y="6" width="220" height="74" rx="16" style="stroke:var(--accent)"/><use href="#i-work" x="508" y="17" width="52" height="52" style="color:var(--accent)"/><text x="576" y="54" class="t-l">«≤3자»</text></g>
+    <g class="lane"><rect x="930" y="6" width="220" height="74" rx="16" style="stroke:var(--blue)"/><use href="#i-bulb" x="948" y="17" width="52" height="52" style="color:var(--blue)"/><text x="1016" y="54" class="t-l">«≤2자»</text></g>
+    <g class="lane"><rect x="1360" y="6" width="220" height="74" rx="16"/><use href="#i-sheet" x="1378" y="17" width="52" height="52" style="color:var(--accent)"/><text x="1446" y="54" class="t-l">«≤2자»</text></g>
+    <path d="M170 82V596M600 82V596M1040 82V596M1470 82V596" stroke="var(--soft)" stroke-width="2" stroke-dasharray="6 8"/>
+    <g data-step="3"><rect x="560" y="236" width="1000" height="236" rx="20" fill="var(--paper)" fill-opacity=".7" stroke="var(--accent-light)" stroke-width="2" stroke-dasharray="10 8"/><text x="1546" y="262" text-anchor="end" class="t-s o" style="font-size:22px;font-weight:700">«≤19자»</text></g>
+    <g data-step="1"><path d="M170 140H588" stroke="var(--accent)" stroke-width="2" marker-end="url(#ah)"/><text x="385" y="126" text-anchor="middle" class="t-q">«≤18자»</text></g>
+    <g data-step="2"><path d="M600 205H1028" stroke="var(--blue)" stroke-width="2" marker-end="url(#ahb)"/><text x="820" y="191" text-anchor="middle" class="t-q">«≤21자»</text></g>
+    <g data-step="3"><path d="M1040 300H612" stroke="var(--blue)" stroke-width="2" marker-end="url(#ahb)"/><text x="820" y="286" text-anchor="middle" class="t-q">«≤22자»</text></g>
+    <g data-step="4"><path d="M600 355H1458" stroke="var(--accent)" stroke-width="2" marker-end="url(#ah)"/><text x="1035" y="341" text-anchor="middle" class="t-q">«≤11자»</text>
+      <path d="M1470 398H612" stroke="var(--soft)" stroke-width="2" stroke-dasharray="8 8" marker-end="url(#ahg)"/><text x="1035" y="388" text-anchor="middle" class="t-q" style="fill:var(--soft)">«≤9자»</text></g>
+    <g data-step="5"><path d="M600 452H1028" stroke="var(--blue)" stroke-width="2" marker-end="url(#ahb)"/><text x="820" y="440" text-anchor="middle" class="t-q">«≤24자»</text></g>
+    <g data-step="6"><path d="M600 520H182" stroke="var(--accent)" stroke-width="2" stroke-dasharray="10 8" marker-end="url(#ah)"/><text x="385" y="506" text-anchor="middle" class="t-q">«≤20자»</text></g>
+    <g data-step="7"><path d="M600 580H182" stroke="var(--ink)" stroke-width="2" marker-end="url(#ahk)"/><text x="385" y="566" text-anchor="middle" class="t-q">«≤26자»</text></g>
+  </svg>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>

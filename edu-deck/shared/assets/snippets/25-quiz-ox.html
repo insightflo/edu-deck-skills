@@ -1,0 +1,18 @@
+<!--
+  아키타입 quiz-ox (변형: 기본)
+  언제: O/X 판단 + 이유 한 줄.
+  단계: 줄마다 답 공개
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+<section class="slide" data-archetype="quiz-ox" style="gap:40px">
+  <div class="head"><p class="qtag" style="align-self:flex-start">«퀴즈 번호 ≤5자»</p><h2 class="title">«제목: 한 문장 ≤21자»</h2></div>
+  <div class="col" style="gap:24px">
+    <div class="qrow"><p class="qn">1</p><p class="qt">«문구 ≤24자»</p><span class="ox o" data-step="1">O</span><p class="why" data-step="1">«문구 ≤20자»</p></div>
+    <div class="qrow"><p class="qn">2</p><p class="qt">«문구 ≤24자»</p><span class="ox x" data-step="2">X</span><p class="why" data-step="2">«문구 ≤15자»</p></div>
+    <div class="qrow"><p class="qn">3</p><p class="qt">«문구 ≤20자»</p><span class="ox x" data-step="3">X</span><p class="why" data-step="3">«문구 ≤15자»</p></div>
+    <div class="qrow"><p class="qn">4</p><p class="qt">«문구 ≤23자»</p><span class="ox x" data-step="4">X</span><p class="why" data-step="4">«문구 ≤17자»</p></div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>

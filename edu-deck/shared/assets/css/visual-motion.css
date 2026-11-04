@@ -1,0 +1,145 @@
+/* Shared visual vocabulary. No timing or color literals outside canonical tokens. */
+body,.slide,.pack{font-family:'Pretendard Variable',sans-serif}
+.st-panel{--soft:var(--muted)}
+.st-panel :is(.st-ppos,.st-src,.st-empty){color:var(--muted)}
+.slide :where(h1,h2,h3,h4,b,strong){font-weight:800}
+.slide .cx-title,.slide .num,.slide [data-count]{font-weight:900}
+.slide .big{font-weight:800}
+.ed-letter{display:inline-block;white-space:pre}
+.cx-caret{display:none}
+.cx-tokens span,.cx-sub,.cx-badge{opacity:1;transform:none}
+#cx-net{display:none}
+#progress{transition:transform var(--m2) var(--e-out);transform-origin:left center}
+.ed-mark{position:absolute;inset:-4px;pointer-events:none;color:var(--danger);z-index:3;mix-blend-mode:multiply}
+.ed-mark>canvas{position:absolute;display:block}
+.ed-particle{pointer-events:none}
+/* Scene-local masks move, not the semantic content or its window. */
+.slide:is([data-archetype="before-after"],[data-archetype="worked-example"]) :is(.win,.stack,.card){position:relative}
+.ed-wipe-frame,.ed-scene-cue{position:absolute;pointer-events:none;overflow:hidden;z-index:2}
+.ed-wipe{position:absolute;inset:0;overflow:hidden;background:var(--paper);border-right:2px solid var(--accent)}
+.ed-wipe-before{width:100%;min-height:100%;margin:0!important;background:var(--paper)}
+.ed-scene-cue{display:block;background:var(--ed-cue-bg,var(--paper));transform-origin:right center;border-left:2px solid var(--accent)}
+.ed-ghost{position:absolute;inset:0;width:1920px;height:1080px;pointer-events:none;z-index:8}
+.ed-ghost *{view-transition-name:none!important}
+.ed-ghost .slide{display:flex!important}
+.chk{position:relative}
+.ed-ray{position:absolute;left:50%;top:50%;width:8px;height:8px;background:var(--accent);border-radius:50%;z-index:4}
+.ed-number-reel{position:absolute;inset:0;overflow:hidden;pointer-events:none;background:var(--paper);font:inherit;color:inherit;font-variant-numeric:tabular-nums}
+.ed-number-track{display:flex;flex-direction:column}
+.ed-number-track>span{line-height:1;white-space:nowrap}
+/* Explanatory diagrams: use labelled nodes and connectors, never fictitious data. */
+.ed-diagram{position:relative;display:flex;align-items:center;gap:var(--s3);color:var(--ink);min-width:0}
+.ed-diagram :where(p,span){font-size:28px;line-height:1.4}
+.ed-node{border:2px solid var(--line);border-radius:var(--r2);background:var(--paper);padding:var(--s3);min-width:0;flex:1}
+.ed-node strong{display:block;color:var(--accent-text);margin-bottom:var(--s1)}
+.ed-flow{display:flex;align-items:center;gap:var(--s3)}
+.ed-connector{flex:none;width:64px;height:32px;stroke:var(--accent);stroke-width:2;fill:none}
+.ed-tree{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s4);align-items:start}
+.ed-tree>.ed-root{grid-column:1/-1;justify-self:center;min-width:32%;border-bottom:2px solid var(--accent)}
+.ed-hub{display:grid;grid-template-columns:1fr 1fr 1fr;gap:var(--s4)}
+.ed-hub>.ed-center{border:2px solid var(--accent);align-self:center;box-shadow:var(--shadow-1)}
+.ed-compare{display:grid;grid-template-columns:1fr 1fr;gap:var(--s4)}
+.ed-compare>.ed-node:last-child{background:var(--blue-soft);border-color:var(--blue)}
+.ed-map{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s4);padding:var(--s4);background-image:radial-gradient(var(--line) 1px,transparent 1px);background-size:var(--s3) var(--s3)}
+.ed-scene{display:block;border:2px solid var(--line);border-radius:var(--r2);background:var(--paper);padding:var(--s3)}
+.ed-scene header{border-bottom:1px solid var(--line);padding-bottom:var(--s2);margin-bottom:var(--s3);color:var(--soft)}
+.ed-scene .ed-message{max-width:80%;padding:var(--s2);background:var(--light);border-radius:var(--r1);margin-bottom:var(--s2)}
+.ed-scene .ed-reply{margin-left:auto;background:var(--blue-soft)}
+.slide svg rect[rx]{rx:var(--r2)}
+.ed-icon-color{color:var(--accent);stroke:var(--blue);fill:var(--blue-soft)}
+/* SVG 도식 공통 문법(k-*): 장마다 다른 사람이 그려도 같은 그림 언어가 되게 한다.
+   20261103-agent-communication 덱에서 승격 — 색은 tokens.css 의미 토큰만 쓴다.
+   도형 채움·선 전용이며 글자 역할 토큰(--accent, --paper …)의 대비 계약을 바꾸지 않는다. */
+.k-frame{fill:var(--light);stroke:var(--accent);stroke-width:3;stroke-dasharray:16 10}
+.k-blue{fill:var(--blue-soft);stroke:var(--blue);stroke-width:3}
+.k-orange{fill:var(--accent-soft);stroke:var(--accent);stroke-width:3}
+.k-paper{fill:var(--paper);stroke:var(--line);stroke-width:2}
+.k-gray{fill:var(--light);stroke:var(--line);stroke-width:2}
+.k-solid-o{fill:var(--accent)}
+.k-solid-b{fill:var(--blue)}
+.k-solid-n{fill:var(--ink)}
+.k-ln-o{fill:none;stroke:var(--accent);stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+.k-ln-b{fill:none;stroke:var(--blue);stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+.k-ln-n{fill:none;stroke:var(--ink);stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+.k-ln-g{fill:none;stroke:var(--line);stroke-width:3;stroke-dasharray:6 8}
+.k-t-hero{font-size:48px;font-weight:800;fill:var(--ink)}
+.k-t-tag{font-size:22px;font-weight:700;fill:var(--soft)}
+.k-t-w{fill:var(--paper)}
+.k-t-o{fill:var(--accent-text)}
+.k-t-b{fill:var(--blue-text)}
+/* "가상 예시" · "개념도 · 측정값 아님" 표기(HTML). 점선 테두리로 사실 칩(.fact)과 구분한다. */
+.k-note{font-size:22px;font-weight:700;color:var(--soft);background:var(--paper);border:2px dashed var(--line);border-radius:var(--r2);padding:4px 16px;align-self:flex-start}
+/* Pack motifs reuse the existing semantic composition rather than importing legacy cards. */
+.editorial-reading-path{width:480px;height:88px;max-width:100%;margin-top:24px;color:var(--accent)}
+.pack-editorial .editorial-rule{height:2px;background:var(--accent);transform-origin:left}
+.pack-lab .lab-cycle{background:var(--light);padding:var(--s2);border-radius:var(--r1)}
+.pack-field .field-wayfinding{border-left:2px solid var(--accent);background:repeating-linear-gradient(0deg,transparent 0 14px,var(--line) 14px 16px);width:64px}
+.pack-casebook .casebook-stamp{border:2px solid var(--accent);transform:rotate(-3deg);border-radius:var(--r1)}
+.pack-atlas .atlas-route{color:var(--accent)}
+.pack-workbook .workbook-lines span{border-bottom:1px solid var(--line);transform-origin:left}
+.pack-briefing .briefing-readout{border-left:2px solid var(--accent);font-variant-numeric:tabular-nums}
+.pack-seminar .seminar-turns span{border-bottom:2px solid var(--accent)}
+/* Same-document transitions: old exits left, new enters right; reverse mirrors. */
+#stage{view-transition-name:edu-stage}
+.slide.active :is(.title,.cx-title,.big,.pack-prompt){view-transition-name:edu-title}
+::view-transition-group(edu-title){animation-duration:var(--m3);animation-timing-function:var(--e-inout)}
+::view-transition-old(edu-title),::view-transition-new(edu-title){animation-duration:var(--m3);animation-timing-function:var(--e-out)}
+::view-transition-old(root),::view-transition-new(root){animation:none}
+::view-transition-old(edu-stage){animation:ed-exit var(--m3) var(--e-inout) both}
+::view-transition-new(edu-stage){animation:ed-enter var(--m3) var(--e-out) both}
+::view-transition-group(edu-stage){animation-duration:var(--m3);animation-timing-function:var(--e-inout)}
+:root[data-ed-direction="back"]{--ed-in:-96px;--ed-out:96px}
+:root[data-ed-direction="fwd"]{--ed-in:96px;--ed-out:-96px}
+@keyframes ed-enter{from{transform:translateX(var(--ed-in,96px)) scale(.985);opacity:0}to{transform:translateX(0) scale(1);opacity:1}}
+@keyframes ed-exit{from{transform:translateX(0) scale(1);opacity:1}to{transform:translateX(var(--ed-out,-96px)) scale(.985);opacity:0}}
+body.st-self *,body.st-self *::before,body.st-self *::after,body.st-printing *{animation:none!important;transition:none!important}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}
+@media print{*,*::before,*::after{animation:none!important;transition:none!important}.ed-particle,.ed-number-reel{display:none!important}.ed-letter{opacity:1!important;transform:none!important;filter:none!important}}
+
+/* ---- data-fx overlays and the elements some effects expect (.stamp, .kbd) ---- */
+.ed-fx-strike{position:absolute;left:-3px;right:-3px;top:52%;height:.09em;min-height:3px;background:var(--danger);border-radius:2px;transform-origin:left center;pointer-events:none;z-index:3}
+.ed-fx-mark{position:absolute;inset:-2px -6px;background:var(--accent-light);opacity:.55;border-radius:var(--r1);transform-origin:left center;pointer-events:none;z-index:-1}
+.ed-fx-ch{white-space:pre}
+.kbd{display:inline-block;box-sizing:border-box;font:inherit;font-size:.82em;font-weight:700;line-height:1.35;color:var(--ink);background:var(--paper);border:2px solid var(--line);border-bottom-width:5px;border-radius:var(--r1);padding:2px 12px;vertical-align:middle}
+/* .stamp mirrors the shell's verdict stamp (bordered rotated circle label) so
+   data-fx="stamp" works identically in pack/series builds; .ok/.no add verdict hues. */
+.stamp{width:76px;height:76px;flex:none;border:2px solid var(--accent-text);border-radius:50%;color:var(--accent-text);font-size:22px;font-weight:800;display:flex;align-items:center;justify-content:center;transform:rotate(-12deg)}
+.stamp.ok{color:var(--success);border-color:var(--success)}
+.stamp.no{color:var(--danger);border-color:var(--danger)}
+
+/* ---- Authoring patterns (.code .tabs .faq .pin-shot .pin-list) ---- */
+.code{display:flex;flex-direction:column;min-width:0;min-height:0;background:var(--ink);border-radius:var(--r3);overflow:hidden;box-shadow:var(--shadow-2)}
+.code-head{display:flex;align-items:center;gap:16px;padding:10px 24px;border-bottom:1px solid color-mix(in srgb,var(--paper) 14%,transparent);font-size:22px;font-weight:700;color:var(--muted)}
+.code-copy{margin-left:auto;font:inherit;font-size:20px;font-weight:700;color:var(--light);background:transparent;border:2px solid var(--soft);border-radius:var(--r2);padding:4px 16px;cursor:pointer}
+.code-copy:hover{border-color:var(--accent-light);color:var(--accent-light)}
+.code pre{flex:1;min-height:0;margin:0;padding:24px 32px;overflow:auto;font-size:24px;line-height:1.55;color:var(--light);letter-spacing:.3px;font-variant-numeric:tabular-nums}
+.code pre .p{color:var(--accent-light);font-weight:700}
+.code pre .out{color:var(--muted)}
+.code pre .c{color:color-mix(in srgb,var(--muted) 75%,var(--ink));font-style:italic}
+.code pre .ph{color:var(--accent-light);font-weight:700;background:color-mix(in srgb,var(--accent) 22%,transparent);border-radius:var(--r1);padding:0 4px}
+.tabs{display:flex;flex-direction:column;min-width:0;align-self:stretch}
+.tab-bar{display:flex;flex-wrap:wrap;gap:8px}
+.tab-bar>button{font:inherit;font-size:24px;font-weight:700;color:var(--soft);background:var(--light);border:2px solid var(--line);border-bottom:none;border-radius:var(--r2) var(--r2) 0 0;padding:12px 24px;cursor:pointer}
+.tab-bar>button[aria-selected="true"]{background:var(--paper);color:var(--accent-text);border-color:var(--accent)}
+.tab-bar>button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tab-pane{flex:1;min-width:0;background:var(--paper);border:2px solid var(--line);border-radius:0 var(--r2) var(--r2) var(--r2);padding:28px 32px}
+.tab-pane[hidden]{display:none!important}
+.tab-pane-label{margin:0 0 8px;font-size:22px;font-weight:800;color:var(--accent-text)}
+.faq{display:flex;flex-direction:column;gap:16px;align-self:stretch}
+.faq details{background:var(--paper);border:2px solid var(--line);border-radius:var(--r2)}
+.faq summary{display:flex;align-items:center;gap:16px;padding:18px 28px;font-size:28px;font-weight:700;color:var(--ink);cursor:pointer;list-style:none}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::before{content:'Q';flex:none;width:36px;height:36px;border-radius:50%;background:var(--blue);color:var(--paper);font-size:20px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.faq details[open] summary{color:var(--accent-text)}
+.faq details>p{margin:0;padding:0 28px 20px 80px;font-size:26px;line-height:1.5;color:var(--soft)}
+.pin-shot{display:flex;flex-direction:column;min-width:0;min-height:0;margin:0}
+.pin-frame{position:relative;flex:1;min-height:0;align-self:flex-start;width:100%;border:2px solid var(--line);border-radius:var(--r2);overflow:hidden;background:var(--paper)}
+.pin-frame>img{display:block;width:100%;height:auto}
+.pin{position:absolute;transform:translate(-50%,-50%);width:52px;height:52px;border-radius:50%;border:3px solid var(--paper);background:var(--accent);color:var(--paper);font-family:inherit;font-size:24px;font-weight:800;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-1);cursor:pointer;transition:transform var(--m1) var(--e-out),background-color var(--m1) var(--e-out)}
+.pin.on,.pin:hover,.pin:focus-visible{background:var(--accent-text);transform:translate(-50%,-50%) scale(1.18)}
+.pin-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:16px}
+.pin-list>li{display:flex;align-items:flex-start;gap:16px;font-size:26px;line-height:1.4;color:var(--soft);border-left:3px solid transparent;padding:4px 16px;cursor:pointer;border-radius:0 var(--r1) var(--r1) 0}
+.pin-list>li::before{content:attr(data-k);flex:none;width:36px;height:36px;border-radius:50%;background:var(--chip);color:var(--soft);font-size:20px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.pin-list>li.on{color:var(--ink);border-left-color:var(--accent);background:var(--accent-soft)}
+.pin-list>li.on::before{background:var(--accent);color:var(--paper)}
+.pin-list>li:focus-visible{outline:2px solid var(--accent);outline-offset:2px}

@@ -1,0 +1,117 @@
+<!--
+  아키타입 worked-example (변형: doc-points, sheet-points, form-points, mail-points, msgr-points)
+  언제: 대화형 도구가 아닌 주제의 실제 업무 예시. 청중이 실제로 만지는 결과물(공문·점검표·엑셀·신청 화면·메일·단체방)을
+    모형 창으로 보여 주고, 오른쪽 '포인트' 카드에 그 예시에서 배울 점 3~4개를 적는다.
+  단계: 1 모형 창(또는 그 안의 강조 줄) → 2 강조·수정 표시 → 3 포인트 카드
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+    모형 안 이름·숫자는 그럴듯한 가상 값으로 쓰고 실제 개인정보는 쓰지 않는다. 표 행은 6행, 양식 칸은 5칸 이하.
+    문서·표·양식·메일 창은 내용 높이에 맞춘다(align-self:flex-start). 단체방 창은 앱처럼 세로를 채운다.
+  배치 설명: references/layouts.md · 클래스: references/classes.md (.doc .xl .fm .mail .msgr)
+-->
+<section class="slide" data-archetype="worked-example" data-variant="doc-points">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤16자»</p><h2 class="title">«제목: 한 문장 ≤22자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;gap:48px">
+    <div class="win f3" data-step="1" style="align-self:flex-start">
+      <div class="win-bar"><i></i><i></i><i></i><span class="wt">«창 제목: 문서 파일 이름 ≤20자»</span></div>
+      <div class="win-body"><div class="doc">
+        <p class="doc-title">«문서 제목 ≤14자»</p>
+        <div class="doc-meta"><span>«머리 정보 ≤12자»</span><span>«머리 정보 ≤12자»</span><span>«머리 정보 ≤12자»</span></div>
+        <p>«본문 한 줄 ≤40자»</p>
+        <p><span class="add" data-add="2">«덧붙이거나 고친 문구 ≤36자»</span></p>
+        <p>«본문 한 줄 ≤40자»</p>
+        <div class="doc-sign"><span>«작성·확인 표시 ≤16자»</span><span class="stamp">«도장 ≤2자»</span></div>
+      </div></div>
+    </div>
+    <div class="card f2" data-step="3" style="padding:40px 48px;gap:16px;align-self:flex-start"><p class="label">포인트</p>
+      <ul class="list"><li>«포인트 ≤16자»</li><li>«포인트 ≤16자»</li><li>«포인트 ≤16자»</li></ul></div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<section class="slide" data-archetype="worked-example" data-variant="sheet-points">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤16자»</p><h2 class="title">«제목: 한 문장 ≤22자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;gap:48px">
+    <div class="win f3" data-step="1" style="align-self:flex-start">
+      <div class="win-bar"><i></i><i></i><i></i><span class="wt">«창 제목: 엑셀 파일 이름 ≤20자»</span></div>
+      <div class="win-body"><div class="xl-wrap">
+        <div class="xl-formula"><b>fx</b><span>«수식 또는 칸 설명 ≤30자»</span></div>
+        <table class="xl">
+          <thead><tr><th></th><th>A</th><th>B</th><th>C</th><th>D</th></tr></thead>
+          <tbody>
+            <tr class="hd"><th>1</th><td>«열 이름 ≤6자»</td><td>«열 이름 ≤6자»</td><td>«열 이름 ≤6자»</td><td>«열 이름 ≤6자»</td></tr>
+            <tr><th>2</th><td>«값 ≤8자»</td><td class="n">«값»</td><td class="n">«값»</td><td>«값 ≤8자»</td></tr>
+            <tr><th>3</th><td>«값 ≤8자»</td><td class="n">«값»</td><td class="n">«값»</td><td>«값 ≤8자»</td></tr>
+            <tr><th>4</th><td>«값 ≤8자»</td><td class="n">«값»</td><td class="n" data-lit="2">«값»</td><td>«값 ≤8자»</td></tr>
+            <tr><th>5</th><td>«값 ≤8자»</td><td class="n">«값»</td><td class="n">«값»</td><td>«값 ≤8자»</td></tr>
+          </tbody>
+        </table>
+        <p class="small" data-step="2" style="font-size:22px">«표 아래 설명: 강조한 칸이 왜 중요한지 ≤36자»</p>
+      </div></div>
+    </div>
+    <div class="card f2" data-step="3" style="padding:40px 48px;gap:16px;align-self:flex-start"><p class="label">포인트</p>
+      <ul class="list"><li>«포인트 ≤16자»</li><li>«포인트 ≤16자»</li><li>«포인트 ≤16자»</li></ul></div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<section class="slide" data-archetype="worked-example" data-variant="form-points">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤16자»</p><h2 class="title">«제목: 한 문장 ≤22자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;gap:48px">
+    <div class="win f3" data-step="1" style="align-self:flex-start">
+      <div class="win-bar"><i></i><i></i><i></i><span class="wt">«창 제목: 시스템·화면 이름 ≤20자»</span></div>
+      <div class="win-body"><div class="fm">
+        <div class="fm-row"><label>«칸 이름 ≤6자»</label><span class="fm-in">«입력값 ≤20자»</span></div>
+        <div class="fm-row"><label>«칸 이름 ≤6자»</label><span class="fm-in">«입력값 ≤20자»</span></div>
+        <div class="fm-row"><label>«칸 이름 ≤6자»</label><span class="fm-in ph" data-until="1">«비어 있는 칸 안내 ≤16자»</span><span class="fm-in hot gone" data-add="2">«채운 값 ≤20자»</span></div>
+        <div class="fm-check"><span class="cb on"></span>«확인 항목 ≤24자»</div>
+        <div class="fm-check"><span class="cb"></span>«확인 항목 ≤24자»</div>
+        <div class="fm-btns"><span class="btn">«보조 버튼 ≤4자»</span><span class="btn primary">«주 버튼 ≤4자»</span></div>
+      </div></div>
+    </div>
+    <div class="card f2" data-step="3" style="padding:40px 48px;gap:16px;align-self:flex-start"><p class="label">포인트</p>
+      <ul class="list"><li>«포인트 ≤16자»</li><li>«포인트 ≤16자»</li><li>«포인트 ≤16자»</li></ul></div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<section class="slide" data-archetype="worked-example" data-variant="mail-points">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤16자»</p><h2 class="title">«제목: 한 문장 ≤22자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;gap:48px">
+    <div class="win f3" data-step="1" style="align-self:flex-start">
+      <div class="win-bar"><i></i><i></i><i></i><span class="wt">«창 제목: 메일 ≤12자»</span></div>
+      <div class="win-body"><div class="mail">
+        <div class="mail-h">
+          <p class="subj">«메일 제목 ≤24자»</p>
+          <p><b>보낸 사람</b>«이름·부서 ≤16자»</p>
+          <p><b>받는 사람</b>«이름·부서 ≤16자»</p>
+        </div>
+        <div class="mail-b">
+          <p>«본문 한 줄 ≤40자»</p>
+          <p><span class="add" data-add="2">«핵심 문장(강조) ≤40자»</span></p>
+          <p>«본문 한 줄 ≤40자»</p>
+          <span class="filechip" aria-hidden="false"><svg class="ico" aria-hidden="true" style="width:28px;height:28px"><use href="#i-file"/></svg>«첨부 파일 이름 ≤20자»</span>
+        </div>
+      </div></div>
+    </div>
+    <div class="card f2" data-step="3" style="padding:40px 48px;gap:16px;align-self:flex-start"><p class="label">포인트</p>
+      <ul class="list"><li>«포인트 ≤16자»</li><li>«포인트 ≤16자»</li><li>«포인트 ≤16자»</li></ul></div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<section class="slide" data-archetype="worked-example" data-variant="msgr-points">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤16자»</p><h2 class="title">«제목: 한 문장 ≤22자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;gap:48px">
+    <div class="win f2" data-step="1">
+      <div class="win-bar"><i></i><i></i><i></i><span class="wt">«창 제목: 단체방 이름 ≤14자»</span></div>
+      <div class="win-body"><div class="msgr">
+        <div class="mg"><span class="who">«보낸 사람 ≤8자»</span><p>«메시지 ≤40자»</p></div>
+        <div class="mg"><span class="who">«보낸 사람 ≤8자»</span><p>«메시지 ≤40자»</p></div>
+        <div class="mg me" data-step="2"><p>«내 답장(좋은 예) ≤50자»</p><span class="tm">«시각 ≤6자»</span></div>
+      </div></div>
+    </div>
+    <div class="card f2" data-step="3" style="padding:40px 48px;gap:16px;align-self:flex-start"><p class="label">포인트</p>
+      <ul class="list"><li>«포인트 ≤16자»</li><li>«포인트 ≤16자»</li><li>«포인트 ≤16자»</li></ul></div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>

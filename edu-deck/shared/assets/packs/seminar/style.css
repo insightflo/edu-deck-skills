@@ -1,0 +1,7 @@
+/* Seminar: generous question floor with a quieter preparation rail. */
+.slide.pack-seminar{gap:32px}
+.pack-seminar>.pack-topline{padding-bottom:24px;border-bottom:1px solid var(--line)}
+.seminar-room{display:grid;grid-template-columns:1.18fr 1fr;gap:72px;align-items:start}.seminar-floor{position:relative;padding-right:24px}.seminar-floor .pack-kicker{margin-bottom:16px}.seminar-quote{display:block;height:80px;font-family:var(--pack-serif);font-size:145px;line-height:1;color:var(--soft)}.seminar-floor .pack-prompt{font-family:var(--pack-serif);font-size:57px;line-height:1.4;font-weight:600;letter-spacing:-.03em}
+.seminar-turns{display:flex;align-items:center;gap:24px;margin-top:32px;padding-top:24px;border-top:1px solid var(--line);font-size:24px;color:var(--accent)}.seminar-turns b{color:var(--line);font-weight:400}
+.seminar-preparation{border-left:2px solid var(--line);padding:8px 0 8px 40px}.seminar-preparation .pack-body{font-size:30px;line-height:1.65}.seminar-source{margin-top:32px;padding-top:24px;border-top:1px solid var(--line)}.seminar-source .pack-evidence{font-size:27px;line-height:1.6}
+.seminar-invitation{display:flex;gap:32px;align-items:start;border-top:2px solid var(--accent);padding:24px 32px;background:var(--light)}.seminar-signal{font-size:58px;line-height:1;color:var(--accent)}.seminar-invitation .pack-label{color:var(--accent);margin-bottom:8px}

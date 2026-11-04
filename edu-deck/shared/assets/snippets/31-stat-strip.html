@@ -1,0 +1,27 @@
+<!--
+  아키타입 stat-strip (변형: 기본)
+  언제: 조사로 확인된 정량 근거(기준 값·횟수·비율)를 표지·목차·마무리에서 가장 먼저 보여 줄 때.
+  배치 규칙: 이 띠(.stat-strip)는 표지 하단 / 목차(agenda) 상단 / 마무리(closing) 상단 중 "한 곳에만 1회" 붙여 넣는다.
+    본문 중간에 반복해 넣지 않는다(증거가 흩어져 신뢰가 약해진다). 표지에 넣을 때는 section 안 마지막 줄에
+    <div class="stat-strip" style="margin:auto 128px 128px">…</div> 처럼 흐름 배치한다(margin-top:auto 로 띠를 아래로 밀어 낸다. 표지는 padding:0 이므로 좌우 여백 128px 를 직접 준다),
+    목차·마무리에서는 첫째 줄에 넣는다.
+    이 파일의 section 전체를 본문 장으로 복사하지 않는다(아래는 띠의 미리보기 용도).
+  근거: 지표마다 data-src="F01" 처럼 research.md 사실 id 를 단다(누락·없는 id 는 check_deck ERROR).
+    확인 단계가 원문대조·두출처일치인 사실만 쓴다. 값은 참고 자료(28-sources)에 같은 id 로 올라간다.
+  시그니처: metric-rally — 등장 시 큰 숫자가 카운트업한다(numbers 숫자 릴 재사용, transform 만).
+    reduced-motion·인쇄·자습에서는 항상 최종 값이 그대로 보인다.
+  단계: 없음
+  쓰는 법: .stat-strip 안 .stat 지표를 3~6개로 맞추고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  예산: 숫자 ≤12자 · 라벨 ≤16자(packs/catalog.json content_budget — 단위는 라벨에 넣고 숫자는 아라비아 숫자만).
+  배치 설명: references/layouts.md · 클래스: references/classes.md · 규칙: references/expression.md 1절
+-->
+<section class="slide" data-archetype="stat-strip" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <div class="stat-strip" style="margin-top:auto">
+    <div class="stat" data-src="«F01»"><p class="stat-num" data-count>«숫자 ≤12자»</p><p class="stat-label">«라벨 ≤16자»</p></div>
+    <div class="stat" data-src="«F02»"><p class="stat-num" data-count>«숫자 ≤12자»</p><p class="stat-label">«라벨 ≤16자»</p></div>
+    <div class="stat" data-src="«F03»"><p class="stat-num" data-count>«숫자 ≤12자»</p><p class="stat-label">«라벨 ≤16자»</p></div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>

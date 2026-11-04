@@ -1,0 +1,15 @@
+<section class="slide pack pack-lab" data-design="lab" data-archetype="mechanism">
+  <header class="pack-topline"><p class="pack-topic">{{TITLE}}</p><span class="pack-mark">LAB / 탐구 기록</span></header>
+  <!-- t2 2톤 문법: 핵심 어절(주로 마지막 어절, 문장당 1회·1~2 어절)을 <em class="t2">…</em>로 감싸면 강조색이 붙는다. flows.json 토큰 값엔 태그를 넣지 않는다(이스케이프됨). 규칙: references/expression.md 1절 -->
+  <div class="lab-question"><p class="pack-kicker">{{KICKER}}</p><h1 class="pack-prompt">{{PROMPT}}</h1></div>
+  <div class="lab-log">
+    <article class="lab-observation"><div class="lab-tab"><span class="pack-index">01</span><span>관찰 · 설명</span></div><p class="pack-body">{{BODY}}</p></article>
+    <aside class="lab-evidence"><div class="lab-tab"><span class="pack-index">02</span><span>검증할 자료</span></div><p class="pack-evidence">{{EVIDENCE}}</p><div class="lab-cycle" aria-label="관찰에서 검증으로, 검증에서 수정으로"><span>관찰</span><b aria-hidden="true">→</b><span>검증</span><b aria-hidden="true">→</b><span>수정</span></div></aside>
+  </div>
+  <footer class="pack-footer lab-next"><span class="pack-index">03</span><div><span class="pack-label">다음 시도</span><p class="pack-action">{{ACTION}}</p></div></footer>
+  <aside class="notes">{{KICKER}}
+관찰한 사실과 아직 확인하지 않은 가정을 구분해 설명하세요. 자료가 결론을 지지하는지 학습자에게 물어보세요.
+{{BODY}}
+확인할 근거: {{EVIDENCE}}
+학습 활동: {{ACTION}}</aside>
+</section>

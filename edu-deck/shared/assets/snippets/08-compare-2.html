@@ -1,0 +1,119 @@
+<!--
+  아키타입 compare-2 (변형: flow, diagram, list, choose)
+  언제: 두 가지 비교. flow=두 흐름 도식, diagram=연결 도식+설명 카드, list=카드 둘 목록, choose=언제 무엇을 고를지.
+  단계: 왼쪽 → 오른쪽 → 정리
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+<section class="slide" data-archetype="compare-2" data-variant="flow" style="gap:32px">
+<div class="head"><p class="eyebrow">«파트 표시 ≤26자»</p><h2 class="title">«제목: 한 문장 ≤21자»</h2></div>
+<div class="row" style="flex:1;min-height:0;align-items:stretch">
+<div class="card f1" data-step="1" style="border-top:2px solid var(--blue);padding:32px 40px;gap:16px">
+<p class="label" style="color:var(--blue)">«라벨 ≤26자»</p>
+<svg aria-label="«그림 설명»" class="dg" viewBox="0 0 720 270">
+<g transform="translate(110 120)"><circle fill="var(--paper)" r="80" stroke="var(--blue)" stroke-width="2"></circle><use height="88" href="#i-chat" style="color:var(--blue)" width="88" x="-44" y="-44"></use><text class="t-l" text-anchor="middle" y="128">«≤2자»</text></g>
+<path class="dash-flow b" d="M200 120H262" marker-end="url(#ahb)" stroke="var(--blue)" stroke-width="2"></path>
+<g transform="translate(360 120)"><circle fill="var(--paper)" r="80" stroke="var(--blue)" stroke-width="2"></circle><use height="92" href="#i-bulb" style="color:var(--blue)" width="92" x="-46" y="-46"></use><text class="t-l" text-anchor="middle" y="128">«≤5자»</text></g>
+<path d="M450 120H512" marker-end="url(#ahg)" stroke="var(--soft)" stroke-dasharray="6 8" stroke-width="2"></path>
+<g transform="translate(610 120)"><circle fill="var(--light)" r="80" stroke="var(--muted)" stroke-width="2"></circle><use height="88" href="#i-person" style="color:var(--soft)" width="88" x="-44" y="-44"></use><text class="t-l" text-anchor="middle" y="128">«≤6자»</text></g>
+</svg>
+<p class="ex">«문구 ≤35자»</p>
+</div>
+<div class="card f1" data-step="2" style="border-top:2px solid var(--accent);padding:32px 40px;gap:16px">
+<p class="label">«라벨 ≤29자»</p>
+<svg aria-label="«그림 설명»" class="dg" viewBox="0 0 720 270">
+<circle cx="250" cy="135" fill="none" id="lp" r="100" stroke="var(--accent-light)" stroke-dasharray="10 8" stroke-width="2"></circle>
+<circle cx="250" cy="35" fill="var(--accent)" r="10"></circle>
+<text class="t-h" text-anchor="middle" x="250" y="130">«≤2자»</text>
+<text class="t-s" text-anchor="middle" x="250" y="166">«≤6자»</text>
+<g class="chip"><rect height="46" rx="23" width="140" x="180" y="12"></rect><text text-anchor="middle" x="250" y="44">«≤2자»</text></g>
+<g class="chip"><rect height="46" rx="23" width="160" x="270" y="196"></rect><text text-anchor="middle" x="350" y="228">«≤5자»</text></g>
+<g class="chip"><rect height="46" rx="23" width="160" x="60" y="196"></rect><text text-anchor="middle" x="140" y="228">«≤5자»</text></g>
+<path class="dash-flow" d="M360 135H510" marker-end="url(#ah)" stroke="var(--accent)" stroke-width="2"></path>
+<g transform="translate(600 135)"><circle fill="var(--paper)" r="76" stroke="var(--accent)" stroke-width="2"></circle><use height="76" href="#i-check" style="color:var(--accent)" width="76" x="-38" y="-48"></use><text class="t-l o" text-anchor="middle" y="54">«≤4자»</text></g>
+</svg>
+<p class="ex">«문구 ≤52자»</p>
+</div>
+</div>
+<div class="callout" data-step="3" style="font-size:32px"><b>«강조 앞부분 ≤14자»</b> «정리 문장 ≤41자»</div>
+<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<section class="slide" data-archetype="compare-2" data-variant="diagram" style="gap:32px">
+<div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤26자»</h2></div>
+<div class="row" style="flex:1;min-height:0;align-items:stretch">
+<div class="card f1" data-step="1" style="border-top:2px solid var(--blue);padding:32px 32px;gap:8px">
+<p class="label" style="color:var(--blue)">«라벨 ≤30자»</p>
+<svg aria-label="«그림 설명»" class="dg" style="height:300px" viewBox="0 0 740 330">
+<path class="wire" d="M370 165L120 70" id="m1"></path><path class="wire" d="M370 165L620 70" id="m2"></path>
+<path class="wire" d="M370 165L120 260" id="m3"></path><path class="wire" d="M370 165L620 260" id="m4"></path>
+<circle cx="370" cy="165" fill="var(--blue)" r="7"></circle>
+<circle cx="557.5" cy="93.75" fill="var(--blue)" r="7"></circle>
+<circle cx="245" cy="212.5" fill="var(--blue)" r="7"></circle>
+<circle cx="432.5" cy="188.75" fill="var(--blue)" r="7"></circle>
+<g class="plug"><rect height="30" rx="8" width="70" x="210" y="102"></rect><text text-anchor="middle" x="245" y="124">«≤3자»</text></g>
+<g class="plug"><rect height="30" rx="8" width="70" x="460" y="102"></rect><text text-anchor="middle" x="495" y="124">«≤3자»</text></g>
+<g class="plug"><rect height="30" rx="8" width="70" x="210" y="198"></rect><text text-anchor="middle" x="245" y="220">«≤3자»</text></g>
+<g class="plug"><rect height="30" rx="8" width="70" x="460" y="198"></rect><text text-anchor="middle" x="495" y="220">«≤3자»</text></g>
+<circle cx="370" cy="165" fill="var(--paper)" r="70" stroke="var(--blue)" stroke-width="2"></circle><use height="100" href="#i-bulb" style="color:var(--blue)" width="100" x="320" y="115"></use>
+<g class="node"><rect height="100" rx="18" width="120" x="60" y="20"></rect><use height="50" href="#i-folder" style="color:var(--blue)" width="50" x="95" y="30"></use><text text-anchor="middle" x="120" y="106">«≤5자»</text></g>
+<g class="node"><rect height="100" rx="18" width="120" x="560" y="20"></rect><use height="50" href="#i-folder" style="color:var(--blue)" width="50" x="595" y="30"></use><text text-anchor="middle" x="620" y="106">«≤5자»</text></g>
+<g class="node"><rect height="100" rx="18" width="120" x="60" y="210"></rect><use height="50" href="#i-cal" style="color:var(--blue)" width="50" x="95" y="220"></use><text text-anchor="middle" x="120" y="296">«≤2자»</text></g>
+<g class="node"><rect height="100" rx="18" width="120" x="560" y="210"></rect><use height="50" href="#i-sheet" style="color:var(--blue)" width="50" x="595" y="220"></use><text text-anchor="middle" x="620" y="296">«≤3자»</text></g>
+</svg>
+<p class="body" style="font-size:26px"><b style="color:var(--ink)">«강조 앞부분 ≤16자»</b> «설명 ≤44자»</p>
+<p class="fact" data-src="«F01»">«출처 칩: 발행처「문서」(연도) 값 ≤30자»</p>
+</div>
+<div class="card f1" data-step="2" style="border-top:2px solid var(--accent);padding:32px 32px;gap:8px">
+<p class="label">«라벨 ≤22자»</p>
+<svg aria-label="«그림 설명»" class="dg" style="height:300px" viewBox="0 0 740 330">
+<g aria-hidden="true" class="sk" transform="rotate(-10 200 180)"><rect height="200" rx="16" width="220" x="90" y="70"></rect><text text-anchor="middle" x="200" y="250">«≤6자»</text></g>
+<g aria-hidden="true" class="sk" transform="rotate(-3 220 175)"><rect height="200" rx="16" width="220" x="110" y="65"></rect><text text-anchor="middle" x="220" y="245">«≤6자»</text></g>
+<g class="sk top" transform="rotate(5 245 170)"><rect height="200" rx="16" width="220" x="135" y="60"></rect><use height="80" href="#i-sheet" style="color:var(--accent)" width="80" x="205" y="88"></use><text text-anchor="middle" x="245" y="214">«≤6자»</text><text class="sm" text-anchor="middle" x="245" y="244">«≤13자»</text></g>
+<path class="dash-flow" d="M395 200C450 160 500 160 540 180" marker-end="url(#ah)" stroke="var(--accent)" stroke-width="2"></path>
+<text class="t-s o" text-anchor="middle" x="560" y="300">«≤11자»</text>
+<circle cx="630" cy="175" fill="var(--paper)" r="78" stroke="var(--blue)" stroke-width="2"></circle><use height="110" href="#i-bulb" style="color:var(--blue)" width="110" x="575" y="120"></use>
+</svg>
+<p class="body" style="font-size:26px"><b style="color:var(--ink)">«강조 앞부분 ≤17자»</b> «설명 ≤44자»</p>
+<p class="fact" data-src="«F01»" style="color:var(--accent-text);background:var(--paper)">«출처 칩: 발행처「문서」(연도) 값 ≤30자»</p>
+</div>
+</div>
+<div class="callout" data-step="3" style="font-size:30px;padding:32px 48px"><b>«강조 앞부분 ≤5자»</b> «정리 문장 ≤51자»</div>
+<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<section class="slide" data-archetype="compare-2" data-variant="list">
+<div class="head"><p class="eyebrow">«파트 표시 ≤14자»</p><h2 class="title">«제목: 한 문장 ≤23자»</h2></div>
+<div class="row">
+<div class="card f1" data-step="1" style="border-top:2px solid var(--blue);padding:32px 48px;gap:16px">
+<p class="label" style="color:var(--blue)">«라벨 ≤16자»</p>
+<div style="display:flex;align-items:center;gap:24px"><svg aria-hidden="true" style="width:96px;height:96px;flex:none" viewBox="0 0 100 100"><use height="100" href="#i-chat" style="color:var(--blue)" width="100"></use></svg><h3 style="font-size:56px;font-weight:800">«카드 제목 ≤4자»</h3></div>
+<p class="body">«설명 ≤17자»</p>
+<ul class="list"><li>«목록 항목 ≤14자»</li><li>«목록 항목 ≤20자»</li><li>«목록 항목 ≤12자»</li></ul>
+</div>
+<div class="card f1" data-step="2" style="border-top:2px solid var(--accent);padding:32px 48px;gap:16px">
+<p class="label">«라벨 ≤23자»</p>
+<div style="display:flex;align-items:center;gap:24px"><svg aria-hidden="true" style="width:96px;height:96px;flex:none" viewBox="0 0 100 100"><use height="100" href="#i-folder" style="color:var(--accent)" width="100"></use></svg><svg aria-hidden="true" style="width:44px;flex:none" viewBox="0 0 60 40"><path class="dash-flow" d="M4 20H46" marker-end="url(#ah)" stroke="var(--accent)" stroke-width="2"></path></svg><svg aria-hidden="true" style="width:96px;height:96px;flex:none" viewBox="0 0 100 100"><use height="100" href="#i-sheet" style="color:var(--accent)" width="100"></use></svg><h3 style="font-size:56px;font-weight:800">«카드 제목 ≤4자»</h3></div>
+<p class="body">«설명 ≤33자»</p>
+<ul class="list"><li>«목록 항목 ≤22자»</li><li>«목록 항목 ≤21자»</li><li>«목록 항목 ≤17자»</li></ul>
+</div>
+</div>
+<div class="callout" data-step="3"><b>«강조 앞부분 ≤8자»</b> «정리 문장 ≤41자»</div>
+<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<section class="slide" data-archetype="compare-2" data-variant="choose">
+<div class="head"><p class="eyebrow">«파트 표시 ≤14자»</p><h2 class="title">«제목: 한 문장 ≤24자»</h2></div>
+<div class="row">
+<div class="card f1" data-step="1" style="border-top:2px solid var(--blue);padding:48px;gap:16px">
+<p class="label" style="color:var(--blue)">«라벨 ≤12자»</p>
+<div style="display:flex;align-items:center;gap:24px"><svg aria-hidden="true" style="width:104px;height:104px;flex:none" viewBox="0 0 100 100"><use height="100" href="#i-bulb" style="color:var(--blue)" width="100"></use></svg><h3 style="font-size:64px;font-weight:800">«카드 제목 ≤9자»</h3></div>
+<ul class="list" style="font-size:28px"><li>«목록 항목 ≤35자»</li><li>«목록 항목 ≤27자»</li><li>«목록 항목 ≤23자»</li><li>«목록 항목 ≤20자»</li></ul>
+</div>
+<div class="card f1" data-step="2" style="border-top:2px solid var(--accent);padding:48px;gap:16px">
+<p class="label">«라벨 ≤6자»</p>
+<div style="display:flex;align-items:center;gap:24px"><svg aria-hidden="true" style="width:104px;height:104px;flex:none" viewBox="0 0 100 100"><use height="100" href="#i-bolt" style="color:var(--accent)" width="100"></use></svg><h3 style="font-size:64px;font-weight:800">«카드 제목 ≤16자»</h3></div>
+<ul class="list" style="font-size:28px"><li>«목록 항목 ≤32자»</li><li>«목록 항목 ≤27자»</li><li>«목록 항목 ≤29자»</li><li>«목록 항목 ≤22자»</li></ul>
+</div>
+</div>
+<div class="callout" data-step="3"><b>«강조 앞부분 ≤9자»</b> «정리 문장 ≤32자»</div>
+<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>

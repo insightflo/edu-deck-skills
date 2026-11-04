@@ -1,0 +1,18 @@
+<!--
+  모션 효과 (patterns 부분 조각 · data-fx) — 요소에 효과 이름 하나를 붙인다
+  쓰는 법: <span data-fx="이름">내용</span>. data-fx-at="400" 은 시작 시각(ms, 0~2000, 기본 0).
+  이름: strike(글자 위로 취소선) · stamp(판정 도장 — .stamp 요소에, .ok/.no 변형) · mark(형광펜 채우기) ·
+    count(data-from → 본문 숫자로 세기, 천 단위·소수·% 지원) · travel(--dx 거리만큼 들어와 자리 잡음) ·
+    block(들어오다 벽에 부딪혀 튕김) · type(한 자씩 드러남, data-fx-speed=글자당 ms) · press(키 눌림 — .kbd 에).
+  규칙: 한 요소 한 효과. 한 장의 효과는 3초 안에 끝낸다(check_deck "모션 길이" 경고).
+    정적 모드(인쇄·자습·움직임 줄이기)와 이미 지난 단계에서는 최종 모습만 보인다.
+    캔버스 크레파스(data-crayon)와 한 요소에 함께 쓰지 않는다(check_deck 경고).
+  주의: 이 파일은 슬라이드가 아니라 부분이다 — 호스트 아키타입의 본문 안에 넣는다.
+-->
+<p class="body">
+  기존 방식은 <s data-fx="strike" data-fx-at="400">3일</s> 걸렸지만
+  지금은 <b data-fx="count" data-from="72" data-fx-at="900">4</b>시간입니다.
+  <span class="stamp ok" data-fx="stamp" data-fx-at="1800">통과</span>
+  핵심은 <span data-fx="mark" data-fx-at="1400">한 번의 확인</span>이고,
+  <span class="kbd" data-fx="press" data-fx-at="2200">Enter</span> 를 누르면 끝납니다.
+</p>

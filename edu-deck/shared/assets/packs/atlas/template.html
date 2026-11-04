@@ -1,0 +1,17 @@
+<section class="slide pack pack-atlas" data-design="atlas" data-archetype="map">
+  <header class="pack-topline"><p class="pack-topic">{{TITLE}}</p><span class="pack-mark">ATLAS / 개념의 위치</span></header>
+  <!-- t2 2톤 문법: 핵심 어절(주로 마지막 어절, 문장당 1회·1~2 어절)을 <em class="t2">…</em>로 감싸면 강조색이 붙는다. flows.json 토큰 값엔 태그를 넣지 않는다(이스케이프됨). 규칙: references/expression.md 1절 -->
+  <div class="atlas-heading"><p class="pack-kicker">{{KICKER}}</p><h1 class="pack-prompt">{{PROMPT}}</h1></div>
+  <div class="atlas-map">
+    <svg class="atlas-route" viewBox="0 0 1760 610" preserveAspectRatio="none" aria-hidden="true"><path d="M 650 200 H 800 Q 860 200 860 260 V 460 H 980" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="10 9"/><path d="M 650 200 H 1050" fill="none" stroke="currentColor" stroke-width="2"/><path d="m 1034 190 16 10 -16 10 M 964 450 l 16 10 -16 10" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+    <article class="atlas-origin"><span class="atlas-coordinate">A · 개념</span><p class="pack-body">{{BODY}}</p></article>
+    <aside class="atlas-source"><span class="atlas-coordinate">B · 근거와 연결</span><p class="pack-evidence">{{EVIDENCE}}</p></aside>
+    <div class="atlas-destination"><span class="atlas-coordinate">C · 적용할 곳</span><p class="pack-action">{{ACTION}}</p></div>
+  </div>
+  <footer class="pack-footer atlas-legend"><span><i class="atlas-dot" aria-hidden="true"></i>개념</span><span><i class="atlas-solid" aria-hidden="true"></i>근거 연결</span><span><i class="atlas-dash" aria-hidden="true"></i>적용 경로</span><p class="pack-hint">관계도 · 거리와 면적은 수치를 나타내지 않습니다.</p></footer>
+  <aside class="notes">{{KICKER}}
+도해는 수치 지도가 아니라 개념, 근거, 적용 사이의 관계를 나타냅니다. 왼쪽 개념에서 오른쪽 근거와 적용으로 연결을 따라 설명하세요.
+{{BODY}}
+확인할 근거: {{EVIDENCE}}
+학습 활동: {{ACTION}}</aside>
+</section>

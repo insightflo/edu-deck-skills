@@ -1,0 +1,119 @@
+<!--
+  아키타입 before-after (변형: mocks, stacks, fix, cross-check)
+  언제: 전후 비교. mocks=같은 일의 나쁜/좋은 결과 화면, stacks=쌓는 순서·양 비교, fix=한 번에 끝 / 고쳐서 다시, cross-check=두 곳에 확인.
+  단계: 전 → 후 → 정리
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+<section class="slide" data-archetype="before-after" data-variant="mocks" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤12자»</p><h2 class="title">«제목: 한 문장 ≤23자»</h2></div>
+  <div class="row" style="flex:1;min-height:0">
+    <div class="col f1" style="gap:16px">
+      <p class="small" style="font-weight:700">«설명 ≤6자»</p>
+      <div class="win f1">
+      <div class="win-bar"><i></i><i></i><i></i><span class="wt">«창 제목 ≤6자»</span></div>
+      <div class="win-body"><div class="main"><div class="msgs">
+        <div class="u">«요청 말풍선 ≤18자»</div>
+        <div class="a" data-step="1"><span class="av">«짧은 문구 ≤4자»</span><div class="at"><p>«결과/답변 ≤28자»<br>«결과/답변 ≤26자»</p></div></div>
+      </div></div></div>
+    </div>
+      <p class="small" data-step="1">«설명 ≤23자»</p>
+    </div>
+    <div class="col f1" style="gap:16px">
+      <p class="small" style="font-weight:700;color:var(--blue)">«설명 ≤8자»</p>
+      <div class="win f1" style="border-color:var(--blue)">
+      <div class="win-bar"><i></i><i></i><i></i><span class="wt">«창 제목 ≤6자»</span></div>
+      <div class="win-body"><div class="main"><div class="msgs">
+        <div class="u">«요청 말풍선 ≤35자»</div>
+        <div class="a" data-step="2"><span class="av">«짧은 문구 ≤4자»</span><div class="at"><p>«결과/답변 ≤14자»<br>«결과/답변 ≤18자»<br>«결과/답변 ≤59자»<br>«결과/답변 ≤16자»</p></div></div>
+      </div></div></div>
+    </div>
+      <p class="small" data-step="2">«설명 ≤29자»</p>
+    </div>
+  </div>
+  <div class="callout" data-step="3" style="font-size:28px;padding:24px 32px"><b>«강조 앞부분 ≤21자»</b> «정리 문장 ≤52자»</div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<section class="slide" data-archetype="before-after" data-variant="stacks" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤12자»</p><h2 class="title">«제목: 한 문장 ≤22자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;gap:48px;align-items:center">
+    <div class="stack" data-step="1">
+      <p class="small" style="font-weight:700">«설명 ≤8자»</p>
+      <div class="sb q">«문구 ≤24자»</div>
+      <div class="sb file">«문구 ≤12자»</div>
+      <div class="sb file">«문구 ≤11자»</div>
+      <div class="sb file">«문구 ≤11자»</div>
+    </div>
+    <svg viewBox="0 0 120 60" style="width:120px;flex:none" data-step="2" aria-hidden="true"><path class="dash-flow" d="M8 30H100" stroke="var(--accent)" stroke-width="2" marker-end="url(#ah)"/></svg>
+    <div class="stack good" data-step="2">
+      <p class="small" style="font-weight:700;color:var(--blue)">«설명 ≤6자»</p>
+      <div class="sb file">«문구 ≤12자»</div>
+      <div class="sb file">«문구 ≤11자»</div>
+      <div class="sb file">«문구 ≤11자»</div>
+      <div class="sb q">«문구 ≤58자»</div>
+    </div>
+    <div class="col f1" style="gap:16px">
+      <div class="card" data-step="3" style="padding:32px 32px;gap:8px"><h3 style="font-size:32px">«카드 제목 ≤12자»</h3><p class="small">«설명 ≤93자»</p></div>
+      <div class="card" data-step="4" style="padding:32px 32px;gap:8px"><h3 style="font-size:32px">«카드 제목 ≤12자»</h3><p class="small">«설명 ≤57자»</p></div>
+    </div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<section class="slide" data-archetype="before-after" data-variant="fix" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤12자»</p><h2 class="title">«제목: 한 문장 ≤30자»</h2></div>
+  <div class="row" style="flex:1;min-height:0">
+    <div class="col f1" style="gap:16px">
+      <div class="win f1">
+      <div class="win-bar"><i></i><i></i><i></i><span class="wt">«창 제목 ≤16자»</span></div>
+      <div class="win-body"><div class="main"><div class="msgs">
+        <div class="u">«요청 말풍선 ≤22자»</div>
+        <div class="a" data-step="1"><span class="av">«짧은 문구 ≤4자»</span><div class="at"><p>«결과/답변 ≤15자»<br>«결과/답변 ≤20자»<br>«결과/답변 ≤20자»<br>«결과/답변 ≤16자»</p><p style="color:var(--soft)">«결과/답변 ≤11자»</p></div></div>
+      </div></div></div>
+    </div>
+      <p class="small" data-step="1">«설명 ≤12자»</p>
+    </div>
+    <div class="col f1" style="gap:16px">
+      <div class="win f1" style="border-color:var(--blue)">
+      <div class="win-bar"><i></i><i></i><i></i><span class="wt">«창 제목 ≤16자»</span></div>
+      <div class="win-body"><div class="main"><div class="msgs">
+        <div class="u">«요청 말풍선 ≤54자»</div>
+        <div class="a" data-step="2"><span class="av">«짧은 문구 ≤4자»</span><div class="at"><p>«결과/답변 ≤12자»<br>«결과/답변 ≤40자»</p><span class="filechip">«결과/답변 ≤18자»</span></div></div>
+      </div></div></div>
+    </div>
+      <p class="small" data-step="2">«설명 ≤27자»</p>
+    </div>
+  </div>
+  <div class="callout" data-step="3" style="font-size:28px;padding:24px 32px"><b>«강조 앞부분 ≤9자»</b> «정리 문장 ≤59자»</div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<section class="slide" data-archetype="before-after" data-variant="cross-check">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤12자»</p><h2 class="title">«제목: 한 문장 ≤16자»</h2></div>
+  <div class="row" style="flex:1;min-height:0">
+    <div class="col f1" style="gap:16px">
+      <p class="small" style="font-weight:700;color:var(--blue)">«설명 ≤9자»</p>
+      <div class="win f1">
+      <div class="win-bar"><i></i><i></i><i></i><span class="wt">«창 제목 ≤18자»</span></div>
+      <div class="win-body"><div class="main"><div class="msgs">
+        <div class="u" data-step="1">«요청 말풍선 ≤36자»</div>
+        <div class="a" data-step="2"><span class="av">«짧은 문구 ≤4자»</span><div class="at"><p><b>«강조 앞부분 ≤10자»</b>«결과/답변 ≤5자»<br>«결과/답변 ≤32자»</p></div></div>
+      </div></div></div>
+    </div>
+    </div>
+    <div class="col f1" style="gap:16px">
+      <p class="small" style="font-weight:700;color:var(--accent-text)">«설명 ≤16자»</p>
+      <div class="win f1" style="border-color:var(--accent)">
+      <div class="win-bar"><i></i><i></i><i></i><span class="wt">«창 제목 ≤26자»</span></div>
+      <div class="win-body"><div class="main"><div class="msgs">
+        <div class="u" data-step="1">«요청 말풍선 ≤36자»</div>
+        <div class="a" data-step="3"><span class="av">«짧은 문구 ≤4자»</span><div class="at"><p><b>«강조 앞부분 ≤10자»</b>«결과/답변 ≤5자»<br>«결과/답변 ≤28자»</p></div></div>
+      </div></div></div>
+    </div>
+    </div>
+  </div>
+  <div class="callout" data-step="4" style="font-size:28px;padding:24px 32px"><b>«강조 앞부분 ≤8자»</b> «정리 문장 ≤74자»</div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>

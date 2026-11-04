@@ -1,0 +1,100 @@
+/* Compact reading is the 1920×1080 stage scaled down, not a reflowed layout.
+   Every slide keeps its authored placement; the reader reserves 1080×scale of
+   flow height per slide and stacks them in one continuous scroll. 배치가 뜻을
+   전하므로 좁은 화면에서도 바꾸지 않는다 — 읽기는 스크롤 단계 공개 + 탭 확대로. */
+.ed-reader-nav,.ed-zoom,.ed-zoom-hint{display:none}
+@media screen{
+ html.ed-compact,html.ed-compact body{height:auto;min-height:100%;overflow:visible;background:var(--ink)}
+ html.ed-compact body{padding:calc(64px + env(safe-area-inset-top)) env(safe-area-inset-right) calc(200px + env(safe-area-inset-bottom)) env(safe-area-inset-left);overflow-x:clip}
+ /* 무대를 문서 흐름의 세로 스택으로 바꾼다. --ed-s=min(무대 폭/1920, 사용 높이/1080)와
+    높이 기준일 때의 가로 가운데 오프셋 --ed-x 는 responsive.js 가 넣는다. */
+ html.ed-compact #stage,html.ed-compact body.st-self #stage{position:relative;left:auto;top:auto;width:100%;height:auto;transform:none!important;view-transition-name:none;display:flex;flex-direction:column;align-items:center}
+ html.ed-compact #stage>.deck.on{display:flex;flex-direction:column;align-items:center;width:100%}
+ /* 모든 장을 한 줄 스크롤로 나열한다. 각 장은 원래 1920×1080 배치 그대로이고
+    transform 으로만 축소된다(단계는 스크롤이 지나며 자동으로 열린다). */
+ html.ed-compact #stage .slide{position:relative;inset:auto;display:flex;flex:none;width:1920px;height:1080px;transform:translateX(var(--ed-x,0px)) scale(var(--ed-s,1));transform-origin:0 0;margin:0 auto calc(1080px*(var(--ed-s,1) - 1)) auto}
+ html.ed-compact #stage .slide+.slide{margin-top:12px}
+ html.ed-compact #homebtn{display:none!important}
+ html.ed-compact :is(#counter,#dots,#help){display:none}
+ /* 탭 대상 44px·글자 16px 는 UI 크롬(탐색줄·대화상자·자습)에만 적용한다.
+    장 안 단추는 원래 1920 배치의 일부라 건드리지 않는다. */
+ html.ed-compact :is(button,[role="button"],a[href],input,summary):not(#stage *){min-height:44px;min-width:44px;touch-action:manipulation}
+ html.ed-compact :is(button,input):not(#stage *){font-size:16px!important}
+ html.ed-compact .ed-reader-nav{position:fixed;inset:auto 0 0;z-index:20;display:grid;grid-template-columns:repeat(auto-fit,minmax(70px,1fr));gap:8px;padding:8px max(8px,env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left));background:var(--ink);color:var(--paper);border-top:2px solid var(--accent)}
+ html.ed-compact .ed-reader-nav button{padding:8px 4px;border:1px solid var(--soft);border-radius:var(--r1);background:var(--ink);color:var(--paper);font-family:inherit;line-height:1.2}
+ html.ed-compact .ed-reader-status{grid-column:1/-1;font-size:16px;line-height:1.3;text-align:center}
+ html.ed-compact body.in-hub .ed-reader-nav{display:none}
+ html.ed-compact body.in-hub{padding-bottom:24px;background:var(--ink)}
+ html.ed-compact #notes{bottom:200px;max-height:45svh;padding:16px;font-size:18px;z-index:21}
+ html.ed-compact body.st-self .st-panel{position:relative;inset:auto;--st-k:1!important;--st-w:100%!important;padding:16px;max-width:100%}
+ html.ed-compact .st-panel :is(.st-pb,.st-src){font-size:18px;line-height:1.6}
+ html.ed-compact .st-pb{height:auto;max-height:50svh}
+ html.ed-compact .st-ph{gap:8px;flex-wrap:wrap;font-size:16px}
+ html.ed-compact .st-modal{padding:8px}
+ html.ed-compact .st-mbox{width:100%;max-width:100%;padding:16px;max-height:calc(100svh - 16px)}
+ html.ed-compact :is(.st-mhead,.st-chrow,.st-gi,.st-prbar){flex-wrap:wrap;gap:8px}
+ html.ed-compact .st-paper{width:100%;min-height:0;padding:16px}
+ html.ed-compact :is(.st-grid,.st-trow){display:block}
+ html.ed-compact .chk-back{bottom:200px;max-width:calc(100% - 32px);left:16px}
+ /* ---------- 눌러서 크게 보기(줌 뷰어): 현재 공개 단계의 장 복제, 읽기 전용 ---------- */
+ .ed-zoom{position:fixed;inset:0;z-index:70;background:var(--ink);color:var(--paper);font-family:inherit;outline:none}
+ .ed-zoom.on{display:flex}
+ .ed-zoom-view{position:absolute;inset:0;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
+ .ed-zoom-box{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;will-change:transform}
+ .ed-zoom-box.anim{transition:transform var(--m1) var(--e-out)}
+ .ed-zoom .slide{display:flex!important;pointer-events:none}
+ .ed-zoom .slide,.ed-zoom .slide *{animation:none!important;transition:none!important}
+ .ed-zoom-x{position:absolute;top:calc(8px + env(safe-area-inset-top));right:calc(8px + env(safe-area-inset-right));z-index:2;min-width:44px;min-height:44px;padding:8px 20px;font:inherit;font-size:17px;font-weight:700;color:var(--paper);background:color-mix(in srgb,var(--ink) 70%,transparent);border:1px solid color-mix(in srgb,var(--paper) 32%,transparent);border-radius:var(--r3);cursor:pointer}
+ .ed-zoom-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:48px;height:48px;padding:0;display:flex;align-items:center;justify-content:center;font:inherit;font-size:26px;font-weight:700;color:var(--paper);background:color-mix(in srgb,var(--ink) 70%,transparent);border:1px solid color-mix(in srgb,var(--paper) 32%,transparent);border-radius:50%;cursor:pointer}
+ .ed-zoom-prev{left:calc(8px + env(safe-area-inset-left))}
+ .ed-zoom-next{right:calc(8px + env(safe-area-inset-right))}
+ .ed-zoom-num{position:absolute;left:50%;bottom:calc(10px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:2;font-size:15px;color:var(--soft);pointer-events:none}
+ .ed-zoom button:disabled{opacity:.35;cursor:default}
+ /* 세로 폰 한 줄 안내(세션당 한 번, ✕ 로 닫기) */
+ .ed-zoom-hint{position:fixed;top:calc(56px + env(safe-area-inset-top));left:8px;right:8px;z-index:30;align-items:center;gap:8px;padding:8px 8px 8px 16px;background:color-mix(in srgb,var(--ink) 94%,transparent);color:var(--paper);border:1px solid color-mix(in srgb,var(--paper) 22%,transparent);border-radius:var(--r3);font-size:14px;line-height:1.4;box-shadow:var(--shadow-2)}
+ html.ed-compact .ed-zoom-hint.on{display:flex}
+ .ed-zoom-hint .t{flex:1;min-width:0}
+ .ed-zoom-hint .x{flex:none;min-width:44px;min-height:44px;margin:-6px 0;padding:0;font:inherit;font-size:18px;color:var(--soft);background:none;border:none;cursor:pointer}
+ html.ed-compact #hub{position:relative;inset:auto;overflow:visible}
+ html.ed-compact #hub .hub-canvas{position:relative;inset:auto;transform:none;width:100%;height:auto;min-height:100svh;padding:24px 16px}
+ html.ed-compact #hub :is(.hub-head,.hub-hr,.hub-body,.map-row,.pv,.pv-top,.pv-prog){flex-direction:column;align-items:stretch;gap:16px;max-width:100%;min-width:0}
+ html.ed-compact #hub :is(.hub-tools,.hub-stat,.pv-btns,.pv-print,.books){flex-wrap:wrap;gap:8px;padding:0}
+ html.ed-compact #hub :is(.hub-title){font-size:32px;line-height:1.2}
+ html.ed-compact #hub :is(.hub-eyebrow,.hub-sub,.hub-total,.hub-upd,.hub-reset,.map-sh,.map-sh span,.mn-met,.mn-no,.mn-cnt,.mn-in,.bk-no,.bk-fin,.shelf-gap span){font-size:16px;letter-spacing:normal;white-space:normal}
+ html.ed-compact #hub :is(.mn-title,.pv-title){font-size:22px;white-space:normal;overflow:visible}
+ html.ed-compact #hub :is(.mn,.pv){padding:16px;flex-wrap:wrap}
+ html.ed-compact #hub .mn-txt{flex:1;min-width:120px}
+ html.ed-compact #hub .mn-ring{width:48px;height:48px}
+ html.ed-compact #hub .mn-ring i{font-size:16px}
+ html.ed-compact #hub .bk{width:100%;height:auto;min-height:88px;padding:16px;align-items:flex-start;flex-direction:row;flex-wrap:wrap;gap:16px}
+ html.ed-compact #hub .bk-title{writing-mode:horizontal-tb;font-size:22px;letter-spacing:normal;max-height:none;overflow:visible;margin:0}
+ html.ed-compact #hub .shelf-gap{flex-direction:row;padding:0;margin:8px 0}
+ html.ed-compact #hub :is(.pv-thumb,.plank,.shelf-gap i){display:none}
+ html.ed-compact #hub .pv-bar{width:100%;max-width:280px}
+ html.ed-compact #hub .hub-table,html.ed-compact #hub .hub-table :is(tbody,thead,tr,th,td){display:block;width:100%}
+ html.ed-compact #hub .hub-table thead{display:none}
+ html.ed-compact #hub .hub-table tr{border-top:2px solid var(--line);padding:16px 0}
+ html.ed-compact #hub .hub-table td{padding:8px 0;font-size:18px;white-space:normal}
+}
+@media screen and (min-width:768px){
+ html.ed-compact #hub .map-row{flex-direction:row;flex-wrap:wrap}
+ html.ed-compact #hub .mn{min-width:280px}
+ html.ed-compact #hub .bk{width:calc(50% - 8px)}
+}
+/* slide-fit: 가로·폭≥960·높이≥540 의 좁은 화면은 무대를 맞춰 보여 주되 손 탐색줄을 띄운다 */
+html.ed-slidefit .ed-reader-nav{position:fixed;inset:auto 0 0;z-index:20;display:grid;grid-template-columns:repeat(auto-fit,minmax(70px,1fr));gap:8px;padding:8px max(8px,env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left));background:color-mix(in srgb,var(--ink) 92%,transparent);color:var(--paper);border-top:2px solid var(--accent)}
+html.ed-slidefit .ed-reader-nav button{padding:8px 4px;min-height:44px;border:1px solid var(--soft);border-radius:var(--r1);background:var(--ink);color:var(--paper);font-family:inherit;font-size:16px;line-height:1.2}
+html.ed-slidefit .ed-reader-status{grid-column:1/-1;font-size:16px;line-height:1.3;text-align:center}
+/* 높이 ≤500px(폰 가로·분할 화면)에서는 탐색줄이 여러 줄로 부풀어 읽기 영역을 삼키지
+   못하게 상태줄+버튼을 한 줄 가로 스크롤로 둔다. 위쪽 목차/검색 알약은 탐색줄에 같은
+   단추가 있으므로 이 높이에서는 숨겨 한 벌만 남긴다(토크 시계 .ed-clock 은 유지). */
+@media screen and (max-height:500px){
+ html.ed-compact body{padding-bottom:calc(88px + env(safe-area-inset-bottom))}
+ html.ed-compact .ed-reader-nav{display:flex;flex-wrap:nowrap;gap:6px;overflow-x:auto;overscroll-behavior-x:contain;padding:6px max(6px,env(safe-area-inset-right)) calc(6px + env(safe-area-inset-bottom)) max(6px,env(safe-area-inset-left))}
+ html.ed-compact .ed-reader-nav button{flex:none;white-space:nowrap}
+ html.ed-compact .ed-reader-status{position:sticky;left:0;z-index:1;flex:none;align-self:center;white-space:nowrap;font-size:14px;line-height:1.2;text-align:left;padding:0 8px 0 2px;background:var(--ink)}
+ html.ed-compact .ed-topbar .ed-tbtn{display:none}
+ html.ed-compact #notes{bottom:88px}
+ html.ed-compact .chk-back{bottom:88px}
+}
+@media print{.ed-reader-nav,.ed-zoom,.ed-zoom-hint{display:none!important}}

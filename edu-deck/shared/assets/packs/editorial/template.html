@@ -1,0 +1,15 @@
+<section class="slide pack pack-editorial" data-design="editorial" data-archetype="build-up">
+  <header class="editorial-masthead"><span class="pack-mark">LEARNING JOURNAL</span><p class="pack-topic">{{TITLE}}</p><span class="editorial-edition">읽고 · 연결하고 · 적용하기</span></header>
+  <div class="editorial-spread">
+    <!-- t2 2톤 문법: 핵심 어절(주로 마지막 어절, 문장당 1회·1~2 어절)을 <em class="t2">…</em>로 감싸면 강조색이 붙는다. flows.json 토큰 값엔 태그를 넣지 않는다(이스케이프됨). 규칙: references/expression.md 1절 -->
+    <div class="editorial-lead"><p class="pack-kicker">{{KICKER}}</p><h1 class="pack-prompt">{{PROMPT}}</h1><div class="editorial-rule" aria-hidden="true"></div><svg class="editorial-reading-path" viewBox="0 0 480 88" role="img" aria-label="본문을 근거와 연결한 뒤 실천으로 옮깁니다"><path d="M32 24 H448 M432 16 L448 24 L432 32" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="32" cy="24" r="8" fill="currentColor"/><circle cx="240" cy="24" r="8" fill="currentColor"/><circle cx="448" cy="24" r="8" fill="currentColor"/><g fill="currentColor" font-size="24"><text x="8" y="72">본문</text><text x="216" y="72">근거</text><text x="424" y="72">실천</text></g></svg></div>
+    <article class="editorial-story"><span class="pack-label">본문 / 맥락 읽기</span><p class="pack-body">{{BODY}}</p></article>
+    <aside class="editorial-margin"><span class="pack-label">곁에 두는 근거</span><p class="pack-evidence">{{EVIDENCE}}</p></aside>
+  </div>
+  <footer class="pack-footer editorial-bottom"><span class="pack-label">읽기에서 실천으로</span><p class="pack-action">{{ACTION}}</p><span class="editorial-arrow" aria-hidden="true">↗</span></footer>
+  <aside class="notes">{{KICKER}}
+질문을 먼저 읽고 잠시 생각할 시간을 주세요. 본문과 곁의 근거를 연결해 설명하세요.
+{{BODY}}
+확인할 근거: {{EVIDENCE}}
+학습 활동: {{ACTION}}</aside>
+</section>

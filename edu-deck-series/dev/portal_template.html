@@ -1,0 +1,485 @@
+<!doctype html>
+<!--
+  edu-deck-series 포털 셸 (dev/portal_template.html)
+  [파일 목적] 여러 편(각각 solo 절차로 만든 슬라이드)을 하나의 HTML 시리즈로 묶는 뼈대.
+    첫 화면(허브)은 build_series.py 가 series.json 의 hub.type(map|shelf|list)에 맞춰 렌더해 넣는다.
+    색·글자 토큰과 자습 레이어는 edu-deck/shared 자산을 그대로 쓴다(중복 금지 원칙).
+  [주요 흐름] scripts/build_series.py 가 이 파일을 읽어 표식을 채운다.
+    제목 표식(TITLE, 중괄호 두 겹) ← series.json 의 title
+    CORE_CSS ← shared assets/shell.html 의 핵심 CSS(토큰·기본 클래스·자습 CSS 포함)
+    EXTRA_CSS ← shared assets/css/components.css(아키타입 컴포넌트) — 편 슬라이드가 쓴다
+    ICONS    ← shared assets/icons/base.svg + extra.svg
+    HUB      ← build_series.py 가 hub.type 별로 만든 목차 DOM(경로/책장/목록)
+    EPISODES ← 각 편 폴더의 src/*.html 을 모아 .deck[data-ep] 포장으로 넣는다.
+               편 안의 id 는 e<편>- 접두로 바꿔 편끼리 겹치지 않게 한다.
+    STUDY_DATA ← window.EDU_STUDY(series.json 의 요약·용어·편 정보)
+    STUDY_JS   ← shared assets/js/study.js(solo 와 같은 파일, .deck 유무로 스스로 분기)
+  [수정시 주의] 이 파일을 손으로 고친 뒤에는 build_series.py 를 다시 실행해 완성본을 만든다.
+    solo 셸(dev/shell_template.html)과 같은 id 를 쓰는 화면 부속(진행 막대·단계 점·쪽수·노트)은
+    이름을 바꾸면 안 된다. 자습 레이어·검사 스크립트가 그 id 를 찾는다.
+-->
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>{{TITLE}}</title>
+<style>
+/*CORE_CSS*/
+</style>
+<style>
+/*EXTRA_CSS*/
+</style>
+<style>
+/* ---------- 시리즈 포털: 목차(허브)와 편 포장. 색 토큰은 셸 핵심 CSS 의 :root 를 쓴다 ---------- */
+body.in-hub{background:radial-gradient(1200px 800px at 70% -10%,var(--ink) 0%,var(--ink) 55%,var(--ink) 100%)}
+body.in-hub #stage{display:none}
+body.in-hub #progress,body.in-hub #dots,body.in-hub #counter,body.in-hub #help,body.in-hub #notes,body.in-hub #homebtn{display:none!important}
+body:not(.in-hub) #hub{display:none}
+#hub{position:fixed;inset:0;overflow:hidden;--soft:var(--muted)}
+#hub .mn-no,#hub .lt-no,#hub .mn-in,#hub .mn.fin .mn-cnt,#hub .mn.fin .mn-ring i,#hub .bk-fin,#hub tr.fin .lt-tx{color:var(--accent-light)}
+.hub-canvas{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform:translate(-50%,-50%) scale(var(--hub-sc,1));display:flex;flex-direction:column;padding:64px 88px 56px}
+#hub .cx-blob{pointer-events:none}
+@media screen and (max-width:1199px){html.ed-compact #hub .cx-blob{display:none}}
+.hub-head{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;border-bottom:2px solid color-mix(in srgb,var(--paper) 14%,transparent);padding-bottom:24px}
+.hub-eyebrow{font-size:24px;font-weight:700;letter-spacing:3px;color:var(--accent-light)}
+.hub-upd{margin-left:16px;font-size:18px;font-weight:400;letter-spacing:0;color:var(--soft)}
+.hub-title{font-size:64px;line-height:1.08;font-weight:800;color:var(--paper);margin-top:8px;letter-spacing:-1px}
+.hub-sub{margin-top:16px;font-size:24px;color:var(--blue-soft)}
+.hub-hr{display:flex;flex-direction:column;align-items:flex-end;gap:16px;flex:none}
+.hub-tools{display:flex;gap:8px}
+.hub-btn{font:inherit;font-size:19px;font-weight:700;color:var(--blue-soft);background:color-mix(in srgb,var(--paper) 8%,transparent);border:1px solid color-mix(in srgb,var(--paper) 22%,transparent);border-radius:var(--r2);padding:8px 16px;cursor:pointer}
+.hub-btn:hover,.hub-btn:focus-visible{background:color-mix(in srgb,var(--paper) 16%,transparent)}
+.hub-stat{display:flex;align-items:center;gap:16px}
+.hub-total{font-size:19px;color:var(--muted)}
+.hub-reset{font:inherit;font-size:17px;color:var(--soft);background:none;border:1px solid color-mix(in srgb,var(--paper) 18%,transparent);border-radius:var(--r1);padding:8px 16px;cursor:pointer}
+.hub-reset:hover,.hub-reset:focus-visible{color:var(--blue-soft)}
+.hub-reset.arm{color:var(--accent-light);border-color:var(--accent);font-weight:700}
+.hub-body{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;margin-top:24px}
+
+/* ---------- 경로형 목차(map): 단계 묶음 줄 + 편 칸(진도 고리) ---------- */
+.map{width:100%;max-height:100%;display:flex;flex-direction:column;gap:16px;justify-content:center}
+.map-g{display:flex;flex-direction:column;gap:16px}
+.map-sh{display:flex;align-items:baseline;gap:16px;font-size:21px;color:var(--soft)}
+.map-sh span{font-size:17px;font-weight:800;color:var(--accent-light);background:color-mix(in srgb,var(--accent) 14%,transparent);border-radius:var(--r1);padding:0px 8px;letter-spacing:1px}
+.map-row{display:flex;gap:16px}
+.mn{position:relative;font:inherit;flex:1;min-width:0;display:flex;align-items:center;gap:16px;text-align:left;background:color-mix(in srgb,var(--paper) 6%,transparent);border:2px solid color-mix(in srgb,var(--paper) 16%,transparent);border-left:2px solid var(--c,var(--blue));border-radius:var(--r2);padding:16px 24px;color:var(--blue-soft);cursor:pointer}
+.mn:hover,.mn:focus-visible,.mn.sel{background:color-mix(in srgb,var(--paper) 12%,transparent);border-color:color-mix(in srgb,var(--paper) 34%,transparent);border-left-color:var(--c,var(--blue))}
+.mn-ring{flex:none;position:relative;width:56px;height:56px;border-radius:50%;background:conic-gradient(var(--c,var(--blue)) calc(var(--p,0)*1%),color-mix(in srgb,var(--paper) 14%,transparent) 0);display:block}
+.mn-ring i{position:absolute;inset:5px;border-radius:50%;background:var(--ink);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;font-style:normal;color:var(--blue-soft)}
+.mn.fin .mn-ring i{color:var(--success)}
+.mn-txt{min-width:0;display:flex;flex-direction:column;gap:0px}
+.mn-no{font-size:15px;font-weight:800;letter-spacing:2px;color:var(--c,var(--blue))}
+.mn-title{font-size:26px;font-weight:800;color:var(--paper);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mn-met{font-size:16px;color:var(--soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mn-cnt{margin-left:auto;flex:none;font-size:16px;color:var(--soft);background:color-mix(in srgb,var(--paper) 7%,transparent);border-radius:var(--r3);padding:0px 16px}
+.mn .mn-in{display:none;flex:none;font-size:15px;font-weight:700;color:var(--success)}
+.mn.started .mn-in{display:inline}
+.mn.fin .mn-cnt{color:var(--success)}
+
+/* ---------- 책장형 목차(shelf): 책 등걸이 + 미리보기 ---------- */
+.shelf{width:100%;height:100%;display:flex;flex-direction:column;justify-content:flex-end}
+.books{display:flex;align-items:flex-end;gap:16px;padding:0 32px}
+.bk{position:relative;font:inherit;flex:0 0 auto;width:96px;height:var(--h,420px);display:flex;flex-direction:column;align-items:center;background:linear-gradient(180deg,color-mix(in srgb,var(--c,var(--blue)) 88%,var(--paper) 12%),var(--c,var(--blue)) 30%,color-mix(in srgb,var(--c,var(--blue)) 72%,var(--ink) 28%));border-radius:var(--r1);border:none;box-shadow:var(--shadow-1);cursor:pointer;padding:24px 0 16px;color:var(--paper)}
+.bk:hover,.bk:focus-visible,.bk.sel{transform:translateY(-10px);box-shadow:var(--shadow-1)}
+.bk-no{font-size:15px;font-weight:800;letter-spacing:1px;color:color-mix(in srgb,var(--paper) 85%,transparent)}
+.bk-title{margin-top:8px;flex:1;writing-mode:vertical-rl;font-size:27px;font-weight:800;letter-spacing:3px;color:var(--paper);max-height:300px;overflow:hidden}
+.bk-prog{width:56px;height:5px;border-radius:var(--r1);background:color-mix(in srgb,var(--ink) 35%,transparent);overflow:hidden;margin-top:8px}
+.bk-prog i{display:block;height:100%;width:calc(var(--p,0)*1%);background:var(--success)}
+.bk-fin{display:none;margin-top:8px;font-size:14px;font-weight:800;color:var(--success);letter-spacing:2px}
+.bk.fin .bk-fin{display:block}
+.shelf-gap{flex:0 0 auto;align-self:center;display:flex;flex-direction:column;align-items:center;gap:8px;margin:0 16px;padding-bottom:8px}
+.shelf-gap span{font-size:14px;font-weight:700;letter-spacing:2px;color:var(--soft)}
+.shelf-gap i{width:1px;height:56px;background:color-mix(in srgb,var(--paper) 25%,transparent)}
+.plank{height:16px;margin:0 8px;background:linear-gradient(180deg,var(--blue-text),var(--ink));border-radius:var(--r1);box-shadow:var(--shadow-1)}
+.pv{display:flex;gap:32px;align-items:stretch;margin-top:24px;background:color-mix(in srgb,var(--paper) 6%,transparent);border:1px solid color-mix(in srgb,var(--paper) 16%,transparent);border-radius:var(--r2);padding:24px 32px}
+.pv-thumb{flex:none;width:190px;min-height:150px;border-radius:var(--r2);background:linear-gradient(160deg,color-mix(in srgb,var(--c,var(--blue)) 80%,var(--paper) 20%),color-mix(in srgb,var(--c,var(--blue)) 70%,var(--ink) 30%));display:flex;align-items:flex-end;justify-content:center;padding-bottom:16px}
+.pv-tno{writing-mode:vertical-rl;font-size:26px;font-weight:800;letter-spacing:4px;color:color-mix(in srgb,var(--paper) 92%,transparent)}
+.pv-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:8px}
+.pv-top{display:flex;align-items:baseline;gap:16px}
+.pv-no{font-size:17px;font-weight:800;letter-spacing:2px;color:var(--accent-light)}
+.pv-tag{font-size:15px;font-weight:700;color:var(--soft);border:1px solid color-mix(in srgb,var(--paper) 20%,transparent);border-radius:var(--r3);padding:0px 8px}
+.pv-met{font-size:16px;color:var(--soft)}
+.pv-title{font-size:34px;font-weight:800;color:var(--paper)}
+.pv-sub{font-size:20px;color:var(--blue-soft)}
+.pv-prog{display:flex;align-items:center;gap:16px}
+.pv-bar{width:280px;height:8px;border-radius:var(--r1);background:color-mix(in srgb,var(--paper) 14%,transparent);overflow:hidden}
+.pv-bar i{display:block;height:100%;width:calc(var(--p,0)*1%);background:var(--accent-light)}
+.pv-meta{font-size:17px;color:var(--muted)}
+.pv-btns{display:flex;gap:16px;margin-top:0px}
+.pv-open,.pv-resume{font:inherit;font-size:19px;font-weight:700;border-radius:var(--r2);padding:8px 24px;cursor:pointer}
+.pv-open{background:var(--accent);border:none;color:var(--paper)}
+.pv-open:hover,.pv-open:focus-visible{background:var(--accent-deep)}
+.pv-resume{background:color-mix(in srgb,var(--paper) 10%,transparent);border:1px solid color-mix(in srgb,var(--paper) 26%,transparent);color:var(--blue-soft)}
+.pv-resume[hidden]{display:none}
+.pv-resume:hover,.pv-resume:focus-visible{background:color-mix(in srgb,var(--paper) 18%,transparent)}
+.pv-print{display:flex;gap:8px;margin-top:0px}
+.pv-pbtn{font:inherit;font-size:16px;color:var(--blue-soft);background:none;border:1px solid color-mix(in srgb,var(--paper) 20%,transparent);border-radius:var(--r1);padding:8px 16px;cursor:pointer}
+.pv-pbtn:hover,.pv-pbtn:focus-visible{color:var(--paper);background:color-mix(in srgb,var(--paper) 10%,transparent)}
+
+/* ---------- 목록형 목차(list): 표 ---------- */
+.hub-table{width:100%;border-collapse:collapse;font-size:21px;color:var(--blue-soft)}
+.hub-table th{text-align:left;font-size:16px;font-weight:700;letter-spacing:2px;color:var(--soft);border-bottom:1px solid color-mix(in srgb,var(--paper) 18%,transparent);padding:0 16px 16px}
+.hub-table td{padding:16px 16px;border-bottom:1px solid color-mix(in srgb,var(--paper) 9%,transparent)}
+.hub-table tr[data-ep]{cursor:pointer}
+.hub-table tr[data-ep]:hover,.hub-table tr[data-ep]:focus-visible,.hub-table tr[data-ep].sel{background:color-mix(in srgb,var(--paper) 7%,transparent)}
+.lt-no{font-weight:800;letter-spacing:1px;color:var(--c,var(--blue))}
+.lt-t{font-weight:800;color:var(--paper)}
+.lt-s{color:var(--muted);font-size:19px}
+.lt-n{color:var(--soft)}
+.lt-p{white-space:nowrap}
+.lt-bar{display:inline-block;width:150px;height:8px;border-radius:var(--r1);background:color-mix(in srgb,var(--paper) 14%,transparent);overflow:hidden;margin-right:16px;vertical-align:middle}
+.lt-bar i{display:block;height:100%;width:calc(var(--p,0)*1%);background:var(--accent-light)}
+.lt-tx{font-size:18px;color:var(--muted)}
+tr.fin .lt-tx{color:var(--success);font-weight:700}
+.lt-open{font:inherit;font-size:17px;font-weight:700;color:var(--blue-soft);background:color-mix(in srgb,var(--paper) 8%,transparent);border:1px solid color-mix(in srgb,var(--paper) 22%,transparent);border-radius:var(--r1);padding:8px 16px;cursor:pointer}
+.lt-open:hover,.lt-open:focus-visible{background:color-mix(in srgb,var(--paper) 16%,transparent)}
+
+/* ---------- 편 포장과 목차 복귀 칩 ---------- */
+#stage > .deck{display:none}
+#stage > .deck.on{display:block}
+.sr{position:absolute;top:26px;right:30px;z-index:6;font:inherit;font-size:20px;font-weight:700;color:var(--blue-soft);background:var(--ink);border:1px solid color-mix(in srgb,var(--paper) 25%,transparent);border-radius:var(--r3);padding:8px 16px;cursor:pointer;letter-spacing:.5px}
+.sr:hover,.sr:focus-visible{background:color-mix(in srgb,var(--ink) 90%,transparent)}
+.sr-ep{color:var(--accent-light);margin-right:8px}
+.sr-hint{color:var(--blue-soft);font-weight:400;margin-left:8px}
+#homebtn{position:fixed;top:18px;right:24px;z-index:7;font:inherit;font-size:16px;font-weight:700;color:var(--blue-soft);background:color-mix(in srgb,var(--ink) 72%,transparent);border:1px solid color-mix(in srgb,var(--paper) 25%,transparent);border-radius:var(--r3);padding:8px 16px;cursor:pointer;display:none}
+body:not(.in-hub) #homebtn{display:block}
+#homebtn:hover,#homebtn:focus-visible{background:color-mix(in srgb,var(--ink) 90%,transparent)}
+/* ---------- 목차(허브) 등장 모션: 공용 모션 층 규칙과 같다(transform·opacity, ease-out, 스태거) ---------- */
+@media (prefers-reduced-motion: no-preference){
+  #hub .mn,#hub .bk,#hub .hub-table tbody tr[data-ep]{}
+  #hub .map-g:nth-child(1) .mn:nth-child(1),#hub .books .bk:nth-child(1),#hub .hub-table tbody tr:nth-child(1){}
+  #hub .map-g:nth-child(1) .mn:nth-child(2),#hub .books .bk:nth-child(2),#hub .hub-table tbody tr:nth-child(2){}
+  #hub .map-g:nth-child(1) .mn:nth-child(3),#hub .books .bk:nth-child(3),#hub .hub-table tbody tr:nth-child(3){}
+  #hub .map-g:nth-child(2) .mn:nth-child(1),#hub .books .bk:nth-child(4),#hub .hub-table tbody tr:nth-child(4){}
+  #hub .map-g:nth-child(2) .mn:nth-child(2),#hub .books .bk:nth-child(5){}
+  #hub .pv{}
+}
+
+
+@media print{ #hub,#homebtn,#progress,#dots,#counter,#help,#notes{display:none!important} }
+</style>
+</head>
+<body>
+<!--STUDY_DATA-->
+<div id="hub">
+<!--HUB-->
+</div>
+
+<div id="stage">
+<!--ICONS-->
+<!--EPISODES-->
+</div>
+
+<div id="progress"></div>
+<div id="dots"></div>
+<div id="counter"></div>
+<div id="help">→ 다음 (한 단계씩) · ← 이전 · F 전체화면 · N 발표자 노트 · S 자습 · P 인쇄 · G 용어집 · Esc 목차</div>
+<div id="notes"><div class="h">발표자 노트 (N으로 닫기)</div><div id="notesText"></div></div>
+<button id="homebtn" type="button">목차 <span class="sr-hint">(Esc)</span></button>
+
+<script>
+/*
+  시리즈 엔진: 목차(허브) ↔ 각 편 발표. 시리즈 덱 엔진(solo)과 허브 규칙을 합쳐 포털에 맞게 고침.
+  [목적] 1920×1080 무대 축소, 편 안에서의 장 이동·단계 등장(solo 엔진과 같은 규칙), 목차 왕래, 편별 진도 저장.
+  [입력] #hub(목차 DOM — build_series.py 가 hub.type 별로 넣음), #stage > .deck[data-ep][data-label] 안
+    section.slide 들과 단계 속성(solo 엔진과 동일), aside.notes.
+  [출력] .active/.step-hide/.gone/.new/.lit 토글, 진행 막대·단계 점·쪽수, 주소 # = 목차 · #편-장,
+    deckslide 이벤트 {ep,index,slide}, window.deckGo(편,장,단계) · window.deckInfo() · window.seriesInfo().
+  [진도] localStorage 'edeck-ser-seen-<편>' = 본 장 번호(0부터) JSON 배열, 'edeck-ser-pos-<편>' = 마지막 장.
+    "기록 지우기" 두 번 누르면 진도를 지우고 edeck-reset 이벤트로 자습 레이어의 확인 문제 기록도 지운다.
+  [수정시 주의] 단계 속성·클래스 이름은 solo 엔진과 공유 조각이 쓰는 그대로다. study.js 는 .deck.on,
+    body.in-hub, #hub [data-ep].sel 계약을 찾으므로 그 이름을 바꾸면 안 된다.
+*/
+(function(){
+  var stage=document.getElementById('stage');
+  var hub=document.getElementById('hub');
+  var decks=[].slice.call(document.querySelectorAll('#stage > .deck'));
+  var counter=document.getElementById('counter');
+  var progress=document.getElementById('progress');
+  var dots=document.getElementById('dots');
+  var notesBox=document.getElementById('notes');
+  var notesText=document.getElementById('notesText');
+  var homebtn=document.getElementById('homebtn');
+  var help=document.getElementById('help');
+  var mode='hub', ep=null, slides=[], cur=0, step=0, notesOn=false;
+  var K_SEEN='edeck-ser-seen-', K_POS='edeck-ser-pos-';
+  var ATTRS=['step','add','only','lit','until'];
+  var SEL='[data-step],[data-add],[data-only],[data-lit],[data-until]';
+
+  function ls(k,v){ try{ if(v===undefined) return localStorage.getItem(k); localStorage.setItem(k,v); }catch(e){ return null; } }
+  function deckOf(e){ return decks.filter(function(d){ return String(d.getAttribute('data-ep'))===String(e); })[0]||null; }
+  function slidesOf(d){ return [].slice.call((d||document.createElement('div')).querySelectorAll('.slide')); }
+  function seen(e){ try{ return JSON.parse(ls(K_SEEN+e)||'[]')||[]; }catch(x){ return []; } }
+  function saveSeen(e,i){
+    var s=seen(e); if(s.indexOf(i)<0){ s.push(i); ls(K_SEEN+e,JSON.stringify(s)); }
+    ls(K_POS+e,String(i));
+  }
+  function resumeAt(e){ /* 마지막으로 본 장(끝 장까지 봤으면 처음부터). 한 장만 봐도 이어본다 */
+    var p=parseInt(ls(K_POS+e)||'0',10)||0, n=slidesOf(deckOf(e)).length;
+    return (p>0&&p<n-1)?p:0;
+  }
+
+  /* ---------- 장 그리기(solo 엔진과 같은 규칙, 지금 편 안에서만) ---------- */
+  function maxStep(s){
+    var m=0;
+    s.querySelectorAll(SEL).forEach(function(e){
+      ATTRS.forEach(function(a){ if(e.dataset[a]!==undefined) m=Math.max(m,+e.dataset[a]); });
+    });
+    return m;
+  }
+  function reveal(e){
+    e.classList.add('pop'); // Shared semantic engine owns the visual reveal.
+  }
+  function paint(s,n,animate){
+    s.querySelectorAll('[data-step]').forEach(function(e){
+      var k=+e.dataset.step; e.classList.toggle('step-hide',k>n);
+      if(animate&&k===n) reveal(e);
+    });
+    s.querySelectorAll('[data-add]').forEach(function(e){
+      var k=+e.dataset.add; e.classList.toggle('gone',k>n); e.classList.toggle('new',k===n&&n>0);
+    });
+    s.querySelectorAll('[data-only]').forEach(function(e){
+      var k=+e.dataset.only; e.classList.toggle('gone',k!==n);
+      if(animate&&k===n) reveal(e);
+    });
+    s.querySelectorAll('[data-until]').forEach(function(e){ e.classList.toggle('gone',n>+e.dataset.until); });
+    s.querySelectorAll('[data-lit]').forEach(function(e){ e.classList.toggle('lit',+e.dataset.lit<=n); });
+  }
+  function apply(animate){
+    paint(slides[cur],step,animate);
+    var m=maxStep(slides[cur]), h='';
+    for(var i=1;i<=m;i++) h+='<i class="'+(i<=step?'on':'')+'"></i>';
+    dots.innerHTML=h;
+    document.dispatchEvent(new CustomEvent('deckstep',{detail:{ep:ep,slide:cur,step:step}}));
+  }
+  function fit(){
+    var sc=Math.min(window.innerWidth/1920, window.innerHeight/1080);
+    stage.style.transform='translate(-50%,-50%) scale('+sc+')';
+    var hc=document.querySelector('.hub-canvas');
+    if(hc) hc.style.setProperty('--hub-sc',sc.toFixed(5));
+  }
+
+  /* ---------- 목차 진도 칠하기 ---------- */
+  function cardSel(e){ return [].slice.call(hub.querySelectorAll('[data-ep="'+String(e)+'"]')); }
+  function paintCard(e){
+    var d=deckOf(e); if(!d) return;
+    var n=slidesOf(d).length, s=seen(e).length, pct=n?Math.round(s*100/n):0;
+    cardSel(e).forEach(function(c){
+      c.style.setProperty('--p',pct);
+      c.classList.toggle('started',s>0&&s<n);
+      c.classList.toggle('fin',n>0&&s>=n);
+      var ring=c.querySelector('.mn-ring i');
+      if(ring) ring.textContent=pct?pct+'%':'';
+      var tx=c.querySelector('.lt-tx');
+      if(tx) tx.textContent=s>=n?'완강':(s>0?s+'장 / '+n+'장':'미시작');
+    });
+  }
+  function paintPv(e){
+    var pv=document.querySelector('.pv'); if(!pv) return;
+    var d=deckOf(e); if(!d) return;
+    var meta=d.dataset, n=slidesOf(d).length, s=seen(e).length, pct=n?Math.round(s*100/n):0;
+    pv.style.setProperty('--p',pct); pv.style.setProperty('--c',meta.color||'var(--blue)');
+    pv.setAttribute('data-ep',String(e));
+    var q=function(sel){ return pv.querySelector(sel); };
+    if(q('.pv-no')) q('.pv-no').textContent=meta.label||(''+e+'편');
+    if(q('.pv-tno')) q('.pv-tno').textContent=(meta.label||(''+e+'편'));
+    if(q('.pv-tag')) q('.pv-tag').textContent=meta.tag||'';
+    if(q('.pv-met')) q('.pv-met').textContent=meta.met||'';
+    if(q('.pv-title')) q('.pv-title').textContent=meta.title||'';
+    if(q('.pv-sub')) q('.pv-sub').textContent=meta.sub||'';
+    if(q('.pv-meta')) q('.pv-meta').textContent=s+' / '+n+'장';
+    var rb=q('.pv-resume');
+    if(rb){ rb.hidden=s===0; rb.textContent=s>=n?'다시 처음부터 보기':(resumeAt(e)+1)+'장부터 계속 보기'; }
+    pv.querySelectorAll('.pv-pbtn').forEach(function(b){ b.setAttribute('data-ep',String(e)); });
+  }
+  function paintHub(){
+    var tot=0, seenAll=0;
+    decks.forEach(function(d){
+      var e=d.getAttribute('data-ep'), n=slidesOf(d).length;
+      tot+=n; seenAll+=Math.min(seen(e).length,n);
+      paintCard(e);
+    });
+    var t=document.querySelector('.hub-total');
+    if(t) t.textContent=tot?('진도 '+seenAll+' / '+tot+'장'):'';
+  }
+  function select(e){
+    hub.querySelectorAll('.sel').forEach(function(x){ x.classList.remove('sel'); });
+    var c=hub.querySelector('[data-ep="'+String(e)+'"]');
+    if(c){ c.classList.add('sel'); paintPv(e); }
+  }
+
+  /* ---------- 편 열기·목차 ---------- */
+  function show(i,atEnd,immediate){
+    stage.dataset.dir=(i>cur)?'fwd':'back';
+    cur=Math.max(0,Math.min(slides.length-1,i));
+    step=atEnd?maxStep(slides[cur]):0;
+    function render(){
+    if(!slides.length)return;
+    slides.forEach(function(el,k){ el.classList.toggle('active',k===cur); });
+    apply(false);
+    counter.textContent=(cur+1)+' / '+slides.length;
+    progress.style.transform='scaleX('+((cur+1)/slides.length)+')';
+    var n=slides[cur].querySelector('.notes');
+    notesText.textContent=n?n.textContent:'';
+    saveSeen(ep,cur);
+    paintCard(ep);
+    if(location.hash!=='#'+ep+'-'+(cur+1)) history.replaceState(null,'','#'+ep+'-'+(cur+1));
+    document.dispatchEvent(new CustomEvent('deckslide',{detail:{ep:ep,index:cur,slide:slides[cur]}}));
+    }
+    if(window.eduMotion&&!immediate&&stage.querySelector('.deck.on>.slide.active')) window.eduMotion.navigate(render,stage.dataset.dir);
+    else render();
+  }
+  function openEp(e,i,immediate){
+    var d=deckOf(e); if(!d) return false;
+    e=String(e);
+    if(mode!=='deck'||ep!==e){
+      decks.forEach(function(x){ x.classList.remove('on'); });
+      d.classList.add('on');
+      ep=e; slides=slidesOf(d); cur=0; step=0;
+      mode='deck'; document.body.classList.remove('in-hub');
+      if(help) setTimeout(function(){ help.style.opacity='0'; },4000);
+    }
+    show(i==null?resumeAt(e):i,false,immediate);
+    return true;
+  }
+  function showHub(){
+    if(window.eduMotion)window.eduMotion.settle();
+    mode='hub'; document.body.classList.add('in-hub');
+    decks.forEach(function(x){ x.classList.remove('on'); });
+    slides=[]; ep=null;
+    paintHub();
+    var first=decks[0]; if(first) select(first.getAttribute('data-ep'));
+    if(location.hash!=='#') history.replaceState(null,'','#');
+    document.dispatchEvent(new CustomEvent('deckslide',{detail:{ep:null,index:null,slide:null}}));
+  }
+  function next(){ if(!slides.length) return; if(step<maxStep(slides[cur])){ step++; apply(true); } else if(cur<slides.length-1){ show(cur+1,false); } }
+  function prev(){ if(!slides.length) return; if(step>0){ step--; apply(false); } else if(cur>0){ show(cur-1,true); } }
+  window.deckGo=function(e,i,st){
+    if(!openEp(e,i,true)) return;
+    var m=maxStep(slides[cur]);
+    step=(st===undefined)?m:Math.max(0,Math.min(+st,m));
+    apply(false);
+  };
+  window.deckInfo=function(){
+    if(mode!=='deck'||!slides.length) return {slide:null,step:null,maxStep:0,count:0,ep:null};
+    return {slide:cur,step:step,maxStep:maxStep(slides[cur]),count:slides.length,ep:ep};
+  };
+  window.seriesInfo=function(){
+    return {mode:mode,ep:ep,decks:decks.map(function(d){ return String(d.getAttribute('data-ep')); })};
+  };
+  function toggleNotes(){ notesOn=!notesOn; notesBox.style.display=notesOn?'block':'none'; }
+  function fullscreen(){
+    var d=document;
+    if(!d.fullscreenElement){ (d.documentElement.requestFullscreen||function(){}).call(d.documentElement); }
+    else{ d.exitFullscreen(); }
+  }
+
+  /* ---------- 입력 ---------- */
+  document.addEventListener('keydown',function(e){
+    var t=e.target;
+    if(e.defaultPrevented||e.ctrlKey||e.metaKey||e.altKey||e.isComposing) return;
+    if(t&&(t.isContentEditable||(t.closest&&t.closest('a[href],button,input,textarea,select,summary')))) return;
+    var k=e.key;
+    if(mode==='hub'){
+      if(/^\d$/.test(k)&&decks[+k-1]){ e.preventDefault(); openEp(decks[+k-1].getAttribute('data-ep'),null); }
+      return;
+    }
+    if(k==='ArrowRight'||k==='ArrowDown'||k==='PageDown'||k===' '||k==='Enter'){ e.preventDefault(); next(); }
+    else if(k==='ArrowLeft'||k==='ArrowUp'||k==='PageUp'||k==='Backspace'){ e.preventDefault(); prev(); }
+    else if(k==='Home'){ show(0,false); }
+    else if(k==='End'){ show(slides.length-1,false); }
+    else if(k==='Escape'){ showHub(); }
+    else if(k==='f'||k==='F'||k==='ㄹ'){ fullscreen(); }
+    else if(k==='n'||k==='N'||k==='ㅜ'){ toggleNotes(); }
+  });
+  document.addEventListener('click',function(e){
+    if(matchMedia('(max-width:1199px)').matches) return;
+    if(!e.target.closest) return;
+    if(e.target.closest('#notes')||e.target.closest('#hub')) return;   /* 목차 안은 아래 허브 처리기에 맡긴다 */
+    if(e.target.closest('a,button,.todo,.chk,.st-panel,.st-modal,.st-print')) return;
+    if(e.clientX<window.innerWidth/3) prev(); else next();
+  });
+  document.addEventListener('touchstart',function(e){ tx=e.touches[0].clientX; },{passive:true});
+  var tx=null;
+  document.addEventListener('touchend',function(e){
+    if(matchMedia('(max-width:1199px)').matches){tx=null;return;}
+    if(tx===null) return; var dx=e.changedTouches[0].clientX-tx;
+    if(Math.abs(dx)>50){ if(dx<0) next(); else prev(); } tx=null;
+  });
+
+  /* ---------- 허브 입력: 카드 고르기·열기, 미리보기, 기록 지우기 ---------- */
+  hub.addEventListener('click',function(e){
+    if(!e.target.closest) return;
+    var st=e.target.closest('[data-study]');
+    if(st) return;                                   /* 용어집·인쇄 단추는 자습 레이어가 받는다 */
+    var rb=e.target.closest('.pv-open,.pv-resume');
+    if(rb){ var pv=document.querySelector('.pv'); if(pv){ openEp(pv.getAttribute('data-ep'), rb.classList.contains('pv-resume')?null:0); } return; }
+    var c=e.target.closest('[data-ep]');
+    if(c){ e.stopPropagation(); openEp(c.getAttribute('data-ep'),null); }
+  });
+  hub.addEventListener('keydown',function(e){
+    // Rows emulate buttons, but nested native buttons keep their own activation.
+    if((e.key==='Enter'||e.key===' ')&&e.target.matches('.hub-table tr[data-ep]')){
+      e.preventDefault(); openEp(e.target.getAttribute('data-ep'),null);
+    }
+  });
+  hub.addEventListener('mouseover',function(e){
+    if(!e.target.closest) return;
+    var c=e.target.closest('[data-ep]'); if(c) select(c.getAttribute('data-ep'));
+  });
+  hub.addEventListener('focusin',function(e){
+    var c=e.target.closest?e.target.closest('[data-ep]'):null; if(c) select(c.getAttribute('data-ep'));
+  });
+  var resetBtn=document.querySelector('.hub-reset'), resetT=null;
+  if(resetBtn) resetBtn.addEventListener('click',function(){
+    if(!resetBtn.classList.contains('arm')){
+      resetBtn.classList.add('arm'); resetBtn.textContent='한 번 더 누르면 지워집니다';
+      clearTimeout(resetT); resetT=setTimeout(function(){ resetBtn.classList.remove('arm'); resetBtn.textContent='기록 지우기'; },2800);
+      return;
+    }
+    clearTimeout(resetT);
+    decks.forEach(function(d){
+      var e=d.getAttribute('data-ep');
+      try{ localStorage.removeItem(K_SEEN+e); localStorage.removeItem(K_POS+e); }catch(x){}
+    });
+    document.dispatchEvent(new Event('edeck-reset'));
+    paintHub();
+    var sel=document.querySelector('#hub .sel'); if(sel) paintPv(sel.getAttribute('data-ep'));
+    resetBtn.classList.remove('arm'); resetBtn.textContent='기록 지우기';
+  });
+  if(homebtn) homebtn.addEventListener('click',showHub);
+  /* 목차 복귀 칩(.sr): build_series 가 각 편 슬라이드 머리에 심는다. 누르면 목차로 */
+  [].slice.call(document.querySelectorAll('.sr')).forEach(function(b){
+    b.addEventListener('click',function(e){ e.stopPropagation(); showHub(); });
+  });
+
+  /* ---------- 인쇄·주소·시작 ---------- */
+  window.addEventListener('beforeprint',function(){ if(mode==='deck') slides.forEach(function(s){ paint(s,maxStep(s),false); }); });
+  window.addEventListener('afterprint',function(){ if(mode==='deck') apply(false); });
+  window.addEventListener('hashchange',function(){
+    var h=/^#([\w-]+)-(\d+)$/.exec(location.hash||'');
+    if(h){ if(!(mode==='deck'&&ep===h[1]&&cur===(+h[2])-1)) openEp(h[1],(+h[2])-1); }
+    else if(mode!=='hub') showHub();
+  });
+  window.addEventListener('resize',fit);
+  fit();
+  var m=/^#([\w-]+)-(\d+)$/.exec(location.hash||'');
+  if(!(m&&openEp(m[1],(+m[2])-1))) showHub();
+  if(help) setTimeout(function(){ help.style.opacity='0'; },4000);
+})();
+</script>
+
+
+
+<script>
+/*STUDY_JS*/
+</script>
+
+<script>
+/* 체크리스트(.todo): 누르면 완료 표시가 켜지고 꺼진다. 슬라이드 넘김 클릭으로 번지지 않게 막는다. */
+document.querySelectorAll('.todo').forEach(function(el){
+  el.addEventListener('click',function(e){ e.stopPropagation(); el.classList.toggle('done'); });
+});
+</script>
+</body>
+</html>

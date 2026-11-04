@@ -1,0 +1,10 @@
+/* Magazine spread: serif question, open reading column, marginal evidence. */
+.slide.pack-editorial{gap:40px}
+.editorial-masthead{display:flex;align-items:baseline;gap:32px;border-top:2px solid var(--ink);border-bottom:1px solid var(--ink);padding:16px 0}
+.editorial-masthead .pack-topic{flex:1}.editorial-edition{font-size:20px;white-space:nowrap;color:var(--soft)}
+.editorial-spread{display:grid;grid-template-columns:1.02fr 1.15fr .7fr;gap:48px;align-items:start}
+.editorial-lead .pack-prompt{font-family:var(--pack-serif);font-size:53px;line-height:1.4;font-weight:700;margin-top:32px}
+.editorial-rule{width:100px;height:8px;background:var(--accent);margin-top:40px}
+.editorial-story{padding-top:8px}.editorial-story .pack-body{font-size:31px;line-height:1.75}
+.editorial-margin{border-left:1px solid var(--line);padding:8px 0 0 32px}.editorial-margin .pack-evidence{font-size:27px;line-height:1.7}
+.editorial-bottom{display:grid;grid-template-columns:260px 1fr 64px;gap:24px;align-items:start;border-top:2px solid var(--ink);padding-top:24px}.editorial-bottom .pack-label{color:var(--accent);margin-top:8px}.editorial-arrow{font-family:var(--pack-serif);font-size:60px;line-height:1}

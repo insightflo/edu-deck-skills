@@ -1,0 +1,34 @@
+<!--
+  아키타입 check (변형: 기본, 확장)
+  언제: 파트가 끝난 뒤 중요 개념 1~2개를 눌러 확인한다. 보기를 누르면 정답·해설이 나오고, 틀리면 지정 장으로 돌아가 볼 수 있다.
+  단계: 단계 없음(청중이나 학습자가 보기를 누른다)
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+    다시 보게 하려면: 복습할 개념 장의 section 에 data-key="«복습 열쇠»" 를 붙이고 .chk 의 data-review 에 같은 열쇠를 쓴다.
+    열쇠는 짧은 영문(예: hallucination). 짝이 맞아야 "○장 다시 보기" 버튼이 나온다.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+<section class="slide" data-archetype="check" data-variant="기본" style="gap:32px">
+  <div class="head"><p class="eyebrow">«확인 문제 번호 표시 ≤12자»</p><h2 class="title">«제목: 한 문장 ≤17자»</h2></div>
+  <div class="chk" data-review="«복습 열쇠(영문) ≤12자»">
+    <p class="chk-q"><span class="chk-n">1</span>«질문 ≤40자»</p>
+    <div class="chk-opts">
+      <button class="chk-o">«오답 보기 ≤30자»</button><button class="chk-o" data-ok>«정답 보기 ≤30자»</button>
+    </div>
+    <p class="chk-why">«해설: 왜 정답인지 한두 문장 ≤80자»</p>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(청중에게 먼저 묻고 보기를 누르게 한다) → 정답과 해설 → 틀린 사람을 위한 다시 보기 장 안내»</aside>
+</section>
+
+<section class="slide" data-archetype="check" data-variant="확장" style="gap:32px">
+  <div class="head"><p class="eyebrow">«확인 문제 번호 표시 ≤12자»</p><h2 class="title">«제목: 한 문장 ≤17자»</h2></div>
+  <div class="chk" data-review="«복습 열쇠(영문) ≤12자»">
+    <p class="chk-q"><span class="chk-n">1</span>«질문: 무엇이 이 일을 담당하나 ≤40자»</p>
+    <div class="chk-opts">
+      <button class="chk-o">«보기1 ≤14자»</button><button class="chk-o" data-ok>«정답 보기 ≤14자»</button>
+      <button class="chk-o">«보기3 ≤14자»</button><button class="chk-o">«보기4 ≤14자»</button>
+    </div>
+    <p class="chk-why">«해설: 왜 정답인지 한두 문장 ≤80자»</p>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(청중에게 먼저 묻고 보기를 누르게 한다) → 정답과 해설 → 틀린 사람을 위한 다시 보기 장 안내»</aside>
+</section>

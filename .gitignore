@@ -1,0 +1,13 @@
+# 작업 과정·산출물은 공개 저장소에서 뺀다
+edu-deck/dist/
+edu-deck/workspace/
+edu-deck/shared/--help/
+edu-deck/shared/dev/TASK-*.md
+**/__pycache__/
+**/.mypy_cache/
+**/.ruff_cache/
+**/.DS_Store
+*.pyc
+# 덱 결과물(스킬 폴더 밖에서 만들어지지만, 혹시 들어온 경우)
+outputs/
+qa/

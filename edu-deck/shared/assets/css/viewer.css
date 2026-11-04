@@ -1,0 +1,98 @@
+/* viewer.css — A1 검색, A2 목차, A3 엔진 실패 연속 보기, D 발표 타이머·발표자 보기.
+   시리즈 포털에는 html.ed-deck 가 없으므로 아래 규칙은 자동 비활성이다. */
+
+/* ---------- A3: 엔진 미준비/실패 시 모든 장을 폭에 맞춰 이어 붙여 보여 준다 ---------- */
+html.ed-deck:not(.ed-ready) body,html.ed-deck.ed-fail body{overflow:auto;height:auto}
+html.ed-deck:not(.ed-ready) #stage,html.ed-deck.ed-fail #stage{position:static;left:auto;top:auto;width:100%;height:auto;transform:none!important;display:flex;flex-direction:column;align-items:center;gap:12px;padding:12px 0;container-type:inline-size;--ed-s:.2}
+html.ed-deck:not(.ed-ready) #stage>.slide,html.ed-deck.ed-fail #stage>.slide{position:relative;inset:auto;display:flex;flex:none;width:1920px;height:1080px;transform:scale(var(--ed-s,.2));transform-origin:0 0;margin:0 calc(1920px*(var(--ed-s,.2) - 1)) calc(1080px*(var(--ed-s,.2) - 1)) 0}
+html.ed-deck:not(.ed-ready) #stage>.slide *,html.ed-deck.ed-fail #stage>.slide *{animation:none!important;transition:none!important}
+@supports (width:calc(1px * tan(atan2(1cqw, 1px)))){
+ html.ed-deck:not(.ed-ready) #stage,html.ed-deck.ed-fail #stage{--ed-s:min(1, tan(atan2(100cqw, 1920px)))}
+}
+@supports not (width:calc(1px * tan(atan2(1cqw, 1px)))){
+ @media (min-width:400px){html.ed-deck:not(.ed-ready) #stage,html.ed-deck.ed-fail #stage{--ed-s:.208}}
+ @media (min-width:640px){html.ed-deck:not(.ed-ready) #stage,html.ed-deck.ed-fail #stage{--ed-s:.333}}
+ @media (min-width:960px){html.ed-deck:not(.ed-ready) #stage,html.ed-deck.ed-fail #stage{--ed-s:.5}}
+ @media (min-width:1440px){html.ed-deck:not(.ed-ready) #stage,html.ed-deck.ed-fail #stage{--ed-s:.75}}
+ @media (min-width:1900px){html.ed-deck:not(.ed-ready) #stage,html.ed-deck.ed-fail #stage{--ed-s:.98}}
+}
+html.ed-deck:not(.ed-ready) :is(#progress,#dots,#counter,#help,#notes,.ed-reader-nav,.ed-topbar,.st-panel,.st-modal,.st-print,.st-toast,.chk-back,.ed-sch,.ed-toc),
+html.ed-deck.ed-fail :is(#progress,#dots,#counter,#help,#notes,.ed-reader-nav,.ed-topbar,.st-panel,.st-modal,.st-print,.st-toast,.chk-back,.ed-sch,.ed-toc){display:none!important}
+.ed-nojs{display:none;box-sizing:border-box;width:100%;background:var(--ink);color:var(--paper);font:600 15px/1.5 sans-serif;text-align:center;padding:10px 16px}
+html.ed-deck.ed-fail .ed-nojs{display:block}
+
+/* ---------- 상단 바(목차·검색·시계) ---------- */
+.ed-topbar{position:fixed;top:12px;right:14px;z-index:8;display:flex;align-items:center;gap:8px;font-family:inherit}
+.ed-tbtn{font:inherit;font-size:15px;font-weight:700;color:var(--paper);background:color-mix(in srgb,var(--ink) 72%,transparent);border:1px solid color-mix(in srgb,var(--paper) 22%,transparent);border-radius:var(--r3);padding:8px 14px;min-height:36px;cursor:pointer;opacity:.6;transition:opacity var(--m2) var(--e-out)}
+.ed-tbtn:hover,.ed-tbtn:focus-visible,.ed-topbar:focus-within .ed-tbtn{opacity:1}
+.ed-clock{display:none;font:700 16px/1 sans-serif;color:var(--paper);background:color-mix(in srgb,var(--ink) 78%,transparent);border:1px solid color-mix(in srgb,var(--paper) 22%,transparent);border-radius:var(--r3);padding:10px 14px;opacity:.85;font-variant-numeric:tabular-nums}
+html.ed-talk .ed-clock{display:block}
+.ed-clock.is-run{border-color:var(--accent)}
+.ed-clock.is-late{color:var(--danger);border-color:var(--danger)}
+.ed-clock .plan{opacity:.6;font-weight:400}
+body.in-hub .ed-topbar{display:none}
+
+/* ---------- 검색(Ctrl+K / /) ---------- */
+.ed-sch{position:fixed;inset:0;z-index:40;display:none;align-items:flex-start;justify-content:center;background:color-mix(in srgb,var(--ink) 55%,transparent);padding:8vh 16px 16px}
+.ed-sch.on{display:flex}
+.ed-sch-box{width:min(720px,100%);background:var(--ink);border:2px solid color-mix(in srgb,var(--paper) 26%,transparent);border-radius:var(--r3);box-shadow:var(--shadow-2);overflow:hidden;display:flex;flex-direction:column;max-height:76vh}
+.ed-sch-in{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid color-mix(in srgb,var(--paper) 16%,transparent)}
+.ed-sch-in input{flex:1;min-width:0;font:inherit;font-size:20px;color:var(--paper);background:none;border:none;outline:none;min-height:36px}
+.ed-sch-in .kbd{flex:none;font:700 13px/1 sans-serif;color:var(--soft);border:1px solid color-mix(in srgb,var(--paper) 24%,transparent);border-radius:var(--r1);padding:5px 8px}
+.ed-sch-list{overflow:auto;display:flex;flex-direction:column}
+.ed-sch-item{display:flex;flex-direction:column;gap:4px;width:100%;text-align:left;font:inherit;color:var(--paper);background:none;border:none;border-bottom:1px solid color-mix(in srgb,var(--paper) 8%,transparent);padding:12px 18px;min-height:48px;cursor:pointer}
+.ed-sch-item .t{font-size:18px;font-weight:700}
+.ed-sch-item .s{font-size:14px;color:var(--soft);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ed-sch-item .n{flex:none;font-size:13px;font-weight:800;color:var(--accent-light);margin-right:8px}
+.ed-sch-item.sel,.ed-sch-item:hover{background:color-mix(in srgb,var(--paper) 10%,transparent)}
+.ed-sch-empty{padding:24px 18px;color:var(--soft);font-size:16px;text-align:center}
+
+/* ---------- 목차(O·상단 목차 단추) ---------- */
+.ed-toc{position:fixed;inset:0;z-index:40;display:none;align-items:flex-start;justify-content:center;background:color-mix(in srgb,var(--ink) 55%,transparent);padding:6vh 16px 16px}
+.ed-toc.on{display:flex}
+.ed-toc-box{width:min(640px,100%);max-height:80vh;background:var(--ink);border:2px solid color-mix(in srgb,var(--paper) 26%,transparent);border-radius:var(--r3);box-shadow:var(--shadow-2);overflow:hidden;display:flex;flex-direction:column}
+.ed-toc-h{flex:none;display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid color-mix(in srgb,var(--paper) 16%,transparent);font-size:18px;font-weight:800;color:var(--paper)}
+.ed-toc-x{font:inherit;font-size:15px;color:var(--soft);background:none;border:1px solid color-mix(in srgb,var(--paper) 24%,transparent);border-radius:var(--r2);padding:8px 14px;min-width:44px;min-height:44px;cursor:pointer}
+.ed-toc-list{overflow:auto;padding:8px 0}
+.ed-toc-g{padding:10px 18px 4px;font-size:13px;font-weight:800;letter-spacing:1.5px;color:var(--accent-light)}
+.ed-toc-item{display:flex;align-items:baseline;gap:12px;width:100%;text-align:left;font:inherit;color:var(--paper);background:none;border:none;padding:12px 18px;min-height:48px;cursor:pointer;font-size:17px}
+.ed-toc-item .n{flex:none;width:34px;text-align:right;font-size:14px;font-weight:800;color:var(--soft)}
+.ed-toc-item:hover,.ed-toc-item:focus-visible{background:color-mix(in srgb,var(--paper) 10%,transparent)}
+.ed-toc-item.is-cur{color:var(--accent-light);font-weight:800}
+.ed-toc-item.is-cur .n{color:var(--accent-light)}
+
+/* ---------- 토스트(팝업 차단 안내 등) ---------- */
+.ed-toast{position:fixed;left:50%;bottom:88px;transform:translateX(-50%);z-index:60;background:var(--ink);color:var(--paper);font:600 17px/1.5 sans-serif;padding:14px 24px;border-radius:var(--r3);border:2px solid var(--accent);box-shadow:var(--shadow-2);opacity:0;pointer-events:none;transition:opacity var(--m2) var(--e-out)}
+.ed-toast.on{opacity:1}
+
+/* ---------- 발표자 보기(?presenter) ---------- */
+body.st-presenter{overflow:hidden}
+body.st-presenter #stage{position:absolute;left:31%;top:37%;transform:translate(-50%,-50%) scale(var(--pres-s,.3))!important}
+body.st-presenter :is(#progress,#dots,#counter,#help,#notes,.ed-reader-nav,.ed-topbar,.ed-sch,.ed-toc,.st-panel,.st-modal,.st-print,.st-toast,.chk-back){display:none!important}
+.ed-pres{position:fixed;left:64%;top:0;bottom:0;right:0;z-index:9;display:none;flex-direction:column;gap:14px;padding:20px 22px;background:var(--ink);color:var(--paper);font-family:inherit;box-sizing:border-box}
+body.st-presenter .ed-pres{display:flex}
+.ed-pres-clock{display:flex;align-items:baseline;gap:12px;font-variant-numeric:tabular-nums}
+.ed-pres-clock .t{font-size:44px;font-weight:800}
+.ed-pres-clock .r{font-size:18px;color:var(--soft)}
+.ed-pres-clock.is-run .t{color:var(--accent-light)}
+.ed-pres-clock.is-late .t{color:var(--danger)}
+.ed-pres-row{display:flex;gap:10px}
+.ed-pbtn{flex:1;font:inherit;font-size:16px;font-weight:700;color:var(--paper);background:color-mix(in srgb,var(--paper) 8%,transparent);border:1px solid color-mix(in srgb,var(--paper) 24%,transparent);border-radius:var(--r2);padding:10px 8px;min-height:44px;cursor:pointer}
+.ed-pbtn:hover,.ed-pbtn:focus-visible{background:color-mix(in srgb,var(--paper) 16%,transparent)}
+.ed-pres-nextlab{font-size:14px;font-weight:800;letter-spacing:1.5px;color:var(--soft)}
+.ed-pres-next{position:relative;width:100%;aspect-ratio:16/9;background:var(--ink);border:1px solid color-mix(in srgb,var(--paper) 18%,transparent);border-radius:var(--r1);overflow:hidden;flex:none}
+.ed-pres-next .slide{position:absolute;left:0;top:0;display:flex;transform:scale(var(--pres-ns,.2));transform-origin:0 0}
+/* 발표자 창의 미리보기·무대는 모두 정지 상태다(움직이는 다음 장은 없다) */
+body.st-presenter #stage,body.st-presenter #stage *,body.st-presenter .ed-pres-next,body.st-presenter .ed-pres-next *{animation:none!important;transition:none!important}
+.ed-pres-notes{flex:1;min-height:0;overflow:auto;font-size:17px;line-height:1.65;color:var(--paper);background:color-mix(in srgb,var(--paper) 6%,transparent);border:1px solid color-mix(in srgb,var(--paper) 14%,transparent);border-radius:var(--r2);padding:14px 16px}
+.ed-pres-notes .h{font-size:13px;font-weight:800;letter-spacing:1.5px;color:var(--accent-light);margin-bottom:8px}
+.ed-pres-cur{font-size:15px;color:var(--soft)}
+
+/* 읽기 모드에서도 대화상자의 작은 글자는 16px 아래로 내리지 않는다 */
+html.ed-compact .ed-tbtn,html.ed-compact .ed-sch-item .s,html.ed-compact .ed-sch-in .kbd,
+html.ed-compact .ed-toc-g,html.ed-compact .ed-toc-item .n,html.ed-compact .ed-toc-x{font-size:16px}
+html.ed-compact .ed-toc-item{font-size:18px}
+html.ed-compact .ed-sch-in input{font-size:18px}
+html.ed-compact .ed-sch-item{min-height:56px}
+
+@media print{.ed-topbar,.ed-sch,.ed-toc,.ed-toast,.ed-pres{display:none!important}}

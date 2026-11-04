@@ -1,0 +1,16 @@
+<!--
+  터미널·코드 상자 (patterns 부분 조각 · .code) — 슬라이드 본문 자리에 그대로 붙여 넣는다
+  언제: 명령어·코드를 보여 주고 "복사" 단추로 그대로 옮겨 쓰게 할 때.
+  규칙: <pre> 안의 .p(프롬프트)·.out(출력)·.c(주석) span 은 복사에서 빠진다 — 명령만 복사된다.
+    바꿔 넣을 자리는 <span class="ph">&lt;토큰&gt;</span> 로 표시한다. <pre> 는 들여쓰지 않는다(줄바꿈이 그대로 보인다).
+  동작: 셸(patterns.js)이 복사를 처리한다(navigator.clipboard, 실패 시 textarea 대체). 단추는 '복사됨'을 1.5초 보인다.
+  주의: 이 파일은 슬라이드가 아니라 부분이다 — 호스트 아키타입의 본문 안에 넣는다.
+-->
+<div class="code">
+  <div class="code-head"><span>«터미널 또는 파일명»</span><button type="button" class="code-copy">복사</button></div>
+<pre><span class="p">$ </span>«실행할 명령»
+<span class="out">«명령이 낸 출력»</span>
+<span class="p">$ </span>«두 번째 명령» <span class="c"># 이 줄 주석은 복사되지 않는다</span>
+<span class="out">«출력»</span>
+<span class="p">$ </span>«명령» <span class="ph">&lt;바꿔 넣을 자리&gt;</span></pre>
+</div>

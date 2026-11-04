@@ -1,0 +1,23 @@
+<!--
+  화면 핀 짚어 보기 (patterns 부분 조각 · .pin-shot + .pin-list) — 실제 화면 이미지 위의 번호 핀
+  언제: 사용자가 제공한 화면 이미지의 특정 위치를 번호로 짚어 설명할 때.
+  이미지 규칙: base64 data: URI 만 쓴다(.screen-cite 와 같은 규칙 — 없거나 외부 주소면 check_deck ERROR).
+  규칙: 핀 button 의 data-k 와 설명 li 의 data-k 를 맞춘다. left/top 은 이미지 기준 %.
+    핀에 data-step 을 붙이면 그 단계에 나타난다(엔진이 가시성을 소유).
+  동작: 핀이나 설명 줄에 마우스·포커스·클릭 → 같은 번호 짝에 .on 이 붙는다.
+  주의: 이 파일은 슬라이드가 아니라 부분이다 — 호스트 아키타입의 본문 안에 넣는다.
+-->
+<div class="row" style="flex:1;min-height:0">
+  <figure class="pin-shot f3">
+    <div class="pin-frame"><img src="«사용자가 제공한 화면 이미지(data:image/…;base64,…)»" alt="«화면의 요지 한 줄 ≤40자»">
+      <button type="button" class="pin" data-k="1" style="left:30%;top:24%">1</button>
+      <button type="button" class="pin" data-k="2" style="left:64%;top:52%">2</button>
+      <button type="button" class="pin" data-k="3" style="left:46%;top:80%">3</button>
+    </div>
+  </figure>
+  <ol class="pin-list f2">
+    <li data-k="1">«첫 지점 설명 ≤40자»</li>
+    <li data-k="2">«둘째 지점 설명 ≤40자»</li>
+    <li data-k="3">«셋째 지점 설명 ≤40자»</li>
+  </ol>
+</div>

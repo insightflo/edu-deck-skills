@@ -1,0 +1,13 @@
+<section class="slide pack pack-workbook" data-design="workbook" data-archetype="frame-form">
+  <header class="workbook-head"><span class="workbook-binding" aria-hidden="true">○ ○ ○</span><p class="pack-topic">{{TITLE}}</p><p class="pack-kicker">{{KICKER}}</p></header>
+  <div class="workbook-pages">
+    <!-- t2 2톤 문법: 핵심 어절(주로 마지막 어절, 문장당 1회·1~2 어절)을 <em class="t2">…</em>로 감싸면 강조색이 붙는다. flows.json 토큰 값엔 태그를 넣지 않는다(이스케이프됨). 규칙: references/expression.md 1절 -->
+    <article class="workbook-read"><span class="pack-label">읽는 면</span><h1 class="pack-prompt">{{PROMPT}}</h1><p class="pack-body">{{BODY}}</p><aside class="workbook-reference"><span class="pack-label">참고해서 확인하기</span><p class="pack-evidence">{{EVIDENCE}}</p></aside></article>
+    <div class="workbook-write"><span class="pack-label">해보는 면</span><p class="pack-action">{{ACTION}}</p><div class="workbook-answer"><span class="workbook-pencil" aria-hidden="true">↘</span><h2>내 말로 정리하면</h2><p class="pack-hint">별도 메모장이나 종이에 적어 보세요.</p><div class="workbook-lines" aria-hidden="true"><span></span><span></span><span></span></div></div><p class="workbook-reflection" data-step="1">쓴 내용을 근거와 다시 대조해 보세요.<br>어떤 부분을 고치면 더 정확해질까요?</p></div>
+  </div>
+  <aside class="notes">{{KICKER}}
+왼쪽을 읽은 뒤 오른쪽 활동을 별도 메모장이나 종이에 수행하게 하세요. 화면의 줄은 입력 칸이 아닙니다. 다음 단계에서 자기 점검 질문을 공개하세요.
+{{BODY}}
+확인할 근거: {{EVIDENCE}}
+학습 활동: {{ACTION}}</aside>
+</section>

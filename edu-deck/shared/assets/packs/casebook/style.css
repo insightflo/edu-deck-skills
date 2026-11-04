@@ -1,0 +1,8 @@
+/* Case dossier: running tab, narrative record, documentary exhibit, decision. */
+.slide.pack-casebook{gap:32px}
+.casebook-tab{display:flex;align-items:baseline;gap:32px;border-bottom:2px solid var(--ink);padding-bottom:16px}.casebook-tab .pack-mark{background:var(--ink);color:var(--paper);padding:16px 24px}.casebook-tab .pack-topic{flex:1}.casebook-tab .pack-kicker{max-width:450px;text-align:right}
+.casebook-question{font-family:var(--pack-serif);font-size:54px!important;max-width:1600px}
+.casebook-file{display:grid;grid-template-columns:1.35fr 1fr;gap:48px;align-items:stretch}
+.casebook-narrative{padding:24px 0 0 32px;border-left:2px solid var(--line)}.casebook-narrative .pack-body{font-size:32px;line-height:1.7}
+.casebook-exhibit{padding:32px 32px;background:var(--light);border:1px solid var(--line)}.casebook-stamp{display:inline-block;border:2px solid var(--accent);color:var(--accent);font-size:22px;padding:8px 16px;margin-bottom:16px;font-weight:700;letter-spacing:.06em}.casebook-caution{font-family:var(--pack-serif);font-size:25px;line-height:1.5;color:var(--soft);margin-top:32px;border-top:1px solid var(--line);padding-top:16px}
+.casebook-decision{display:flex;align-items:start;gap:32px;padding-top:24px;border-top:2px solid var(--ink)}.casebook-bracket{font-size:66px;line-height:1;color:var(--accent)}.casebook-decision .pack-label{color:var(--accent);margin-bottom:8px}

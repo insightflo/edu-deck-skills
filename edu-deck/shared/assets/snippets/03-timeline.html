@@ -1,0 +1,41 @@
+<!--
+  아키타입 timeline (변형: 기본)
+  언제: 변화의 흐름. 시점 3~4개의 사건으로 '왜 지금 배우나'를 보여 준다(큰 그림 파트 첫 장). 5개 이상이면 두 장으로 나눈다.
+  단계: 시점 묶음별 1단계
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+<section class="slide" data-archetype="timeline" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤12자»</p><h2 class="title">«제목: 한 문장 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1664 560" aria-label="«그림 설명»">
+    <path d="M120 200H1544" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/>
+    <path data-step="1" d="M120 200H280" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"/>
+    <path data-step="2" d="M280 200H832" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"/>
+    <path data-step="3" d="M832 200H1384" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/>
+    <path data-step="3" class="dash-flow" d="M1384 200H1530" stroke="var(--accent)" stroke-width="2" marker-end="url(#ah)"/>
+    <g data-step="1"><g transform="translate(280 200)">
+      <circle r="104" fill="var(--paper)" stroke="var(--blue)" stroke-width="2"/>
+      <use href="#i-chat" x="-58" y="-58" width="116" height="116" style="color:var(--blue)"/>
+      <text y="-140" text-anchor="middle" class="t-year">«≤6자»</text>
+      <text y="166" text-anchor="middle" class="t-h">«≤7자»</text>
+      <text y="214" text-anchor="middle" class="t-s">«≤6자»</text><text y="268" text-anchor="middle" class="t-mile">«≤19자»</text><text y="302" text-anchor="middle" class="t-mile">«≤18자»</text>
+    </g></g>
+    <g data-step="2"><g transform="translate(832 200)">
+      <circle r="104" fill="var(--paper)" stroke="var(--blue)" stroke-width="2"/>
+      <use href="#i-branch" x="-58" y="-58" width="116" height="116" style="color:var(--blue)"/>
+      <text y="-140" text-anchor="middle" class="t-year">«≤6자»</text>
+      <text y="166" text-anchor="middle" class="t-h">«≤7자»</text>
+      <text y="214" text-anchor="middle" class="t-s">«≤16자»</text><text y="268" text-anchor="middle" class="t-mile">«≤28자»</text><text y="302" text-anchor="middle" class="t-mile">«≤27자»</text>
+    </g></g>
+    <g data-step="3"><g transform="translate(1384 200)">
+      <circle r="104" fill="var(--paper)" stroke="var(--accent)" stroke-width="2"/>
+      <circle r="104" fill="none" stroke="var(--accent)" stroke-width="2" class="ring"/>
+      <use href="#i-work" x="-58" y="-58" width="116" height="116" style="color:var(--accent)"/>
+      <text y="-140" text-anchor="middle" class="t-year o">«≤6자»</text>
+      <text y="166" text-anchor="middle" class="t-h">«≤6자»</text>
+      <text y="214" text-anchor="middle" class="t-s">«≤16자»</text><text y="268" text-anchor="middle" class="t-mile">«≤27자»</text><text y="302" text-anchor="middle" class="t-mile">«≤26자»</text><text y="336" text-anchor="middle" class="t-mile">«≤22자»</text>
+    </g></g>
+  </svg>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
