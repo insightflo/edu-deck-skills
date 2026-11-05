@@ -2,7 +2,7 @@
 
 [목적] 모든 조각의 자리표시를 '한도만큼 꽉 찬' 한국어 채움 글자로 바꿔 덱을 만든다.
   check_deck.py 화면 검사에서 넘침·잘림이 나오면 그 자리의 한도 N 이 너무 크다는 뜻이다.
-[출력] edu-deck-workspace/filltest/ (deck.json, src/*.html)
+[출력] 인자 폴더(기본 /tmp/edu-deck-filltest)에 deck.json, src/*.html
 """
 import pathlib, re, shutil, json
 

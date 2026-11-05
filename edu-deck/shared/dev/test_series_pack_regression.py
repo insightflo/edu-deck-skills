@@ -107,14 +107,16 @@ def run(root):
 
 def integration():
     """Real builds: reject invalid selections atomically; isolate two packs + legacy."""
-    import shutil
+    import os, shutil
     import tempfile
     from bs4 import BeautifulSoup
     scripts = Path(__file__).resolve().parents[3] / 'edu-deck-series' / 'scripts'
     sys.path.insert(0, str(scripts))
     import build_series
     import check_series
-    source = Path(__file__).resolve().parents[3] / 'edu-deck-workspace/resource-pack-verification'
+    source = Path(os.environ.get('EDU_DECK_REGRESSION_FIXTURES', '')) or Path(__file__).resolve().parents[3] / 'edu-deck-workspace/resource-pack-verification'
+    if not (source / 'regression/series').is_dir():
+        raise SystemExit('회귀 픽스처 폴더가 없습니다. EDU_DECK_REGRESSION_FIXTURES 로 resource-pack-verification 폴더를 지정하세요. (픽스처는 개인 작업 환경 자산이라 저장소에 없음)')
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
         for name, src in [('legacy', source / 'regression/series/ep0-기초'),

@@ -1,7 +1,7 @@
 """check_deck.py 가 일부러 넣은 결함을 잡는지 확인하는 시험.
 
 [목적] 정상 덱 1개 + 결함 하나씩 넣은 덱 여러 개를 만들어 check_deck 결과(종료 코드, 결함 종류)를 표로 낸다.
-[출력] edu-deck-workspace/defects/<이름>/ 덱들, 표준 출력에 기대 → 실제 표
+[출력] 인자 폴더(기본 /tmp/edu-deck-defects)에 덱들, 표준 출력에 기대 → 실제 표
 """
 import json, pathlib, re, shutil, subprocess
 
