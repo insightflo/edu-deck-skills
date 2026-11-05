@@ -16,7 +16,7 @@ description: "Use when the user gives a topic and wants education or training ma
 | 청중 | 비전공 일반 직원 |
 | 시간 | 45분 → 32~40장 |
 | 말투 | 존댓말, 쉬운 말 |
-| 작업 폴더 | `./outputs/edu-deck-solo/<YYYYMMDD>-<영문-slug>/` |
+| 작업 폴더 | `${EDU_DECK_OUTPUT_DIR:-./outputs}/edu-deck-solo/<YYYYMMDD>-<영문-slug>/` — 사용자가 위치를 정하면 그 폴더를 쓰고, 정하지 않으면 이 기본값을 쓴다. 덱 결과물과 `qa/`·`research/` 산출물은 모두 이 작업 폴더 안에 쌓인다 |
 | 결과 파일 | `<작업 폴더>/<주제>-교육자료.html` |
 | 중간 확인 | 없음(구성안 승인을 원하면 사용자가 말한다) |
 

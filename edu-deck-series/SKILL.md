@@ -16,7 +16,7 @@ description: "Use when the user wants a multi-episode education or training seri
 | 청중 | 비전공 일반 직원 |
 | 규모 | 3~5편 (기초 1편 + 심화 2~4편), 편당 10~16장 |
 | 목차(허브) 유형 | 아래 선택 규칙으로 자동 추천 → 구성안에 적고 승인받는다 |
-| 작업 폴더 | `./outputs/edu-deck-series/<YYYYMMDD>-<영문-slug>/` |
+| 작업 폴더 | `${EDU_DECK_OUTPUT_DIR:-./outputs}/edu-deck-series/<YYYYMMDD>-<영문-slug>/` — 사용자가 위치를 정하면 그 폴더를 쓰고, 정하지 않으면 이 기본값을 쓴다. 포털 결과물과 각 편 산출물은 모두 이 작업 폴더 안에 쌓인다 |
 | 결과 파일 | `<작업 폴더>/<시리즈 제목>.html` (series.json 의 `output`) |
 | 중간 확인 | **1회 — 편 나누기 구성안 승인**. 승인 후에는 편마다 solo 절차(중간 확인 없음)를 따른다 |
 
