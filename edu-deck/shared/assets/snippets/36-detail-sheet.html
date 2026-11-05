@@ -1,0 +1,49 @@
+<!--
+  아키타입 detail-sheet (변형: 기본)
+  언제: 본문 흐름을 끊지 않고 "더 보기"로 상세(근거·사례·용어 풀이)를 열어 보여 줄 때.
+  배치 규칙: 본문 장 한 장. .dsheet-open[data-open] 칩을 누르면 같은 장의
+    .dsheet-panel[data-sheet=같은값] 이 아래에서 올라오고 주변은 .dsheet-dim 으로 어두워진다(흐림 없음).
+    시트는 .dsheet-h(제목+닫기)+.dsheet-b(본문)+.dsheet-src(근거)로 만든다.
+  정적 완결: 인쇄·자습(S)·정지 환경에서는 시트가 장 아래 평면으로 펼쳐져 손실이 없다.
+    호버로만 보이는 내용은 두지 않는다(칩 클릭 = 유일한 조작).
+  근거: 시트 안 수치·사례는 data-src="F01" 처럼 research.md 사실 id 를 단다.
+  시그니처: accumulating-pieces 재사용 — 등장 시 요소가 차례로 모인다(기존 이름만).
+  단계: 없음(칩 조작이 단계 역할).
+  쓰는 법: 칩·패널을 같은 개수(1~3개)로 맞추고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+    .dsheet-dim 은 장당 하나면 된다(여러 시트가 공유). 시트 내용은 짧은 문단·목록·작은 표까지.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  예산: 칩 라벨 ≤14자 · 시트 제목 ≤20자 · 시트 본문 문단 ≤120자.
+  배치 설명: references/layouts.md · 클래스: references/classes.md · 규칙: references/expression.md
+-->
+<section class="slide" data-archetype="detail-sheet" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <div class="row" style="gap:24px">
+    <div class="card f1">
+      <p class="body">«본문 설명 ≤90자»</p>
+      <button type="button" class="dsheet-open" data-open="a">«더 보기 칩 ≤14자»</button>
+    </div>
+    <div class="card f1">
+      <p class="body">«본문 설명 ≤90자»</p>
+      <button type="button" class="dsheet-open" data-open="b">«더 보기 칩 ≤14자»</button>
+    </div>
+  </div>
+  <p class="small">«정리 한 문장 ≤40자»</p>
+  <div class="dsheet-dim"></div>
+  <div class="dsheet-panel" data-sheet="a">
+    <div class="dsheet-h"><h3>«시트 제목 ≤20자»</h3><button type="button" class="dsheet-close">닫기</button></div>
+    <div class="dsheet-b">
+      <p>«상세 본문 ≤120자 — 본문에서 미뤄 둔 근거·사례·풀이»</p>
+      <p data-src="«F01»">«근거 문장 ≤90자»</p>
+    </div>
+    <p class="dsheet-src">«근거 출처 한 줄 ≤40자»</p>
+  </div>
+  <div class="dsheet-panel" data-sheet="b">
+    <div class="dsheet-h"><h3>«시트 제목 ≤20자»</h3><button type="button" class="dsheet-close">닫기</button></div>
+    <div class="dsheet-b">
+      <p>«상세 본문 ≤120자»</p>
+      <p data-src="«F02»">«근거 문장 ≤90자»</p>
+    </div>
+    <p class="dsheet-src">«근거 출처 한 줄 ≤40자»</p>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(칩을 누르면 상세 시트가 올라옵니다) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>

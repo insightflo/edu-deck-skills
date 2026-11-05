@@ -45,11 +45,14 @@ ARCHETYPES = {
     "hub", "levels", "tile-grid", "sequence", "mapping", "mock-legend", "mock-options", "statement", "build-up",
     "frame-form", "before-after", "worked-example", "quiz-ab", "quiz-sort", "quiz-ox", "rules-dark", "checklist",
     "closing", "sources", "check", "stat-strip",
+    # TASK-tools G3~G5: 도구·재료 확장 조각(33~36)
+    "chart-bar", "chart-line", "explore", "detail-sheet",
 }
 STAT_NUM_CLASS = "stat-num"          # 숫자 증거 띠 큰 숫자(numbers() 숫자 릴 대상)
 STAT_BUDGETS = (12, 16)              # catalog.json 을 못 읽을 때의 폴백 예산(숫자, 라벨)
 CITE_IMG_BUDGET = 700 * 1024         # 실물 화면 이미지 1장 권장(지시문 P1-2) — catalog screen_image_kb 우선
 DECK_RASTER_BUDGET = 1536 * 1024     # 덱 라스터 합계 1.5MB(기존 규칙 — expression.md 6절) — catalog screen_total_mb 우선
+DECK_FILE_BUDGET = 8 * 1024 * 1024   # 덱 파일 총 크기 권장 8MB(TASK-tools G6 — 임베드 폰트 포함, INFO 수준)
 DATA_IMG = re.compile(r"data:image/[\w.+-]+;base64,([A-Za-z0-9+/=\s]+)")
 STEP_ATTRS = ("data-step", "data-add", "data-only", "data-lit", "data-until")
 # data-fx 효과(assets/js/motion.js 의 FX 표와 같은 기본 길이, ms). 장당 최종 종료 시각 3초 상한.
@@ -475,6 +478,17 @@ def static_checks(html_text, soup, rep, allow_placeholders):
                 rep.add("ERROR", i, "실물 화면", "출처 캡션(.sc-src)에 data-src(사실 id)가 없습니다 (research.md ## F01 블록)")
             elif not re.fullmatch(r"F\d{2,3}", sid.strip("«»")):
                 rep.add("ERROR", i, "실물 화면", f'data-src="{sid[:20]}" 는 Fxx 사실 id 형식이 아닙니다 (research.md ## F01 블록)', target=sid[:20])
+        # SVG 차트(TASK-tools G3): 수치는 사실 칩과 같은 규칙 — .chart 안에 data-src 사실 id 가
+        # 하나 이상 있어야 하고, 붙은 id 는 Fxx 형식이어야 한다(증거 띠·실물 화면과 같은 안전 가드).
+        for ch in sec.select(".chart"):
+            sids = [(el.get("data-src") or "").strip() for el in ch.select("[data-src]")]
+            if ch.get("data-src"):
+                sids.insert(0, ch.get("data-src").strip())
+            if not sids:
+                rep.add("ERROR", i, "차트", "차트 수치에 data-src(사실 id)가 없습니다 — .chart 또는 계열 요소에 research.md Fxx id 를 단니다")
+            for sid in sids:
+                if not re.fullmatch(r"F\d{2,3}", sid.strip("«»")):
+                    rep.add("ERROR", i, "차트", f'data-src="{sid[:20]}" 는 Fxx 사실 id 형식이 아닙니다 (research.md ## F01 블록)', target=sid[:20])
         # 화면 핀(.pin-shot): 실물 화면과 같은 규칙 — 사용자 제공 이미지(base64 data:)가 전제다.
         for fig in sec.select(".pin-shot"):
             img = fig.select_one("img")
@@ -526,8 +540,14 @@ def static_checks(html_text, soup, rep, allow_placeholders):
         rep.add("ERROR", None, "라스터 예산", f"덱 안 data: 이미지 합계가 {total // 1024}KB 입니다 (기준 {deck_raster // 1024}KB = 1.5MB). 이미지를 줄이거나 장을 나누세요")
 
     if (soup.select(".fact[data-src]") or soup.select(".stat-strip .stat[data-src]")
-            or soup.select(".screen-cite .sc-src[data-src]")) and not sources:
-        rep.add("ERROR", None, "참고 자료", ".fact 칩·숫자 증거 띠·실물 화면 인용이 있는데 참고 자료(sources) 슬라이드가 없습니다")
+            or soup.select(".screen-cite .sc-src[data-src]")
+            or soup.select(".chart[data-src], .chart [data-src]")) and not sources:
+        rep.add("ERROR", None, "참고 자료", ".fact 칩·숫자 증거 띠·실물 화면 인용·차트 사실 연결이 있는데 참고 자료(sources) 슬라이드가 없습니다")
+    # 덱 크기 예산(TASK-tools G6): 임베드 폰트 포함 출력 전체가 8MB 를 넘으면 정보성으로 알린다.
+    size_bytes = len(html_text.encode("utf-8"))
+    if size_bytes > DECK_FILE_BUDGET:
+        rep.add("INFO", None, "덱 크기",
+                f"출력 파일이 {size_bytes // 1024 // 1024}MB 입니다 ({DECK_FILE_BUDGET // 1024 // 1024}MB 권장 초과 — 폰트·이미지를 줄이세요)")
     # 확인 문제 복습 연결: data-key 장을 하나라도 썼으면 data-review 키가 모두 맞는지 본다(못 찾으면 다시 보기 버튼이 안 나온다)
     keys = {s.get("data-key") for s in slides if s.get("data-key")}
     if keys:

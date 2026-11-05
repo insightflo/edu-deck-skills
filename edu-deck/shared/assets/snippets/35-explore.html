@@ -1,0 +1,51 @@
+<!--
+  아키타입 explore (변형: 기본)
+  언제: 학습자가 조건(연도·사양·상황)을 골라 연결된 수치·그림·문장을 직접 바꿔 볼 때.
+    확인 문제(.chk·quiz 계열)와 달리 채점 없다 — 비교 관찰이 목적이다.
+  배치 규칙: 본문 장 한 장. 선택지는 .expl-chip[data-x] 버튼, 내용은 .expl-state[data-x] 패널.
+    칩과 상태는 같은 data-x 값으로 짝지어야 하고, 첫 상태만 .on 으로 둔다(기본 선택).
+  정적 완결: 인쇄·자습(S)·정지 환경에서는 모든 .expl-state 가 순서대로 펼쳐져 손실이 없다.
+    호버로만 보이는 내용은 두지 않는다(칩 클릭 = 유일한 조작).
+  근거: 상태 안 수치는 data-src="F01" 처럼 research.md 사실 id 를 단다(없으면 .fact 칩 경고와 같은 규칙).
+  시그니처: grid-wave 재사용 — 등장 시 상태 안 요소가 차례로 물결친다(기존 이름만).
+    칩 조작 자체에는 모션을 붙이지 않는다.
+  단계: 없음(칩 조작이 단계 역할). 상태 전환은 단계 속성과 무관하다.
+  쓰는 법: 칩·상태를 같은 개수(2~4개)로 늘리거나 줄이고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+    상태 안 구성은 자유 — 표·도식·카드·큰 숫자 무엇이든 들어간다.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  예산: 칩 라벨 ≤10자 · 상태 캡션 ≤12자.
+  배치 설명: references/layouts.md · 클래스: references/classes.md · 규칙: references/expression.md
+-->
+<section class="slide" data-archetype="explore" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <div class="expl">
+    <div class="expl-ctrl">
+      <button type="button" class="expl-chip on" data-x="0">«칩1 ≤10자»</button>
+      <button type="button" class="expl-chip" data-x="1">«칩2 ≤10자»</button>
+      <button type="button" class="expl-chip" data-x="2">«칩3 ≤10자»</button>
+    </div>
+    <div class="expl-state on" data-x="0">
+      <p class="expl-cap">«상태1 캡션 ≤12자»</p>
+      <div class="row" style="gap:24px">
+        <div class="card f1" data-src="«F01»"><p class="stat-num">«큰 수치 ≤12자»</p><p class="body">«설명 ≤40자»</p></div>
+        <div class="card f1"><p class="body">«설명 문장 ≤90자»</p></div>
+      </div>
+    </div>
+    <div class="expl-state" data-x="1">
+      <p class="expl-cap">«상태2 캡션 ≤12자»</p>
+      <div class="row" style="gap:24px">
+        <div class="card f1" data-src="«F02»"><p class="stat-num">«큰 수치 ≤12자»</p><p class="body">«설명 ≤40자»</p></div>
+        <div class="card f1"><p class="body">«설명 문장 ≤90자»</p></div>
+      </div>
+    </div>
+    <div class="expl-state" data-x="2">
+      <p class="expl-cap">«상태3 캡션 ≤12자»</p>
+      <div class="row" style="gap:24px">
+        <div class="card f1" data-src="«F03»"><p class="stat-num">«큰 수치 ≤12자»</p><p class="body">«설명 ≤40자»</p></div>
+        <div class="card f1"><p class="body">«설명 문장 ≤90자»</p></div>
+      </div>
+    </div>
+  </div>
+  <p class="small">«정리 한 문장 ≤40자 — 상태를 바꿔 보며 무엇을 비교하면 되는지»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(칩을 눌러 상태를 바꿔 보세요) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>

@@ -80,7 +80,7 @@ python3 <solo>/scripts/preview_pack.py record <작업 폴더> --design <ID> \
 - 기본 경로(기존 `resource_pack` 없는 덱 포함)는 `<base>/references/layouts.md`의 아키타입과 `<base>/assets/snippets/`를 사용한다. 글·색은 `<base>/references/expression.md`, 클래스·모형은 `<base>/references/classes.md`, 아이콘은 `<base>/references/icons.md`, 개념 SVG 도식은 `<base>/references/diagrams.md`를 읽는다. 단계·퀴즈 계약은 유지하며 크레파스 속성은 공통 모션 엔진의 캔버스 크레파스 표시로 연결한다.
 - 이 단계의 가이드 문서(layouts·composition·expression·classes·icons·diagrams)를 읽는 시점: 기본은 자유 모드라 참고 예시로만 본다. 읽고 따라야 하는 때는 (1) 직접 설계한 장이 `check_deck.py`를 같은 고침 3회 안에 통과하지 못할 때, (2) 사용자·위임 지시문이 "가이드 모드"를 지정했을 때뿐이다. `data-archetype` 없는 자유 장도 허용된다(엔진 자동 배정).
 - 표지(01)는 주제에 맞게 직접 설계한다 — 형태·제목 `.cx-title`·`var(--…)` 색·`aria-hidden` 장식·글자 18px 이상·단계 없음의 계약은 `<base>/references/layouts.md` "표지 직접 설계 계약"을 따른다. brief 의 방향 3안을 실제로 3개의 표지 HTML 로 만들어 각각 1920×1080 캡처로 비교(캡처·육안 확인은 6단계 QA 와 같은 절차)하고 1안을 채택한다 — 버린 2안은 남기지 않고 폐기한다. 시간이 허락하면 핵심 장 1장까지 같은 3안 비교를 선택 적용할 수 있다. 3안이 모두 `check_deck.py` ERROR 0 과 캡처 육안 확인을 같은 고침 3회 안에 통과하지 못하면 카탈로그 변형 7종(`01-cover*.html`)으로 폴백한다 — 폴백 후보는 1단계 라우터의 cover 추천을 쓰고, 폴백 사유를 기록해 둔다. 팩 경로는 preview 후보 3종 절차가 같은 비교 역할을 이미 하므로 이 3안 비교를 중복 적용하지 않는다.
-- 사람이 말하며 넘기는 발표 덱(deck.json `talk`)은 `<base>/references/talk.md` 를 따른다. 검색·목차 뷰어 키(Ctrl+K·/ · O)와 `data-fit` 제목 맞춤은 `<base>/references/classes.md` "뷰어 도구" 절을 따른다.
+- 사람이 말하며 넘기는 발표 덱(deck.json `talk`)은 `<base>/references/talk.md` 를 따른다. 검색·목차 뷰어 키(Ctrl+K·/ · O)와 `data-fit` 제목 맞춤은 `<base>/references/classes.md` "뷰어 도구" 절을 따른다. 자동 발표(`A`)·화면 편집(`E`, localStorage `edeck-edit-<파일이름>` 에 저장·초기화 가능)은 모든 덱의 셸 도구다 — 자동 발표는 talk 없는 덱에서도 `data-sec` 를 장 체류 시간으로 쓴다. deck.json `font`(pretendard 기본·gowun-dodum 초등 친화·gowun-batang 격식)는 테마와의 조합표를 `<base>/references/design.md` 6절에서 고른다.
 - 부품 조각(`<base>/assets/snippets/patterns/` 의 code·tabs·faq·pin-shot)은 슬라이드가 아니라 호스트 아키타입 본문 안에 넣는다. 강조 효과 `data-fx` 는 `<base>/references/MOTION_LIBRARY.md` 의 "강조 효과 data-fx" 절을, 손그림 아이콘(Koboyo, 선택 — 라이브러리는 스킬 밖)은 `<base>/references/icons.md` 마지막 절을 따른다.
 - 외국어 문장은 자연스러운 한국어로 옮겨 쓰고(이름·수치·코드·URL은 원문 유지), 내용이 넘치면 글자를 줄이지 말고 장을 나누거나 노트로 옮긴다. 두 규칙은 `<base>/references/expression.md` 1·4절을 따른다.
 - 숫자·날짜·조항에는 `<p class="fact" data-src="F03">발행처 「문서」(연도): 값</p>` 칩을 붙인다. 칩이 있으면 `data-archetype="sources"`와 `[data-src]` 항목을 가진 출처 장을 둔다 — 기본 경로는 기존 sources 조각을 쓰고, 팩 덱은 선택한 디자인으로 직접 만든다.
@@ -141,7 +141,7 @@ python3 <base>/scripts/verify_sources.py <작업 폴더> --fetch
 | `<base>/references/runtimes.md` | 2단계: 실행기별 도구 이름·확인된 명령·스킬 설치 위치(Pi·Codex·Claude Code 등) |
 | `<base>/references/resource-packs.md` | 팩 경로를 쓸 때(1·3·4단계): 팩 선택·생성·흐름별 성과·배치 변형·기능 호환·검사 계약 |
 | `<base>/references/composition.md` | 3단계: 기본(legacy)/팩 분기, 공통 노트·자습 데이터; 고정 줄거리·유형표는 기본 경로 |
-| `<base>/references/layouts.md` | 4단계(기본 경로): 아키타입 32종 조각과 배치·단계·주의 |
+| `<base>/references/layouts.md` | 4단계(기본 경로): 아키타입 34종 조각과 배치·단계·주의 |
 | `<base>/references/expression.md` | 4단계: 문장, 글자 수 한도, 색 의미, 글자 크기, 단계 등장, 피할 것 |
 | `<base>/references/copyedit.md` | 5.5단계: 말투 교정 순서·되돌리기 규칙·스킬 없을 때 내장 체크리스트 |
 | `<base>/references/classes.md` | 4단계: 셸 클래스, 모형 창 6종 마크업, 단계 속성 |

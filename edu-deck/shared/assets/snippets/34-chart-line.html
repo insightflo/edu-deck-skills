@@ -1,0 +1,94 @@
+<!--
+  아키타입 chart-line (변형: basic / compare)
+  언제: 시간·순서에 따라 값이 어떻게 변하는지(추세)를 보여 줄 때. 조사로 확인된 값만 쓴다.
+  배치 규칙: 본문 장 한 장. 기간 추이는 34, 한 순간의 크기 비교는 33 chart-bar 를 고른다.
+  근거: 모든 수치에 data-src="F01" 처럼 research.md 사실 id 를 단다 — 계열마다(.chart-series) 또는
+    차트 전체(.chart)에. 누락·없는 id·Fxx 아닌 값은 check_deck ERROR. 참고 자료(28-sources) 장도 필요하다.
+  시그니처: grid-wave 재사용 — 등장 시 점·선이 차례로 물결치듯 올라온다(기존 이름만, 신규 창작 아님).
+    선 그리기(draw)는 하지 않는다 — 점과 값이 정보라 흐름보다 정지 상태가 먼저 읽혀야 한다.
+    reduced-motion·인쇄·자습에서는 최종 상태가 그대로 보인다.
+  단계: basic 은 점마다 1단계(data-step). compare 는 단계 없이 한 번에(두 계열은 동시 비교).
+  쓰는 법: 필요한 section 하나만 복사하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+    점 좌표(circle cx·cy·polyline points)는 실제 값으로 다시 계산한다 — 축 범위 520px 를 최대값 기준으로 환산.
+    라이브러리 금지 — 네이티브 SVG 만. 색은 var(--blue)·var(--accent) 같은 의미 색 토큰만.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  예산: 축 눈금 라벨 ≤6자 · 시점 라벨 ≤8자 · 값 ≤8자 · 범례 ≤10자.
+  배치 설명: references/layouts.md · 클래스: references/classes.md · 규칙: references/expression.md
+-->
+<section class="slide" data-archetype="chart-line" data-variant="basic" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <div class="chart">
+    <svg viewBox="0 0 1560 600" role="img" aria-label="«차트 요지 한 문장: 무엇의 추세인지»">
+      <line x1="140" y1="60" x2="140" y2="520" stroke="var(--soft)" stroke-width="3"/>
+      <line x1="140" y1="520" x2="1520" y2="520" stroke="var(--soft)" stroke-width="3"/>
+      <line x1="140" y1="290" x2="1520" y2="290" stroke="var(--line)" stroke-width="2" stroke-dasharray="6 8"/>
+      <line x1="140" y1="60" x2="1520" y2="60" stroke="var(--line)" stroke-width="2" stroke-dasharray="6 8"/>
+      <text x="120" y="528" text-anchor="end" font-size="24" fill="var(--soft)">0</text>
+      <text x="120" y="298" text-anchor="end" font-size="24" fill="var(--soft)">«중간값 ≤6자»</text>
+      <text x="120" y="68" text-anchor="end" font-size="24" fill="var(--soft)">«최대값 ≤6자»</text>
+      <text x="1520" y="40" text-anchor="end" font-size="22" fill="var(--soft)">«세로축 단위 ≤10자»</text>
+      <polyline points="240,420 570,300 900,340 1230,180" fill="none" stroke="var(--blue)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      <g class="chart-point" data-src="«F01»" data-step="1">
+        <circle cx="240" cy="420" r="12" fill="var(--blue)"/>
+        <text x="240" y="380" text-anchor="middle" font-size="28" font-weight="800" fill="var(--ink)">«값 ≤8자»</text>
+        <text x="240" y="560" text-anchor="middle" font-size="24" fill="var(--soft)">«시점 ≤8자»</text>
+      </g>
+      <g class="chart-point" data-src="«F02»" data-step="2">
+        <circle cx="570" cy="300" r="12" fill="var(--blue)"/>
+        <text x="570" y="260" text-anchor="middle" font-size="28" font-weight="800" fill="var(--ink)">«값 ≤8자»</text>
+        <text x="570" y="560" text-anchor="middle" font-size="24" fill="var(--soft)">«시점 ≤8자»</text>
+      </g>
+      <g class="chart-point" data-src="«F03»" data-step="3">
+        <circle cx="900" cy="340" r="12" fill="var(--blue)"/>
+        <text x="900" y="300" text-anchor="middle" font-size="28" font-weight="800" fill="var(--ink)">«값 ≤8자»</text>
+        <text x="900" y="560" text-anchor="middle" font-size="24" fill="var(--soft)">«시점 ≤8자»</text>
+      </g>
+      <g class="chart-point" data-src="«F04»" data-step="4">
+        <circle cx="1230" cy="180" r="12" fill="var(--accent)"/>
+        <text x="1230" y="140" text-anchor="middle" font-size="28" font-weight="800" fill="var(--ink)">«값 ≤8자»</text>
+        <text x="1230" y="560" text-anchor="middle" font-size="24" fill="var(--soft)">«시점 ≤8자»</text>
+      </g>
+    </svg>
+  </div>
+  <p class="small" data-step="4">«정리 한 문장 ≤40자 — 추세의 방향이나 변곡점»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다 점이 하나씩 찍힙니다) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<section class="slide" data-archetype="chart-line" data-variant="compare" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <div class="chart">
+    <svg viewBox="0 0 1560 600" role="img" aria-label="«차트 요지 한 문장: 두 계열의 추세 비교»">
+      <line x1="140" y1="60" x2="140" y2="520" stroke="var(--soft)" stroke-width="3"/>
+      <line x1="140" y1="520" x2="1520" y2="520" stroke="var(--soft)" stroke-width="3"/>
+      <line x1="140" y1="290" x2="1520" y2="290" stroke="var(--line)" stroke-width="2" stroke-dasharray="6 8"/>
+      <line x1="140" y1="60" x2="1520" y2="60" stroke="var(--line)" stroke-width="2" stroke-dasharray="6 8"/>
+      <text x="120" y="528" text-anchor="end" font-size="24" fill="var(--soft)">0</text>
+      <text x="120" y="298" text-anchor="end" font-size="24" fill="var(--soft)">«중간값 ≤6자»</text>
+      <text x="120" y="68" text-anchor="end" font-size="24" fill="var(--soft)">«최대값 ≤6자»</text>
+      <g class="chart-series" data-src="«F01»">
+        <line x1="1210" y1="40" x2="1240" y2="40" stroke="var(--blue)" stroke-width="5" stroke-linecap="round"/>
+        <text x="1252" y="48" font-size="22" fill="var(--soft)">«계열A ≤10자»</text>
+        <polyline points="240,400 570,330 900,360 1230,240" fill="none" stroke="var(--blue)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="240" cy="400" r="10" fill="var(--blue)"/>
+        <circle cx="570" cy="330" r="10" fill="var(--blue)"/>
+        <circle cx="900" cy="360" r="10" fill="var(--blue)"/>
+        <circle cx="1230" cy="240" r="10" fill="var(--blue)"/>
+      </g>
+      <g class="chart-series" data-src="«F02»">
+        <line x1="1400" y1="40" x2="1430" y2="40" stroke="var(--accent)" stroke-width="5" stroke-linecap="round"/>
+        <text x="1442" y="48" font-size="22" fill="var(--soft)">«계열B ≤10자»</text>
+        <polyline points="240,460 570,440 900,300 1230,160" fill="none" stroke="var(--accent)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="14 10"/>
+        <circle cx="240" cy="460" r="10" fill="var(--accent)"/>
+        <circle cx="570" cy="440" r="10" fill="var(--accent)"/>
+        <circle cx="900" cy="300" r="10" fill="var(--accent)"/>
+        <circle cx="1230" cy="160" r="10" fill="var(--accent)"/>
+      </g>
+      <text x="240" y="560" text-anchor="middle" font-size="24" fill="var(--soft)">«시점 ≤8자»</text>
+      <text x="570" y="560" text-anchor="middle" font-size="24" fill="var(--soft)">«시점 ≤8자»</text>
+      <text x="900" y="560" text-anchor="middle" font-size="24" fill="var(--soft)">«시점 ≤8자»</text>
+      <text x="1230" y="560" text-anchor="middle" font-size="24" fill="var(--soft)">«시점 ≤8자»</text>
+    </svg>
+  </div>
+  <p class="small">«정리 한 문장 ≤40자 — 두 계열이 갈라지거나 만나는 지점»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시 → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>

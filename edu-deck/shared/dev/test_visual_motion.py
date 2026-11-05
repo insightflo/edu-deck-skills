@@ -27,7 +27,7 @@ class VisualMotion(unittest.TestCase):
   p=self.page()
   self.assertTrue(p.evaluate('!!window.eduMotion'),'shell must install the shared motion engine')
   rows=p.evaluate('''async()=>{let out=[];const N=deckInfo().count;for(let i=0;i<N;i++){deckGo(i,0);await new Promise(r=>requestAnimationFrame(r));let s=document.querySelector('.slide.active');out.push({arch:s.dataset.archetype,signature:s.dataset.motionSignature,n:s.getAnimations({subtree:true}).length});}return out;}''')
-  self.assertEqual(len({r['arch'] for r in rows}),30)
+  self.assertEqual(len({r['arch'] for r in rows}),34)
   self.assertTrue(all(r['signature'] and r['n'] for r in rows),rows)
  def test_step_replay_and_no_future_answer(self):
   p=self.page();self.assertTrue(p.evaluate('!!window.eduMotion'))

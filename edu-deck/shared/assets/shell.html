@@ -1120,6 +1120,57 @@ body.st-fold .st-ph{padding-bottom:0}
   /* 모션 층도 인쇄에서는 끈다(장·칸 등장 애니메이션이 인쇄 지연·중간 상태를 만들지 않게) */
   .slide.active,.card,.rm-col,.todo,.qrow,.lv,.pill,.tile,#dots i.on{}
 }
+
+/* ---------- 도구 층: 자동 발표 표시 · 편집 표시줄 · 탐색 위젯 · 사이드 시트 · 차트 ---------- */
+#edAuto{position:fixed;right:28px;bottom:72px;z-index:9;display:none;background:var(--accent);color:var(--paper);font:700 17px/1 'Pretendard Variable','Apple SD Gothic Neo','Malgun Gothic',sans-serif;padding:10px 16px;border-radius:var(--r2);box-shadow:var(--shadow-1)}
+html.ed-auto #edAuto{display:block}
+#edEdit{position:fixed;left:50%;top:18px;transform:translateX(-50%);z-index:9;display:none;align-items:center;gap:16px;background:var(--ink);color:var(--light);font:600 16px/1.3 'Pretendard Variable','Apple SD Gothic Neo','Malgun Gothic',sans-serif;padding:10px 18px;border-radius:var(--r2);box-shadow:var(--shadow-2)}
+body.ed-edit #edEdit{display:flex}
+#edEdit .ed-reset{font:inherit;font-size:15px;font-weight:700;color:var(--paper);background:var(--accent);border:none;border-radius:var(--r1);padding:6px 14px;cursor:pointer}
+body.ed-edit .slide [data-ed]{cursor:text}
+body.ed-edit .slide [data-ed]:hover{outline:2px dashed var(--accent-light);outline-offset:3px}
+body.ed-edit .slide [data-ed]:focus{outline:2px solid var(--accent);outline-offset:3px}
+
+/* 탐색 위젯(.expl): 칩으로 연결 상태를 바꾼다. 채점 없음 — 인쇄·자습에서는 모든 상태가 펼쳐진다 */
+.expl{display:flex;flex-direction:column;gap:20px;flex:1;min-height:0}
+.expl-ctrl{display:flex;flex-wrap:wrap;gap:12px}
+.expl-chip{font:inherit;font-size:22px;font-weight:700;color:var(--soft);background:var(--paper);border:2px solid var(--accent-light);border-radius:999px;padding:8px 22px;cursor:pointer}
+.expl-chip:hover{border-color:var(--accent)}
+.expl-chip.on{background:var(--accent);border-color:var(--accent);color:var(--paper)}
+.expl-state{display:none;flex-direction:column;gap:20px}
+.expl-state.on{display:flex}
+.expl-cap{font-size:20px;font-weight:700;color:var(--accent-text)}
+
+/* 사이드 시트(.dsheet): 본문 칩이 하단 시트를 올린다. 무대(#stage) 좌표계 안에서 고정 — 주변은 dim 으로 어둡게(blur 없음) */
+.dsheet-open{font:inherit;font-size:20px;font-weight:700;color:var(--accent-text);background:var(--light);border:2px solid var(--accent-light);border-radius:999px;padding:6px 18px;cursor:pointer}
+.dsheet-open:hover{border-color:var(--accent)}
+.dsheet-dim{position:fixed;inset:0;z-index:6;display:none;background:color-mix(in srgb,var(--ink) 55%,transparent)}
+.dsheet-dim.on{display:block}
+.dsheet-panel{position:fixed;left:50%;bottom:0;z-index:7;width:min(1560px,88%);max-height:64%;overflow:auto;background:var(--paper);border-radius:var(--r2) var(--r2) 0 0;border-top:6px solid var(--accent);box-shadow:var(--shadow-2);padding:28px 36px;display:flex;flex-direction:column;gap:14px;transform:translate(-50%,110%);visibility:hidden;transition:transform var(--m3) var(--e-out),visibility 0s var(--m3)}
+.dsheet-panel.on{transform:translate(-50%,0);visibility:visible;transition:transform var(--m3) var(--e-out)}
+.dsheet-panel .dsheet-h{display:flex;align-items:center;gap:16px}
+.dsheet-panel .dsheet-h h3{margin:0;font-size:26px;font-weight:800;color:var(--ink)}
+.dsheet-close{margin-left:auto;font:inherit;font-size:18px;font-weight:700;color:var(--soft);background:transparent;border:2px solid var(--accent-light);border-radius:var(--r1);padding:6px 14px;cursor:pointer}
+.dsheet-close:hover{border-color:var(--accent)}
+.dsheet-panel .dsheet-b{font-size:23px;line-height:1.6;color:var(--ink)}
+.dsheet-panel .dsheet-b p{margin:0}
+.dsheet-panel .dsheet-src{font-size:19px;color:var(--soft)}
+
+/* SVG 차트(.chart): 조각 33·34. 네이티브 SVG 만 — 외부 라이브러리 없음 */
+.chart{flex:1;min-height:0;display:flex;flex-direction:column;gap:16px}
+.chart>svg{flex:1;min-height:0;width:100%}
+
+/* 정적 완결: 인쇄·자습에서는 탐색 상태·시트가 모두 펼쳐진다 */
+@media print{
+  #edAuto,#edEdit,.dsheet-dim,.expl-ctrl,.dsheet-open,.dsheet-close{display:none !important}
+  .expl-state{display:flex !important;flex-direction:column;gap:20px}
+  .expl-state+.expl-state{margin-top:24px;padding-top:18px;border-top:2px dashed var(--line)}
+  .dsheet-panel{position:static !important;transform:none !important;visibility:visible !important;display:flex !important;width:auto;max-height:none;overflow:visible;border:2px solid var(--line);border-top:4px solid var(--accent);border-radius:var(--r2);box-shadow:none;padding:20px 28px;margin-top:24px}
+}
+body.st-self .expl-ctrl,body.st-self .dsheet-dim,body.st-self .dsheet-open,body.st-self .dsheet-close{display:none}
+body.st-self .expl-state{display:flex;flex-direction:column;gap:20px}
+body.st-self .expl-state+.expl-state{margin-top:24px;padding-top:18px;border-top:2px dashed var(--line)}
+body.st-self .dsheet-panel{position:static;transform:none;visibility:visible;display:flex;width:auto;max-height:none;overflow:visible;border:2px solid var(--line);border-top:4px solid var(--accent);border-radius:var(--r2);box-shadow:none;padding:20px 28px;margin-top:24px}
 </style>
 <style>
 /*EXTRA_CSS*/
@@ -1137,7 +1188,7 @@ body.st-fold .st-ph{padding-bottom:0}
 <div id="progress"></div>
 <div id="dots"></div>
 <div id="counter"></div>
-<div id="help">→ 다음 (한 단계씩) · ← 이전 · F 전체화면 · N 발표자 노트 · S 자습 · P 인쇄 · G 용어집</div>
+<div id="help">→ 다음 (한 단계씩) · ← 이전 · F 전체화면 · N 발표자 노트 · S 자습 · P 인쇄 · G 용어집 · A 자동 발표 · E 편집</div>
 <div id="notes"><div class="h">발표자 노트 (N으로 닫기)</div><div id="notesText"></div></div>
 
 <script>/* Shared on-screen reader. It never owns lesson state: deckGo/step events and
@@ -1622,7 +1673,14 @@ body.st-fold .st-ph{padding-bottom:0}
     sources:{name:'evidence-align',frames:i=>[`translateX(${i%2?40:-40}px) rotate(${i%2?1:-1}deg)`,'translateX(0px) rotate(0deg)']},
     closing:{name:'summary-convergence',frames:i=>[`translate(${(i-1)*72}px,32px) scale(.94)`,'translate(0px,0px) scale(1)']},
     // P1-1: numbers() 재사용 등록 — 지표 카드가 한 덩어리로 등장하며 숫자 릴이 카운트업한다(transform 만, m4).
-    'stat-strip':{name:'metric-rally',frames:i=>['translateY(44px)','translateY(0px)'],m:'m4',numbers:6}
+    'stat-strip':{name:'metric-rally',frames:i=>['translateY(44px)','translateY(0px)'],m:'m4',numbers:6},
+    // TASK-tools G3: SVG 차트 조각은 기존 시그니처 이름만 재사용한다(신규 시그니처 없음).
+    // 막대는 지표와 같은 metric-rally 상승, 선 그래프는 타일 파형(grid-wave)으로 계열이 모인다.
+    'chart-bar':{name:'metric-rally',frames:i=>['translateY(44px)','translateY(0px)'],m:'m4'},
+    'chart-line':{name:'grid-wave',frames:i=>[`translateY(${24+(i%3)*16}px) rotateX(12deg)`,'translateY(0px) rotateX(0deg)']},
+    // 탐색 위젯·사이드 시트도 기존 이름만 재사용한다 — 위젯 조작 자체는 시그니처가 아니라 클릭 핸들러다.
+    'explore':{name:'grid-wave',frames:i=>[`translateY(${24+(i%3)*16}px) rotateX(12deg)`,'translateY(0px) rotateX(0deg)']},
+    'detail-sheet':{name:'accumulating-pieces',frames:i=>['translateY(24px) scale(.92)','translateY(-4px) scale(1.02)','translateY(0px) scale(1)']}
   };
   // Wipe a prior result in-place: the mask and its content counter-translate,
   // so the old words remain stationary as the new result is uncovered. Neither
@@ -2134,6 +2192,44 @@ body.st-fold .st-ph{padding-bottom:0}
   new MutationObserver(()=>{if(staticMode())settle();}).observe(document.body,{attributes:true,attributeFilter:['class']});
   document.addEventListener('visibilitychange',()=>{if(document.hidden)settle();});
   init();
+})();
+
+/*
+  상호작용 조각 위젯(TASK-tools G4·G5): 탐색 칩(.expl) · 사이드 시트(.dsheet).
+  [탐색] .expl-chip[data-x] 를 누르면 같은 .expl 안에서 data-x 가 같은 .expl-state 하나만 켠다.
+    채점 없음. 상태를 바꾼 뒤 edpattern 을 흘려 그 안의 data-fx 가 필요하면 발화하게 한다.
+  [시트] .dsheet-open[data-open] 를 누르면 같은 장의 .dsheet-panel[data-sheet=값] 과 .dsheet-dim 을 켠다.
+    닫기: .dsheet-close·dim 클릭·Escape. 인쇄·자습 펼치기는 CSS(정적 완결)가 맡고 여기선 화면 조작만 한다.
+*/
+(function(){
+  var doc=document;
+  doc.addEventListener('click',function(e){
+    var t=e.target;
+    var chip=t&&t.closest?t.closest('.expl-chip'):null;
+    if(chip){
+      var box=chip.closest('.expl');if(!box)return;
+      var x=chip.getAttribute('data-x');
+      [].forEach.call(box.querySelectorAll('.expl-chip'),function(c){c.classList.toggle('on',c===chip);});
+      [].forEach.call(box.querySelectorAll('.expl-state'),function(s){s.classList.toggle('on',s.getAttribute('data-x')===x);});
+      doc.dispatchEvent(new Event('edpattern'));
+      return;
+    }
+    var open=t&&t.closest?t.closest('.dsheet-open'):null;
+    if(open){
+      var sl=open.closest('.slide');if(!sl)return;
+      var id=open.getAttribute('data-open');
+      [].forEach.call(sl.querySelectorAll('.dsheet-panel'),function(p){p.classList.toggle('on',p.getAttribute('data-sheet')===id);});
+      var dim=sl.querySelector('.dsheet-dim');if(dim)dim.classList.add('on');
+      doc.dispatchEvent(new Event('edpattern'));
+      return;
+    }
+    if(t&&t.closest&&(t.closest('.dsheet-close')||t.closest('.dsheet-dim'))){
+      [].forEach.call(doc.querySelectorAll('.dsheet-panel.on,.dsheet-dim.on'),function(el){el.classList.remove('on');});
+    }
+  });
+  doc.addEventListener('keydown',function(e){
+    if(e.key==='Escape')[].forEach.call(doc.querySelectorAll('.dsheet-panel.on,.dsheet-dim.on'),function(el){el.classList.remove('on');});
+  });
 })();
 
 /* edu-deck authoring patterns: code copy, tabs, FAQ, screen pins, cross-links.
@@ -2740,7 +2836,7 @@ try{
     else if(k==='f'||k==='F'||k==='ㄹ'){ bigScreen(); }
     else if(k==='n'||k==='N'||k==='ㅜ'){ swapMemo(); }
   });
-  var CLICK_GUARD='a,button,.todo,.chk,.code,.tabs,.faq,.pin-shot,.pin-list,.st-panel,.st-modal,.st-print';
+  var CLICK_GUARD='a,button,.todo,.chk,.code,.tabs,.faq,.pin-shot,.pin-list,.st-panel,.st-modal,.st-print,.expl,.dsheet';
   document.addEventListener('click',function(e){
     if(rootEl.classList.contains('ed-compact')) return;
     if(memoBox.contains(e.target)) return;
@@ -3322,6 +3418,100 @@ try{
 [].slice.call(document.querySelectorAll('.todo')).forEach(function(box){
   box.addEventListener('click',function(e){ e.stopPropagation(); box.classList.toggle('done'); });
 });
+</script>
+<script>
+/*
+  도구 층: 자동 발표(A) · 화면 편집(E)
+  [자동 발표] A 키로 시작·정지. 현재 장의 남은 단계를 한 단계씩 전부 공개한 뒤
+    그 장의 data-sec 초(없으면 6초)만큼 머물고 다음 장으로 간다. 마지막 장이면 끝.
+    아무 키 입력으로 정지한다. T·R 타이머와는 독립이고 deckGo 로 움직이므로
+    발표자 보기(?presenter) 동기에는 그대로 실린다. 인쇄·reduced-motion 에는 영향 없음.
+  [편집] E 키로 켜고 끈다. 제목·문단·표 칸·목록 같은 글자 요소만 contenteditable —
+    상호작용 요소(.chk·.todo·버튼·링크·노트·자습·시트 패널)는 제외하고 줄바꿈(Enter)은 막아
+    요소를 새로 만들지 못한다(텍스트만). 수정본은 localStorage 'edeck-edit-<파일이름>' 에
+    {"<장번호>-<순번>":innerHTML} 로 저장하고, 편집 표시줄의 "수정 초기화" 로 전부 되돌린다.
+    인쇄·자습·발표자 보기는 수정된 DOM 을 그대로 읽으므로 자동 반영된다.
+    편집을 켜면 자동 발표는 멈춘다(글자 고치는 중 장이 넘어가지 않게).
+*/
+(function(){
+var doc=document,root=doc.documentElement,body=doc.body;
+function slides(){return [].slice.call(doc.querySelectorAll('#stage>.slide'));}
+
+/* ---- 자동 발표 ---- */
+var autoTimer=null,autoOn=false;
+function autoStop(){autoOn=false;if(autoTimer){clearTimeout(autoTimer);autoTimer=null;}root.classList.remove('ed-auto');}
+function autoStep(){
+  if(!autoOn)return;
+  var info=window.deckInfo?deckInfo():null;
+  if(!info){autoStop();return;}
+  var pg=slides()[info.slide];
+  if(info.step<info.maxStep){deckGo(info.slide,info.step+1);autoTimer=setTimeout(autoStep,800);return;}
+  var sec=parseFloat(pg&&pg.getAttribute('data-sec'))||6;
+  sec=Math.max(2,sec);
+  autoTimer=setTimeout(function(){
+    if(!autoOn)return;
+    var i2=window.deckInfo?deckInfo():null;
+    if(i2&&i2.slide<i2.count-1){deckGo(i2.slide+1,0);autoTimer=setTimeout(autoStep,700);}
+    else autoStop();
+  },sec*1000);
+}
+function autoStart(){if(autoOn)return;autoOn=true;root.classList.add('ed-auto');autoTimer=setTimeout(autoStep,700);}
+window.eduAuto={start:autoStart,stop:autoStop,on:function(){return autoOn;}};
+
+/* ---- 화면 편집 ---- */
+var EDIT_SEL='.slide h1,.slide h2,.slide h3,.slide h4,.slide p,.slide li,.slide td,.slide th,.slide figcaption,.slide summary';
+var EDIT_EXCL='.chk,.todo,button,a,aside,.st-panel,.st-modal,.st-print,.st-toast,.dsheet-panel,script,style';
+var EKEY='edeck-edit-'+(decodeURIComponent(location.pathname.split('/').pop())||'deck');
+var editOn=false,orig=new Map(),saveT=null,editBar=null;
+function editables(){return [].slice.call(doc.querySelectorAll(EDIT_SEL)).filter(function(el){return !el.closest(EDIT_EXCL);});}
+function editSave(){
+  var o={};
+  orig.forEach(function(html,el){if(el.innerHTML!==html){var k=el.getAttribute('data-ed');if(k)o[k]=el.innerHTML;}});
+  try{localStorage.setItem(EKEY,JSON.stringify(o));}catch(e){}
+}
+function editReset(){
+  try{localStorage.removeItem(EKEY);}catch(e){}
+  orig.forEach(function(html,el){el.innerHTML=html;});
+}
+function editToggle(){
+  editOn=!editOn;body.classList.toggle('ed-edit',editOn);
+  editables().forEach(function(el){if(editOn)el.setAttribute('contenteditable','true');else el.removeAttribute('contenteditable');});
+  if(editBar)editBar.hidden=!editOn;
+  if(editOn)autoStop();else editSave();
+}
+doc.addEventListener('input',function(e){
+  if(!editOn)return;
+  var t=e.target;
+  if(!t||!t.getAttribute||!t.getAttribute('data-ed'))return;
+  if(saveT)clearTimeout(saveT);saveT=setTimeout(editSave,400);
+});
+doc.addEventListener('keydown',function(e){
+  var t=e.target;
+  if(t&&(t.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))){
+    if(t.isContentEditable&&e.key==='Enter'&&!e.isComposing)e.preventDefault();
+    return;
+  }
+  if(e.ctrlKey||e.metaKey||e.altKey||e.isComposing)return;
+  var k=e.key;
+  if(k==='a'||k==='A'||k==='ㅁ'){if(autoOn)autoStop();else autoStart();}
+  else if(k==='e'||k==='E'||k==='ㄷ'){editToggle();}
+  else if(autoOn)autoStop();
+});
+(function init(){
+  var tag=doc.createElement('div');tag.id='edAuto';tag.textContent='자동 발표 중 — 아무 키로 정지';body.appendChild(tag);
+  var bar=doc.createElement('div');bar.id='edEdit';bar.hidden=true;
+  bar.innerHTML='<span>편집 중 — 글자를 바로 고칩니다 (E 종료)</span><button type="button" class="ed-reset">수정 초기화</button>';
+  bar.querySelector('.ed-reset').addEventListener('click',function(){editReset();if(window.edToast)edToast('수정을 모두 되돌렸습니다');});
+  editBar=bar;body.appendChild(bar);
+  var order={};
+  editables().forEach(function(el){
+    var s=el.closest('.slide'),si=slides().indexOf(s),n=(order[si]=(order[si]||0)+1);
+    el.setAttribute('data-ed',si+'-'+n);orig.set(el,el.innerHTML);
+  });
+  try{var o=JSON.parse(localStorage.getItem(EKEY)||'{}');}catch(e){return;}
+  Object.keys(o).forEach(function(k){var el=doc.querySelector('[data-ed="'+k+'"]');if(el)el.innerHTML=o[k];});
+})();
+})();
 </script>
 </body>
 </html>

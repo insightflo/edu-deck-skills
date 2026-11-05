@@ -88,7 +88,14 @@
     sources:{name:'evidence-align',frames:i=>[`translateX(${i%2?40:-40}px) rotate(${i%2?1:-1}deg)`,'translateX(0px) rotate(0deg)']},
     closing:{name:'summary-convergence',frames:i=>[`translate(${(i-1)*72}px,32px) scale(.94)`,'translate(0px,0px) scale(1)']},
     // P1-1: numbers() 재사용 등록 — 지표 카드가 한 덩어리로 등장하며 숫자 릴이 카운트업한다(transform 만, m4).
-    'stat-strip':{name:'metric-rally',frames:i=>['translateY(44px)','translateY(0px)'],m:'m4',numbers:6}
+    'stat-strip':{name:'metric-rally',frames:i=>['translateY(44px)','translateY(0px)'],m:'m4',numbers:6},
+    // TASK-tools G3: SVG 차트 조각은 기존 시그니처 이름만 재사용한다(신규 시그니처 없음).
+    // 막대는 지표와 같은 metric-rally 상승, 선 그래프는 타일 파형(grid-wave)으로 계열이 모인다.
+    'chart-bar':{name:'metric-rally',frames:i=>['translateY(44px)','translateY(0px)'],m:'m4'},
+    'chart-line':{name:'grid-wave',frames:i=>[`translateY(${24+(i%3)*16}px) rotateX(12deg)`,'translateY(0px) rotateX(0deg)']},
+    // 탐색 위젯·사이드 시트도 기존 이름만 재사용한다 — 위젯 조작 자체는 시그니처가 아니라 클릭 핸들러다.
+    'explore':{name:'grid-wave',frames:i=>[`translateY(${24+(i%3)*16}px) rotateX(12deg)`,'translateY(0px) rotateX(0deg)']},
+    'detail-sheet':{name:'accumulating-pieces',frames:i=>['translateY(24px) scale(.92)','translateY(-4px) scale(1.02)','translateY(0px) scale(1)']}
   };
   // Wipe a prior result in-place: the mask and its content counter-translate,
   // so the old words remain stationary as the new result is uncovered. Neither
@@ -600,4 +607,42 @@
   new MutationObserver(()=>{if(staticMode())settle();}).observe(document.body,{attributes:true,attributeFilter:['class']});
   document.addEventListener('visibilitychange',()=>{if(document.hidden)settle();});
   init();
+})();
+
+/*
+  상호작용 조각 위젯(TASK-tools G4·G5): 탐색 칩(.expl) · 사이드 시트(.dsheet).
+  [탐색] .expl-chip[data-x] 를 누르면 같은 .expl 안에서 data-x 가 같은 .expl-state 하나만 켠다.
+    채점 없음. 상태를 바꾼 뒤 edpattern 을 흘려 그 안의 data-fx 가 필요하면 발화하게 한다.
+  [시트] .dsheet-open[data-open] 를 누르면 같은 장의 .dsheet-panel[data-sheet=값] 과 .dsheet-dim 을 켠다.
+    닫기: .dsheet-close·dim 클릭·Escape. 인쇄·자습 펼치기는 CSS(정적 완결)가 맡고 여기선 화면 조작만 한다.
+*/
+(function(){
+  var doc=document;
+  doc.addEventListener('click',function(e){
+    var t=e.target;
+    var chip=t&&t.closest?t.closest('.expl-chip'):null;
+    if(chip){
+      var box=chip.closest('.expl');if(!box)return;
+      var x=chip.getAttribute('data-x');
+      [].forEach.call(box.querySelectorAll('.expl-chip'),function(c){c.classList.toggle('on',c===chip);});
+      [].forEach.call(box.querySelectorAll('.expl-state'),function(s){s.classList.toggle('on',s.getAttribute('data-x')===x);});
+      doc.dispatchEvent(new Event('edpattern'));
+      return;
+    }
+    var open=t&&t.closest?t.closest('.dsheet-open'):null;
+    if(open){
+      var sl=open.closest('.slide');if(!sl)return;
+      var id=open.getAttribute('data-open');
+      [].forEach.call(sl.querySelectorAll('.dsheet-panel'),function(p){p.classList.toggle('on',p.getAttribute('data-sheet')===id);});
+      var dim=sl.querySelector('.dsheet-dim');if(dim)dim.classList.add('on');
+      doc.dispatchEvent(new Event('edpattern'));
+      return;
+    }
+    if(t&&t.closest&&(t.closest('.dsheet-close')||t.closest('.dsheet-dim'))){
+      [].forEach.call(doc.querySelectorAll('.dsheet-panel.on,.dsheet-dim.on'),function(el){el.classList.remove('on');});
+    }
+  });
+  doc.addEventListener('keydown',function(e){
+    if(e.key==='Escape')[].forEach.call(doc.querySelectorAll('.dsheet-panel.on,.dsheet-dim.on'),function(el){el.classList.remove('on');});
+  });
 })();

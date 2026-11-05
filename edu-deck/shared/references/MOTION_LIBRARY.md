@@ -53,6 +53,10 @@
 | 30 check | feedback-beacon | .97→1.015→1, 정답 8개 작은 방사 입자 m3, 오답 흔들림 m2 | 정답·오답 문구와 선 |
 | 31 stat-strip | metric-rally | 지표 카드 +44→0px m4(순차), 숫자 릴 카운트업 m4(최대 6개). 띠는 표지·목차·마무리 장 안에 붙여 넣고 host 시그니처와 함께 발화한다 | 최종 숫자·라벨 |
 | 32 screen-cite | (호스트 발화 — 별도 실행 이름 없음) | 실물 화면 인용 그림 자체는 움직이지 않는다. 기본(mapping)은 paired-connection, 비교 변형(compare-2 screens)은 opposed-faces 가 각각 발화한다(P1-2 — 신규 시그니처 창작 금지) | 실물 화면·캡션 그대로 |
+| 33 chart-bar | metric-rally(재사용) | 막대 `.chart-bar` 가 순차로 올라온다 — 기존 이름만, 신규 시그니처 창작 없음 | 최종 차트 그대로 |
+| 34 chart-line | grid-wave(재사용) | 점·선이 차례로 물결친다 — 선 그리기(draw)는 하지 않는다 | 최종 차트 그대로 |
+| 35 explore | grid-wave(재사용) | 상태 안 요소가 차례로 물결친다. 칩 전환 자체에는 모션 없음 | 모든 `.expl-state` 펼침 |
+| 36 detail-sheet | accumulating-pieces(재사용) | 장 요소가 차례로 모인다. 시트 여닫이 자체에는 모션 없음 | `.dsheet-panel` 평면 펼침 |
 
 제목은 각 장의 첫 시선 대상입니다. 의미 대상이 아직 단계로 숨겨져 있으면 제목만 먼저 나타나며 미래 본문은 움직이거나 공개하지 않습니다. 숫자 릴은 숫자만 있는 `.num`, `.meter-use>span`, `[data-count]`에 적용합니다. 말과 섞인 수치를 추측해서 변환하지 않습니다.
 
