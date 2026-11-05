@@ -1120,6 +1120,57 @@ body.st-fold .st-ph{padding-bottom:0}
   /* 모션 층도 인쇄에서는 끈다(장·칸 등장 애니메이션이 인쇄 지연·중간 상태를 만들지 않게) */
   .slide.active,.card,.rm-col,.todo,.qrow,.lv,.pill,.tile,#dots i.on{}
 }
+
+/* ---------- 도구 층: 자동 발표 표시 · 편집 표시줄 · 탐색 위젯 · 사이드 시트 · 차트 ---------- */
+#edAuto{position:fixed;right:28px;bottom:72px;z-index:9;display:none;background:var(--accent);color:var(--paper);font:700 17px/1 'Pretendard Variable','Apple SD Gothic Neo','Malgun Gothic',sans-serif;padding:10px 16px;border-radius:var(--r2);box-shadow:var(--shadow-1)}
+html.ed-auto #edAuto{display:block}
+#edEdit{position:fixed;left:50%;top:18px;transform:translateX(-50%);z-index:9;display:none;align-items:center;gap:16px;background:var(--ink);color:var(--light);font:600 16px/1.3 'Pretendard Variable','Apple SD Gothic Neo','Malgun Gothic',sans-serif;padding:10px 18px;border-radius:var(--r2);box-shadow:var(--shadow-2)}
+body.ed-edit #edEdit{display:flex}
+#edEdit .ed-reset{font:inherit;font-size:15px;font-weight:700;color:var(--paper);background:var(--accent);border:none;border-radius:var(--r1);padding:6px 14px;cursor:pointer}
+body.ed-edit .slide [data-ed]{cursor:text}
+body.ed-edit .slide [data-ed]:hover{outline:2px dashed var(--accent-light);outline-offset:3px}
+body.ed-edit .slide [data-ed]:focus{outline:2px solid var(--accent);outline-offset:3px}
+
+/* 탐색 위젯(.expl): 칩으로 연결 상태를 바꾼다. 채점 없음 — 인쇄·자습에서는 모든 상태가 펼쳐진다 */
+.expl{display:flex;flex-direction:column;gap:20px;flex:1;min-height:0}
+.expl-ctrl{display:flex;flex-wrap:wrap;gap:12px}
+.expl-chip{font:inherit;font-size:22px;font-weight:700;color:var(--soft);background:var(--paper);border:2px solid var(--accent-light);border-radius:999px;padding:8px 22px;cursor:pointer}
+.expl-chip:hover{border-color:var(--accent)}
+.expl-chip.on{background:var(--accent);border-color:var(--accent);color:var(--paper)}
+.expl-state{display:none;flex-direction:column;gap:20px}
+.expl-state.on{display:flex}
+.expl-cap{font-size:20px;font-weight:700;color:var(--accent-text)}
+
+/* 사이드 시트(.dsheet): 본문 칩이 하단 시트를 올린다. 무대(#stage) 좌표계 안에서 고정 — 주변은 dim 으로 어둡게(blur 없음) */
+.dsheet-open{font:inherit;font-size:20px;font-weight:700;color:var(--accent-text);background:var(--light);border:2px solid var(--accent-light);border-radius:999px;padding:6px 18px;cursor:pointer}
+.dsheet-open:hover{border-color:var(--accent)}
+.dsheet-dim{position:fixed;inset:0;z-index:6;display:none;background:color-mix(in srgb,var(--ink) 55%,transparent)}
+.dsheet-dim.on{display:block}
+.dsheet-panel{position:fixed;left:50%;bottom:0;z-index:7;width:min(1560px,88%);max-height:64%;overflow:auto;background:var(--paper);border-radius:var(--r2) var(--r2) 0 0;border-top:6px solid var(--accent);box-shadow:var(--shadow-2);padding:28px 36px;display:flex;flex-direction:column;gap:14px;transform:translate(-50%,110%);visibility:hidden;transition:transform var(--m3) var(--e-out),visibility 0s var(--m3)}
+.dsheet-panel.on{transform:translate(-50%,0);visibility:visible;transition:transform var(--m3) var(--e-out)}
+.dsheet-panel .dsheet-h{display:flex;align-items:center;gap:16px}
+.dsheet-panel .dsheet-h h3{margin:0;font-size:26px;font-weight:800;color:var(--ink)}
+.dsheet-close{margin-left:auto;font:inherit;font-size:18px;font-weight:700;color:var(--soft);background:transparent;border:2px solid var(--accent-light);border-radius:var(--r1);padding:6px 14px;cursor:pointer}
+.dsheet-close:hover{border-color:var(--accent)}
+.dsheet-panel .dsheet-b{font-size:23px;line-height:1.6;color:var(--ink)}
+.dsheet-panel .dsheet-b p{margin:0}
+.dsheet-panel .dsheet-src{font-size:19px;color:var(--soft)}
+
+/* SVG 차트(.chart): 조각 33·34. 네이티브 SVG 만 — 외부 라이브러리 없음 */
+.chart{flex:1;min-height:0;display:flex;flex-direction:column;gap:16px}
+.chart>svg{flex:1;min-height:0;width:100%}
+
+/* 정적 완결: 인쇄·자습에서는 탐색 상태·시트가 모두 펼쳐진다 */
+@media print{
+  #edAuto,#edEdit,.dsheet-dim,.expl-ctrl,.dsheet-open,.dsheet-close{display:none !important}
+  .expl-state{display:flex !important;flex-direction:column;gap:20px}
+  .expl-state+.expl-state{margin-top:24px;padding-top:18px;border-top:2px dashed var(--line)}
+  .dsheet-panel{position:static !important;transform:none !important;visibility:visible !important;display:flex !important;width:auto;max-height:none;overflow:visible;border:2px solid var(--line);border-top:4px solid var(--accent);border-radius:var(--r2);box-shadow:none;padding:20px 28px;margin-top:24px}
+}
+body.st-self .expl-ctrl,body.st-self .dsheet-dim,body.st-self .dsheet-open,body.st-self .dsheet-close{display:none}
+body.st-self .expl-state{display:flex;flex-direction:column;gap:20px}
+body.st-self .expl-state+.expl-state{margin-top:24px;padding-top:18px;border-top:2px dashed var(--line)}
+body.st-self .dsheet-panel{position:static;transform:none;visibility:visible;display:flex;width:auto;max-height:none;overflow:visible;border:2px solid var(--line);border-top:4px solid var(--accent);border-radius:var(--r2);box-shadow:none;padding:20px 28px;margin-top:24px}
 </style>
 <style>
 /* ---- components.css ---- */
@@ -3178,12 +3229,314 @@ body.st-fold .st-ph{padding-bottom:0}
   <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
 </section>
 
+<!-- ==== 33-chart-bar.html ==== -->
+<!--
+  아키타입 chart-bar (변형: basic / compare)
+  언제: 기준·기간·집단 사이의 크기 비교를 막대 높이로 보여 줄 때. 조사로 확인된 값만 쓴다.
+  배치 규칙: 본문 장 한 장. 표지에는 쓰지 않는다(첫인상용 큰 숫자는 31 stat-strip).
+  근거: 모든 수치에 data-src="F01" 처럼 research.md 사실 id 를 단다 — 막대마다(.chart-bar) 또는
+    차트 전체(.chart)에. 누락·없는 id·Fxx 아닌 값은 check_deck ERROR. 참고 자료(28-sources) 장도 필요하다.
+  시그니처: metric-rally 재사용 — 등장 시 막대가 아래에서 올라온다(기존 이름만, 신규 창작 아님).
+    reduced-motion·인쇄·자습에서는 최종 상태가 그대로 보인다.
+  단계: basic 은 막대마다 1단계(data-step). compare 는 단계 없이 한 번에 보여 준다(비교는 나란히).
+  쓰는 법: 필요한 section 하나만 복사하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+    막대 좌표(rect y·height)는 실제 값으로 다시 계산한다 — 축 범위 520px 를 최대값 기준으로 환산.
+    라이브러리 금지 — 네이티브 SVG 만. 색은 var(--blue)·var(--accent) 같은 의미 색 토큰만.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  예산: 축 눈금 라벨 ≤6자 · 항목 라벨 ≤8자 · 값 ≤8자 · 범례 ≤10자.
+  배치 설명: references/layouts.md · 클래스: references/classes.md · 규칙: references/expression.md
+-->
+<section class="slide" data-archetype="chart-bar" data-variant="basic" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <div class="chart">
+    <svg viewBox="0 0 1560 600" role="img" aria-label="«차트 요지 한 문장: 무엇을 비교하는지»">
+      <line x1="140" y1="60" x2="140" y2="520" stroke="var(--soft)" stroke-width="3"/>
+      <line x1="140" y1="520" x2="1520" y2="520" stroke="var(--soft)" stroke-width="3"/>
+      <line x1="140" y1="290" x2="1520" y2="290" stroke="var(--line)" stroke-width="2" stroke-dasharray="6 8"/>
+      <line x1="140" y1="60" x2="1520" y2="60" stroke="var(--line)" stroke-width="2" stroke-dasharray="6 8"/>
+      <text x="120" y="528" text-anchor="end" font-size="24" fill="var(--soft)">0</text>
+      <text x="120" y="298" text-anchor="end" font-size="24" fill="var(--soft)">«중간값 ≤6자»</text>
+      <text x="120" y="68" text-anchor="end" font-size="24" fill="var(--soft)">«최대값 ≤6자»</text>
+      <text x="140" y="592" font-size="22" fill="var(--soft)">«가로축 설명 ≤14자»</text>
+      <text x="1520" y="40" text-anchor="end" font-size="22" fill="var(--soft)">«세로축 단위 ≤10자»</text>
+      <g class="chart-bar" data-src="«F01»" data-step="1">
+        <rect x="270" y="260" width="200" height="260" rx="8" fill="var(--blue)"/>
+        <text x="370" y="240" text-anchor="middle" font-size="30" font-weight="800" fill="var(--ink)">«값 ≤8자»</text>
+        <text x="370" y="556" text-anchor="middle" font-size="24" fill="var(--soft)">«항목 ≤8자»</text>
+      </g>
+      <g class="chart-bar" data-src="«F02»" data-step="2">
+        <rect x="590" y="140" width="200" height="380" rx="8" fill="var(--blue)"/>
+        <text x="690" y="120" text-anchor="middle" font-size="30" font-weight="800" fill="var(--ink)">«값 ≤8자»</text>
+        <text x="690" y="556" text-anchor="middle" font-size="24" fill="var(--soft)">«항목 ≤8자»</text>
+      </g>
+      <g class="chart-bar" data-src="«F03»" data-step="3">
+        <rect x="910" y="360" width="200" height="160" rx="8" fill="var(--blue)"/>
+        <text x="1010" y="340" text-anchor="middle" font-size="30" font-weight="800" fill="var(--ink)">«값 ≤8자»</text>
+        <text x="1010" y="556" text-anchor="middle" font-size="24" fill="var(--soft)">«항목 ≤8자»</text>
+      </g>
+      <g class="chart-bar" data-src="«F04»" data-step="4">
+        <rect x="1230" y="200" width="200" height="320" rx="8" fill="var(--accent)"/>
+        <text x="1330" y="180" text-anchor="middle" font-size="30" font-weight="800" fill="var(--ink)">«값 ≤8자»</text>
+        <text x="1330" y="556" text-anchor="middle" font-size="24" fill="var(--soft)">«항목 ≤8자»</text>
+      </g>
+    </svg>
+  </div>
+  <p class="small" data-step="4">«정리 한 문장 ≤40자 — 가장 큰 값 또는 격차의 의미»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다 막대가 하나씩 올라옵니다) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<section class="slide" data-archetype="chart-bar" data-variant="compare" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <div class="chart">
+    <svg viewBox="0 0 1560 600" role="img" aria-label="«차트 요지 한 문장: 두 계열을 비교하는지»">
+      <line x1="140" y1="60" x2="140" y2="520" stroke="var(--soft)" stroke-width="3"/>
+      <line x1="140" y1="520" x2="1520" y2="520" stroke="var(--soft)" stroke-width="3"/>
+      <line x1="140" y1="290" x2="1520" y2="290" stroke="var(--line)" stroke-width="2" stroke-dasharray="6 8"/>
+      <line x1="140" y1="60" x2="1520" y2="60" stroke="var(--line)" stroke-width="2" stroke-dasharray="6 8"/>
+      <text x="120" y="528" text-anchor="end" font-size="24" fill="var(--soft)">0</text>
+      <text x="120" y="298" text-anchor="end" font-size="24" fill="var(--soft)">«중간값 ≤6자»</text>
+      <text x="120" y="68" text-anchor="end" font-size="24" fill="var(--soft)">«최대값 ≤6자»</text>
+      <g class="chart-series" data-src="«F01»">
+        <rect x="1210" y="24" width="24" height="24" rx="6" fill="var(--blue)"/>
+        <text x="1246" y="44" font-size="22" fill="var(--soft)">«계열A ≤10자»</text>
+      </g>
+      <g class="chart-series" data-src="«F02»">
+        <rect x="1400" y="24" width="24" height="24" rx="6" fill="var(--accent)"/>
+        <text x="1436" y="44" font-size="22" fill="var(--soft)">«계열B ≤10자»</text>
+      </g>
+      <g data-src="«F03»">
+        <rect x="250" y="220" width="120" height="300" rx="6" fill="var(--blue)"/>
+        <rect x="390" y="300" width="120" height="220" rx="6" fill="var(--accent)"/>
+        <text x="310" y="200" text-anchor="middle" font-size="26" font-weight="800" fill="var(--ink)">«값 ≤8자»</text>
+        <text x="450" y="280" text-anchor="middle" font-size="26" font-weight="800" fill="var(--ink)">«값 ≤8자»</text>
+        <text x="380" y="556" text-anchor="middle" font-size="24" fill="var(--soft)">«항목 ≤8자»</text>
+      </g>
+      <g data-src="«F04»">
+        <rect x="700" y="180" width="120" height="340" rx="6" fill="var(--blue)"/>
+        <rect x="840" y="340" width="120" height="180" rx="6" fill="var(--accent)"/>
+        <text x="760" y="160" text-anchor="middle" font-size="26" font-weight="800" fill="var(--ink)">«값 ≤8자»</text>
+        <text x="900" y="320" text-anchor="middle" font-size="26" font-weight="800" fill="var(--ink)">«값 ≤8자»</text>
+        <text x="830" y="556" text-anchor="middle" font-size="24" fill="var(--soft)">«항목 ≤8자»</text>
+      </g>
+      <g data-src="«F05»">
+        <rect x="1150" y="260" width="120" height="260" rx="6" fill="var(--blue)"/>
+        <rect x="1290" y="160" width="120" height="360" rx="6" fill="var(--accent)"/>
+        <text x="1210" y="240" text-anchor="middle" font-size="26" font-weight="800" fill="var(--ink)">«값 ≤8자»</text>
+        <text x="1350" y="140" text-anchor="middle" font-size="26" font-weight="800" fill="var(--ink)">«값 ≤8자»</text>
+        <text x="1280" y="556" text-anchor="middle" font-size="24" fill="var(--soft)">«항목 ≤8자»</text>
+      </g>
+    </svg>
+  </div>
+  <p class="small">«정리 한 문장 ≤40자 — 어느 항목에서 계열 차이가 가장 큰지»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시 → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- ==== 34-chart-line.html ==== -->
+<!--
+  아키타입 chart-line (변형: basic / compare)
+  언제: 시간·순서에 따라 값이 어떻게 변하는지(추세)를 보여 줄 때. 조사로 확인된 값만 쓴다.
+  배치 규칙: 본문 장 한 장. 기간 추이는 34, 한 순간의 크기 비교는 33 chart-bar 를 고른다.
+  근거: 모든 수치에 data-src="F01" 처럼 research.md 사실 id 를 단다 — 계열마다(.chart-series) 또는
+    차트 전체(.chart)에. 누락·없는 id·Fxx 아닌 값은 check_deck ERROR. 참고 자료(28-sources) 장도 필요하다.
+  시그니처: grid-wave 재사용 — 등장 시 점·선이 차례로 물결치듯 올라온다(기존 이름만, 신규 창작 아님).
+    선 그리기(draw)는 하지 않는다 — 점과 값이 정보라 흐름보다 정지 상태가 먼저 읽혀야 한다.
+    reduced-motion·인쇄·자습에서는 최종 상태가 그대로 보인다.
+  단계: basic 은 점마다 1단계(data-step). compare 는 단계 없이 한 번에(두 계열은 동시 비교).
+  쓰는 법: 필요한 section 하나만 복사하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+    점 좌표(circle cx·cy·polyline points)는 실제 값으로 다시 계산한다 — 축 범위 520px 를 최대값 기준으로 환산.
+    라이브러리 금지 — 네이티브 SVG 만. 색은 var(--blue)·var(--accent) 같은 의미 색 토큰만.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  예산: 축 눈금 라벨 ≤6자 · 시점 라벨 ≤8자 · 값 ≤8자 · 범례 ≤10자.
+  배치 설명: references/layouts.md · 클래스: references/classes.md · 규칙: references/expression.md
+-->
+<section class="slide" data-archetype="chart-line" data-variant="basic" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <div class="chart">
+    <svg viewBox="0 0 1560 600" role="img" aria-label="«차트 요지 한 문장: 무엇의 추세인지»">
+      <line x1="140" y1="60" x2="140" y2="520" stroke="var(--soft)" stroke-width="3"/>
+      <line x1="140" y1="520" x2="1520" y2="520" stroke="var(--soft)" stroke-width="3"/>
+      <line x1="140" y1="290" x2="1520" y2="290" stroke="var(--line)" stroke-width="2" stroke-dasharray="6 8"/>
+      <line x1="140" y1="60" x2="1520" y2="60" stroke="var(--line)" stroke-width="2" stroke-dasharray="6 8"/>
+      <text x="120" y="528" text-anchor="end" font-size="24" fill="var(--soft)">0</text>
+      <text x="120" y="298" text-anchor="end" font-size="24" fill="var(--soft)">«중간값 ≤6자»</text>
+      <text x="120" y="68" text-anchor="end" font-size="24" fill="var(--soft)">«최대값 ≤6자»</text>
+      <text x="1520" y="40" text-anchor="end" font-size="22" fill="var(--soft)">«세로축 단위 ≤10자»</text>
+      <polyline points="240,420 570,300 900,340 1230,180" fill="none" stroke="var(--blue)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      <g class="chart-point" data-src="«F01»" data-step="1">
+        <circle cx="240" cy="420" r="12" fill="var(--blue)"/>
+        <text x="240" y="380" text-anchor="middle" font-size="28" font-weight="800" fill="var(--ink)">«값 ≤8자»</text>
+        <text x="240" y="560" text-anchor="middle" font-size="24" fill="var(--soft)">«시점 ≤8자»</text>
+      </g>
+      <g class="chart-point" data-src="«F02»" data-step="2">
+        <circle cx="570" cy="300" r="12" fill="var(--blue)"/>
+        <text x="570" y="260" text-anchor="middle" font-size="28" font-weight="800" fill="var(--ink)">«값 ≤8자»</text>
+        <text x="570" y="560" text-anchor="middle" font-size="24" fill="var(--soft)">«시점 ≤8자»</text>
+      </g>
+      <g class="chart-point" data-src="«F03»" data-step="3">
+        <circle cx="900" cy="340" r="12" fill="var(--blue)"/>
+        <text x="900" y="300" text-anchor="middle" font-size="28" font-weight="800" fill="var(--ink)">«값 ≤8자»</text>
+        <text x="900" y="560" text-anchor="middle" font-size="24" fill="var(--soft)">«시점 ≤8자»</text>
+      </g>
+      <g class="chart-point" data-src="«F04»" data-step="4">
+        <circle cx="1230" cy="180" r="12" fill="var(--accent)"/>
+        <text x="1230" y="140" text-anchor="middle" font-size="28" font-weight="800" fill="var(--ink)">«값 ≤8자»</text>
+        <text x="1230" y="560" text-anchor="middle" font-size="24" fill="var(--soft)">«시점 ≤8자»</text>
+      </g>
+    </svg>
+  </div>
+  <p class="small" data-step="4">«정리 한 문장 ≤40자 — 추세의 방향이나 변곡점»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다 점이 하나씩 찍힙니다) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<section class="slide" data-archetype="chart-line" data-variant="compare" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <div class="chart">
+    <svg viewBox="0 0 1560 600" role="img" aria-label="«차트 요지 한 문장: 두 계열의 추세 비교»">
+      <line x1="140" y1="60" x2="140" y2="520" stroke="var(--soft)" stroke-width="3"/>
+      <line x1="140" y1="520" x2="1520" y2="520" stroke="var(--soft)" stroke-width="3"/>
+      <line x1="140" y1="290" x2="1520" y2="290" stroke="var(--line)" stroke-width="2" stroke-dasharray="6 8"/>
+      <line x1="140" y1="60" x2="1520" y2="60" stroke="var(--line)" stroke-width="2" stroke-dasharray="6 8"/>
+      <text x="120" y="528" text-anchor="end" font-size="24" fill="var(--soft)">0</text>
+      <text x="120" y="298" text-anchor="end" font-size="24" fill="var(--soft)">«중간값 ≤6자»</text>
+      <text x="120" y="68" text-anchor="end" font-size="24" fill="var(--soft)">«최대값 ≤6자»</text>
+      <g class="chart-series" data-src="«F01»">
+        <line x1="1210" y1="40" x2="1240" y2="40" stroke="var(--blue)" stroke-width="5" stroke-linecap="round"/>
+        <text x="1252" y="48" font-size="22" fill="var(--soft)">«계열A ≤10자»</text>
+        <polyline points="240,400 570,330 900,360 1230,240" fill="none" stroke="var(--blue)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="240" cy="400" r="10" fill="var(--blue)"/>
+        <circle cx="570" cy="330" r="10" fill="var(--blue)"/>
+        <circle cx="900" cy="360" r="10" fill="var(--blue)"/>
+        <circle cx="1230" cy="240" r="10" fill="var(--blue)"/>
+      </g>
+      <g class="chart-series" data-src="«F02»">
+        <line x1="1400" y1="40" x2="1430" y2="40" stroke="var(--accent)" stroke-width="5" stroke-linecap="round"/>
+        <text x="1442" y="48" font-size="22" fill="var(--soft)">«계열B ≤10자»</text>
+        <polyline points="240,460 570,440 900,300 1230,160" fill="none" stroke="var(--accent)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="14 10"/>
+        <circle cx="240" cy="460" r="10" fill="var(--accent)"/>
+        <circle cx="570" cy="440" r="10" fill="var(--accent)"/>
+        <circle cx="900" cy="300" r="10" fill="var(--accent)"/>
+        <circle cx="1230" cy="160" r="10" fill="var(--accent)"/>
+      </g>
+      <text x="240" y="560" text-anchor="middle" font-size="24" fill="var(--soft)">«시점 ≤8자»</text>
+      <text x="570" y="560" text-anchor="middle" font-size="24" fill="var(--soft)">«시점 ≤8자»</text>
+      <text x="900" y="560" text-anchor="middle" font-size="24" fill="var(--soft)">«시점 ≤8자»</text>
+      <text x="1230" y="560" text-anchor="middle" font-size="24" fill="var(--soft)">«시점 ≤8자»</text>
+    </svg>
+  </div>
+  <p class="small">«정리 한 문장 ≤40자 — 두 계열이 갈라지거나 만나는 지점»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시 → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- ==== 35-explore.html ==== -->
+<!--
+  아키타입 explore (변형: 기본)
+  언제: 학습자가 조건(연도·사양·상황)을 골라 연결된 수치·그림·문장을 직접 바꿔 볼 때.
+    확인 문제(.chk·quiz 계열)와 달리 채점 없다 — 비교 관찰이 목적이다.
+  배치 규칙: 본문 장 한 장. 선택지는 .expl-chip[data-x] 버튼, 내용은 .expl-state[data-x] 패널.
+    칩과 상태는 같은 data-x 값으로 짝지어야 하고, 첫 상태만 .on 으로 둔다(기본 선택).
+  정적 완결: 인쇄·자습(S)·정지 환경에서는 모든 .expl-state 가 순서대로 펼쳐져 손실이 없다.
+    호버로만 보이는 내용은 두지 않는다(칩 클릭 = 유일한 조작).
+  근거: 상태 안 수치는 data-src="F01" 처럼 research.md 사실 id 를 단다(없으면 .fact 칩 경고와 같은 규칙).
+  시그니처: grid-wave 재사용 — 등장 시 상태 안 요소가 차례로 물결친다(기존 이름만).
+    칩 조작 자체에는 모션을 붙이지 않는다.
+  단계: 없음(칩 조작이 단계 역할). 상태 전환은 단계 속성과 무관하다.
+  쓰는 법: 칩·상태를 같은 개수(2~4개)로 늘리거나 줄이고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+    상태 안 구성은 자유 — 표·도식·카드·큰 숫자 무엇이든 들어간다.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  예산: 칩 라벨 ≤10자 · 상태 캡션 ≤12자.
+  배치 설명: references/layouts.md · 클래스: references/classes.md · 규칙: references/expression.md
+-->
+<section class="slide" data-archetype="explore" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <div class="expl">
+    <div class="expl-ctrl">
+      <button type="button" class="expl-chip on" data-x="0">«칩1 ≤10자»</button>
+      <button type="button" class="expl-chip" data-x="1">«칩2 ≤10자»</button>
+      <button type="button" class="expl-chip" data-x="2">«칩3 ≤10자»</button>
+    </div>
+    <div class="expl-state on" data-x="0">
+      <p class="expl-cap">«상태1 캡션 ≤12자»</p>
+      <div class="row" style="gap:24px">
+        <div class="card f1" data-src="«F01»"><p class="stat-num">«큰 수치 ≤12자»</p><p class="body">«설명 ≤40자»</p></div>
+        <div class="card f1"><p class="body">«설명 문장 ≤90자»</p></div>
+      </div>
+    </div>
+    <div class="expl-state" data-x="1">
+      <p class="expl-cap">«상태2 캡션 ≤12자»</p>
+      <div class="row" style="gap:24px">
+        <div class="card f1" data-src="«F02»"><p class="stat-num">«큰 수치 ≤12자»</p><p class="body">«설명 ≤40자»</p></div>
+        <div class="card f1"><p class="body">«설명 문장 ≤90자»</p></div>
+      </div>
+    </div>
+    <div class="expl-state" data-x="2">
+      <p class="expl-cap">«상태3 캡션 ≤12자»</p>
+      <div class="row" style="gap:24px">
+        <div class="card f1" data-src="«F03»"><p class="stat-num">«큰 수치 ≤12자»</p><p class="body">«설명 ≤40자»</p></div>
+        <div class="card f1"><p class="body">«설명 문장 ≤90자»</p></div>
+      </div>
+    </div>
+  </div>
+  <p class="small">«정리 한 문장 ≤40자 — 상태를 바꿔 보며 무엇을 비교하면 되는지»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(칩을 눌러 상태를 바꿔 보세요) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- ==== 36-detail-sheet.html ==== -->
+<!--
+  아키타입 detail-sheet (변형: 기본)
+  언제: 본문 흐름을 끊지 않고 "더 보기"로 상세(근거·사례·용어 풀이)를 열어 보여 줄 때.
+  배치 규칙: 본문 장 한 장. .dsheet-open[data-open] 칩을 누르면 같은 장의
+    .dsheet-panel[data-sheet=같은값] 이 아래에서 올라오고 주변은 .dsheet-dim 으로 어두워진다(흐림 없음).
+    시트는 .dsheet-h(제목+닫기)+.dsheet-b(본문)+.dsheet-src(근거)로 만든다.
+  정적 완결: 인쇄·자습(S)·정지 환경에서는 시트가 장 아래 평면으로 펼쳐져 손실이 없다.
+    호버로만 보이는 내용은 두지 않는다(칩 클릭 = 유일한 조작).
+  근거: 시트 안 수치·사례는 data-src="F01" 처럼 research.md 사실 id 를 단다.
+  시그니처: accumulating-pieces 재사용 — 등장 시 요소가 차례로 모인다(기존 이름만).
+  단계: 없음(칩 조작이 단계 역할).
+  쓰는 법: 칩·패널을 같은 개수(1~3개)로 맞추고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+    .dsheet-dim 은 장당 하나면 된다(여러 시트가 공유). 시트 내용은 짧은 문단·목록·작은 표까지.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  예산: 칩 라벨 ≤14자 · 시트 제목 ≤20자 · 시트 본문 문단 ≤120자.
+  배치 설명: references/layouts.md · 클래스: references/classes.md · 규칙: references/expression.md
+-->
+<section class="slide" data-archetype="detail-sheet" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <div class="row" style="gap:24px">
+    <div class="card f1">
+      <p class="body">«본문 설명 ≤90자»</p>
+      <button type="button" class="dsheet-open" data-open="a">«더 보기 칩 ≤14자»</button>
+    </div>
+    <div class="card f1">
+      <p class="body">«본문 설명 ≤90자»</p>
+      <button type="button" class="dsheet-open" data-open="b">«더 보기 칩 ≤14자»</button>
+    </div>
+  </div>
+  <p class="small">«정리 한 문장 ≤40자»</p>
+  <div class="dsheet-dim"></div>
+  <div class="dsheet-panel" data-sheet="a">
+    <div class="dsheet-h"><h3>«시트 제목 ≤20자»</h3><button type="button" class="dsheet-close">닫기</button></div>
+    <div class="dsheet-b">
+      <p>«상세 본문 ≤120자 — 본문에서 미뤄 둔 근거·사례·풀이»</p>
+      <p data-src="«F01»">«근거 문장 ≤90자»</p>
+    </div>
+    <p class="dsheet-src">«근거 출처 한 줄 ≤40자»</p>
+  </div>
+  <div class="dsheet-panel" data-sheet="b">
+    <div class="dsheet-h"><h3>«시트 제목 ≤20자»</h3><button type="button" class="dsheet-close">닫기</button></div>
+    <div class="dsheet-b">
+      <p>«상세 본문 ≤120자»</p>
+      <p data-src="«F02»">«근거 문장 ≤90자»</p>
+    </div>
+    <p class="dsheet-src">«근거 출처 한 줄 ≤40자»</p>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(칩을 누르면 상세 시트가 올라옵니다) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
 </div>
 
 <div id="progress"></div>
 <div id="dots"></div>
 <div id="counter"></div>
-<div id="help">→ 다음 (한 단계씩) · ← 이전 · F 전체화면 · N 발표자 노트 · S 자습 · P 인쇄 · G 용어집</div>
+<div id="help">→ 다음 (한 단계씩) · ← 이전 · F 전체화면 · N 발표자 노트 · S 자습 · P 인쇄 · G 용어집 · A 자동 발표 · E 편집</div>
 <div id="notes"><div class="h">발표자 노트 (N으로 닫기)</div><div id="notesText"></div></div>
 
 <script>/* Shared on-screen reader. It never owns lesson state: deckGo/step events and
@@ -3668,7 +4021,14 @@ body.st-fold .st-ph{padding-bottom:0}
     sources:{name:'evidence-align',frames:i=>[`translateX(${i%2?40:-40}px) rotate(${i%2?1:-1}deg)`,'translateX(0px) rotate(0deg)']},
     closing:{name:'summary-convergence',frames:i=>[`translate(${(i-1)*72}px,32px) scale(.94)`,'translate(0px,0px) scale(1)']},
     // P1-1: numbers() 재사용 등록 — 지표 카드가 한 덩어리로 등장하며 숫자 릴이 카운트업한다(transform 만, m4).
-    'stat-strip':{name:'metric-rally',frames:i=>['translateY(44px)','translateY(0px)'],m:'m4',numbers:6}
+    'stat-strip':{name:'metric-rally',frames:i=>['translateY(44px)','translateY(0px)'],m:'m4',numbers:6},
+    // TASK-tools G3: SVG 차트 조각은 기존 시그니처 이름만 재사용한다(신규 시그니처 없음).
+    // 막대는 지표와 같은 metric-rally 상승, 선 그래프는 타일 파형(grid-wave)으로 계열이 모인다.
+    'chart-bar':{name:'metric-rally',frames:i=>['translateY(44px)','translateY(0px)'],m:'m4'},
+    'chart-line':{name:'grid-wave',frames:i=>[`translateY(${24+(i%3)*16}px) rotateX(12deg)`,'translateY(0px) rotateX(0deg)']},
+    // 탐색 위젯·사이드 시트도 기존 이름만 재사용한다 — 위젯 조작 자체는 시그니처가 아니라 클릭 핸들러다.
+    'explore':{name:'grid-wave',frames:i=>[`translateY(${24+(i%3)*16}px) rotateX(12deg)`,'translateY(0px) rotateX(0deg)']},
+    'detail-sheet':{name:'accumulating-pieces',frames:i=>['translateY(24px) scale(.92)','translateY(-4px) scale(1.02)','translateY(0px) scale(1)']}
   };
   // Wipe a prior result in-place: the mask and its content counter-translate,
   // so the old words remain stationary as the new result is uncovered. Neither
@@ -4180,6 +4540,44 @@ body.st-fold .st-ph{padding-bottom:0}
   new MutationObserver(()=>{if(staticMode())settle();}).observe(document.body,{attributes:true,attributeFilter:['class']});
   document.addEventListener('visibilitychange',()=>{if(document.hidden)settle();});
   init();
+})();
+
+/*
+  상호작용 조각 위젯(TASK-tools G4·G5): 탐색 칩(.expl) · 사이드 시트(.dsheet).
+  [탐색] .expl-chip[data-x] 를 누르면 같은 .expl 안에서 data-x 가 같은 .expl-state 하나만 켠다.
+    채점 없음. 상태를 바꾼 뒤 edpattern 을 흘려 그 안의 data-fx 가 필요하면 발화하게 한다.
+  [시트] .dsheet-open[data-open] 를 누르면 같은 장의 .dsheet-panel[data-sheet=값] 과 .dsheet-dim 을 켠다.
+    닫기: .dsheet-close·dim 클릭·Escape. 인쇄·자습 펼치기는 CSS(정적 완결)가 맡고 여기선 화면 조작만 한다.
+*/
+(function(){
+  var doc=document;
+  doc.addEventListener('click',function(e){
+    var t=e.target;
+    var chip=t&&t.closest?t.closest('.expl-chip'):null;
+    if(chip){
+      var box=chip.closest('.expl');if(!box)return;
+      var x=chip.getAttribute('data-x');
+      [].forEach.call(box.querySelectorAll('.expl-chip'),function(c){c.classList.toggle('on',c===chip);});
+      [].forEach.call(box.querySelectorAll('.expl-state'),function(s){s.classList.toggle('on',s.getAttribute('data-x')===x);});
+      doc.dispatchEvent(new Event('edpattern'));
+      return;
+    }
+    var open=t&&t.closest?t.closest('.dsheet-open'):null;
+    if(open){
+      var sl=open.closest('.slide');if(!sl)return;
+      var id=open.getAttribute('data-open');
+      [].forEach.call(sl.querySelectorAll('.dsheet-panel'),function(p){p.classList.toggle('on',p.getAttribute('data-sheet')===id);});
+      var dim=sl.querySelector('.dsheet-dim');if(dim)dim.classList.add('on');
+      doc.dispatchEvent(new Event('edpattern'));
+      return;
+    }
+    if(t&&t.closest&&(t.closest('.dsheet-close')||t.closest('.dsheet-dim'))){
+      [].forEach.call(doc.querySelectorAll('.dsheet-panel.on,.dsheet-dim.on'),function(el){el.classList.remove('on');});
+    }
+  });
+  doc.addEventListener('keydown',function(e){
+    if(e.key==='Escape')[].forEach.call(doc.querySelectorAll('.dsheet-panel.on,.dsheet-dim.on'),function(el){el.classList.remove('on');});
+  });
 })();
 
 /* edu-deck authoring patterns: code copy, tabs, FAQ, screen pins, cross-links.
@@ -4786,7 +5184,7 @@ try{
     else if(k==='f'||k==='F'||k==='ㄹ'){ bigScreen(); }
     else if(k==='n'||k==='N'||k==='ㅜ'){ swapMemo(); }
   });
-  var CLICK_GUARD='a,button,.todo,.chk,.code,.tabs,.faq,.pin-shot,.pin-list,.st-panel,.st-modal,.st-print';
+  var CLICK_GUARD='a,button,.todo,.chk,.code,.tabs,.faq,.pin-shot,.pin-list,.st-panel,.st-modal,.st-print,.expl,.dsheet';
   document.addEventListener('click',function(e){
     if(rootEl.classList.contains('ed-compact')) return;
     if(memoBox.contains(e.target)) return;
@@ -5368,6 +5766,100 @@ try{
 [].slice.call(document.querySelectorAll('.todo')).forEach(function(box){
   box.addEventListener('click',function(e){ e.stopPropagation(); box.classList.toggle('done'); });
 });
+</script>
+<script>
+/*
+  도구 층: 자동 발표(A) · 화면 편집(E)
+  [자동 발표] A 키로 시작·정지. 현재 장의 남은 단계를 한 단계씩 전부 공개한 뒤
+    그 장의 data-sec 초(없으면 6초)만큼 머물고 다음 장으로 간다. 마지막 장이면 끝.
+    아무 키 입력으로 정지한다. T·R 타이머와는 독립이고 deckGo 로 움직이므로
+    발표자 보기(?presenter) 동기에는 그대로 실린다. 인쇄·reduced-motion 에는 영향 없음.
+  [편집] E 키로 켜고 끈다. 제목·문단·표 칸·목록 같은 글자 요소만 contenteditable —
+    상호작용 요소(.chk·.todo·버튼·링크·노트·자습·시트 패널)는 제외하고 줄바꿈(Enter)은 막아
+    요소를 새로 만들지 못한다(텍스트만). 수정본은 localStorage 'edeck-edit-<파일이름>' 에
+    {"<장번호>-<순번>":innerHTML} 로 저장하고, 편집 표시줄의 "수정 초기화" 로 전부 되돌린다.
+    인쇄·자습·발표자 보기는 수정된 DOM 을 그대로 읽으므로 자동 반영된다.
+    편집을 켜면 자동 발표는 멈춘다(글자 고치는 중 장이 넘어가지 않게).
+*/
+(function(){
+var doc=document,root=doc.documentElement,body=doc.body;
+function slides(){return [].slice.call(doc.querySelectorAll('#stage>.slide'));}
+
+/* ---- 자동 발표 ---- */
+var autoTimer=null,autoOn=false;
+function autoStop(){autoOn=false;if(autoTimer){clearTimeout(autoTimer);autoTimer=null;}root.classList.remove('ed-auto');}
+function autoStep(){
+  if(!autoOn)return;
+  var info=window.deckInfo?deckInfo():null;
+  if(!info){autoStop();return;}
+  var pg=slides()[info.slide];
+  if(info.step<info.maxStep){deckGo(info.slide,info.step+1);autoTimer=setTimeout(autoStep,800);return;}
+  var sec=parseFloat(pg&&pg.getAttribute('data-sec'))||6;
+  sec=Math.max(2,sec);
+  autoTimer=setTimeout(function(){
+    if(!autoOn)return;
+    var i2=window.deckInfo?deckInfo():null;
+    if(i2&&i2.slide<i2.count-1){deckGo(i2.slide+1,0);autoTimer=setTimeout(autoStep,700);}
+    else autoStop();
+  },sec*1000);
+}
+function autoStart(){if(autoOn)return;autoOn=true;root.classList.add('ed-auto');autoTimer=setTimeout(autoStep,700);}
+window.eduAuto={start:autoStart,stop:autoStop,on:function(){return autoOn;}};
+
+/* ---- 화면 편집 ---- */
+var EDIT_SEL='.slide h1,.slide h2,.slide h3,.slide h4,.slide p,.slide li,.slide td,.slide th,.slide figcaption,.slide summary';
+var EDIT_EXCL='.chk,.todo,button,a,aside,.st-panel,.st-modal,.st-print,.st-toast,.dsheet-panel,script,style';
+var EKEY='edeck-edit-'+(decodeURIComponent(location.pathname.split('/').pop())||'deck');
+var editOn=false,orig=new Map(),saveT=null,editBar=null;
+function editables(){return [].slice.call(doc.querySelectorAll(EDIT_SEL)).filter(function(el){return !el.closest(EDIT_EXCL);});}
+function editSave(){
+  var o={};
+  orig.forEach(function(html,el){if(el.innerHTML!==html){var k=el.getAttribute('data-ed');if(k)o[k]=el.innerHTML;}});
+  try{localStorage.setItem(EKEY,JSON.stringify(o));}catch(e){}
+}
+function editReset(){
+  try{localStorage.removeItem(EKEY);}catch(e){}
+  orig.forEach(function(html,el){el.innerHTML=html;});
+}
+function editToggle(){
+  editOn=!editOn;body.classList.toggle('ed-edit',editOn);
+  editables().forEach(function(el){if(editOn)el.setAttribute('contenteditable','true');else el.removeAttribute('contenteditable');});
+  if(editBar)editBar.hidden=!editOn;
+  if(editOn)autoStop();else editSave();
+}
+doc.addEventListener('input',function(e){
+  if(!editOn)return;
+  var t=e.target;
+  if(!t||!t.getAttribute||!t.getAttribute('data-ed'))return;
+  if(saveT)clearTimeout(saveT);saveT=setTimeout(editSave,400);
+});
+doc.addEventListener('keydown',function(e){
+  var t=e.target;
+  if(t&&(t.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))){
+    if(t.isContentEditable&&e.key==='Enter'&&!e.isComposing)e.preventDefault();
+    return;
+  }
+  if(e.ctrlKey||e.metaKey||e.altKey||e.isComposing)return;
+  var k=e.key;
+  if(k==='a'||k==='A'||k==='ㅁ'){if(autoOn)autoStop();else autoStart();}
+  else if(k==='e'||k==='E'||k==='ㄷ'){editToggle();}
+  else if(autoOn)autoStop();
+});
+(function init(){
+  var tag=doc.createElement('div');tag.id='edAuto';tag.textContent='자동 발표 중 — 아무 키로 정지';body.appendChild(tag);
+  var bar=doc.createElement('div');bar.id='edEdit';bar.hidden=true;
+  bar.innerHTML='<span>편집 중 — 글자를 바로 고칩니다 (E 종료)</span><button type="button" class="ed-reset">수정 초기화</button>';
+  bar.querySelector('.ed-reset').addEventListener('click',function(){editReset();if(window.edToast)edToast('수정을 모두 되돌렸습니다');});
+  editBar=bar;body.appendChild(bar);
+  var order={};
+  editables().forEach(function(el){
+    var s=el.closest('.slide'),si=slides().indexOf(s),n=(order[si]=(order[si]||0)+1);
+    el.setAttribute('data-ed',si+'-'+n);orig.set(el,el.innerHTML);
+  });
+  try{var o=JSON.parse(localStorage.getItem(EKEY)||'{}');}catch(e){return;}
+  Object.keys(o).forEach(function(k){var el=doc.querySelector('[data-ed="'+k+'"]');if(el)el.innerHTML=o[k];});
+})();
+})();
 </script>
 </body>
 </html>
