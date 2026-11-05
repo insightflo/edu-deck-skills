@@ -114,8 +114,11 @@ def integration():
     sys.path.insert(0, str(scripts))
     import build_series
     import check_series
-    source = Path(os.environ.get('EDU_DECK_REGRESSION_FIXTURES', '')) or Path(__file__).resolve().parents[3] / 'edu-deck-workspace/resource-pack-verification'
-    if not (source / 'regression/series').is_dir():
+    here = Path(__file__).resolve()
+    default = next((base / 'edu-deck-workspace/resource-pack-verification' for base in (here.parents[4], here.parents[3])
+                    if (base / 'edu-deck-workspace/resource-pack-verification/regression/series').is_dir()), None)
+    source = Path(os.environ.get('EDU_DECK_REGRESSION_FIXTURES', '')) if os.environ.get('EDU_DECK_REGRESSION_FIXTURES') else default
+    if not source or not (source / 'regression/series').is_dir():
         raise SystemExit('회귀 픽스처 폴더가 없습니다. EDU_DECK_REGRESSION_FIXTURES 로 resource-pack-verification 폴더를 지정하세요. (픽스처는 개인 작업 환경 자산이라 저장소에 없음)')
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
