@@ -82,6 +82,9 @@ THEMES = {
 THEME_CSS_IDS = tuple(t for t in THEMES if t != "classic")
 
 # 표지 변형 시그니처. id = assets/snippets/01-cover*.html 의 data-variant.
+# 직접 설계 표지는 data-variant="custom" 또는 "custom-<짧은이름>" 을 쓴다 — 카탈로그
+# id 가 아니므로 COVERS 에 넣지 않는다(TASK-cover-custom G3). 폴백은 COVERS 만 고른다.
+COVER_CUSTOM = "custom"  # "custom" 또는 "custom-…" 접두로 시작하는 값 모두 직접 설계
 COVERS = {
     "orbit":   {"axes": {"energy": .5, "playful": .4, "technical": .5, "serious": .4, "warm": .5, "formal": .5}},
     "split":   {"axes": {"energy": .4, "playful": .3, "technical": .6, "serious": .5, "warm": .4, "formal": .8}},

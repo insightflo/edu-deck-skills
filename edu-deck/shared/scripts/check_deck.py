@@ -536,6 +536,22 @@ def static_checks(html_text, soup, rep, allow_placeholders):
         if run == 4:
             rep.add("WARN", i + 1, "흐름", f"같은 아키타입 '{archs[i]}' 이 4장 넘게 이어집니다")
     talk_checks(html_text, slides, rep)
+    # 직접 설계 표지(data-variant="custom"/"custom-…") 계약 — layouts.md "표지 직접 설계 계약".
+    # 카탈로그 id(orbit·split·…)에는 적용하지 않는다.
+    for i, s in enumerate(slides, 1):
+        v = (s.get("data-variant") or "")
+        if s.get("data-archetype") != "cover" or not (v == "custom" or v.startswith("custom-")):
+            continue
+        if not s.select_one(".cx-title"):
+            rep.add("WARN", i, "표지", "직접 설계 표지의 제목은 .cx-title 안에 둡니다 (제목 맞춤·장 전환 계약)")
+        for el in s.select("[style], [fill], [stroke]"):
+            for attr in ("style", "fill", "stroke"):
+                val = el.get(attr) or ""
+                m = re.search(r"#[0-9a-fA-F]{3,8}\b", val)
+                if m:
+                    rep.add("WARN", i, "표지",
+                            f"직접 설계 표지는 색을 var(--…) 토큰으로 씁니다 (하드코딩 {m.group(0)})")
+                    break
     return slides
 
 
@@ -812,6 +828,10 @@ RENDER_JS = r"""
   const T = 2, out = [];
   const cover = !slide.matches('.pack, [data-design]') &&
     (slide.id === 'cover' || slide.dataset.archetype === 'cover');
+  // 표지 면제는 '장식'에만 준다: aria-hidden 아래는 decor() 가 이미 걸러내므로 여기서는
+  // 글자 노드가 전혀 없는 요소(SVG 도형·배경 패널·띠)만 면제다. 제목·배지·날짜 등 글자를
+  // 담은 표지 요소는 일반 장과 같은 규칙으로 검사한다(TASK-cover-custom G1).
+  const coverFree = (e) => cover && !(e.textContent || '').trim();
   const S = new Map();
   const svgBoxes = new Map();
   const st = (e) => { let c = S.get(e); if (!c) { c = getComputedStyle(e); S.set(e, c); } return c; };
@@ -873,8 +893,8 @@ RENDER_JS = r"""
     const r = e.getBoundingClientRect();
     if (r.width === 0 && r.height === 0) continue;
     const c = st(e);
-    if (!cover && out_of(r, SR, T)) out.push({sev: 'ERROR', kind: '화면 밖 넘침', target: desc(e), msg: desc(e) + ' 가 슬라이드 밖으로 나갑니다'});
-    if (!cover && e !== slide && !(e instanceof SVGElement) && /hidden|clip|auto|scroll/.test(c.overflowX + c.overflowY)
+    if (!coverFree(e) && out_of(r, SR, T)) out.push({sev: 'ERROR', kind: '화면 밖 넘침', target: desc(e), msg: desc(e) + ' 가 슬라이드 밖으로 나갑니다'});
+    if (!coverFree(e) && e !== slide && !(e instanceof SVGElement) && /hidden|clip|auto|scroll/.test(c.overflowX + c.overflowY)
         && (e.scrollHeight > e.clientHeight + T || e.scrollWidth > e.clientWidth + T)) {
       for (const d of e.querySelectorAll('*')) {
         if (!ownText(d) || decor(d) || !shown(d)) continue;
@@ -890,7 +910,7 @@ RENDER_JS = r"""
     if (fs < 18) out.push({sev: 'ERROR', kind: '글자 크기', target: desc(e), msg: desc(e) + ' ' + fs.toFixed(1) + 'px (18px 미만)'});
     else if (fs < 20) out.push({sev: 'WARN', kind: '글자 크기', target: desc(e), msg: desc(e) + ' ' + fs.toFixed(1) + 'px (20px 미만)'});
     const pos = positioned(e, null);
-    if (!cover && !pos) {
+    if (!coverFree(e) && !pos) {
       let box = null; for (let x = e.parentElement; x && x !== slide; x = x.parentElement) { if (isBox(x)) { box = x; break; } }
       if (box && !positioned(e, box)) {
         const br = box.getBoundingClientRect();
@@ -910,7 +930,7 @@ RENDER_JS = r"""
         if (ratio < need) out.push({sev: 'ERROR', kind: '대비', target: desc(e), msg: desc(e) + ' 대비 ' + ratio.toFixed(2) + ' (기준 ' + need + ')'});
       }
     }
-    if (!cover && e instanceof SVGTextElement && e.ownerSVGElement && !e.closest('defs, symbol, marker')) {
+    if (!coverFree(e) && e instanceof SVGTextElement && e.ownerSVGElement && !e.closest('defs, symbol, marker')) {
       const svg = e.ownerSVGElement;
       const sr = svg.getBoundingClientRect();
       if (out_of(r, sr, 4)) out.push({sev: 'ERROR', kind: '도식 밖 글자', target: desc(e), msg: desc(e) + ' 가 도식(svg) 영역 밖으로 나갑니다'});
@@ -929,7 +949,7 @@ RENDER_JS = r"""
         if (box && out_of(r, box, T)) out.push({sev: 'ERROR', kind: 'SVG 글자 넘침', target: desc(e), msg: desc(e) + ' 가 상자(rect) 밖으로 나갑니다'});
       }
     }
-    if (!cover && !pos) texts.push({e, rects: [...e.getClientRects()].filter(q => q.width > 1 && q.height > 1)});
+    if (!coverFree(e) && !pos) texts.push({e, rects: [...e.getClientRects()].filter(q => q.width > 1 && q.height > 1)});
   }
   for (let i = 0; i < texts.length; i++) for (let j = i + 1; j < texts.length; j++) {
     const a = texts[i], b = texts[j];
