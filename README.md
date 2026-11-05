@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/badge/license-Apache--2.0-3e9e5c?style=flat-square)](LICENSE)
 [![Works with](https://img.shields.io/badge/agents-pi%20%C2%B7%20Claude%20Code%20%C2%B7%20Codex-7a5cc4?style=flat-square)](#4-사용법)
 [![Ships](https://img.shields.io/badge/산출물-단일%20HTML%20%C2%B7%20외부의존%200-0e7d95?style=flat-square)](#2-완성-덱-하나의-단면)
-[![Assets](https://img.shields.io/badge/%EB%A6%AC%EC%86%8C%EC%8A%A4%ED%8C%A9-8%EC%84%A4%EA%B3%84%C2%B78%ED%9D%90%EB%A6%84%2064%EC%A1%B0%ED%95%A9-2f6fb0?style=flat-square)](docs/gallery.html)
+[![Assets](https://img.shields.io/badge/%EB%A6%AC%EC%86%8C%EC%8A%A4%ED%8C%A9-%EC%84%A4%EA%B3%84%208%EC%A2%85%20%C2%B7%20%ED%9D%90%EB%A6%84%208%EC%A2%85-2f6fb0?style=flat-square)](docs/gallery.html)
 [![Assets](https://img.shields.io/badge/%EC%9E%A5%20%EB%B0%B0%EC%B9%98-32%EA%B3%84%EC%97%B4%2063%EB%B3%80%ED%98%95-e8772e?style=flat-square)](docs/gallery.html)
 [![Tests](https://img.shields.io/badge/%ED%9A%8C%EA%B7%80-213%20tests%20%C2%B7%20pack%2064%2F64-59c3d6?style=flat-square)](#5-검증)
 
@@ -66,13 +66,13 @@
 
 ## 3. 자산 갤러리 — 재료 전부
 
-스킬이 조립에 쓰는 재료를 실제 빌드 파이프라인으로 렌더해 전시합니다.
+스킬이 조립에 쓰는 재료를 실제 빌드 파이프라인으로 렌더해 전시합니다 — 다양함의 원천이 무엇인지 솔직하게: 눈에 보이는 다양함은 **설계 8종·배치 조각 63변형·테마 8종**이 만들고, 흐름은 수업 구성을 바꿉니다.
 
 **[▶ 갤러리 열기 (설계 필터·라이트박스)](https://raw.githack.com/insightflo/edu-deck-skills/main/docs/gallery.html)** · [▶ 장 배치 63종 전체 덱으로 넘겨 보기](https://raw.githack.com/insightflo/edu-deck-skills/main/docs/gallery-archetypes.html)
 
 | 재료 | 수 | 갤러리에서 |
 |---|---|---|
-| 리소스팩 설계 × 흐름 | 8 × 8 = **64조합** (전수 빌드·검사 64/64) | 표지 + 내용 장 각 1장씩 |
+| 리소스팩 설계 | **8종** — 배치 문법 자체가 다름(마주본 면·사례 기록·편집 지면…) · 흐름 8종(수업 뼈대)과 64조합 전수 빌드·검사(64/64) | 설계별 표지 + 같은 설계에 흐름만 교체한 비교 |
 | 장 배치 조각 | **32계열 63변형** | 썸네일 + 63장 열람 덱 |
 | 테마 | **8종** | 같은 장면에 테마만 교체 |
 | 모션 시그니처 | **31종 중 대표 7종** | GIF |
