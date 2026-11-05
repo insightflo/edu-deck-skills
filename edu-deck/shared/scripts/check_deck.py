@@ -860,13 +860,21 @@ RENDER_JS = r"""
   const lum = (c) => { const f = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }; return 0.2126 * f(c[0]) + 0.7152 * f(c[1]) + 0.0722 * f(c[2]); };
   const blend = (fg, bg, a) => [0, 1, 2].map(i => fg[i] * a + bg[i] * (1 - a));
   const backdrop = (e) => {
-    const chain = []; for (let x = e; x; x = x.parentElement) { chain.push(x); if (x === slide) break; }
-    let bg = [255, 255, 255];
-    for (let i = chain.length - 1; i >= 0; i--) {
-      const c = st(chain[i]);
-      if (c.backgroundImage !== 'none') return null;
-      const b = color(c.backgroundColor); if (b && b[3] > 0) bg = blend(b, bg, b[3]);
+    // 글자 요소에서 위(조상)로 올라가며 첫 불투명 배경(alpha≥.99)을 배경으로 쓴다 —
+    // 불투명 카드가 중간에 있으면 슬라이드의 그라데이션보다 그 카드가 배경이다(TASK-contrast-fix G1).
+    // 그 사이에 배경 이미지·그라데이션이 끼어 있으면(글자가 이미지 위에 있음) 'img' 를 돌려
+    // 호출부가 렌더 픽셀 샘플링으로 잰다(G2). 불투명 층이 없으면 흰 바탕 위 반투명 층만 합성한다.
+    const layers = [];
+    for (let x = e; x; x = x.parentElement) {
+      const c = st(x);
+      if (c.backgroundImage !== 'none') return 'img';
+      const b = color(c.backgroundColor);
+      if (b && b[3] > 0) layers.push(b);
+      if (b && b[3] >= 0.99) break;
+      if (x === slide) break;
     }
+    let bg = [255, 255, 255];
+    for (let i = layers.length - 1; i >= 0; i--) bg = blend(layers[i], bg, layers[i][3]);
     return bg;
   };
   const out_of = (r, b, t) => r.left < b.left - t || r.top < b.top - t || r.right > b.right + t || r.bottom > b.bottom + t;
@@ -888,7 +896,9 @@ RENDER_JS = r"""
   };
 
   const texts = [];
-  for (const e of slide.querySelectorAll('*')) {
+  const els = slide.querySelectorAll('*');
+  for (let ei = 0; ei < els.length; ei++) {
+    const e = els[ei];
     if (decor(e) || !shown(e)) continue;
     const r = e.getBoundingClientRect();
     if (r.width === 0 && r.height === 0) continue;
@@ -922,11 +932,17 @@ RENDER_JS = r"""
     // 것이라 기준을 3.0 으로 둔다. 배경은 조상 체인의 알파·color-mix 를 브라우저 계산값으로 합성해 최종 단색으로 잰다.
     if (op >= 0.6 && !(e instanceof SVGElement)) {
       const fg = color(c.color), bg = backdrop(e);
-      if (fg && bg) {
+      const need = (fs >= 24 || (fs >= 18.66 && parseInt(c.fontWeight) >= 700) || e.closest('.win')) ? 3.0 : 4.5;
+      if (fg && bg === 'img') {
+        // 글자가 배경 이미지·그라데이션 위에 있다 — 여기서는 못 재므로 영역·색을 넘기고
+        // 호출부(Python)가 글자를 숨긴 채 그린 픽셀을 샘플링해 최악 대비를 잰다(TASK-contrast-fix G2).
+        out.push({sev: 'SAMPLE', kind: '대비', target: desc(e), i: ei,
+                  rect: {x: r.left + (window.scrollX || 0), y: r.top + (window.scrollY || 0),
+                         w: r.width, h: r.height},
+                  fg: fg, op: op, need: need, msg: ''});
+      } else if (fg && bg) {
         const f = blend(fg, bg, fg[3] * op);
         const L1 = lum(f), L2 = lum(bg), ratio = (Math.max(L1, L2) + 0.05) / (Math.min(L1, L2) + 0.05);
-        const large = fs >= 24 || (fs >= 18.66 && parseInt(c.fontWeight) >= 700);
-        const need = (large || e.closest('.win')) ? 3.0 : 4.5;
         if (ratio < need) out.push({sev: 'ERROR', kind: '대비', target: desc(e), msg: desc(e) + ' 대비 ' + ratio.toFixed(2) + ' (기준 ' + need + ')'});
       }
     }
@@ -1030,6 +1046,83 @@ def launch(pw):
     raise RuntimeError("브라우저를 띄우지 못했습니다: " + " / ".join(errors))
 
 
+_HIDE_TEXT_JS = """([si, i, on]) => {
+  if (on && !document.getElementById('edu-hide-txt-css')) {
+    const s = document.createElement('style'); s.id = 'edu-hide-txt-css';
+    s.textContent = '.edu-hide-txt,.edu-hide-txt *,.edu-hide-txt *::before,.edu-hide-txt *::after{color:transparent!important;text-shadow:none!important;-webkit-text-stroke-color:transparent!important;border-color:transparent!important;outline-color:transparent!important;box-shadow:none!important;fill:transparent!important;stroke:transparent!important}.edu-hide-txt::before,.edu-hide-txt::after,.edu-hide-txt .edu-hide-empty{visibility:hidden!important}';
+    document.head.appendChild(s);
+  }
+  const sl = document.querySelectorAll('#stage > .slide')[si];
+  const e = sl && sl.querySelectorAll('*')[i];
+  if (!e) return;
+  e.classList.toggle('edu-hide-txt', on);
+  if (on) e.querySelectorAll('*').forEach(k => { if (!(k.textContent || '').trim()) k.classList.add('edu-hide-empty'); });
+  else e.querySelectorAll('.edu-hide-empty').forEach(k => k.classList.remove('edu-hide-empty'));
+}"""
+
+
+def _lum(c):
+    """RENDER_JS lum 과 같은 WCAG 상대휘도(0~1). c = (r, g, b) 0~255."""
+    def f(v):
+        v /= 255
+        return v / 12.92 if v <= 0.03928 else ((v + 0.055) / 1.055) ** 2.4
+    return 0.2126 * f(c[0]) + 0.7152 * f(c[1]) + 0.0722 * f(c[2])
+
+
+def measure_img_contrast(page, slide_idx, item):
+    """배경 이미지·그라데이션 위 글자의 대비를 렌더 픽셀 샘플링으로 잰다(TASK-contrast-fix G2).
+
+    [목적] backdrop() 이 'img' 를 돌려준 글자 = 글자와 가장 가까운 불투명 배경 사이에 이미지·
+      그라데이션이 끼어 있는 경우. DOM 색만으로는 배경을 못 재므로, 글자를 잠시 투명하게
+      숨긴 상태로 요소 영역을 찍어 픽셀을 잰다.
+    [입력] page(해당 장·단계가 그려진 Playwright 페이지), 슬라이드 인덱스, SAMPLE 항목
+      (i: 슬라이드 안 요소 순번, rect: 문서 좌표, fg:[r,g,b,a], op: 불투명도, need: 기준)
+    [출력] 최악 대비 비율(float) — 글자색과 휘도 차가 가장 작은 샘플 픽셀을 배경으로 한 값.
+      Pillow 부재·스크린샷 실패·화면 밖 영역이면 None(호출부가 건너뜀 수를 세어 INFO 로 남긴다).
+    [주의] 숨김은 .edu-hide-txt 클래스 토글로 하며, 글자뿐 아니라 요소 자신의 테두리·윤곽선·
+      그림자·의사요소(::before/::after)·무글자 자손(아이콘·캐럿 등)도 함께 숨긴다 — 이들은
+      글자 뒤 배경이 아니라 전경 장식이라 픽셀 샘플에 섞이면 오탐이 난다. 측정 뒤 반드시 되돌린다.
+      샘플은 요소당 최대 24×24 격자다.
+    """
+    try:
+        from PIL import Image
+    except ImportError:
+        return None
+    r = item["rect"]
+    x, y = max(0.0, float(r["x"])), max(0.0, float(r["y"]))
+    w, h = min(float(r["w"]), 1920.0 - x), min(float(r["h"]), 1080.0 - y)
+    if w < 1 or h < 1:
+        return None
+    try:
+        page.evaluate(_HIDE_TEXT_JS, [slide_idx, item["i"], True])
+        png = page.screenshot(clip={"x": x, "y": y, "width": w, "height": h})
+    except Exception:
+        return None
+    finally:
+        try:
+            page.evaluate(_HIDE_TEXT_JS, [slide_idx, item["i"], False])
+        except Exception:
+            pass
+    try:
+        img = Image.open(io.BytesIO(png)).convert("RGB")
+    except Exception:
+        return None
+    iw, ih = img.size
+    gx, gy = min(24, iw), min(24, ih)
+    fg = item["fg"]
+    fa = fg[3] * float(item.get("op", 1))
+    worst = None
+    for iy in range(gy):
+        for ix in range(gx):
+            px = img.getpixel((ix * (iw - 1) // max(gx - 1, 1), iy * (ih - 1) // max(gy - 1, 1)))
+            f = (fg[0] * fa + px[0] * (1 - fa), fg[1] * fa + px[1] * (1 - fa), fg[2] * fa + px[2] * (1 - fa))
+            l1, l2 = _lum(f), _lum(px)
+            ratio = (max(l1, l2) + 0.05) / (min(l1, l2) + 0.05)
+            if worst is None or ratio < worst:
+                worst = ratio
+    return worst
+
+
 def render_checks(path, rep, slide_filter, sheets_dir, shots_dir):
     """
     [목적] 실제 브라우저에서 모든 슬라이드·단계 상태를 그려 보고 화면 결함을 잰다.
@@ -1101,6 +1194,7 @@ def render_checks(path, rep, slide_filter, sheets_dir, shots_dir):
             page.evaluate(DECKINFO_POLYFILL)
             chosen = parse_slide_filter(slide_filter, total)
             talk = page.evaluate("((window.EDU_STUDY||{}).talk)||null")
+            img_skipped = 0
             for n in sorted(chosen):
                 info = page.evaluate(f"(window.deckGo({n - 1}, 0), window.deckInfo())")
                 # 단계 값이 정수가 아니면 엔진이 NaN·실수를 돌려준다. 정적 검사가 이미 ERROR 로 알렸으니 0단계만 잰다
@@ -1110,6 +1204,16 @@ def render_checks(path, rep, slide_filter, sheets_dir, shots_dir):
                 for s in range(top + 1):
                     page.evaluate(f"window.deckGo({n - 1}, {s})")
                     for f in page.evaluate(RENDER_JS, [n - 1]):
+                        if f["sev"] == "SAMPLE":
+                            # 배경 이미지·그라데이션 위 글자 — 같은 단계가 그려진 상태에서 픽셀 샘플링
+                            ratio = measure_img_contrast(page, n - 1, f)
+                            if ratio is None:
+                                img_skipped += 1
+                            elif ratio < f["need"]:
+                                rep.add("ERROR", n, "대비",
+                                        f"{f['target']} 대비 {ratio:.2f} (기준 {f['need']}, 이미지 배경 픽셀 샘플)",
+                                        target=f["target"], step=s)
+                            continue
                         rep.add(f["sev"], n, f["kind"], f["msg"], target=f["target"], step=s)
                     if s == 0:
                         for t in page.evaluate(TITLE_JS, [n - 1]):
@@ -1121,6 +1225,8 @@ def render_checks(path, rep, slide_filter, sheets_dir, shots_dir):
                                 rep.add("WARN", n, "제목 줄 수",
                                         f"발표 덱 제목이 {t['lines']}줄입니다 (1줄 원칙). data-fit 을 검토하세요",
                                         target=t["text"])
+            if img_skipped:
+                rep.add("INFO", None, "대비", f"배경 이미지 위 글자 {img_skipped}개는 측정하지 못함 (스크린샷 불가 환경)")
             if sheets_dir or shots_dir:
                 capture(page, sorted(chosen), rep, sheets_dir, shots_dir)
             browser.close()
