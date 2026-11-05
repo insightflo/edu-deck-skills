@@ -304,7 +304,8 @@ class FxPatterns(unittest.TestCase):
     # ---------- E: check_deck rules ----------
     def test_checker_rules(self):
         text = self.html.read_text(encoding='utf-8')
-        rep = Report()
+        # TASK-free-mode: 취향 규칙의 기존 심각도(WARN)를 검증하려면 --style 모드 리포트가 필요하다
+        rep = Report(style=True)
         static_checks(text, BeautifulSoup(text, 'html.parser'), rep, False)
         items = rep.items
         has = lambda kind, sev=None, slide=None, frag='': any(

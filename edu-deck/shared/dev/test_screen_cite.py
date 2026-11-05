@@ -79,7 +79,8 @@ SOURCES = ('<section class="slide" data-archetype="sources"><div class="head"><p
 
 def run_static(slides, allow_placeholders=False):
     html = ('<html><head><title>시험 덱</title></head><body><div id="stage">' + "\n".join(slides) + '</div></body></html>')
-    rep = Report()
+    # TASK-free-mode: 취향 규칙의 기존 심각도(WARN)를 검증하려면 --style 모드 리포트가 필요하다
+    rep = Report(style=True)
     static_checks(html, _soup(html), rep, allow_placeholders=allow_placeholders)
     return rep
 

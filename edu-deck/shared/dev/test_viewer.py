@@ -164,7 +164,7 @@ class Viewer(unittest.TestCase):
     def test_data_fit_warns_in_check_deck(self):
         out = subprocess.run(
             [sys.executable, str(S / 'scripts' / 'check_deck.py'),
-             str(self.html), '--slides', '3', '--render-only'],
+             str(self.html), '--slides', '3', '--render-only', '--style'],
             capture_output=True, text=True, timeout=300)
         self.assertIn('data-fit 제목', out.stdout)
         self.assertIn('제목 줄 수', out.stdout)

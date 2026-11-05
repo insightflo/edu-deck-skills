@@ -20,7 +20,8 @@ NOTES = 'x' * 160
 
 
 def check_html(html, pack=False):
-    report = check_deck.Report()
+    # TASK-free-mode: 취향 규칙의 기존 심각도(WARN)를 검증하려면 --style 모드 리포트가 필요하다
+    report = check_deck.Report(style=True)
     check_deck.static_checks(html, BeautifulSoup(html, 'html.parser'), report, pack)
     return [(item['sev'], item['kind']) for item in report.items]
 

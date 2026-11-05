@@ -497,6 +497,12 @@ try{
   /* 인쇄할 때는 모든 장을 마지막 단계로 펼치고, 끝나면 현재 화면 상태로 되돌린다 */
   window.addEventListener('beforeprint',function(){ pages.forEach(function(pg){ syncPage(pg,topMark(pg),false); }); });
   window.addEventListener('afterprint',function(){ emitStep(false); });
+  /* beforeprint 를 보내지 않는 환경(헤드리스 인쇄 미디어 에뮬레이션 등)도 같은 펼침을 보장한다 */
+  var printQ=window.matchMedia?window.matchMedia('print'):null;
+  if(printQ&&printQ.addEventListener)printQ.addEventListener('change',function(e){
+    if(e.matches)pages.forEach(function(pg){ syncPage(pg,topMark(pg),false); });
+    else emitStep(false);
+  });
   window.addEventListener('resize',reflow);
   reflow();
   var first=parseInt((location.hash||'').slice(1),10);

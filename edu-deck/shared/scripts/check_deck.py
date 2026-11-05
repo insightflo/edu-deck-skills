@@ -107,16 +107,35 @@ PACK_CONTAINER_SEL = (
 
 
 # ---------------------------------------------------------------- 결과 모음
-class Report:
-    """검사 결과를 슬라이드별로 모으고, 같은 결함은 한 줄로 합친다(단계 번호만 덧붙임)."""
+# 취향 규칙 kind 집합 — 길이·개수·구성·권고 성격(TASK-free-mode G1 재분류표 C 부분).
+# 이 kind 의 WARN 은 안전 가드가 아니므로 자유 모드 기본 실행에서 INFO 로 내리고 요약
+# 한 줄만 보이며, --style 에서 기존 WARN 으로 보인다. ERROR 항목은 심각도가 바뀌지 않는다.
+TASTE_KINDS = {
+    "제목", "제목 줄 수", "단계", "분량", "말투", "목록", "카드", "카드 나열",
+    "사실 칩", "증거 띠", "실물 화면", "확인 문제", "발표자 노트", "모션", "모션 길이",
+    "외국어 문장", "흐름", "표지", "예상 시간", "시간 합계", "대본 분량", "시각 짝",
+    "무성 장", "글자 크기", "글자 겹침",
+}
 
-    def __init__(self):
+
+class Report:
+    """검사 결과를 슬라이드별로 모으고, 같은 결함은 한 줄로 합친다(단계 번호만 덧붙임).
+
+    style=False(기본)이면 TASTE_KINDS 의 WARN 을 INFO 로 내려 개별 줄 대신 요약 한 줄로
+    보고하고, style=True(--style)이면 취향 규칙도 기존 WARN 심각도 그대로 출력한다.
+    """
+
+    def __init__(self, style=False):
+        self.style = style       # True 이면 취향 규칙을 WARN 으로 유지(--style)
         self.items = []          # (sev, slide_no or None, kind, message)
         self._merge = {}         # (slide_no, kind, target) → item index
         self.slide_meta = {}     # slide_no → (archetype, title)
         self.slide_sigs = {}     # slide_no → 발화한 시그니처 목록(P0-2 무성 장 감사)
 
     def add(self, sev, slide_no, kind, message, target=None, step=None):
+        taste = sev == "WARN" and kind in TASTE_KINDS
+        if taste and not self.style:
+            sev = "INFO"
         key = (slide_no, kind, target or message)
         if key in self._merge:
             i = self._merge[key]
@@ -125,14 +144,15 @@ class Report:
             return
         self._merge[key] = len(self.items)
         self.items.append({"sev": sev, "slide": slide_no, "kind": kind, "message": message,
-                           "steps": [] if step is None else [step]})
+                           "steps": [] if step is None else [step], "taste": taste})
 
     def count(self, sev):
         return sum(1 for it in self.items if it["sev"] == sev)
 
     def lines(self):
         order = {"ERROR": 0, "WARN": 1, "INFO": 2}
-        rows = sorted(self.items, key=lambda it: (it["slide"] or 0, order[it["sev"]]))
+        rows = [it for it in self.items if not (it.get("taste") and not self.style)]
+        rows.sort(key=lambda it: (it["slide"] or 0, order[it["sev"]]))
         out = []
         for it in rows:
             where = ""
@@ -141,6 +161,14 @@ class Report:
                 where = f"[#{it['slide']} {arch} “{title[:20]}”] "
             steps = f" (단계 {','.join(map(str, sorted(it['steps'])))})" if it["steps"] else ""
             out.append(f"{it['sev']:<6} {where}{it['kind']}: {it['message']}{steps}")
+        if not self.style:
+            taste_items = [it for it in self.items if it.get("taste")]
+            if taste_items:
+                counts = {}
+                for it in taste_items:
+                    counts[it["kind"]] = counts.get(it["kind"], 0) + 1
+                breakdown = "·".join(f"{k} {v}" for k, v in sorted(counts.items()))
+                out.append(f"INFO   취향: {len(taste_items)}개 항목이 있습니다 ({breakdown}) — --style 로 상세 표시")
         return out
 
 
@@ -301,7 +329,7 @@ def static_checks(html_text, soup, rep, allow_placeholders):
         if arch not in {'cover', 'statement', 'quiz-ab', 'quiz-sort', 'quiz-ox', 'check', 'sources', 'closing'} and not visual:
             rep.add('WARN', i, '시각 짝', '텍스트 전용 본문입니다. 개념·비유·예시에 설명 도식, 일러스트 또는 장면 모형을 짝지으세요.')
         if not arch and not (pack and is_pack_slide(sec)):
-            rep.add("ERROR", i, "아키타입", "data-archetype 이 없습니다")
+            rep.add("INFO", i, "아키타입", "data-archetype 없음 — 엔진이 자동 배정합니다 (기본 statement, .chk 있으면 check)")
         elif arch and arch not in ARCHETYPES:
             rep.add("ERROR", i, "아키타입", f"알 수 없는 data-archetype=\"{arch}\"")
         if sec.find("script"):
@@ -1298,6 +1326,8 @@ def main(argv=None):
     ap.add_argument("--no-render", action="store_true", help="화면 검사를 하지 않음")
     ap.add_argument("--render-only", action="store_true", help="정적 검사를 하지 않음 (다른 형식의 덱 비교용)")
     ap.add_argument("--allow-placeholders", action="store_true", help="«…» 자리표시 허용 (갤러리 검사용)")
+    ap.add_argument("--style", action="store_true",
+                    help="취향 규칙(길이·개수·구성)을 INFO 요약 대신 기존 WARN 으로 상세 보고")
     ap.add_argument("--contrast-matrix", action="store_true",
                     help="덱 검사 대신 토큰 대비 매트릭스를 채점한다 (기본+8팩 × 쌍 전수, 브라우저 불필요)")
     ap.add_argument("--matrix-dir", metavar="DIR", help="매트릭스 모드에서 matrix-table.md/.json 저장 폴더")
@@ -1323,7 +1353,7 @@ def main(argv=None):
         soup = BeautifulSoup(html_text, "lxml")
     except ImportError:
         soup = BeautifulSoup(html_text, "html.parser")
-    rep = Report()
+    rep = Report(style=args.style)
     if args.render_only:
         stage = soup.select_one("#stage")
         for i, sec in enumerate(stage.find_all("section", class_="slide", recursive=False) if stage else [], 1):
@@ -1337,12 +1367,13 @@ def main(argv=None):
         print(line)
     errors, warnings = rep.count("ERROR"), rep.count("WARN")
     result = "FAIL" if errors else "PASS"
-    print(f"RESULT: {result}  errors={errors} warnings={warnings} render={render} slides={len(rep.slide_meta)}")
+    infos = rep.count("INFO")
+    print(f"RESULT: {result}  errors={errors} warnings={warnings} info={infos} render={render} slides={len(rep.slide_meta)}")
     if args.json:
         Path(args.json).parent.mkdir(parents=True, exist_ok=True)
         slides = [{"n": n, "archetype": a, "title": t, "sigs": rep.slide_sigs.get(n, []),
                    "findings": [it for it in rep.items if it["slide"] == n]} for n, (a, t) in sorted(rep.slide_meta.items())]
-        Path(args.json).write_text(json.dumps({"result": result, "errors": errors, "warnings": warnings, "render": render,
+        Path(args.json).write_text(json.dumps({"result": result, "errors": errors, "warnings": warnings, "info": infos, "render": render,
                                                "deck": [it for it in rep.items if not it["slide"]], "slides": slides},
                                               ensure_ascii=False, indent=1), encoding="utf-8")
     if errors:
