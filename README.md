@@ -2,39 +2,83 @@
 
 에이전트 스킬 묶음입니다. "○○ 교육자료 만들어줘" 한 줄이면 조사→구성→저작→검증까지 거쳐 **브라우저에서 바로 쓰는 단일 HTML 교육 덱**을 만듭니다. 퀴즈·학습지·발표 덱·사례 교육 무엇이든, 발표자 노트·자습 모드·인쇄·출처 검증까지 갖춘 상태로 나옵니다.
 
+[![License](https://img.shields.io/badge/license-Apache--2.0-3e9e5c?style=flat-square)](LICENSE)
+[![Works with](https://img.shields.io/badge/agents-pi%20%C2%B7%20Claude%20Code%20%C2%B7%20Codex-7a5cc4?style=flat-square)](#4-사용법)
+[![Ships](https://img.shields.io/badge/산출물-단일%20HTML%20%C2%B7%20외부의존%200-0e7d95?style=flat-square)](#2-완성-덱-하나의-단면)
+[![Assets](https://img.shields.io/badge/%EB%A6%AC%EC%86%8C%EC%8A%A4%ED%8C%A9-8%EC%84%A4%EA%B3%84%C2%B78%ED%9D%90%EB%A6%84%2064%EC%A1%B0%ED%95%A9-2f6fb0?style=flat-square)](docs/gallery.html)
+[![Assets](https://img.shields.io/badge/%EC%9E%A5%20%EB%B0%B0%EC%B9%98-32%EA%B3%84%EC%97%B4%2063%EB%B3%80%ED%98%95-e8772e?style=flat-square)](docs/gallery.html)
+[![Tests](https://img.shields.io/badge/%ED%9A%8C%EA%B7%80-213%20tests%20%C2%B7%20pack%2064%2F64-59c3d6?style=flat-square)](#5-검증)
+
 ![데모](docs/demo-quiz.gif)
+
+**[예시 4종](#1-예시-4종--실물)** · **[도식 3장](#2-한눈에-보는-구성)** · **[자산 갤러리 142점](#3-자산-갤러리--재료-전부)** · **[사용법](#4-사용법)** · **[소개 영상 56초](docs/brag.mp4)**
+
+> 덱 파일은 폰트를 품은 단일 HTML(~3MB)이라 GitHub 내장 뷰어가 못 엽니다. **▶ 버튼(원본 서빙 링크)으로 바로 열어** 보세요. 다운로드는 카드의 `소스` 링크에서.
 
 ## 1. 예시 4종 — 실물
 
-모두 이 저장소의 스킬로 만든 완성 덱입니다(`examples/` 폴더에 저작 과정 파일 포함).
+모두 이 저장소의 스킬로 만든 완성 덱입니다. 저작 과정 파일(brief·구성안·조사·슬라이드 원본)은 각 폴더에 들어있습니다.
 
-| 예시 | 대상 | 무엇을 보여주나 | 열어보기 |
-|---|---|---|---|
-| 물질의 상태 변화 단원 퀴즈 | 중1 과학 | 가이드 모드·OX/4택/분류 퀴즈 혼합·다시 보기 연결 | [examples/states-quiz](examples/states-quiz/물질의상태변화-단원평가퀴즈-교육자료.html) |
-| 비와 비율 학습지 | 초6 수학 | 리소스팩(workbook)·읽는 면/해보는 면·인쇄 학습지 | [examples/ratio-worksheet](examples/ratio-worksheet/비와-비율-학습지.html) |
-| 개인정보 보호 기본 | 전 직원 | 발표 덱(talk)·발표 타이머·대본 노트·20분 | [examples/privacy-talk](examples/privacy-talk/개인정보-보호-기본-교육자료.html) |
-| 사고 사례로 배우는 현장 안전 | 신규 입사자 | 리소스팩(casebook)·사례 기록 문법·공개 통계 출처 | [examples/safety-casebook](examples/safety-casebook/사고-사례-현장-안전-교육자료.html) |
+<table>
+<tr>
+<td width="50%" valign="top">
+<a href="https://raw.githack.com/insightflo/edu-deck-skills/main/examples/states-quiz/물질의상태변화-단원평가퀴즈-교육자료.html"><img src="docs/covers/cover-quiz.png" width="100%" alt="물질의 상태 변화 퀴즈 표지 — 남색 배경, 큰 글씨 6갈래"></a>
+<b>물질의 상태 변화 단원 퀴즈</b> · 중1 과학 · 15장<br>
+<sub>가이드 모드 · OX·4택·분류 퀴즈 혼합 · 틀리면 해설·다시 보기로 연결</sub><br>
+<sub><a href="https://raw.githack.com/insightflo/edu-deck-skills/main/examples/states-quiz/물질의상태변화-단원평가퀴즈-교육자료.html">▶ 재생</a> · <a href="examples/states-quiz">소스</a></sub>
+</td>
+<td width="50%" valign="top">
+<a href="https://raw.githack.com/insightflo/edu-deck-skills/main/examples/ratio-worksheet/비와-비율-학습지.html"><img src="docs/covers/cover-workbook.png" width="100%" alt="비와 비율 학습지 표지 — 읽는 면과 해보는 면이 나란히"></a>
+<b>비와 비율 학습지</b> · 초6 수학 · 10장<br>
+<sub>리소스팩 workbook · 읽는 면/해보는 면 · 인쇄해서 쓰는 자습 학습지</sub><br>
+<sub><a href="https://raw.githack.com/insightflo/edu-deck-skills/main/examples/ratio-worksheet/비와-비율-학습지.html">▶ 재생</a> · <a href="examples/ratio-worksheet">소스</a></sub>
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+<a href="https://raw.githack.com/insightflo/edu-deck-skills/main/examples/privacy-talk/개인정보-보호-기본-교육자료.html"><img src="docs/covers/cover-talk.png" width="100%" alt="개인정보 보호 기본 표지 — 남색, 보호 습관 도식"></a>
+<b>개인정보 보호 기본</b> · 전 직원 · 18장<br>
+<sub>발표 덱(talk) · 대본 노트·발표 타이머 · 20분 시간 계약</sub><br>
+<sub><a href="https://raw.githack.com/insightflo/edu-deck-skills/main/examples/privacy-talk/개인정보-보호-기본-교육자료.html">▶ 재생</a> · <a href="examples/privacy-talk">소스</a></sub>
+</td>
+<td width="50%" valign="top">
+<a href="https://raw.githack.com/insightflo/edu-deck-skills/main/examples/safety-casebook/사고-사례-현장-안전-교육자료.html"><img src="docs/covers/cover-casebook.png" width="100%" alt="사고 사례로 배우는 현장 안전 표지 — 크림 바탕 사례철 문법"></a>
+<b>사고 사례로 배우는 현장 안전</b> · 신규 입사자 · 11장<br>
+<sub>리소스팩 casebook · 사례→원인→교훈 · 공개 통계 출처 검증</sub><br>
+<sub><a href="https://raw.githack.com/insightflo/edu-deck-skills/main/examples/safety-casebook/사고-사례-현장-안전-교육자료.html">▶ 재생</a> · <a href="examples/safety-casebook">소스</a></sub>
+</td>
+</tr>
+</table>
 
 ![예시 4종](docs/demo-variety.gif)
 
+## 2. 한눈에 보는 구성
+
+**무엇을 만들 수 있나 — 지원 범위** (수치는 저장소 회귀로 검증)
+
+<img src="docs/diagrams/diagram-scope.png" width="100%" alt="지원 범위 도식 — 규모 1편/N편, legacy 8테마·5흐름·63조각·표지 7+1, 팩 8설계×8흐름 64조합, 덱 유형 4종, 기본 포함 기능">
+
+**어떻게 만들어지나 — 요청부터 검사까지** (실선=코드 강제, 점선=에이전트 수행)
+
+<img src="docs/diagrams/diagram-pipeline.png" width="46%" alt="저작 파이프라인 도식 — 요청→라우팅→legacy/팩 경로→조립→검사"> <img src="docs/diagrams/diagram-cross.png" width="52.6%" alt="완성 덱 단면 도식 — 슬라이드·단계공개·노트·퀴즈·자습·출처 층위">
+
+**완성 덱 하나의 단면** — 파일 하나에 교육 자료 전체 층위: 슬라이드(63변형·8테마·모션 31종) / 단계 공개 / 발표자 노트(60자 이상 검사) / 확인 문제·퀴즈 / 자습 모드·용어집·검색 / 출처·검증 층. [**▶ 자산 갤러리에서 실물 142점 보기**](https://raw.githack.com/insightflo/edu-deck-skills/main/docs/gallery.html)
+
+## 3. 자산 갤러리 — 재료 전부
+
+스킬이 조립에 쓰는 재료를 실제 빌드 파이프라인으로 렌더해 전시합니다.
+
+**[▶ 갤러리 열기 (설계 필터·라이트박스)](https://raw.githack.com/insightflo/edu-deck-skills/main/docs/gallery.html)** · [▶ 장 배치 63종 전체 덱으로 넘겨 보기](https://raw.githack.com/insightflo/edu-deck-skills/main/docs/gallery-archetypes.html)
+
+| 재료 | 수 | 갤러리에서 |
+|---|---|---|
+| 리소스팩 설계 × 흐름 | 8 × 8 = **64조합** (전수 빌드·검사 64/64) | 표지 + 내용 장 각 1장씩 |
+| 장 배치 조각 | **32계열 63변형** | 썸네일 + 63장 열람 덱 |
+| 테마 | **8종** | 같은 장면에 테마만 교체 |
+| 모션 시그니처 | **31종 중 대표 7종** | GIF |
+| 표지 | 직접 설계(3안 비교) + 카탈로그 7종 | 아키타입 갤러리 |
+
 50초 소개 영상: [docs/brag.mp4](docs/brag.mp4)
-
-## 2. 완성 덱 하나에 들어있는 것
-
-- **단일 HTML, 외부 의존성 0** — 파일 하나를 브라우저로 열면 끝. 폰트(Pretendard)도 안에 들어있습니다.
-- **발표자 노트**(N) — 장마다 60자 이상 노트. 자습·인쇄 본문이 됩니다.
-- **자습 모드**(S) — 발표용 화면을 학습자용 본문으로 바꿉니다.
-- **인쇄**(P) — 단계·해설이 모두 전개된 상태로 종이에 그대로.
-- **확인 문제·퀴즈** — 틀리면 해설과 다시 보기 장으로 되돌립니다.
-- **출처 검증** — 화면의 숫자마다 사실 ID. 원문 대조·두 출처 일치를 검사기가 확인합니다.
-- **검색(Ctrl+K·/)·목차(O)·용어집(G)·발표 타이머(T·R)**, 단계 공개(→), 축소 화면 반응형, `prefers-reduced-motion` 존중.
-
-## 3. 다양성 — 같은 문법, 다른 인상
-
-- **legacy 경로**: 테마 8종 × 흐름(arc) 5종 × 표지(직접 설계 기본 + 카탈로그 7종), 장 배치 아키타입 32종 64변형, 모션 시그니처 7종.
-- **리소스팩 경로**: 설계 8종(workbook·casebook·field·editorial·lab·atlas·briefing·seminar) × 학습 흐름 8종 — 팩마다 배치 문법 자체가 다릅니다.
-- **표지 3안 비교** — 표지는 방향 3안을 실제로 만들어 캡처로 비교하고 1안을 채택합니다.
-- **디자인 판단 기준**(`design.md`) — 위계·강조·밀도·리듬의 판단 테스트(회색조·2초·곁눈). 장마다 리듬(앵커·밀집·숨고르기)을 계획합니다.
 
 ## 4. 사용법
 
@@ -50,16 +94,16 @@ git clone https://github.com/insightflo/edu-deck-skills.git ~/.pi/agent/skills/e
 - "신입 직원용 개인정보 보호 교육자료 만들어줘" → `edu-deck-solo` (한 주제 한 덱)
 - "안전 교육 6편 시리즈로 만들어, 진도 관리되게" → `edu-deck-series` (시리즈 + 포털)
 
-자유·가이드 두 저작 모드가 있습니다. 기본은 자유 모드(에이전트가 배치를 직접 설계), 막히거나 지시받으면 가이드 문서를 따릅니다. 모델 이름으로 갈리지 않습니다.
+저작은 기본이 **자유 모드**(에이전트가 배치를 직접 설계)이고, 막히거나 지시받으면 가이드 문서로 전환합니다(3회 실패 자동·지시 지정·위임자 판단). 모델 이름으로 갈리지 않습니다.
 
 ## 5. 검증 — 검사기가 품질을 담당
 
-`check_deck.py`가 완성 덱을 정적+렌더 검사합니다. 규칙은 두 층으로 나뉩니다.
+`check_deck.py`가 완성 덱을 정적+렌더 검사합니다. 규칙은 두 층입니다.
 
-- **안전 가드(ERROR)** — 깨진 참조·외부 자원·대비(4.5:1/3:1)·글자 18px 미만·노트 부재·계약 위반. 이걸 통과해야 완성입니다.
-- **취향(INFO)** — 제목 길이·구성 반복·밀도 같은 취향 항목. `--style`을 주면 경고(WARN) 상세로 올라갑니다. 사람이 읽고 판단합니다.
+- **안전 가드(ERROR)** — 깨진 참조·외부 자원·대비(4.5:1/3:1)·글자 18px 미만·노트 부재·계약 위반. 통과해야 완성입니다.
+- **취향(INFO)** — 제목 길이·구성 반복·밀도. `--style`을 주면 경고(WARN) 상세로 올라갑니다. 사람이 읽고 판단합니다.
 
-저장소 자체 회귀: 단위 테스트 213개(렌더 포함, skip 1), 리소스팹 브라우저 64/64 조합, 대비 매트릭스 238셀.
+저장소 회귀: 단위 테스트 213개(렌더 포함, skip 1), 리소스팩 브라우저 64/64 조합, 대비 매트릭스 238셀.
 
 ```bash
 cd edu-deck/shared
@@ -72,11 +116,11 @@ python3 scripts/check_deck.py --style <덱.html>   # 취향 상세
 ## 6. 구조
 
 ```
-edu-deck/          진입(라우터) 스킬 + 공통: 셸·모션 엔진·조각 32종·아이콘·팩 8종·검사·조립 도구
+edu-deck/          진입(라우터) 스킬 + 공통: 셸·모션 엔진·조각 32계열·아이콘·팩 8종·검사·조립 도구
 edu-deck-solo/     한 주제 한 덱 — brief → 조사 → outline → 저작 → 검사
 edu-deck-series/   여러 편 시리즈 + 목차 포털·진도·같은 편 복습
 examples/          실물 예시 4종(저작 과정 포함)
-docs/              데모 GIF·소개 영상·소셜카드
+docs/              데모 GIF·소개 영상·도식·자산 갤러리(142점)
 ```
 
 ## 7. 라이선스·크레딧
