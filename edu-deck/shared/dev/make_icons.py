@@ -1,9 +1,9 @@
 """edu-deck-solo 추가 아이콘(assets/icons/extra.svg) 생성기.
 
-[파일 목적] 참고 덱 24종과 같은 선 아이콘 문법(viewBox 100, currentColor, 굵기 5, 둥근 끝)으로
+[파일 목적] base.svg 기본 24종과 같은 선 아이콘 문법(viewBox 100, currentColor, 굵기 5, 둥근 끝)으로
   주제 일반용 아이콘을 만든다. 손으로 svg를 쓰면 속성 오타가 잦아서 표에서 생성한다.
 [출력] <skill>/assets/icons/extra.svg
-[수정시 주의] id는 references/icons.md 표와 짝이다. 참고 덱에서 옮긴 base.svg 의 id와 겹치면 빌드가 멈춘다.
+[수정시 주의] id는 references/icons.md 표와 짝이다. 기본 묶음 base.svg 의 id와 겹치면 빌드가 멈춘다.
 """
 import pathlib
 
