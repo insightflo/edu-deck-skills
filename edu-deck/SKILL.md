@@ -28,9 +28,29 @@ description: "Entry skill for education deck requests. Use FIRST when the user w
 
 ## 새 덱의 공통 저작 경로
 
-규모를 판별한 뒤 하위 스킬이 새 덱·새 시리즈 편을 만든다. **새 덱의 기본은 리소스팩 경로다.** 같은 모양이 반복되지 않도록 디자인 8종과 학습 흐름 8종에서 주제에 맞는 조합을 고른다. 순서는 `python3 shared/scripts/pack_router.py --title … --outcomes … --audience …`로 후보 3종·추천·흐름을 계산하고(최근에 쓴 디자인은 `--recent`로 감점), 후보 시안(`preview_pack.py`)을 사용자에게 보여 고르게 하는 것이다. 사용자가 답하지 않거나 위임 실행이라 물을 수 없으면 추천 후보로 진행하고 `resource_pack_choice`에 `by: default`와 근거를 남긴다. 선택은 `deck.json.resource_pack`에 명시하며 보조활동은 주흐름과 다른 흐름을 중복 없이 최대 2종만 고른다. 라우터 점수는 후보를 좁히는 휴리스틱이므로 청중·수행 행동·평가 증거로 확인하고 필요하면 바꾼다. 팩 덱도 공통 아이콘 묶음과 개념 SVG 도식은 쓸 수 있으나, legacy 배치 클래스·조각·CSS는 섞지 않는다.
+규모를 판별한 뒤 하위 스킬이 새 덱·새 시리즈 편을 만든다. 만들기 전에 아래 "경로 결정"으로 팩 경로와 legacy 경로 중 하나를 정한다(기본값 없음).
 
-**legacy 아키타입 경로는 사용자가 "기존 형식"·"legacy"를 요청했거나, 팩에 없는 조각(숫자 증거 띠 `stat-strip`, 실물 화면 인용 `screen-cite`)이 꼭 필요할 때만 쓴다.** 이때 `shared/references/composition.md`의 유형표·줄거리, `layouts.md`의 아키타입·`assets/snippets/`·공통 아이콘(`icons.md`)·개념 SVG 도식(`diagrams.md`)으로 저작하고, 그 이유를 최종 보고에 한 줄 남긴다. legacy 경로에서도 덱마다 얼굴이 달라지게 `deck.json` 의 `theme`(8종, 기본 classic)·`arc`(6종, 기본 standard)와 표지 `data-variant`(7종, 기본 orbit)를 둔다 — 후보는 `python3 shared/scripts/tone_router.py --title … --outcomes … --audience …` 로 계산하고, 생략하면 기존 결과 그대로다.
+## 경로 결정 (새 덱·새 시리즈를 시작할 때 한 번, 덱 단위)
+
+덱은 **팩 경로** 또는 **legacy 경로** 중 하나로 만든다. 한 덱에 둘을 섞을 수 없다(팩 덱에 legacy 조각을 넣으면 `check_deck.py` 가 ERROR 로 실패한다). 그래서 저작을 시작하기 전에 정하고, 시리즈는 시리즈 단위로 한 번 정한다. 어느 쪽도 "기본값"이 아니다. 에이전트가 요청을 보고 판단한다.
+
+1. **강제 조건**(판단하지 않는다)
+   - 기존 덱 편집: `deck.json` 에 `resource_pack` 이 있으면 팩, 없으면 legacy.
+   - 사용자가 경로나 디자인을 지정: "기존 형식"·"legacy" 는 legacy, 팩 디자인 이름이나 "팩"은 팩.
+   - 팩에 없는 조각이 꼭 필요: 숫자 증거 띠(`stat-strip`)·실물 화면 인용(`screen-cite`)은 legacy.
+2. **판단 신호**(강제 조건이 없을 때. 측정한 기준이 아니라 판단 기준이다)
+   - 팩 쪽: 청중이 직접 해 보는 활동·판단·토론이 성과의 중심이다(따라하기·진단·탐구·토론·프로젝트·사례 판단). 비교적 짧다(대략 10~20장). 디자인을 시안으로 골라야 한다.
+   - legacy 쪽: 개념·규정·절차를 설명하고 퀴즈로 확인하는 긴 덱이다(대략 30장 이상). 표·도식·퀴즈 유형이 여러 가지 필요하다. 사용자가 기존 결과물과 같은 형식을 원한다.
+3. **결정 규칙**
+   - 신호가 한쪽으로 분명하면 **스스로 정하고 진행**한다. brief 와 최종 보고에 `경로: 팩 (근거: …)` 한 줄을 남긴다.
+   - 신호가 섞이거나 약하면 **사용자에게 한 번 묻는다.** 두 경로를 각각 한 줄로 설명하고 추천 하나와 이유를 붙인다. 답이 올 때까지 저작을 시작하지 않는다.
+   - 위임 실행처럼 물을 수 없으면 추천 경로로 진행하고, brief 와 최종 보고의 "확인 필요"에 `경로를 추천으로 정함(근거: …)` 을 남긴다. 신호가 비슷하면 팩을 추천한다(디자인·흐름 조합이 더 넓다).
+4. 경로가 정해지면 해당 라우터를 돌린다: 팩은 `shared/scripts/pack_router.py`(디자인 8·흐름 8 후보 3종), legacy 는 `shared/scripts/tone_router.py`(테마 9·표지 7·arc 6). 라우터 점수는 후보를 좁히는 휴리스틱이므로 청중·수행 행동·평가 증거로 확인한다.
+5. 저작 중에 경로를 바꾸면 이미 쓴 장을 새 경로로 다시 써야 한다. 바꿔야 하는 이유가 생기면 진행을 멈추고 사용자에게 알린다.
+
+**팩 경로**: 같은 모양이 반복되지 않도록 디자인 8종과 학습 흐름 8종에서 주제에 맞는 조합을 고른다. `pack_router.py` 의 후보 3종·추천·흐름(최근 쓴 디자인은 `--recent` 로 감점)으로 시안(`preview_pack.py`)을 만들어 사용자에게 보여 고르게 한다. 답이 없거나 위임 실행이라 물을 수 없으면 추천 후보로 진행하고 `resource_pack_choice` 에 `by: default` 와 근거를 남긴다. 선택은 `deck.json.resource_pack` 에 명시하며 보조활동은 주흐름과 다른 흐름을 중복 없이 최대 2종만 고른다. 팩 덱도 공통 아이콘 묶음과 개념 SVG 도식은 쓸 수 있으나 legacy 배치 클래스·조각·CSS 는 섞지 않는다.
+
+**legacy 경로**: `shared/references/composition.md` 의 유형표·줄거리, `layouts.md` 의 아키타입·`assets/snippets/`·공통 아이콘(`icons.md`)·개념 SVG 도식(`diagrams.md`)으로 저작한다. 덱마다 얼굴이 달라지게 `deck.json` 의 `theme`(9종, 기본 classic)·`arc`(6종, 기본 standard)와 표지 `data-variant`(7종, 기본 orbit)를 `python3 shared/scripts/tone_router.py --title … --outcomes … --audience …` 의 추천으로 고른다. 생략하면 기존 결과 그대로다.
 
 새 팩 생성기는 저작용 뼈대이지 검증된 강의가 아니다. 실제 조사 내용·110~450자 발표자 노트와 같은 디자인 안의 다양한 배치 변형을 작성하고 하위 스킬의 검사를 거친다. 팩 경로는 legacy 포팅 도구나 원래 Downloads HTML을 필요로 하지 않는다.
 
@@ -45,6 +65,8 @@ description: "Entry skill for education deck requests. Use FIRST when the user w
 ## 판별 기록
 
 경로를 정했으면 최종 보고에 한 줄 남긴다: "판별: 단일 발행(신호: …) → edu-deck-solo" 또는 "판별: 시리즈(신호: …) → edu-deck-series / 사용자 확인".
+
+덱 경로도 최종 보고에 한 줄 남긴다: "경로: 팩 (근거: …)" 또는 "경로: legacy (근거: …)". 사용자에게 물었으면 "사용자 확인", 물을 수 없어 추천으로 진행했으면 "추천으로 진행"을 덧붙인다.
 
 ## 하위 스킬 안내
 

@@ -29,9 +29,9 @@ python3 -m playwright install chromium
 
 먼저 `edu-deck-solo/SKILL.md`의 요청 정리·조사·구성 절차를 따르고, 사용자가 요청하면 구성안을 승인받습니다. 아래는 명령 형태의 예시이며 교육 내용을 자동으로 완성하는 명령이 아닙니다. 새 작업 폴더를 사용하세요.
 
-새 덱의 기본은 리소스팩 경로입니다. 먼저 `python3 shared/scripts/pack_router.py --title "<제목>" --outcomes "<교육 뒤 할 수 있어야 하는 것>" --audience "<청중>"`으로 디자인 후보 3종·추천·학습 흐름을 받고, 시안에서 골라 아래 init으로 뼈대를 만듭니다. 같은 주제를 다르게 다시 만들려면 `--seed`를 바꾸고, 최근 쓴 디자인은 `--recent`로 넘겨 반복을 줄입니다.
+새 덱은 만들기 전에 팩 경로와 legacy 경로 중 하나를 정합니다(기본값 없음). 강제 조건(기존 덱 편집, 사용자 지정, 팩에 없는 조각)이 없으면 요청을 보고 판단하고, 애매하면 사용자에게 한 번 묻습니다. 한 덱에 두 경로를 섞을 수 없습니다. 팩으로 정해지면 먼저 `python3 shared/scripts/pack_router.py --title "<제목>" --outcomes "<교육 뒤 할 수 있어야 하는 것>" --audience "<청중>"` 으로 디자인 후보 3종·추천·학습 흐름을 받고, 시안에서 골라 아래 init으로 뼈대를 만듭니다. 같은 주제를 다르게 다시 만들려면 `--seed`를 바꾸고, 최근 쓴 디자인은 `--recent`로 넘겨 반복을 줄입니다.
 
-legacy 아키타입 경로(`deck.json`에 `title`·`output`만 쓰고 `shared/assets/snippets/`와 `shared/references/layouts.md`를 참고해 `src/NN-이름.html`을 직접 작성)는 "기존 형식"을 요청했거나 팩에 없는 조각(숫자 증거 띠·실물 화면 인용)이 꼭 필요할 때만 씁니다. 이 경로에서도 `deck.json` 에 `theme`(classic 포함 9종)과 `arc`(6종)를 쓰고 표지 조각을 `01-cover*.html` 의 변형 중 하나로 골라 덱마다 다른 얼굴을 만들 수 있습니다 — `python3 shared/scripts/tone_router.py --title "…" --outcomes "…" --audience "…"` 가 추천을 계산하며, 아무것도 쓰지 않으면 기존과 같은 모양입니다.
+legacy 경로로 정해지면 `deck.json` 에 `title`·`output` 을 쓰고 `shared/assets/snippets/` 와 `shared/references/layouts.md` 를 참고해 `src/NN-이름.html` 을 직접 작성합니다. 이 경로에서도 `deck.json` 에 `theme`(classic 포함 9종)과 `arc`(6종)를 쓰고 표지 조각을 `01-cover*.html` 의 변형 중 하나로 골라 덱마다 다른 얼굴을 만들 수 있습니다 — `python3 shared/scripts/tone_router.py --title "…" --outcomes "…" --audience "…"` 가 추천을 계산하며, 아무것도 쓰지 않으면 기존과 같은 모양입니다.
 
 ```sh
 python3 edu-deck/shared/scripts/resource_packs.py init ./my-deck --design editorial --flow problem --title "교육 제목"

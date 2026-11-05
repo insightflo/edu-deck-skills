@@ -18,7 +18,7 @@ python3 scripts/build_deck.py <덱폴더> && python3 scripts/check_deck.py <결�
 
 ## 현재 상태(2026-11-05)
 - 클린룸 재작성 캠페인 완료(엔진·CSS·스니펫 28종·자습 계층; 커밋 1c2d281→aab1a7f).
-- 다양성 개편 완료: legacy 테마 8종(`assets/css/themes.css`, deck.json `theme`)·표지 변형 6종·arc 5종·`scripts/tone_router.py`, 팩 라우터 `scripts/pack_router.py`. 새 덱 기본은 팩, legacy는 요청하거나 팩에 없는 조각이 필요할 때. 회귀: unittest 187(skip 1) + pack 64/64.
+- 다양성 개편 완료: legacy 테마 8종(`assets/css/themes.css`, deck.json `theme`)·표지 변형 6종·arc 5종·`scripts/tone_router.py`, 팩 라우터 `scripts/pack_router.py`. 새 덱은 만들기 전에 팩/legacy 중 하나를 에이전트가 판단해 정한다(기본값 없음, 애매하면 사용자에게 한 번 묻는다. 규칙: `edu-deck/SKILL.md` "경로 결정"). 한 덱에 두 경로를 섞을 수 없다. 회귀: unittest 187(skip 1) + pack 64/64.
 - 대기: GitHub 공개(insightflo/edu-deck-skills), 예시 3종 재생성, 배포 zip 재생성(dist 낡음). 한계: 테마는 색·그림자·반경만 바꾸고 장 배치는 같음.
 - 작업자: Devin 은 항상 1개만. 추가 작업자는 pi(glm-zcode/glm-5.3-flash, max).
 - 위임: Devin 우선(이 폴더는 devin 신뢰 경로 등록됨), pi 는 조율·검증. herdr 사용: `hc run --name <이름> --bg devin --permission-mode dangerous` + `hc send` 로 지시.
