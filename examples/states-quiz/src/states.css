@@ -1,0 +1,4 @@
+/* states-quiz 전용 — 지도 장의 납작한 카드 변형 */
+.slide .sk-card.tight{padding:12px 20px;gap:18px;align-items:center}
+.slide .sk-card.tight svg{width:56px;height:56px}
+.slide .sk-card.tight .small{margin:2px 0 0}

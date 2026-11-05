@@ -1,0 +1,27 @@
+/* safety-casebook 팩 덱 전용 변형 (casebook 문법 안의 자유 변형) */
+.pack-casebook .stat-band{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:24px}
+.pack-casebook .stat-cell{border:2px solid var(--line);border-radius:8px;padding:16px 22px;text-align:center}
+.pack-casebook .stat-cell .n{display:block;font-size:48px;font-weight:900;color:var(--accent);line-height:1.1}
+.pack-casebook .stat-cell .l{display:block;font-size:24px;color:var(--soft);margin-top:6px}
+.pack-casebook .cause-list{display:grid;gap:16px;margin-top:20px}
+.pack-casebook .cause-row{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:start;font-size:27px;line-height:1.5}
+.pack-casebook .cause-row .x{width:40px;height:40px;border-radius:50%;background:var(--danger);color:var(--paper);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:24px;flex:none}
+.pack-casebook .rule-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:22px}
+.pack-casebook .rule-card{border:2px solid var(--accent);border-radius:10px;padding:24px}
+.pack-casebook .rule-card h3{font-size:28px;margin:0 0 12px;color:var(--accent-text)}
+.pack-casebook .rule-card p{font-size:25px;line-height:1.55;margin:0}
+.pack-casebook .rule-card .tag{display:inline-block;font-size:21px;font-weight:800;background:var(--accent);color:var(--paper);border-radius:20px;padding:4px 14px;margin-bottom:12px}
+.pack-casebook .step-flow{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-top:20px;counter-reset:sf}
+.pack-casebook .step-flow li{list-style:none;border:1.5px solid var(--line);border-radius:8px;padding:14px 12px;font-size:21px;line-height:1.4;position:relative;padding-top:38px}
+.pack-casebook .step-flow li::before{counter-increment:sf;content:counter(sf);position:absolute;top:8px;left:12px;width:24px;height:24px;border-radius:50%;background:var(--accent);color:var(--paper);font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.pack-casebook .type-rank{display:grid;gap:12px;font-size:27px;margin-top:18px}
+.pack-casebook .type-rank .bar{display:grid;grid-template-columns:130px 1fr auto;gap:16px;align-items:center}
+.pack-casebook .type-rank .bar .fill{height:30px;border-radius:6px;background:var(--blue)}
+.pack-casebook .type-rank .bar.hot .fill{background:var(--danger)}
+.pack-casebook .verdict{display:flex;gap:18px;align-items:center;margin-top:22px;padding:18px 24px;border:2px dashed var(--accent);border-radius:10px;font-size:27px}
+.pack-casebook .verdict b{color:var(--accent-text)}
+.pack-casebook .chk .chk-o{text-align:left}
+.pack-casebook .three-rules{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:22px}
+.pack-casebook .three-rules .r{border-top:5px solid var(--accent);padding:20px 8px;text-align:center}
+.pack-casebook .three-rules .r b{display:block;font-size:32px;margin-bottom:10px}
+.pack-casebook .three-rules .r span{font-size:24px;line-height:1.5;color:var(--soft)}
