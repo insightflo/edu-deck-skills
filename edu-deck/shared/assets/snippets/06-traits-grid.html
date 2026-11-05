@@ -1,6 +1,6 @@
 <!--
   아키타입 traits-grid (변형: 기본)
-  언제: 성질·특징 2×2 또는 4줄. 아이콘 + 제목 + 설명 + 출처 칩.
+  언제: 성질·특징 2×2 또는 4줄. 제목 + 설명 + 출처 칩 + 아이콘.
   단계: 특징별 1단계
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
   자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
@@ -8,11 +8,15 @@
 -->
 <section class="slide" data-archetype="traits-grid" style="gap:32px">
   <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤24자»</h2></div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:32px;flex:1;min-height:0">
-    <div class="card trait" data-step="1"><svg viewBox="0 0 100 100" class="ticon" aria-hidden="true"><use href="#i-qbubble" width="100" height="100" style="color:var(--accent-text)"/></svg><div class="col" style="gap:8px"><h3 style="font-size:38px">«카드 제목 ≤4자» <span class="en">«영문 용어 ≤16자»</span></h3><p class="body">«설명 ≤47자»</p><p data-src="«F01»" class="fact">«출처 칩: 발행처「문서」(연도) 값 ≤46자»</p></div></div>
-    <div class="card trait" data-step="2"><svg viewBox="0 0 100 100" class="ticon" aria-hidden="true"><use href="#i-list" width="100" height="100" style="color:var(--blue)"/></svg><div class="col" style="gap:8px"><h3 style="font-size:38px">«카드 제목 ≤5자» <span class="en">«영문 용어 ≤17자»</span></h3><p class="body">«설명 ≤50자»</p><p data-src="«F01»" class="fact">«출처 칩: 발행처「문서」(연도) 값 ≤40자»</p></div></div>
-    <div class="card trait" data-step="3"><svg viewBox="0 0 100 100" class="ticon" aria-hidden="true"><use href="#i-cal" width="100" height="100" style="color:var(--blue)"/></svg><div class="col" style="gap:8px"><h3 style="font-size:38px">«카드 제목 ≤8자» <span class="en">«영문 용어 ≤20자»</span></h3><p class="body">«설명 ≤44자»</p><p data-src="«F01»" class="fact">«출처 칩: 발행처「문서」(연도) 값 ≤24자»</p></div></div>
-    <div class="card trait" data-step="4"><svg viewBox="0 0 100 100" class="ticon" aria-hidden="true"><use href="#i-question" width="100" height="100" style="color:var(--accent-text)"/></svg><div class="col" style="gap:8px"><h3 style="font-size:38px">«카드 제목 ≤9자»</h3><p class="body">«설명 ≤41자»</p><p data-src="«F01»" class="fact">«출처 칩: 발행처「문서」(연도) 값 ≤30자»</p></div></div>
+  <div class="col" style="flex:1;min-height:0;gap:32px">
+    <div class="row" style="flex:1;min-height:0">
+      <div class="card trait f1" data-step="1"><div class="col" style="gap:8px"><h3 style="font-size:38px">«카드 제목 ≤4자» <span class="en">«영문 용어 ≤16자»</span></h3><p class="body">«설명 ≤47자»</p><p data-src="«F01»" class="fact">«출처 칩: 발행처「문서」(연도) 값 ≤46자»</p></div><svg viewBox="0 0 100 100" class="ticon" aria-hidden="true"><use href="#i-star" width="100" height="100" style="color:var(--accent-text)"/></svg></div>
+      <div class="card trait f1" data-step="2"><div class="col" style="gap:8px"><h3 style="font-size:38px">«카드 제목 ≤5자» <span class="en">«영문 용어 ≤17자»</span></h3><p class="body">«설명 ≤50자»</p><p data-src="«F01»" class="fact">«출처 칩: 발행처「문서」(연도) 값 ≤40자»</p></div><svg viewBox="0 0 100 100" class="ticon" aria-hidden="true"><use href="#i-list" width="100" height="100" style="color:var(--blue)"/></svg></div>
+    </div>
+    <div class="row" style="flex:1;min-height:0">
+      <div class="card trait f1" data-step="3"><div class="col" style="gap:8px"><h3 style="font-size:38px">«카드 제목 ≤8자» <span class="en">«영문 용어 ≤20자»</span></h3><p class="body">«설명 ≤44자»</p><p data-src="«F01»" class="fact">«출처 칩: 발행처「문서」(연도) 값 ≤24자»</p></div><svg viewBox="0 0 100 100" class="ticon" aria-hidden="true"><use href="#i-clock" width="100" height="100" style="color:var(--blue)"/></svg></div>
+      <div class="card trait f1" data-step="4"><div class="col" style="gap:8px"><h3 style="font-size:38px">«카드 제목 ≤9자»</h3><p class="body">«설명 ≤41자»</p><p data-src="«F01»" class="fact">«출처 칩: 발행처「문서」(연도) 값 ≤30자»</p></div><svg viewBox="0 0 100 100" class="ticon" aria-hidden="true"><use href="#i-question" width="100" height="100" style="color:var(--accent-text)"/></svg></div>
+    </div>
   </div>
   <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
 </section>
