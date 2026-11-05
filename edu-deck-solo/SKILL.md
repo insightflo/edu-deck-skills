@@ -31,7 +31,7 @@ description: "Use when the user gives a topic and wants education or training ma
 - 조사로 알 수 없는 조직 고유 정보(사내 규정, 담당 부서, 쓰는 시스템 이름)가 덱에 꼭 필요하면 **한 번에 묶어 한 번만** 묻는다. 답이 없어도 진행한다: "우리 현장"처럼 일반 표현 + 가상 예시로 쓰고 최종 보고의 "확인 필요"에 남긴다.
 - **먼저 경로를 정한다**(`edu-deck/SKILL.md` 의 "경로 결정"): 강제 조건 → 판단 신호 → 분명하면 스스로 정하고 `경로: 팩|legacy (근거: …)` 를 brief 에 적는다. 섞이거나 약하면 두 경로를 한 줄씩 설명하고 추천 하나를 붙여 사용자에게 한 번 묻는다. 물을 수 없는 위임 실행이면 추천으로 진행하고 최종 보고 "확인 필요"에 남긴다. 한 덱에 두 경로를 섞지 않는다.
 - **팩 경로**: brief 의 제목·청중·교육 뒤 할 수 있어야 하는 것으로 라우터를 돌린다: `python3 <base>/scripts/pack_router.py --title "<제목>" --outcomes "<할 수 있어야 하는 것>" --audience "<청중>" [--recent <최근 쓴 디자인>] [--emit-command]`. 출력의 후보 3종·추천·흐름은 시작점이다. `<base>/references/resource-packs.md` 를 읽고 청중 → 수행 행동 → 완료 증거 → 흐름 → 디자인으로 확인해 디자인 1종·주흐름 1종을 확정하고(필요하면 주흐름과 다른 보조활동 최대 2종) 선택 이유를 brief 에 남긴다. 같은 입력은 같은 결과이며 같은 주제를 다르게 다시 만들 때만 `--seed` 를 바꾼다.
-- **legacy 경로**: `<base>/references/composition.md` 의 유형표·줄거리, `<base>/references/layouts.md` 의 아키타입·`<base>/assets/snippets/`·공통 아이콘·개념 SVG 도식(`<base>/references/diagrams.md`)으로 장을 만든다. 같은 얼굴이 반복되지 않게 `deck.json` 에 `theme`+`arc` 를 둔다: `python3 <base>/scripts/tone_router.py --title "…" --outcomes "…" --audience "…" [--recent-theme ID] [--recent-cover ID] [--recent-arc ID] [--seed N]` 의 추천을 시작점으로 잡는다. 표지는 주제에 맞게 **직접 설계하는 것이 기본**이다(카탈로그 변형 7종은 폴백) — 어떤 첫 인상·구성으로 만들지 표지 개념 한 줄을 brief 에 적는다. 모두 생략하면 기존과 같은 classic·orbit·standard 결과다(`<base>/references/composition.md` 1-0절·`<base>/references/DESIGN_TOKENS.md` 테마 절).
+- **legacy 경로**: `<base>/references/composition.md` 의 유형표·줄거리, `<base>/references/layouts.md` 의 아키타입·`<base>/assets/snippets/`·공통 아이콘·개념 SVG 도식(`<base>/references/diagrams.md`)으로 장을 만든다. 같은 얼굴이 반복되지 않게 `deck.json` 에 `theme`+`arc` 를 둔다: `python3 <base>/scripts/tone_router.py --title "…" --outcomes "…" --audience "…" [--recent-theme ID] [--recent-cover ID] [--recent-arc ID] [--seed N]` 의 추천을 시작점으로 잡는다. 표지는 주제에 맞게 **직접 설계하는 것이 기본**이다(카탈로그 변형 7종은 폴백) — 표지 방향 **3안**(각 한 줄의 구성·기조)과 그중 채택한 안과 근거를 brief 에 적는다. 3안은 이름·메모만 다른 것이 아니라 구성·기조가 디자인으로 달라야 한다(ppt-master 3방향 규칙 각용). 모두 생략하면 기존과 같은 classic·orbit·standard 결과다(`<base>/references/composition.md` 1-0절·`<base>/references/DESIGN_TOKENS.md` 테마 절).
 - `outline.md` 초안에 파트와 파트별 조사 질문을 적는다(`<base>/references/research.md` 1절). 슬라이드 표는 3단계에서 채운다. 팩 덱은 주흐름 단계·단계별 학습자 행동·확인할 증거를 함께 적는다.
 - 내려받은 자료·임시 파일·검사 출력은 모두 작업 폴더 안(`research/raw/`, `qa/`)에 둔다. `/tmp` 같은 바깥 폴더에 흩어 두지 않는다.
 
@@ -43,7 +43,7 @@ description: "Use when the user gives a topic and wants education or training ma
   → `원문대조`·`두출처일치` 사실만 화면 숫자로 쓸 수 있다.
 
 ### 3. 구성안 확정 → outline.md
-- 조사 결과로 `outline.md`의 슬라이드 표를 채운다(기본 경로는 `composition.md` 7절 양식, 팩 덱은 `<base>/references/resource-packs.md`의 outline 표): 장별 아키타입·배치 변형·핵심 질문·사실 ID. 팩 덱은 흐름 단계·학습자 행동·평가 증거까지 적고, 단계 하나가 여러 장이 될 수 있으며 활동 시간도 수업 시간에 넣는다. 고정 cover→why→how 순서를 강제하지 않는다. 슬라이드 표의 01 표지 행은 `cover (직접 설계)` 로 적고, 폴백으로 정했을 때만 `cover (카탈로그 <id>)` 로 적는다.
+- 조사 결과로 `outline.md`의 슬라이드 표를 채운다(기본 경로는 `composition.md` 7절 양식, 팩 덱은 `<base>/references/resource-packs.md`의 outline 표): 장별 아키타입·배치 변형·핵심 질문·사실 ID에 리듬(앵커·밀집·숨고르기 — 장의 역할과 밀도를 한 단어로) 열을 함께 채운다. 팩 덱은 흐름 단계·학습자 행동·평가 증거까지 적고, 단계 하나가 여러 장이 될 수 있으며 활동 시간도 수업 시간에 넣는다. 고정 cover→why→how 순서를 강제하지 않는다. 슬라이드 표의 01 표지 행은 `cover (직접 설계)` 로 적고, 폴백으로 정했을 때만 `cover (카탈로그 <id>)` 로 적는다.
 - `<base>/references/composition.md`의 공통 내용 원칙과 6·8절을 적용한다. 기본(legacy) 경로는 1~5·7절의 고정 줄거리·유형표를 사용하고, 팩 덱은 쓰지 않는다.
 - 통과 조건: 장마다 아키타입·핵심 메시지·어떤 도식이 어디에 들어가는지가 정해져 있다. 팩 덱은 선택 이유와 실제 흐름이 일치하고 단계별 성과를 확인할 활동·자료·배치 변형이 정해져 있어야 한다. 점검 목록을 통과해야 다음 단계로 간다.
 
@@ -79,7 +79,7 @@ python3 <solo>/scripts/preview_pack.py record <작업 폴더> --design <ID> \
 - 같은 디자인 안에서도 비교·자료 확대·절차·탐구·활동·정리의 배치를 달리 만든다. 반복 템플릿만 채운 덱은 완료가 아니다. 팩 덱도 공통 아이콘 묶음(icons.svg의 `i-*`·화살촉)과 개념 SVG 도식(`diagrams.md`)은 쓸 수 있다. 다만 `.cx-*`·`.win`·`.card` 같은 legacy 배치 클래스·snippets·legacy CSS는 팩 덱에 섞지 않는다. 팩 덱의 기능 클래스 예외와 확인 문제 `.chk` 계약은 `<base>/references/resource-packs.md` 5절을 따른다.
 - 기본 경로(기존 `resource_pack` 없는 덱 포함)는 `<base>/references/layouts.md`의 아키타입과 `<base>/assets/snippets/`를 사용한다. 글·색은 `<base>/references/expression.md`, 클래스·모형은 `<base>/references/classes.md`, 아이콘은 `<base>/references/icons.md`, 개념 SVG 도식은 `<base>/references/diagrams.md`를 읽는다. 단계·퀴즈 계약은 유지하며 크레파스 속성은 공통 모션 엔진의 캔버스 크레파스 표시로 연결한다.
 - 이 단계의 가이드 문서(layouts·composition·expression·classes·icons·diagrams)를 읽는 시점: 기본은 자유 모드라 참고 예시로만 본다. 읽고 따라야 하는 때는 (1) 직접 설계한 장이 `check_deck.py`를 같은 고침 3회 안에 통과하지 못할 때, (2) 사용자·위임 지시문이 "가이드 모드"를 지정했을 때뿐이다. `data-archetype` 없는 자유 장도 허용된다(엔진 자동 배정).
-- 표지(01)는 주제에 맞게 직접 설계한다 — 형태·제목 `.cx-title`·`var(--…)` 색·`aria-hidden` 장식·글자 18px 이상·단계 없음의 계약은 `<base>/references/layouts.md` "표지 직접 설계 계약"을 따른다. 직접 설계할 자신이 없거나, 만든 표지가 `check_deck.py` ERROR 0 과 1920×1080 캡처 육안 확인을 같은 고침 3회 안에 통과하지 못하면 카탈로그 변형 7종(`01-cover*.html`)으로 폴백한다 — 폴백 후보는 1단계 라우터의 cover 추천을 쓰고, 폴백 사유를 기록해 둔다.
+- 표지(01)는 주제에 맞게 직접 설계한다 — 형태·제목 `.cx-title`·`var(--…)` 색·`aria-hidden` 장식·글자 18px 이상·단계 없음의 계약은 `<base>/references/layouts.md` "표지 직접 설계 계약"을 따른다. brief 의 방향 3안을 실제로 3개의 표지 HTML 로 만들어 각각 1920×1080 캡처로 비교(캡처·육안 확인은 6단계 QA 와 같은 절차)하고 1안을 채택한다 — 버린 2안은 남기지 않고 폐기한다. 시간이 허락하면 핵심 장 1장까지 같은 3안 비교를 선택 적용할 수 있다. 3안이 모두 `check_deck.py` ERROR 0 과 캡처 육안 확인을 같은 고침 3회 안에 통과하지 못하면 카탈로그 변형 7종(`01-cover*.html`)으로 폴백한다 — 폴백 후보는 1단계 라우터의 cover 추천을 쓰고, 폴백 사유를 기록해 둔다. 팩 경로는 preview 후보 3종 절차가 같은 비교 역할을 이미 하므로 이 3안 비교를 중복 적용하지 않는다.
 - 사람이 말하며 넘기는 발표 덱(deck.json `talk`)은 `<base>/references/talk.md` 를 따른다. 검색·목차 뷰어 키(Ctrl+K·/ · O)와 `data-fit` 제목 맞춤은 `<base>/references/classes.md` "뷰어 도구" 절을 따른다.
 - 부품 조각(`<base>/assets/snippets/patterns/` 의 code·tabs·faq·pin-shot)은 슬라이드가 아니라 호스트 아키타입 본문 안에 넣는다. 강조 효과 `data-fx` 는 `<base>/references/MOTION_LIBRARY.md` 의 "강조 효과 data-fx" 절을, 손그림 아이콘(Koboyo, 선택 — 라이브러리는 스킬 밖)은 `<base>/references/icons.md` 마지막 절을 따른다.
 - 외국어 문장은 자연스러운 한국어로 옮겨 쓰고(이름·수치·코드·URL은 원문 유지), 내용이 넘치면 글자를 줄이지 말고 장을 나누거나 노트로 옮긴다. 두 규칙은 `<base>/references/expression.md` 1·4절을 따른다.
@@ -114,11 +114,11 @@ python3 <base>/scripts/verify_sources.py <작업 폴더> --fetch
 - `외국어 문장`(라틴 문자 단어 6개 이상 연속)·글자 크기 경고는 `<base>/references/expression.md` 1·4절 기준으로 고친다.
 - 팩 덱은 선택 계약·실제 노트·학습 성과 증거·다양한 배치 변형을 `<base>/references/resource-packs.md` 6절로 확인한다. 확인 문제·크레파스 채점 표시·자습·인쇄·용어집 동작도 확인한다. ‘시각 짝’ 경고를 읽고 텍스트 전용 본문에 실제 설명 도식이 필요한지 판단한다. 자동 검사 통과만으로 저작 안내 뼈대를 최종 강의로 보고하지 않는다.
 - 최종 HTML을 공통 반응형 계약의 6개 화면 조건에서도 확인한다. 내부 도식 이동·터치 버튼·노트·퀴즈·회전·인쇄를 검사하고, 실제 기기 및 다른 브라우저 미검증을 별도로 보고한다.
-- **축소판을 직접 본다.** 장마다 "어떤 도식이 어디에 들어가는지"를 저작 때 정해 두고, `qa/sheet-01.png …` 를 이미지로 열어 모든 장을 확인한다: 빈 곳이 너무 큰 장, 한쪽으로 쏠린 장, 같은 모양만 이어지는 구간, 뜻과 맞지 않는 아이콘·도식. 자세히 볼 장은 `--slides 7,12 --shots <폴더>` 로 원본 크기를 찍는다. **표지는 `--slides 1 --shots <폴더>` 로 1920×1080 원본 캡처를 뽑아 직접 열어 확인한다** — brief 의 표지 개념대로 나왔는지, 카탈로그 변형을 그대로 베낀 모양이 아닌지 본다. **check_deck 통과는 구조·화면 검사의 통과일 뿐 디자인 승인이 아니다** — 배치 판단은 축소판을 직접 보고 내린다.
+- **축소판을 직접 본다.** 장마다 "어떤 도식이 어디에 들어가는지"를 저작 때 정해 두고, `qa/sheet-01.png …` 를 이미지로 열어 모든 장을 확인한다: 빈 곳이 너무 큰 장, 한쪽으로 쏠린 장, 같은 모양만 이어지는 구간, 뜻과 맞지 않는 아이콘·도식. 자세히 볼 장은 `--slides 7,12 --shots <폴더>` 로 원본 크기를 찍는다. **표지는 `--slides 1 --shots <폴더>` 로 1920×1080 원본 캡처를 뽑아 직접 열어 확인한다** — brief 에서 채택한 표지 방향대로 나왔는지, 카탈로그 변형을 그대로 베낀 모양이 아닌지 본다. **check_deck 통과는 구조·화면 검사의 통과일 뿐 디자인 승인이 아니다** — 배치 판단은 축소판을 직접 보고 내린다.
 - 이미지를 볼 수 없는 모델이면 육안 검토를 했다고 쓰지 않는다. 검사기 결과로 판단하고, 보고에 "축소판 육안 검토: 못 함(이미지 입력 불가)"과 축소판 경로를 남긴다.
 
 ### 7. 보고
-- 결과 파일 경로, 장 수, 예상 시간, 파트 구성(한 줄씩), 쓴 사실 수와 확인 단계. 팩 덱은 디자인·주흐름·보조활동과 선택 이유, 성과를 확인하는 활동도 보고한다. 표지는 `표지: 직접 설계 (개념: …)` 또는 `표지: 카탈로그 <id> (사유: …)` 한 줄로 남긴다.
+- 결과 파일 경로, 장 수, 예상 시간, 파트 구성(한 줄씩), 쓴 사실 수와 확인 단계. 팩 덱은 디자인·주흐름·보조활동과 선택 이유, 성과를 확인하는 활동도 보고한다. 표지는 `표지: 직접 설계 (3안 비교: … / 채택 근거: …)` 또는 `표지: 카탈로그 <id> (사유: …)` 한 줄로 남긴다.
 - 검사 결과: check_deck / verify_sources 의 RESULT 줄 그대로, 실행하지 못한 검사는 이유와 함께.
 - 말투 교정 결과: 바뀐 줄 수, 보류 줄(위치·이유), 실행 못 한 교정 스킬(없으면 없다고 적는다).
 - **확인 필요** 목록: 조직 고유 정보로 가정한 것, 확인 못 해 화면에서 뺀 사실, 기준일 뒤 바뀔 수 있는 수치.

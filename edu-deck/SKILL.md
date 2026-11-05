@@ -52,7 +52,7 @@ description: "Entry skill for education deck requests. Use FIRST when the user w
 
 기본은 **자유 모드**다. 조각·팩 템플릿·arc 메뉴·아키타입 표는 참고 예시이고 지시가 아니다 — 에이전트가 직접 설계해도 되며, 스킬은 예시 경로·샘플·재료·도구만 준다. 검사기는 안전 가드(깨짐·접근성·계약)만 ERROR 로 막고, 취향 규칙은 INFO 다(`check_deck.py --style` 에서 WARN 상세). 모델 이름으로 분기하지 않는다. **가이드 모드**로 가는 경로는 세 가지뿐이다:
 
-1. 자동 폴백: 직접 설계한 장이 `check_deck.py` 를 같은 고침 3회 안에 통과하지 못하면 가이드 문서(`composition.md`·`layouts.md`·카탈로그 조각)를 읽고 그쪽으로 전환한다.
+1. 자동 폴백: 직접 설계한 장이 `check_deck.py` 를 같은 고침 3회 안에 통과하지 못하면 가이드 문서(`composition.md`·`layouts.md`·`design.md` 판단 기준·카탈로그 조각)를 읽고 그쪽으로 전환한다.
 2. 사용자·지시문이 "가이드 모드"라고 지정하면 처음부터 가이드 문서를 따른다.
 3. 위임자가 약한 모델이라고 판단해 위임문에 "가이드 모드"를 넣으면 따른다.
 
@@ -60,7 +60,7 @@ description: "Entry skill for education deck requests. Use FIRST when the user w
 
 **팩 경로**: 같은 모양이 반복되지 않도록 디자인 8종과 학습 흐름 8종에서 주제에 맞는 조합을 고른다. `pack_router.py` 의 후보 3종·추천·흐름(최근 쓴 디자인은 `--recent` 로 감점)으로 시안(`preview_pack.py`)을 만들어 사용자에게 보여 고르게 한다. 답이 없거나 위임 실행이라 물을 수 없으면 추천 후보로 진행하고 `resource_pack_choice` 에 `by: default` 와 근거를 남긴다. 선택은 `deck.json.resource_pack` 에 명시하며 보조활동은 주흐름과 다른 흐름을 중복 없이 최대 2종만 고른다. 팩 덱도 공통 아이콘 묶음과 개념 SVG 도식은 쓸 수 있으나 legacy 배치 클래스·조각·CSS 는 섞지 않는다.
 
-**legacy 경로**: `shared/references/composition.md` 의 유형표·줄거리, `layouts.md` 의 아키타입·`assets/snippets/`·공통 아이콘(`icons.md`)·개념 SVG 도식(`diagrams.md`)으로 저작한다. 덱마다 얼굴이 달라지게 `deck.json` 의 `theme`(9종, 기본 classic)·`arc`(6종, 기본 standard)를 `python3 shared/scripts/tone_router.py --title … --outcomes … --audience …` 의 추천으로 고른다. 표지는 주제에 맞게 **직접 설계하는 것이 기본**이고, 못 만들 때만 카탈로그 변형 7종(`01-cover*.html`)으로 폴백한다 — 폴백 후보는 라우터의 cover 추천을 쓰고, 계약은 `shared/references/layouts.md` "표지 직접 설계 계약"을 따른다. 모두 생략하면 기존 결과 그대로다.
+**legacy 경로**: `shared/references/composition.md` 의 유형표·줄거리, `layouts.md` 의 아키타입·`assets/snippets/`·공통 아이콘(`icons.md`)·개념 SVG 도식(`diagrams.md`)으로 저작하고, 장의 배치·강조·밀도·색 판단은 `shared/references/design.md` 의 기준을 따른다. 덱마다 얼굴이 달라지게 `deck.json` 의 `theme`(9종, 기본 classic)·`arc`(6종, 기본 standard)를 `python3 shared/scripts/tone_router.py --title … --outcomes … --audience …` 의 추천으로 고른다. 표지는 주제에 맞게 **직접 설계하는 것이 기본**이고, 못 만들 때만 카탈로그 변형 7종(`01-cover*.html`)으로 폴백한다 — 폴백 후보는 라우터의 cover 추천을 쓰고, 계약은 `shared/references/layouts.md` "표지 직접 설계 계약"을 따른다. 모두 생략하면 기존 결과 그대로다.
 
 새 팩 생성기는 저작용 뼈대이지 검증된 강의가 아니다. 실제 조사 내용·110~450자 발표자 노트와 같은 디자인 안의 다양한 배치 변형을 작성하고 하위 스킬의 검사를 거친다. 팩 경로는 legacy 포팅 도구나 원래 Downloads HTML을 필요로 하지 않는다.
 
