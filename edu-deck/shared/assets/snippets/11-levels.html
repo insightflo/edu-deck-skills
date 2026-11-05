@@ -1,5 +1,5 @@
 <!--
-  아키타입 levels (변형: 기본)
+  아키타입 levels (변형: 기본 · stairs · pyramid · ladder · mountain)
   언제: 수준·단계가 올라가는 구조(1→4, 막대가 길어짐).
   단계: 수준별 1단계
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
@@ -25,6 +25,94 @@
         <g><rect x="128" y="230" width="400" height="80" rx="14" fill="var(--paper)" stroke="var(--muted)" stroke-width="2"/><use href="#i-sheet" x="140" y="244" width="48" height="48" style="color:var(--accent)"/><text x="204" y="268" class="t-l">«≤7자»</text><text x="204" y="298" class="t-s" style="font-size:21px">«≤13자»</text></g>
         <g><rect x="128" y="330" width="400" height="80" rx="14" fill="var(--paper)" stroke="var(--muted)" stroke-width="2"/><use href="#i-gear" x="140" y="344" width="48" height="48" style="color:var(--soft)"/><text x="204" y="368" class="t-l">«≤5자»</text><text x="204" y="398" class="t-s" style="font-size:21px">«≤14자»</text></g>
       </svg>
+    </div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<!-- stairs: 오르는 계단 블록 — 단계가 '밟고 오르는' 순서일 때 -->
+<section class="slide" data-archetype="levels" data-variant="stairs" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤26자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;gap:48px;align-items:center">
+    <svg class="dg" viewBox="0 0 1000 560" style="flex:1.4;min-width:0" aria-label="«그림 설명»">
+      <path d="M60 540H940" stroke="var(--ink)" stroke-width="3"/>
+      <g data-step="1"><rect x="80" y="420" width="200" height="120" fill="var(--paper)" stroke="var(--blue)" stroke-width="2.5"/><text class="t-l b" text-anchor="middle" x="180" y="390">«≤6자»</text><text class="t-s" text-anchor="middle" x="180" y="470">«≤8자»</text></g>
+      <g data-step="2"><rect x="300" y="330" width="200" height="210" fill="var(--paper)" stroke="var(--blue)" stroke-width="2.5"/><text class="t-l b" text-anchor="middle" x="400" y="300">«≤6자»</text><text class="t-s" text-anchor="middle" x="400" y="390">«≤8자»</text></g>
+      <g data-step="3"><rect x="520" y="240" width="200" height="300" fill="var(--paper)" stroke="var(--accent)" stroke-width="2.5"/><text class="t-l o" text-anchor="middle" x="620" y="210">«≤6자»</text><text class="t-s" text-anchor="middle" x="620" y="330">«≤8자»</text></g>
+      <g data-step="4"><rect x="740" y="150" width="200" height="390" fill="var(--accent-light)" stroke="var(--accent)" stroke-width="2.5"/><text class="t-l o" text-anchor="middle" x="840" y="120">«≤6자»</text><use href="#i-flag" x="816" y="170" width="48" height="48" style="color:var(--accent)"/></g>
+      <path d="M180 400L400 310 620 220 840 130" stroke="var(--muted)" stroke-width="3" stroke-dasharray="8 8" fill="none" marker-end="url(#ahg)"/>
+    </svg>
+    <div class="col" style="width:480px;flex:none;gap:16px">
+      <div class="card" data-step="5" style="padding:24px 30px;gap:8px"><h4 style="font-size:26px">«카드 제목 ≤12자»</h4><p class="small">«설명 ≤44자»</p></div>
+      <div class="callout" data-step="6" style="font-size:26px;padding:20px 28px"><b>«강조 ≤12자»</b> «정리 문장 ≤32자»</div>
+    </div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<!-- pyramid: 위로 좁아지는 층 — 아래가 기반·위가 정점인 위계 -->
+<section class="slide" data-archetype="levels" data-variant="pyramid" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤26자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;gap:48px;align-items:center">
+    <div class="col" style="width:480px;flex:none;gap:16px">
+      <div class="card" data-step="5" style="padding:24px 30px;gap:8px"><h4 style="font-size:26px">«카드 제목 ≤12자»</h4><p class="small">«설명 ≤44자»</p></div>
+      <div class="callout" data-step="6" style="font-size:26px;padding:20px 28px"><b>«강조 ≤12자»</b> «정리 문장 ≤32자»</div>
+    </div>
+    <svg class="dg" viewBox="0 0 1200 560" style="flex:1.4;min-width:0" aria-label="«그림 설명»">
+      <g data-step="4"><path d="M550 60L695 180H405Z" fill="var(--accent-light)" stroke="var(--accent)" stroke-width="2.5"/><text class="t-l o" text-anchor="middle" x="550" y="148">«≤6자»</text></g>
+      <g data-step="3"><path d="M405 190H695L800 310H300Z" fill="var(--blue-soft)" opacity=".85" stroke="var(--blue)" stroke-width="2.5"/><text class="t-l b" text-anchor="middle" x="550" y="268">«≤8자»</text></g>
+      <g data-step="2"><path d="M300 320H800L900 440H200Z" fill="var(--blue-soft)" opacity=".5" stroke="var(--blue)" stroke-width="2.5"/><text class="t-l b" text-anchor="middle" x="550" y="398">«≤8자»</text></g>
+      <g data-step="1"><path d="M200 450H900L970 550H130Z" fill="var(--accent-light)" opacity=".45" stroke="var(--ink)" stroke-width="2.5"/><text class="t-l" text-anchor="middle" x="550" y="518">«≤10자»</text></g>
+      <path d="M980 130V540" stroke="var(--muted)" stroke-width="2" stroke-dasharray="4 8" fill="none"/>
+      <text class="t-s" x="1000" y="160">«층 ≤8자»</text>
+      <text class="t-s" x="1000" y="290">«층 ≤8자»</text>
+      <text class="t-s" x="1000" y="420">«층 ≤8자»</text>
+      <text class="t-s" x="1000" y="530">«층 ≤8자»</text>
+    </svg>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<!-- ladder: 사다리 가로대 — 같은 크기 칸을 차례로 올라갈 때 -->
+<section class="slide" data-archetype="levels" data-variant="ladder" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤26자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;gap:48px;align-items:center">
+    <svg class="dg" viewBox="0 0 1100 560" style="flex:1.4;min-width:0" aria-label="«그림 설명»">
+      <path d="M180 40V540M920 40V540" stroke="var(--ink)" stroke-width="10" fill="none"/>
+      <g data-step="5"><rect x="180" y="50" width="740" height="64" rx="14" fill="var(--accent-light)" stroke="var(--accent)" stroke-width="2.5"/><text class="t-l o" text-anchor="middle" x="550" y="92">«≤10자»</text></g>
+      <g data-step="4"><rect x="180" y="150" width="740" height="64" rx="14" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="2.5"/><text class="t-l b" text-anchor="middle" x="550" y="192">«≤10자»</text></g>
+      <g data-step="3"><rect x="180" y="250" width="740" height="64" rx="14" fill="var(--blue-soft)" opacity=".7" stroke="var(--blue)" stroke-width="2.5"/><text class="t-l b" text-anchor="middle" x="550" y="292">«≤10자»</text></g>
+      <g data-step="2"><rect x="180" y="350" width="740" height="64" rx="14" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="2.5"/><text class="t-l b" text-anchor="middle" x="550" y="392">«≤10자»</text></g>
+      <g data-step="1"><rect x="180" y="450" width="740" height="64" rx="14" fill="var(--accent-light)" opacity=".6" stroke="var(--ink)" stroke-width="2.5"/><text class="t-l" text-anchor="middle" x="550" y="492">«≤10자»</text></g>
+      <path d="M550 40V14" stroke="var(--accent)" stroke-width="4" marker-end="url(#ah)"/>
+      <text class="t-s" x="580" y="26">«위로 ≤10자»</text>
+    </svg>
+    <div class="col" style="width:480px;flex:none;gap:16px">
+      <div class="card" data-step="6" style="padding:24px 30px;gap:8px"><h4 style="font-size:26px">«카드 제목 ≤12자»</h4><p class="small">«설명 ≤44자»</p></div>
+      <div class="callout" data-step="7" style="font-size:26px;padding:20px 28px"><b>«강조 ≤12자»</b> «정리 문장 ≤32자»</div>
+    </div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<!-- mountain: 산 경사면 등정 — 정점 목표를 향해 지그재그로 오를 때 -->
+<section class="slide" data-archetype="levels" data-variant="mountain" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤26자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;gap:48px;align-items:center">
+    <svg class="dg" viewBox="0 0 1100 560" style="flex:1.4;min-width:0" aria-label="«그림 설명»">
+      <path d="M300 540L760 120 1060 540Z" fill="var(--blue-soft)" opacity=".4" stroke="var(--ink)" stroke-width="2"/>
+      <path d="M700 180L760 120 830 200" fill="none" stroke="var(--ink)" stroke-width="3"/>
+      <path d="M525 340H905M615 260H855" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="6 6" opacity=".6"/>
+      <path d="M60 540L420 230 820 540Z" fill="var(--blue-soft)" opacity=".75" stroke="var(--ink)" stroke-width="3"/>
+      <path d="M673 200H817M339 300H510M199 420H665" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="6 6" opacity=".6"/>
+      <text class="t-s" x="830" y="196">«고도 ≤6자»</text>
+      <text class="t-s" x="524" y="296">«고도 ≤6자»</text>
+      <text class="t-s" x="679" y="416">«고도 ≤6자»</text>
+      <path d="M120 520C250 470 320 380 380 300S480 230 560 210S680 150 742 132" fill="none" stroke="var(--accent)" stroke-width="4" stroke-dasharray="10 8" marker-end="url(#ah)"/>
+      <g data-step="1"><circle cx="120" cy="520" r="16" fill="var(--accent)"/><text class="t-l" x="150" y="528">«≤8자»</text></g>
+      <g data-step="2"><circle cx="380" cy="300" r="16" fill="var(--accent)"/><text class="t-l" x="410" y="308">«≤8자»</text></g>
+      <g data-step="3"><circle cx="560" cy="210" r="16" fill="var(--accent)"/><text class="t-l" x="590" y="218">«≤8자»</text></g>
+      <g data-step="4"><use href="#i-flag" x="736" y="80" width="56" height="56" style="color:var(--accent)"/><text class="t-l o" x="806" y="118">«≤8자»</text></g>
+    </svg>
+    <div class="col" style="width:480px;flex:none;gap:16px">
+      <div class="card" data-step="5" style="padding:24px 30px;gap:8px"><h4 style="font-size:26px">«카드 제목 ≤12자»</h4><p class="small">«설명 ≤44자»</p></div>
+      <div class="callout" data-step="6" style="font-size:26px;padding:20px 28px"><b>«강조 ≤12자»</b> «정리 문장 ≤32자»</div>
     </div>
   </div>
   <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>

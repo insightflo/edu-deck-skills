@@ -1,6 +1,7 @@
 <!--
-  아키타입 mechanism (변형: 기본)
+  아키타입 mechanism (변형: 기본, loop, parallel, blackbox, gears)
   언제: 작동 원리. 입력 → 처리 → 결과 후보(막대)를 단계로 풀어 보여 준다.
+  변형: loop=피드백 환류, parallel=병렬 이중 파이프라인, blackbox=내부 공개 상자, gears=기어 연쇄.
   단계: 처리 단계별, 마지막에 1등 막대 강조(data-lit)
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
   자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
@@ -31,4 +32,144 @@
   </div>
   <div class="callout" data-step="4" style="font-size:30px"><b>«강조 앞부분 ≤10자»</b> «정리 문장 ≤64자»</div>
   <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<section class="slide" data-archetype="mechanism" data-variant="loop" style="gap:32px">
+<div class="head"><p class="eyebrow">«파트 표시 ≤18자»</p><h2 class="title">«제목: 한 문장 ≤24자»</h2></div>
+<svg class="dg" viewBox="0 0 1600 560" aria-label="«그림 설명»">
+  <circle cx="760" cy="280" r="250" fill="none" stroke="var(--accent-light)" stroke-width="26" opacity=".4"/>
+  <path class="dash-flow" d="M520 150C700 110 900 110 1080 150" fill="none" marker-end="url(#ah)" stroke="var(--accent)" stroke-width="3"/>
+  <path class="dash-flow" d="M1180 280C1120 400 980 460 850 460" fill="none" marker-end="url(#ah)" stroke="var(--accent)" stroke-width="3"/>
+  <path class="dash-flow" d="M700 460C560 440 460 370 430 260" fill="none" marker-end="url(#ahb)" stroke="var(--blue)" stroke-width="3"/>
+  <path class="dash-flow" d="M430 240C440 210 460 180 490 160" fill="none" marker-end="url(#ah)" stroke="var(--accent)" stroke-width="3"/>
+  <text class="t-s o" text-anchor="middle" x="800" y="120">«진행 화살 ≤8자»</text>
+  <text class="t-s b" text-anchor="middle" x="540" y="430">«환류 화살 ≤8자»</text>
+  <g data-step="1">
+    <circle cx="380" cy="240" r="92" fill="var(--paper)" stroke="var(--blue)" stroke-width="2.5"/>
+    <use href="#i-send" x="334" y="194" width="92" height="92" style="color:var(--blue)"/>
+    <text class="t-l" text-anchor="middle" x="380" y="378">«입력 ≤5자»</text>
+  </g>
+  <g data-step="2">
+    <circle cx="800" cy="230" r="110" fill="var(--paper)" stroke="var(--ink)" stroke-width="2.5"/>
+    <use href="#i-gear" x="742" y="172" width="116" height="116" style="color:var(--ink)"/>
+    <text class="t-l" text-anchor="middle" x="800" y="384">«처리 ≤5자»</text>
+  </g>
+  <g data-step="3">
+    <circle cx="1220" cy="240" r="92" fill="var(--paper)" stroke="var(--accent)" stroke-width="2.5"/>
+    <use href="#i-check" x="1174" y="194" width="92" height="92" style="color:var(--accent)"/>
+    <text class="t-l" text-anchor="middle" x="1220" y="378">«출력 ≤5자»</text>
+  </g>
+  <g data-step="4">
+    <path class="dash-flow" d="M1160 330C1000 520 620 520 450 340" fill="none" marker-end="url(#ahb)" stroke="var(--blue)" stroke-width="2.5"/>
+    <rect x="700" y="490" width="200" height="54" rx="27" fill="var(--blue)"/>
+    <text class="t-badge" text-anchor="middle" x="800" y="525">«환류 ≤6자»</text>
+  </g>
+</svg>
+<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<section class="slide" data-archetype="mechanism" data-variant="parallel" style="gap:32px">
+<div class="head"><p class="eyebrow">«파트 표시 ≤18자»</p><h2 class="title">«제목: 한 문장 ≤24자»</h2></div>
+<svg class="dg" viewBox="0 0 1600 560" aria-label="«그림 설명»">
+  <text class="t-l b" x="80" y="80">«상류 트랙 ≤8자»</text>
+  <text class="t-l o" x="80" y="360">«하류 트랙 ≤8자»</text>
+  <g data-step="1">
+    <rect x="240" y="40" width="280" height="100" rx="18" fill="var(--paper)" stroke="var(--blue)" stroke-width="2"/>
+    <text class="t-l" x="270" y="82">«≤7자»</text><text class="t-s" x="270" y="116">«≤11자»</text>
+    <path class="dash-flow" d="M540 90H650" marker-end="url(#ahb)" stroke="var(--blue)" stroke-width="3"/>
+    <rect x="670" y="40" width="280" height="100" rx="18" fill="var(--paper)" stroke="var(--blue)" stroke-width="2"/>
+    <text class="t-l" x="700" y="82">«≤7자»</text><text class="t-s" x="700" y="116">«≤11자»</text>
+    <path class="dash-flow" d="M970 90H1080" marker-end="url(#ahb)" stroke="var(--blue)" stroke-width="3"/>
+    <rect x="1100" y="40" width="280" height="100" rx="18" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="2"/>
+    <text class="t-l b" x="1130" y="82">«≤7자»</text><text class="t-s" x="1130" y="116">«≤11자»</text>
+  </g>
+  <g data-step="2">
+    <rect x="240" y="320" width="280" height="100" rx="18" fill="var(--paper)" stroke="var(--accent)" stroke-width="2"/>
+    <text class="t-l" x="270" y="362">«≤7자»</text><text class="t-s" x="270" y="396">«≤11자»</text>
+    <path class="dash-flow" d="M540 370H650" marker-end="url(#ah)" stroke="var(--accent)" stroke-width="3"/>
+    <rect x="670" y="320" width="280" height="100" rx="18" fill="var(--paper)" stroke="var(--accent)" stroke-width="2"/>
+    <text class="t-l" x="700" y="362">«≤7자»</text><text class="t-s" x="700" y="396">«≤11자»</text>
+    <path class="dash-flow" d="M970 370H1080" marker-end="url(#ah)" stroke="var(--accent)" stroke-width="3"/>
+    <rect x="1100" y="320" width="280" height="100" rx="18" fill="var(--accent-light)" stroke="var(--accent)" stroke-width="2"/>
+    <text class="t-l o" x="1130" y="362">«≤7자»</text><text class="t-s" x="1130" y="396">«≤11자»</text>
+  </g>
+  <g data-step="3">
+    <path class="dash-flow" d="M1240 140V210" marker-end="url(#ahg)" stroke="var(--soft)" stroke-width="2.5"/>
+    <path class="dash-flow" d="M1240 420V490" marker-end="url(#ahg)" stroke="var(--soft)" stroke-width="2.5"/>
+    <rect x="1130" y="470" width="300" height="70" rx="16" fill="var(--ink)"/>
+    <text class="t-badge" x="1160" y="514">«합류 결과 ≤11자»</text>
+  </g>
+  <path d="M80 230V510" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="2 10"/>
+</svg>
+<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<section class="slide" data-archetype="mechanism" data-variant="blackbox" style="gap:32px">
+<div class="head"><p class="eyebrow">«파트 표시 ≤18자»</p><h2 class="title">«제목: 한 문장 ≤24자»</h2></div>
+<svg class="dg" viewBox="0 0 1600 560" aria-label="«그림 설명»">
+  <g data-step="1">
+    <rect x="120" y="220" width="240" height="120" rx="18" fill="var(--paper)" stroke="var(--blue)" stroke-width="2"/>
+    <use href="#i-send" x="136" y="258" width="44" height="44" style="color:var(--blue)"/>
+    <text class="t-l" x="200" y="280">«입력 ≤5자»</text><text class="t-s" x="200" y="314">«≤9자»</text>
+    <path class="dash-flow" d="M380 280H450" marker-end="url(#ah)" stroke="var(--accent)" stroke-width="3"/>
+  </g>
+  <rect x="470" y="60" width="760" height="440" rx="28" fill="var(--blue-soft)" opacity=".3" stroke="var(--muted)" stroke-width="2" stroke-dasharray="14 10"/>
+  <rect x="470" y="60" width="760" height="80" rx="28" fill="var(--blue-soft)" opacity=".55"/>
+  <rect x="450" y="250" width="40" height="60" rx="8" fill="var(--ink)"/>
+  <rect x="1210" y="400" width="40" height="60" rx="8" fill="var(--ink)"/>
+  <text class="t-s" x="500" y="110">«내부 공개 ≤10자»</text>
+  <g data-step="2">
+    <rect x="520" y="180" width="300" height="110" rx="16" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="2"/>
+    <text class="t-l b" x="550" y="224">«≤8자»</text><text class="t-s" x="550" y="258">«≤12자»</text>
+    <path class="dash-flow" d="M840 235H890" marker-end="url(#ahg)" stroke="var(--soft)" stroke-width="2.5"/>
+    <rect x="910" y="180" width="280" height="110" rx="16" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="2"/>
+    <text class="t-l b" x="940" y="224">«≤8자»</text><text class="t-s" x="940" y="258">«≤12자»</text>
+  </g>
+  <g data-step="3">
+    <rect x="715" y="330" width="300" height="110" rx="16" fill="var(--accent-light)" stroke="var(--accent)" stroke-width="2"/>
+    <text class="t-l o" x="745" y="374">«≤8자»</text><text class="t-s" x="745" y="408">«≤12자»</text>
+    <path class="dash-flow" d="M670 290V320" marker-end="url(#ahg)" stroke="var(--soft)" stroke-width="2.5"/>
+    <path class="dash-flow" d="M1050 290V320" marker-end="url(#ahg)" stroke="var(--soft)" stroke-width="2.5"/>
+  </g>
+  <g data-step="4">
+    <path class="dash-flow" d="M1015 440C1015 470 1080 470 1160 470H1300" marker-end="url(#ah)" stroke="var(--accent)" stroke-width="3"/>
+    <rect x="1320" y="410" width="220" height="120" rx="18" fill="var(--paper)" stroke="var(--accent)" stroke-width="2"/>
+    <use href="#i-trophy" x="1336" y="448" width="44" height="44" style="color:var(--accent)"/>
+    <text class="t-l" x="1400" y="470">«출력 ≤5자»</text><text class="t-s" x="1400" y="504">«≤9자»</text>
+  </g>
+</svg>
+<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<section class="slide" data-archetype="mechanism" data-variant="gears" style="gap:32px">
+<div class="head"><p class="eyebrow">«파트 표시 ≤18자»</p><h2 class="title">«제목: 한 문장 ≤24자»</h2></div>
+<svg class="dg" viewBox="0 0 1600 560" aria-label="«그림 설명»">
+  <rect x="150" y="90" width="1300" height="440" rx="40" fill="var(--paper)" stroke="var(--line)" stroke-width="2" stroke-dasharray="14 10"/>
+  <path d="M492 280H648M952 280H1108" stroke="var(--soft)" stroke-width="8"/>
+  <g data-step="1">
+    <circle cx="340" cy="280" r="130" fill="var(--paper)" stroke="var(--blue)" stroke-width="2.5"/>
+    <circle cx="340" cy="280" r="152" fill="none" stroke="var(--blue)" stroke-width="3" stroke-dasharray="10 14"/>
+    <use href="#i-bulb" x="296" y="236" width="88" height="88" style="color:var(--blue)"/>
+    <text class="t-l" text-anchor="middle" x="340" y="470">«≤6자»</text>
+    <text class="t-s" text-anchor="middle" x="340" y="506">«≤10자»</text>
+  </g>
+  <g data-step="2">
+    <circle cx="800" cy="280" r="110" fill="var(--paper)" stroke="var(--ink)" stroke-width="2.5"/>
+    <circle cx="800" cy="280" r="130" fill="none" stroke="var(--ink)" stroke-width="3" stroke-dasharray="10 12"/>
+    <use href="#i-gear" x="762" y="242" width="76" height="76" style="color:var(--ink)"/>
+    <text class="t-l" text-anchor="middle" x="800" y="456">«≤6자»</text>
+    <text class="t-s" text-anchor="middle" x="800" y="492">«≤10자»</text>
+  </g>
+  <g data-step="3">
+    <circle cx="1260" cy="280" r="130" fill="var(--paper)" stroke="var(--accent)" stroke-width="2.5"/>
+    <circle cx="1260" cy="280" r="152" fill="none" stroke="var(--accent)" stroke-width="3" stroke-dasharray="10 14"/>
+    <use href="#i-check" x="1216" y="236" width="88" height="88" style="color:var(--accent)"/>
+    <text class="t-l" text-anchor="middle" x="1260" y="470">«≤6자»</text>
+    <text class="t-s" text-anchor="middle" x="1260" y="506">«≤10자»</text>
+  </g>
+  <g data-step="4">
+    <circle cx="700" cy="280" r="48" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="2.5"/>
+    <circle cx="700" cy="280" r="62" fill="none" stroke="var(--blue)" stroke-width="2.5" stroke-dasharray="8 10"/>
+    <circle cx="1030" cy="280" r="48" fill="var(--accent-light)" stroke="var(--accent)" stroke-width="2.5"/>
+    <circle cx="1030" cy="280" r="62" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="8 10"/>
+    <text class="t-s" text-anchor="middle" x="800" y="130">«맞물림 순서 ≤12자»</text>
+  </g>
+</svg>
+<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
 </section>

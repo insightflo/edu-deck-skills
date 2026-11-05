@@ -1,5 +1,5 @@
 <!--
-  아키타입 build-up (변형: 기본)
+  아키타입 build-up (변형: 기본 · layers · assembly · recipe · score-lift)
   언제: 요소를 하나씩 더할수록 결과가 좋아지는 시연(data-add 로 덧붙인 문구 강조).
   단계: 요소 하나 = 1단계
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
@@ -37,6 +37,95 @@
       <div class="win-body"><div class="main"><div class="msgs">
         <div class="u" style="max-width:100%"><span class="add" data-add="1">«요청 말풍선 ≤28자» </span><span class="add" data-add="2">«요청 말풍선 ≤34자» </span><span class="add" data-add="3">«요청 말풍선 ≤15자» </span><span class="add" data-add="4">«요청 말풍선 ≤24자» </span><span>«요청 말풍선 ≤8자»</span></div>
       </div></div></div>
+    </div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<!-- layers: 아래부터 층을 쌓아 올림 — 기반 위에 기능이 쌓이는 구조 -->
+<section class="slide" data-archetype="build-up" data-variant="layers" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤12자»</p><h2 class="title">«제목: 한 문장 ≤20자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;gap:48px;align-items:center">
+    <svg class="dg" viewBox="0 0 900 560" style="flex:1.3;min-width:0" aria-label="«그림 설명»">
+      <g data-step="1"><path d="M120 460H780L820 540H80Z" fill="var(--paper)" stroke="var(--ink)" stroke-width="2.5"/><text class="t-l" text-anchor="middle" x="450" y="514">«기반 층 ≤10자»</text></g>
+      <g data-step="2"><path d="M160 370H740L780 452H120Z" fill="var(--paper)" stroke="var(--blue)" stroke-width="2.5"/><text class="t-l b" text-anchor="middle" x="450" y="424">«쌓인 층 ≤10자»</text></g>
+      <g data-step="3"><path d="M200 280H700L740 362H160Z" fill="var(--paper)" stroke="var(--blue)" stroke-width="2.5"/><text class="t-l b" text-anchor="middle" x="450" y="334">«쌓인 층 ≤10자»</text></g>
+      <g data-step="4"><path d="M240 190H660L700 272H200Z" fill="var(--accent-light)" stroke="var(--accent)" stroke-width="2.5"/><text class="t-l o" text-anchor="middle" x="450" y="244">«쌓인 층 ≤10자»</text></g>
+      <g data-step="5"><path d="M450 70L540 182H360Z" fill="var(--accent)"/><use href="#i-flag" x="426" y="96" width="48" height="48" style="color:var(--paper)"/><text class="t-l o" text-anchor="middle" x="450" y="40">«≤8자»</text></g>
+    </svg>
+    <div class="col" style="width:520px;flex:none;gap:16px">
+      <p class="label">«라벨 ≤16자»</p>
+      <div class="hrow" data-step="1"><div><h4 style="font-size:26px">«항목 제목 ≤8자»</h4><p>«문구 ≤36자»</p></div><span class="mk" style="margin-left:auto">1</span></div>
+      <div class="hrow" data-step="2"><div><h4 style="font-size:26px">«항목 제목 ≤8자»</h4><p>«문구 ≤36자»</p></div><span class="mk" style="margin-left:auto">2</span></div>
+      <div class="hrow" data-step="3"><div><h4 style="font-size:26px">«항목 제목 ≤8자»</h4><p>«문구 ≤36자»</p></div><span class="mk" style="margin-left:auto">3</span></div>
+      <div class="callout" data-step="5" style="font-size:26px;padding:20px 28px"><b>«강조 ≤12자»</b> «정리 문장 ≤30자»</div>
+    </div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<!-- assembly: 흩어진 부품이 제자리로 모여 완성 — 조립 문법 -->
+<section class="slide" data-archetype="build-up" data-variant="assembly" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤12자»</p><h2 class="title">«제목: 한 문장 ≤20자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;gap:48px;align-items:center">
+    <svg class="dg" viewBox="0 0 900 560" style="flex:1.3;min-width:0" aria-label="«그림 설명»">
+      <circle cx="450" cy="280" r="220" fill="none" stroke="var(--line)" stroke-width="2" stroke-dasharray="6 10"/>
+      <g data-step="1"><rect x="390" y="210" width="120" height="140" rx="16" fill="var(--paper)" stroke="var(--ink)" stroke-width="2.5"/><text class="t-l" text-anchor="middle" x="450" y="290">«≤4자»</text></g>
+      <g data-step="2"><path d="M262 196L340 164 392 214 318 252Z" fill="var(--paper)" stroke="var(--blue)" stroke-width="2.5"/><text class="t-s b" text-anchor="middle" x="326" y="214">«≤4자»</text></g>
+      <g data-step="3"><path d="M560 168L642 196 588 254 514 218Z" fill="var(--paper)" stroke="var(--blue)" stroke-width="2.5"/><text class="t-s b" text-anchor="middle" x="576" y="214">«≤4자»</text></g>
+      <g data-step="4"><path d="M310 396L394 372 420 436 336 462Z" fill="var(--paper)" stroke="var(--accent)" stroke-width="2.5"/><text class="t-s o" text-anchor="middle" x="366" y="422">«≤4자»</text></g>
+      <g data-step="5"><path d="M480 374L570 396 546 462 462 438Z" fill="var(--paper)" stroke="var(--accent)" stroke-width="2.5"/><text class="t-s o" text-anchor="middle" x="516" y="422">«≤4자»</text></g>
+    </svg>
+    <div class="col" style="width:520px;flex:none;gap:16px">
+      <div class="card" data-step="6" style="padding:26px 32px;gap:8px;border-left:6px solid var(--accent)"><h4 style="font-size:26px">«완성 결과 ≤12자»</h4><p class="small">«결과 설명 ≤44자»</p></div>
+      <div class="callout" data-step="7" style="font-size:26px;padding:20px 28px"><b>«강조 ≤12자»</b> «정리 문장 ≤30자»</div>
+    </div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<!-- recipe: 재료를 하나씩 넣어 결과물 완성 — 조합 문법 -->
+<section class="slide" data-archetype="build-up" data-variant="recipe" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤12자»</p><h2 class="title">«제목: 한 문장 ≤20자»</h2></div>
+  <div class="row" style="gap:16px">
+    <div class="card" data-step="1" style="padding:18px 26px;gap:4px;flex:1"><p class="label" style="color:var(--blue)">«재료 ≤6자»</p><h4 style="font-size:26px">«재료명 ≤8자»</h4></div>
+    <div class="card" data-step="2" style="padding:18px 26px;gap:4px;flex:1"><p class="label" style="color:var(--blue)">«재료 ≤6자»</p><h4 style="font-size:26px">«재료명 ≤8자»</h4></div>
+    <div class="card" data-step="3" style="padding:18px 26px;gap:4px;flex:1"><p class="label" style="color:var(--accent)">«재료 ≤6자»</p><h4 style="font-size:26px">«재료명 ≤8자»</h4></div>
+    <div class="card" data-step="4" style="padding:18px 26px;gap:4px;flex:1"><p class="label" style="color:var(--accent)">«재료 ≤6자»</p><h4 style="font-size:26px">«재료명 ≤8자»</h4></div>
+  </div>
+  <div class="row" style="flex:1;min-height:0;gap:48px;align-items:center">
+    <svg class="dg" viewBox="0 0 900 380" style="flex:1.3;min-width:0" aria-label="«그림 설명»">
+      <path d="M210 120H690L640 330Q450 370 260 330Z" fill="var(--paper)" stroke="var(--ink)" stroke-width="3"/>
+      <g data-step="4"><circle cx="360" cy="220" r="26" fill="var(--blue)"/><circle cx="450" cy="250" r="26" fill="var(--blue)"/><circle cx="530" cy="210" r="26" fill="var(--accent)"/><circle cx="420" cy="190" r="26" fill="var(--accent)"/></g>
+      <g data-step="5"><path d="M300 300C400 316 500 316 600 300" fill="none" stroke="var(--accent)" stroke-width="5" stroke-linecap="round"/></g>
+      <path d="M210 120H690" stroke="var(--ink)" stroke-width="3"/>
+      <text class="t-s" text-anchor="middle" x="450" y="64">«결과물 이름 ≤14자»</text>
+    </svg>
+    <div class="col" style="width:520px;flex:none;gap:16px">
+      <div class="card" data-step="5" style="padding:26px 32px;gap:8px"><h4 style="font-size:26px">«결과 설명 ≤14자»</h4><p class="small">«조합 효과 ≤44자»</p></div>
+    </div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<!-- score-lift: 요소를 더할수록 지표가 올라감 — 누적 효과 시연 -->
+<section class="slide" data-archetype="build-up" data-variant="score-lift" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤12자»</p><h2 class="title">«제목: 한 문장 ≤20자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;gap:48px;align-items:center">
+    <svg class="dg" viewBox="0 0 900 560" style="flex:1.3;min-width:0" aria-label="«그림 설명»">
+      <path d="M120 60V520H840" stroke="var(--ink)" stroke-width="3" fill="none"/>
+      <text class="t-s" text-anchor="middle" x="80" y="300" transform="rotate(-90 80 300)">«지표 ≤8자»</text>
+      <g data-step="1"><rect x="160" y="420" width="120" height="100" fill="var(--muted)"/></g>
+      <g data-step="2"><rect x="330" y="360" width="120" height="160" fill="var(--blue)"/><rect x="330" y="420" width="120" height="100" fill="var(--muted)"/></g>
+      <g data-step="3"><rect x="500" y="270" width="120" height="250" fill="var(--blue)"/><rect x="500" y="420" width="120" height="100" fill="var(--muted)"/></g>
+      <g data-step="4"><rect x="670" y="160" width="120" height="360" fill="var(--accent)"/><rect x="670" y="420" width="120" height="100" fill="var(--muted)"/></g>
+      <text class="t-s" text-anchor="middle" x="220" y="548">«항목 ≤6자»</text>
+      <text class="t-s" text-anchor="middle" x="390" y="548">«항목 ≤6자»</text>
+      <text class="t-s" text-anchor="middle" x="560" y="548">«항목 ≤6자»</text>
+      <text class="t-s" text-anchor="middle" x="730" y="548">«항목 ≤6자»</text>
+      <text class="t-l o" x="700" y="140">«값 ≤5자»</text>
+    </svg>
+    <div class="col" style="width:520px;flex:none;gap:16px">
+      <div class="hrow" data-step="1"><div><h4 style="font-size:26px">«더한 요소 ≤8자»</h4><p>«효과 ≤36자»</p></div></div>
+      <div class="hrow" data-step="2"><div><h4 style="font-size:26px">«더한 요소 ≤8자»</h4><p>«효과 ≤36자»</p></div></div>
+      <div class="hrow" data-step="3"><div><h4 style="font-size:26px">«더한 요소 ≤8자»</h4><p>«효과 ≤36자»</p></div></div>
+      <div class="callout" data-step="4" style="font-size:26px;padding:20px 28px"><b>«강조 ≤12자»</b> «정리 문장 ≤30자»</div>
     </div>
   </div>
   <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>

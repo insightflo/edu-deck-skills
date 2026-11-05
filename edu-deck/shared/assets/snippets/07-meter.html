@@ -1,5 +1,5 @@
 <!--
-  아키타입 meter (변형: 기본)
+  아키타입 meter (변형: 기본 · gauge · donut · waffle · thermo)
   언제: 정해진 전체를 나눠 쓰는 개념(한도·구성비·예산·시간 배분). 누적 막대 + 설명 카드.
   단계: 구간을 하나씩 채움
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
@@ -24,6 +24,112 @@
       <div class="card" data-step="6" style="padding:28px 32px;gap:8px"><h3 style="font-size:32px">«카드 제목 ≤12자»</h3><p class="small">«설명 ≤56자»</p></div>
       <div class="card" data-step="6" style="padding:28px 32px;gap:8px"><h3 style="font-size:32px">«카드 제목 ≤17자»</h3><p class="small">«설명 ≤53자»</p></div>
       <div class="card" data-step="7" style="padding:28px 32px;gap:8px;border-color:var(--accent);background:var(--paper)"><h3 style="font-size:32px">«카드 제목 ≤9자»</h3><p class="small">«설명 ≤60자»</p></div>
+    </div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<!-- gauge: 반원 눈금 계기판 — 값의 '위험/적정 구간'을 눈금과 바늘로 읽을 때 -->
+<section class="slide" data-archetype="meter" data-variant="gauge" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;align-items:stretch;gap:40px">
+    <svg class="dg" viewBox="0 0 800 560" style="flex:2;min-width:0" aria-label="«그림 설명»">
+      <path d="M100 460A300 300 0 0 1 700 460" fill="none" stroke="var(--soft)" stroke-width="48" stroke-linecap="round"/>
+      <g data-step="1"><path d="M100 460A300 300 0 0 1 493 175" fill="none" stroke="var(--blue)" stroke-width="48"/></g>
+      <g data-step="2"><path d="M493 175A300 300 0 0 1 667 324" fill="none" stroke="var(--accent)" stroke-width="48"/></g>
+      <g data-step="3"><path d="M667 324A300 300 0 0 1 700 460" fill="none" stroke="var(--ink)" stroke-width="48" opacity=".75"/></g>
+      <path d="M135 322L163 336M220 196L240 220M400 148V182M580 196L560 220M665 322L637 336" stroke="var(--ink)" stroke-width="3" fill="none"/>
+      <text class="t-s" text-anchor="middle" x="96" y="524">«값 ≤4자»</text>
+      <text class="t-s" text-anchor="middle" x="400" y="128">«값 ≤4자»</text>
+      <text class="t-s" text-anchor="middle" x="704" y="524">«값 ≤4자»</text>
+      <g data-step="4">
+        <path d="M400 460L559 267" stroke="var(--ink)" stroke-width="6" stroke-linecap="round"/>
+        <circle cx="400" cy="460" r="18" fill="var(--ink)"/>
+        <text class="t-l b" text-anchor="middle" x="400" y="530">«값 ≤6자»</text>
+      </g>
+    </svg>
+    <div class="col" style="flex:1;min-width:0;gap:20px">
+      <div class="card" data-step="5" style="padding:28px 32px;gap:8px"><h3 style="font-size:32px">«카드 제목 ≤12자»</h3><p class="small">«설명 ≤56자»</p></div>
+      <div class="card" data-step="5" style="padding:28px 32px;gap:8px"><h3 style="font-size:32px">«카드 제목 ≤17자»</h3><p class="small">«설명 ≤53자»</p></div>
+      <div class="card" data-step="6" style="padding:28px 32px;gap:8px;border-color:var(--accent);background:var(--paper)"><h3 style="font-size:32px">«카드 제목 ≤9자»</h3><p class="small">«설명 ≤60자»</p></div>
+    </div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<!-- donut: 링 조각 구성비 — 가운데 핵심 수치 + 오른쪽 범례 -->
+<section class="slide" data-archetype="meter" data-variant="donut" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;align-items:center;gap:48px">
+    <svg class="dg" viewBox="0 0 700 600" style="width:620px;flex:none" aria-label="«그림 설명»">
+      <circle cx="350" cy="300" r="220" fill="none" stroke="var(--soft)" stroke-width="92"/>
+      <g data-step="1"><circle cx="350" cy="300" r="220" fill="none" stroke="var(--accent)" stroke-width="92" stroke-dasharray="760 622" transform="rotate(-90 350 300)"/></g>
+      <g data-step="2"><circle cx="350" cy="300" r="220" fill="none" stroke="var(--blue)" stroke-width="92" stroke-dasharray="415 967" stroke-dashoffset="-760" transform="rotate(-90 350 300)"/></g>
+      <g data-step="3"><circle cx="350" cy="300" r="220" fill="none" stroke="var(--muted)" stroke-width="92" stroke-dasharray="207 1175" stroke-dashoffset="-1175" transform="rotate(-90 350 300)"/></g>
+      <text class="t-l b" text-anchor="middle" x="350" y="290">«≤6자»</text>
+      <text class="t-s" text-anchor="middle" x="350" y="340">«짧은 문구 ≤10자»</text>
+    </svg>
+    <div class="col f1" style="gap:16px">
+      <div class="card" data-step="1" style="padding:22px 28px;gap:6px;border-left:6px solid var(--accent)"><h4 style="font-size:26px">«범례 제목 ≤8자»</h4><p class="small">«설명 ≤40자»</p></div>
+      <div class="card" data-step="2" style="padding:22px 28px;gap:6px;border-left:6px solid var(--blue)"><h4 style="font-size:26px">«범례 제목 ≤8자»</h4><p class="small">«설명 ≤40자»</p></div>
+      <div class="card" data-step="3" style="padding:22px 28px;gap:6px;border-left:6px solid var(--muted)"><h4 style="font-size:26px">«범례 제목 ≤8자»</h4><p class="small">«설명 ≤40자»</p></div>
+      <div class="callout" data-step="4" style="font-size:26px;padding:20px 28px"><b>«강조 ≤12자»</b> «정리 문장 ≤30자»</div>
+    </div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<!-- waffle: 10×10 칸 모자이크 — '100 중 몇' 개수 감각으로 읽을 때 -->
+<section class="slide" data-archetype="meter" data-variant="waffle" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;align-items:center;gap:48px">
+    <svg class="dg" viewBox="0 0 760 600" style="width:660px;flex:none" aria-label="«그림 설명»">
+      <g data-step="1" fill="var(--accent)">
+        <g><rect x="90" y="60" width="46" height="46" rx="8"/><rect x="144" y="60" width="46" height="46" rx="8"/><rect x="198" y="60" width="46" height="46" rx="8"/><rect x="252" y="60" width="46" height="46" rx="8"/><rect x="306" y="60" width="46" height="46" rx="8"/><rect x="360" y="60" width="46" height="46" rx="8"/><rect x="414" y="60" width="46" height="46" rx="8"/><rect x="468" y="60" width="46" height="46" rx="8"/><rect x="522" y="60" width="46" height="46" rx="8"/><rect x="576" y="60" width="46" height="46" rx="8"/></g>
+        <g transform="translate(0,54)"><rect x="90" y="60" width="46" height="46" rx="8"/><rect x="144" y="60" width="46" height="46" rx="8"/><rect x="198" y="60" width="46" height="46" rx="8"/><rect x="252" y="60" width="46" height="46" rx="8"/><rect x="306" y="60" width="46" height="46" rx="8"/><rect x="360" y="60" width="46" height="46" rx="8"/><rect x="414" y="60" width="46" height="46" rx="8"/><rect x="468" y="60" width="46" height="46" rx="8"/><rect x="522" y="60" width="46" height="46" rx="8"/><rect x="576" y="60" width="46" height="46" rx="8"/></g>
+        <g transform="translate(0,108)"><rect x="90" y="60" width="46" height="46" rx="8"/><rect x="144" y="60" width="46" height="46" rx="8"/><rect x="198" y="60" width="46" height="46" rx="8"/><rect x="252" y="60" width="46" height="46" rx="8"/><rect x="306" y="60" width="46" height="46" rx="8"/><rect x="360" y="60" width="46" height="46" rx="8"/><rect x="414" y="60" width="46" height="46" rx="8"/><rect x="468" y="60" width="46" height="46" rx="8"/><rect x="522" y="60" width="46" height="46" rx="8"/><rect x="576" y="60" width="46" height="46" rx="8"/></g>
+        <g transform="translate(0,162)"><rect x="90" y="60" width="46" height="46" rx="8"/><rect x="144" y="60" width="46" height="46" rx="8"/><rect x="198" y="60" width="46" height="46" rx="8"/><rect x="252" y="60" width="46" height="46" rx="8"/><rect x="306" y="60" width="46" height="46" rx="8"/><rect x="360" y="60" width="46" height="46" rx="8"/><rect x="414" y="60" width="46" height="46" rx="8"/><rect x="468" y="60" width="46" height="46" rx="8"/><rect x="522" y="60" width="46" height="46" rx="8"/><rect x="576" y="60" width="46" height="46" rx="8"/></g>
+        <g transform="translate(0,216)"><rect x="90" y="60" width="46" height="46" rx="8"/><rect x="144" y="60" width="46" height="46" rx="8"/><rect x="198" y="60" width="46" height="46" rx="8"/><rect x="252" y="60" width="46" height="46" rx="8"/><rect x="306" y="60" width="46" height="46" rx="8"/><rect x="360" y="60" width="46" height="46" rx="8"/><rect x="414" y="60" width="46" height="46" rx="8"/><rect x="468" y="60" width="46" height="46" rx="8"/><rect x="522" y="60" width="46" height="46" rx="8"/><rect x="576" y="60" width="46" height="46" rx="8"/></g>
+        <g transform="translate(0,270)"><rect x="90" y="60" width="46" height="46" rx="8"/><rect x="144" y="60" width="46" height="46" rx="8"/><rect x="198" y="60" width="46" height="46" rx="8"/><rect x="252" y="60" width="46" height="46" rx="8"/><rect x="306" y="60" width="46" height="46" rx="8"/><rect x="360" y="60" width="46" height="46" rx="8"/><rect x="414" y="60" width="46" height="46" rx="8"/><rect x="468" y="60" width="46" height="46" rx="8"/><rect x="522" y="60" width="46" height="46" rx="8"/><rect x="576" y="60" width="46" height="46" rx="8"/></g>
+        <g transform="translate(0,324)"><rect x="90" y="60" width="46" height="46" rx="8"/><rect x="144" y="60" width="46" height="46" rx="8"/></g>
+      </g>
+      <g data-step="2" fill="var(--blue)">
+        <g transform="translate(0,324)"><rect x="198" y="60" width="46" height="46" rx="8"/><rect x="252" y="60" width="46" height="46" rx="8"/><rect x="306" y="60" width="46" height="46" rx="8"/><rect x="360" y="60" width="46" height="46" rx="8"/><rect x="414" y="60" width="46" height="46" rx="8"/><rect x="468" y="60" width="46" height="46" rx="8"/><rect x="522" y="60" width="46" height="46" rx="8"/><rect x="576" y="60" width="46" height="46" rx="8"/></g>
+        <g transform="translate(0,378)"><rect x="90" y="60" width="46" height="46" rx="8"/><rect x="144" y="60" width="46" height="46" rx="8"/><rect x="198" y="60" width="46" height="46" rx="8"/><rect x="252" y="60" width="46" height="46" rx="8"/><rect x="306" y="60" width="46" height="46" rx="8"/><rect x="360" y="60" width="46" height="46" rx="8"/><rect x="414" y="60" width="46" height="46" rx="8"/><rect x="468" y="60" width="46" height="46" rx="8"/><rect x="522" y="60" width="46" height="46" rx="8"/><rect x="576" y="60" width="46" height="46" rx="8"/></g>
+        <g transform="translate(0,432)"><rect x="90" y="60" width="46" height="46" rx="8"/><rect x="144" y="60" width="46" height="46" rx="8"/><rect x="198" y="60" width="46" height="46" rx="8"/><rect x="252" y="60" width="46" height="46" rx="8"/><rect x="306" y="60" width="46" height="46" rx="8"/><rect x="360" y="60" width="46" height="46" rx="8"/><rect x="414" y="60" width="46" height="46" rx="8"/><rect x="468" y="60" width="46" height="46" rx="8"/></g>
+      </g>
+      <g data-step="3" fill="var(--muted)">
+        <g transform="translate(0,432)"><rect x="522" y="60" width="46" height="46" rx="8"/><rect x="576" y="60" width="46" height="46" rx="8"/></g>
+        <g transform="translate(0,486)"><rect x="90" y="60" width="46" height="46" rx="8"/><rect x="144" y="60" width="46" height="46" rx="8"/><rect x="198" y="60" width="46" height="46" rx="8"/><rect x="252" y="60" width="46" height="46" rx="8"/><rect x="306" y="60" width="46" height="46" rx="8"/><rect x="360" y="60" width="46" height="46" rx="8"/><rect x="414" y="60" width="46" height="46" rx="8"/><rect x="468" y="60" width="46" height="46" rx="8"/><rect x="522" y="60" width="46" height="46" rx="8"/><rect x="576" y="60" width="46" height="46" rx="8"/></g>
+      </g>
+    </svg>
+    <div class="col f1" style="gap:16px">
+      <div class="card" data-step="1" style="padding:22px 28px;gap:6px;border-left:6px solid var(--accent)"><h4 style="font-size:26px">«범례 제목 ≤8자»</h4><p class="small">«설명 ≤40자»</p></div>
+      <div class="card" data-step="2" style="padding:22px 28px;gap:6px;border-left:6px solid var(--blue)"><h4 style="font-size:26px">«범례 제목 ≤8자»</h4><p class="small">«설명 ≤40자»</p></div>
+      <div class="card" data-step="3" style="padding:22px 28px;gap:6px;border-left:6px solid var(--muted)"><h4 style="font-size:26px">«범례 제목 ≤8자»</h4><p class="small">«설명 ≤40자»</p></div>
+      <div class="callout" data-step="4" style="font-size:26px;padding:20px 28px"><b>«강조 ≤12자»</b> «정리 문장 ≤30자»</div>
+    </div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<!-- thermo: 세로 탱크 수위 — 한도 대비 채워진 정도·경계선을 볼 때 -->
+<section class="slide" data-archetype="meter" data-variant="thermo" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;align-items:center;gap:56px">
+    <svg class="dg" viewBox="0 0 700 600" style="width:560px;flex:none" aria-label="«그림 설명»">
+      <path d="M300 60H400V470" fill="none" stroke="var(--ink)" stroke-width="3"/>
+      <circle cx="350" cy="498" r="56" fill="var(--accent)"/>
+      <g data-step="1"><rect x="308" y="380" width="84" height="112" fill="var(--accent)"/></g>
+      <g data-step="2"><rect x="308" y="270" width="84" height="110" fill="var(--blue)"/></g>
+      <g data-step="3"><rect x="308" y="196" width="84" height="74" fill="var(--muted)"/></g>
+      <path d="M400 140H460M400 270H460M400 400H460" stroke="var(--ink)" stroke-width="2.5" fill="none"/>
+      <text class="t-s" x="472" y="148">«구간 ≤8자»</text>
+      <text class="t-s" x="472" y="278">«구간 ≤8자»</text>
+      <text class="t-s" x="472" y="408">«구간 ≤8자»</text>
+      <text class="t-l b" text-anchor="middle" x="350" y="40">«≤8자»</text>
+      <text class="t-badge" text-anchor="middle" x="350" y="506">«≤4자»</text>
+    </svg>
+    <div class="col f1" style="gap:16px">
+      <div class="card" data-step="4" style="padding:22px 28px;gap:6px"><h4 style="font-size:26px">«항목 제목 ≤10자»</h4><p class="small">«설명 ≤44자»</p></div>
+      <div class="card" data-step="4" style="padding:22px 28px;gap:6px"><h4 style="font-size:26px">«항목 제목 ≤10자»</h4><p class="small">«설명 ≤44자»</p></div>
+      <div class="callout" data-step="5" style="font-size:26px;padding:20px 28px"><b>«강조 ≤12자»</b> «정리 문장 ≤32자»</div>
     </div>
   </div>
   <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>

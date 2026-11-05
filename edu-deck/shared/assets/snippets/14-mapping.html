@@ -1,5 +1,5 @@
 <!--
-  아키타입 mapping (변형: 기본)
+  아키타입 mapping (변형: 기본 · pairs · before-after · checklist · overlay)
   언제: 앞의 구조(①②③)를 우리 도구·제도에 대응. 왼쪽 모형 창 + 오른쪽 번호 카드.
   단계: 번호별 1단계
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
@@ -26,6 +26,85 @@
       <div class="card" data-step="1" style="padding:24px 32px;gap:0px"><p class="label">«라벨 ≤4자» <span class="mk" style="width:32px;height:32px;font-size:20px">3</span></p><h3 style="font-size:34px">«카드 제목 ≤16자»</h3><p class="small">«설명 ≤28자»</p></div>
       <div class="card" data-step="2" style="padding:24px 32px;gap:0px"><p class="label" style="color:var(--blue)">«라벨 ≤4자» <span class="mk" style="width:32px;height:32px;font-size:20px;background:var(--blue)">1</span></p><h3 style="font-size:34px">«카드 제목 ≤28자»</h3><p class="small">«설명 ≤23자»</p></div>
       <div class="card" data-step="3" style="padding:24px 32px;gap:0px"><p class="label">«라벨 ≤4자» <span class="mk" style="width:32px;height:32px;font-size:20px">4</span></p><h3 style="font-size:34px">«카드 제목 ≤16자»</h3><p class="small">«설명 ≤28자»</p></div>
+    </div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<!-- pairs: 왼쪽 항목 ↔ 오른쪽 항목을 선으로 잇는 대응 배선 -->
+<section class="slide" data-archetype="mapping" data-variant="pairs" style="gap:24px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤14자»</p><h2 class="title">«제목: 한 문장 ≤24자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;align-items:center;gap:0">
+    <div class="col" style="width:440px;flex:none;gap:22px">
+      <div class="card" style="padding:20px 26px;gap:4px"><p class="label">«기존 ≤6자»</p><h4 style="font-size:26px">«항목 ≤10자»</h4></div>
+      <div class="card" style="padding:20px 26px;gap:4px;margin-top:36px"><p class="label">«기존 ≤6자»</p><h4 style="font-size:26px">«항목 ≤10자»</h4></div>
+      <div class="card" style="padding:20px 26px;gap:4px;margin-top:36px"><p class="label">«기존 ≤6자»</p><h4 style="font-size:26px">«항목 ≤10자»</h4></div>
+    </div>
+    <svg class="dg f1" viewBox="0 0 640 560" style="min-width:0" aria-label="«그림 설명»">
+      <g data-step="1"><path d="M20 84C220 84 300 480 620 480" fill="none" stroke="var(--accent)" stroke-width="3" marker-end="url(#ah)"/></g>
+      <g data-step="2"><path d="M20 220H620" fill="none" stroke="var(--blue)" stroke-width="3" marker-end="url(#ahb)"/></g>
+      <g data-step="3"><path d="M20 356C220 356 300 120 620 120" fill="none" stroke="var(--blue)" stroke-width="3" marker-end="url(#ahb)"/></g>
+      <g data-step="4"><path d="M20 356C260 356 340 340 620 340" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-dasharray="8 8" marker-end="url(#ahg)"/></g>
+    </svg>
+    <div class="col" style="width:440px;flex:none;gap:22px">
+      <div class="card" data-step="3" style="padding:20px 26px;gap:4px;border-left:6px solid var(--blue)"><p class="label" style="color:var(--blue)">«대응 ≤6자»</p><h4 style="font-size:26px">«항목 ≤12자»</h4></div>
+      <div class="card" data-step="2" style="padding:20px 26px;gap:4px;border-left:6px solid var(--blue);margin-top:36px"><p class="label" style="color:var(--blue)">«대응 ≤6자»</p><h4 style="font-size:26px">«항목 ≤12자»</h4></div>
+      <div class="card" data-step="1" style="padding:20px 26px;gap:4px;border-left:6px solid var(--accent);margin-top:36px"><p class="label" style="color:var(--accent)">«대응 ≤6자»</p><h4 style="font-size:26px">«항목 ≤12자»</h4></div>
+    </div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<!-- before-after: 행마다 '전' 카드 → 화살표 → '후' 카드 변환 문법 -->
+<section class="slide" data-archetype="mapping" data-variant="before-after" style="gap:24px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤14자»</p><h2 class="title">«제목: 한 문장 ≤24자»</h2></div>
+  <div class="col" style="flex:1;min-height:0;gap:20px">
+    <div class="row" data-step="1" style="align-items:center;gap:24px">
+      <div class="card f1" style="padding:22px 28px;gap:6px"><p class="label">«이전 ≤6자»</p><h4 style="font-size:26px">«상태 ≤16자»</h4><p class="small">«설명 ≤30자»</p></div>
+      <svg class="dg" viewBox="0 0 120 60" style="width:110px;flex:none" aria-hidden="true"><path d="M8 30H100" stroke="var(--accent)" stroke-width="4" marker-end="url(#ah)"/></svg>
+      <div class="card f1" style="padding:22px 28px;gap:6px;border-left:6px solid var(--accent)"><p class="label" style="color:var(--accent)">«이후 ≤6자»</p><h4 style="font-size:26px">«상태 ≤16자»</h4><p class="small">«설명 ≤30자»</p></div>
+    </div>
+    <div class="row" data-step="2" style="align-items:center;gap:24px">
+      <div class="card f1" style="padding:22px 28px;gap:6px"><p class="label">«이전 ≤6자»</p><h4 style="font-size:26px">«상태 ≤16자»</h4><p class="small">«설명 ≤30자»</p></div>
+      <svg class="dg" viewBox="0 0 120 60" style="width:110px;flex:none" aria-hidden="true"><path d="M8 30H100" stroke="var(--accent)" stroke-width="4" marker-end="url(#ah)"/></svg>
+      <div class="card f1" style="padding:22px 28px;gap:6px;border-left:6px solid var(--accent)"><p class="label" style="color:var(--accent)">«이후 ≤6자»</p><h4 style="font-size:26px">«상태 ≤16자»</h4><p class="small">«설명 ≤30자»</p></div>
+    </div>
+    <div class="row" data-step="3" style="align-items:center;gap:24px">
+      <div class="card f1" style="padding:22px 28px;gap:6px"><p class="label">«이전 ≤6자»</p><h4 style="font-size:26px">«상태 ≤16자»</h4><p class="small">«설명 ≤30자»</p></div>
+      <svg class="dg" viewBox="0 0 120 60" style="width:110px;flex:none" aria-hidden="true"><path d="M8 30H100" stroke="var(--accent)" stroke-width="4" marker-end="url(#ah)"/></svg>
+      <div class="card f1" style="padding:22px 28px;gap:6px;border-left:6px solid var(--accent)"><p class="label" style="color:var(--accent)">«이후 ≤6자»</p><h4 style="font-size:26px">«상태 ≤16자»</h4><p class="small">«설명 ≤30자»</p></div>
+    </div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<!-- checklist: 기존 요소가 대응되는지 점검표 — 충족/미충족 상태가 핵심 -->
+<section class="slide" data-archetype="mapping" data-variant="checklist" style="gap:24px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤14자»</p><h2 class="title">«제목: 한 문장 ≤24자»</h2></div>
+  <div class="col" style="flex:1;min-height:0;gap:16px">
+    <div class="card" data-step="1" style="padding:20px 28px"><div class="row" style="align-items:center;gap:20px"><span class="mk" style="width:44px;height:44px;font-size:24px;background:var(--blue)">1</span><div class="f1"><h4 style="font-size:26px">«기존 요소 ≤14자»</h4><p class="small">«대응되는 우리 것 ≤26자»</p></div><svg viewBox="0 0 48 48" style="width:44px;flex:none"><use href="#i-check" width="48" height="48" style="color:var(--accent)"/></svg></div></div>
+    <div class="card" data-step="2" style="padding:20px 28px"><div class="row" style="align-items:center;gap:20px"><span class="mk" style="width:44px;height:44px;font-size:24px;background:var(--blue)">2</span><div class="f1"><h4 style="font-size:26px">«기존 요소 ≤14자»</h4><p class="small">«대응되는 우리 것 ≤26자»</p></div><svg viewBox="0 0 48 48" style="width:44px;flex:none"><use href="#i-check" width="48" height="48" style="color:var(--accent)"/></svg></div></div>
+    <div class="card" data-step="3" style="padding:20px 28px"><div class="row" style="align-items:center;gap:20px"><span class="mk" style="width:44px;height:44px;font-size:24px;background:var(--blue)">3</span><div class="f1"><h4 style="font-size:26px">«기존 요소 ≤14자»</h4><p class="small">«부분 대응 — 보강할 점 ≤24자»</p></div><svg viewBox="0 0 48 48" style="width:44px;flex:none"><use href="#i-warn" width="48" height="48" style="color:var(--blue)"/></svg></div></div>
+    <div class="card" data-step="4" style="padding:20px 28px"><div class="row" style="align-items:center;gap:20px"><span class="mk" style="width:44px;height:44px;font-size:24px;background:var(--line)">4</span><div class="f1"><h4 style="font-size:26px">«기존 요소 ≤14자»</h4><p class="small">«대응 없음 — 새로 만들 것 ≤24자»</p></div><svg viewBox="0 0 48 48" style="width:44px;flex:none"><use href="#i-x" width="48" height="48" style="color:var(--muted)"/></svg></div></div>
+  </div>
+  <div class="callout" data-step="5" style="font-size:28px;padding:22px 32px"><b>«결론 ≤12자»</b> «정리 문장 ≤36자»</div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<!-- overlay: 화면 위에 번호 핀 — 모형의 '어느 부분'이 대응되는지 주석 -->
+<section class="slide" data-archetype="mapping" data-variant="overlay" style="gap:24px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤14자»</p><h2 class="title">«제목: 한 문장 ≤24자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;gap:32px">
+    <div class="win f1">
+      <div class="win-bar"><i></i><i></i><i></i><span class="wt">«창 제목 ≤6자»</span></div>
+      <div class="win-body" style="position:relative">
+        <div class="side"><p class="brand">«메뉴 이름 ≤4자»</p><p class="item on">«메뉴 항목 ≤6자»</p><p class="item">«메뉴 항목 ≤7자»</p><p class="item">«메뉴 항목 ≤5자»</p></div>
+        <div class="main"><div class="welcome"><p class="w1">«문구 ≤14자»</p><p class="w2">«문구 ≤24자»</p></div><div class="input"><span class="ph">«입력칸 안내 ≤11자»</span><span class="model">«선택 표시 ≤11자»</span><span class="send">↑</span></div></div>
+        <span data-step="1" style="position:absolute;top:14px;left:14px;width:40px;height:40px;border-radius:50%;background:var(--accent);color:var(--paper);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px">1</span>
+        <span data-step="2" style="position:absolute;top:40%;right:16px;width:40px;height:40px;border-radius:50%;background:var(--blue);color:var(--paper);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px">2</span>
+        <span data-step="3" style="position:absolute;bottom:14px;right:22%;width:40px;height:40px;border-radius:50%;background:var(--ink);color:var(--paper);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px">3</span>
+      </div>
+    </div>
+    <div class="col" style="width:520px;flex:none;gap:16px">
+      <div class="card" data-step="1" style="padding:20px 26px;gap:4px"><p class="label"><span class="mk" style="width:32px;height:32px;font-size:18px">1</span> «부위 ≤8자»</p><h4 style="font-size:26px">«대응 설명 ≤18자»</h4></div>
+      <div class="card" data-step="2" style="padding:20px 26px;gap:4px"><p class="label"><span class="mk" style="width:32px;height:32px;font-size:18px;background:var(--blue)">2</span> «부위 ≤8자»</p><h4 style="font-size:26px">«대응 설명 ≤18자»</h4></div>
+      <div class="card" data-step="3" style="padding:20px 26px;gap:4px"><p class="label"><span class="mk" style="width:32px;height:32px;font-size:18px;background:var(--ink)">3</span> «부위 ≤8자»</p><h4 style="font-size:26px">«대응 설명 ≤18자»</h4></div>
     </div>
   </div>
   <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>

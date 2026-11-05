@@ -126,22 +126,24 @@ class SnippetMarkupTest(unittest.TestCase):
         cls.soup = _soup('<html><body><div id="stage">' + cls.body + '</div></body></html>')
         cls.slide_el = cls.soup.select_one('section.slide')
 
-    def test_single_stat_strip_section(self):
-        self.assertIsNotNone(self.slide_el)
-        self.assertEqual(self.slide_el.get('data-archetype'), 'stat-strip')
-        self.assertEqual(len(self.soup.select('section.slide')), 1)
+    def test_stat_strip_sections(self):
+        secs = self.soup.select('section.slide')
+        self.assertGreaterEqual(len(secs), 1)
+        for sec in secs:
+            self.assertEqual(sec.get('data-archetype'), 'stat-strip')
 
     def test_metrics_are_placeholder_bounded(self):
-        stats = self.slide_el.select('.stat-strip .stat')
-        self.assertTrue(3 <= len(stats) <= 6, f'지표 {len(stats)}개')
-        for st in stats:
-            self.assertRegex(st.get('data-src', ''), r'^«F\d{2,3}»$')
-            num = st.select_one('.stat-num[data-count]')
-            lab = st.select_one('.stat-label')
-            self.assertIsNotNone(num, '.stat-num[data-count] 필요')
-            self.assertIsNotNone(lab, '.stat-label 필요')
-            self.assertRegex(num.get_text(strip=True), r'^«숫자 ≤\d+자»$')
-            self.assertRegex(lab.get_text(strip=True), r'^«라벨 ≤\d+자»$')
+        for i, sec in enumerate(self.soup.select('section.slide')):
+            stats = sec.select('.stat')
+            self.assertTrue(3 <= len(stats) <= 6, f'변형 {i}: 지표 {len(stats)}개')
+            for st in stats:
+                self.assertRegex(st.get('data-src', ''), r'^«F\d{2,3}»$')
+                num = st.select_one('.stat-num[data-count]')
+                lab = st.select_one('.stat-label')
+                self.assertIsNotNone(num, f'변형 {i}: .stat-num[data-count] 필요')
+                self.assertIsNotNone(lab, f'변형 {i}: .stat-label 필요')
+                self.assertRegex(num.get_text(strip=True), r'^«숫자 ≤\d+자»$')
+                self.assertRegex(lab.get_text(strip=True), r'^«라벨 ≤\d+자»$')
 
     def test_placement_rule_is_documented(self):
         self.assertRegex(self.text, r'표지 하단.*목차 상단.*마무리 상단|표지 하단')

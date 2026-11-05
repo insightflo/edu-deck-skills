@@ -1,5 +1,5 @@
 <!--
-  아키타입 chart-line (변형: basic / compare)
+  아키타입 chart-line (변형: basic / compare / area / band / step)
   언제: 시간·순서에 따라 값이 어떻게 변하는지(추세)를 보여 줄 때. 조사로 확인된 값만 쓴다.
   배치 규칙: 본문 장 한 장. 기간 추이는 34, 한 순간의 크기 비교는 33 chart-bar 를 고른다.
   근거: 모든 수치에 data-src="F01" 처럼 research.md 사실 id 를 단다 — 계열마다(.chart-series) 또는
@@ -65,6 +65,10 @@
       <text x="120" y="528" text-anchor="end" font-size="24" fill="var(--soft)">0</text>
       <text x="120" y="298" text-anchor="end" font-size="24" fill="var(--soft)">«중간값 ≤6자»</text>
       <text x="120" y="68" text-anchor="end" font-size="24" fill="var(--soft)">«최대값 ≤6자»</text>
+      <rect x="860" y="60" width="580" height="460" fill="var(--accent-light)" opacity=".45"/>
+      <rect x="860" y="60" width="580" height="460" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="10 8"/>
+      <text x="1150" y="96" text-anchor="middle" font-size="22" fill="var(--soft)">«구간 ≤8자»</text>
+      <path d="M240 400L570 330 900 360 1230 240 1230 160 900 300 570 440 240 460Z" fill="var(--accent)" opacity=".3"/>
       <g class="chart-series" data-src="«F01»">
         <line x1="1210" y1="40" x2="1240" y2="40" stroke="var(--blue)" stroke-width="5" stroke-linecap="round"/>
         <text x="1252" y="48" font-size="22" fill="var(--soft)">«계열A ≤10자»</text>
@@ -91,4 +95,124 @@
   </div>
   <p class="small">«정리 한 문장 ≤40자 — 두 계열이 갈라지거나 만나는 지점»</p>
   <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시 → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- area: 선 아래 면을 채워 누적 양감 — 총량의 추이 -->
+<section class="slide" data-archetype="chart-line" data-variant="area" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <div class="chart">
+    <svg viewBox="0 0 1560 600" role="img" aria-label="«차트 요지 한 문장: 무엇의 누적 추이인지»">
+      <line x1="140" y1="60" x2="140" y2="520" stroke="var(--soft)" stroke-width="3"/>
+      <line x1="140" y1="520" x2="1520" y2="520" stroke="var(--soft)" stroke-width="3"/>
+      <line x1="140" y1="290" x2="1520" y2="290" stroke="var(--line)" stroke-width="2" stroke-dasharray="6 8"/>
+      <line x1="140" y1="60" x2="1520" y2="60" stroke="var(--line)" stroke-width="2" stroke-dasharray="6 8"/>
+      <text x="120" y="528" text-anchor="end" font-size="24" fill="var(--soft)">0</text>
+      <text x="120" y="298" text-anchor="end" font-size="24" fill="var(--soft)">«중간값 ≤6자»</text>
+      <text x="120" y="68" text-anchor="end" font-size="24" fill="var(--soft)">«최대값 ≤6자»</text>
+      <path d="M240 430L570 340 900 380 1230 220 1420 160V520H240Z" fill="var(--blue)" opacity=".32"/>
+      <polyline points="240,430 570,340 900,380 1230,220 1420,160" fill="none" stroke="var(--blue)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      <g class="chart-point" data-src="«F01»" data-step="1">
+        <circle cx="240" cy="430" r="12" fill="var(--blue)"/>
+        <text x="240" y="560" text-anchor="middle" font-size="24" fill="var(--soft)">«시점 ≤8자»</text>
+      </g>
+      <g class="chart-point" data-src="«F02»" data-step="2">
+        <circle cx="570" cy="340" r="12" fill="var(--blue)"/>
+        <text x="570" y="560" text-anchor="middle" font-size="24" fill="var(--soft)">«시점 ≤8자»</text>
+      </g>
+      <g class="chart-point" data-src="«F03»" data-step="3">
+        <circle cx="900" cy="380" r="12" fill="var(--blue)"/>
+        <text x="900" y="560" text-anchor="middle" font-size="24" fill="var(--soft)">«시점 ≤8자»</text>
+      </g>
+      <g class="chart-point" data-src="«F04»" data-step="4">
+        <circle cx="1230" cy="220" r="12" fill="var(--accent)"/>
+        <text x="1230" y="560" text-anchor="middle" font-size="24" fill="var(--soft)">«시점 ≤8자»</text>
+      </g>
+      <g class="chart-point" data-src="«F05»" data-step="5">
+        <circle cx="1420" cy="160" r="12" fill="var(--accent)"/>
+        <text x="1420" y="120" text-anchor="middle" font-size="28" font-weight="800" fill="var(--ink)">«값 ≤8자»</text>
+        <text x="1420" y="560" text-anchor="middle" font-size="24" fill="var(--soft)">«시점 ≤8자»</text>
+      </g>
+    </svg>
+  </div>
+  <p class="small" data-step="5">«정리 한 문장 ≤40자 — 면적이 말하는 누적 양»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다 점이 하나씩 찍힙니다) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- range: 상한선·하한선 사이를 채운 범위 면적 — 오차·변동 폭을 보일 때 -->
+<section class="slide" data-archetype="chart-line" data-variant="range" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <div class="chart">
+    <svg viewBox="0 0 1560 600" role="img" aria-label="«차트 요지 한 문장: 추세와 변동 폭»">
+      <line x1="140" y1="60" x2="140" y2="520" stroke="var(--soft)" stroke-width="3"/>
+      <line x1="140" y1="520" x2="1520" y2="520" stroke="var(--soft)" stroke-width="3"/>
+      <line x1="140" y1="290" x2="1520" y2="290" stroke="var(--line)" stroke-width="2" stroke-dasharray="6 8"/>
+      <line x1="140" y1="60" x2="1520" y2="60" stroke="var(--line)" stroke-width="2" stroke-dasharray="6 8"/>
+      <text x="120" y="528" text-anchor="end" font-size="24" fill="var(--soft)">0</text>
+      <text x="120" y="298" text-anchor="end" font-size="24" fill="var(--soft)">«중간값 ≤6자»</text>
+      <text x="120" y="68" text-anchor="end" font-size="24" fill="var(--soft)">«최대값 ≤6자»</text>
+      <path d="M280 340L610 270 940 290 1270 170 1270 330 940 450 610 410 280 500Z" fill="var(--blue)" opacity=".45"/>
+      <path d="M280 340V500M610 270V410M940 290V450M1270 170V330" stroke="var(--muted)" stroke-width="2" opacity=".7"/>
+      <polyline points="280,340 610,270 940,290 1270,170" fill="none" stroke="var(--blue)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline points="280,500 610,410 940,450 1270,330" fill="none" stroke="var(--muted)" stroke-width="4" stroke-dasharray="8 8" stroke-linecap="round"/>
+      <text x="1370" y="220" font-size="22" fill="var(--blue)">«상한 ≤6자»</text>
+      <text x="1370" y="340" font-size="22" fill="var(--soft)">«하한 ≤6자»</text>
+      <g class="chart-point" data-src="«F01»" data-step="1">
+        <circle cx="280" cy="420" r="12" fill="var(--ink)"/>
+        <text x="280" y="560" text-anchor="middle" font-size="24" fill="var(--soft)">«시점 ≤8자»</text>
+      </g>
+      <g class="chart-point" data-src="«F02»" data-step="2">
+        <circle cx="610" cy="340" r="12" fill="var(--ink)"/>
+        <text x="610" y="560" text-anchor="middle" font-size="24" fill="var(--soft)">«시점 ≤8자»</text>
+      </g>
+      <g class="chart-point" data-src="«F03»" data-step="3">
+        <circle cx="940" cy="370" r="12" fill="var(--ink)"/>
+        <text x="940" y="560" text-anchor="middle" font-size="24" fill="var(--soft)">«시점 ≤8자»</text>
+      </g>
+      <g class="chart-point" data-src="«F04»" data-step="4">
+        <circle cx="1270" cy="250" r="12" fill="var(--accent)"/>
+        <text x="1270" y="560" text-anchor="middle" font-size="24" fill="var(--soft)">«시점 ≤8자»</text>
+      </g>
+    </svg>
+  </div>
+  <p class="small" data-step="4">«정리 한 문장 ≤40자 — 범위가 넓거나 좁은 구간의 의미»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다 점이 하나씩 찍힙니다) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- step: 계단선 — 기간 동안 유지되다가 끊기는 값(요금·상태·재고) -->
+<section class="slide" data-archetype="chart-line" data-variant="step" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <div class="chart">
+    <svg viewBox="0 0 1560 600" role="img" aria-label="«차트 요지 한 문장: 무엇의 단계적 변화인지»">
+      <line x1="140" y1="60" x2="140" y2="520" stroke="var(--soft)" stroke-width="3"/>
+      <line x1="140" y1="520" x2="1520" y2="520" stroke="var(--soft)" stroke-width="3"/>
+      <line x1="140" y1="290" x2="1520" y2="290" stroke="var(--line)" stroke-width="2" stroke-dasharray="6 8"/>
+      <line x1="140" y1="60" x2="1520" y2="60" stroke="var(--line)" stroke-width="2" stroke-dasharray="6 8"/>
+      <text x="120" y="528" text-anchor="end" font-size="24" fill="var(--soft)">0</text>
+      <text x="120" y="298" text-anchor="end" font-size="24" fill="var(--soft)">«중간값 ≤6자»</text>
+      <text x="120" y="68" text-anchor="end" font-size="24" fill="var(--soft)">«최대값 ≤6자»</text>
+      <path d="M240 180H640V320H1100V450H1350V520H240Z" fill="var(--accent)" opacity=".22"/>
+      <rect x="240" y="192" width="400" height="16" rx="8" fill="var(--accent-light)"/>
+      <rect x="640" y="332" width="460" height="16" rx="8" fill="var(--accent-light)"/>
+      <rect x="1100" y="462" width="250" height="16" rx="8" fill="var(--accent-light)"/>
+      <path d="M240 180H640V320H1100V450H1350" fill="none" stroke="var(--accent)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+      <g class="chart-point" data-src="«F01»" data-step="1">
+        <circle cx="640" cy="180" r="10" fill="var(--paper)" stroke="var(--accent)" stroke-width="4"/>
+        <text x="440" y="140" text-anchor="middle" font-size="28" font-weight="800" fill="var(--ink)">«값 ≤8자»</text>
+        <text x="640" y="560" text-anchor="middle" font-size="24" fill="var(--soft)">«시점 ≤8자»</text>
+      </g>
+      <g class="chart-point" data-src="«F02»" data-step="2">
+        <circle cx="1100" cy="320" r="10" fill="var(--paper)" stroke="var(--accent)" stroke-width="4"/>
+        <text x="870" y="280" text-anchor="middle" font-size="28" font-weight="800" fill="var(--ink)">«값 ≤8자»</text>
+        <text x="1100" y="560" text-anchor="middle" font-size="24" fill="var(--soft)">«시점 ≤8자»</text>
+      </g>
+      <g class="chart-point" data-src="«F03»" data-step="3">
+        <circle cx="1350" cy="450" r="10" fill="var(--accent)"/>
+        <text x="1225" y="420" text-anchor="middle" font-size="28" font-weight="800" fill="var(--ink)">«값 ≤8자»</text>
+        <text x="1350" y="560" text-anchor="middle" font-size="24" fill="var(--soft)">«시점 ≤8자»</text>
+      </g>
+      <text x="240" y="560" text-anchor="middle" font-size="24" fill="var(--soft)">«시점 ≤8자»</text>
+    </svg>
+  </div>
+  <p class="small" data-step="3">«정리 한 문장 ≤40자 — 값이 끊기는 시점»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다 다음 단계가 표시됩니다) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
 </section>

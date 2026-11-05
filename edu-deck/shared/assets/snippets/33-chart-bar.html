@@ -1,5 +1,5 @@
 <!--
-  아키타입 chart-bar (변형: basic / compare)
+  아키타입 chart-bar (변형: basic / compare / horizontal / stacked / target)
   언제: 기준·기간·집단 사이의 크기 비교를 막대 높이로 보여 줄 때. 조사로 확인된 값만 쓴다.
   배치 규칙: 본문 장 한 장. 표지에는 쓰지 않는다(첫인상용 큰 숫자는 31 stat-strip).
   근거: 모든 수치에 data-src="F01" 처럼 research.md 사실 id 를 단다 — 막대마다(.chart-bar) 또는
@@ -97,4 +97,117 @@
   </div>
   <p class="small">«정리 한 문장 ≤40자 — 어느 항목에서 계열 차이가 가장 큰지»</p>
   <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시 → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- horizontal: 가로 막대 — 항목명이 길거나 순위를 강조할 때 -->
+<section class="slide" data-archetype="chart-bar" data-variant="horizontal" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <div class="chart">
+    <svg viewBox="0 0 1560 600" role="img" aria-label="«차트 요지 한 문장: 무엇의 순위인지»">
+      <line x1="300" y1="60" x2="300" y2="540" stroke="var(--soft)" stroke-width="3"/>
+      <line x1="300" y1="540" x2="1460" y2="540" stroke="var(--soft)" stroke-width="3"/>
+      <line x1="880" y1="60" x2="880" y2="540" stroke="var(--line)" stroke-width="2" stroke-dasharray="6 8"/>
+      <line x1="1460" y1="60" x2="1460" y2="540" stroke="var(--line)" stroke-width="2" stroke-dasharray="6 8"/>
+      <text x="300" y="580" text-anchor="middle" font-size="24" fill="var(--soft)">0</text>
+      <text x="880" y="580" text-anchor="middle" font-size="24" fill="var(--soft)">«중간값 ≤6자»</text>
+      <text x="1460" y="580" text-anchor="middle" font-size="24" fill="var(--soft)">«최대값 ≤6자»</text>
+      <g class="chart-bar" data-src="«F01»" data-step="1">
+        <rect x="300" y="80" width="1060" height="80" rx="8" fill="var(--accent)"/>
+        <text x="280" y="132" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">«항목 ≤10자»</text>
+        <text x="1384" y="132" font-size="28" font-weight="800" fill="var(--ink)">«값 ≤8자»</text>
+      </g>
+      <g class="chart-bar" data-src="«F02»" data-step="2">
+        <rect x="300" y="200" width="790" height="80" rx="8" fill="var(--blue)"/>
+        <text x="280" y="252" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">«항목 ≤10자»</text>
+        <text x="1114" y="252" font-size="28" font-weight="800" fill="var(--ink)">«값 ≤8자»</text>
+      </g>
+      <g class="chart-bar" data-src="«F03»" data-step="3">
+        <rect x="300" y="320" width="540" height="80" rx="8" fill="var(--blue)"/>
+        <text x="280" y="372" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">«항목 ≤10자»</text>
+        <text x="864" y="372" font-size="28" font-weight="800" fill="var(--ink)">«값 ≤8자»</text>
+      </g>
+      <g class="chart-bar" data-src="«F04»" data-step="4">
+        <rect x="300" y="440" width="300" height="80" rx="8" fill="var(--blue)"/>
+        <text x="280" y="492" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">«항목 ≤10자»</text>
+        <text x="624" y="492" font-size="28" font-weight="800" fill="var(--ink)">«값 ≤8자»</text>
+      </g>
+    </svg>
+  </div>
+  <p class="small" data-step="4">«정리 한 문장 ≤40자 — 1위와 꼴찌의 격차»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다 막대가 하나씩 늘어납니다) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- stacked: 항목별 막대를 구성 요소로 적층 — 총량과 구성을 동시에 -->
+<section class="slide" data-archetype="chart-bar" data-variant="stacked" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <div class="chart">
+    <svg viewBox="0 0 1560 600" role="img" aria-label="«차트 요지 한 문장: 총량과 구성 비교»">
+      <line x1="140" y1="60" x2="140" y2="520" stroke="var(--soft)" stroke-width="3"/>
+      <line x1="140" y1="520" x2="1520" y2="520" stroke="var(--soft)" stroke-width="3"/>
+      <line x1="140" y1="290" x2="1520" y2="290" stroke="var(--line)" stroke-width="2" stroke-dasharray="6 8"/>
+      <line x1="140" y1="60" x2="1520" y2="60" stroke="var(--line)" stroke-width="2" stroke-dasharray="6 8"/>
+      <text x="120" y="528" text-anchor="end" font-size="24" fill="var(--soft)">0</text>
+      <text x="120" y="298" text-anchor="end" font-size="24" fill="var(--soft)">«중간값 ≤6자»</text>
+      <text x="120" y="68" text-anchor="end" font-size="24" fill="var(--soft)">«최대값 ≤6자»</text>
+      <g class="chart-series" data-src="«F01»">
+        <rect x="1160" y="24" width="24" height="24" rx="6" fill="var(--blue)"/>
+        <text x="1196" y="44" font-size="22" fill="var(--soft)">«구성A ≤10자»</text>
+      </g>
+      <g class="chart-series" data-src="«F02»">
+        <rect x="1340" y="24" width="24" height="24" rx="6" fill="var(--accent)"/>
+        <text x="1376" y="44" font-size="22" fill="var(--soft)">«구성B ≤10자»</text>
+      </g>
+      <g class="chart-bar" data-src="«F03»" data-step="1">
+        <rect x="280" y="300" width="240" height="220" rx="0" fill="var(--blue)"/>
+        <rect x="280" y="180" width="240" height="120" rx="8" fill="var(--accent)"/>
+        <text x="400" y="150" text-anchor="middle" font-size="28" font-weight="800" fill="var(--ink)">«합계 ≤8자»</text>
+        <text x="400" y="556" text-anchor="middle" font-size="24" fill="var(--soft)">«항목 ≤8자»</text>
+      </g>
+      <g class="chart-bar" data-src="«F04»" data-step="2">
+        <rect x="680" y="240" width="240" height="280" rx="0" fill="var(--blue)"/>
+        <rect x="680" y="140" width="240" height="100" rx="8" fill="var(--accent)"/>
+        <text x="800" y="110" text-anchor="middle" font-size="28" font-weight="800" fill="var(--ink)">«합계 ≤8자»</text>
+        <text x="800" y="556" text-anchor="middle" font-size="24" fill="var(--soft)">«항목 ≤8자»</text>
+      </g>
+      <g class="chart-bar" data-src="«F05»" data-step="3">
+        <rect x="1080" y="380" width="240" height="140" rx="0" fill="var(--blue)"/>
+        <rect x="1080" y="300" width="240" height="80" rx="8" fill="var(--accent)"/>
+        <text x="1200" y="270" text-anchor="middle" font-size="28" font-weight="800" fill="var(--ink)">«합계 ≤8자»</text>
+        <text x="1200" y="556" text-anchor="middle" font-size="24" fill="var(--soft)">«항목 ≤8자»</text>
+      </g>
+    </svg>
+  </div>
+  <p class="small" data-step="3">«정리 한 문장 ≤40자 — 총량 차이와 구성 비율 차이 중 핵심»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다 막대가 하나씩 쌓입니다) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- target: 기준선을 넘는지로 판독 — 목표 달성 여부 -->
+<section class="slide" data-archetype="chart-bar" data-variant="target" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <div class="chart">
+    <svg viewBox="0 0 1560 600" role="img" aria-label="«차트 요지 한 문장: 기준 대비 달성 여부»">
+      <line x1="140" y1="60" x2="140" y2="520" stroke="var(--soft)" stroke-width="3"/>
+      <line x1="140" y1="520" x2="1520" y2="520" stroke="var(--soft)" stroke-width="3"/>
+      <text x="120" y="528" text-anchor="end" font-size="24" fill="var(--soft)">0</text>
+      <line x1="140" y1="230" x2="1520" y2="230" stroke="var(--accent)" stroke-width="4" stroke-dasharray="16 10"/>
+      <text x="1520" y="84" text-anchor="end" font-size="26" font-weight="800" fill="var(--accent)">«기준선 이름+값 ≤14자»</text>
+      <g class="chart-bar" data-src="«F01»" data-step="1">
+        <rect x="290" y="150" width="220" height="370" rx="8" fill="var(--blue)"/>
+        <text x="400" y="130" text-anchor="middle" font-size="30" font-weight="800" fill="var(--ink)">«값 ≤8자»</text>
+        <text x="400" y="556" text-anchor="middle" font-size="24" fill="var(--soft)">«항목 ≤8자»</text>
+      </g>
+      <g class="chart-bar" data-src="«F02»" data-step="2">
+        <rect x="680" y="320" width="220" height="200" rx="8" fill="var(--muted)"/>
+        <text x="790" y="300" text-anchor="middle" font-size="30" font-weight="800" fill="var(--ink)">«값 ≤8자»</text>
+        <text x="790" y="556" text-anchor="middle" font-size="24" fill="var(--soft)">«항목 ≤8자»</text>
+      </g>
+      <g class="chart-bar" data-src="«F03»" data-step="3">
+        <rect x="1070" y="110" width="220" height="410" rx="8" fill="var(--accent)"/>
+        <text x="1180" y="90" text-anchor="middle" font-size="30" font-weight="800" fill="var(--ink)">«값 ≤8자»</text>
+        <text x="1180" y="556" text-anchor="middle" font-size="24" fill="var(--soft)">«항목 ≤8자»</text>
+      </g>
+    </svg>
+  </div>
+  <p class="small" data-step="3">«정리 한 문장 ≤40자 — 기준 초과 항목과 미달 항목»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다 막대가 하나씩 올라옵니다) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
 </section>

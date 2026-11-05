@@ -1,6 +1,7 @@
 <!--
-  아키타입 traits-grid (변형: 기본)
+  아키타입 traits-grid (변형: 기본, matrix, spectrum, venn, radar)
   언제: 성질·특징 2×2 또는 4줄. 제목 + 설명 + 출처 칩 + 아이콘.
+  변형: matrix=특징×대상 체크 매트릭스, spectrum=축 위 배치, venn=3원 교집합, radar=5축 방사형 척도.
   단계: 특징별 1단계
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
   자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
@@ -17,6 +18,120 @@
       <div class="card trait f1" data-step="3"><div class="col" style="gap:8px"><h3 style="font-size:38px">«카드 제목 ≤8자» <span class="en">«영문 용어 ≤20자»</span></h3><p class="body">«설명 ≤44자»</p><p data-src="«F01»" class="fact">«출처 칩: 발행처「문서」(연도) 값 ≤24자»</p></div><svg viewBox="0 0 100 100" class="ticon" aria-hidden="true"><use href="#i-clock" width="100" height="100" style="color:var(--blue)"/></svg></div>
       <div class="card trait f1" data-step="4"><div class="col" style="gap:8px"><h3 style="font-size:38px">«카드 제목 ≤9자»</h3><p class="body">«설명 ≤41자»</p><p data-src="«F01»" class="fact">«출처 칩: 발행처「문서」(연도) 값 ≤30자»</p></div><svg viewBox="0 0 100 100" class="ticon" aria-hidden="true"><use href="#i-question" width="100" height="100" style="color:var(--accent-text)"/></svg></div>
     </div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<section class="slide" data-archetype="traits-grid" data-variant="matrix" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤18자»</p><h2 class="title">«제목: 한 문장 ≤22자»</h2></div>
+  <table class="cmp">
+    <thead><tr><th></th><th><span class="cmp-h">«대상 ≤4자»</span></th><th><span class="cmp-h">«대상 ≤4자»</span></th><th><span class="cmp-h">«대상 ≤4자»</span></th></tr></thead>
+    <tbody>
+      <tr data-step="1"><td>«특징 ≤7자»</td><td style="color:var(--accent);font-weight:800">●</td><td style="color:var(--line)">—</td><td style="color:var(--accent);font-weight:800">●</td></tr>
+      <tr data-step="2"><td>«특징 ≤7자»</td><td style="color:var(--accent);font-weight:800">●</td><td style="color:var(--accent);font-weight:800">●</td><td style="color:var(--line)">—</td></tr>
+      <tr data-step="3"><td>«특징 ≤7자»</td><td style="color:var(--line)">—</td><td style="color:var(--accent);font-weight:800">●</td><td style="color:var(--accent);font-weight:800">●</td></tr>
+      <tr data-step="4"><td>«특징 ≤7자»</td><td style="color:var(--accent);font-weight:800">●</td><td style="color:var(--line)">—</td><td style="color:var(--accent);font-weight:800">●</td></tr>
+    </tbody>
+  </table>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<section class="slide" data-archetype="traits-grid" data-variant="spectrum" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤18자»</p><h2 class="title">«제목: 한 문장 ≤22자»</h2></div>
+  <svg class="dg" viewBox="0 0 1600 520" aria-label="«그림 설명»">
+    <path d="M120 200H1480" stroke="var(--ink)" stroke-width="3" marker-end="url(#ahg)"/>
+    <circle cx="120" cy="200" r="15" fill="var(--blue)"/><circle cx="1480" cy="200" r="15" fill="var(--accent)"/>
+    <path d="M392 192V208M664 192V208M936 192V208M1208 192V208" stroke="var(--ink)" stroke-width="3"/>
+    <text class="t-l" text-anchor="middle" x="120" y="160">«축 왼쪽 ≤7자»</text>
+    <text class="t-l" text-anchor="middle" x="1480" y="160">«축 오른쪽 ≤7자»</text>
+    <rect x="120" y="220" width="272" height="110" rx="18" fill="var(--blue-soft)" opacity=".8"/>
+    <rect x="392" y="220" width="272" height="110" rx="18" fill="var(--blue-soft)" opacity=".55"/>
+    <rect x="664" y="220" width="272" height="110" rx="18" fill="var(--blue-soft)" opacity=".3" stroke="var(--line)" stroke-width="1.5"/>
+    <rect x="936" y="220" width="272" height="110" rx="18" fill="var(--accent-light)" opacity=".55"/>
+    <rect x="1208" y="220" width="272" height="110" rx="18" fill="var(--accent-light)" opacity=".9"/>
+    <g data-step="1">
+      <text class="t-l" text-anchor="middle" x="256" y="282">«≤7자»</text>
+      <text class="t-s" text-anchor="middle" x="256" y="396">«설명 ≤10자»</text>
+      <path d="M256 330V368" stroke="var(--blue)" stroke-width="2" stroke-dasharray="4 5"/>
+    </g>
+    <g data-step="2">
+      <text class="t-l" text-anchor="middle" x="528" y="282">«≤7자»</text>
+      <text class="t-s" text-anchor="middle" x="528" y="396">«설명 ≤10자»</text>
+      <path d="M528 330V368" stroke="var(--blue)" stroke-width="2" stroke-dasharray="4 5"/>
+    </g>
+    <g data-step="3">
+      <text class="t-l" text-anchor="middle" x="800" y="282">«≤7자»</text>
+      <text class="t-s" text-anchor="middle" x="800" y="396">«설명 ≤10자»</text>
+      <path d="M800 330V368" stroke="var(--muted)" stroke-width="2" stroke-dasharray="4 5"/>
+    </g>
+    <g data-step="4">
+      <text class="t-l" text-anchor="middle" x="1072" y="282">«≤7자»</text>
+      <text class="t-s" text-anchor="middle" x="1072" y="396">«설명 ≤10자»</text>
+      <path d="M1072 330V368" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
+    </g>
+    <g data-step="5">
+      <text class="t-l o" text-anchor="middle" x="1344" y="282">«≤7자»</text>
+      <text class="t-s" text-anchor="middle" x="1344" y="396">«설명 ≤10자»</text>
+      <path d="M1344 330V368" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
+    </g>
+  </svg>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<section class="slide" data-archetype="traits-grid" data-variant="venn" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤18자»</p><h2 class="title">«제목: 한 문장 ≤22자»</h2></div>
+  <svg class="dg" viewBox="0 0 1600 560" aria-label="«그림 설명»">
+    <g data-step="1">
+      <circle cx="640" cy="230" r="190" fill="var(--blue)" opacity=".18"/>
+      <circle cx="640" cy="230" r="190" fill="none" stroke="var(--blue)" stroke-width="2.5"/>
+      <text class="t-l b" text-anchor="middle" x="560" y="170">«≤5자»</text>
+      <text class="t-s" text-anchor="middle" x="560" y="208">«≤9자»</text>
+    </g>
+    <g data-step="2">
+      <circle cx="960" cy="230" r="190" fill="var(--accent)" opacity=".16"/>
+      <circle cx="960" cy="230" r="190" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+      <text class="t-l o" text-anchor="middle" x="1040" y="170">«≤5자»</text>
+      <text class="t-s" text-anchor="middle" x="1040" y="208">«≤9자»</text>
+    </g>
+    <g data-step="3">
+      <circle cx="800" cy="400" r="190" fill="var(--ink)" opacity=".12"/>
+      <circle cx="800" cy="400" r="190" fill="none" stroke="var(--ink)" stroke-width="2.5"/>
+      <text class="t-l" text-anchor="middle" x="800" y="500">«≤5자»</text>
+      <text class="t-s" text-anchor="middle" x="800" y="538">«≤9자»</text>
+    </g>
+    <g data-step="4">
+      <circle cx="800" cy="310" r="52" fill="var(--accent)"/>
+      <text class="t-badge" text-anchor="middle" x="800" y="320">«≤4자»</text>
+      <text class="t-s" text-anchor="middle" x="800" y="392">«교집합 설명 ≤12자»</text>
+    </g>
+  </svg>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<section class="slide" data-archetype="traits-grid" data-variant="radar" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤18자»</p><h2 class="title">«제목: 한 문장 ≤22자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;gap:40px;align-items:center">
+  <svg class="dg" viewBox="0 0 560 560" aria-label="«그림 설명»" style="width:560px;flex:none">
+    <g data-step="1">
+      <polygon points="280,80 470,218 398,442 162,442 90,218" fill="none" stroke="var(--line)" stroke-width="2"/>
+      <polygon points="280,150 408,242 360,388 200,388 152,242" fill="none" stroke="var(--line)" stroke-width="3"/>
+      <path d="M280 280V80 M280 280L470 218 M280 280L398 442 M280 280L162 442 M280 280L90 218" stroke="var(--line)" stroke-width="3"/>
+    </g>
+    <g data-step="2">
+      <polygon points="280,160 420,236 372,378 214,396 160,244" fill="var(--blue)" opacity=".1" stroke="var(--blue)" stroke-width="2.5" stroke-dasharray="8 6"/>
+      <polygon points="280,110 440,226 380,410 190,420 120,230" fill="var(--accent)" opacity=".28"/>
+      <polygon points="280,110 440,226 380,410 190,420 120,230" fill="none" stroke="var(--accent)" stroke-width="3"/>
+      <circle cx="280" cy="110" r="8" fill="var(--accent)"/><circle cx="440" cy="226" r="8" fill="var(--accent)"/><circle cx="380" cy="410" r="8" fill="var(--accent)"/><circle cx="190" cy="420" r="8" fill="var(--accent)"/><circle cx="120" cy="230" r="8" fill="var(--accent)"/>
+    </g>
+    <g data-step="3">
+      <text class="t-s" text-anchor="middle" x="280" y="56">«축 ≤5자»</text>
+      <text class="t-s" text-anchor="middle" x="470" y="192">«축 ≤5자»</text>
+      <text class="t-s" text-anchor="middle" x="400" y="505">«축 ≤5자»</text>
+      <text class="t-s" text-anchor="middle" x="160" y="505">«축 ≤5자»</text>
+      <text class="t-s" text-anchor="middle" x="90" y="192">«축 ≤5자»</text>
+    </g>
+  </svg>
+  <div class="col f1" style="gap:20px">
+    <p class="label" data-step="3">«축 설명 라벨 ≤14자»</p>
+    <ul class="list" data-step="3" style="font-size:28px"><li>«축별 수준 설명 ≤22자»</li><li>«축별 수준 설명 ≤24자»</li><li>«축별 수준 설명 ≤20자»</li></ul>
+    <p class="fact" data-step="4" data-src="«F01»">«출처 칩: 발행처「문서」(연도) 값 ≤30자»</p>
+  </div>
   </div>
   <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
 </section>

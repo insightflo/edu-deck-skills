@@ -1,5 +1,5 @@
 <!--
-  아키타입 stat-strip (변형: 기본)
+  아키타입 stat-strip (변형: 기본 · row-tiles · hero · bars · vertical)
   언제: 조사로 확인된 정량 근거(기준 값·횟수·비율)를 표지·목차·마무리에서 가장 먼저 보여 줄 때.
   배치 규칙: 이 띠(.stat-strip)는 표지 하단 / 목차(agenda) 상단 / 마무리(closing) 상단 중 "한 곳에만 1회" 붙여 넣는다.
     본문 중간에 반복해 넣지 않는다(증거가 흩어져 신뢰가 약해진다). 표지에 넣을 때는 section 안 마지막 줄에
@@ -22,6 +22,50 @@
     <div class="stat" data-src="«F01»"><p class="stat-num" data-count>«숫자 ≤12자»</p><p class="stat-label">«라벨 ≤16자»</p></div>
     <div class="stat" data-src="«F02»"><p class="stat-num" data-count>«숫자 ≤12자»</p><p class="stat-label">«라벨 ≤16자»</p></div>
     <div class="stat" data-src="«F03»"><p class="stat-num" data-count>«숫자 ≤12자»</p><p class="stat-label">«라벨 ≤16자»</p></div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<!-- row-tiles: 띠 대신 틴트 칸 + 컬러 스파인 + 아이콘 — 지표마다 상자 -->
+<section class="slide" data-archetype="stat-strip" data-variant="row-tiles" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <div class="row" style="margin-top:auto;gap:20px">
+    <div class="card f1 stat" data-src="«F01»" style="padding:28px 32px 28px 44px;align-items:flex-start;gap:6px;border-left:12px solid var(--blue);background:var(--blue-soft)"><svg style="width:56px;height:56px;color:var(--blue);margin-bottom:6px"><use href="#i-chart"/></svg><p class="stat-num" data-count style="font-size:64px">«숫자 ≤12자»</p><p class="stat-label">«라벨 ≤16자»</p></div>
+    <div class="card f1 stat" data-src="«F02»" style="padding:28px 32px 28px 44px;align-items:flex-start;gap:6px;border-left:12px solid var(--blue);background:var(--paper)"><svg style="width:56px;height:56px;color:var(--blue);margin-bottom:6px"><use href="#i-sheet"/></svg><p class="stat-num" data-count style="font-size:64px">«숫자 ≤12자»</p><p class="stat-label">«라벨 ≤16자»</p></div>
+    <div class="card f1 stat" data-src="«F03»" style="padding:28px 32px 28px 44px;align-items:flex-start;gap:6px;border-left:12px solid var(--accent);background:var(--accent-light)"><svg style="width:56px;height:56px;color:var(--accent);margin-bottom:6px"><use href="#i-flag"/></svg><p class="stat-num" data-count style="font-size:64px">«숫자 ≤12자»</p><p class="stat-label">«라벨 ≤16자»</p></div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<!-- hero: 대표 지표 하나를 크게, 나머지를 나란히 — 위계가 있는 띠 -->
+<section class="slide" data-archetype="stat-strip" data-variant="hero" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <div class="row" style="margin-top:auto;align-items:center;gap:56px">
+    <div class="stat" data-src="«F01»" style="flex:none;min-width:420px"><p class="stat-num" data-count style="font-size:140px;line-height:1">«숫자 ≤8자»</p><p class="stat-label" style="font-size:30px;margin-top:8px">«라벨 ≤20자»</p></div>
+    <div style="width:2px;align-self:stretch;background:var(--line)"></div>
+    <div class="col f1" style="gap:36px">
+      <div class="stat" data-src="«F02»" style="display:flex;align-items:baseline;gap:24px"><p class="stat-num" data-count style="font-size:56px">«숫자 ≤12자»</p><p class="stat-label">«라벨 ≤22자»</p></div>
+      <div class="stat" data-src="«F03»" style="display:flex;align-items:baseline;gap:24px"><p class="stat-num" data-count style="font-size:56px">«숫자 ≤12자»</p><p class="stat-label">«라벨 ≤22자»</p></div>
+    </div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<!-- bars: 숫자 밑에 미니 막대 — 값의 상대 크기를 막대 길이로 -->
+<section class="slide" data-archetype="stat-strip" data-variant="bars" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <div class="stat-strip" style="margin-top:auto">
+    <div class="stat" data-src="«F01»"><p class="stat-num" data-count>«숫자 ≤12자»</p><p class="stat-label">«라벨 ≤16자»</p><div style="height:10px;border-radius:5px;background:var(--blue);width:80%;margin-top:14px"></div></div>
+    <div class="stat" data-src="«F02»"><p class="stat-num" data-count>«숫자 ≤12자»</p><p class="stat-label">«라벨 ≤16자»</p><div style="height:10px;border-radius:5px;background:var(--blue);width:52%;margin-top:14px"></div></div>
+    <div class="stat" data-src="«F03»"><p class="stat-num" data-count>«숫자 ≤12자»</p><p class="stat-label">«라벨 ≤16자»</p><div style="height:10px;border-radius:5px;background:var(--accent);width:34%;margin-top:14px"></div></div>
+  </div>
+  <p class="small" style="margin-top:14px;text-align:center">«막대는 라벨에 쓴 기준 대비 비율 ≤30자»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<!-- vertical: 세로 적층 — 숫자 왼쪽·라벨 오른쪽 행 -->
+<section class="slide" data-archetype="stat-strip" data-variant="vertical" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <div class="col" style="margin-top:auto;gap:0;align-self:stretch">
+    <div class="stat" data-src="«F01»" style="display:flex;flex-direction:row;align-items:baseline;gap:32px;padding:18px 0;border-bottom:2px solid var(--line)"><p class="stat-num" data-count style="font-size:60px;min-width:280px;text-align:right">«숫자 ≤12자»</p><p class="stat-label">«라벨 ≤24자»</p></div>
+    <div class="stat" data-src="«F02»" style="display:flex;flex-direction:row;align-items:baseline;gap:32px;padding:18px 0;border-bottom:2px solid var(--line)"><p class="stat-num" data-count style="font-size:60px;min-width:280px;text-align:right">«숫자 ≤12자»</p><p class="stat-label">«라벨 ≤24자»</p></div>
+    <div class="stat" data-src="«F03»" style="display:flex;flex-direction:row;align-items:baseline;gap:32px;padding:18px 0"><p class="stat-num" data-count style="font-size:60px;min-width:280px;text-align:right">«숫자 ≤12자»</p><p class="stat-label">«라벨 ≤24자»</p></div>
   </div>
   <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
 </section>

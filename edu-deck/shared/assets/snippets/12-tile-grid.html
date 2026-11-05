@@ -1,5 +1,5 @@
 <!--
-  아키타입 tile-grid (변형: cards, features, icons)
+  아키타입 tile-grid (변형: cards, features, icons, spotlight, badges)
   언제: 기능·사례 묶음. cards=3×2 큰 카드, features=4×2 작은 칸, icons=아이콘 카드 3×2.
   단계: 행 단위 또는 0단계
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
@@ -46,5 +46,43 @@
     <div class="card" style="padding:28px;gap:12px"><h3 style="font-size:36px">«카드 제목 ≤10자»</h3><p class="small">«설명 ≤24자»</p><svg class="ico" viewBox="0 0 100 100" style="color:var(--danger)"><use href="#i-warn" width="100" height="100"/></svg></div>
     <div class="card" style="padding:28px;gap:12px"><h3 style="font-size:36px">«카드 제목 ≤10자»</h3><p class="small">«설명 ≤18자»</p><svg class="ico" viewBox="0 0 100 100" style="color:var(--ink)"><use href="#i-chart" width="100" height="100"/></svg></div>
   </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- spotlight: 대표 하나를 크게 + 나머지를 작게 — 비대칭 그리드 -->
+<section class="slide" data-archetype="tile-grid" data-variant="spotlight" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤18자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;gap:24px">
+    <div class="card" data-step="1" style="flex:1.4;padding:40px;gap:16px;border-left:8px solid var(--accent);justify-content:center">
+      <p class="label" style="color:var(--accent)">«대표 라벨 ≤8자»</p>
+      <div class="row" style="align-items:center;gap:28px">
+        <h3 style="font-size:56px;font-weight:800">«대표 제목 ≤8자»</h3>
+        <svg aria-hidden="true" style="width:96px;height:96px;flex:none;margin-left:auto" viewBox="0 0 100 100"><use href="#i-trophy" width="100" height="100" style="color:var(--accent)"/></svg>
+      </div>
+      <p class="body" style="font-size:28px">«설명 ≤48자»</p>
+      <p class="small">«보조 설명 ≤60자»</p>
+    </div>
+    <div class="col f1" style="gap:20px">
+      <div class="card" data-step="2" style="padding:22px 28px;gap:6px;flex-direction:row;align-items:center"><svg aria-hidden="true" style="width:52px;height:52px;flex:none" viewBox="0 0 100 100"><use href="#i-gear" width="100" height="100" style="color:var(--blue)"/></svg><div><h4 style="font-size:26px">«제목 ≤8자»</h4><p class="small">«설명 ≤24자»</p></div></div>
+      <div class="card" data-step="3" style="padding:22px 28px;gap:6px;flex-direction:row;align-items:center"><svg aria-hidden="true" style="width:52px;height:52px;flex:none" viewBox="0 0 100 100"><use href="#i-clock" width="100" height="100" style="color:var(--blue)"/></svg><div><h4 style="font-size:26px">«제목 ≤8자»</h4><p class="small">«설명 ≤24자»</p></div></div>
+      <div class="card" data-step="4" style="padding:22px 28px;gap:6px;flex-direction:row;align-items:center"><svg aria-hidden="true" style="width:52px;height:52px;flex:none" viewBox="0 0 100 100"><use href="#i-link" width="100" height="100" style="color:var(--blue)"/></svg><div><h4 style="font-size:26px">«제목 ≤8자»</h4><p class="small">«설명 ≤24자»</p></div></div>
+    </div>
+  </div>
+  <div class="callout" data-step="5" style="font-size:28px;padding:24px 32px"><b>«강조 앞부분 ≤8자»</b> «정리 문장 ≤60자»</div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- badges: 번호 배지 타일 — 순서·챕터 식 묶음 -->
+<section class="slide" data-archetype="tile-grid" data-variant="badges" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤18자»</h2></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;flex:1;min-height:0">
+    <div class="card" data-step="1" style="padding:26px;gap:10px;border-top:6px solid var(--blue)"><span class="mk" style="width:52px;height:52px;font-size:28px;background:var(--blue)">1</span><h4 style="font-size:30px">«제목 ≤9자»</h4><p class="small">«설명 ≤26자»</p></div>
+    <div class="card" data-step="2" style="padding:26px;gap:10px;border-top:6px solid var(--blue)"><span class="mk" style="width:52px;height:52px;font-size:28px;background:var(--blue)">2</span><h4 style="font-size:30px">«제목 ≤9자»</h4><p class="small">«설명 ≤26자»</p></div>
+    <div class="card" data-step="3" style="padding:26px;gap:10px;border-top:6px solid var(--blue)"><span class="mk" style="width:52px;height:52px;font-size:28px;background:var(--blue)">3</span><h4 style="font-size:30px">«제목 ≤9자»</h4><p class="small">«설명 ≤26자»</p></div>
+    <div class="card" data-step="4" style="padding:26px;gap:10px;border-top:6px solid var(--accent)"><span class="mk" style="width:52px;height:52px;font-size:28px">4</span><h4 style="font-size:30px">«제목 ≤9자»</h4><p class="small">«설명 ≤26자»</p></div>
+    <div class="card" data-step="5" style="padding:26px;gap:10px;border-top:6px solid var(--accent)"><span class="mk" style="width:52px;height:52px;font-size:28px">5</span><h4 style="font-size:30px">«제목 ≤9자»</h4><p class="small">«설명 ≤26자»</p></div>
+    <div class="card" data-step="6" style="padding:26px;gap:10px;border-top:6px solid var(--accent)"><span class="mk" style="width:52px;height:52px;font-size:28px">6</span><h4 style="font-size:30px">«제목 ≤9자»</h4><p class="small">«설명 ≤26자»</p></div>
+  </div>
+  <div class="callout" data-step="7" style="font-size:28px;padding:24px 32px"><b>«강조 앞부분 ≤8자»</b> «정리 문장 ≤60자»</div>
   <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
 </section>

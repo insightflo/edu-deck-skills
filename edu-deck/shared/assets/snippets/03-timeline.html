@@ -1,6 +1,7 @@
 <!--
-  아키타입 timeline (변형: 기본)
+  아키타입 timeline (변형: 기본, vertical, zigzag, roadmap, gantt)
   언제: 변화의 흐름. 시점 3~4개의 사건으로 '왜 지금 배우나'를 보여 준다(큰 그림 파트 첫 장). 5개 이상이면 두 장으로 나눈다.
+  변형: vertical=세로 축+카드 행, zigzag=중앙축 위아래 교대 카드, roadmap=굴곡 경로+핀, gantt=구간 막대.
   단계: 시점 묶음별 1단계
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
   자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
@@ -42,4 +43,149 @@
     </g></g>
   </svg>
   <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<section class="slide" data-archetype="timeline" data-variant="vertical" style="gap:32px">
+<div class="head"><p class="eyebrow">«파트 표시 ≤12자»</p><h2 class="title">«제목: 한 문장 ≤20자»</h2></div>
+<svg class="dg" viewBox="0 0 1600 600" aria-label="«그림 설명»">
+  <path d="M180 56V544" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-dasharray="1 12"/>
+  <g data-step="1">
+    <circle cx="180" cy="108" r="15" fill="var(--blue)"/>
+    <text class="t-year" text-anchor="end" x="140" y="119">«≤6자»</text>
+    <rect x="236" y="60" width="1240" height="96" rx="20" fill="var(--paper)" stroke="var(--blue)" stroke-width="2"/>
+    <use href="#i-send" x="268" y="82" width="52" height="52" style="color:var(--blue)"/>
+    <text class="t-l" x="352" y="100">«≤10자»</text><text class="t-s" x="352" y="138">«≤44자»</text>
+  </g>
+  <g data-step="2">
+    <circle cx="180" cy="238" r="15" fill="var(--blue)"/>
+    <text class="t-year" text-anchor="end" x="140" y="249">«≤6자»</text>
+    <rect x="236" y="190" width="1240" height="96" rx="20" fill="var(--paper)" stroke="var(--blue)" stroke-width="2"/>
+    <use href="#i-flag" x="268" y="212" width="52" height="52" style="color:var(--blue)"/>
+    <text class="t-l" x="352" y="230">«≤10자»</text><text class="t-s" x="352" y="268">«≤44자»</text>
+  </g>
+  <g data-step="3">
+    <circle cx="180" cy="368" r="15" fill="var(--blue)"/>
+    <text class="t-year" text-anchor="end" x="140" y="379">«≤6자»</text>
+    <rect x="236" y="320" width="1240" height="96" rx="20" fill="var(--paper)" stroke="var(--blue)" stroke-width="2"/>
+    <use href="#i-gear" x="268" y="342" width="52" height="52" style="color:var(--blue)"/>
+    <text class="t-l" x="352" y="360">«≤10자»</text><text class="t-s" x="352" y="398">«≤44자»</text>
+  </g>
+  <g data-step="4">
+    <circle cx="180" cy="498" r="15" fill="var(--accent)"/>
+    <circle cx="180" cy="498" r="24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 6"/>
+    <text class="t-year o" text-anchor="end" x="140" y="509">«≤6자»</text>
+    <rect x="236" y="450" width="1240" height="96" rx="20" fill="var(--accent-light)" stroke="var(--accent)" stroke-width="2"/>
+    <use href="#i-trophy" x="268" y="472" width="52" height="52" style="color:var(--accent)"/>
+    <text class="t-l" x="352" y="490">«≤10자»</text><text class="t-s" x="352" y="528">«≤44자»</text>
+  </g>
+</svg>
+<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<section class="slide" data-archetype="timeline" data-variant="zigzag" style="gap:32px">
+<div class="head"><p class="eyebrow">«파트 표시 ≤12자»</p><h2 class="title">«제목: 한 문장 ≤20자»</h2></div>
+<svg class="dg" viewBox="0 0 1600 600" aria-label="«그림 설명»">
+  <rect x="60" y="60" width="340" height="240" rx="20" fill="var(--blue-soft)" opacity=".4"/>
+  <rect x="460" y="300" width="340" height="240" rx="20" fill="var(--blue-soft)" opacity=".4"/>
+  <rect x="860" y="60" width="340" height="240" rx="20" fill="var(--blue-soft)" opacity=".4"/>
+  <rect x="1260" y="300" width="340" height="240" rx="20" fill="var(--accent-light)" opacity=".5"/>
+  <path d="M60 300H1540" stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round"/>
+  <g data-step="1">
+    <path d="M220 300V236" stroke="var(--blue)" stroke-width="2" stroke-dasharray="4 6"/>
+    <circle cx="220" cy="300" r="14" fill="var(--blue)"/>
+    <rect x="60" y="96" width="320" height="140" rx="18" fill="var(--paper)" stroke="var(--blue)" stroke-width="2"/>
+    <text class="t-year" x="88" y="140">«≤6자»</text>
+    <text class="t-l" x="88" y="182">«≤9자»</text><text class="t-s" x="88" y="216">«≤13자»</text>
+  </g>
+  <g data-step="2">
+    <path d="M620 300V364" stroke="var(--blue)" stroke-width="2" stroke-dasharray="4 6"/>
+    <circle cx="620" cy="300" r="14" fill="var(--blue)"/>
+    <rect x="460" y="364" width="320" height="140" rx="18" fill="var(--paper)" stroke="var(--blue)" stroke-width="2"/>
+    <text class="t-year" x="488" y="408">«≤6자»</text>
+    <text class="t-l" x="488" y="450">«≤9자»</text><text class="t-s" x="488" y="484">«≤13자»</text>
+  </g>
+  <g data-step="3">
+    <path d="M1020 300V236" stroke="var(--blue)" stroke-width="2" stroke-dasharray="4 6"/>
+    <circle cx="1020" cy="300" r="14" fill="var(--blue)"/>
+    <rect x="860" y="96" width="320" height="140" rx="18" fill="var(--paper)" stroke="var(--blue)" stroke-width="2"/>
+    <text class="t-year" x="888" y="140">«≤6자»</text>
+    <text class="t-l" x="888" y="182">«≤9자»</text><text class="t-s" x="888" y="216">«≤13자»</text>
+  </g>
+  <g data-step="4">
+    <path d="M1420 300V364" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 6"/>
+    <circle cx="1420" cy="300" r="14" fill="var(--accent)"/>
+    <rect x="1260" y="364" width="320" height="140" rx="18" fill="var(--accent-light)" stroke="var(--accent)" stroke-width="2"/>
+    <text class="t-year o" x="1288" y="408">«≤6자»</text>
+    <text class="t-l" x="1288" y="450">«≤9자»</text><text class="t-s" x="1288" y="484">«≤13자»</text>
+  </g>
+</svg>
+<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<section class="slide" data-archetype="timeline" data-variant="roadmap" style="gap:32px">
+<div class="head"><p class="eyebrow">«파트 표시 ≤12자»</p><h2 class="title">«제목: 한 문장 ≤20자»</h2></div>
+<svg class="dg" viewBox="0 0 1600 600" aria-label="«그림 설명»">
+  <rect x="60" y="40" width="560" height="520" rx="26" fill="var(--blue-soft)" opacity=".3"/>
+  <rect x="700" y="40" width="480" height="520" rx="26" fill="var(--paper)" stroke="var(--line)" stroke-width="2"/>
+  <rect x="1240" y="40" width="340" height="520" rx="26" fill="var(--accent-light)" opacity=".45"/>
+  <text class="t-s" text-anchor="middle" x="340" y="540">«시기1 ≤6자»</text>
+  <text class="t-s" text-anchor="middle" x="940" y="540">«시기2 ≤6자»</text>
+  <text class="t-s o" text-anchor="middle" x="1410" y="540">«시기3 ≤6자»</text>
+  <circle cx="150" cy="520" r="18" fill="var(--ink)"/>
+  <text class="t-s" text-anchor="middle" x="150" y="470">«출발 ≤6자»</text>
+  <path class="dash-flow" d="M150 520C320 510 440 430 560 396S860 310 980 230S1200 130 1290 120S1460 92 1510 90" fill="none" stroke="var(--blue)" stroke-width="5"/>
+  <g data-step="1">
+    <circle cx="560" cy="392" r="20" fill="var(--paper)" stroke="var(--blue)" stroke-width="3"/>
+    <use href="#i-pin" x="544" y="376" width="32" height="32" style="color:var(--blue)"/>
+    <text class="t-l" text-anchor="middle" x="560" y="462">«≤8자»</text>
+    <text class="t-s" text-anchor="middle" x="560" y="500">«≤18자»</text>
+    <text class="t-year" text-anchor="middle" x="560" y="340">«≤6자»</text>
+  </g>
+  <g data-step="2">
+    <circle cx="980" cy="224" r="20" fill="var(--paper)" stroke="var(--blue)" stroke-width="3"/>
+    <use href="#i-pin" x="964" y="208" width="32" height="32" style="color:var(--blue)"/>
+    <text class="t-l" x="1040" y="216">«≤8자»</text>
+    <text class="t-s" x="1040" y="252">«≤18자»</text>
+    <text class="t-year" text-anchor="middle" x="980" y="320">«≤6자»</text>
+  </g>
+  <g data-step="3">
+    <circle cx="1290" cy="118" r="20" fill="var(--paper)" stroke="var(--accent)" stroke-width="3"/>
+    <use href="#i-pin" x="1274" y="102" width="32" height="32" style="color:var(--accent)"/>
+    <text class="t-l" text-anchor="middle" x="1290" y="192">«≤8자»</text>
+    <text class="t-s" text-anchor="middle" x="1290" y="230">«≤18자»</text>
+    <text class="t-year o" x="1330" y="82">«≤6자»</text>
+  </g>
+  <g data-step="4">
+    <circle cx="1520" cy="90" r="46" fill="var(--accent-light)" stroke="var(--accent)" stroke-width="3"/>
+    <use href="#i-trophy" x="1496" y="66" width="48" height="48" style="color:var(--accent)"/>
+    <text class="t-l o" text-anchor="end" x="1450" y="70">«≤8자»</text>
+    <text class="t-s" text-anchor="end" x="1450" y="106">«≤16자»</text>
+  </g>
+</svg>
+<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<section class="slide" data-archetype="timeline" data-variant="gantt" style="gap:32px">
+<div class="head"><p class="eyebrow">«파트 표시 ≤12자»</p><h2 class="title">«제목: 한 문장 ≤20자»</h2></div>
+<svg class="dg" viewBox="0 0 1600 600" aria-label="«그림 설명»">
+  <text class="t-s" x="530" y="52">«구간 ≤4자»</text><text class="t-s" x="825" y="52">«구간 ≤4자»</text><text class="t-s" x="1120" y="52">«구간 ≤4자»</text><text class="t-s" x="1415" y="52">«구간 ≤4자»</text>
+  <path d="M380 84V556 M675 84V556 M970 84V556 M1265 84V556 M1560 84V556" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="4 8"/>
+  <g data-step="1">
+    <text class="t-l" x="40" y="176">«항목 ≤6자»</text>
+    <rect x="380" y="140" width="295" height="56" rx="16" fill="var(--blue)"/>
+    <text class="t-badge" x="412" y="177">«≤8자»</text>
+  </g>
+  <g data-step="2">
+    <text class="t-l" x="40" y="296">«항목 ≤6자»</text>
+    <rect x="530" y="260" width="440" height="56" rx="16" fill="var(--accent)"/>
+    <text class="t-badge" x="562" y="297">«≤8자»</text>
+  </g>
+  <g data-step="3">
+    <text class="t-l" x="40" y="416">«항목 ≤6자»</text>
+    <rect x="970" y="380" width="295" height="56" rx="16" fill="var(--blue)"/>
+    <text class="t-badge" x="1002" y="417">«≤8자»</text>
+  </g>
+  <g data-step="4">
+    <text class="t-l" x="40" y="536">«항목 ≤6자»</text>
+    <rect x="1265" y="500" width="295" height="56" rx="16" fill="var(--accent)"/>
+    <text class="t-badge" x="1297" y="537">«≤8자»</text>
+  </g>
+</svg>
+<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
 </section>

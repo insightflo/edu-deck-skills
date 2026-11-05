@@ -1,5 +1,5 @@
 <!--
-  아키타입 compare-table (변형: 기본)
+  아키타입 compare-table (변형: 기본 · versus · score · bars · proscons)
   언제: 항목별 A/B 비교 표(행 3~5개).
   단계: 행마다 1단계
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
@@ -17,5 +17,120 @@
       <tr data-step="4"><td>«표 칸 ≤9자»</td><td>«표 칸 ≤9자»</td><td>«표 칸 ≤21자»</td></tr>
     </tbody>
   </table>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<!-- versus: 두 카드 정면 대결 — '둘 중 하나' 선택 상황 -->
+<section class="slide" data-archetype="compare-table" data-variant="versus" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤26자»</p><h2 class="title">«제목: 한 문장 ≤20자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;align-items:center;gap:0">
+    <div class="card f1" data-step="1" style="padding:36px 40px;gap:14px;border-top:8px solid var(--blue)">
+      <p class="label" style="color:var(--blue)">«대상 A ≤8자»</p>
+      <h3 style="font-size:36px">«제목 ≤10자»</h3>
+      <p class="body">«핵심 문장 ≤34자»</p>
+      <p class="small">· «근거 ≤24자»</p>
+      <p class="small">· «근거 ≤24자»</p>
+      <p class="small">· «약점 ≤24자»</p>
+    </div>
+    <div style="width:130px;flex:none;text-align:center">
+      <div data-step="3" style="width:96px;height:96px;margin:0 auto;border-radius:50%;background:var(--ink);display:flex;align-items:center;justify-content:center"><span style="color:var(--paper);font-size:34px;font-weight:800">VS</span></div>
+    </div>
+    <div class="card f1" data-step="2" style="padding:36px 40px;gap:14px;border-top:8px solid var(--accent)">
+      <p class="label" style="color:var(--accent)">«대상 B ≤8자»</p>
+      <h3 style="font-size:36px">«제목 ≤10자»</h3>
+      <p class="body">«핵심 문장 ≤34자»</p>
+      <p class="small">· «근거 ≤24자»</p>
+      <p class="small">· «근거 ≤24자»</p>
+      <p class="small">· «약점 ≤24자»</p>
+    </div>
+  </div>
+  <div class="callout" data-step="4" style="font-size:28px;padding:24px 32px"><b>«강조 앞부분 ≤14자»</b> «정리 문장 ≤36자»</div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<!-- score: 항목별 점수 매기기 — 점 개수로 강약을 읽는 평점 문법 -->
+<section class="slide" data-archetype="compare-table" data-variant="score" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤26자»</p><h2 class="title">«제목: 한 문장 ≤20자»</h2></div>
+  <div class="col" style="flex:1;min-height:0;gap:14px">
+    <div class="row" style="gap:24px;align-items:center;padding:0 24px">
+      <p class="label" style="width:300px;flex:none">«기준 ≤10자»</p>
+      <p class="label f1" style="text-align:center;color:var(--blue)">«대상 A ≤8자»</p>
+      <p class="label f1" style="text-align:center;color:var(--accent)">«대상 B ≤8자»</p>
+    </div>
+    <div class="card" data-step="1" style="padding:20px 24px"><div class="row" style="align-items:center;gap:24px"><h4 style="font-size:26px;width:300px;flex:none">«항목 제목 ≤10자»</h4>
+      <div class="f1" style="text-align:center"><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--blue);margin:0 6px"></span><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--blue);margin:0 6px"></span><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--blue);margin:0 6px"></span><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--soft);margin:0 6px"></span><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--soft);margin:0 6px"></span></div>
+      <div class="f1" style="text-align:center"><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--accent);margin:0 6px"></span><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--accent);margin:0 6px"></span><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--soft);margin:0 6px"></span><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--soft);margin:0 6px"></span><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--soft);margin:0 6px"></span></div></div></div>
+    <div class="card" data-step="2" style="padding:20px 24px"><div class="row" style="align-items:center;gap:24px"><h4 style="font-size:26px;width:300px;flex:none">«항목 제목 ≤10자»</h4>
+      <div class="f1" style="text-align:center"><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--blue);margin:0 6px"></span><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--blue);margin:0 6px"></span><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--soft);margin:0 6px"></span><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--soft);margin:0 6px"></span><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--soft);margin:0 6px"></span></div>
+      <div class="f1" style="text-align:center"><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--accent);margin:0 6px"></span><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--accent);margin:0 6px"></span><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--accent);margin:0 6px"></span><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--accent);margin:0 6px"></span><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--soft);margin:0 6px"></span></div></div></div>
+    <div class="card" data-step="3" style="padding:20px 24px"><div class="row" style="align-items:center;gap:24px"><h4 style="font-size:26px;width:300px;flex:none">«항목 제목 ≤10자»</h4>
+      <div class="f1" style="text-align:center"><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--blue);margin:0 6px"></span><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--blue);margin:0 6px"></span><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--blue);margin:0 6px"></span><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--blue);margin:0 6px"></span><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--soft);margin:0 6px"></span></div>
+      <div class="f1" style="text-align:center"><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--accent);margin:0 6px"></span><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--accent);margin:0 6px"></span><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--accent);margin:0 6px"></span><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--soft);margin:0 6px"></span><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--soft);margin:0 6px"></span></div></div></div>
+    <div class="card" data-step="4" style="padding:20px 24px"><div class="row" style="align-items:center;gap:24px"><h4 style="font-size:26px;width:300px;flex:none">«항목 제목 ≤10자»</h4>
+      <div class="f1" style="text-align:center"><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--blue);margin:0 6px"></span><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--soft);margin:0 6px"></span><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--soft);margin:0 6px"></span><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--soft);margin:0 6px"></span><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--soft);margin:0 6px"></span></div>
+      <div class="f1" style="text-align:center"><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--accent);margin:0 6px"></span><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--accent);margin:0 6px"></span><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--accent);margin:0 6px"></span><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--accent);margin:0 6px"></span><span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--soft);margin:0 6px"></span></div></div></div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<!-- bars: 기준별 쌍 막대 — 수치 차이의 '길이'를 직접 견줄 때 -->
+<section class="slide" data-archetype="compare-table" data-variant="bars" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤26자»</p><h2 class="title">«제목: 한 문장 ≤20자»</h2></div>
+  <div class="col" style="flex:1;min-height:0;gap:18px">
+    <div class="row" data-step="1" style="gap:28px;align-items:center">
+      <p class="label" style="width:220px;flex:none">«기준 ≤8자»</p>
+      <div class="col f1" style="gap:8px">
+        <div style="height:30px;border-radius:10px;background:var(--blue);width:78%"></div>
+        <div style="height:30px;border-radius:10px;background:var(--accent);width:52%"></div>
+      </div>
+      <div style="width:170px;flex:none"><p class="small" style="color:var(--blue)">«값 ≤6자»</p><p class="small" style="color:var(--accent)">«값 ≤6자»</p></div>
+    </div>
+    <div class="row" data-step="2" style="gap:28px;align-items:center">
+      <p class="label" style="width:220px;flex:none">«기준 ≤8자»</p>
+      <div class="col f1" style="gap:8px">
+        <div style="height:30px;border-radius:10px;background:var(--blue);width:44%"></div>
+        <div style="height:30px;border-radius:10px;background:var(--accent);width:84%"></div>
+      </div>
+      <div style="width:170px;flex:none"><p class="small" style="color:var(--blue)">«값 ≤6자»</p><p class="small" style="color:var(--accent)">«값 ≤6자»</p></div>
+    </div>
+    <div class="row" data-step="3" style="gap:28px;align-items:center">
+      <p class="label" style="width:220px;flex:none">«기준 ≤8자»</p>
+      <div class="col f1" style="gap:8px">
+        <div style="height:30px;border-radius:10px;background:var(--blue);width:66%"></div>
+        <div style="height:30px;border-radius:10px;background:var(--accent);width:60%"></div>
+      </div>
+      <div style="width:170px;flex:none"><p class="small" style="color:var(--blue)">«값 ≤6자»</p><p class="small" style="color:var(--accent)">«값 ≤6자»</p></div>
+    </div>
+    <div class="row" data-step="4" style="gap:28px;align-items:center">
+      <p class="label" style="width:220px;flex:none">«기준 ≤8자»</p>
+      <div class="col f1" style="gap:8px">
+        <div style="height:30px;border-radius:10px;background:var(--blue);width:38%"></div>
+        <div style="height:30px;border-radius:10px;background:var(--accent);width:72%"></div>
+      </div>
+      <div style="width:170px;flex:none"><p class="small" style="color:var(--blue)">«값 ≤6자»</p><p class="small" style="color:var(--accent)">«값 ≤6자»</p></div>
+    </div>
+    <div class="row" style="gap:28px;padding:4px 0 0">
+      <div style="width:220px;flex:none"></div>
+      <div class="row f1" style="gap:20px"><p class="small"><span style="display:inline-block;width:18px;height:18px;border-radius:5px;background:var(--blue);vertical-align:-3px"></span> «대상 A ≤8자»</p><p class="small"><span style="display:inline-block;width:18px;height:18px;border-radius:5px;background:var(--accent);vertical-align:-3px"></span> «대상 B ≤8자»</p></div>
+      <div style="width:170px;flex:none"></div>
+    </div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<!-- proscons: 장단 두 열 + 판정 띠 — 찬반·선택 근거를 모을 때 -->
+<section class="slide" data-archetype="compare-table" data-variant="proscons" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤26자»</p><h2 class="title">«제목: 한 문장 ≤20자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;align-items:stretch;gap:32px">
+    <div class="col f1" style="gap:14px">
+      <div class="callout" style="font-size:30px;padding:18px 28px;border-color:var(--blue)"><b style="color:var(--muted)">＋ «장점 머리 ≤8자»</b></div>
+      <div class="card" data-step="1" style="padding:20px 26px;gap:6px"><p class="body"><b>«항목 ≤8자»</b> — «설명 ≤30자»</p></div>
+      <div class="card" data-step="2" style="padding:20px 26px;gap:6px"><p class="body"><b>«항목 ≤8자»</b> — «설명 ≤30자»</p></div>
+      <div class="card" data-step="3" style="padding:20px 26px;gap:6px"><p class="body"><b>«항목 ≤8자»</b> — «설명 ≤30자»</p></div>
+    </div>
+    <div class="col f1" style="gap:14px">
+      <div class="callout" style="font-size:30px;padding:18px 28px;border-color:var(--accent)"><b style="color:var(--accent-light)">－ «단점 머리 ≤8자»</b></div>
+      <div class="card" data-step="4" style="padding:20px 26px;gap:6px"><p class="body"><b>«항목 ≤8자»</b> — «설명 ≤30자»</p></div>
+      <div class="card" data-step="5" style="padding:20px 26px;gap:6px"><p class="body"><b>«항목 ≤8자»</b> — «설명 ≤30자»</p></div>
+      <div class="card" data-step="6" style="padding:20px 26px;gap:6px"><p class="body"><b>«항목 ≤8자»</b> — «설명 ≤30자»</p></div>
+    </div>
+  </div>
+  <div class="callout" data-step="7" style="font-size:28px;padding:22px 32px"><b>«판정 ≤12자»</b> «조건·결론 문장 ≤38자»</div>
   <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
 </section>

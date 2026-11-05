@@ -1,5 +1,5 @@
 <!--
-  아키타입 compare-2 (변형: flow, diagram, list, choose)
+  아키타입 compare-2 (변형: flow, diagram, list, choose, versus-rows)
   언제: 두 가지 비교. flow=두 흐름 도식, diagram=연결 도식+설명 카드, list=카드 둘 목록, choose=언제 무엇을 고를지.
   단계: 왼쪽 → 오른쪽 → 정리
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
@@ -46,16 +46,18 @@
 <div class="card f1" data-step="1" style="border-top:2px solid var(--blue);padding:32px 32px;gap:8px">
 <p class="label" style="color:var(--blue)">«라벨 ≤30자»</p>
 <svg aria-label="«그림 설명»" class="dg" style="height:300px" viewBox="0 0 720 340">
+<circle cx="360" cy="170" r="135" fill="var(--blue-soft)" opacity=".55"></circle>
+<circle cx="360" cy="170" r="148" fill="none" stroke="var(--blue)" stroke-width="6" stroke-dasharray="12 8" opacity=".6"></circle>
 <path class="wire" d="M360 170C270 130 210 112 170 80" id="m1"></path><path class="wire" d="M360 170C450 130 510 112 550 80" id="m2"></path>
 <path class="wire" d="M360 170C270 214 210 238 170 268" id="m3"></path><path class="wire" d="M360 170C450 214 510 238 550 268" id="m4"></path>
 <circle cx="282" cy="136" fill="var(--blue)" r="7"></circle>
 <circle cx="438" cy="136" fill="var(--blue)" r="7"></circle>
 <circle cx="282" cy="212" fill="var(--blue)" r="7"></circle>
 <circle cx="438" cy="212" fill="var(--blue)" r="7"></circle>
-<g class="plug"><rect height="28" rx="8" width="64" x="204" y="104"></rect><text text-anchor="middle" x="236" y="124">«≤3자»</text></g>
-<g class="plug"><rect height="28" rx="8" width="64" x="452" y="104"></rect><text text-anchor="middle" x="484" y="124">«≤3자»</text></g>
-<g class="plug"><rect height="28" rx="8" width="64" x="204" y="212"></rect><text text-anchor="middle" x="236" y="232">«≤3자»</text></g>
-<g class="plug"><rect height="28" rx="8" width="64" x="452" y="212"></rect><text text-anchor="middle" x="484" y="232">«≤3자»</text></g>
+<g class="plug"><rect height="30" rx="8" width="96" x="188" y="103"></rect><text text-anchor="middle" x="236" y="124">«≤3자»</text></g>
+<g class="plug"><rect height="30" rx="8" width="96" x="436" y="103"></rect><text text-anchor="middle" x="484" y="124">«≤3자»</text></g>
+<g class="plug"><rect height="30" rx="8" width="96" x="188" y="211"></rect><text text-anchor="middle" x="236" y="232">«≤3자»</text></g>
+<g class="plug"><rect height="30" rx="8" width="96" x="436" y="211"></rect><text text-anchor="middle" x="484" y="232">«≤3자»</text></g>
 <circle cx="360" cy="170" fill="var(--paper)" r="64" stroke="var(--blue)" stroke-width="2"></circle><use height="92" href="#i-nn" style="color:var(--blue)" width="92" x="314" y="124"></use>
 <g class="node"><rect height="92" rx="16" width="130" x="36" y="28"></rect><use height="46" href="#i-folder" style="color:var(--blue)" width="46" x="78" y="38"></use><text text-anchor="middle" x="101" y="104">«≤5자»</text></g>
 <g class="node"><rect height="92" rx="16" width="130" x="554" y="28"></rect><use height="46" href="#i-folder" style="color:var(--blue)" width="46" x="596" y="38"></use><text text-anchor="middle" x="619" y="104">«≤5자»</text></g>
@@ -116,5 +118,38 @@
 </div>
 </div>
 <div class="callout" data-step="3"><b>«강조 앞부분 ≤9자»</b> «정리 문장 ≤32자»</div>
+<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<!-- versus-rows: 속성 행으로 나란히 대조 — 같은 항목을 두 열로 -->
+<section class="slide" data-archetype="compare-2" data-variant="versus-rows" style="gap:24px">
+<div class="head"><p class="eyebrow">«파트 표시 ≤14자»</p><h2 class="title">«제목: 한 문장 ≤24자»</h2></div>
+<div class="row" style="gap:16px">
+  <p class="f1" style="text-align:center;font-size:30px;font-weight:800;color:var(--blue)">«A 이름 ≤8자»</p>
+  <p style="width:220px;flex:none"></p>
+  <p class="f1" style="text-align:center;font-size:30px;font-weight:800;color:var(--accent)">«B 이름 ≤8자»</p>
+</div>
+<div class="col" style="flex:1;min-height:0;gap:12px">
+  <div class="row" data-step="1" style="gap:16px;align-items:stretch">
+    <div class="card f1" style="padding:20px 28px;border-left:6px solid var(--blue)"><p class="body" style="font-size:27px">«A 측 값 ≤18자»</p></div>
+    <p style="width:220px;flex:none;align-self:center;text-align:center;font-size:24px;font-weight:700;color:var(--soft)">«속성 ≤6자»</p>
+    <div class="card f1" style="padding:20px 28px;border-left:6px solid var(--accent)"><p class="body" style="font-size:27px">«B 측 값 ≤18자»</p></div>
+  </div>
+  <div class="row" data-step="2" style="gap:16px;align-items:stretch">
+    <div class="card f1" style="padding:20px 28px;border-left:6px solid var(--blue)"><p class="body" style="font-size:27px">«A 측 값 ≤18자»</p></div>
+    <p style="width:220px;flex:none;align-self:center;text-align:center;font-size:24px;font-weight:700;color:var(--soft)">«속성 ≤6자»</p>
+    <div class="card f1" style="padding:20px 28px;border-left:6px solid var(--accent)"><p class="body" style="font-size:27px">«B 측 값 ≤18자»</p></div>
+  </div>
+  <div class="row" data-step="3" style="gap:16px;align-items:stretch">
+    <div class="card f1" style="padding:20px 28px;border-left:6px solid var(--blue)"><p class="body" style="font-size:27px">«A 측 값 ≤18자»</p></div>
+    <p style="width:220px;flex:none;align-self:center;text-align:center;font-size:24px;font-weight:700;color:var(--soft)">«속성 ≤6자»</p>
+    <div class="card f1" style="padding:20px 28px;border-left:6px solid var(--accent)"><p class="body" style="font-size:27px">«B 측 값 ≤18자»</p></div>
+  </div>
+  <div class="row" data-step="4" style="gap:16px;align-items:stretch">
+    <div class="card f1" style="padding:20px 28px;border-left:6px solid var(--blue)"><p class="body" style="font-size:27px">«A 측 값 ≤18자»</p></div>
+    <p style="width:220px;flex:none;align-self:center;text-align:center;font-size:24px;font-weight:700;color:var(--soft)">«속성 ≤6자»</p>
+    <div class="card f1" style="padding:20px 28px;border-left:6px solid var(--accent)"><p class="body" style="font-size:27px">«B 측 값 ≤18자»</p></div>
+  </div>
+</div>
+<div class="callout" data-step="5"><b>«강조 앞부분 ≤9자»</b> «정리 문장 ≤36자»</div>
 <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
 </section>

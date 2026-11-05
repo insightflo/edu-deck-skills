@@ -1,5 +1,5 @@
 <!--
-  아키타입 hub (변형: 기본)
+  아키타입 hub (변형: 기본 · orbit · hex · fan · plus)
   언제: 가운데 중심 + 둘레 구성 요소(고리 조각) + 오른쪽 설명 줄.
   단계: 요소별 1단계, 고리 조각이 함께 켜짐(data-lit)
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
@@ -29,5 +29,91 @@
       <div class="hrow" data-step="4"><div><h4>«항목 제목 ≤6자»</h4><p>«문구 ≤30자»</p></div><span class="mk" style="margin-left:auto">4</span></div>
     </div>
   </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<!-- orbit: 중심 + 궤도 위 노드 — 요소가 '돌며' 중심에 묶인 관계 -->
+<section class="slide" data-archetype="hub" data-variant="orbit" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤22자»</p><h2 class="title">«제목: 한 문장 ≤30자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;gap:48px;align-items:center">
+    <svg class="dg" viewBox="0 0 720 600" style="width:660px;flex:none" aria-label="«그림 설명»">
+      <ellipse cx="360" cy="300" rx="272" ry="98" fill="none" stroke="var(--blue)" stroke-width="8" opacity=".85"/>
+      <ellipse cx="360" cy="300" rx="272" ry="98" fill="none" stroke="var(--accent)" stroke-width="8" opacity=".85" transform="rotate(60 360 300)"/>
+      <ellipse cx="360" cy="300" rx="272" ry="98" fill="none" stroke="var(--muted)" stroke-width="8" opacity=".85" transform="rotate(-60 360 300)"/>
+      <g data-step="1"><circle cx="632" cy="300" r="52" fill="var(--paper)" stroke="var(--blue)" stroke-width="3"/><use href="#i-search" x="606" y="274" width="52" height="52" style="color:var(--blue)"/><text class="t-l b" text-anchor="middle" x="632" y="386">«≤6자»</text></g>
+      <g data-step="2"><circle cx="88" cy="300" r="52" fill="var(--paper)" stroke="var(--accent)" stroke-width="3"/><use href="#i-pencil" x="62" y="274" width="52" height="52" style="color:var(--accent)"/><text class="t-l b" text-anchor="middle" x="88" y="386">«≤6자»</text></g>
+      <g data-step="3"><circle cx="496" cy="65" r="52" fill="var(--paper)" stroke="var(--accent)" stroke-width="3"/><use href="#i-gear" x="470" y="39" width="52" height="52" style="color:var(--accent)"/><text class="t-l b" text-anchor="middle" x="496" y="151">«≤6자»</text></g>
+      <g data-step="4"><circle cx="224" cy="535" r="52" fill="var(--paper)" stroke="var(--blue)" stroke-width="3"/><use href="#i-check" x="198" y="509" width="52" height="52" style="color:var(--blue)"/><text class="t-l b" text-anchor="middle" x="224" y="461">«≤6자»</text></g>
+      <circle cx="360" cy="300" r="96" fill="var(--accent-light)" stroke="var(--ink)" stroke-width="2.5"/>
+      <use href="#i-nn" x="302" y="242" width="116" height="116" style="color:var(--ink)"/>
+      <text class="t-l b" text-anchor="middle" x="360" y="388">«≤6자»</text>
+    </svg>
+    <div class="col f1" style="gap:16px">
+      <div class="hrow" data-step="1"><div><h4>«항목 제목 ≤6자»</h4><p>«문구 ≤56자»</p></div><span class="mk" style="margin-left:auto">1</span></div>
+      <div class="hrow" data-step="2"><div><h4>«항목 제목 ≤6자»</h4><p>«문구 ≤47자»</p></div><span class="mk" style="margin-left:auto">2</span></div>
+      <div class="hrow" data-step="3"><div><h4>«항목 제목 ≤8자»</h4><p>«문구 ≤51자»</p></div><span class="mk" style="margin-left:auto">3</span></div>
+      <div class="hrow" data-step="4"><div><h4>«항목 제목 ≤6자»</h4><p>«문구 ≤30자»</p></div><span class="mk" style="margin-left:auto">4</span></div>
+    </div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<!-- hex: 벌집 육각 — 균등 요소가 붙어 모인 군집 문법 -->
+<section class="slide" data-archetype="hub" data-variant="hex" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤22자»</p><h2 class="title">«제목: 한 문장 ≤30자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;gap:48px;align-items:center">
+    <div class="col f1" style="gap:16px">
+      <div class="hrow" data-step="1"><div><h4>«항목 제목 ≤6자»</h4><p>«문구 ≤56자»</p></div><span class="mk" style="margin-left:auto">1</span></div>
+      <div class="hrow" data-step="2"><div><h4>«항목 제목 ≤6자»</h4><p>«문구 ≤47자»</p></div><span class="mk" style="margin-left:auto">2</span></div>
+      <div class="hrow" data-step="3"><div><h4>«항목 제목 ≤8자»</h4><p>«문구 ≤51자»</p></div><span class="mk" style="margin-left:auto">3</span></div>
+      <div class="hrow" data-step="4"><div><h4>«항목 제목 ≤6자»</h4><p>«문구 ≤30자»</p></div><span class="mk" style="margin-left:auto">4</span></div>
+    </div>
+    <svg class="dg" viewBox="0 0 720 600" style="width:660px;flex:none" aria-label="«그림 설명»">
+      <g data-step="1"><path d="M443 60L526 108 526 204 443 252 360 204 360 108Z" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="3"/><text class="t-l b" text-anchor="middle" x="443" y="166">«≤4자»</text></g>
+      <g data-step="2"><path d="M526 204L609 252 609 348 526 396 443 348 443 252Z" fill="var(--blue-soft)" opacity=".7" stroke="var(--blue)" stroke-width="3"/><text class="t-l b" text-anchor="middle" x="526" y="310">«≤4자»</text></g>
+      <g data-step="3"><path d="M443 348L526 396 526 492 443 540 360 492 360 396Z" fill="var(--accent-light)" stroke="var(--accent)" stroke-width="3"/><text class="t-l b" text-anchor="middle" x="443" y="454">«≤4자»</text></g>
+      <g data-step="4"><path d="M277 348L360 396 360 492 277 540 194 492 194 396Z" fill="var(--accent-light)" opacity=".7" stroke="var(--accent)" stroke-width="3"/><text class="t-l b" text-anchor="middle" x="277" y="454">«≤4자»</text></g>
+      <g data-step="5"><path d="M194 204L277 252 277 348 194 396 111 348 111 252Z" fill="var(--blue-soft)" opacity=".7" stroke="var(--blue)" stroke-width="3"/><text class="t-l b" text-anchor="middle" x="194" y="310">«≤4자»</text></g>
+      <g data-step="6"><path d="M277 60L360 108 360 204 277 252 194 204 194 108Z" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="3"/><text class="t-l b" text-anchor="middle" x="277" y="166">«≤4자»</text></g>
+      <path d="M360 16L606 158 606 442 360 584 114 442 114 158Z" fill="none" stroke="var(--muted)" stroke-width="6" stroke-dasharray="18 12" opacity=".7"/>
+      <path d="M360 204L443 252 443 348 360 396 277 348 277 252Z" fill="var(--ink)"/>
+      <text x="360" y="310" text-anchor="middle" style="font-size:30px;font-weight:800;fill:var(--paper)">«≤4자»</text>
+    </svg>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<!-- fan: 아래 손잡이에서 펼쳐진 카드 부채 — 선택지가 한 축에서 펼쳐질 때 -->
+<section class="slide" data-archetype="hub" data-variant="fan" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤22자»</p><h2 class="title">«제목: 한 문장 ≤30자»</h2></div>
+  <div class="col f1" style="gap:24px;min-height:0">
+    <svg class="dg" viewBox="0 0 720 600" style="width:600px;align-self:center" aria-label="«그림 설명»">
+      <path d="M360 540L35 215A460 460 0 0 1 685 215Z" fill="var(--accent-light)" opacity=".55"/>
+      <g data-step="1"><g transform="rotate(-36 360 540)"><path d="M260 170H460Q480 170 480 190V510Q480 530 460 530H260Q240 530 240 510V190Q240 170 260 170Z" fill="var(--paper)" stroke="var(--blue)" stroke-width="2.5"/><text class="t-l b" text-anchor="middle" x="360" y="230">«≤5자»</text><text class="t-s" text-anchor="middle" x="360" y="270">«≤10자»</text></g></g>
+      <g data-step="2"><g transform="rotate(-18 360 540)"><path d="M260 150H460Q480 150 480 170V510Q480 530 460 530H260Q240 530 240 510V170Q240 150 260 150Z" fill="var(--paper)" stroke="var(--blue)" stroke-width="2.5"/><text class="t-l b" text-anchor="middle" x="360" y="210">«≤5자»</text><text class="t-s" text-anchor="middle" x="360" y="250">«≤10자»</text></g></g>
+      <g data-step="3"><g><path d="M260 140H460Q480 140 480 160V510Q480 530 460 530H260Q240 530 240 510V160Q240 140 260 140Z" fill="var(--accent-light)" stroke="var(--accent)" stroke-width="2.5"/><text class="t-l o" text-anchor="middle" x="360" y="200">«≤5자»</text><text class="t-s" text-anchor="middle" x="360" y="240">«≤10자»</text></g></g>
+      <g data-step="4"><g transform="rotate(18 360 540)"><path d="M260 150H460Q480 150 480 170V510Q480 530 460 530H260Q240 530 240 510V170Q240 150 260 150Z" fill="var(--paper)" stroke="var(--blue)" stroke-width="2.5"/><text class="t-l b" text-anchor="middle" x="360" y="210">«≤5자»</text><text class="t-s" text-anchor="middle" x="360" y="250">«≤10자»</text></g></g>
+      <g data-step="5"><g transform="rotate(36 360 540)"><path d="M260 170H460Q480 170 480 190V510Q480 530 460 530H260Q240 530 240 510V190Q240 170 260 170Z" fill="var(--paper)" stroke="var(--blue)" stroke-width="2.5"/><text class="t-l b" text-anchor="middle" x="360" y="230">«≤5자»</text><text class="t-s" text-anchor="middle" x="360" y="270">«≤10자»</text></g></g>
+      <circle cx="360" cy="540" r="44" fill="var(--ink)"/>
+      <use href="#i-nn" x="336" y="516" width="48" height="48" style="color:var(--paper)"/>
+    </svg>
+    <div class="row" style="gap:16px">
+      <div class="hrow f1" data-step="1"><div><h4>«항목 제목 ≤6자»</h4><p>«문구 ≤18자»</p></div><span class="mk" style="margin-left:auto">1</span></div>
+      <div class="hrow f1" data-step="2"><div><h4>«항목 제목 ≤6자»</h4><p>«문구 ≤18자»</p></div><span class="mk" style="margin-left:auto">2</span></div>
+      <div class="hrow f1" data-step="3"><div><h4>«항목 제목 ≤8자»</h4><p>«문구 ≤18자»</p></div><span class="mk" style="margin-left:auto">3</span></div>
+      <div class="hrow f1" data-step="4"><div><h4>«항목 제목 ≤6자»</h4><p>«문구 ≤18자»</p></div><span class="mk" style="margin-left:auto">4</span></div>
+    </div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+<!-- plus: 십자 연결 — 중심에서 상하좌우로 뻗는 직교 문법 -->
+<section class="slide" data-archetype="hub" data-variant="plus" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤22자»</p><h2 class="title">«제목: 한 문장 ≤30자»</h2></div>
+  <svg class="dg" viewBox="0 0 1600 620" style="flex:1;min-height:0" aria-label="«그림 설명»">
+    <path d="M800 310V176M800 310V444M800 310H1046M800 310H554" stroke="var(--muted)" stroke-width="3" fill="none"/>
+    <circle cx="800" cy="310" r="86" fill="var(--ink)"/>
+    <use href="#i-nn" x="760" y="270" width="80" height="80" style="color:var(--paper)"/>
+    <g data-step="1"><rect x="660" y="36" width="280" height="110" rx="18" fill="var(--paper)" stroke="var(--blue)" stroke-width="2.5"/><use href="#i-search" x="686" y="66" width="48" height="48" style="color:var(--blue)"/><text class="t-l" x="750" y="90">«≤7자»</text><text class="t-s" x="750" y="122">«≤14자»</text></g>
+    <g data-step="2"><rect x="1076" y="255" width="280" height="110" rx="18" fill="var(--paper)" stroke="var(--accent)" stroke-width="2.5"/><use href="#i-pencil" x="1102" y="285" width="48" height="48" style="color:var(--accent)"/><text class="t-l" x="1166" y="309">«≤7자»</text><text class="t-s" x="1166" y="341">«≤14자»</text></g>
+    <g data-step="3"><rect x="660" y="474" width="280" height="110" rx="18" fill="var(--paper)" stroke="var(--blue)" stroke-width="2.5"/><use href="#i-gear" x="686" y="504" width="48" height="48" style="color:var(--blue)"/><text class="t-l" x="750" y="528">«≤7자»</text><text class="t-s" x="750" y="560">«≤14자»</text></g>
+    <g data-step="4"><rect x="244" y="255" width="280" height="110" rx="18" fill="var(--paper)" stroke="var(--accent)" stroke-width="2.5"/><use href="#i-check" x="270" y="285" width="48" height="48" style="color:var(--accent)"/><text class="t-l" x="334" y="309">«≤7자»</text><text class="t-s" x="334" y="341">«≤14자»</text></g>
+  </svg>
   <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
 </section>
