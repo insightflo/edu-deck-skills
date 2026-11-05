@@ -11,7 +11,7 @@
 [![Ships](https://img.shields.io/badge/산출물-단일%20HTML%20%C2%B7%20외부의존%200-0e7d95?style=flat-square)](#2-한눈에-보는-구성)
 [![Assets](https://img.shields.io/badge/%EB%A6%AC%EC%86%8C%EC%8A%A4%ED%8C%A9-%EC%84%A4%EA%B3%84%208%EC%A2%85%20%C2%B7%20%ED%9D%90%EB%A6%84%208%EC%A2%85-2f6fb0?style=flat-square)](docs/gallery.html)
 [![Assets](https://img.shields.io/badge/%EC%9E%A5%20%EB%B0%B0%EC%B9%98-32%EA%B3%84%EC%97%B4%2063%EB%B3%80%ED%98%95-e8772e?style=flat-square)](docs/gallery.html)
-[![Tests](https://img.shields.io/badge/%ED%9A%8C%EA%B7%80-223%20tests%20%C2%B7%20pack%2064%2F64-59c3d6?style=flat-square)](#5-검증--검사기가-품질을-담당)
+[![Tests](https://img.shields.io/badge/%ED%9A%8C%EA%B7%80-229%20tests%20%C2%B7%20pack%2064%2F64-59c3d6?style=flat-square)](#5-검증--검사기가-품질을-담당)
 
 ![데모](docs/demo-quiz.gif)
 
@@ -66,20 +66,20 @@
 
 <img src="docs/diagrams/diagram-pipeline.png" width="46%" alt="저작 파이프라인 도식 — 요청→라우팅→legacy/팩 경로→조립→검사"> <img src="docs/diagrams/diagram-cross.png" width="52.6%" alt="완성 덱 단면 도식 — 슬라이드·단계공개·노트·퀴즈·자습·출처 층위">
 
-**완성 덱 하나의 단면** — 파일 하나에 교육 자료 전체 층위: 슬라이드(69변형·8테마·모션 31종) / 단계 공개 / 발표자 노트(60자 이상 검사) / 확인 문제·퀴즈 / 자습 모드·용어집·검색 / 출처·검증 층. [**▶ 자산 갤러리에서 실물 148점 보기**](https://raw.githack.com/insightflo/edu-deck-skills/main/docs/gallery.html)
+**완성 덱 하나의 단면** — 파일 하나에 교육 자료 전체 층위: 슬라이드(126변형·8테마·모션 실행 이름 30종) / 단계 공개 / 발표자 노트(60자 이상 검사) / 확인 문제·퀴즈 / 자습 모드·용어집·검색 / 출처·검증 층. [**▶ 자산 갤러리에서 실물 205점 보기**](https://raw.githack.com/insightflo/edu-deck-skills/main/docs/gallery.html)
 
 ## 3. 자산 갤러리 — 재료 전부
 
-스킬이 조립에 쓰는 재료를 실제 빌드 파이프라인으로 렌더해 전시합니다 — 다양함의 원천이 무엇인지 솔직하게: 눈에 보이는 다양함은 **설계 8종·배치 조각 69변형·테마 8종**이 만들고, 흐름은 수업 구성을 바꿉니다.
+스킬이 조립에 쓰는 재료를 실제 빌드 파이프라인으로 렌더해 전시합니다 — 다양함의 원천이 무엇인지 솔직하게: 눈에 보이는 다양함은 **설계 8종·배치 조각 126변형·테마 8종**이 만들고, 흐름은 수업 구성을 바꿉니다.
 
 **[▶ 갤러리 열기 (설계 필터·라이트박스)](https://raw.githack.com/insightflo/edu-deck-skills/main/docs/gallery.html)** · [▶ 장 배치 63종 전체 덱으로 넘겨 보기](https://raw.githack.com/insightflo/edu-deck-skills/main/docs/gallery-archetypes.html)
 
 | 재료 | 수 | 갤러리에서 |
 |---|---|---|
 | 리소스팩 설계 | **8종** — 배치 문법 자체가 다름(마주본 면·사례 기록·편집 지면…) · 흐름 8종(수업 뼈대)과 64조합 전수 빌드·검사(64/64) | 설계별 표지 + 같은 설계에 흐름만 교체한 비교 |
-| 장 배치 조각 | **36계열 69변형** | 썸네일 + 69장 열람 덱 |
+| 장 배치 조각 | **36계열 126변형** | 썸네일 + 126장 열람 덱 |
 | 테마 | **8종** | 같은 장면에 테마만 교체 |
-| 모션 시그니처 | **31종 중 대표 7종** | GIF |
+| 모션 시그니처 | **실행 이름 30종 중 대표 7종** | GIF |
 | 표지 | 직접 설계(3안 비교) + 카탈로그 7종 | 아키타입 갤러리 |
 
 50초 이전 수동 제작 소개 영상은 [15초·30초 showreel](docs/edu-deck-skills-30-v1.0.0.mp4)로 교체했습니다.
@@ -107,12 +107,12 @@ git clone https://github.com/insightflo/edu-deck-skills.git ~/.pi/agent/skills/e
 - **안전 가드(ERROR)** — 깨진 참조·외부 자원·대비(4.5:1/3:1)·글자 18px 미만·노트 부재·계약 위반. 통과해야 완성입니다.
 - **취향(INFO)** — 제목 길이·구성 반복·밀도. `--style`을 주면 경고(WARN) 상세로 올라갑니다. 사람이 읽고 판단합니다.
 
-저장소 회귀: 단위 테스트 223개(렌더 포함, skip 1), 리소스팩 브라우저 64/64 조합, 대비 매트릭스 238셀.
+저장소 회귀: 단위 테스트 229개(렌더 포함, skip 1), 리소스팩 브라우저 64/64 조합, 대비 매트릭스 238셀.
 
 ```bash
 cd edu-deck/shared
 EDU_DECK_TEST_DECK=../../examples/states-quiz/물질의상태변화-단원평가퀴즈-교육자료.html \
-  python3 -m unittest discover -s dev -p 'test_*py'   # Ran 223 tests OK
+  python3 -m unittest discover -s dev -p 'test_*py'   # Ran 229 tests OK
 python3 scripts/check_deck.py ../../examples/states-quiz/물질의상태변화-단원평가퀴즈-교육자료.html   # 기본: 안전 가드
 python3 scripts/check_deck.py --style <덱.html>   # 취향 상세
 ```
