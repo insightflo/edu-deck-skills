@@ -6,9 +6,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <script>
 /* 엔진 준비 표시: ed-js=스크립트 동작, ed-ready=엔진 초기화 완료, ed-fail=실패/3초 초과. */
-document.documentElement.classList.add('ed-js');
-window.addEventListener('error',function(e){var h=document.documentElement;if(h.classList.contains('ed-ready'))return;if(e&&/ResizeObserver/.test(String(e.message||e)))return;h.classList.add('ed-fail');},true);
-setTimeout(function(){var h=document.documentElement;if(!h.classList.contains('ed-ready'))h.classList.add('ed-fail');},3000);
+var deckRoot=document.documentElement;
+deckRoot.classList.add('ed-js');
+window.addEventListener('error',function(ev){
+  if(deckRoot.classList.contains('ed-ready'))return;
+  var text=String((ev&&ev.message)||ev);
+  if(/ResizeObserver/.test(text))return;
+  deckRoot.classList.add('ed-fail');
+},true);
+setTimeout(function(){ if(!deckRoot.classList.contains('ed-ready'))deckRoot.classList.add('ed-fail'); },3000);
 </script>
 <title>{{TITLE}}</title><style>/* Embedded unmodified Pretendard v1.3.9.
 Copyright (c) 2021, Kil Hyung-jin (https://github.com/orioncactus/pretendard),
@@ -1960,141 +1966,158 @@ if(doc.readyState==='loading')doc.addEventListener('DOMContentLoaded',init);else
 </script>
 <script>
 /*
-  발표 엔진
-  [목적] 1920×1080 무대를 창 크기에 맞춰 축소하고, 슬라이드 이동과 슬라이드 안의 단계 등장을 처리한다.
-  [입력] #stage 바로 아래 section.slide 들과 그 안의 단계 속성, aside.notes.
-    data-step=k  k단계부터 보임(그 단계에서 튀어나오는 효과, AI 말풍선 .a 는 생각 중 점 표시 후 등장)
-    data-add=k   k단계부터 보이고 k단계에서만 .new 강조(덧붙인 문구 표시)
-    data-only=k  k단계에서만 보임(상태 바꾸기: 전→후, 질문→답)
-    data-lit=k   k단계부터 .lit 클래스(정답·1등 막대 강조)
+  발표 엔진 (클린룸 재구현 — 계약은 그대로, 구현은 새로)
+  [목적] 1920×1080 무대를 창 크기에 맞춰 줄이고, 장 넘김과 장 안의 단계 공개를 관리한다.
+  [입력] #stage 직계 자식 section.slide 들과 그 안의 단계 속성, aside.notes.
+    data-step=k  k단계부터 보임(그 단계에서 .pop 으로 튀어나옴, .a 말풍선은 점 표시 뒤 등장)
+    data-add=k   k단계부터 보이고 그 단계에서만 .new 강조(덧붙인 문구 표시)
+    data-only=k  k단계에서만 보임(전→후, 질문→답 상태 교체)
+    data-lit=k   k단계부터 .lit 유지(정답·강조 칠하기)
     data-until=k k단계까지만 보임
-  [출력] .active/.step-hide/.gone/.new/.lit 클래스 토글, 진행 막대·단계 점·쪽수, 주소 #N, deckslide·deckstep 이벤트.
-  [연결] window.deckGo(i, step) 와 window.deckInfo() 는 scripts/check_deck.py 가 렌더 검사에 쓴다.
-  [수정시 주의] 속성 이름·클래스 이름을 바꾸면 모든 슬라이드 조각과 검사 스크립트가 함께 깨진다.
+  [출력] .active/.step-hide/.gone/.new/.lit 토글, 진행 막대·단계 점·쪽수, 주소 #N,
+    deckstep(detail={slide,step})·deckslide(detail=장 번호) 이벤트.
+  [연결] window.deckGo(i,step) 와 window.deckInfo() 는 검사기(scripts/check_deck.py)와
+    읽기(responsive.js)·자습(study.js)·타이머(talk.js)·검색(viewer.js) 계층이 부른다.
+  [수정시 주의] 속성·클래스·이벤트 이름과 deckstep→deckslide 발생 순서는 계약이다.
+    바꾸면 슬라이드 조각·모션·읽기·검사 스크립트가 함께 깨진다.
 */
-(function(){try{
-  var stage=document.getElementById('stage');
-  var slides=[].slice.call(document.querySelectorAll('#stage > .slide'));
-  var counter=document.getElementById('counter');
-  var progress=document.getElementById('progress');
-  var dots=document.getElementById('dots');
-  var notesBox=document.getElementById('notes');
-  var notesText=document.getElementById('notesText');
-  var cur=0, step=0, notesOn=false;
-  var ATTRS=['step','add','only','lit','until'];
-  var SEL='[data-step],[data-add],[data-only],[data-lit],[data-until]';
-  if(!slides.length) return;
+(function(){
+var rootEl=document.documentElement;
+try{
+  var deckEl=document.getElementById('stage');
+  var pages=deckEl?[].slice.call(deckEl.children).filter(function(el){return el.classList.contains('slide')}):[];
+  if(!pages.length) return;
+  var rail=document.getElementById('progress');
+  var pips=document.getElementById('dots');
+  var cellNum=document.getElementById('counter');
+  var memoBox=document.getElementById('notes');
+  var memoBody=document.getElementById('notesText');
+  var pos=0, mark=0, memoOn=false;
+  var MARKS=['step','add','only','lit','until'];
+  var MARK_SEL='[data-'+MARKS.join('],[data-')+']';
 
-  function maxStep(s){
-    var m=0;
-    s.querySelectorAll(SEL).forEach(function(e){
-      ATTRS.forEach(function(a){ if(e.dataset[a]!==undefined) m=Math.max(m,+e.dataset[a]); });
+  /* 장에 달린 단계 번호 중 가장 큰 값 */
+  function topMark(pg){
+    var top=0;
+    pg.querySelectorAll(MARK_SEL).forEach(function(el){
+      MARKS.forEach(function(k){ if(el.dataset[k]!==undefined) top=Math.max(top,+el.dataset[k]); });
     });
-    return m;
+    return top;
   }
-  function reveal(e){
-    e.classList.add('pop'); // Shared motion engine observes the semantic step event.
-  }
-  // 한 슬라이드를 n단계 상태로 그린다. 화면 표시와 인쇄 준비가 함께 쓴다.
-  function paint(s,n,animate){
-    s.querySelectorAll('[data-step]').forEach(function(e){
-      var k=+e.dataset.step; e.classList.toggle('step-hide',k>n);
-      if(animate&&k===n) reveal(e);
+  /* 방금 열린 요소에 등장 표시. 실제 움직임은 공용 모션 계층이 deckstep 을 보고 그린다 */
+  function flag(el){ el.classList.add('pop'); }
+  /* 한 장을 depth 단계 상태로 만든다. 화면 넘김과 인쇄 펼치기가 함께 쓴다 */
+  function syncPage(pg,depth,fx){
+    pg.querySelectorAll('[data-step]').forEach(function(el){
+      var k=+el.dataset.step; el.classList.toggle('step-hide',k>depth);
+      if(fx&&k===depth) flag(el);
     });
-    s.querySelectorAll('[data-add]').forEach(function(e){
-      var k=+e.dataset.add; e.classList.toggle('gone',k>n); e.classList.toggle('new',k===n&&n>0);
+    pg.querySelectorAll('[data-add]').forEach(function(el){
+      var k=+el.dataset.add; el.classList.toggle('gone',k>depth); el.classList.toggle('new',k===depth&&depth>0);
     });
-    s.querySelectorAll('[data-only]').forEach(function(e){
-      var k=+e.dataset.only; e.classList.toggle('gone',k!==n);
-      if(animate&&k===n) reveal(e);
+    pg.querySelectorAll('[data-only]').forEach(function(el){
+      var k=+el.dataset.only; el.classList.toggle('gone',k!==depth);
+      if(fx&&k===depth) flag(el);
     });
-    s.querySelectorAll('[data-until]').forEach(function(e){ e.classList.toggle('gone',n>+e.dataset.until); });
-    s.querySelectorAll('[data-lit]').forEach(function(e){ e.classList.toggle('lit',+e.dataset.lit<=n); });
+    pg.querySelectorAll('[data-until]').forEach(function(el){ el.classList.toggle('gone',depth>+el.dataset.until); });
+    pg.querySelectorAll('[data-lit]').forEach(function(el){ el.classList.toggle('lit',+el.dataset.lit<=depth); });
   }
-  // 단계가 바뀔 때마다 deckstep 을 알린다(채점 크레파스 모션이 단계 공개에 맞춰 그려지게. deckslide 와 같은 형식)
-  function apply(animate){
-    paint(slides[cur],step,animate);
-    var m=maxStep(slides[cur]), h='';
-    for(var i=1;i<=m;i++) h+='<i class="'+(i<=step?'on':'')+'"></i>';
-    dots.innerHTML=h;
-    document.dispatchEvent(new CustomEvent('deckstep',{detail:{slide:cur,step:step}}));
+  /* 단계가 바뀌면 현재 장을 다시 칠하고 단계 점을 그린 뒤 deckstep 을 흘린다 */
+  function emitStep(fx){
+    syncPage(pages[pos],mark,fx);
+    var top=topMark(pages[pos]), html='';
+    for(var i=1;i<=top;i++) html+='<i class="'+(i<=mark?'on':'')+'"></i>';
+    pips.innerHTML=html;
+    document.dispatchEvent(new CustomEvent('deckstep',{detail:{slide:pos,step:mark}}));
   }
-  function fit(){
-    var sc=Math.min(window.innerWidth/1920, window.innerHeight/1080);
-    stage.style.transform='translate(-50%,-50%) scale('+sc+')';
+  function reflow(){
+    var k=Math.min(window.innerWidth/1920,window.innerHeight/1080);
+    deckEl.style.transform='translate(-50%,-50%) scale('+k+')';
   }
-  function show(i,atEnd,immediate){
-    stage.dataset.dir=(i>cur)?'fwd':'back';
-    cur=Math.max(0,Math.min(slides.length-1,i));
-    step=atEnd?maxStep(slides[cur]):0;
-    function render(){
-    slides.forEach(function(el,k){el.classList.toggle('active',k===cur);});
-    apply(false);
-    counter.textContent=(cur+1)+' / '+slides.length;
-    progress.style.transform='scaleX('+((cur+1)/slides.length)+')';
-    var n=slides[cur].querySelector('.notes');
-    notesText.textContent=n?n.textContent:'';
-    if(location.hash!=='#'+(cur+1)) history.replaceState(null,'','#'+(cur+1));
-    document.dispatchEvent(new CustomEvent('deckslide',{detail:cur}));
+  /* idx 장으로 간다. toEnd 면 그 장의 마지막 단계부터 시작(←로 돌아갈 때),
+     instant 면 전환 연출 없이 바로 칠한다(deckGo·첫 표시) */
+  function jumpTo(idx,toEnd,instant){
+    deckEl.dataset.dir=(idx>pos)?'fwd':'back';
+    pos=Math.max(0,Math.min(pages.length-1,idx));
+    mark=toEnd?topMark(pages[pos]):0;
+    function commit(){
+      pages.forEach(function(pg,i){ pg.classList.toggle('active',i===pos); });
+      emitStep(false);
+      cellNum.textContent=(pos+1)+' / '+pages.length;
+      rail.style.transform='scaleX('+((pos+1)/pages.length)+')';
+      var memo=pages[pos].querySelector('.notes');
+      memoBody.textContent=memo?memo.textContent:'';
+      if(location.hash!=='#'+(pos+1)) history.replaceState(null,'','#'+(pos+1));
+      document.dispatchEvent(new CustomEvent('deckslide',{detail:pos}));
     }
-    if(window.eduMotion&&!immediate&&stage.querySelector('.slide.active')) window.eduMotion.navigate(render,stage.dataset.dir);
-    else render();
+    /* 이미 켜진 장이 있을 때만 전환 연출을 태운다 — 첫 표시는 즉시 그린다 */
+    if(window.eduMotion&&!instant&&deckEl.querySelector('.slide.active')) window.eduMotion.navigate(commit,deckEl.dataset.dir);
+    else commit();
   }
-  function next(){ if(step<maxStep(slides[cur])){step++;apply(true);} else if(cur<slides.length-1){show(cur+1,false);} }
-  function prev(){ if(step>0){step--;apply(false);} else if(cur>0){show(cur-1,true);} }
+  function advance(){ if(mark<topMark(pages[pos])){ mark++; emitStep(true); } else if(pos<pages.length-1){ jumpTo(pos+1,false); } }
+  function retreat(){ if(mark>0){ mark--; emitStep(false); } else if(pos>0){ jumpTo(pos-1,true); } }
+  /* 검사기·읽기 계층이 부르는 동기 점프: 전환 연출 없이 장·단계를 곧바로 맞춘다 */
   window.deckGo=function(i,st){
-    show(i,false,true); // Preserve synchronous deckGo.
-    var m=maxStep(slides[cur]);
-    step=(st===undefined)?m:Math.max(0,Math.min(+st,m));
-    apply(false);
+    jumpTo(i,false,true);
+    var top=topMark(pages[pos]);
+    mark=(st===undefined)?top:Math.max(0,Math.min(+st,top));
+    emitStep(false);
   };
-  window.deckInfo=function(){ return {slide:cur, step:step, maxStep:maxStep(slides[cur]), count:slides.length}; };
-  function toggleNotes(){notesOn=!notesOn;notesBox.style.display=notesOn?'block':'none';}
-  function fullscreen(){
+  window.deckInfo=function(){ return {slide:pos,step:mark,maxStep:topMark(pages[pos]),count:pages.length}; };
+  function swapMemo(){ memoOn=!memoOn; memoBox.style.display=memoOn?'block':'none'; }
+  function bigScreen(){
     var d=document;
-    if(!d.fullscreenElement){(d.documentElement.requestFullscreen||function(){}).call(d.documentElement);}
-    else{d.exitFullscreen();}
+    if(!d.fullscreenElement){ (d.documentElement.requestFullscreen||function(){}).call(d.documentElement); }
+    else{ d.exitFullscreen(); }
   }
+
+  /* ---- 입력: 편집 칸·링크·버튼·위젯 위에서는 장 넘김 키를 받지 않는다 ---- */
+  var KEY_GUARD='a[href],button,input,textarea,select,summary,.code,.tabs,.faq,.pin-shot,.pin-list';
   document.addEventListener('keydown',function(e){
     var t=e.target;
-    if(t&&(t.isContentEditable||(t.closest&&t.closest('a[href],button,input,textarea,select,summary,.code,.tabs,.faq,.pin-shot,.pin-list')))) return;
+    if(t&&(t.isContentEditable||(t.closest&&t.closest(KEY_GUARD)))) return;
     var k=e.key;
-    if(k==='ArrowRight'||k==='ArrowDown'||k==='PageDown'||k===' '||k==='Enter'){e.preventDefault();next();}
-    else if(k==='ArrowLeft'||k==='ArrowUp'||k==='PageUp'||k==='Backspace'){e.preventDefault();prev();}
-    else if(k==='Home'){show(0,false);}
-    else if(k==='End'){show(slides.length-1,false);}
-    else if(k==='f'||k==='F'||k==='ㄹ'){fullscreen();}
-    else if(k==='n'||k==='N'||k==='ㅜ'){toggleNotes();}
+    if(k==='ArrowRight'||k==='ArrowDown'||k==='PageDown'||k===' '||k==='Enter'){ e.preventDefault(); advance(); }
+    else if(k==='ArrowLeft'||k==='ArrowUp'||k==='PageUp'||k==='Backspace'){ e.preventDefault(); retreat(); }
+    else if(k==='Home'){ jumpTo(0,false); }
+    else if(k==='End'){ jumpTo(pages.length-1,false); }
+    else if(k==='f'||k==='F'||k==='ㄹ'){ bigScreen(); }
+    else if(k==='n'||k==='N'||k==='ㅜ'){ swapMemo(); }
   });
+  var CLICK_GUARD='a,button,.todo,.chk,.code,.tabs,.faq,.pin-shot,.pin-list,.st-panel,.st-modal,.st-print';
   document.addEventListener('click',function(e){
-    if(document.documentElement.classList.contains('ed-compact')) return;
-    if(notesBox.contains(e.target)) return;
-    // 참고 자료 링크·체크리스트 칸·확인 문제·자습 창을 누를 때는 슬라이드를 넘기지 않는다
-    if(e.target.closest&&e.target.closest('a,button,.todo,.chk,.code,.tabs,.faq,.pin-shot,.pin-list,.st-panel,.st-modal,.st-print')) return;
-    if(e.clientX<window.innerWidth/3) prev(); else next();
+    if(rootEl.classList.contains('ed-compact')) return;
+    if(memoBox.contains(e.target)) return;
+    /* 참고 자료 링크·체크리스트 칸·확인 문제·자습 창을 누른 클릭은 장을 넘기지 않는다 */
+    if(e.target.closest&&e.target.closest(CLICK_GUARD)) return;
+    if(e.clientX<window.innerWidth/3) retreat(); else advance();
   });
-  var tx=null;
-  document.addEventListener('touchstart',function(e){tx=e.touches[0].clientX;},{passive:true});
+  var drag=null;
+  document.addEventListener('touchstart',function(e){ drag=e.touches[0].clientX; },{passive:true});
   document.addEventListener('touchend',function(e){
-    if(document.documentElement.classList.contains('ed-compact')){tx=null;return;}
-    if(tx===null) return; var dx=e.changedTouches[0].clientX-tx;
-    if(Math.abs(dx)>50){ if(dx<0) next(); else prev(); } tx=null;
+    if(rootEl.classList.contains('ed-compact')){ drag=null; return; }
+    if(drag===null) return;
+    var dx=e.changedTouches[0].clientX-drag;
+    if(Math.abs(dx)>50){ if(dx<0) advance(); else retreat(); }
+    drag=null;
   });
-  // 인쇄할 때는 모든 슬라이드를 마지막 단계로 펼치고, 끝나면 현재 화면 상태로 되돌린다
-  window.addEventListener('beforeprint',function(){ slides.forEach(function(s){ paint(s,maxStep(s),false); }); });
-  window.addEventListener('afterprint',function(){ apply(false); });
-  window.addEventListener('resize',fit);
-  fit();
-  var start=parseInt((location.hash||'').slice(1),10);
-  show(isNaN(start)?0:start-1,false);
-  // 열린 채로 주소 끝 #N 만 바꿔도 그 장으로 간다. show() 의 replaceState 는 hashchange 를 부르지 않아 되돌이가 없다
+
+  /* 인쇄할 때는 모든 장을 마지막 단계로 펼치고, 끝나면 현재 화면 상태로 되돌린다 */
+  window.addEventListener('beforeprint',function(){ pages.forEach(function(pg){ syncPage(pg,topMark(pg),false); }); });
+  window.addEventListener('afterprint',function(){ emitStep(false); });
+  window.addEventListener('resize',reflow);
+  reflow();
+  var first=parseInt((location.hash||'').slice(1),10);
+  jumpTo(isNaN(first)?0:first-1,false);
+  /* 열린 채로 주소 끝 #N 만 바꿔도 그 장으로 간다. jumpTo 의 replaceState 는
+     hashchange 를 울리지 않으므로 되돌이가 없다 */
   window.addEventListener('hashchange',function(){
     var n=parseInt((location.hash||'').slice(1),10);
-    if(!isNaN(n)&&n-1!==cur) show(n-1,false);
+    if(!isNaN(n)&&n-1!==pos) jumpTo(n-1,false);
   });
-  setTimeout(function(){document.getElementById('help').style.opacity='0';},4000);
-  document.documentElement.classList.add('ed-ready');
-}catch(err){document.documentElement.classList.add('ed-fail');throw err;}
+  setTimeout(function(){ document.getElementById('help').style.opacity='0'; },4000);
+  rootEl.classList.add('ed-ready');
+}catch(err){ rootEl.classList.add('ed-fail'); throw err; }
 })();
 </script>
 <script>
@@ -2627,9 +2650,9 @@ if(doc.readyState==='loading')doc.addEventListener('DOMContentLoaded',init);else
 
 </script>
 <script>
-/* 체크리스트(.todo): 누르면 완료 표시가 켜지고 꺼진다. 슬라이드 넘김 클릭으로 번지지 않게 막는다. */
-document.querySelectorAll('.todo').forEach(function(el){
-  el.addEventListener('click',function(e){ e.stopPropagation(); el.classList.toggle('done'); });
+/* 체크리스트(.todo): 누르면 완료 표시를 켜고 끈다. 이 클릭이 장 넘김으로 번지지 않게 여기서 막는다. */
+[].slice.call(document.querySelectorAll('.todo')).forEach(function(box){
+  box.addEventListener('click',function(e){ e.stopPropagation(); box.classList.toggle('done'); });
 });
 </script>
 </body></html>

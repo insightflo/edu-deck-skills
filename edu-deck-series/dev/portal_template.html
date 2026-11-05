@@ -179,105 +179,110 @@ body:not(.in-hub) #homebtn{display:block}
 
 <script>
 /*
-  시리즈 엔진: 목차(허브) ↔ 각 편 발표. 시리즈 덱 엔진(solo)과 허브 규칙을 합쳐 포털에 맞게 고침.
-  [목적] 1920×1080 무대 축소, 편 안에서의 장 이동·단계 등장(solo 엔진과 같은 규칙), 목차 왕래, 편별 진도 저장.
+  시리즈 엔진 (클린룸 재구현 — 계약은 그대로, 구현은 새로)
+  [목적] 목차(허브) ↔ 각 편 발표. 1920×1080 무대 축소, 편 안 장 이동·단계 공개
+    (단일 덱 엔진과 같은 규칙), 목차 왕래, 편별 진도 저장.
   [입력] #hub(목차 DOM — build_series.py 가 hub.type 별로 넣음), #stage > .deck[data-ep][data-label] 안
-    section.slide 들과 단계 속성(solo 엔진과 동일), aside.notes.
+    section.slide 들과 단계 속성, aside.notes.
   [출력] .active/.step-hide/.gone/.new/.lit 토글, 진행 막대·단계 점·쪽수, 주소 # = 목차 · #편-장,
-    deckslide 이벤트 {ep,index,slide}, window.deckGo(편,장,단계) · window.deckInfo() · window.seriesInfo().
+    deckslide {ep,index,slide}·deckstep {ep,slide,step} 이벤트,
+    window.deckGo(편,장,단계) · window.deckInfo() · window.seriesInfo().
   [진도] localStorage 'edeck-ser-seen-<편>' = 본 장 번호(0부터) JSON 배열, 'edeck-ser-pos-<편>' = 마지막 장.
     "기록 지우기" 두 번 누르면 진도를 지우고 edeck-reset 이벤트로 자습 레이어의 확인 문제 기록도 지운다.
-  [수정시 주의] 단계 속성·클래스 이름은 solo 엔진과 공유 조각이 쓰는 그대로다. study.js 는 .deck.on,
+  [수정시 주의] 단계 속성·클래스 이름은 단일 덱 엔진과 공유 조각이 쓰는 그대로다. study.js 는 .deck.on,
     body.in-hub, #hub [data-ep].sel 계약을 찾으므로 그 이름을 바꾸면 안 된다.
 */
 (function(){
-  var stage=document.getElementById('stage');
-  var hub=document.getElementById('hub');
-  var decks=[].slice.call(document.querySelectorAll('#stage > .deck'));
-  var counter=document.getElementById('counter');
-  var progress=document.getElementById('progress');
-  var dots=document.getElementById('dots');
-  var notesBox=document.getElementById('notes');
-  var notesText=document.getElementById('notesText');
-  var homebtn=document.getElementById('homebtn');
-  var help=document.getElementById('help');
-  var mode='hub', ep=null, slides=[], cur=0, step=0, notesOn=false;
-  var K_SEEN='edeck-ser-seen-', K_POS='edeck-ser-pos-';
-  var ATTRS=['step','add','only','lit','until'];
-  var SEL='[data-step],[data-add],[data-only],[data-lit],[data-until]';
+  var deckEl=document.getElementById('stage');
+  var hubEl=document.getElementById('hub');
+  var books=[].slice.call(document.querySelectorAll('#stage > .deck'));
+  var cellNum=document.getElementById('counter');
+  var rail=document.getElementById('progress');
+  var pips=document.getElementById('dots');
+  var memoBox=document.getElementById('notes');
+  var memoBody=document.getElementById('notesText');
+  var homeBtn=document.getElementById('homebtn');
+  var hint=document.getElementById('help');
+  var view='hub', ep=null, pages=[], pos=0, mark=0, memoOn=false;
+  var SEEN='edeck-ser-seen-', LAST='edeck-ser-pos-';
+  var MARKS=['step','add','only','lit','until'];
+  var MARK_SEL='[data-'+MARKS.join('],[data-')+']';
 
-  function ls(k,v){ try{ if(v===undefined) return localStorage.getItem(k); localStorage.setItem(k,v); }catch(e){ return null; } }
-  function deckOf(e){ return decks.filter(function(d){ return String(d.getAttribute('data-ep'))===String(e); })[0]||null; }
-  function slidesOf(d){ return [].slice.call((d||document.createElement('div')).querySelectorAll('.slide')); }
-  function seen(e){ try{ return JSON.parse(ls(K_SEEN+e)||'[]')||[]; }catch(x){ return []; } }
-  function saveSeen(e,i){
-    var s=seen(e); if(s.indexOf(i)<0){ s.push(i); ls(K_SEEN+e,JSON.stringify(s)); }
-    ls(K_POS+e,String(i));
+  function store(k,v){ try{ if(v===undefined) return localStorage.getItem(k); localStorage.setItem(k,v); }catch(e){ return null; } }
+  function bookOf(e){
+    for(var i=0;i<books.length;i++){ if(String(books[i].getAttribute('data-ep'))===String(e)) return books[i]; }
+    return null;
   }
-  function resumeAt(e){ /* 마지막으로 본 장(끝 장까지 봤으면 처음부터). 한 장만 봐도 이어본다 */
-    var p=parseInt(ls(K_POS+e)||'0',10)||0, n=slidesOf(deckOf(e)).length;
+  function pagesOf(d){ return [].slice.call((d||document.createElement('div')).querySelectorAll('.slide')); }
+  function seenList(e){ try{ return JSON.parse(store(SEEN+e)||'[]')||[]; }catch(x){ return []; } }
+  function logSeen(e,i){
+    var s=seenList(e); if(s.indexOf(i)<0){ s.push(i); store(SEEN+e,JSON.stringify(s)); }
+    store(LAST+e,String(i));
+  }
+  /* 마지막으로 본 장(끝 장까지 다 봤으면 처음부터). 한 장만 봐도 이어본다 */
+  function resumeMark(e){
+    var p=parseInt(store(LAST+e)||'0',10)||0, n=pagesOf(bookOf(e)).length;
     return (p>0&&p<n-1)?p:0;
   }
 
-  /* ---------- 장 그리기(solo 엔진과 같은 규칙, 지금 편 안에서만) ---------- */
-  function maxStep(s){
-    var m=0;
-    s.querySelectorAll(SEL).forEach(function(e){
-      ATTRS.forEach(function(a){ if(e.dataset[a]!==undefined) m=Math.max(m,+e.dataset[a]); });
+  /* ---------- 장 그리기(단일 덱 엔진과 같은 규칙, 지금 편 안에서만) ---------- */
+  function topMark(pg){
+    var top=0;
+    pg.querySelectorAll(MARK_SEL).forEach(function(el){
+      MARKS.forEach(function(k){ if(el.dataset[k]!==undefined) top=Math.max(top,+el.dataset[k]); });
     });
-    return m;
+    return top;
   }
-  function reveal(e){
-    e.classList.add('pop'); // Shared semantic engine owns the visual reveal.
-  }
-  function paint(s,n,animate){
-    s.querySelectorAll('[data-step]').forEach(function(e){
-      var k=+e.dataset.step; e.classList.toggle('step-hide',k>n);
-      if(animate&&k===n) reveal(e);
+  /* 방금 열린 요소에 등장 표시. 실제 움직임은 공용 모션 계층이 deckstep 을 보고 그린다 */
+  function flag(el){ el.classList.add('pop'); }
+  function syncPage(pg,depth,fx){
+    pg.querySelectorAll('[data-step]').forEach(function(el){
+      var k=+el.dataset.step; el.classList.toggle('step-hide',k>depth);
+      if(fx&&k===depth) flag(el);
     });
-    s.querySelectorAll('[data-add]').forEach(function(e){
-      var k=+e.dataset.add; e.classList.toggle('gone',k>n); e.classList.toggle('new',k===n&&n>0);
+    pg.querySelectorAll('[data-add]').forEach(function(el){
+      var k=+el.dataset.add; el.classList.toggle('gone',k>depth); el.classList.toggle('new',k===depth&&depth>0);
     });
-    s.querySelectorAll('[data-only]').forEach(function(e){
-      var k=+e.dataset.only; e.classList.toggle('gone',k!==n);
-      if(animate&&k===n) reveal(e);
+    pg.querySelectorAll('[data-only]').forEach(function(el){
+      var k=+el.dataset.only; el.classList.toggle('gone',k!==depth);
+      if(fx&&k===depth) flag(el);
     });
-    s.querySelectorAll('[data-until]').forEach(function(e){ e.classList.toggle('gone',n>+e.dataset.until); });
-    s.querySelectorAll('[data-lit]').forEach(function(e){ e.classList.toggle('lit',+e.dataset.lit<=n); });
+    pg.querySelectorAll('[data-until]').forEach(function(el){ el.classList.toggle('gone',depth>+el.dataset.until); });
+    pg.querySelectorAll('[data-lit]').forEach(function(el){ el.classList.toggle('lit',+el.dataset.lit<=depth); });
   }
-  function apply(animate){
-    paint(slides[cur],step,animate);
-    var m=maxStep(slides[cur]), h='';
-    for(var i=1;i<=m;i++) h+='<i class="'+(i<=step?'on':'')+'"></i>';
-    dots.innerHTML=h;
-    document.dispatchEvent(new CustomEvent('deckstep',{detail:{ep:ep,slide:cur,step:step}}));
+  function emitStep(fx){
+    syncPage(pages[pos],mark,fx);
+    var top=topMark(pages[pos]), html='';
+    for(var i=1;i<=top;i++) html+='<i class="'+(i<=mark?'on':'')+'"></i>';
+    pips.innerHTML=html;
+    document.dispatchEvent(new CustomEvent('deckstep',{detail:{ep:ep,slide:pos,step:mark}}));
   }
-  function fit(){
-    var sc=Math.min(window.innerWidth/1920, window.innerHeight/1080);
-    stage.style.transform='translate(-50%,-50%) scale('+sc+')';
+  function reflow(){
+    var k=Math.min(window.innerWidth/1920,window.innerHeight/1080);
+    deckEl.style.transform='translate(-50%,-50%) scale('+k+')';
     var hc=document.querySelector('.hub-canvas');
-    if(hc) hc.style.setProperty('--hub-sc',sc.toFixed(5));
+    if(hc) hc.style.setProperty('--hub-sc',k.toFixed(5));
   }
 
   /* ---------- 목차 진도 칠하기 ---------- */
-  function cardSel(e){ return [].slice.call(hub.querySelectorAll('[data-ep="'+String(e)+'"]')); }
-  function paintCard(e){
-    var d=deckOf(e); if(!d) return;
-    var n=slidesOf(d).length, s=seen(e).length, pct=n?Math.round(s*100/n):0;
-    cardSel(e).forEach(function(c){
+  function hubCards(e){ return [].slice.call(hubEl.querySelectorAll('[data-ep="'+String(e)+'"]')); }
+  function cardProgress(e){
+    var d=bookOf(e); if(!d) return;
+    var n=pagesOf(d).length, s=seenList(e).length, pct=n?Math.round(s*100/n):0;
+    hubCards(e).forEach(function(c){
       c.style.setProperty('--p',pct);
       c.classList.toggle('started',s>0&&s<n);
       c.classList.toggle('fin',n>0&&s>=n);
       var ring=c.querySelector('.mn-ring i');
       if(ring) ring.textContent=pct?pct+'%':'';
-      var tx=c.querySelector('.lt-tx');
-      if(tx) tx.textContent=s>=n?'완강':(s>0?s+'장 / '+n+'장':'미시작');
+      var line=c.querySelector('.lt-tx');
+      if(line) line.textContent=s>=n?'완강':(s>0?s+'장 / '+n+'장':'미시작');
     });
   }
-  function paintPv(e){
+  function fillPreview(e){
     var pv=document.querySelector('.pv'); if(!pv) return;
-    var d=deckOf(e); if(!d) return;
-    var meta=d.dataset, n=slidesOf(d).length, s=seen(e).length, pct=n?Math.round(s*100/n):0;
+    var d=bookOf(e); if(!d) return;
+    var meta=d.dataset, n=pagesOf(d).length, s=seenList(e).length, pct=n?Math.round(s*100/n):0;
     pv.style.setProperty('--p',pct); pv.style.setProperty('--c',meta.color||'var(--blue)');
     pv.setAttribute('data-ep',String(e));
     var q=function(sel){ return pv.querySelector(sel); };
@@ -289,183 +294,188 @@ body:not(.in-hub) #homebtn{display:block}
     if(q('.pv-sub')) q('.pv-sub').textContent=meta.sub||'';
     if(q('.pv-meta')) q('.pv-meta').textContent=s+' / '+n+'장';
     var rb=q('.pv-resume');
-    if(rb){ rb.hidden=s===0; rb.textContent=s>=n?'다시 처음부터 보기':(resumeAt(e)+1)+'장부터 계속 보기'; }
+    if(rb){ rb.hidden=s===0; rb.textContent=s>=n?'다시 처음부터 보기':(resumeMark(e)+1)+'장부터 계속 보기'; }
     pv.querySelectorAll('.pv-pbtn').forEach(function(b){ b.setAttribute('data-ep',String(e)); });
   }
-  function paintHub(){
+  function drawHub(){
     var tot=0, seenAll=0;
-    decks.forEach(function(d){
-      var e=d.getAttribute('data-ep'), n=slidesOf(d).length;
-      tot+=n; seenAll+=Math.min(seen(e).length,n);
-      paintCard(e);
+    books.forEach(function(d){
+      var e=d.getAttribute('data-ep'), n=pagesOf(d).length;
+      tot+=n; seenAll+=Math.min(seenList(e).length,n);
+      cardProgress(e);
     });
     var t=document.querySelector('.hub-total');
     if(t) t.textContent=tot?('진도 '+seenAll+' / '+tot+'장'):'';
   }
-  function select(e){
-    hub.querySelectorAll('.sel').forEach(function(x){ x.classList.remove('sel'); });
-    var c=hub.querySelector('[data-ep="'+String(e)+'"]');
-    if(c){ c.classList.add('sel'); paintPv(e); }
+  function pickEp(e){
+    hubEl.querySelectorAll('.sel').forEach(function(x){ x.classList.remove('sel'); });
+    var c=hubEl.querySelector('[data-ep="'+String(e)+'"]');
+    if(c){ c.classList.add('sel'); fillPreview(e); }
   }
 
   /* ---------- 편 열기·목차 ---------- */
-  function show(i,atEnd,immediate){
-    stage.dataset.dir=(i>cur)?'fwd':'back';
-    cur=Math.max(0,Math.min(slides.length-1,i));
-    step=atEnd?maxStep(slides[cur]):0;
-    function render(){
-    if(!slides.length)return;
-    slides.forEach(function(el,k){ el.classList.toggle('active',k===cur); });
-    apply(false);
-    counter.textContent=(cur+1)+' / '+slides.length;
-    progress.style.transform='scaleX('+((cur+1)/slides.length)+')';
-    var n=slides[cur].querySelector('.notes');
-    notesText.textContent=n?n.textContent:'';
-    saveSeen(ep,cur);
-    paintCard(ep);
-    if(location.hash!=='#'+ep+'-'+(cur+1)) history.replaceState(null,'','#'+ep+'-'+(cur+1));
-    document.dispatchEvent(new CustomEvent('deckslide',{detail:{ep:ep,index:cur,slide:slides[cur]}}));
+  function jumpTo(idx,toEnd,instant){
+    deckEl.dataset.dir=(idx>pos)?'fwd':'back';
+    pos=Math.max(0,Math.min(pages.length-1,idx));
+    mark=toEnd?topMark(pages[pos]):0;
+    function commit(){
+      if(!pages.length)return;
+      pages.forEach(function(pg,k){ pg.classList.toggle('active',k===pos); });
+      emitStep(false);
+      cellNum.textContent=(pos+1)+' / '+pages.length;
+      rail.style.transform='scaleX('+((pos+1)/pages.length)+')';
+      var memo=pages[pos].querySelector('.notes');
+      memoBody.textContent=memo?memo.textContent:'';
+      logSeen(ep,pos);
+      cardProgress(ep);
+      if(location.hash!=='#'+ep+'-'+(pos+1)) history.replaceState(null,'','#'+ep+'-'+(pos+1));
+      document.dispatchEvent(new CustomEvent('deckslide',{detail:{ep:ep,index:pos,slide:pages[pos]}}));
     }
-    if(window.eduMotion&&!immediate&&stage.querySelector('.deck.on>.slide.active')) window.eduMotion.navigate(render,stage.dataset.dir);
-    else render();
+    /* 이미 켜진 장이 있을 때만 전환 연출을 태운다 — 첫 표시는 즉시 그린다 */
+    if(window.eduMotion&&!instant&&deckEl.querySelector('.deck.on>.slide.active')) window.eduMotion.navigate(commit,deckEl.dataset.dir);
+    else commit();
   }
-  function openEp(e,i,immediate){
-    var d=deckOf(e); if(!d) return false;
+  function enterEp(e,i,instant){
+    var d=bookOf(e); if(!d) return false;
     e=String(e);
-    if(mode!=='deck'||ep!==e){
-      decks.forEach(function(x){ x.classList.remove('on'); });
+    if(view!=='deck'||ep!==e){
+      books.forEach(function(x){ x.classList.remove('on'); });
       d.classList.add('on');
-      ep=e; slides=slidesOf(d); cur=0; step=0;
-      mode='deck'; document.body.classList.remove('in-hub');
-      if(help) setTimeout(function(){ help.style.opacity='0'; },4000);
+      ep=e; pages=pagesOf(d); pos=0; mark=0;
+      view='deck'; document.body.classList.remove('in-hub');
+      if(hint) setTimeout(function(){ hint.style.opacity='0'; },4000);
     }
-    show(i==null?resumeAt(e):i,false,immediate);
+    jumpTo(i==null?resumeMark(e):i,false,instant);
     return true;
   }
-  function showHub(){
+  function toHub(){
     if(window.eduMotion)window.eduMotion.settle();
-    mode='hub'; document.body.classList.add('in-hub');
-    decks.forEach(function(x){ x.classList.remove('on'); });
-    slides=[]; ep=null;
-    paintHub();
-    var first=decks[0]; if(first) select(first.getAttribute('data-ep'));
+    view='hub'; document.body.classList.add('in-hub');
+    books.forEach(function(x){ x.classList.remove('on'); });
+    pages=[]; ep=null;
+    drawHub();
+    var first=books[0]; if(first) pickEp(first.getAttribute('data-ep'));
     if(location.hash!=='#') history.replaceState(null,'','#');
     document.dispatchEvent(new CustomEvent('deckslide',{detail:{ep:null,index:null,slide:null}}));
   }
-  function next(){ if(!slides.length) return; if(step<maxStep(slides[cur])){ step++; apply(true); } else if(cur<slides.length-1){ show(cur+1,false); } }
-  function prev(){ if(!slides.length) return; if(step>0){ step--; apply(false); } else if(cur>0){ show(cur-1,true); } }
+  function advance(){ if(!pages.length) return; if(mark<topMark(pages[pos])){ mark++; emitStep(true); } else if(pos<pages.length-1){ jumpTo(pos+1,false); } }
+  function retreat(){ if(!pages.length) return; if(mark>0){ mark--; emitStep(false); } else if(pos>0){ jumpTo(pos-1,true); } }
+  /* 검사기·읽기 계층이 부르는 동기 점프: 전환 연출 없이 편·장·단계를 곧바로 맞춘다 */
   window.deckGo=function(e,i,st){
-    if(!openEp(e,i,true)) return;
-    var m=maxStep(slides[cur]);
-    step=(st===undefined)?m:Math.max(0,Math.min(+st,m));
-    apply(false);
+    if(!enterEp(e,i,true)) return;
+    var top=topMark(pages[pos]);
+    mark=(st===undefined)?top:Math.max(0,Math.min(+st,top));
+    emitStep(false);
   };
   window.deckInfo=function(){
-    if(mode!=='deck'||!slides.length) return {slide:null,step:null,maxStep:0,count:0,ep:null};
-    return {slide:cur,step:step,maxStep:maxStep(slides[cur]),count:slides.length,ep:ep};
+    if(view!=='deck'||!pages.length) return {slide:null,step:null,maxStep:0,count:0,ep:null};
+    return {slide:pos,step:mark,maxStep:topMark(pages[pos]),count:pages.length,ep:ep};
   };
   window.seriesInfo=function(){
-    return {mode:mode,ep:ep,decks:decks.map(function(d){ return String(d.getAttribute('data-ep')); })};
+    return {mode:view,ep:ep,decks:books.map(function(d){ return String(d.getAttribute('data-ep')); })};
   };
-  function toggleNotes(){ notesOn=!notesOn; notesBox.style.display=notesOn?'block':'none'; }
-  function fullscreen(){
+  function swapMemo(){ memoOn=!memoOn; memoBox.style.display=memoOn?'block':'none'; }
+  function bigScreen(){
     var d=document;
     if(!d.fullscreenElement){ (d.documentElement.requestFullscreen||function(){}).call(d.documentElement); }
     else{ d.exitFullscreen(); }
   }
 
   /* ---------- 입력 ---------- */
+  var KEY_GUARD='a[href],button,input,textarea,select,summary';
   document.addEventListener('keydown',function(e){
     var t=e.target;
     if(e.defaultPrevented||e.ctrlKey||e.metaKey||e.altKey||e.isComposing) return;
-    if(t&&(t.isContentEditable||(t.closest&&t.closest('a[href],button,input,textarea,select,summary')))) return;
+    if(t&&(t.isContentEditable||(t.closest&&t.closest(KEY_GUARD)))) return;
     var k=e.key;
-    if(mode==='hub'){
-      if(/^\d$/.test(k)&&decks[+k-1]){ e.preventDefault(); openEp(decks[+k-1].getAttribute('data-ep'),null); }
+    if(view==='hub'){
+      if(/^\d$/.test(k)&&books[+k-1]){ e.preventDefault(); enterEp(books[+k-1].getAttribute('data-ep'),null); }
       return;
     }
-    if(k==='ArrowRight'||k==='ArrowDown'||k==='PageDown'||k===' '||k==='Enter'){ e.preventDefault(); next(); }
-    else if(k==='ArrowLeft'||k==='ArrowUp'||k==='PageUp'||k==='Backspace'){ e.preventDefault(); prev(); }
-    else if(k==='Home'){ show(0,false); }
-    else if(k==='End'){ show(slides.length-1,false); }
-    else if(k==='Escape'){ showHub(); }
-    else if(k==='f'||k==='F'||k==='ㄹ'){ fullscreen(); }
-    else if(k==='n'||k==='N'||k==='ㅜ'){ toggleNotes(); }
+    if(k==='ArrowRight'||k==='ArrowDown'||k==='PageDown'||k===' '||k==='Enter'){ e.preventDefault(); advance(); }
+    else if(k==='ArrowLeft'||k==='ArrowUp'||k==='PageUp'||k==='Backspace'){ e.preventDefault(); retreat(); }
+    else if(k==='Home'){ jumpTo(0,false); }
+    else if(k==='End'){ jumpTo(pages.length-1,false); }
+    else if(k==='Escape'){ toHub(); }
+    else if(k==='f'||k==='F'||k==='ㄹ'){ bigScreen(); }
+    else if(k==='n'||k==='N'||k==='ㅜ'){ swapMemo(); }
   });
+  var CLICK_GUARD='a,button,.todo,.chk,.st-panel,.st-modal,.st-print';
   document.addEventListener('click',function(e){
     if(matchMedia('(max-width:1199px)').matches) return;
     if(!e.target.closest) return;
     if(e.target.closest('#notes')||e.target.closest('#hub')) return;   /* 목차 안은 아래 허브 처리기에 맡긴다 */
-    if(e.target.closest('a,button,.todo,.chk,.st-panel,.st-modal,.st-print')) return;
-    if(e.clientX<window.innerWidth/3) prev(); else next();
+    if(e.target.closest(CLICK_GUARD)) return;
+    if(e.clientX<window.innerWidth/3) retreat(); else advance();
   });
-  document.addEventListener('touchstart',function(e){ tx=e.touches[0].clientX; },{passive:true});
-  var tx=null;
+  var drag=null;
+  document.addEventListener('touchstart',function(e){ drag=e.touches[0].clientX; },{passive:true});
   document.addEventListener('touchend',function(e){
-    if(matchMedia('(max-width:1199px)').matches){tx=null;return;}
-    if(tx===null) return; var dx=e.changedTouches[0].clientX-tx;
-    if(Math.abs(dx)>50){ if(dx<0) next(); else prev(); } tx=null;
+    if(matchMedia('(max-width:1199px)').matches){ drag=null; return; }
+    if(drag===null) return;
+    var dx=e.changedTouches[0].clientX-drag;
+    if(Math.abs(dx)>50){ if(dx<0) advance(); else retreat(); }
+    drag=null;
   });
 
   /* ---------- 허브 입력: 카드 고르기·열기, 미리보기, 기록 지우기 ---------- */
-  hub.addEventListener('click',function(e){
+  hubEl.addEventListener('click',function(e){
     if(!e.target.closest) return;
-    var st=e.target.closest('[data-study]');
-    if(st) return;                                   /* 용어집·인쇄 단추는 자습 레이어가 받는다 */
+    if(e.target.closest('[data-study]')) return;                     /* 용어집·인쇄 단추는 자습 레이어가 받는다 */
     var rb=e.target.closest('.pv-open,.pv-resume');
-    if(rb){ var pv=document.querySelector('.pv'); if(pv){ openEp(pv.getAttribute('data-ep'), rb.classList.contains('pv-resume')?null:0); } return; }
+    if(rb){ var pv=document.querySelector('.pv'); if(pv){ enterEp(pv.getAttribute('data-ep'), rb.classList.contains('pv-resume')?null:0); } return; }
     var c=e.target.closest('[data-ep]');
-    if(c){ e.stopPropagation(); openEp(c.getAttribute('data-ep'),null); }
+    if(c){ e.stopPropagation(); enterEp(c.getAttribute('data-ep'),null); }
   });
-  hub.addEventListener('keydown',function(e){
-    // Rows emulate buttons, but nested native buttons keep their own activation.
+  hubEl.addEventListener('keydown',function(e){
+    /* 표의 줄은 단추처럼 동작하지만, 안의 진짜 단추는 자기 활성화를 지킨다 */
     if((e.key==='Enter'||e.key===' ')&&e.target.matches('.hub-table tr[data-ep]')){
-      e.preventDefault(); openEp(e.target.getAttribute('data-ep'),null);
+      e.preventDefault(); enterEp(e.target.getAttribute('data-ep'),null);
     }
   });
-  hub.addEventListener('mouseover',function(e){
+  hubEl.addEventListener('mouseover',function(e){
     if(!e.target.closest) return;
-    var c=e.target.closest('[data-ep]'); if(c) select(c.getAttribute('data-ep'));
+    var c=e.target.closest('[data-ep]'); if(c) pickEp(c.getAttribute('data-ep'));
   });
-  hub.addEventListener('focusin',function(e){
-    var c=e.target.closest?e.target.closest('[data-ep]'):null; if(c) select(c.getAttribute('data-ep'));
+  hubEl.addEventListener('focusin',function(e){
+    var c=e.target.closest?e.target.closest('[data-ep]'):null; if(c) pickEp(c.getAttribute('data-ep'));
   });
-  var resetBtn=document.querySelector('.hub-reset'), resetT=null;
-  if(resetBtn) resetBtn.addEventListener('click',function(){
-    if(!resetBtn.classList.contains('arm')){
-      resetBtn.classList.add('arm'); resetBtn.textContent='한 번 더 누르면 지워집니다';
-      clearTimeout(resetT); resetT=setTimeout(function(){ resetBtn.classList.remove('arm'); resetBtn.textContent='기록 지우기'; },2800);
+  var wipeBtn=document.querySelector('.hub-reset'), wipeT=null;
+  if(wipeBtn) wipeBtn.addEventListener('click',function(){
+    if(!wipeBtn.classList.contains('arm')){
+      wipeBtn.classList.add('arm'); wipeBtn.textContent='한 번 더 누르면 지워집니다';
+      clearTimeout(wipeT); wipeT=setTimeout(function(){ wipeBtn.classList.remove('arm'); wipeBtn.textContent='기록 지우기'; },2800);
       return;
     }
-    clearTimeout(resetT);
-    decks.forEach(function(d){
+    clearTimeout(wipeT);
+    books.forEach(function(d){
       var e=d.getAttribute('data-ep');
-      try{ localStorage.removeItem(K_SEEN+e); localStorage.removeItem(K_POS+e); }catch(x){}
+      try{ localStorage.removeItem(SEEN+e); localStorage.removeItem(LAST+e); }catch(x){}
     });
     document.dispatchEvent(new Event('edeck-reset'));
-    paintHub();
-    var sel=document.querySelector('#hub .sel'); if(sel) paintPv(sel.getAttribute('data-ep'));
-    resetBtn.classList.remove('arm'); resetBtn.textContent='기록 지우기';
+    drawHub();
+    var sel=document.querySelector('#hub .sel'); if(sel) fillPreview(sel.getAttribute('data-ep'));
+    wipeBtn.classList.remove('arm'); wipeBtn.textContent='기록 지우기';
   });
-  if(homebtn) homebtn.addEventListener('click',showHub);
+  if(homeBtn) homeBtn.addEventListener('click',toHub);
   /* 목차 복귀 칩(.sr): build_series 가 각 편 슬라이드 머리에 심는다. 누르면 목차로 */
   [].slice.call(document.querySelectorAll('.sr')).forEach(function(b){
-    b.addEventListener('click',function(e){ e.stopPropagation(); showHub(); });
+    b.addEventListener('click',function(e){ e.stopPropagation(); toHub(); });
   });
 
   /* ---------- 인쇄·주소·시작 ---------- */
-  window.addEventListener('beforeprint',function(){ if(mode==='deck') slides.forEach(function(s){ paint(s,maxStep(s),false); }); });
-  window.addEventListener('afterprint',function(){ if(mode==='deck') apply(false); });
+  window.addEventListener('beforeprint',function(){ if(view==='deck') pages.forEach(function(pg){ syncPage(pg,topMark(pg),false); }); });
+  window.addEventListener('afterprint',function(){ if(view==='deck') emitStep(false); });
   window.addEventListener('hashchange',function(){
     var h=/^#([\w-]+)-(\d+)$/.exec(location.hash||'');
-    if(h){ if(!(mode==='deck'&&ep===h[1]&&cur===(+h[2])-1)) openEp(h[1],(+h[2])-1); }
-    else if(mode!=='hub') showHub();
+    if(h){ if(!(view==='deck'&&ep===h[1]&&pos===(+h[2])-1)) enterEp(h[1],(+h[2])-1); }
+    else if(view!=='hub') toHub();
   });
-  window.addEventListener('resize',fit);
-  fit();
-  var m=/^#([\w-]+)-(\d+)$/.exec(location.hash||'');
-  if(!(m&&openEp(m[1],(+m[2])-1))) showHub();
-  if(help) setTimeout(function(){ help.style.opacity='0'; },4000);
+  window.addEventListener('resize',reflow);
+  reflow();
+  var first=/^#([\w-]+)-(\d+)$/.exec(location.hash||'');
+  if(!(first&&enterEp(first[1],(+first[2])-1))) toHub();
+  if(hint) setTimeout(function(){ hint.style.opacity='0'; },4000);
 })();
 </script>
 
@@ -476,9 +486,9 @@ body:not(.in-hub) #homebtn{display:block}
 </script>
 
 <script>
-/* 체크리스트(.todo): 누르면 완료 표시가 켜지고 꺼진다. 슬라이드 넘김 클릭으로 번지지 않게 막는다. */
-document.querySelectorAll('.todo').forEach(function(el){
-  el.addEventListener('click',function(e){ e.stopPropagation(); el.classList.toggle('done'); });
+/* 체크리스트(.todo): 누르면 완료 표시를 켜고 끈다. 이 클릭이 장 넘김으로 번지지 않게 여기서 막는다. */
+[].slice.call(document.querySelectorAll('.todo')).forEach(function(box){
+  box.addEventListener('click',function(e){ e.stopPropagation(); box.classList.toggle('done'); });
 });
 </script>
 </body>
