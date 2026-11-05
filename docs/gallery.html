@@ -36,6 +36,12 @@ figcaption span { color:#5a6b76; }
 .chips { display:flex; gap:7px; flex-wrap:wrap; }
 .chip { background:#fff; border:1.5px solid #ddd7ca; border-radius:999px; padding:6px 13px; font-size:14px; font-weight:600; }
 .chip code { font-size:11px; color:#5a6b76; margin-left:6px; }
+.flowcard { background:#fff; border:1.5px solid #ddd7ca; border-radius:10px; padding:16px 18px; }
+.flowcard h4 { font-size:16px; margin-bottom:8px; }
+.flowcard h4 code { font-size:12px; color:#5a6b76; }
+.flowcard ol { margin-left:18px; }
+.flowcard li { font-size:14px; line-height:1.65; color:#39464f; }
+.flowcard .sk { margin-top:10px; font-size:13px; color:#5a6b76; line-height:1.5; }
 #lb { position:fixed; inset:0; background:rgba(14,27,44,.9); display:none; align-items:center; justify-content:center;
       flex-direction:column; gap:14px; z-index:20; cursor:zoom-out; padding:3vw; }
 #lb.on { display:flex; }
@@ -49,7 +55,7 @@ footer { margin-top:56px; color:#5a6b76; font-size:13.5px; border-top:1.5px soli
 테마 <span class="count">8종</span>, 모션 시그니처 <span class="count">31종 중 7종</span>. 모두 실제 빌드 파이프라인으로 렌더한 실물 캡처다.</p>
 <nav>
  <a href="#packs">리소스팩 64</a><a href="#arch">장 배치 63</a><a href="#themes">테마 8</a>
- <a href="#motion">모션 7</a><a href="../gallery-archetypes.html">▶ 배치 전체 덱(63장 열람)</a>
+ <a href="#motion">모션 7</a><a href="gallery-archetypes.html">▶ 배치 전체 덱(63장 열람)</a>
 </nav>
 
 <section id="packs"><h2>리소스팩 — 설계 <span class="n">8종</span> × 학습 흐름 <span class="n">8종</span></h2>
@@ -57,10 +63,10 @@ footer { margin-top:56px; color:#5a6b76; font-size:13.5px; border-top:1.5px soli
 <b>흐름</b>은 수업의 뼈대(단계 구성·문안)를 바꾼다. 8×8=64조합을 전수 빌드·검사했다(64/64 PASS).</p>
 <div class="filters" id="fpacks"></div>
 <div class="grid"><figure class='card packf' data-design='editorial' data-full='gallery/packs/design-editorial.jpg' data-alt='편집 잡지형'><img loading='lazy' src='gallery/packs/design-editorial.jpg' alt='편집 잡지형 표지'><figcaption><b>편집 잡지형</b> · <code>editorial</code></figcaption></figure><figure class='card packf' data-design='lab' data-full='gallery/packs/design-lab.jpg' data-alt='실험 노트형'><img loading='lazy' src='gallery/packs/design-lab.jpg' alt='실험 노트형 표지'><figcaption><b>실험 노트형</b> · <code>lab</code></figcaption></figure><figure class='card packf' data-design='field' data-full='gallery/packs/design-field.jpg' data-alt='현장 매뉴얼형'><img loading='lazy' src='gallery/packs/design-field.jpg' alt='현장 매뉴얼형 표지'><figcaption><b>현장 매뉴얼형</b> · <code>field</code></figcaption></figure><figure class='card packf' data-design='casebook' data-full='gallery/packs/design-casebook.jpg' data-alt='사례 기록형'><img loading='lazy' src='gallery/packs/design-casebook.jpg' alt='사례 기록형 표지'><figcaption><b>사례 기록형</b> · <code>casebook</code></figcaption></figure><figure class='card packf' data-design='atlas' data-full='gallery/packs/design-atlas.jpg' data-alt='지도·도해형'><img loading='lazy' src='gallery/packs/design-atlas.jpg' alt='지도·도해형 표지'><figcaption><b>지도·도해형</b> · <code>atlas</code></figcaption></figure><figure class='card packf' data-design='workbook' data-full='gallery/packs/design-workbook.jpg' data-alt='워크북형'><img loading='lazy' src='gallery/packs/design-workbook.jpg' alt='워크북형 표지'><figcaption><b>워크북형</b> · <code>workbook</code></figcaption></figure><figure class='card packf' data-design='briefing' data-full='gallery/packs/design-briefing.jpg' data-alt='데이터 브리핑형'><img loading='lazy' src='gallery/packs/design-briefing.jpg' alt='데이터 브리핑형 표지'><figcaption><b>데이터 브리핑형</b> · <code>briefing</code></figcaption></figure><figure class='card packf' data-design='seminar' data-full='gallery/packs/design-seminar.jpg' data-alt='세미나형'><img loading='lazy' src='gallery/packs/design-seminar.jpg' alt='세미나형 표지'><figcaption><b>세미나형</b> · <code>seminar</code></figcaption></figure></div>
-<h3 style="margin:26px 0 8px;font-size:19px">학습 흐름 8종 — 같은 설계(casebook)에 흐름만 교체</h3>
+<h3 style="margin:26px 0 8px;font-size:19px">학습 흐름 8종 — 무엇이 달라지나</h3>
 <div class="chips"><span class='chip'>문제 해결<code>problem</code></span> <span class='chip'>사례 판단<code>case</code></span> <span class='chip'>따라하기<code>follow</code></span> <span class='chip'>탐구<code>inquiry</code></span> <span class='chip'>비교 선택<code>compare</code></span> <span class='chip'>오류 진단<code>diagnose</code></span> <span class='chip'>토론<code>discussion</code></span> <span class='chip'>프로젝트<code>project</code></span></div>
-<p class="desc" style="margin:10px 0 12px">아래 두 장은 같은 casebook 설계에 흐름만 바꾼 내용 장 — 겉모습은 설계 문법을 따르고, 단계 구성·문안이 흐름에 따라 달라진다.</p>
-<div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(340px,1fr))"><figure class='card' data-full='gallery/packs/flow-case.jpg' data-alt='casebook × 사례 판단'><img loading='lazy' src='gallery/packs/flow-case.jpg' alt='casebook 사례 판단 흐름 내용 장'><figcaption>사례 판단 <code>case</code></figcaption></figure><figure class='card' data-full='gallery/packs/flow-compare.jpg' data-alt='casebook × 비교 선택'><img loading='lazy' src='gallery/packs/flow-compare.jpg' alt='casebook 비교 선택 흐름 내용 장'><figcaption>비교 선택 <code>compare</code></figcaption></figure></div></section>
+<p class="desc" style="margin:10px 0 12px">흐름은 <b>단계 수·순서·문안</b>(수업의 뼈대)을 바꾼다 — 배치 문법은 설계가 정하므로 겉모습은 같은 설계 안에서 비슷하다. 실제 생성 결과:</p>
+<div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(340px,1fr))"><div class='flowcard'><h4>사례 판단 <code>case</code> — 5단계</h4><ol><li>결말을 가린 사례를 읽습니다</li><li>확인된 사실·추정·미확인을 나눕니다</li><li>새 단서가 처음 판단을 바꾸나요?</li><li>결과와 판단 과정을 따로 검토합니다</li><li>조건이 달라진 사례를 다시 판단합니다</li></ol></div><div class='flowcard'><h4>비교 선택 <code>compare</code> — 4단계</h4><ol><li>보기 전에 목적과 제약을 정합니다</li><li>동일한 기준으로 대안을 살핍니다</li><li>무엇을 얻고 무엇을 포기하는지 봅니다</li><li>제약이 다른 상황에서 다시 고릅니다</li></ol><p class='sk'>같은 casebook 설계 — 단계 수·순서·문안이 흐름마다 다르고, 배치 문법은 설계가 정한다.</p></div><figure class='card' data-full='gallery/packs/flow-case.jpg' data-alt='init 생성 뼈대'><img loading='lazy' src='gallery/packs/flow-case.jpg' alt='casebook 사례 판단 init 생성 뼈대 장'><figcaption>init이 만드는 시작 뼈대 <code>casebook×case</code> — 문안은 저작 안내 초안, 에이전트가 실제 내용으로 재저작한다</figcaption></figure></div></section>
 
 <section id="arch"><h2>장 배치 조각 — <span class="n">32계열 63변형</span></h2>
 <p class="desc">legacy 경로의 배치 사전. 조각은 지시가 아니라 재료다 — 자유 모드에서는 이걸 넘어서 직접 배치를 설계해도 된다. 63장 전체를 슬라이드로 넘겨 보려면 위의 ▶ 배치 전체 덱.</p>
@@ -75,7 +81,7 @@ footer { margin-top:56px; color:#5a6b76; font-size:13.5px; border-top:1.5px soli
 <div class="grid motiong"><figure class='card wide' data-full='gallery/motion/feedback-beacon.gif' data-alt='모션 feedback-beacon'><img loading='lazy' src='gallery/motion/feedback-beacon.gif' alt='모션 feedback-beacon'><figcaption><b>확인 문제</b> · <code>feedback-beacon</code><br><span>정답 신호가 깜박인다</span></figcaption></figure><figure class='card wide' data-full='gallery/motion/judgment-stamp.gif' data-alt='모션 judgment-stamp'><img loading='lazy' src='gallery/motion/judgment-stamp.gif' alt='모션 judgment-stamp'><figcaption><b>OX 퀴즈</b> · <code>judgment-stamp</code><br><span>판정 도장이 찍힌다</span></figcaption></figure><figure class='card wide' data-full='gallery/motion/metric-rally.gif' data-alt='모션 metric-rally'><img loading='lazy' src='gallery/motion/metric-rally.gif' alt='모션 metric-rally'><figcaption><b>숫자 증거</b> · <code>metric-rally</code><br><span>숫자가 카운트업된다</span></figcaption></figure><figure class='card wide' data-full='gallery/motion/opposed-faces.gif' data-alt='모션 opposed-faces'><img loading='lazy' src='gallery/motion/opposed-faces.gif' alt='모션 opposed-faces'><figcaption><b>비교</b> · <code>opposed-faces</code><br><span>좌우 면이 마주 보며 등장한다</span></figcaption></figure><figure class='card wide' data-full='gallery/motion/orbit-and-type.gif' data-alt='모션 orbit-and-type'><img loading='lazy' src='gallery/motion/orbit-and-type.gif' alt='모션 orbit-and-type'><figcaption><b>표지</b> · <code>orbit-and-type</code><br><span>글자가 궤도를 그리며 자리 잡는다</span></figcaption></figure><figure class='card wide' data-full='gallery/motion/radial-grid-boundary.gif' data-alt='모션 radial-grid-boundary'><img loading='lazy' src='gallery/motion/radial-grid-boundary.gif' alt='모션 radial-grid-boundary'><figcaption><b>개념 지도</b> · <code>radial-grid-boundary</code><br><span>중심에서 방사로 경계가 그려진다</span></figcaption></figure><figure class='card wide' data-full='gallery/motion/scene-replay.gif' data-alt='모션 scene-replay'><img loading='lazy' src='gallery/motion/scene-replay.gif' alt='모션 scene-replay'><figcaption><b>예시 풀이</b> · <code>scene-replay</code><br><span>장면이 차례로 재생된다</span></figcaption></figure></div></section>
 
 <footer>edu-deck-skills · 갤러리 이미지는 예시 자리표시 문안을 포함한 조각 원형 그대로의 렌더다.
-배치 전체를 직접 넘겨 보기: <a href="../gallery-archetypes.html">gallery-archetypes.html</a></footer>
+배치 전체를 직접 넘겨 보기: <a href="gallery-archetypes.html">gallery-archetypes.html</a></footer>
 
 <div id="lb"><img id="lbi" src="" alt=""><div class="cap" id="lbc"></div><div class="pair" id="lbp"></div></div>
 <script>

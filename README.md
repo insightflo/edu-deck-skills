@@ -4,10 +4,10 @@
 
 [![License](https://img.shields.io/badge/license-Apache--2.0-3e9e5c?style=flat-square)](LICENSE)
 [![Works with](https://img.shields.io/badge/agents-pi%20%C2%B7%20Claude%20Code%20%C2%B7%20Codex-7a5cc4?style=flat-square)](#4-사용법)
-[![Ships](https://img.shields.io/badge/산출물-단일%20HTML%20%C2%B7%20외부의존%200-0e7d95?style=flat-square)](#2-완성-덱-하나의-단면)
+[![Ships](https://img.shields.io/badge/산출물-단일%20HTML%20%C2%B7%20외부의존%200-0e7d95?style=flat-square)](#2-한눈에-보는-구성)
 [![Assets](https://img.shields.io/badge/%EB%A6%AC%EC%86%8C%EC%8A%A4%ED%8C%A9-%EC%84%A4%EA%B3%84%208%EC%A2%85%20%C2%B7%20%ED%9D%90%EB%A6%84%208%EC%A2%85-2f6fb0?style=flat-square)](docs/gallery.html)
 [![Assets](https://img.shields.io/badge/%EC%9E%A5%20%EB%B0%B0%EC%B9%98-32%EA%B3%84%EC%97%B4%2063%EB%B3%80%ED%98%95-e8772e?style=flat-square)](docs/gallery.html)
-[![Tests](https://img.shields.io/badge/%ED%9A%8C%EA%B7%80-213%20tests%20%C2%B7%20pack%2064%2F64-59c3d6?style=flat-square)](#5-검증)
+[![Tests](https://img.shields.io/badge/%ED%9A%8C%EA%B7%80-213%20tests%20%C2%B7%20pack%2064%2F64-59c3d6?style=flat-square)](#5-검증--검사기가-품질을-담당)
 
 ![데모](docs/demo-quiz.gif)
 
