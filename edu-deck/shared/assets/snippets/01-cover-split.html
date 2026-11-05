@@ -1,0 +1,31 @@
+<!--
+  아키타입 cover (변형: split)
+  언제: 표지. 왼쪽 어두운 글 단 + 오른쪽 강조색 면(아이콘 세로 줄). 좌우 2분할이 어울리는 주제.
+  단계: 단계 없음
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+<section class="slide cx" data-archetype="cover" data-variant="split" id="cover-split" style="padding:0">
+<div aria-hidden="true" class="cx-blob cx-b1"></div><div aria-hidden="true" class="cx-blob cx-b3"></div>
+<div aria-hidden="true" style="position:absolute;left:1300px;top:0;width:620px;height:1080px;background:var(--accent)"></div>
+<div aria-hidden="true" style="position:absolute;left:1300px;top:0;width:10px;height:1080px;background:var(--accent-light)"></div>
+<div aria-hidden="true" style="position:absolute;left:1430px;top:190px;display:flex;flex-direction:column;gap:44px">
+<svg class="ico" aria-hidden="true" style="width:96px;height:96px;color:var(--ink)"><use href="#i-graduation"/></svg>
+<svg class="ico" aria-hidden="true" style="width:96px;height:96px;color:var(--paper)"><use href="#i-book"/></svg>
+<svg class="ico" aria-hidden="true" style="width:96px;height:96px;color:var(--ink)"><use href="#i-chat"/></svg>
+<svg class="ico" aria-hidden="true" style="width:96px;height:96px;color:var(--paper)"><use href="#i-gear"/></svg>
+</div>
+<div aria-hidden="true" style="position:absolute;left:1400px;top:800px;width:420px;height:14px;background:var(--accent-light);opacity:.7"></div>
+<div class="cx-text" style="top:300px;width:1020px">
+<p class="cx-eyebrow">«교육 이름 ≤10자»</p>
+<h1 class="cx-title"><span data-text="«표지 제목 ≤12자»" id="cx-typed"></span><span class="cx-caret"></span></h1>
+<div class="cx-tokens">
+<span style="--d:0">«핵심어 ≤4자»</span><span style="--d:1">·</span><span style="--d:2">«핵심어 ≤5자»</span><span style="--d:3">·</span><span style="--d:4">«핵심어 ≤4자»</span><span style="--d:5">·</span><span style="--d:6">«핵심어 ≤4자»</span>
+</div>
+<p class="cx-badge"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 12h4l3-7 4 14 3-7h4" fill="none" stroke="var(--accent-light)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>«표지 배지(선택) ≤27자»</p>
+<p class="cx-sub">«부제 한 문장 ≤29자»</p>
+</div>
+<p class="cover-date" style="z-index:3">«날짜 YYYY. MM. DD ≤15자»</p>
+<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>

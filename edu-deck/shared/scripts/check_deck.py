@@ -35,6 +35,11 @@ from pathlib import Path
 
 from resource_packs import PackError, validate_selection
 
+try:
+    from tone_router import ARCS
+except ImportError:  # tone_router 없이 check_deck 만 단독 배포된 경우 arc 판정만 끈다
+    ARCS = {}
+
 ARCHETYPES = {
     "cover", "agenda", "timeline", "map", "mechanism", "traits-grid", "meter", "compare-2", "compare-table",
     "hub", "levels", "tile-grid", "sequence", "mapping", "mock-legend", "mock-options", "statement", "build-up",
@@ -506,9 +511,20 @@ def static_checks(html_text, soup, rep, allow_placeholders):
     # 팩은 검증된 학습 흐름을 따른다. 공통 품질 검사는 위에서 그대로 수행한다.
     if pack:
         return slides
-    # 구형 덱의 고정 줄거리 검사만 유지한다.
+    # legacy 줄거리(arc): deck.json arc → 조립기가 심은 meta. 지정 덱은 arc 의 opens
+    # 아키타입으로 시작해야 하고, 미지정 덱은 기존 agenda 규칙을 그대로 적용한다.
+    arc_m = re.search(r'<meta\s+name="edu-deck-arc"\s+content="([^"]+)"', html_text)
+    arc = arc_m.group(1) if arc_m else None
     body = [a for a in archs if a != "cover"]
-    if body and body[0] != "agenda":
+    if arc is not None:
+        if not ARCS:
+            rep.add("WARN", None, "흐름", f"arc '{arc}' 를 검사할 수 없습니다 (tone_router 미설치)")
+        elif arc not in ARCS:
+            rep.add("WARN", None, "흐름", f"알 수 없는 arc '{arc}' 입니다 (가능: {', '.join(ARCS)})")
+        elif body and body[0] not in ARCS[arc]["opens"]:
+            rep.add("WARN", None, "흐름",
+                    f"arc '{arc}' 는 표지 다음이 {' · '.join(ARCS[arc]['opens'])} 여야 합니다 (지금: {body[0]})")
+    elif body and body[0] != "agenda":
         rep.add("WARN", None, "흐름", "표지 다음 슬라이드가 순서(agenda)가 아닙니다")
     if archs and archs[-1] != "closing":
         rep.add("WARN", None, "흐름", "마지막 슬라이드가 마무리(closing)가 아닙니다 (참고 자료는 마무리 바로 앞)")
@@ -577,6 +593,7 @@ def talk_checks(html_text, slides, rep):
 
 PACK_ORDER = ("atlas", "briefing", "casebook", "editorial", "field", "lab", "seminar", "workbook")
 TOKENS_CSS = Path(__file__).resolve().parents[1] / "assets" / "css" / "tokens.css"
+THEMES_CSS = Path(__file__).resolve().parents[1] / "assets" / "css" / "themes.css"
 SEMANTIC_ROLES = ("ink", "paper", "light", "soft", "line", "accent", "accent-text", "accent-light",
                   "blue", "blue-text", "blue-soft", "success", "danger", "muted", "chip")
 # (행 키, 전경 토큰, 배경 토큰, 기준, 라벨). 기준: 본문 4.5 / 큰 글자(≥24px 또는 ≥18.66px bold)·
@@ -682,16 +699,28 @@ def rgb_to_hex(rgb):
     return "#" + "".join(f"{round(max(0, min(255, v))):02x}" for v in rgb)
 
 
-def build_matrix(base, packs):
-    """기본(:root) + 8팩 환경마다 MATRIX_ROWS 전 쌍을 sRGB 합성해 채점한다.
+def parse_theme_tokens(css_text):
+    """themes.css 의 [data-theme="…"] 블록을 테마 id → {역할: 값} 사전으로 나눈다."""
+    themes = {}
+    for tid, body in re.findall(r'\[data-theme="([\w-]+)"\]\s*\{([^}]*)\}', css_text, re.S):
+        themes[tid] = {k: v.strip() for k, v in re.findall(r"--([\w-]+)\s*:\s*([^;]+)", body)}
+    return themes
+
+
+def build_matrix(base, packs, themes=None):
+    """기본(:root) + 8팩 + legacy 테마 환경마다 MATRIX_ROWS 전 쌍을 sRGB 합성해 채점한다.
 
     [출력] 행 dict 목록: pack,row,fg,bg,fg_hex,bg_hex,label,need,ratio,pass.
-    팩 환경은 :root 값을 덮어쓴 팩 오버라이드 4개(accent,accent-text,paper,light)만 반영한다.
+    팩 환경은 :root 값을 덮어쓴 팩 오버라이드 4개(accent,accent-text,paper,light)만 반영하고,
+    테마 환경은 [data-theme] 블록의 15역할 덮어쓰기를 반영한다(행 이름 'theme:<id>').
     """
     rows = []
-    for pack in ("base",) + PACK_ORDER:
+    theme_ids = tuple(themes) if themes else ()
+    for pack in ("base",) + PACK_ORDER + tuple(f"theme:{t}" for t in theme_ids):
         env = dict(base)
-        if pack != "base":
+        if pack.startswith("theme:"):
+            env.update(themes[pack[6:]])
+        elif pack != "base":
             env.update(packs.get(pack, {}))
         for key, fg, bg, need, label in MATRIX_ROWS:
             fr = parse_color_value(env.get(fg, ""), env)
@@ -713,7 +742,7 @@ def matrix_markdown(rows):
              "",
              "기준: 본문 ≥4.5:1 · 큰 글자(≥24px 또는 ≥18.66px bold)·의미 있는 그래픽·경계 ≥3:1 (WCAG 1.4.3/1.4.11)",
              "",
-             "base = 팩 오버라이드 없는 :root 값(구형 덱). 나머지 8행은 .slide.pack-* 오버라이드 반영 값.",
+             "base = 팩 오버라이드 없는 :root 값(구형 덱). .slide.pack-* = 8팩 오버라이드 반영 값, theme:* = legacy 테마(themes.css) 15역할 반영 값.",
              "",
              "| 팩 | 행 | 전경 | 배경 | 전경색 | 배경색 | 비율 | 기준 | 판정 |",
              "|---|---|---|---|---|---|---|---|---|"]
@@ -739,7 +768,21 @@ def contrast_matrix_main(args):
     if missing:
         print(f"ERROR  :root 에 의미 역할 토큰이 없습니다: {', '.join('--' + k for k in missing)}", file=sys.stderr)
         return 2
-    rows = build_matrix(base, packs)
+    themes_path = Path(getattr(args, "themes", None) or THEMES_CSS)
+    themes = {}
+    theme_errors = []
+    if themes_path.is_file():
+        themes = parse_theme_tokens(themes_path.read_text(encoding="utf-8"))
+        for tid, roles in themes.items():
+            short = [k for k in SEMANTIC_ROLES if k not in roles]
+            if short:
+                theme_errors.append(
+                    f"테마 '{tid}' 에 의미 역할 토큰이 빠졌습니다: {', '.join('--' + k for k in short)}")
+    for msg in theme_errors:
+        print(f"ERROR  {msg}", file=sys.stderr)
+    if theme_errors:
+        return 1
+    rows = build_matrix(base, packs, themes)
     rep = Report()
     for r in rows:
         if not r["pass"]:
@@ -1133,6 +1176,7 @@ def main(argv=None):
                     help="덱 검사 대신 토큰 대비 매트릭스를 채점한다 (기본+8팩 × 쌍 전수, 브라우저 불필요)")
     ap.add_argument("--matrix-dir", metavar="DIR", help="매트릭스 모드에서 matrix-table.md/.json 저장 폴더")
     ap.add_argument("--tokens", metavar="FILE", help="매트릭스에 쓸 tokens.css 경로 (기본: shared/assets/css/tokens.css)")
+    ap.add_argument("--themes", metavar="FILE", help="매트릭스에 쓸 themes.css 경로 (기본: shared/assets/css/themes.css)")
     args = ap.parse_args(argv)
     if args.contrast_matrix:
         return contrast_matrix_main(args)

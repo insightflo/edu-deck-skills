@@ -1,0 +1,121 @@
+/* ============================================================
+   themes.css — legacy 경로 이름있는 팔레트 테마(색만) + 비색 토큰
+   ------------------------------------------------------------
+   deck.json 의 "theme" 키가 덱 요소에 data-theme="<id>" 를 붙인다.
+   classic 은 기본 :root(tokens.css) 그대로라 블록이 없다 — 속성을
+   넣지 않은 덱은 한 글자도 바뀌지 않는다.
+
+   [계약]
+   - 각 블록은 의미 색 역할 15종을 전부 정의한다(일부만 덮으면
+     매트릭스 대비 조합이 깨진다): ink paper light soft line accent
+     accent-text accent-light blue blue-text blue-soft success
+     danger muted chip.
+   - 대비는 check_deck.py --contrast-matrix 가 'theme:<id>' 행으로
+     14조를 검증한다. 기준은 기본과 같다(본문 4.5, 큰글·UI 3.0).
+   - 색은 테마로만 바뀐다. 비색 토큰(반경 r1~3 · 모션 m1~4 · 간격
+     s* · 튐 e-spring)은 tone_router.py THEMES[id].shape 축값의
+     lerp 결과다 — 각 블록 주석의 shape 는 그 입력이다.
+     lerp 공식: r1 2+12x, r2 8+16x, r3 12+24x | m1 80+140x,
+     m2 180+240x, m3 300+400x, m4 500+600x | s* 기본×(0.75+0.5x)
+     | e-spring 두 번째 값 1.05+0.45x.
+   - 시리즈에서는 .deck[data-theme] 가 편 요소에 붙어 같은 블록이
+     그 편 안으로만 상속된다.
+   ============================================================ */
+
+/* ocean — 차분한 청록. 기술·원리 계열. shape: round .55 / motion .45 / density .5 / spring .5 */
+[data-theme="ocean"]{
+  --ink:#15272f; --paper:#f4f9fa; --light:#e6f0f2; --soft:#3f5a63; --line:#6f858b;
+  --accent:#0e7a86; --accent-text:#0a5c66; --accent-light:#9fd8dd;
+  --blue:#2a5f8c; --blue-text:#1f4a6e; --blue-soft:#dcebf4;
+  --success:#1f6a4a; --danger:#a12624; --muted:#c4d6da; --chip:#dbe7e9;
+  --r1:9px; --r2:17px; --r3:25px;
+  --m1:143ms; --m2:288ms; --m3:480ms; --m4:770ms;
+  --e-spring:cubic-bezier(.34,1.28,.64,1);
+}
+
+/* cobalt — 정돈된 짙은 파랑. 격식·분석 계열. shape: .15/.35/.25/.2 */
+[data-theme="cobalt"]{
+  --ink:#1b2433; --paper:#f5f7fb; --light:#e8edf6; --soft:#45536b; --line:#707e96;
+  --accent:#2c50b0; --accent-text:#23408c; --accent-light:#a9bdf0;
+  --blue:#1f5e9e; --blue-text:#184a7e; --blue-soft:#dbe9f7;
+  --success:#226344; --danger:#a12624; --muted:#c2cde0; --chip:#dde4ef;
+  --r1:4px; --r2:10px; --r3:16px;
+  --m1:129ms; --m2:264ms; --m3:440ms; --m4:710ms;
+  --e-spring:cubic-bezier(.34,1.14,.64,1);
+  --s1:7px; --s2:14px; --s3:21px; --s4:28px; --s5:35px; --s6:42px;
+  --s8:56px; --s10:70px; --s16:112px;
+}
+
+/* forest — 자연 녹. 환경·성장 계열. shape: .7/.55/.5/.6 */
+[data-theme="forest"]{
+  --ink:#1c2a1e; --paper:#f7faf4; --light:#eaf1e4; --soft:#45594a; --line:#75897a;
+  --accent:#33713c; --accent-text:#275a2f; --accent-light:#b5d8b4;
+  --blue:#2e6b57; --blue-text:#245445; --blue-soft:#dcebe2;
+  --success:#236344; --danger:#a12624; --muted:#c3d4c0; --chip:#dfe9da;
+  --r1:10px; --r2:19px; --r3:29px;
+  --m1:157ms; --m2:312ms; --m3:520ms; --m4:830ms;
+  --e-spring:cubic-bezier(.34,1.32,.64,1);
+}
+
+/* solar — 뜨거운 주황. 현장·안전·활동 계열. shape: .85/.75/.85/.9 */
+[data-theme="solar"]{
+  --ink:#2f2415; --paper:#fdf8ee; --light:#f6ecda; --soft:#5d5140; --line:#8d8271;
+  --accent:#b85c0f; --accent-text:#96490c; --accent-light:#f2c184;
+  --blue:#3a6a8c; --blue-text:#2d5470; --blue-soft:#e4edf3;
+  --success:#256545; --danger:#a12624; --muted:#d9cdb4; --chip:#efe5d2;
+  --r1:12px; --r2:22px; --r3:32px;
+  --m1:185ms; --m2:360ms; --m3:600ms; --m4:950ms;
+  --e-spring:cubic-bezier(.34,1.46,.64,1);
+  --s1:9px; --s2:19px; --s3:28px; --s4:38px; --s5:47px; --s6:56px;
+  --s8:75px; --s10:94px; --s16:150px;
+}
+
+/* berry — 선명한 자주. 사례·고객·서비스 계열. shape: .75/.65/.5/.8 */
+[data-theme="berry"]{
+  --ink:#2c1d27; --paper:#fbf4f7; --light:#f4e6ec; --soft:#5d4a56; --line:#8d7482;
+  --accent:#a62f63; --accent-text:#85264f; --accent-light:#edaec8;
+  --blue:#5a4f96; --blue-text:#473e78; --blue-soft:#e8e4f4;
+  --success:#256344; --danger:#a12624; --muted:#d9c4d0; --chip:#eedfe7;
+  --r1:11px; --r2:20px; --r3:30px;
+  --m1:171ms; --m2:336ms; --m3:560ms; --m4:890ms;
+  --e-spring:cubic-bezier(.34,1.41,.64,1);
+}
+
+/* cocoa — 따뜻한 갈색. 실무·경험 계열. shape: .3/.4/.85/.3 */
+[data-theme="cocoa"]{
+  --ink:#2b2018; --paper:#faf5ee; --light:#f1e8db; --soft:#5a4c3e; --line:#8a7b6b;
+  --accent:#8a4b1f; --accent-text:#6e3b18; --accent-light:#e0af82;
+  --blue:#4a5f7e; --blue-text:#3a4b64; --blue-soft:#e4e9f0;
+  --success:#256344; --danger:#a12624; --muted:#d3c5b3; --chip:#e9dfcf;
+  --r1:6px; --r2:13px; --r3:19px;
+  --m1:136ms; --m2:276ms; --m3:460ms; --m4:740ms;
+  --e-spring:cubic-bezier(.34,1.19,.64,1);
+  --s1:9px; --s2:19px; --s3:28px; --s4:38px; --s5:47px; --s6:56px;
+  --s8:75px; --s10:94px; --s16:150px;
+}
+
+/* graphite — 중성 회청. 규정·절차 계열(빽빽한 배치). shape: .2/.3/.15/.15 */
+[data-theme="graphite"]{
+  --ink:#20262d; --paper:#f7f8f9; --light:#eceff2; --soft:#4a545e; --line:#75808a;
+  --accent:#41586e; --accent-text:#334657; --accent-light:#aec2d4;
+  --blue:#33567e; --blue-text:#284464; --blue-soft:#dfe9f2;
+  --success:#256344; --danger:#a12624; --muted:#c3ccd4; --chip:#dfe4e8;
+  --r1:4px; --r2:11px; --r3:17px;
+  --m1:122ms; --m2:252ms; --m3:420ms; --m4:680ms;
+  --e-spring:cubic-bezier(.34,1.12,.64,1);
+  --s1:7px; --s2:13px; --s3:20px; --s4:26px; --s5:33px; --s6:40px;
+  --s8:53px; --s10:66px; --s16:106px;
+}
+
+/* midnight — 어두운 화면. 야간·집중·격식 계열. shape: .4/.5/.85/.4 */
+[data-theme="midnight"]{
+  --ink:#e8edf2; --paper:#232a33; --light:#1a2027; --soft:#a9b7c4; --line:#75808d;
+  --accent:#d19a4a; --accent-text:#c99e63; --accent-light:#8a6420;
+  --blue:#6e9cc4; --blue-text:#9dc0e0; --blue-soft:#2d3a4a;
+  --success:#6cb08a; --danger:#d97a72; --muted:#4a5663; --chip:#323b46;
+  --r1:7px; --r2:14px; --r3:22px;
+  --m1:150ms; --m2:300ms; --m3:500ms; --m4:800ms;
+  --e-spring:cubic-bezier(.34,1.23,.64,1);
+  --s1:9px; --s2:19px; --s3:28px; --s4:38px; --s5:47px; --s6:56px;
+  --s8:75px; --s10:94px; --s16:150px;
+}

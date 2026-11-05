@@ -1,4 +1,4 @@
-> **로드 시점**: 사용자가 리소스팩을 요청하거나 시안을 보고 골라 팩 경로로 가기로 했을 때 읽는다. 새 덱·새 편의 기본은 legacy 아키타입 경로이며, 기존 덱은 deck.json에 resource_pack이 있는 경우에만 이 경로로 편집한다.
+> **로드 시점**: 새 덱·새 편을 만들 때(팩 경로가 기본이다). 기존 덱은 deck.json에 resource_pack이 있는 경우에만 이 경로로 편집한다. 후보 계산은 `scripts/pack_router.py`다.
 
 # 독립 리소스팩: 디자인과 학습 흐름을 따로 고르기
 
@@ -8,7 +8,7 @@
 
 | 입력 상태 | 저작 경로 |
 |---|---|
-| 새 덱 / 새 시리즈 편 | 기본은 legacy 아키타입 경로다. 사용자가 팩을 요청·선택한 경우에만 `resource_pack`을 명시하고 이 문서에서 디자인·주흐름을 고른다 |
+| 새 덱 / 새 시리즈 편 | 기본은 팩 경로다. `pack_router.py`로 후보 3종·추천·흐름을 계산하고 `resource_pack`을 명시한다. 사용자가 legacy 를 요청했거나 팩에 없는 조각이 꼭 필요할 때만 legacy 아키타입 경로로 간다 |
 | 기존 `deck.json`에 `resource_pack` 있음 | 선택한 팩과 학습 의도를 유지하며 편집한다 |
 | 기존 `deck.json`에 `resource_pack` 없음 | legacy 경로를 유지한다. `composition.md`의 legacy 절과 기존 snippets를 사용한다 |
 

@@ -31,6 +31,7 @@ import sys
 from pathlib import Path
 
 from resource_packs import PackError, validate_selection
+from tone_router import ARCS, THEMES
 
 BASE = Path(__file__).resolve().parent.parent  # edu-deck/shared (공통 자산 폴더)
 MARK_TITLE = "{{TITLE}}"
@@ -84,7 +85,7 @@ def collect_css(dirs):
             continue
         for f in sorted(d.glob("*.css"), key=natural_key):
             # Pack runtime is loaded explicitly, never into an existing legacy deck.
-            if f.name in {"pack-runtime.css", "core.css", "tokens.css", "visual-motion.css", "responsive.css", "viewer.css"}:
+            if f.name in {"pack-runtime.css", "core.css", "tokens.css", "themes.css", "visual-motion.css", "responsive.css", "viewer.css"}:
                 continue
             parts.append(f"/* ---- {f.name} ---- */\n" + read_utf8(f))
     return "\n".join(parts)
@@ -154,7 +155,8 @@ def collect_slides(files):
     return "\n".join(parts), count
 
 
-def build(title, slide_files, css_dirs, icon_dirs, out_path, study=None, resource_pack=None):
+def build(title, slide_files, css_dirs, icon_dirs, out_path, study=None, resource_pack=None,
+          theme=None, arc=None):
     """
     [목적] 셸에 제목·CSS·아이콘·슬라이드를 채워 단일 HTML 파일을 쓴다.
     [입력] 제목, 슬라이드 조각 목록, CSS 폴더 목록, 아이콘 폴더 목록, 출력 경로,
@@ -166,7 +168,15 @@ def build(title, slide_files, css_dirs, icon_dirs, out_path, study=None, resourc
     """
     warnings = []
     assets = BASE / "assets"
+    # legacy 전용 선택 키: theme 은 색·비색 토큰 블록(themes.css)을, arc 는 흐름 규칙
+    # 인지용 메타를 심는다. 둘 다 팩 덱(resource_pack)과는 함께 쓰지 않는다.
+    if theme is not None and (not isinstance(theme, str) or theme not in THEMES):
+        raise BuildError(f"deck.json 'theme' 은 다음 중 하나입니다: {', '.join(THEMES)}")
+    if arc is not None and (not isinstance(arc, str) or arc not in ARCS):
+        raise BuildError(f"deck.json 'arc' 는 다음 중 하나입니다: {', '.join(ARCS)}")
     if resource_pack is not None:
+        if theme is not None or arc is not None:
+            raise BuildError("deck.json 'theme'·'arc' 는 legacy 경로 전용입니다 (resource_pack 과 함께 쓸 수 없습니다)")
         try:
             pack = validate_selection(resource_pack)
         except PackError as exc:
@@ -199,6 +209,14 @@ def build(title, slide_files, css_dirs, icon_dirs, out_path, study=None, resourc
     if resource_pack is not None:
         metadata = html.escape(json.dumps(pack, ensure_ascii=False), quote=True)
         out = out.replace('</head>', f'<meta name="edu-deck-resource-pack" content="{metadata}">\n</head>', 1)
+    if theme is not None and theme != "classic":
+        # classic 은 속성을 심지 않는다 — 속성 없는 덱은 themes.css 가 아무것도 덮지 않으므로
+        # 기존 결과와 완전히 같다. 테마 변수는 이 요소 아래로만 상속된다.
+        out, n = re.subn(r'<html\b([^>]*)>', rf'<html\1 data-theme="{html.escape(theme, quote=True)}">', out, count=1)
+        if n != 1:
+            raise BuildError("셸의 <html> 태그에 data-theme 을 심지 못했습니다")
+    if arc is not None:
+        out = out.replace('</head>', f'<meta name="edu-deck-arc" content="{html.escape(arc, quote=True)}">\n</head>', 1)
     # 조각 머리 주석 안의 설명 글자는 세지 않는다(화면에 나오지 않으므로)
     holders = len(re.findall(r"«[^»]*»", strip_comments(slides_html)))
     holder_files = [f.name for f in slide_files if PLACEHOLDER in strip_comments(read_utf8(f))]
@@ -297,6 +315,13 @@ def load_deck(deck_dir: Path):
         if not isinstance(cfg["talk"], dict):
             raise BuildError("deck.json 'talk' 은 객체여야 합니다(예: {\"total\":300,\"rate\":300})")
         study["talk"] = cfg["talk"]
+    # legacy 다양성 키: theme(팔레트)·arc(줄거리 인지). 조립 단계에서 구체값을 다시 검증하지만
+    # 여기서도 검사해 잘못된 키가 조각 작성 뒤에야 드러나지 않게 한다.
+    for key, table in (("theme", THEMES), ("arc", ARCS)):
+        if cfg.get(key) is not None and (not isinstance(cfg[key], str) or cfg[key] not in table):
+            raise BuildError(f"deck.json '{key}' 은 다음 중 하나입니다: {', '.join(table)}")
+    if "resource_pack" in cfg and (cfg.get("theme") or cfg.get("arc")):
+        raise BuildError("deck.json 'theme'·'arc' 는 legacy 경로 전용입니다 (resource_pack 과 함께 쓸 수 없습니다)")
     return cfg["title"].strip(), name, study
 
 
@@ -338,7 +363,8 @@ def main(argv=None):
             # 팩 덱도 공용 아이콘 묶음을 쓸 수 있다(레거시 CSS 는 섞지 않되 아이콘은 허용)
             icon_dirs = [BASE / "assets" / "icons", src]
             result = build(title, files, css_dirs, icon_dirs, out_path,
-                           study=study, resource_pack=pack)
+                           study=study, resource_pack=pack,
+                           theme=cfg.get("theme"), arc=cfg.get("arc"))
             if args.notes:
                 write_notes(files, args.notes, cfg.get("talk") or study.get("talk"))
     except (BuildError, OSError) as e:

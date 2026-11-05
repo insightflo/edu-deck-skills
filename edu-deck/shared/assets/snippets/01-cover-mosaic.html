@@ -1,0 +1,30 @@
+<!--
+  아키타입 cover (변형: mosaic)
+  언제: 표지. 오른쪽에 아이콘 타일이 2×3 격자로 놓인 모자이크형. 여러 활동·메뉴를 아우르는 주제.
+  단계: 단계 없음
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+<section class="slide cx" data-archetype="cover" data-variant="mosaic" id="cover-mosaic" style="padding:0">
+<div aria-hidden="true" class="cx-blob cx-b3"></div>
+<div aria-hidden="true" style="position:absolute;left:1300px;top:200px;display:grid;grid-template-columns:repeat(2,240px);gap:28px">
+<div style="width:240px;height:200px;border-radius:var(--r3);background:var(--accent);display:flex;align-items:center;justify-content:center"><svg class="ico" aria-hidden="true" style="width:88px;height:88px;color:var(--ink)"><use href="#i-graduation"/></svg></div>
+<div style="width:240px;height:200px;border-radius:var(--r3);border:3px solid var(--blue);display:flex;align-items:center;justify-content:center"><svg class="ico" aria-hidden="true" style="width:88px;height:88px;color:var(--muted)"><use href="#i-book"/></svg></div>
+<div style="width:240px;height:200px;border-radius:var(--r3);border:3px solid var(--accent-light);display:flex;align-items:center;justify-content:center"><svg class="ico" aria-hidden="true" style="width:88px;height:88px;color:var(--accent-light)"><use href="#i-chat"/></svg></div>
+<div style="width:240px;height:200px;border-radius:var(--r3);background:var(--blue);display:flex;align-items:center;justify-content:center"><svg class="ico" aria-hidden="true" style="width:88px;height:88px;color:var(--paper)"><use href="#i-gear"/></svg></div>
+<div style="width:240px;height:200px;border-radius:var(--r3);border:3px dashed var(--muted);display:flex;align-items:center;justify-content:center"><svg class="ico" aria-hidden="true" style="width:88px;height:88px;color:var(--muted)"><use href="#i-check"/></svg></div>
+<div style="width:240px;height:200px;border-radius:var(--r3);background:color-mix(in srgb,var(--accent) 30%,var(--ink));display:flex;align-items:center;justify-content:center"><svg class="ico" aria-hidden="true" style="width:88px;height:88px;color:var(--accent-light)"><use href="#i-target"/></svg></div>
+</div>
+<div class="cx-text" style="top:290px;width:1040px">
+<p class="cx-eyebrow">«교육 이름 ≤10자»</p>
+<h1 class="cx-title"><span data-text="«표지 제목 ≤12자»" id="cx-typed"></span><span class="cx-caret"></span></h1>
+<div class="cx-tokens">
+<span style="--d:0">«핵심어 ≤4자»</span><span style="--d:1">·</span><span style="--d:2">«핵심어 ≤5자»</span><span style="--d:3">·</span><span style="--d:4">«핵심어 ≤4자»</span><span style="--d:5">·</span><span style="--d:6">«핵심어 ≤4자»</span>
+</div>
+<p class="cx-badge"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 12h4l3-7 4 14 3-7h4" fill="none" stroke="var(--accent-light)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>«표지 배지(선택) ≤27자»</p>
+<p class="cx-sub">«부제 한 문장 ≤29자»</p>
+</div>
+<p class="cover-date" style="z-index:3">«날짜 YYYY. MM. DD ≤15자»</p>
+<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>

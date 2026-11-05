@@ -16,7 +16,8 @@
 </section>
 ```
 
-- `data-archetype` 필수(29종: references/layouts.md). 변형이 있으면 `data-variant`.
+- `data-archetype` 필수(29종: references/layouts.md). 변형이 있으면 `data-variant`. 표지는 `cover` 아키타입에 `data-variant`(orbit·split·center·bigstat·diagram·stripes·mosaic)를 둔다.
+- `deck.json` 의 `"theme"` 이 `classic` 이외면 `<html data-theme="id">` 를, `"arc"` 를 쓰면 `<meta name="edu-deck-arc" content="id">` 를 빌드가 심는다(`scripts/tone_router.py` 의 목록). 조각이 직접 쓰는 속성이 아니다.
 - 복습 대상이 되는 장은 `data-key="영문키"` 를 붙일 수 있다(확인 문제 `.chk` 의 `data-review` 와 짝 맺기).
 - 발표·인쇄 슬라이드는 1920×1080, 안쪽 여백 128px, 세로 flex입니다. 좁은 화면에는 [반응형 읽기 배치](responsive.md)를 적용합니다. 간격은 8px 배수나 `--s*` 토큰으로 조정합니다. 색·반경·시간은 [DESIGN_TOKENS.md](DESIGN_TOKENS.md)를 따릅니다.
 - 바탕: 기본(밝음) · `dark`(먹색) · `orange`(주황 전면). 가운데 정렬 `center`, 양끝 `between`.

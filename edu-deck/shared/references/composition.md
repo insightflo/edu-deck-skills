@@ -1,10 +1,10 @@
-> **로드 시점**: 구성안(outline.md)을 짤 때. 새 덱·새 편의 기본은 legacy 아키타입 경로(아이콘·조각·개념 SVG 도식)이므로 이 문서의 공통 규칙과 5절 아키타입을 읽는다. 사용자가 리소스팩을 요청하거나 시안을 보고 골라 팩 경로로 가기로 했을 때만 `resource-packs.md`를 먼저 읽는다.
+> **로드 시점**: 구성안(outline.md)을 짤 때. 새 덱·새 편의 기본은 리소스팩 경로이므로 `resource-packs.md`를 먼저 읽고 이 문서는 공통 규칙(내용 원칙·6·8절)만 읽는다. 사용자가 legacy 를 요청했거나 팩에 없는 조각이 꼭 필요한 덱만 이 문서의 5절 아키타입(아이콘·조각·개념 SVG 도식)을 읽는다.
 
 # 내용 구성: 주제 → 파트 → 슬라이드
 
 ## 0. 경로를 먼저 고른다
 
-- **새 덱과 새 시리즈 편**: 기본은 legacy 아키타입 경로다(아이콘·조각·개념 SVG 도식, 아래 1~5절·7절). 사용자가 리소스팩을 요청하거나 시안을 보고 골라 팩 경로로 가기로 했을 때만 `deck.json.resource_pack`에 디자인 1종·주흐름 1종을 명시하고, 필요하면 다른 흐름의 보조활동을 최대 2종 고른다. 이때 흐름 단계·성과·평가 증거는 `assets/packs/flows.json`을 기준으로 구성하고 outline 양식과 배치 변형 지침도 `resource-packs.md`를 따른다.
+- **새 덱과 새 시리즈 편**: 기본은 팩 경로다. `pack_router.py`의 후보에서 `deck.json.resource_pack`에 디자인 1종·주흐름 1종을 명시하고, 필요하면 다른 흐름의 보조활동을 최대 2종 고른다. 이때 흐름 단계·성과·평가 증거는 `assets/packs/flows.json`을 기준으로 구성하고 outline 양식과 배치 변형 지침도 `resource-packs.md`를 따른다.
 - **기존 resource_pack 덱**: 선택한 흐름에 맞춰 편집한다. 아래 legacy 줄거리에 맞추려고 재배열하지 않는다.
 - **기존 resource_pack 없는 덱**: 아래 1~5절·7절의 legacy 규칙을 유지한다. 원본 덱의 문장·사례는 옮기지 않는다.
 - **공통 규칙**: 한 장 한 메시지, 실제 업무에 맞는 예시, 처음 나오는 용어 풀이, 조사한 사실과 출처 연결, 6절 발표자 노트, 8절 자습 데이터. 비유·예시에는 도식·일러스트·장면 모형을 하나 이상 짝지으며 텍스트 전용 본문은 statement·퀴즈 질문 정도로 제한한다. 모든 장은 [MOTION_LIBRARY.md](MOTION_LIBRARY.md)의 의미별 임팩트와 정적 대체를 갖는다. legacy 클래스·고정 파트 순서·장수 비율은 공통 규칙이 아니다.
@@ -14,6 +14,25 @@
 아래 legacy 부분은 참고 덱(45장 사내 교육)에서 다듬은 구성 규칙이다. 새 덱·새 편의 기본값으로 사용한다. 리소스팩을 요청·선택한 덱만 `resource-packs.md`의 양식으로 바꾼다.
 
 ## 1. Legacy 기본 줄거리 (덱의 기본 경로. `resource_pack` 지정 덱은 `resource-packs.md`)
+
+### 1-0. 시작 줄거리(arc) 메뉴 — 덱의 첫 3장
+
+`deck.json` 의 `"arc"` 키가 표지 다음 3장의 구성 방식을 고른다. 지정하지 않으면 `standard` 와 같은 규칙이며 검사기도 그렇게 본다(표지 다음 agenda WARN). arc 를 지정하면 검사기는 아래 `표지 다음 첫 장` 규칙으로 확인한다.
+
+| arc | 표지 다음 첫 장 | 샘플 첫 3장 | 어울리는 덱 |
+|---|---|---|---|
+| `standard` | agenda | cover → agenda → timeline | 기본. 아래 1절 표 그대로 |
+| `hook` | statement | cover → statement(문제·공감 문장) → agenda | "왜 지금 이 얘기인가" 를 먼저 던지는 주제 |
+| `case-first` | worked-example · mock-legend · before-after | cover → worked-example(실제 사례 한 장) → mapping(사례 해부) → agenda | 사례·판단 중심(응대 사례, 모범 사례) |
+| `warmup` | quiz-ox · quiz-ab · quiz-sort · check | cover → quiz-ox(알고 있다고 생각한 것 묻기) → check(해설) → agenda | 선지식 깨우기·자신감 흔들기로 여는 퀴즈형 |
+| `follow` | sequence · build-up · frame-form · mock-legend | cover → sequence(전체 절차 지도) → mock-legend(화면 둘러보기) → frame-form | 도구·시스템 사용법 등 따라 하기형 |
+| `contrast` | before-after · compare-2 · compare-table | cover → before-after(좋은예/나쁜예) → compare-2 → statement | 전후·A/B 대비가 핵심인 주제 |
+
+- `standard` 는 기존 고정 줄거리 그대로다. 다른 arc 는 첫 3장만 바꾸고 4장부터는 1절 표의 파트 구조로 이어진다(arc 에 맞게 시작 문장만 조정한다).
+- arc 선택은 라우터가 돕는다: `python3 <base>/scripts/tone_router.py --title "…" --outcomes "…" --audience "…"` 의 `arc.recommend` 와 후보 근거를 시작점으로 쓴다. 손으로 고를 때는 덱의 첫 인상이 무엇이어야 하는지로 정한다.
+- `arc` 는 legacy 경로 전용 키다(`resource_pack` 덱과 함께 쓸 수 없다 — 팩은 flows.json 이 흐름을 정한다).
+
+### 1-1. `standard` arc 고정 줄거리
 
 청중이 "그게 뭔데?" → "우리랑 무슨 상관?" → "어떻게 해?" → "실제로는?" → "뭘 조심해?" → "그래서 이번 주에 뭘 해?" 순서로 묻는다고 보고, 그 순서대로 답한다.
 

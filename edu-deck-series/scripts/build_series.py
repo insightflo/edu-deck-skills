@@ -111,6 +111,12 @@ def load_episode(base, spec, idx):
             cfg["resource_pack"] = validate_selection(cfg["resource_pack"])
         except PackError as exc:
             raise BuildError(f"{cfg_path}: {exc}") from exc
+    if cfg.get("theme") is not None:
+        from tone_router import THEMES
+        if not isinstance(cfg["theme"], str) or cfg["theme"] not in THEMES:
+            raise BuildError(f"{cfg_path}: 'theme' 은 다음 중 하나입니다: {', '.join(THEMES)}")
+        if "resource_pack" in cfg:
+            raise BuildError(f"{cfg_path}: 'theme' 은 legacy 경로 전용입니다 (resource_pack 과 함께 쓸 수 없습니다)")
     frags = sorted((folder / "src").glob("*.html"), key=frag_sort_key) if (folder / "src").is_dir() else []
     if not frags:
         raise BuildError(f"편 조각이 없습니다: {folder/'src'} (*.html)")
@@ -325,8 +331,11 @@ def assemble(base, hub_override=None, out_override=None):
     for index, e in enumerate(eps):
         pack = e["cfg"].get("resource_pack")
         e["pack_attr"] = (' data-resource-pack="' + escape(json.dumps(pack, ensure_ascii=False), quote=True) + '"') if pack else ''
+        # legacy 편 테마: themes.css 의 [data-theme] 블록이 이 편 요소 아래로만 상속된다.
+        theme = e["cfg"].get("theme")
+        e["theme_attr"] = f' data-theme="{escape(theme, quote=True)}"' if theme and theme != "classic" else ''
     decks = "\n".join(
-        f'<div class="deck" id="series-episode-{index}"{e["pack_attr"]} data-ep="{e["ep"]}" data-label="{escape(e["label"])}" '
+        f'<div class="deck" id="series-episode-{index}"{e["pack_attr"]}{e["theme_attr"]} data-ep="{e["ep"]}" data-label="{escape(e["label"])}" '
         f'data-title="{escape(e["title"])}" data-tag="{escape(e["tag"])}" data-met="{escape(e["met"])}" '
         f'data-sub="{escape(e["sub"])}" data-color="{e["color"]}">\n{e["html"]}\n</div>'
         for index, e in enumerate(eps)

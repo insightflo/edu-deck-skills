@@ -12,6 +12,7 @@ def common_css():
         +"@font-face{font-family:'Pretendard Variable';font-style:normal;font-weight:100 900;font-display:block;src:url(data:font/woff2;base64,"
         +base64.b64encode(font).decode('ascii')+") format('woff2')}\n"
         +(BASE/'css/tokens.css').read_text(encoding='utf-8')+'\n'
+        +(BASE/'css/themes.css').read_text(encoding='utf-8')+'\n'
         +(BASE/'css/visual-motion.css').read_text(encoding='utf-8')+'\n'
         +(BASE/'css/responsive.css').read_text(encoding='utf-8')+'\n'
         +(BASE/'css/viewer.css').read_text(encoding='utf-8'))

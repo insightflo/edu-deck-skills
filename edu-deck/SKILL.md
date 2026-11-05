@@ -28,9 +28,9 @@ description: "Entry skill for education deck requests. Use FIRST when the user w
 
 ## 새 덱의 공통 저작 경로
 
-규모를 판별한 뒤 하위 스킬이 새 덱·새 시리즈 편을 만든다. **새 덱의 기본은 legacy 아키타입 경로다**: `shared/references/composition.md`의 유형표·줄거리로 파트를 짜고, `layouts.md`의 아키타입·`assets/snippets/`·공통 아이콘(`icons.md`)·개념 SVG 도식(`diagrams.md`)으로 장을 저작한다.
+규모를 판별한 뒤 하위 스킬이 새 덱·새 시리즈 편을 만든다. **새 덱의 기본은 리소스팩 경로다.** 같은 모양이 반복되지 않도록 디자인 8종과 학습 흐름 8종에서 주제에 맞는 조합을 고른다. 순서는 `python3 shared/scripts/pack_router.py --title … --outcomes … --audience …`로 후보 3종·추천·흐름을 계산하고(최근에 쓴 디자인은 `--recent`로 감점), 후보 시안(`preview_pack.py`)을 사용자에게 보여 고르게 하는 것이다. 사용자가 답하지 않거나 위임 실행이라 물을 수 없으면 추천 후보로 진행하고 `resource_pack_choice`에 `by: default`와 근거를 남긴다. 선택은 `deck.json.resource_pack`에 명시하며 보조활동은 주흐름과 다른 흐름을 중복 없이 최대 2종만 고른다. 라우터 점수는 후보를 좁히는 휴리스틱이므로 청중·수행 행동·평가 증거로 확인하고 필요하면 바꾼다. 팩 덱도 공통 아이콘 묶음과 개념 SVG 도식은 쓸 수 있으나, legacy 배치 클래스·조각·CSS는 섞지 않는다.
 
-**리소스팩 경로는 사용자가 요청하거나 시안을 보고 골랐을 때만 쓴다.** 팩을 쓰기로 하면 `shared/references/resource-packs.md`를 읽고 독립 디자인 8종과 학습 흐름 8종에서 디자인 1종·주흐름 1종을 골라 `deck.json.resource_pack`에 명시한다. 보조활동은 주흐름과 다른 흐름을 중복 없이 최대 2종만 고른다. 선택은 청중·수행 행동·평가 증거에 근거하며 무작위로 섞지 않는다. 팩 덱도 공통 아이콘 묶음과 개념 SVG 도식은 쓸 수 있으나, 다른 legacy 배치 클래스·조각·CSS는 섞지 않는다.
+**legacy 아키타입 경로는 사용자가 "기존 형식"·"legacy"를 요청했거나, 팩에 없는 조각(숫자 증거 띠 `stat-strip`, 실물 화면 인용 `screen-cite`)이 꼭 필요할 때만 쓴다.** 이때 `shared/references/composition.md`의 유형표·줄거리, `layouts.md`의 아키타입·`assets/snippets/`·공통 아이콘(`icons.md`)·개념 SVG 도식(`diagrams.md`)으로 저작하고, 그 이유를 최종 보고에 한 줄 남긴다. legacy 경로에서도 덱마다 얼굴이 달라지게 `deck.json` 의 `theme`(8종, 기본 classic)·`arc`(6종, 기본 standard)와 표지 `data-variant`(7종, 기본 orbit)를 둔다 — 후보는 `python3 shared/scripts/tone_router.py --title … --outcomes … --audience …` 로 계산하고, 생략하면 기존 결과 그대로다.
 
 새 팩 생성기는 저작용 뼈대이지 검증된 강의가 아니다. 실제 조사 내용·110~450자 발표자 노트와 같은 디자인 안의 다양한 배치 변형을 작성하고 하위 스킬의 검사를 거친다. 팩 경로는 legacy 포팅 도구나 원래 Downloads HTML을 필요로 하지 않는다.
 

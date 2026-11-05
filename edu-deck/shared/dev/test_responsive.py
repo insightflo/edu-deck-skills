@@ -70,9 +70,10 @@ def run(out,baseline=False):
   if baseline:
    (out/'results.json').write_text(json.dumps({'rows':rows,'failures':failures},indent=2));browser.close()
    print(json.dumps({'rows':rows,'failures':failures},indent=2));return bool(failures)
+  n_slides=p.evaluate('deckInfo().count')
   for w,h in [(320,740),(390,844),(768,1024),(1024,768),(1920,1080),(844,390)]:
    p.set_viewport_size({'width':w,'height':h});p.wait_for_timeout(80)
-   for i in range(57):
+   for i in range(n_slides):
     p.evaluate('i=>deckGo(i,0)',i)
     maxstep=p.evaluate('deckInfo().maxStep')
     for step in range(maxstep+1):

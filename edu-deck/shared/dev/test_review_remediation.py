@@ -85,7 +85,7 @@ class ReviewRemediation(unittest.TestCase):
         self.addCleanup(p.close)
         p.goto((self.out/'gallery.html').as_uri())
         p.evaluate('document.fonts.ready')
-        p.evaluate('deckGo(27,3)')
+        p.evaluate("deckGo([...document.querySelectorAll('#stage>.slide')].findIndex(s=>s.dataset.archetype==='before-after'),3)")
         p.wait_for_timeout(1200)
         if mode=='study':
             p.keyboard.press('s')
@@ -99,7 +99,7 @@ class ReviewRemediation(unittest.TestCase):
         results = []
         for width, mode in [(1920,'normal'),(1920,'reduced'),(1920,'study'),(1920,'print'),(320,'normal'),(390,'reduced'),(768,'study'),(1024,'normal')]:
             p = self.page(width,mode)
-            selector = '#stage>.slide:nth-of-type(28) .av'
+            selector = '#stage>.slide[data-archetype="before-after"] .av'
             # Independent reviewer reproductions plus every supported name length.
             for text in ['김','팀장','저처커','노도로모','WWWW']:
                 p.locator(selector).first.evaluate('(e,t)=>e.textContent=t',text)
@@ -116,10 +116,11 @@ class ReviewRemediation(unittest.TestCase):
 
     def test_before_after_wipes_prior_result_not_window(self):
         p = self.page()
-        p.evaluate('deckGo(27,1)')
+        ix = "([...document.querySelectorAll('#stage>.slide')].findIndex(s=>s.dataset.archetype==='before-after'))"
+        p.evaluate(f'deckGo({ix},1)')
         p.wait_for_timeout(1000)
         before = p.locator('.active .at').first.inner_text()
-        p.evaluate('deckGo(27,2)')
+        p.evaluate(f'deckGo({ix},2)')
         p.evaluate('document.getAnimations().forEach(a=>{a.pause();a.currentTime=150})')
         old = p.locator('.active .ed-wipe-before')
         self.assertGreater(old.count(),0,'A real prior-result overlay must connect the two scenes')
@@ -137,17 +138,19 @@ class ReviewRemediation(unittest.TestCase):
         p.evaluate('as=>as.forEach(a=>a.currentTime=1200)',effects)
         stable=Image.open(io.BytesIO(avatar.screenshot())).convert('RGB')
         self.assertIsNone(ImageChops.difference(moving,stable).getbbox(),'Wipe must not cover the adjacent speaker label')
-        p.evaluate('deckGo(27,0)')
+        p.evaluate(f'deckGo({ix},0)')
         self.assertEqual(p.locator('.ed-wipe').count(),0)
         self.assertGreater(p.locator('.active .a.step-hide').count(),0)
 
     def test_worked_replay_stays_inside_current_semantic_step(self):
         p = self.page()
         results=[]
-        for idx, step in [(31,2),(40,2),(41,2),(42,2),(43,2),(44,2)]:
-            p.evaluate('(i)=>deckGo(i,0)',idx)
+        find_ix = "(v)=>[...document.querySelectorAll('#stage>.slide')].findIndex(s=>s.dataset.variant===v)"
+        for var in ['chat-points','doc-points','sheet-points','form-points','mail-points','msgr-points']:
+            step = 2
+            p.evaluate(f'()=>deckGo(({find_ix})({json.dumps(var)}),0)')
             p.wait_for_timeout(900)
-            p.evaluate('([i,s])=>deckGo(i,s)',[idx,step])
+            p.evaluate(f'()=>deckGo(({find_ix})({json.dumps(var)}),{step})')
             p.evaluate('document.getAnimations().forEach(a=>{a.pause();a.currentTime=150})')
             row=p.evaluate('''()=>{const s=document.querySelector('.slide.active');return {variant:s.dataset.variant,windowMotion:[...s.querySelectorAll('.win,.card')].reduce((n,e)=>n+e.getAnimations().length,0),replay:[...s.querySelectorAll('.ed-scene-cue')].map(e=>({text:e.parentElement.textContent,hidden:!!e.closest('.step-hide,.gone'),animations:e.getAnimations().length})),future:[...s.querySelectorAll('[data-step="3"]')].every(e=>e.classList.contains('step-hide'))}}''')
             results.append(row)

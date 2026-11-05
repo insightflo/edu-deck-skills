@@ -26,7 +26,7 @@ class VisualMotion(unittest.TestCase):
  def test_all_variants_dispatch_and_animate(self):
   p=self.page()
   self.assertTrue(p.evaluate('!!window.eduMotion'),'shell must install the shared motion engine')
-  rows=p.evaluate('''async()=>{let out=[];for(let i=0;i<57;i++){deckGo(i,0);await new Promise(r=>requestAnimationFrame(r));let s=document.querySelector('.slide.active');out.push({arch:s.dataset.archetype,signature:s.dataset.motionSignature,n:s.getAnimations({subtree:true}).length});}return out;}''')
+  rows=p.evaluate('''async()=>{let out=[];const N=deckInfo().count;for(let i=0;i<N;i++){deckGo(i,0);await new Promise(r=>requestAnimationFrame(r));let s=document.querySelector('.slide.active');out.push({arch:s.dataset.archetype,signature:s.dataset.motionSignature,n:s.getAnimations({subtree:true}).length});}return out;}''')
   self.assertEqual(len({r['arch'] for r in rows}),30)
   self.assertTrue(all(r['signature'] and r['n'] for r in rows),rows)
  def test_step_replay_and_no_future_answer(self):
@@ -41,7 +41,7 @@ class VisualMotion(unittest.TestCase):
   self.assertEqual(p.locator('.active .opt.right.lit').count(),0)
  def test_static_modes_cancel_without_revealing_future_steps(self):
   p=self.page();self.assertTrue(p.evaluate('!!window.eduMotion'))
-  p.evaluate('deckGo(1,0)');p.emulate_media(reduced_motion='reduce');p.wait_for_timeout(40)
+  p.evaluate("deckGo([...document.querySelectorAll('#stage>.slide')].findIndex(s=>s.dataset.archetype==='agenda'),0)");p.emulate_media(reduced_motion='reduce');p.wait_for_timeout(40)
   self.assertEqual(p.evaluate('document.getAnimations().filter(a=>a.playState==="running").length'),0)
   self.assertGreater(p.locator('.active .step-hide').count(),0)
   p.emulate_media(reduced_motion='no-preference');p.keyboard.press('s');p.wait_for_timeout(40)
