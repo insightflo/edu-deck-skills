@@ -52,7 +52,7 @@
     'frame-form':'.tp,.fm-row,.pb','before-after':'.win,.stack,.card','worked-example':'.win,.card,.list li',
     'quiz-ab':'.opt','quiz-sort':'.qrow,.ans','quiz-ox':'.qrow,.ox','check':'.chk,.chk-o',
     'rules-dark':'.num,.body','checklist':'.todo,.tbox','sources':'.src-list li','closing':'.pill,.big',
-    'stat-strip':'.stat','quadrant':'.qcell,.qp,.qbub','flashcards':'.fc'
+    'stat-strip':'.stat','quadrant':'.qcell,.qp,.qbub','flashcards':'.fc','ops-report':'.oi'
   };
   const packTargets={atlas:'.atlas-origin,.atlas-source,.atlas-destination',briefing:'.briefing-row',casebook:'.casebook-narrative,.casebook-exhibit,.casebook-decision',editorial:'.editorial-story,.editorial-margin,.editorial-bottom',field:'.field-row',lab:'.lab-observation,.lab-evidence,.lab-next',seminar:'.seminar-turns span,.seminar-preparation,.seminar-invitation',workbook:'.workbook-read,.workbook-write,.workbook-reflection'};
   const packArch={atlas:'map',briefing:'compare-table',casebook:'before-after',editorial:'build-up',field:'sequence',lab:'mechanism',seminar:'hub',workbook:'frame-form'};
@@ -102,7 +102,9 @@
     // 2×2 사분면은 타일 파형(grid-wave)으로 네 영역·좌표 칩이 모인다, 플래시카드는 카드 회전
     // 등장(facet-flip — traits-grid 와 같은 이름). 둘 다 기존 실행 이름 재사용.
     'quadrant':{name:'grid-wave',frames:i=>[`translateY(${24+(i%3)*16}px) rotateX(12deg)`,'translateY(0px) rotateX(0deg)']},
-    'flashcards':{name:'facet-flip',frames:i=>['perspective(1200px) rotateY(-32deg)','perspective(1200px) rotateY(0deg)']}
+    'flashcards':{name:'facet-flip',frames:i=>['perspective(1200px) rotateY(-32deg)','perspective(1200px) rotateY(0deg)']},
+    // TASK-ops-report: 지표 덩어리(.oi)는 증거 띠·막대와 같은 metric-rally 상승 — 신규 이름 없이 재사용.
+    'ops-report':{name:'metric-rally',frames:i=>['translateY(44px)','translateY(0px)'],m:'m4'}
   };
   // Wipe a prior result in-place: the mask and its content counter-translate,
   // so the old words remain stationary as the new result is uncovered. Neither

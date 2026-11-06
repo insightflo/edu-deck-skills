@@ -321,6 +321,11 @@ body,.slide,.pack{font-family:'Pretendard Variable',sans-serif}
 .k-t-w{fill:var(--paper)}
 .k-t-o{fill:var(--accent-text)}
 .k-t-b{fill:var(--blue-text)}
+/* 다크 슬라이드 "면 위가 아니라 슬라이드 바탕 위" 도식 글자 표식(k-ds) — .dark .eyebrow 와 같은
+   어댑테이션. 밝은 도형(k-paper/k-blue/k-orange) 위의 잉크 글자는 표식하지 않는다. */
+.slide.dark .k-ds{fill:var(--light)}
+.slide.dark .k-ds.k-t-tag{fill:var(--muted)}
+.slide.dark .k-ds.k-t-o,.slide.dark .k-ds.k-t-b{fill:var(--accent-light)}
 /* "가상 예시" · "개념도 · 측정값 아님" 표기(HTML). 점선 테두리로 사실 칩(.fact)과 구분한다. */
 .k-note{font-size:22px;font-weight:700;color:var(--soft);background:var(--paper);border:2px dashed var(--line);border-radius:var(--r2);padding:4px 16px;align-self:flex-start}
 /* Pack motifs reuse the existing semantic composition rather than importing legacy cards. */
@@ -1181,7 +1186,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
     'frame-form':'.tp,.fm-row,.pb','before-after':'.win,.stack,.card','worked-example':'.win,.card,.list li',
     'quiz-ab':'.opt','quiz-sort':'.qrow,.ans','quiz-ox':'.qrow,.ox','check':'.chk,.chk-o',
     'rules-dark':'.num,.body','checklist':'.todo,.tbox','sources':'.src-list li','closing':'.pill,.big',
-    'stat-strip':'.stat','quadrant':'.qcell,.qp,.qbub','flashcards':'.fc'
+    'stat-strip':'.stat','quadrant':'.qcell,.qp,.qbub','flashcards':'.fc','ops-report':'.oi'
   };
   const packTargets={atlas:'.atlas-origin,.atlas-source,.atlas-destination',briefing:'.briefing-row',casebook:'.casebook-narrative,.casebook-exhibit,.casebook-decision',editorial:'.editorial-story,.editorial-margin,.editorial-bottom',field:'.field-row',lab:'.lab-observation,.lab-evidence,.lab-next',seminar:'.seminar-turns span,.seminar-preparation,.seminar-invitation',workbook:'.workbook-read,.workbook-write,.workbook-reflection'};
   const packArch={atlas:'map',briefing:'compare-table',casebook:'before-after',editorial:'build-up',field:'sequence',lab:'mechanism',seminar:'hub',workbook:'frame-form'};
@@ -1231,7 +1236,9 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
     // 2×2 사분면은 타일 파형(grid-wave)으로 네 영역·좌표 칩이 모인다, 플래시카드는 카드 회전
     // 등장(facet-flip — traits-grid 와 같은 이름). 둘 다 기존 실행 이름 재사용.
     'quadrant':{name:'grid-wave',frames:i=>[`translateY(${24+(i%3)*16}px) rotateX(12deg)`,'translateY(0px) rotateX(0deg)']},
-    'flashcards':{name:'facet-flip',frames:i=>['perspective(1200px) rotateY(-32deg)','perspective(1200px) rotateY(0deg)']}
+    'flashcards':{name:'facet-flip',frames:i=>['perspective(1200px) rotateY(-32deg)','perspective(1200px) rotateY(0deg)']},
+    // TASK-ops-report: 지표 덩어리(.oi)는 증거 띠·막대와 같은 metric-rally 상승 — 신규 이름 없이 재사용.
+    'ops-report':{name:'metric-rally',frames:i=>['translateY(44px)','translateY(0px)'],m:'m4'}
   };
   // Wipe a prior result in-place: the mask and its content counter-translate,
   // so the old words remain stationary as the new result is uncovered. Neither

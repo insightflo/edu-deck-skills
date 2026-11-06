@@ -53,6 +53,8 @@ ARCHETYPES = {
     "part-divider",
     # TASK-quadrant-flash: 2×2 사분면(39)·플래시카드(40)
     "quadrant", "flashcards",
+    # TASK-ops-report: 운영 지표 보고 계열(41)
+    "ops-report",
 }
 # TASK-figslots: 본문 장의 시각/텍스트/고정 형식 분류 — references/layouts.md '텍스트 나열' 절과 짝.
 # 시각(도식·차트 03~14·18·31·33·34, 모형 15·16, 채팅 21, 구성도 37)과 .fig-slot·data-variant="fig" 은
@@ -62,7 +64,7 @@ ARCHETYPES = {
 VISUAL_ARCHS = {"timeline", "map", "mechanism", "traits-grid", "meter", "compare-2", "compare-table",
                 "hub", "levels", "tile-grid", "sequence", "mapping", "build-up", "stat-strip",
                 "chart-bar", "chart-line", "mock-legend", "mock-options", "worked-example", "arch-flow",
-                "quadrant", "flashcards"}
+                "quadrant", "flashcards", "ops-report"}
 FIXED_ARCHS = {"cover", "quiz-ab", "quiz-sort", "quiz-ox", "check", "sources", "closing",
                "explore", "detail-sheet", "part-divider"}
 TEXT_RUN_MIN = 5  # 본문 장 연속열에서 텍스트 계열만 이 수 이상 이어지면 WARN
@@ -566,6 +568,33 @@ def static_checks(html_text, soup, rep, allow_placeholders):
             for sid in sids:
                 if not re.fullmatch(r"F\d{2,3}", sid.strip("«»")):
                     rep.add("ERROR", i, "차트", f'data-src="{sid[:20]}" 는 Fxx 사실 id 형식이 아닙니다 (research.md ## F01 블록)', target=sid[:20])
+        # 운영 지표 보고(TASK-ops-report, 41): 수치 장면은 사실 칩 계약 — 값을 싣는 그룹
+        # (.ofr/.oab/.ors/.ocm/.ome/.odi)과 큰 수(.ov)마다 data-src Fxx 필수(ERROR). 깔때기
+        # .ofr 의 data-val 이 모두 숫자이면 위→아래 비감소 위반은 WARN(방향성). 변형별 최소 요소 수 ERROR.
+        if arch == "ops-report":
+            for el in sec.select(".ofr, .oab, .ors, .ocm, .ome, .odi, .ov"):
+                sid = (el.get("data-src") or "").strip()
+                if not sid:
+                    rep.add("ERROR", i, "운영 지표", "수치 요소에 data-src(사실 id)가 없습니다 — research.md Fxx id 를 단니다", target=text_of(el)[:24])
+                elif not re.fullmatch(r"F\d{2,3}", sid.strip("«»")):
+                    rep.add("ERROR", i, "운영 지표", f'data-src="{sid[:20]}" 는 Fxx 사실 id 형식이 아닙니다 (research.md ## F01 블록)', target=sid[:20])
+            vals = []
+            for el in sec.select(".ofr[data-val]"):
+                v = (el.get("data-val") or "").strip().strip("«»").replace(",", "")
+                vals.append(float(v) if re.fullmatch(r"\d+(\.\d+)?", v) else None)
+            if vals and all(v is not None for v in vals):
+                for a, b in zip(vals, vals[1:]):
+                    if b > a:
+                        rep.add("WARN", i, "운영 지표", "깔때기 아래 단계가 위 단계보다 큽니다 — data-val 순서를 확인하세요")
+                        break
+            for sel, n in ((".ofr", 3), (".oab", 3), (".ors", 3), (".odi", 3)):
+                got = len(sec.select(sel))
+                if got and got < n:
+                    rep.add("ERROR", i, "운영 지표", f"{sel} 요소가 {got}개입니다 (최소 {n}개)")
+            for m in sec.select(".ocm"):
+                days = len(m.select(".ocd"))
+                if days and not 28 <= days <= 31:
+                    rep.add("ERROR", i, "운영 지표", f"달력 칸(.ocd)이 {days}개입니다 — 한 달은 28~31칸")
         # 화면 핀(.pin-shot): 실물 화면과 같은 규칙 — 사용자 제공 이미지(base64 data:)가 전제다.
         for fig in sec.select(".pin-shot"):
             img = fig.select_one("img")
@@ -635,8 +664,9 @@ def static_checks(html_text, soup, rep, allow_placeholders):
 
     if (soup.select(".fact[data-src]") or soup.select(".stat-strip .stat[data-src]")
             or soup.select(".screen-cite .sc-src[data-src]")
-            or soup.select(".chart[data-src], .chart [data-src]")) and not sources:
-        rep.add("ERROR", None, "참고 자료", ".fact 칩·숫자 증거 띠·실물 화면 인용·차트 사실 연결이 있는데 참고 자료(sources) 슬라이드가 없습니다")
+            or soup.select(".chart[data-src], .chart [data-src]")
+            or soup.select('[data-archetype="ops-report"] [data-src]')) and not sources:
+        rep.add("ERROR", None, "참고 자료", ".fact 칩·숫자 증거 띠·실물 화면 인용·차트·운영 지표의 사실 연결이 있는데 참고 자료(sources) 슬라이드가 없습니다")
     # 덱 크기 예산(TASK-tools G6): 임베드 폰트 포함 출력 전체가 8MB 를 넘으면 정보성으로 알린다.
     size_bytes = len(html_text.encode("utf-8"))
     if size_bytes > DECK_FILE_BUDGET:

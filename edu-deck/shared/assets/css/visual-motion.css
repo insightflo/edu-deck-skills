@@ -67,6 +67,11 @@ body,.slide,.pack{font-family:'Pretendard Variable',sans-serif}
 .k-t-w{fill:var(--paper)}
 .k-t-o{fill:var(--accent-text)}
 .k-t-b{fill:var(--blue-text)}
+/* 다크 슬라이드 "면 위가 아니라 슬라이드 바탕 위" 도식 글자 표식(k-ds) — .dark .eyebrow 와 같은
+   어댑테이션. 밝은 도형(k-paper/k-blue/k-orange) 위의 잉크 글자는 표식하지 않는다. */
+.slide.dark .k-ds{fill:var(--light)}
+.slide.dark .k-ds.k-t-tag{fill:var(--muted)}
+.slide.dark .k-ds.k-t-o,.slide.dark .k-ds.k-t-b{fill:var(--accent-light)}
 /* "가상 예시" · "개념도 · 측정값 아님" 표기(HTML). 점선 테두리로 사실 칩(.fact)과 구분한다. */
 .k-note{font-size:22px;font-weight:700;color:var(--soft);background:var(--paper);border:2px dashed var(--line);border-radius:var(--r2);padding:4px 16px;align-self:flex-start}
 /* Pack motifs reuse the existing semantic composition rather than importing legacy cards. */

@@ -1,0 +1,217 @@
+<!--
+  아키타입 ops-report (변형: funnel / aging / ratio / calendar / median / distribution)
+  언제: 한 조직·한 기간의 운영 상황을 지표로 읽는 보고 장면 — 흐름이 얼마나 통과했나(깔때기),
+    밀린 일이 얼마나 오래됐나(에이징), 큰 수 속 비율은(대량 비율), 활동이 이어졌나(연속 달력),
+    대표값은 무엇이 옳나(중앙값), 활동이 어디로 나뉘나(분산). 학급·학기 운영 보고, 코스·학습지
+    운영 리뷰, 동아리·행사 운영 정산에 쓴다. 개별 차트 하나면 chart-bar·chart-line, 숫자 띠면 stat-strip.
+  배치 규칙: 본문 장 한 장. 수치는 모두 사실 칩 규칙 — 값을 싣는 그룹(.ofr/.oab/.ors/.ocm/.ome/.odi
+    또는 큰 수 .ov)에 data-src="«F01»" 식 research.md Fxx id 를 단다. 깔때기는 data-val="실수"를
+    두면 감소 방향을 검사기가 확인한다. 달력 한 달은 .ocd 28~31칸.
+  시그니처: metric-rally 재사용 — 지표 덩어리(.oi)가 상승하며 자리 잡는다(기존 이름만).
+  단계: 단계별 흐름을 보여 주는 변형에만 1~5단계. 그림은 전부 svg.dg+k-*/t-*.
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두
+    실제 내용으로 바꾼다. 자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함).
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+
+<!-- funnel: 등록→수료 단계 깔때기 — 구간마다 양이 줄고 전환율이 보인다 -->
+<section class="slide" data-archetype="ops-report" data-variant="funnel" style="gap:22px">
+  <div class="head"><p class="eyebrow">«보고 단위 ≤12자»</p><h2 class="title">«제목: 통과 흐름 한 문장 ≤22자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«단계별 통과 깔때기 도식»">
+    <g class="ofr oi" data-src="«F01»" data-val="«1단계 건수»" data-step="1">
+      <polygon points="40,36 1240,36 1204,136 76,136" class="k-solid-b"/>
+      <text x="110" y="76" font-size="26" font-weight="700" class="k-t-w">«1단계 ≤6자»</text>
+      <text x="110" y="118" font-size="42" font-weight="800" class="k-t-w">«건수 ≤6자»</text>
+      <text x="1330" y="96" font-size="26" font-weight="700" class="k-t-b k-ds">100%</text>
+    </g>
+    <g class="ofr oi" data-src="«F02»" data-val="«2단계 건수»" data-step="2">
+      <polygon points="100,174 1180,174 1144,274 136,274" class="k-blue"/>
+      <text x="170" y="214" font-size="26" font-weight="700" fill="var(--ink)">«2단계 ≤6자»</text>
+      <text x="170" y="256" font-size="42" font-weight="800" fill="var(--ink)">«건수 ≤6자»</text>
+      <text x="1330" y="234" font-size="26" font-weight="700" class="k-t-b k-ds">«전환율 ≤5자»</text>
+    </g>
+    <g class="ofr oi" data-src="«F03»" data-val="«3단계 건수»" data-step="3">
+      <polygon points="160,312 1120,312 1084,412 196,412" class="k-solid-b" opacity=".72"/>
+      <text x="230" y="352" font-size="26" font-weight="700" class="k-t-w">«3단계 ≤6자»</text>
+      <text x="230" y="394" font-size="42" font-weight="800" class="k-t-w">«건수 ≤6자»</text>
+      <text x="1330" y="372" font-size="26" font-weight="700" class="k-t-b k-ds">«전환율 ≤5자»</text>
+    </g>
+    <g class="ofr oi" data-src="«F04»" data-val="«4단계 건수»" data-step="4">
+      <polygon points="220,450 1060,450 1024,550 256,550" class="k-orange"/>
+      <text x="290" y="490" font-size="26" font-weight="700" fill="var(--ink)">«4단계 ≤6자»</text>
+      <text x="290" y="532" font-size="42" font-weight="800" class="k-t-o">«건수 ≤6자»</text>
+      <text x="1330" y="510" font-size="26" font-weight="700" class="k-t-o k-ds">«전환율 ≤5자»</text>
+    </g>
+    <path d="M1280 66v56M1280 204v56M1280 342v56" class="k-ln-g"/>
+  </svg>
+  <p class="small">«읽는 법·주의 한 줄 ≤40자»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- aging: 잔류 기간 버킷 — 머문 기간 구간별로 쌓아 오래된 잔량을 드러낸다 -->
+<section class="slide" data-archetype="ops-report" data-variant="aging" style="gap:22px">
+  <div class="head"><p class="eyebrow">«보고 단위 ≤12자»</p><h2 class="title">«제목: 잔량 해석 한 문장 ≤22자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«잔류 항목의 기간 버킷 도식»">
+    <path d="M60 440h1440" class="k-ln-g"/>
+    <g class="oab oi" data-src="«F01»" data-step="1">
+      <text x="80" y="100" font-size="26" font-weight="700" class="k-t-tag k-ds">«버킷1 ≤8자»</text>
+      <text x="80" y="176" font-size="64" font-weight="800" class="k-t-hero k-ds">«건수 ≤6자»</text>
+      <g class="k-blue"><circle cx="98" cy="234" r="8"/><circle cx="126" cy="234" r="8"/><circle cx="154" cy="234" r="8"/><circle cx="182" cy="234" r="8"/><circle cx="210" cy="234" r="8"/><circle cx="238" cy="234" r="8"/><circle cx="98" cy="262" r="8"/><circle cx="126" cy="262" r="8"/><circle cx="154" cy="262" r="8"/><circle cx="182" cy="262" r="8"/><circle cx="210" cy="262" r="8"/><circle cx="238" cy="262" r="8"/></g>
+      <text x="80" y="330" font-size="22" class="k-t-tag k-ds">«비중 ≤8자»</text>
+    </g>
+    <g class="oab oi" data-src="«F02»" data-step="2">
+      <text x="460" y="100" font-size="26" font-weight="700" class="k-t-tag k-ds">«버킷2 ≤8자»</text>
+      <text x="460" y="176" font-size="64" font-weight="800" class="k-t-hero k-ds">«건수 ≤6자»</text>
+      <g class="k-blue"><circle cx="478" cy="234" r="8"/><circle cx="506" cy="234" r="8"/><circle cx="534" cy="234" r="8"/><circle cx="562" cy="234" r="8"/><circle cx="590" cy="234" r="8"/><circle cx="618" cy="234" r="8"/><circle cx="478" cy="262" r="8"/><circle cx="506" cy="262" r="8"/><circle cx="534" cy="262" r="8"/><circle cx="562" cy="262" r="8"/><circle cx="590" cy="262" r="8"/><circle cx="618" cy="262" r="8"/></g>
+      <text x="460" y="330" font-size="22" class="k-t-tag k-ds">«비중 ≤8자»</text>
+    </g>
+    <g class="oab oi" data-src="«F03»" data-step="3">
+      <text x="840" y="100" font-size="26" font-weight="700" class="k-t-tag k-ds">«버킷3 ≤8자»</text>
+      <text x="840" y="176" font-size="64" font-weight="800" class="k-t-hero k-ds">«건수 ≤6자»</text>
+      <g class="k-orange"><circle cx="858" cy="234" r="8"/><circle cx="886" cy="234" r="8"/><circle cx="914" cy="234" r="8"/><circle cx="942" cy="234" r="8"/><circle cx="970" cy="234" r="8"/><circle cx="998" cy="234" r="8"/><circle cx="858" cy="262" r="8"/><circle cx="886" cy="262" r="8"/><circle cx="914" cy="262" r="8"/><circle cx="942" cy="262" r="8"/><circle cx="970" cy="262" r="8"/><circle cx="998" cy="262" r="8"/></g>
+      <text x="840" y="330" font-size="22" class="k-t-tag k-ds">«비중 ≤8자»</text>
+    </g>
+    <g class="oab oi" data-src="«F04»" data-step="4">
+      <text x="1220" y="100" font-size="26" font-weight="700" class="k-t-tag k-ds">«버킷4 ≤8자»</text>
+      <text x="1220" y="176" font-size="64" font-weight="800" class="k-t-hero k-ds">«건수 ≤6자»</text>
+      <g class="k-orange"><circle cx="1238" cy="234" r="8"/><circle cx="1266" cy="234" r="8"/><circle cx="1294" cy="234" r="8"/><circle cx="1322" cy="234" r="8"/><circle cx="1350" cy="234" r="8"/><circle cx="1238" cy="262" r="8"/><circle cx="1266" cy="262" r="8"/><circle cx="1294" cy="262" r="8"/><circle cx="1322" cy="262" r="8"/><circle cx="1350" cy="262" r="8"/></g>
+      <text x="1220" y="330" font-size="22" class="k-t-tag k-ds">«비중 ≤8자»</text>
+    </g>
+    <path d="M760 84v220" class="k-ln-o" stroke-dasharray="10 12"/>
+    <text x="760" y="64" font-size="22" font-weight="700" text-anchor="middle" class="k-t-o k-ds">«문턱 기준 ≤10자»</text>
+    <text x="60" y="530" font-size="22" class="k-t-tag k-ds">«점 격자는 개념 표현 — 실제 비례가 아님을 밝히는 문구 ≤36자»</text>
+  </svg>
+  <p class="small">«읽는 법·주의 한 줄 ≤40자»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- ratio: 대량 비율 — 큰 수 속에서 통과한 양과 남은 꼬리 -->
+<section class="slide" data-archetype="ops-report" data-variant="ratio" style="gap:22px">
+  <div class="head"><p class="eyebrow">«보고 단위 ≤12자»</p><h2 class="title">«제목: 비율 해석 한 문장 ≤22자»</h2></div>
+  <div class="row" style="gap:64px;align-items:flex-start">
+    <div class="col" style="gap:26px;min-width:560px;padding-top:12px">
+      <p class="small" style="font-size:26px;font-weight:600;margin:0">«전체 단위 한 줄 ≤16자» <b class="ov" data-src="«F01»">«전체 건수 ≤8자»</b></p>
+      <p class="oi" style="font-size:96px;font-weight:900;letter-spacing:-3px;margin:0;line-height:1"><b class="ov" data-src="«F02»">«통과 건수 ≤8자»</b></p>
+      <p style="font-size:40px;font-weight:800;margin:0"><b class="ov" data-src="«F03»">«비율 ≤6자»</b> «통과»</p>
+      <p class="k-note oi" style="font-size:22px">«꼬리: 남은 건수·성격 한 줄 ≤24자» <b class="ov" data-src="«F04»">«남은 건수 ≤6자»</b></p>
+    </div>
+    <svg class="dg" viewBox="0 0 700 560" role="img" aria-label="«통과 경로 도식»" style="max-width:640px">
+      <path d="M150 96h380" class="k-ln-g"/>
+      <g class="ors oi" data-src="«F05»">
+        <circle cx="100" cy="96" r="54" class="k-paper"/><circle cx="100" cy="96" r="54" class="k-ln-b"/>
+        <text x="100" y="90" font-size="21" font-weight="700" text-anchor="middle" fill="var(--ink)">«단계1»</text><text x="100" y="118" font-size="21" text-anchor="middle" class="k-t-tag">≤4자</text>
+      </g>
+      <g class="ors oi" data-src="«F06»">
+        <circle cx="250" cy="96" r="54" class="k-paper"/><circle cx="250" cy="96" r="54" class="k-ln-b"/>
+        <text x="250" y="90" font-size="21" font-weight="700" text-anchor="middle" fill="var(--ink)">«단계2»</text><text x="250" y="118" font-size="21" text-anchor="middle" class="k-t-tag">≤4자</text>
+      </g>
+      <g class="ors oi" data-src="«F07»">
+        <circle cx="400" cy="96" r="54" class="k-paper"/><circle cx="400" cy="96" r="54" class="k-ln-b"/>
+        <text x="400" y="90" font-size="21" font-weight="700" text-anchor="middle" fill="var(--ink)">«단계3»</text><text x="400" y="118" font-size="21" text-anchor="middle" class="k-t-tag">≤4자</text>
+      </g>
+      <g class="ors oi" data-src="«F08»">
+        <circle cx="550" cy="96" r="54" class="k-blue"/>
+        <text x="550" y="90" font-size="21" font-weight="700" text-anchor="middle" class="k-t-b">«단계4»</text><text x="550" y="118" font-size="21" text-anchor="middle" class="k-t-b">≤4자</text>
+      </g>
+      <path d="M550 150C590 300 480 350 300 350" class="k-ln-o" stroke-dasharray="10 12"/>
+      <circle cx="282" cy="350" r="10" class="k-solid-o"/>
+      <text x="310" y="358" font-size="24" font-weight="700" class="k-t-o k-ds">«꼬리: 되돌아가는 흐름 ≤14자»</text>
+      <text x="60" y="490" font-size="22" class="k-t-tag k-ds">«꼬리를 따로 세는 이유 한 줄 ≤24자»</text>
+    </svg>
+  </div>
+  <p class="small">«읽는 법·주의 한 줄 ≤40자»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- calendar: 연속 활동 달력 — 활동일이 얼마나 이어졌는지 한 달 격자로 -->
+<section class="slide" data-archetype="ops-report" data-variant="calendar" style="gap:22px">
+  <div class="head"><p class="eyebrow">«보고 단위 ≤12자»</p><h2 class="title">«제목: 연속 해석 한 문장 ≤22자»</h2></div>
+  <div class="row" style="gap:72px;align-items:flex-start">
+    <svg class="dg" viewBox="0 0 720 520" role="img" aria-label="«한 달 활동 달력 도식»" style="max-width:680px">
+      <g class="ocm" data-src="«F01»">
+        <text x="40" y="72" font-size="34" font-weight="800" class="k-t-hero k-ds">«월 ≤4자»</text>
+        <text x="40" y="126" font-size="20" text-anchor="middle" class="k-t-tag k-ds">일</text><text x="112" y="126" font-size="20" text-anchor="middle" class="k-t-tag k-ds">월</text><text x="184" y="126" font-size="20" text-anchor="middle" class="k-t-tag k-ds">화</text><text x="256" y="126" font-size="20" text-anchor="middle" class="k-t-tag k-ds">수</text><text x="328" y="126" font-size="20" text-anchor="middle" class="k-t-tag k-ds">목</text><text x="400" y="126" font-size="20" text-anchor="middle" class="k-t-tag k-ds">금</text><text x="472" y="126" font-size="20" text-anchor="middle" class="k-t-tag k-ds">토</text>
+        <rect x="12" y="148" width="56" height="52" rx="8" class="k-paper ocd"/><rect x="84" y="148" width="56" height="52" rx="8" class="k-paper ocd"/><rect x="156" y="148" width="56" height="52" rx="8" class="k-paper ocd"/><rect x="228" y="148" width="56" height="52" rx="8" class="k-paper ocd"/><rect x="300" y="148" width="56" height="52" rx="8" class="k-paper ocd"/><rect x="372" y="148" width="56" height="52" rx="8" class="k-paper ocd"/><rect x="444" y="148" width="56" height="52" rx="8" class="k-paper ocd"/>
+        <rect x="12" y="212" width="56" height="52" rx="8" class="k-blue ocd on"/><rect x="84" y="212" width="56" height="52" rx="8" class="k-paper ocd"/><rect x="156" y="212" width="56" height="52" rx="8" class="k-blue ocd on"/><rect x="228" y="212" width="56" height="52" rx="8" class="k-blue ocd on"/><rect x="300" y="212" width="56" height="52" rx="8" class="k-paper ocd"/><rect x="372" y="212" width="56" height="52" rx="8" class="k-blue ocd on"/><rect x="444" y="212" width="56" height="52" rx="8" class="k-blue ocd on"/>
+        <rect x="12" y="276" width="56" height="52" rx="8" class="k-solid-b ocd st"/><rect x="84" y="276" width="56" height="52" rx="8" class="k-solid-b ocd st"/><rect x="156" y="276" width="56" height="52" rx="8" class="k-solid-b ocd st"/><rect x="228" y="276" width="56" height="52" rx="8" class="k-solid-b ocd st"/><rect x="300" y="276" width="56" height="52" rx="8" class="k-solid-b ocd st"/><rect x="372" y="276" width="56" height="52" rx="8" class="k-solid-b ocd st"/><rect x="444" y="276" width="56" height="52" rx="8" class="k-blue ocd on"/>
+        <rect x="12" y="340" width="56" height="52" rx="8" class="k-blue ocd on"/><rect x="84" y="340" width="56" height="52" rx="8" class="k-blue ocd on"/><rect x="156" y="340" width="56" height="52" rx="8" class="k-paper ocd"/><rect x="228" y="340" width="56" height="52" rx="8" class="k-blue ocd on"/><rect x="300" y="340" width="56" height="52" rx="8" class="k-paper ocd"/><rect x="372" y="340" width="56" height="52" rx="8" class="k-paper ocd"/><rect x="444" y="340" width="56" height="52" rx="8" class="k-paper ocd"/>
+        <rect x="12" y="404" width="56" height="52" rx="8" class="k-paper ocd"/><rect x="84" y="404" width="56" height="52" rx="8" class="k-paper ocd"/><rect x="156" y="404" width="56" height="52" rx="8" class="k-paper ocd"/>
+        <text x="40" y="500" font-size="22" class="k-t-tag k-ds">«활동 표시의 기준 한 줄 ≤24자»</text>
+      </g>
+    </svg>
+    <div class="col" style="gap:30px;padding-top:24px">
+      <p class="oi small" style="font-size:30px;font-weight:700;margin:0">«활동 일수» <b class="ov" data-src="«F02»">«NN»</b> / «달력 일수» <b class="ov" data-src="«F03»">«NN»</b>일</p>
+      <p class="oi" style="font-size:88px;font-weight:900;letter-spacing:-2px;margin:0;line-height:1"><b class="ov" data-src="«F04»">«연속 일수»</b><span style="font-size:34px">일 연속</span></p>
+      <p class="small" style="font-size:24px;margin:0">«연속 구간 ≤14자»</p>
+      <p class="k-note" style="font-size:22px">«활동일 ≠ 사람의 부담 — 주의 한 줄 ≤24자»</p>
+    </div>
+  </div>
+  <p class="small">«읽는 법·주의 한 줄 ≤40자»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- median: 대표값 비교 — 개수(막대)와 시간(중앙값·평균 선)의 이중 패널 -->
+<section class="slide" data-archetype="ops-report" data-variant="median" style="gap:22px">
+  <div class="head"><p class="eyebrow">«보고 단위 ≤12자»</p><h2 class="title">«제목: 대표값 해석 한 문장 ≤22자»</h2></div>
+  <div class="row" style="gap:56px;align-items:flex-start">
+    <svg class="dg" viewBox="0 0 660 480" role="img" aria-label="«기간별 건수 막대 도식»" style="max-width:600px">
+      <text x="24" y="56" font-size="24" font-weight="700" class="k-t-tag k-ds">«처리 건수 ≤8자»</text>
+      <g class="ome oi" data-src="«F01»" data-step="1">
+        <rect x="80" y="200" width="80" height="180" rx="4" class="k-blue"/><rect x="208" y="160" width="80" height="220" rx="4" class="k-blue"/><rect x="336" y="120" width="80" height="260" rx="4" class="k-blue"/><rect x="464" y="88" width="80" height="292" rx="4" class="k-orange"/>
+        <text x="120" y="188" font-size="22" font-weight="700" text-anchor="middle" fill="var(--ink)" class="k-ds">«건수»</text><text x="248" y="148" font-size="22" font-weight="700" text-anchor="middle" fill="var(--ink)" class="k-ds">«건수»</text><text x="376" y="108" font-size="22" font-weight="700" text-anchor="middle" fill="var(--ink)" class="k-ds">«건수»</text><text x="504" y="76" font-size="22" font-weight="700" text-anchor="middle" class="k-t-o k-ds">«건수»</text>
+        <text x="120" y="416" font-size="20" text-anchor="middle" class="k-t-tag k-ds">«기간1»</text><text x="248" y="416" font-size="20" text-anchor="middle" class="k-t-tag k-ds">«기간2»</text><text x="376" y="416" font-size="20" text-anchor="middle" class="k-t-tag k-ds">«기간3»</text><text x="504" y="416" font-size="20" text-anchor="middle" class="k-t-tag k-ds">«기간4»</text>
+        <path d="M56 390h540" class="k-ln-n"/>
+      </g>
+    </svg>
+    <svg class="dg" viewBox="0 0 700 480" role="img" aria-label="«중앙값과 평균의 시간 도식»" style="max-width:640px">
+      <text x="24" y="56" font-size="24" font-weight="700" class="k-t-tag k-ds">«처리 시간 ≤10자»</text>
+      <rect x="56" y="72" width="18" height="8" rx="4" class="k-solid-b"/><text x="84" y="82" font-size="20" class="k-t-tag k-ds">«중앙값 ≤7자»</text>
+      <rect x="240" y="72" width="18" height="8" rx="4" class="k-solid-o"/><text x="268" y="82" font-size="20" class="k-t-tag k-ds">«평균 ≤7자»</text>
+      <g class="ome oi" data-src="«F02»" data-step="2">
+        <path d="M60 340h560M60 240h560M60 140h560" class="k-ln-g"/>
+        <path d="M90 240L240 300 390 330 540 350" class="k-ln-b"/>
+        <path d="M90 180L240 260 390 300 540 260" class="k-ln-o" stroke-dasharray="14 10"/>
+        <circle cx="540" cy="350" r="9" class="k-solid-b"/><circle cx="540" cy="260" r="9" class="k-solid-o"/>
+        <text x="90" y="416" font-size="20" text-anchor="middle" class="k-t-tag k-ds">«기간1»</text><text x="240" y="416" font-size="20" text-anchor="middle" class="k-t-tag k-ds">«기간2»</text><text x="390" y="416" font-size="20" text-anchor="middle" class="k-t-tag k-ds">«기간3»</text><text x="540" y="416" font-size="20" text-anchor="middle" class="k-t-tag k-ds">«기간4»</text>
+      </g>
+    </svg>
+  </div>
+  <p class="small">«왜 중앙값으로 읽는가 한 줄 ≤40자»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- distribution: 주체별 분산 — 활동이 몇 곳으로 어떻게 나뉘는지 면적 비례 원 -->
+<section class="slide" data-archetype="ops-report" data-variant="distribution" style="gap:22px">
+  <div class="head"><p class="eyebrow">«보고 단위 ≤12자»</p><h2 class="title">«제목: 분산 해석 한 문장 ≤22자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«주체별 활동 분산 도식»">
+    <g class="odi oi" data-src="«F01»" data-step="1">
+      <circle cx="360" cy="300" r="170" class="k-paper"/><circle cx="360" cy="300" r="170" class="k-ln-b"/>
+      <text x="360" y="282" font-size="34" font-weight="800" text-anchor="middle" fill="var(--ink)">«주체1 ≤6자»</text>
+      <text x="360" y="334" font-size="40" font-weight="800" text-anchor="middle" class="k-t-b">«건수 ≤6자»</text>
+      <text x="360" y="508" font-size="24" font-weight="700" text-anchor="middle" class="k-t-tag k-ds">«비중 ≤8자»</text>
+    </g>
+    <g class="odi oi" data-src="«F02»" data-step="2">
+      <circle cx="780" cy="190" r="110" class="k-paper"/><circle cx="780" cy="190" r="110" class="k-ln-o"/>
+      <text x="780" y="182" font-size="28" font-weight="800" text-anchor="middle" fill="var(--ink)">«주체2 ≤6자»</text>
+      <text x="780" y="226" font-size="30" font-weight="800" text-anchor="middle" class="k-t-o">«건수 ≤6자»</text>
+    </g>
+    <g class="odi oi" data-src="«F03»" data-step="3">
+      <circle cx="810" cy="420" r="100" class="k-paper"/><circle cx="810" cy="420" r="100" class="k-ln-g"/>
+      <text x="810" y="414" font-size="26" font-weight="800" text-anchor="middle" fill="var(--ink)">«주체3 ≤6자»</text>
+      <text x="810" y="452" font-size="26" font-weight="800" text-anchor="middle" class="k-t-tag">«건수 ≤6자»</text>
+    </g>
+    <g class="odi oi" data-src="«F04»" data-step="4">
+      <circle cx="1120" cy="200" r="88" class="k-paper"/><circle cx="1120" cy="200" r="88" class="k-ln-g"/>
+      <text x="1120" y="196" font-size="24" font-weight="800" text-anchor="middle" fill="var(--ink)">«주체4 ≤6자»</text>
+      <text x="1120" y="232" font-size="24" font-weight="800" text-anchor="middle" class="k-t-tag">«건수 ≤6자»</text>
+    </g>
+    <g class="odi oi" data-src="«F05»" data-step="5">
+      <circle cx="1140" cy="430" r="76" class="k-paper"/><circle cx="1140" cy="430" r="76" class="k-ln-g"/>
+      <text x="1140" y="426" font-size="22" font-weight="800" text-anchor="middle" fill="var(--ink)">«기타 ≤6자»</text>
+      <text x="1140" y="458" font-size="22" font-weight="800" text-anchor="middle" class="k-t-tag">«건수 ≤6자»</text>
+    </g>
+    <text x="60" y="540" font-size="20" class="k-t-tag k-ds">«원의 면적 = 실제 건수에 비례 — 축이 아니라 비교임을 밝히는 문구 ≤34자»</text>
+  </svg>
+  <p class="small">«읽는 법·주의 한 줄 ≤40자»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>

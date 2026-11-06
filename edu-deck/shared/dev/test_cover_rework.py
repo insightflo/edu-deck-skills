@@ -7,7 +7,7 @@
        ③ 주제 비특정 장식 자리는 .cover-art 자리표시 그림이고, «…» 잔류는
        --allow-placeholders 없이 ERROR, 허용 시 조용하다.
        ④ 시안 10종은 고정 hex 0개·토큰만·외부 자원 0개다.
-       ⑤ tone_router.COVERS 가 16종과 정확히 일치하고 변형 총수는 225다.
+       ⑤ tone_router.COVERS 가 16종과 정확히 일치하고 변형 총수는 231이다.
 [입력] assets/snippets/01-cover*.html + manifest 슬러그 목록 + 정적 조각 fixture.
 [출력] 없음(단정문).
 """
@@ -81,12 +81,12 @@ class CatalogShapeTest(unittest.TestCase):
     def test_router_covers_match_catalog(self):
         self.assertEqual(set(tone_router.COVERS), set(ALL_SIXTEEN))
 
-    def test_total_variant_count_225(self):
+    def test_total_variant_count_231(self):
         n = 0
         for f in SNIPPETS.glob('*.html'):
             n += len(BeautifulSoup(
                 f.read_text(encoding='utf-8'), 'html.parser').select('section.slide'))
-        self.assertEqual(n, 225)
+        self.assertEqual(n, 231)
 
 
 class CoverContractTest(unittest.TestCase):
