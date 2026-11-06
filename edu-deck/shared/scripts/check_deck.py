@@ -49,16 +49,19 @@ ARCHETYPES = {
     "chart-bar", "chart-line", "explore", "detail-sheet",
     # TASK-stack: 구성도·업무 흐름 부품(37)
     "arch-flow",
+    # TASK-miniflow-divider: 파트 구분지 계열(38)
+    "part-divider",
 }
 # TASK-figslots: 본문 장의 시각/텍스트/고정 형식 분류 — references/layouts.md '텍스트 나열' 절과 짝.
 # 시각(도식·차트 03~14·18·31·33·34, 모형 15·16, 채팅 21, 구성도 37)과 .fig-slot·data-variant="fig" 은
 # 나열 계산을 끊고, 고정 형식(cover·quiz·sources·closing·check·explore·detail-sheet·screen-cite= mapping 아키타입)은
 # 연속열에서 빠진다(세지도 끊지도 않는다). 나머지 본문 계열은 텍스트로 센다.
+# TASK-miniflow-divider: .vflow·.vpills(미니 흐름) 보유 장도 시각으로 센다(fig-slot 과 같은 취급).
 VISUAL_ARCHS = {"timeline", "map", "mechanism", "traits-grid", "meter", "compare-2", "compare-table",
                 "hub", "levels", "tile-grid", "sequence", "mapping", "build-up", "stat-strip",
                 "chart-bar", "chart-line", "mock-legend", "mock-options", "worked-example", "arch-flow"}
 FIXED_ARCHS = {"cover", "quiz-ab", "quiz-sort", "quiz-ox", "check", "sources", "closing",
-               "explore", "detail-sheet"}
+               "explore", "detail-sheet", "part-divider"}
 TEXT_RUN_MIN = 5  # 본문 장 연속열에서 텍스트 계열만 이 수 이상 이어지면 WARN
 STAT_NUM_CLASS = "stat-num"          # 숫자 증거 띠 큰 숫자(numbers() 숫자 릴 대상)
 STAT_BUDGETS = (12, 16)              # catalog.json 을 못 읽을 때의 폴백 예산(숫자, 라벨)
@@ -342,15 +345,15 @@ def static_checks(html_text, soup, rep, allow_placeholders):
         title = slide_title(sec)
         rep.slide_meta[i] = (arch or ("pack-" + pack["design"] if pack and is_pack_slide(sec) else "?"), title)
         archs.append(arch)
-        if arch in VISUAL_ARCHS or sec.get("data-variant") == "fig" or sec.select_one(".fig-slot"):
-            slide_kinds.append("visual")
-        elif arch in FIXED_ARCHS:
+        if arch in FIXED_ARCHS:  # 고정 형식은 아키타입으로 확정 — 내부 시각 요소가 있어도 연속열에서 뺀다
             slide_kinds.append("fixed")
+        elif arch in VISUAL_ARCHS or sec.get("data-variant") == "fig" or sec.select_one(".fig-slot, .vflow, .vpills"):
+            slide_kinds.append("visual")
         else:
             slide_kinds.append("text")
         # Heuristic warning, not evidence of instructional effectiveness. Recognize
         # explanatory structure, not decorative icons or arbitrary data attributes.
-        visual = sec.select_one('svg:not(.ico):not([aria-hidden="true"]), svg[role="img"][aria-label], .ed-diagram, .win, .meter-bar, .cmp, .rm, .lv, .todo, .opt, .qrow, .chk, .src-list, .atlas-map, .briefing-ledger, .casebook-file, .field-protocol, .lab-cycle, .seminar-turns, .workbook-answer, .stat-strip, .screen-cite')
+        visual = sec.select_one('svg:not(.ico):not([aria-hidden="true"]), svg[role="img"][aria-label], .ed-diagram, .win, .meter-bar, .cmp, .rm, .lv, .todo, .opt, .qrow, .chk, .src-list, .atlas-map, .briefing-ledger, .casebook-file, .field-protocol, .lab-cycle, .seminar-turns, .workbook-answer, .stat-strip, .screen-cite, .vflow, .vpills')
         if arch not in {'cover', 'statement', 'quiz-ab', 'quiz-sort', 'quiz-ox', 'check', 'sources', 'closing'} and not visual:
             rep.add('WARN', i, '시각 짝', '텍스트 전용 본문입니다. 개념·비유·예시에 설명 도식, 일러스트 또는 장면 모형을 짝지으세요.')
         if not arch and not (pack and is_pack_slide(sec)):

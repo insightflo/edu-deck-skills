@@ -1,0 +1,78 @@
+<!--
+  아키타입 part-divider (변형: big-number / progress-map / question / takeaways / quiet)
+  언제: 파트가 바뀌는 순간 — 표지·agenda 다음, 파트 첫 본문 장 앞에 한 장씩 둔다.
+    파트 번호·제목·한 줄 설명이 크게 나오는 구분 장이다. 본문 나열 계산에서 빠진다(고정 형식).
+  변형: big-number=어두운 전면에 큰 번호, progress-map=전체 파트 중 이번 위치를 미니 흐름으로,
+    question=파트가 답할 도입 질문(주황 전면), takeaways=이번 파트에서 얻는 것 2~3개,
+    quiet=번호만 띄우는 조용한 단색.
+  단계: takeaways 는 항목마다 1단계, progress-map 은 지도가 1단계, 나머지는 단계 없음.
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두
+    실제 내용으로 바꾼다. 자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함).
+  미니 흐름(.vflow·.vnode·.varr·.vpills): 카드·본문 안의 인라인 흐름 어휘 — classes.md '미니 흐름'.
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+
+<!-- big-number: 어두운 전면에 파트 번호가 크게 — 전환의 박자 -->
+<section class="slide dark center" data-archetype="part-divider" data-variant="big-number" style="gap:40px">
+  <p class="eyebrow">«파트 표시 ≤6자»</p>
+  <p class="num" style="font-size:280px">«번호 ≤2자»</p>
+  <div class="col" style="gap:20px;align-items:center">
+    <h2 class="title" style="font-size:64px">«파트 제목 ≤14자»</h2>
+    <p class="body" style="font-size:30px;color:var(--muted)">«이번 파트를 여는 한 줄 ≤32자»</p>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 파트 전환 멘트 → 이 번호가 의미하는 위치(전체 중 몇 번째) → 파트 미리보기 → 다음 장 연결»</aside>
+</section>
+
+<!-- progress-map: 전체 파트 지도에서 이번 위치 강조 — 지나온 파트=is-off, 이번=is-on, 앞으로=기본 -->
+<section class="slide" data-archetype="part-divider" data-variant="progress-map" style="gap:48px">
+  <div class="row" style="flex:1;min-height:0;gap:72px;align-items:center">
+    <div class="col" style="width:760px;flex:none;gap:28px">
+      <p class="eyebrow">«파트 표시 ≤6자»</p>
+      <h2 class="title" style="font-size:72px">«파트 제목 ≤12자»</h2>
+      <p class="body" style="font-size:30px">«이번 파트를 여는 한 줄 ≤34자»</p>
+    </div>
+    <div class="vflow col" data-step="1" style="gap:14px">
+      <div class="vflow" style="gap:12px"><span class="vnode is-off">«지난 파트 ≤7자»</span><span class="varr">→</span><span class="vnode is-on">«이번 파트 ≤7자»</span></div>
+      <div class="vflow" style="gap:12px;padding-left:64px"><span class="varr">→</span><span class="vnode">«다음 파트 ≤7자»</span><span class="varr">→</span><span class="vnode">«다음 파트 ≤6자»</span></div>
+    </div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 지도에서 이번 위치를 손가락으로 짚는다 → 지난 파트 한 줄 회상 → 이번 파트가 다음으로 이어지는 길 → 다음 장 연결»</aside>
+</section>
+
+<!-- question: 파트가 답할 질문을 주황 전면에 — 호기심으로 연다 -->
+<section class="slide orange center" data-archetype="part-divider" data-variant="question" style="gap:48px">
+  <p class="eyebrow">«파트 표시 ≤6자» · «파트 제목 ≤8자»</p>
+  <h2 class="big" style="font-size:84px">«도입 질문 ≤13자»<br>«도입 질문 ≤10자»<em class="t2">?</em></h2>
+  <p class="body" style="font-size:30px;color:var(--soft)">«질문을 던지는 이유 한 줄 ≤36자»</p>
+  <aside class="notes">«발표자 노트 110~450자: 질문을 천천히 읽는다 → 학습자 짐작 한두 개 받는다 → 이 파트가 답을 줄 것을 약속 → 다음 장 연결»</aside>
+</section>
+
+<!-- takeaways: 이번 파트에서 얻는 것 2~3개 — 기대를 심는다 -->
+<section class="slide" data-archetype="part-divider" data-variant="takeaways" style="gap:56px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤6자»</p><h2 class="title">«파트 제목 ≤14자»</h2></div>
+  <div class="col" style="flex:1;min-height:0;justify-content:center;gap:24px">
+    <div class="card" data-step="1" style="padding:28px 40px;display:flex;align-items:center;gap:24px">
+      <p class="num" style="font-size:56px;margin:0">1</p>
+      <div class="col" style="gap:6px"><h3 style="font-size:34px;margin:0">«얻는 것 ≤10자»</h3><p class="body" style="font-size:26px;margin:0">«한 줄 설명 ≤38자»</p></div>
+    </div>
+    <div class="card" data-step="2" style="padding:28px 40px;display:flex;align-items:center;gap:24px">
+      <p class="num" style="font-size:56px;margin:0">2</p>
+      <div class="col" style="gap:6px"><h3 style="font-size:34px;margin:0">«얻는 것 ≤9자»</h3><p class="body" style="font-size:26px;margin:0">«한 줄 설명 ≤40자»</p></div>
+    </div>
+    <div class="card" data-step="3" style="padding:28px 40px;display:flex;align-items:center;gap:24px">
+      <p class="num" style="font-size:56px;margin:0">3</p>
+      <div class="col" style="gap:6px"><h3 style="font-size:34px;margin:0">«얻는 것 ≤10자»</h3><p class="body" style="font-size:26px;margin:0">«한 줄 설명 ≤36자»</p></div>
+    </div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 항목마다 '끝나면 이걸 할 수 있다'로 읽는다 → 세 개가 한 가닥임을 연결 → 다음 장 연결»</aside>
+</section>
+
+<!-- quiet: 번호만 띄우는 조용한 단색 — 잦은 전환에서도 소리 없이 -->
+<section class="slide dark center" data-archetype="part-divider" data-variant="quiet" style="gap:24px">
+  <p class="num" style="font-size:120px">«번호 ≤2자»</p>
+  <div class="col" style="gap:14px;align-items:center">
+    <h2 class="title" style="font-size:44px">«파트 제목 ≤16자»</h2>
+    <p class="small" style="font-size:24px;color:var(--muted)">«한 줄 설명 ≤30자»</p>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 짧게 숨 고르는 장 — 파트 이름만 읽고 바로 넘긴다 → 지난 흐름 한 줄 → 다음 장 연결»</aside>
+</section>

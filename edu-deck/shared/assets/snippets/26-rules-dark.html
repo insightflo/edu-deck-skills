@@ -1,6 +1,7 @@
 <!--
-  아키타입 rules-dark (변형: 기본, numbered-clauses, allowed-forbidden, warning-bands, rule-matrix, fig)
+  아키타입 rules-dark (변형: 기본, numbered-clauses, allowed-forbidden, warning-bands, rule-matrix, fig, flow)
   언제: 꼭 지킬 3가지(어두운 배경). 위험·확인 파트의 끝.
+  변형: flow=규칙→위반→피해 미니 흐름 사슬.
   단계: 규칙별 1단계
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
   자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
@@ -66,4 +67,33 @@
     </figure>
   </div>
   <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- flow: 규칙과 어겼을 때의 결과를 미니 흐름 사슬로 — 위반이 어디로 번지는지 -->
+<section class="slide dark" data-archetype="rules-dark" data-variant="flow" style="gap:48px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤8자»</p><h2 class="title">«제목: 한 문장 ≤18자»</h2></div>
+  <div class="col" style="flex:1;min-height:0;justify-content:center;gap:32px">
+    <div data-step="1" style="display:flex;align-items:center;gap:28px">
+      <p class="num" style="font-size:72px;margin:0">1</p>
+      <div class="col" style="gap:10px">
+        <h3 style="font-size:40px;margin:0">«규칙 ≤12자»</h3>
+        <div class="vflow" style="gap:8px"><span class="vnode is-off">«위반 ≤5자»</span><span class="varr">→</span><span class="vnode">«1차 피해 ≤6자»</span><span class="varr">→</span><span class="vnode is-on">«최종 결과 ≤6자»</span></div>
+      </div>
+    </div>
+    <div data-step="2" style="display:flex;align-items:center;gap:28px">
+      <p class="num" style="font-size:72px;margin:0">2</p>
+      <div class="col" style="gap:10px">
+        <h3 style="font-size:40px;margin:0">«규칙 ≤11자»</h3>
+        <div class="vflow" style="gap:8px"><span class="vnode is-off">«위반 ≤5자»</span><span class="varr">→</span><span class="vnode">«1차 피해 ≤5자»</span><span class="varr">→</span><span class="vnode is-on">«최종 결과 ≤7자»</span></div>
+      </div>
+    </div>
+    <div data-step="3" style="display:flex;align-items:center;gap:28px">
+      <p class="num" style="font-size:72px;margin:0">3</p>
+      <div class="col" style="gap:10px">
+        <h3 style="font-size:40px;margin:0">«규칙 ≤12자»</h3>
+        <div class="vflow" style="gap:8px"><span class="vnode is-off">«위반 ≤6자»</span><span class="varr">→</span><span class="vnode">«1차 피해 ≤6자»</span><span class="varr">→</span><span class="vnode is-on">«최종 결과 ≤5자»</span></div>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 사슬을 왼쪽부터 따라가며 '이 한 번이 여기까지 간다'고 강조 → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
 </section>

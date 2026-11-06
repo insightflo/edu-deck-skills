@@ -37,6 +37,7 @@
 | 06 | traits-grid (venn) | 겹친 원 3개 + 각 영역 라벨, 중앙 교집합 강조 | 영역마다 1 | 원 밖 라벨은 지시선으로 연결 |
 | 06 | traits-grid (radar) | 5축 방사형 다각형 + 축 끝 특성 라벨 + 값 다각형 | 축마다 1 | 축 라벨은 바깥 원 밖에 |
 | 06 | traits-grid (fig) | 왼쪽 특성 카드 2개 + 오른쪽 `fig-slot` 관계 도식(견본: 만나는 점) | 카드마다 1 + 그림 | 슬롯 안은 `svg.dg` — 견본을 지우고 주제 관계를 다시 그린다 |
+| 06 | traits-grid (flow) | 특성 카드 4장, 요점을 카드 안 미니 흐름(`.vflow`·`.vpills`)으로 요약 | 카드마다 1 | 흐름 노드는 ≤5~6자 — 길면 설명으로 내린다 |
 | 07 | meter | 왼쪽: 쓴 양 숫자(단계마다 바뀜) + 누적 막대 5칸 + 눈금, 오른쪽: 설명 카드 2개 세로 | 칸마다 1, 카드 | 칸 너비 `style="width:…%"` 합 100% 이하. 숫자는 `data-only` 로 단계별 값 |
 | 07 | meter (gauge) | 반원 계기판 — 색 띠 눈금 + 바늘 + 현재 값 숫자 | 단계별 | 바늘 각도는 `transform="rotate(… cx cy)"` |
 | 07 | meter (donut) | 도넛 링 조각 채움 + 가운데 비율 숫자 | 단계별 | 조각은 `path` 호, 채운 비율에 맞춘다 |
@@ -132,6 +133,7 @@
 | 26 | rules-dark (warning-bands) | 가로 경고 띠 세 줄 | 3단계 | 표시 글자를 채운 뒤 실제 장에서 넘침 확인 |
 | 26 | rules-dark (rule-matrix) | 규칙 구분표 | 3단계 | 표시 글자를 채운 뒤 실제 장에서 넘침 확인 |
 | 26 | rules-dark (fig) | 어두운 바탕: 왼쪽 규칙 3개 + 오른쪽 `fig-slot` 경계 도식(견본: 허용·금지 틀) | 규칙마다 1 + 그림 | 슬롯 안은 `svg.dg` — 어두운 장 규칙은 diagrams.md §3 글자 밝히기를 따른다 |
+| 26 | rules-dark (flow) | 규칙 3줄: 규칙 제목 + 위반→피해 미니 흐름 사슬(is-off 위반 → is-on 결과) | 규칙마다 1 | 사슬은 규칙 아래 왼쪽 정렬 |
 | 27 | checklist | 체크 칸 4개를 두 칸으로 나눠 배치(누르면 체크), 체크 칸은 오른쪽 | 줄마다 1 | 3~4개. 첫 낱말을 동사로(“확인하기”) |
 | 27 | checklist (card-columns) | 세로 체크 카드 | 3단계 | 표시 글자를 채운 뒤 실제 장에서 넘침 확인 |
 | 27 | checklist (step-path) | 순서가 있는 실천 목록 | 4단계 | 표시 글자를 채운 뒤 실제 장에서 넘침 확인 |
@@ -180,6 +182,12 @@
 | 37 | arch-flow (decision) | 조건 라벨 분기 + 점선 탈출 | 0 | 라벨 없는 분기 금지 |
 | 37 | arch-flow (hub) | 창구들이 중앙 허브로 집중 | 0 | 허브 노드 tone="brand" |
 | 37 | arch-flow (link) | 두 묶음(그룹 2) 사이 연동 | 0 | 실선 실시간·점선 야간 구분 |
+| 38 | part-divider | 파트 구분지: 번호·제목·한 줄 설명이 크게 나오는 구분 장 | 변형마다 다름 | **표지·agenda 뒤, 파트 첫 본문 장 앞**에 두는 권장 위치. 고정 형식이라 본문 나열 계산에서 빠진다. 시그니처 route-cascade(재사용) |
+| 38 | part-divider (big-number) | 어두운 전면에 파트 번호 280px | 0 | 전환의 박자 |
+| 38 | part-divider (progress-map) | 왼쪽 제목 + 오른쪽 파트 지도 미니 흐름(지난 파트 is-off·이번 is-on) | 지도 1 | `.vflow` 어휘로 전체 중 위치 표시 |
+| 38 | part-divider (question) | 주황 전면에 파트가 답할 도입 질문 | 0 | 호기심으로 연다 |
+| 38 | part-divider (takeaways) | 이번 파트에서 얻는 것 3카드 | 카드마다 1 | 기대를 심는다 |
+| 38 | part-divider (quiet) | 어두운 단색에 번호 120px + 작은 제목 | 0 | 잦은 전환에도 소리 없이 |
 
 ## 표지 직접 설계 계약
 
@@ -200,8 +208,8 @@
 
 `check_deck.py`는 본문 장의 계열을 아래 셋으로 나눠 **텍스트 나열**을 경고한다 — 고정 형식 장을 뺀 연속열에서 텍스트 계열만 **5장 이상** 이어지면 WARN(“시각 계열을 섞으세요”).
 
-- **시각으로 센다**: 도식·차트 계열(timeline·map·mechanism·traits-grid·meter·compare-2·compare-table·hub·levels·tile-grid·sequence·mapping·build-up·stat-strip·chart-bar·chart-line) + 모형(mock-legend·mock-options) + 채팅(worked-example) + 구성도(arch-flow) + **`data-variant="fig"` 또는 `.fig-slot` 보유 장**. 연속열을 끊는다.
-- **고정 형식(연속열에서 제외 — 세지도 끊지도 않는다)**: cover·quiz-ab·quiz-sort·quiz-ox·check·sources·closing·explore·detail-sheet(+screen-cite 조각 — 아키타입 mapping 이라 시각으로 센다).
+- **시각으로 센다**: 도식·차트 계열(timeline·map·mechanism·traits-grid·meter·compare-2·compare-table·hub·levels·tile-grid·sequence·mapping·build-up·stat-strip·chart-bar·chart-line) + 모형(mock-legend·mock-options) + 채팅(worked-example) + 구성도(arch-flow) + **`data-variant="fig"` 또는 `.fig-slot` 보유 장** + **미니 흐름(`.vflow`·`.vpills`) 보유 장**. 연속열을 끊는다.
+- **고정 형식(연속열에서 제외 — 세지도 끊지도 않는다)**: cover·quiz-ab·quiz-sort·quiz-ox·check·sources·closing·explore·detail-sheet·**part-divider**(+screen-cite 조각 — 아키타입 mapping 이라 시각으로 센다). 고정 형식은 아키타입으로 확정 — 안에 미니 흐름이 있어도 제외다.
 - **텍스트로 센다**: agenda·statement·frame-form·before-after·rules-dark·checklist (아키타입 없는 팩 장도 텍스트 — `.fig-slot` 을 얹으면 시각이 된다).
 
 그림 자리는 도식 자리다 — 원본자료의 주요 이미지(실물 사진·원본 도면·표)는 슬롯이 아니라 화면 인용(screen-cite, 32) 계약으로 싣는다(composition.md '사진 습관 → 시각 체험').
