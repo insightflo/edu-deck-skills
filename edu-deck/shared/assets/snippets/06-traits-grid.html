@@ -1,7 +1,7 @@
 <!--
-  아키타입 traits-grid (변형: 기본, matrix, spectrum, venn, radar)
+  아키타입 traits-grid (변형: 기본, matrix, spectrum, venn, radar, fig)
   언제: 성질·특징 2×2 또는 4줄. 제목 + 설명 + 출처 칩 + 아이콘.
-  변형: matrix=특징×대상 체크 매트릭스, spectrum=축 위 배치, venn=3원 교집합, radar=5축 방사형 척도.
+  변형: matrix=특징×대상 체크 매트릭스, spectrum=축 위 배치, venn=3원 교집합, radar=5축 방사형 척도, fig=특성 카드+그림 자리.
   단계: 특징별 1단계
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
   자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
@@ -132,6 +132,31 @@
     <ul class="list" data-step="3" style="font-size:28px"><li>«축별 수준 설명 ≤22자»</li><li>«축별 수준 설명 ≤24자»</li><li>«축별 수준 설명 ≤20자»</li></ul>
     <p class="fact" data-step="4" data-src="«F01»">«출처 칩: 발행처「문서」(연도) 값 ≤30자»</p>
   </div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- fig: 특성 카드 + 그림 자리 — 특성을 읽고 둘의 관계를 도식으로 본다 -->
+<section class="slide" data-archetype="traits-grid" data-variant="fig" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤24자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;gap:48px;align-items:stretch">
+    <div class="col" style="width:760px;flex:none;min-height:0;gap:24px;justify-content:center">
+      <div class="card trait f1" data-step="1"><div class="col" style="gap:8px"><h3 style="font-size:38px">«특성 A ≤5자»</h3><p class="body">«설명 ≤40자»</p><p data-src="«F01»" class="fact">«출처 칩: 발행처「문서」(연도) 값 ≤34자»</p></div><svg viewBox="0 0 100 100" class="ticon" aria-hidden="true"><use href="#i-star" width="100" height="100" style="color:var(--accent-text)"/></svg></div>
+      <div class="card trait f1" data-step="2"><div class="col" style="gap:8px"><h3 style="font-size:38px">«특성 B ≤5자»</h3><p class="body">«설명 ≤42자»</p><p data-src="«F01»" class="fact">«출처 칩: 발행처「문서」(연도) 값 ≤30자»</p></div><svg viewBox="0 0 100 100" class="ticon" aria-hidden="true"><use href="#i-list" width="100" height="100" style="color:var(--blue)"/></svg></div>
+    </div>
+    <figure class="fig-slot" data-step="3">
+      <svg class="dg" viewBox="0 0 720 560" role="img" aria-label="«그림 설명: 두 특성이 만나는 지점»">
+        <rect class="k-paper" x="48" y="120" width="250" height="150" rx="18"/>
+        <text class="t-l" text-anchor="middle" x="173" y="186">«특성 A ≤6자»</text>
+        <text class="t-s" text-anchor="middle" x="173" y="232">«짧은 설명 ≤8자»</text>
+        <rect class="k-paper" x="422" y="120" width="250" height="150" rx="18"/>
+        <text class="t-l" text-anchor="middle" x="547" y="186">«특성 B ≤6자»</text>
+        <text class="t-s" text-anchor="middle" x="547" y="232">«짧은 설명 ≤8자»</text>
+        <path class="k-ln-b" d="M298 195C360 195 360 330 360 330C360 330 360 195 422 195" marker-end="url(#ah-b)"/>
+        <ellipse class="k-orange" cx="360" cy="420" rx="130" ry="72"/>
+        <text class="t-l o" text-anchor="middle" x="360" y="430">«만나는 점 ≤7자»</text>
+      </svg>
+    </figure>
   </div>
   <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
 </section>

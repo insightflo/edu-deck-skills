@@ -1,7 +1,7 @@
 <!--
-  아키타입 statement (변형: orange, dark, quote-card, question-declare, banner-strip)
+  아키타입 statement (변형: orange, dark, quote-card, question-declare, banner-strip, fig)
   언제: 파트를 여는 핵심 문장 한 줄(주황/어두운 전면). 공식 출처가 있으면 아래에 칩.
-  변형: quote-card=말줄임 카드+인용자, question-declare=질문 칩→화살→선언, banner-strip=전폭 주황 띠 선언.
+  변형: quote-card=말줄임 카드+인용자, question-declare=질문 칩→화살→선언, banner-strip=전폭 주황 띠 선언, fig=큰 주장+그림 자리.
   단계: 단계 없음
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
   t2 문법: 둘째 줄 마지막 어절 자리표시를 <em class="t2"> 로 감싼 채 두면 강조색 2톤이 된다(문장당 1회). 규칙: references/expression.md 1절.
@@ -50,4 +50,32 @@
   </div>
   <p class="small" style="font-size:24px;color:var(--soft);padding:28px 120px 0">«각주·출처 한 줄 ≤46자»</p>
   <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(띠 안의 선언을 또박또박 읽는다) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- fig: 큰 주장 + 그림 자리 — 선언을 듣고 개념 그림으로 이어 간다 -->
+<section class="slide" data-archetype="statement" data-variant="fig" style="gap:48px">
+  <div class="row" style="flex:1;min-height:0;gap:56px;align-items:center">
+    <div class="col" style="width:860px;flex:none;gap:32px;justify-content:center">
+      <p class="eyebrow" style="font-size:30px">«파트 표시 ≤12자»</p>
+      <h2 class="big" style="font-size:72px">«핵심 문장 ≤11자»<br>«핵심 문장 ≤9자» <em class="t2">«어절 ≤4자»</em></h2>
+      <p class="body" style="font-size:32px">«주장을 받치는 한 줄 ≤34자»</p>
+    </div>
+    <figure class="fig-slot" data-step="1">
+      <svg class="dg" viewBox="0 0 640 600" role="img" aria-label="«그림 설명: 주장이 가리키는 개념»">
+        <circle class="k-solid-o" cx="320" cy="290" r="108"/>
+        <text class="t-l k-t-w" text-anchor="middle" x="320" y="282">«핵심 ≤5자»</text>
+        <text class="t-s k-t-w" text-anchor="middle" x="320" y="326">«보조 ≤6자»</text>
+        <path class="k-ln-g" d="M224 216L136 140"/>
+        <path class="k-ln-g" d="M416 216L504 140"/>
+        <path class="k-ln-g" d="M320 398V506" marker-end="url(#ahk)"/>
+        <circle class="k-blue" cx="112" cy="110" r="44"/>
+        <circle class="k-blue" cx="528" cy="110" r="44"/>
+        <circle class="k-orange" cx="320" cy="546" r="44"/>
+        <text class="t-s" text-anchor="middle" x="112" y="34">«주변 ≤5자»</text>
+        <text class="t-s" text-anchor="middle" x="528" y="34">«주변 ≤5자»</text>
+        <text class="t-s" text-anchor="middle" x="440" y="552">«결과 ≤5자»</text>
+      </svg>
+    </figure>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
 </section>

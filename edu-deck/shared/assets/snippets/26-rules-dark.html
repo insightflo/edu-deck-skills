@@ -1,5 +1,5 @@
 <!--
-  아키타입 rules-dark (변형: 기본)
+  아키타입 rules-dark (변형: 기본, numbered-clauses, allowed-forbidden, warning-bands, rule-matrix, fig)
   언제: 꼭 지킬 3가지(어두운 배경). 위험·확인 파트의 끝.
   단계: 규칙별 1단계
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
@@ -38,4 +38,32 @@
   <div class="head"><p class="eyebrow">«파트 표시 ≤12자»</p><h2 class="title">«제목: 한 문장 ≤24자»</h2></div>
   <div style="flex:1;background:var(--paper);color:var(--ink);padding:26px 32px"><div class="row" style="border-bottom:3px solid var(--ink);font-size:24px;font-weight:800;padding:10px 0"><span style="width:180px">«구분 ≤8자»</span><span>«행동 기준 ≤14자»</span></div><div class="col" style="gap:18px;padding-top:22px"><div data-step="1" style="display:flex;gap:26px;align-items:flex-start;"><p class="num" style="font-size:52px;line-height:1;color:var(--ink);">01</p><div><h3 style="font-size:34px;color:var(--ink);">«규칙 1 제목 ≤14자»</h3><p class="body" style="font-size:26px;color:var(--ink);">«규칙 설명 ≤28자»</p></div></div><div data-step="2" style="display:flex;gap:26px;align-items:flex-start;"><p class="num" style="font-size:52px;line-height:1;color:var(--ink);">02</p><div><h3 style="font-size:34px;color:var(--ink);">«규칙 2 제목 ≤14자»</h3><p class="body" style="font-size:26px;color:var(--ink);">«규칙 설명 ≤28자»</p></div></div><div data-step="3" style="display:flex;gap:26px;align-items:flex-start;"><p class="num" style="font-size:52px;line-height:1;color:var(--ink);">03</p><div><h3 style="font-size:34px;color:var(--ink);">«규칙 3 제목 ≤14자»</h3><p class="body" style="font-size:26px;color:var(--ink);">«규칙 설명 ≤28자»</p></div></div></div></div>
   <aside class="notes">«발표자 노트 110~450자: 화면의 핵심을 설명하고 단계별 공개 순서와 학습자 활동을 안내한 뒤 다음 내용으로 연결합니다.»</aside>
+</section>
+
+<!-- fig: 규칙 목록 + 그림 자리 — 규칙을 세우고 허용·금지 경계를 도식으로 본다 -->
+<section class="slide dark" data-archetype="rules-dark" data-variant="fig" style="gap:40px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤12자»</p><h2 class="title">«제목: 한 문장 ≤20자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;gap:48px;align-items:stretch">
+    <div class="col" style="width:760px;flex:none;min-height:0;gap:24px;justify-content:center">
+      <div class="col f1" data-step="1" style="gap:10px;justify-content:center"><p class="num" style="font-size:56px">1</p><h3 style="font-size:36px;font-weight:700">«규칙 1 ≤12자»</h3><p class="body" style="font-size:26px">«설명 ≤30자»</p></div>
+      <div class="col f1" data-step="2" style="gap:10px;justify-content:center"><p class="num" style="font-size:56px">2</p><h3 style="font-size:36px;font-weight:700">«규칙 2 ≤10자»</h3><p class="body" style="font-size:26px">«설명 ≤32자»</p></div>
+      <div class="col f1" data-step="3" style="gap:10px;justify-content:center"><p class="num" style="font-size:56px">3</p><h3 style="font-size:36px;font-weight:700">«규칙 3 ≤11자»</h3><p class="body" style="font-size:26px">«설명 ≤28자»</p></div>
+    </div>
+    <figure class="fig-slot" data-step="4">
+      <svg class="dg" viewBox="0 0 720 560" role="img" aria-label="«그림 설명: 허용 영역과 금지 영역의 경계»">
+        <rect class="k-frame" x="40" y="60" width="430" height="440" rx="24"/>
+        <text class="t-l o" x="76" y="126">«허용 영역 ≤7자»</text>
+        <rect class="k-solid-b" x="96" y="180" width="230" height="86" rx="16"/>
+        <text class="t-l k-t-w" text-anchor="middle" x="211" y="234">«되는 일 ≤6자»</text>
+        <rect class="k-solid-b" x="96" y="320" width="230" height="86" rx="16"/>
+        <text class="t-l k-t-w" text-anchor="middle" x="211" y="374">«되는 일 ≤6자»</text>
+        <g><rect class="k-gray" x="510" y="200" width="170" height="86" rx="16" opacity=".55"/>
+        <text class="t-s k-t-w" text-anchor="middle" x="595" y="254">«금지 ≤5자»</text>
+        <path class="k-ln-o" d="M520 210L670 276M670 210L520 276"/></g>
+        <text class="t-s k-t-w" text-anchor="middle" x="595" y="340">«밖 ≤5자»</text>
+      </svg>
+      <figcaption>«그림 캡션 ≤24자»</figcaption>
+    </figure>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
 </section>

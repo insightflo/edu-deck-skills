@@ -54,6 +54,16 @@ def combination(root, pair):
     row = {'design': design, 'flow': flow, 'exit': result.returncode,
            **{key: data[key] for key in ('result', 'errors', 'warnings', 'render')},
            'slides': len(data['slides'])}
+    # 텍스트 나열 WARN은 저작 권고(check_deck 결과 자체는 PASS) — 전 장이 텍스트 계열인
+    # 팩 조합(casebook·workbook)에서 의도 발화하므로 실패 집계에서는 뺀다.
+    advisory = sum(
+        1 for scope in (data['slides'], data.get('deck', []))
+        for s in scope
+        for f in (s.get('findings', []) if isinstance(s, dict) else [])
+        if f.get('sev') == 'WARN' and f.get('kind') == '텍스트 나열')
+    if advisory:
+        row['warnings'] -= advisory
+        row['advisory_warnings'] = advisory
     print(json.dumps(row), flush=True)
     return row
 

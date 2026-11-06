@@ -50,6 +50,16 @@ ARCHETYPES = {
     # TASK-stack: 구성도·업무 흐름 부품(37)
     "arch-flow",
 }
+# TASK-figslots: 본문 장의 시각/텍스트/고정 형식 분류 — references/layouts.md '텍스트 나열' 절과 짝.
+# 시각(도식·차트 03~14·18·31·33·34, 모형 15·16, 채팅 21, 구성도 37)과 .fig-slot·data-variant="fig" 은
+# 나열 계산을 끊고, 고정 형식(cover·quiz·sources·closing·check·explore·detail-sheet·screen-cite= mapping 아키타입)은
+# 연속열에서 빠진다(세지도 끊지도 않는다). 나머지 본문 계열은 텍스트로 센다.
+VISUAL_ARCHS = {"timeline", "map", "mechanism", "traits-grid", "meter", "compare-2", "compare-table",
+                "hub", "levels", "tile-grid", "sequence", "mapping", "build-up", "stat-strip",
+                "chart-bar", "chart-line", "mock-legend", "mock-options", "worked-example", "arch-flow"}
+FIXED_ARCHS = {"cover", "quiz-ab", "quiz-sort", "quiz-ox", "check", "sources", "closing",
+               "explore", "detail-sheet"}
+TEXT_RUN_MIN = 5  # 본문 장 연속열에서 텍스트 계열만 이 수 이상 이어지면 WARN
 STAT_NUM_CLASS = "stat-num"          # 숫자 증거 띠 큰 숫자(numbers() 숫자 릴 대상)
 STAT_BUDGETS = (12, 16)              # catalog.json 을 못 읽을 때의 폴백 예산(숫자, 라벨)
 CITE_IMG_BUDGET = 700 * 1024         # 실물 화면 이미지 1장 권장(지시문 P1-2) — catalog screen_image_kb 우선
@@ -326,11 +336,18 @@ def static_checks(html_text, soup, rep, allow_placeholders):
 
     pack = pack_checks(soup, slides, rep)
     archs = []
+    slide_kinds = []  # TASK-figslots 텍스트 나열 계산용: 'visual'·'fixed'·'text'
     for i, sec in enumerate(slides, 1):
         arch = sec.get("data-archetype", "")
         title = slide_title(sec)
         rep.slide_meta[i] = (arch or ("pack-" + pack["design"] if pack and is_pack_slide(sec) else "?"), title)
         archs.append(arch)
+        if arch in VISUAL_ARCHS or sec.get("data-variant") == "fig" or sec.select_one(".fig-slot"):
+            slide_kinds.append("visual")
+        elif arch in FIXED_ARCHS:
+            slide_kinds.append("fixed")
+        else:
+            slide_kinds.append("text")
         # Heuristic warning, not evidence of instructional effectiveness. Recognize
         # explanatory structure, not decorative icons or arbitrary data attributes.
         visual = sec.select_one('svg:not(.ico):not([aria-hidden="true"]), svg[role="img"][aria-label], .ed-diagram, .win, .meter-bar, .cmp, .rm, .lv, .todo, .opt, .qrow, .chk, .src-list, .atlas-map, .briefing-ledger, .casebook-file, .field-protocol, .lab-cycle, .seminar-turns, .workbook-answer, .stat-strip, .screen-cite')
@@ -354,6 +371,22 @@ def static_checks(html_text, soup, rep, allow_placeholders):
                     rep.add("WARN", i, "구성도", w, target=el.get("data-variant") or ".stack-fig")
             except StackSchemaError as exc:
                 rep.add("ERROR", i, "구성도", str(exc), target=".stack-fig")
+        # 그림 자리(figure.fig-slot): 배치가 준 빈 그림 칸 — 저작자가 diagrams.md 문법의 svg.dg 로 채운다.
+        # 빈 슬롯·«…» 자리표시 잔류·svg 읽기 계약 위반은 텍스트 자리(«…»)와 같은 ERROR 취급.
+        for fig in sec.select("figure.fig-slot"):
+            svg = fig.find("svg")
+            if svg is None or not svg.find(True):
+                rep.add("ERROR", i, "그림 자리",
+                        "fig-slot 이 비었습니다 — diagrams.md 문법의 svg.dg 로 채우세요", target=".fig-slot")
+                continue
+            if svg.get("role") != "img" or not svg.get("aria-label"):
+                rep.add("ERROR", i, "그림 자리",
+                        "fig-slot 안 svg.dg 에 role=\"img\"·aria-label(도식 요지)이 필요합니다",
+                        target=".fig-slot svg")
+            if "«" in fig.get_text() and not allow_placeholders:
+                rep.add("ERROR", i, "그림 자리",
+                        "fig-slot 에 «…» 자리표시가 남았습니다 — 주제에 맞는 도식으로 다시 그리세요",
+                        target=".fig-slot")
         # 확인 문제(check): 보기를 눌러 답하는 장. 마크업 규칙은 references/layouts.md 의 check 항
         if arch == "check":
             chks = sec.select(".chk")
@@ -548,6 +581,23 @@ def static_checks(html_text, soup, rep, allow_placeholders):
                         "외국어 문장은 한국어로 옮겨 싣고 이름·약어·코드만 원어로 둡니다",
                         target=hit.group(0)[:40])
                 break
+
+    # TASK-figslots 텍스트 나열 WARN: 고정 형식 장(cover·quiz·sources·closing·check·explore·
+    # detail-sheet)을 뺀 본문 장 연속열에서 텍스트 계열만 TEXT_RUN_MIN 장 이상이면 경고.
+    # 시각 계열(도식·차트·모형·채팅·구성도·fig 변형·.fig-slot)은 연속열을 끊는다.
+    run = []
+    for idx, kind in enumerate(slide_kinds, 1):
+        if kind == "text":
+            run.append(idx)
+        elif kind == "visual":
+            if len(run) >= TEXT_RUN_MIN:
+                rep.add("WARN", run[0], "텍스트 나열",
+                        f"본문 장이 텍스트 계열만 {len(run)}장 연속입니다(장 {run[0]}~{run[-1]}) — 시각 계열(도식·모형·채팅·구성도·fig 변형)을 섞으세요")
+            run = []
+        # fixed: 본문 장이 아니므로 연속 계산에서 뺀다(세지도 끊지도 않는다)
+    if len(run) >= TEXT_RUN_MIN:
+        rep.add("WARN", run[0], "텍스트 나열",
+                f"본문 장이 텍스트 계열만 {len(run)}장 연속입니다(장 {run[0]}~{run[-1]}) — 시각 계열(도식·모형·채팅·구성도·fig 변형)을 섞으세요")
 
     # 덱 라스터 합계 예산(기존 규칙 — expression.md 6절, 지시문 P1-2 로 체커 이행): 모든 data: 이미지의
     # 디코딩 크기를 합한다. 조각 안 SVG·폰트는 해당하지 않는다(임베드 폰트는 예산과 별개).

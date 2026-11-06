@@ -15,6 +15,7 @@
 | 02 | agenda (two-col-groups) | 묶음 카드 2개(위쪽 색 테두리) + 카드 안 파트 행 2개씩 | 묶음 → 내부 파트 | 파트 수가 홀수면 한 카드에 3개를 넣는다 |
 | 02 | agenda (unnumbered-flow) | 번호 없는 화살표 타일(chevron)이 겹쳐 이어지는 흐름 | 타일마다 1 + 정리 | clip-path 끝단(40px)과 `margin-left:-32px` 겹침은 함께 옮긴다. 강조 타일 글자는 `--paper` |
 | 02 | agenda (roadmap) | 구역 띠 4개 위 굽은 점선 경로 + 원 아이콘 정류장 | 정류장마다 1 + 정리 | 정류장 `.rm-col`은 position:absolute. 경로 두 path(점선 밑·accent 위)는 같은 d를 쓴다 |
+| 02 | agenda (fig) | 왼쪽 파트 목록 3행 + 오른쪽 `fig-slot` 미니 맵(견본: 경로 도식) | 파트마다 1 + 그림 | 슬롯은 배치가 준 빈 칸 — 안에 `svg.dg` 도식을 그린다(diagrams.md §4) |
 | 03 | timeline | 가로 기준선 위·아래로 번갈아 시점 원 3개, 원 옆 시점 이름과 사건 제목·설명 | 시점마다 1 | 시점을 늘리려면 노드 중심 x(320·830·1340)를 균등하게 다시 나눈다(선 120~1480). 4개 초과는 두 장으로 |
 | 03 | timeline (vertical) | 왼쪽 세로 기준선 + 시점 카드가 오른쪽으로 번갈아 나오는 세로 축 | 시점마다 1 | 노드 중심 y를 균등하게 다시 나눈다 |
 | 03 | timeline (zigzag) | 지그재그 굵은 경로 위 시점 원 4개 + 원 아래 제목·설명 | 시점마다 1 | 경로 꼭짓점과 원 중심을 함께 옮긴다 |
@@ -35,6 +36,7 @@
 | 06 | traits-grid (spectrum) | 연속 그라데이션 띠(5밴드+눈금) 위 항목 위치 점 + 카드 설명 | 항목마다 1 | 양 끝 극단 라벨을 띠 양쪽에 |
 | 06 | traits-grid (venn) | 겹친 원 3개 + 각 영역 라벨, 중앙 교집합 강조 | 영역마다 1 | 원 밖 라벨은 지시선으로 연결 |
 | 06 | traits-grid (radar) | 5축 방사형 다각형 + 축 끝 특성 라벨 + 값 다각형 | 축마다 1 | 축 라벨은 바깥 원 밖에 |
+| 06 | traits-grid (fig) | 왼쪽 특성 카드 2개 + 오른쪽 `fig-slot` 관계 도식(견본: 만나는 점) | 카드마다 1 + 그림 | 슬롯 안은 `svg.dg` — 견본을 지우고 주제 관계를 다시 그린다 |
 | 07 | meter | 왼쪽: 쓴 양 숫자(단계마다 바뀜) + 누적 막대 5칸 + 눈금, 오른쪽: 설명 카드 2개 세로 | 칸마다 1, 카드 | 칸 너비 `style="width:…%"` 합 100% 이하. 숫자는 `data-only` 로 단계별 값 |
 | 07 | meter (gauge) | 반원 계기판 — 색 띠 눈금 + 바늘 + 현재 값 숫자 | 단계별 | 바늘 각도는 `transform="rotate(… cx cy)"` |
 | 07 | meter (donut) | 도넛 링 조각 채움 + 가운데 비율 숫자 | 단계별 | 조각은 `path` 호, 채운 비율에 맞춘다 |
@@ -60,6 +62,7 @@
 | 11 | levels (pyramid) | 피라미드 층 3개(위로 갈수록 좁고 진함) + 옆 라벨 | 층마다 1 | 층 채움을 단계별로 다르게 |
 | 11 | levels (ladder) | 두 기둥 + 전폭 가로대 사다리 + 위쪽 화살 | 가로대마다 1 | 가로대 y 간격 균등 |
 | 11 | levels (mountain) | 두 봉우리 산맥 실루엣 + 등고선 + 정상 깃발, 경사 위 단계 점 | 단계마다 1 | 등고선은 산 면 안에만 |
+| 11 | levels (fig) | 왼쪽 수준 막대 3개 + 오른쪽 `fig-slot` 전체 도식(견본: 피라미드 층) | 수준마다 1 + 그림 | 슬롯 안은 `svg.dg` — 견본을 지우고 주제 위계를 다시 그린다 |
 | 12 | tile-grid (cards) | 3×2 큰 카드: 아이콘 + 이름 + 설명, 한 칸은 점선(우리 것·새것) + 정리 | 행 단위 | 칸 8개 이하 |
 | 12 | tile-grid (features) | 4×2 작은 칸: 아이콘 + 제목 + 설명 + 정리 | 줄 단위 | |
 | 12 | tile-grid (icons) | 3×2 아이콘 카드(가로형) | 0 | 단계 없이 한 번에 |
@@ -89,6 +92,7 @@
 | 17 | statement (quote-card) | 왼쪽 주황 테두리 카드 + 말줄임 아이콘 + 인용 문장 + 인용자 | 0 | 인용자 이름·출처는 카드 안 아래 줄 |
 | 17 | statement (question-declare) | 청중 질문 칩 → 아래 화살 → 큰 선언 + 받침 한 줄 | 0 | 질문 칩과 선언의 문장 성격이 달라야 한다 |
 | 17 | statement (banner-strip) | 좌우 여백 없는 전폭 주황 띠 안 한 줄 선언 + 설명, 위·아래 작은 줄 | 0 | 띠 안 글자는 `--paper`, t2 는 `--paper` 배경 칩에 `--ink` 글자 |
+| 17 | statement (fig) | 왼쪽 큰 주장 + 오른쪽 `fig-slot` 개념 그림(견본: 핵심 원+방사) | 그림 1 | 슬롯 안은 `svg.dg` — 주장이 가리키는 개념을 그린다 |
 | 18 | build-up | 위: 요소 칸 4개(단계마다 켜짐), 아래 왼쪽 결과 창(단계마다 바뀜) + 판정, 오른쪽 요청 창(문구가 덧붙음) | 요소마다 1 | 덧붙는 문구는 `span.add[data-add]`, 결과는 `data-only` 로 단계별 |
 | 18 | build-up (layers) | 아래에서 위로 쌓이는 사다리형 누층 + 층 라벨 | 층마다 1 | 층이 늘면 높이를 균등 분배
 | 18 | build-up (assembly) | 점선 원 자리에 부품이 날아와 조립(완성 그림) | 부품마다 1 | 빈 자리는 점선으로 미리 표시
@@ -127,6 +131,7 @@
 | 26 | rules-dark (allowed-forbidden) | 허용·금지 규칙 카드 | 3단계 | 표시 글자를 채운 뒤 실제 장에서 넘침 확인 |
 | 26 | rules-dark (warning-bands) | 가로 경고 띠 세 줄 | 3단계 | 표시 글자를 채운 뒤 실제 장에서 넘침 확인 |
 | 26 | rules-dark (rule-matrix) | 규칙 구분표 | 3단계 | 표시 글자를 채운 뒤 실제 장에서 넘침 확인 |
+| 26 | rules-dark (fig) | 어두운 바탕: 왼쪽 규칙 3개 + 오른쪽 `fig-slot` 경계 도식(견본: 허용·금지 틀) | 규칙마다 1 + 그림 | 슬롯 안은 `svg.dg` — 어두운 장 규칙은 diagrams.md §3 글자 밝히기를 따른다 |
 | 27 | checklist | 체크 칸 4개를 두 칸으로 나눠 배치(누르면 체크), 체크 칸은 오른쪽 | 줄마다 1 | 3~4개. 첫 낱말을 동사로(“확인하기”) |
 | 27 | checklist (card-columns) | 세로 체크 카드 | 3단계 | 표시 글자를 채운 뒤 실제 장에서 넘침 확인 |
 | 27 | checklist (step-path) | 순서가 있는 실천 목록 | 4단계 | 표시 글자를 채운 뒤 실제 장에서 넘침 확인 |
@@ -188,6 +193,18 @@
 - 글자 18px 이상(권장 20px). 슬라이드 밖 넘침·상자 밖 글·대비·겹침도 일반 장 기준과 같다.
 - 단계 없음(`data-step` 없음). 발표자 노트는 `<aside class="notes">` 로 둔다.
 - 폴백으로 고를 때도 계약이 아닌 카탈로그 조각 그대로 쓰며, 폴백 사실과 이유는 최종 보고에 `표지: 카탈로그 <id> (사유: …)` 한 줄로 남긴다.
+
+## 그림 자리(fig-slot)와 텍스트 나열
+
+모든 계열이 쓸 수 있는 공용 그림 자리: `<figure class="fig-slot">` — 자리·비율·정렬은 배치(계열 변형)가 지정하고, 내용은 저작 에이전트가 `diagrams.md` 문법의 `svg.dg`로 그린다(도형 `k-*`·글자 `t-*`·화살표·`data-step` 계약 동일). 빈 슬롯·`«…»` 자리표시 잔류·`role="img"`+`aria-label` 누락은 검사 ERROR. 현재 fig 변형을 싣는 계열: **02 agenda · 06 traits-grid · 11 levels · 17 statement · 26 rules-dark**(`data-variant="fig"`). 팩 덱에서도 그대로 쓴다(resource-packs.md).
+
+`check_deck.py`는 본문 장의 계열을 아래 셋으로 나눠 **텍스트 나열**을 경고한다 — 고정 형식 장을 뺀 연속열에서 텍스트 계열만 **5장 이상** 이어지면 WARN(“시각 계열을 섞으세요”).
+
+- **시각으로 센다**: 도식·차트 계열(timeline·map·mechanism·traits-grid·meter·compare-2·compare-table·hub·levels·tile-grid·sequence·mapping·build-up·stat-strip·chart-bar·chart-line) + 모형(mock-legend·mock-options) + 채팅(worked-example) + 구성도(arch-flow) + **`data-variant="fig"` 또는 `.fig-slot` 보유 장**. 연속열을 끊는다.
+- **고정 형식(연속열에서 제외 — 세지도 끊지도 않는다)**: cover·quiz-ab·quiz-sort·quiz-ox·check·sources·closing·explore·detail-sheet(+screen-cite 조각 — 아키타입 mapping 이라 시각으로 센다).
+- **텍스트로 센다**: agenda·statement·frame-form·before-after·rules-dark·checklist (아키타입 없는 팩 장도 텍스트 — `.fig-slot` 을 얹으면 시각이 된다).
+
+그림 자리는 도식 자리다 — 원본자료의 주요 이미지(실물 사진·원본 도면·표)는 슬롯이 아니라 화면 인용(screen-cite, 32) 계약으로 싣는다(composition.md '사진 습관 → 시각 체험').
 
 ## 자주 하는 조정
 

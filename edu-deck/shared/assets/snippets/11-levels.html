@@ -1,5 +1,5 @@
 <!--
-  아키타입 levels (변형: 기본 · stairs · pyramid · ladder · mountain)
+  아키타입 levels (변형: 기본 · stairs · pyramid · ladder · mountain · fig)
   언제: 수준·단계가 올라가는 구조(1→4, 막대가 길어짐).
   단계: 수준별 1단계
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
@@ -114,6 +114,31 @@
       <div class="card" data-step="5" style="padding:24px 30px;gap:8px"><h4 style="font-size:26px">«카드 제목 ≤12자»</h4><p class="small">«설명 ≤44자»</p></div>
       <div class="callout" data-step="6" style="font-size:26px;padding:20px 28px"><b>«강조 ≤12자»</b> «정리 문장 ≤32자»</div>
     </div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- fig: 위계 목록 + 그림 자리 — 수준을 보고 마지막에 전체 형태를 도식으로 본다 -->
+<section class="slide" data-archetype="levels" data-variant="fig" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤26자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;gap:48px;align-items:stretch">
+    <div class="col" style="width:760px;flex:none;min-height:0;gap:20px;justify-content:center">
+      <div class="lv" data-step="1"><div><h4>«1단계 제목 ≤12자»</h4><p>«문구 ≤40자»</p></div><div class="lv-bar" style="width:30%"></div></div>
+      <div class="lv" data-step="2"><div><h4>«2단계 제목 ≤13자»</h4><p>«문구 ≤36자»</p></div><div class="lv-bar" style="width:62%"></div></div>
+      <div class="lv" data-step="3"><div><h4>«3단계 제목 ≤13자»</h4><p>«문구 ≤32자»</p></div><div class="lv-bar" style="width:100%"></div></div>
+    </div>
+    <figure class="fig-slot" data-step="4">
+      <svg class="dg" viewBox="0 0 720 560" role="img" aria-label="«그림 설명: 수준이 쌓인 피라미드»">
+        <polygon class="k-solid-o" points="360,40 480,180 240,180"/>
+        <text class="t-l k-t-w" text-anchor="middle" x="360" y="145">«꼭짓점 ≤5자»</text>
+        <polygon class="k-solid-b" points="228,196 492,196 560,340 160,340"/>
+        <text class="t-l k-t-w" text-anchor="middle" x="360" y="290">«중간 ≤5자»</text>
+        <polygon class="k-gray" points="148,356 572,356 640,500 80,500"/>
+        <text class="t-l" text-anchor="middle" x="360" y="450">«바탕 ≤5자»</text>
+        <path class="k-ln-g" d="M676 480V96" marker-end="url(#ahk)"/>
+        <text class="t-s" text-anchor="end" x="712" y="72">«오름 ≤4자»</text>
+      </svg>
+    </figure>
   </div>
   <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
 </section>

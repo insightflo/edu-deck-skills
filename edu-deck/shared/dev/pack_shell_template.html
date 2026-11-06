@@ -56,6 +56,13 @@ body.ed-edit .slide [data-ed]:focus{outline:2px solid var(--accent);outline-offs
 .chart{flex:1;min-height:0;display:flex;flex-direction:column;gap:16px}
 .chart>svg{flex:1;min-height:0;width:100%}
 
+/* 그림 자리(.fig-slot): 배치(계열 변형)가 주는 빈 그림 칸. 내용은 저작자가 diagrams.md 문법의
+   svg.dg(k-* 도형·t-* 글자)로 그린다 — 도형·글자 스타일은 그 규칙이 담당하고 여기서는 자리만 잡는다 */
+.fig-slot{margin:0;flex:1;min-height:0;display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center}
+.fig-slot>svg.dg{flex:1;min-height:0;width:100%}
+.fig-slot figcaption{font-size:22px;line-height:1.5;color:var(--soft)}
+.dark .fig-slot figcaption{color:var(--muted)}
+
 /* 정적 완결: 인쇄·자습에서는 탐색 상태·시트가 모두 펼쳐진다 */
 @media print{
   #edAuto,#edEdit,.dsheet-dim,.expl-ctrl,.dsheet-open,.dsheet-close{display:none !important}
