@@ -1,0 +1,44 @@
+<!--
+  아키타입 cover (변형: blueprint)
+  언제: 표지. 설계도 격자 위 개념을 등각 스택으로 전개하는 도면형. AI·IT 기술 교육에 어울린다. 어두운 장.
+  단계: 단계 없음
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  이 변형은 격자·등각 스택 자체가 정체성 — 뼈대 기하는 유지하고 글자 자리표시만 채운다.
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+<section class="slide cx dark" data-archetype="cover" data-variant="blueprint" id="cover-blueprint" style="padding:0">
+
+<svg aria-hidden="true" style="position:absolute;inset:0" viewBox="0 0 1920 1080">
+<defs><pattern id="cov3-grid" width="64" height="64" patternUnits="userSpaceOnUse"><path d="M64 0H0V64" fill="none" stroke="var(--soft)" stroke-width="1.1" opacity=".3"/></pattern></defs>
+<rect width="1920" height="1080" fill="url(#cov3-grid)"/>
+<path d="M78 102h1720v870H78z" fill="none" stroke="var(--soft)" stroke-width="2" stroke-dasharray="9 11"/>
+<line x1="78" y1="230" x2="1800" y2="230" stroke="var(--soft)" stroke-width="2"/>
+<circle cx="1562" cy="558" r="315" fill="none" stroke="var(--soft)" stroke-width="2" stroke-dasharray="3 17"/>
+<circle cx="1562" cy="558" r="235" fill="none" stroke="var(--line)" stroke-width="2"/>
+<g>
+<path d="M1295 386l327-144 269 157-341 155z" fill="var(--blue)" stroke="var(--blue-text)" stroke-width="4"/>
+<path d="M1295 386v128l255 143V554z" fill="var(--ink)" stroke="var(--soft)" stroke-width="3"/>
+<path d="M1550 554l341-155v119l-341 139z" fill="var(--ink)" stroke="var(--soft)" stroke-width="3"/>
+<path d="M1240 587l331-140 272 157-334 158z" fill="var(--blue)" stroke="var(--blue-text)" stroke-width="4"/>
+<path d="M1240 587v110l269 158V762z" fill="var(--ink)" stroke="var(--soft)" stroke-width="3"/>
+<path d="M1509 762l334-158v99l-334 152z" fill="var(--ink)" stroke="var(--soft)" stroke-width="3"/>
+<path d="M1190 769l309-136 264 154-305 142z" fill="var(--accent)" stroke="var(--accent-light)" stroke-width="4"/>
+<path d="M1190 769v83l268 160v-83z" fill="var(--accent-text)" stroke="var(--accent-light)" stroke-width="3"/>
+<path d="M1458 929l305-142v83l-305 142z" fill="var(--accent-text)" stroke="var(--accent-light)" stroke-width="3"/>
+</g>
+<circle cx="1562" cy="324" r="24" fill="var(--accent-light)"/><circle cx="1562" cy="558" r="24" fill="var(--light)"/><circle cx="1562" cy="748" r="24" fill="var(--accent-light)"/>
+<path d="M1562 348v185m0 49v142" stroke="var(--muted)" stroke-width="4" stroke-dasharray="11 14"/>
+<g fill="var(--muted)" font-size="31" font-weight="700"><text x="1698" y="255">«1단계 ≤6자»</text><text x="1138" y="532">«2단계 ≤6자»</text><text x="1626" y="968">«3단계 ≤6자»</text></g>
+<path d="M1297 386l255 143 339-130" fill="none" stroke="var(--muted)" stroke-width="4" stroke-dasharray="8 10"/>
+<g stroke="var(--soft)" stroke-width="3"><line x1="1095" y1="280" x2="1095" y2="913"/><line x1="1095" y1="913" x2="1149" y2="913"/></g>
+</svg>
+<p class="cx-eyebrow" style="position:absolute;left:126px;top:149px;font-size:27px;font-weight:800;letter-spacing:4px;color:var(--accent-light)">«교육 이름 ≤10자»</p>
+<div style="position:absolute;left:126px;top:351px;width:1050px">
+<h1 class="cx-title" style="font-size:117px;line-height:1.17;letter-spacing:-6px;font-weight:900;color:var(--light)"><span data-text="«표지 제목 ≤12자»" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret"></span></h1>
+<p class="cx-sub" style="color:var(--muted);font-size:41px;margin-top:54px">«부제 한 문장 ≤29자»</p>
+</div>
+<p class="cover-date" style="z-index:3;left:125px;bottom:92px;color:var(--muted);font-size:26px">«부가 한 줄 ≤16자»</p>
+<p style="position:absolute;right:126px;top:160px;font-size:24px;font-weight:800;color:var(--muted);margin:0;z-index:3">«연번 ≤8자»</p>
+<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>

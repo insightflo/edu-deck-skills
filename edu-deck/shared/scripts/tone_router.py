@@ -86,13 +86,23 @@ THEME_CSS_IDS = tuple(t for t in THEMES if t != "classic")
 # id 가 아니므로 COVERS 에 넣지 않는다(TASK-cover-custom G3). 폴백은 COVERS 만 고른다.
 COVER_CUSTOM = "custom"  # "custom" 또는 "custom-…" 접두로 시작하는 값 모두 직접 설계
 COVERS = {
-    "orbit":   {"axes": {"energy": .5, "playful": .4, "technical": .5, "serious": .4, "warm": .5, "formal": .5}},
     "split":   {"axes": {"energy": .4, "playful": .3, "technical": .6, "serious": .5, "warm": .4, "formal": .8}},
     "center":  {"axes": {"energy": .3, "playful": .2, "technical": .4, "serious": .6, "warm": .4, "formal": .8}},
     "bigstat": {"axes": {"energy": .8, "playful": .6, "technical": .7, "serious": .4, "warm": .4, "formal": .5}},
     "diagram": {"axes": {"energy": .5, "playful": .4, "technical": .8, "serious": .4, "warm": .4, "formal": .6}},
     "stripes": {"axes": {"energy": .6, "playful": .7, "technical": .4, "serious": .3, "warm": .5, "formal": .4}},
     "mosaic":  {"axes": {"energy": .6, "playful": .6, "technical": .5, "serious": .3, "warm": .6, "formal": .4}},
+    # TASK-cover-rework: 사용자 시안 10종 등재(manifest 권장 맥락 → 축 매핑)
+    "editorial-lab":   {"axes": {"energy": .4, "playful": .3, "technical": .5, "serious": .6, "warm": .5, "formal": .7}},
+    "bold-poster":     {"axes": {"energy": .9, "playful": .7, "technical": .3, "serious": .2, "warm": .5, "formal": .2}},
+    "blueprint":       {"axes": {"energy": .4, "playful": .3, "technical": .9, "serious": .5, "warm": .3, "formal": .6}},
+    "monograph":       {"axes": {"energy": .2, "playful": .2, "technical": .3, "serious": .8, "warm": .5, "formal": .9}},
+    "learning-path":   {"axes": {"energy": .6, "playful": .6, "technical": .4, "serious": .3, "warm": .7, "formal": .4}},
+    "paper-collage":   {"axes": {"energy": .7, "playful": .9, "technical": .2, "serious": .2, "warm": .8, "formal": .2}},
+    "workbook-notes":  {"axes": {"energy": .5, "playful": .7, "technical": .4, "serious": .3, "warm": .7, "formal": .3}},
+    "future-portal":   {"axes": {"energy": .7, "playful": .4, "technical": .7, "serious": .6, "warm": .4, "formal": .5}},
+    "bauhaus":         {"axes": {"energy": .6, "playful": .7, "technical": .5, "serious": .4, "warm": .4, "formal": .5}},
+    "modular-cards":   {"axes": {"energy": .5, "playful": .4, "technical": .7, "serious": .5, "warm": .4, "formal": .6}},
 }
 
 # 줄거리(arc) 시그니처와 첫 장 규칙. opens = 표지 다음에 올 수 있는 아키타입(check_deck 흐름 규칙).

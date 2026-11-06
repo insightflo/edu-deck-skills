@@ -1,0 +1,38 @@
+<!--
+  아키타입 cover (변형: modular-cards)
+  언제: 표지. 지식 카드 3층이 기울어 쌓인 모듈형. 기술 실무·조직 협업에 어울린다.
+  단계: 단계 없음
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  이 변형은 카드 3층 스택이 정체성 — 뼈대는 유지하고 카드 라벨·글자 자리표시만 채운다.
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+<section class="slide cx" data-archetype="cover" data-variant="modular-cards" id="cover-modular-cards" style="padding:0;background:var(--paper)">
+
+<svg aria-hidden="true" style="position:absolute;inset:0" viewBox="0 0 1920 1080">
+<rect x="0" width="44" height="1080" fill="var(--accent)"/>
+<rect x="62" y="60" width="1795" height="955" rx="10" fill="none" stroke="var(--line)" stroke-width="2"/>
+<path d="M103 192h1715M104 905h1714" stroke="var(--line)" stroke-width="2"/>
+<g>
+<g transform="rotate(-16 1436 399)"><rect x="1190" y="220" width="520" height="365" rx="24" fill="var(--ink)"/><rect x="1221" y="251" width="455" height="298" rx="16" fill="none" stroke="var(--muted)" stroke-width="3"/></g>
+<g transform="rotate(7 1458 558)"><rect x="1177" y="402" width="562" height="330" rx="24" fill="var(--accent-light)"/><rect x="1207" y="434" width="501" height="268" rx="18" fill="none" stroke="var(--accent-text)" stroke-width="3"/></g>
+<g transform="rotate(-5 1460 755)"><rect x="1163" y="605" width="587" height="322" rx="22" fill="var(--light)" stroke="var(--blue-text)" stroke-width="4"/><rect x="1197" y="641" width="520" height="255" rx="14" fill="none" stroke="var(--blue-text)" stroke-width="2"/></g>
+</g>
+<circle cx="1719" cy="433" r="22" fill="var(--paper)" stroke="var(--soft)" stroke-width="4"/>
+<path d="M1813 542l-40 20m40-20-12 50" fill="none" stroke="var(--soft)" stroke-width="5"/>
+<circle cx="1105" cy="704" r="28" fill="var(--accent)"/>
+<path d="M1080 704h50m-25-25v50" stroke="var(--ink)" stroke-width="5"/>
+<g fill="var(--soft)"><circle cx="1050" cy="340" r="9"/><circle cx="1116" cy="320" r="9"/><circle cx="1034" cy="380" r="9"/></g>
+</svg>
+<p aria-hidden="true" style="position:absolute;left:1305px;top:365px;transform:rotate(-16deg);font-size:62px;font-weight:900;color:var(--paper);margin:0">«역할1 ≤4자»</p>
+<p aria-hidden="true" style="position:absolute;left:1360px;top:545px;transform:rotate(7deg);font-size:62px;font-weight:900;color:var(--ink);margin:0">«역할2 ≤4자»</p>
+<p aria-hidden="true" style="position:absolute;left:1305px;top:733px;transform:rotate(-5deg);font-size:65px;font-weight:900;color:var(--ink);margin:0">«역할3 ≤4자»</p>
+<p class="cx-eyebrow" style="position:absolute;left:150px;top:111px;font-size:28px;letter-spacing:4px;color:var(--blue-text);font-weight:850">«교육 이름 ≤10자»</p>
+<div style="position:absolute;left:145px;top:299px;width:1060px">
+<h1 class="cx-title" style="font-size:125px;line-height:1.19;letter-spacing:-8px;font-weight:900;color:var(--ink)"><span data-text="«표지 제목 ≤12자»" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret"></span></h1>
+<p class="cx-sub" style="margin-top:46px;font-size:43px;font-weight:550;color:var(--soft)">«부제 한 문장 ≤29자»</p>
+</div>
+<p class="cover-date" style="z-index:3;left:149px;bottom:112px;font-size:27px;color:var(--soft);font-weight:700">«부가 한 줄 ≤16자»</p>
+<p style="position:absolute;right:145px;bottom:112px;font-size:27px;color:var(--soft);font-weight:700;margin:0;z-index:3">«날짜 YYYY. MM. DD ≤15자»</p>
+<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>

@@ -1,0 +1,41 @@
+<!--
+  아키타입 cover (변형: future-portal)
+  언제: 표지. 빛의 포털과 길이 전환을 상징하는 형. 비전·변화관리 교육에 어울린다. 어두운 장.
+  단계: 단계 없음
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  이 변형은 포털·태양·길 구도가 정체성(전환 상징) — 뼈대는 유지하고 글자 자리표시만 채운다.
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+<section class="slide cx dark" data-archetype="cover" data-variant="future-portal" id="cover-future-portal" style="padding:0">
+
+<svg aria-hidden="true" style="position:absolute;inset:0" viewBox="0 0 1920 1080">
+<defs>
+<linearGradient id="cov8-portal" x1="0" x2="1" y1="0" y2=".8"><stop stop-color="var(--accent-light)"/><stop offset=".48" stop-color="var(--accent)"/><stop offset="1" stop-color="var(--blue)"/></linearGradient>
+<radialGradient id="cov8-sun" cx=".5" cy=".5" r=".5"><stop stop-color="var(--accent-light)"/><stop offset="1" stop-color="var(--accent)"/></radialGradient>
+</defs>
+<path d="M1008 1080L1224 239 1715 239 1920 1080Z" fill="var(--soft)" opacity=".35"/>
+<path d="M1115 1080L1295 290 1664 290 1860 1080Z" fill="var(--soft)" opacity=".29"/>
+<rect x="1172" y="126" width="592" height="824" rx="293" fill="var(--blue)"/>
+<rect x="1210" y="163" width="516" height="746" rx="258" fill="url(#cov8-portal)"/>
+<circle cx="1472" cy="450" r="133" fill="var(--accent-light)" opacity=".86"/>
+<path d="M1210 671 Q1461 540 1726 673V909H1210z" fill="var(--blue)" opacity=".72"/>
+<path d="M1210 751Q1474 613 1726 756V908H1210Z" fill="var(--ink)" opacity=".55"/>
+<path d="M1167 940l225-303h167l222 303" fill="var(--accent-light)" opacity=".83"/>
+<path d="M1070 1080l280-140h252l280 140" fill="var(--blue)" opacity=".3"/>
+<path d="M1361 940l-76 140M1583 940l68 140M1475 942v138" stroke="var(--ink)" stroke-width="4" opacity=".7"/>
+<path d="M1312 991h322M1256 1040h437" stroke="var(--ink)" stroke-width="5"/>
+<path d="M1190 820l-190-45M1194 730l-199-60" stroke="var(--soft)" stroke-width="2"/>
+<g fill="var(--muted)"><circle cx="1120" cy="220" r="7"/><circle cx="1790" cy="330" r="5"/><circle cx="1040" cy="560" r="4"/><circle cx="1870" cy="760" r="6"/></g>
+<path d="M180 940h790" stroke="var(--soft)" stroke-width="2"/>
+<path d="M180 940h202" stroke="var(--accent-light)" stroke-width="7"/>
+</svg>
+<p class="cx-eyebrow" style="position:absolute;left:140px;top:128px;font-size:27px;color:var(--accent-light);letter-spacing:4px;font-weight:800">«교육 이름 ≤10자»</p>
+<div style="position:absolute;left:140px;top:321px;width:1030px">
+<h1 class="cx-title" style="font-size:118px;line-height:1.2;letter-spacing:-6px;color:var(--light);font-weight:900"><span data-text="«표지 제목 ≤12자»" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret"></span></h1>
+<p class="cx-sub" style="font-size:42px;color:var(--muted);margin-top:59px">«부제 한 문장 ≤29자»</p>
+</div>
+<p class="cover-date" style="z-index:3;left:141px;bottom:76px;font-size:27px;color:var(--muted)">«부가 한 줄 ≤16자»</p>
+<p style="position:absolute;right:147px;bottom:72px;font-size:29px;color:var(--muted);font-weight:700;margin:0;z-index:3">«연번 ≤8자»</p>
+<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>

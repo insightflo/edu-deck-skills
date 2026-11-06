@@ -1,20 +1,16 @@
 <!--
   아키타입 cover (변형: mosaic)
-  언제: 표지. 오른쪽에 아이콘 타일이 2×3 격자로 놓인 모자이크형. 여러 활동·메뉴를 아우르는 주제.
+  언제: 표지. 오른쪽 2×3 타일 자리(cover-art)에 주제 아이콘·그림을 다시 채우는 모자이크형. 여러 활동·메뉴를 아우르는 주제.
   단계: 단계 없음
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
   자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  .cover-art = 표지 그림 자리 — «그림: …» 안내를 지우고 주제 타일·아이콘으로 다시 그린다(layouts.md "표지 그림 자리").
   배치 설명: references/layouts.md · 클래스: references/classes.md
 -->
 <section class="slide cx" data-archetype="cover" data-variant="mosaic" id="cover-mosaic" style="padding:0">
 
-<div aria-hidden="true" style="position:absolute;left:1300px;top:200px;display:grid;grid-template-columns:repeat(2,240px);gap:28px">
-<div style="width:240px;height:200px;border-radius:var(--r3);background:var(--accent);display:flex;align-items:center;justify-content:center"><svg class="ico" aria-hidden="true" style="width:88px;height:88px;color:var(--ink)"><use href="#i-graduation"/></svg></div>
-<div style="width:240px;height:200px;border-radius:var(--r3);border:3px solid var(--blue);display:flex;align-items:center;justify-content:center"><svg class="ico" aria-hidden="true" style="width:88px;height:88px;color:var(--muted)"><use href="#i-book"/></svg></div>
-<div style="width:240px;height:200px;border-radius:var(--r3);border:3px solid var(--accent-light);display:flex;align-items:center;justify-content:center"><svg class="ico" aria-hidden="true" style="width:88px;height:88px;color:var(--accent-light)"><use href="#i-chat"/></svg></div>
-<div style="width:240px;height:200px;border-radius:var(--r3);background:var(--blue);display:flex;align-items:center;justify-content:center"><svg class="ico" aria-hidden="true" style="width:88px;height:88px;color:var(--paper)"><use href="#i-gear"/></svg></div>
-<div style="width:240px;height:200px;border-radius:var(--r3);border:3px dashed var(--muted);display:flex;align-items:center;justify-content:center"><svg class="ico" aria-hidden="true" style="width:88px;height:88px;color:var(--muted)"><use href="#i-check"/></svg></div>
-<div style="width:240px;height:200px;border-radius:var(--r3);background:color-mix(in srgb,var(--accent) 30%,var(--ink));display:flex;align-items:center;justify-content:center"><svg class="ico" aria-hidden="true" style="width:88px;height:88px;color:var(--accent-light)"><use href="#i-target"/></svg></div>
+<div class="cover-art" aria-hidden="true" style="position:absolute;left:1300px;top:200px;width:508px;height:656px;border:2px dashed var(--muted);border-radius:var(--r3);display:flex;align-items:center;justify-content:center">
+<span style="font-size:24px;font-weight:700;color:var(--soft);text-align:center;max-width:400px">«그림: 주제 타일 그림 — i-* 아이콘·기하 조합»</span>
 </div>
 <div class="cx-text" style="top:290px;width:1040px">
 <p class="cx-eyebrow">«교육 이름 ≤10자»</p>

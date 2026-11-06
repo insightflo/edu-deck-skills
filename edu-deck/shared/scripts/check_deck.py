@@ -393,6 +393,14 @@ def static_checks(html_text, soup, rep, allow_placeholders):
                 rep.add("ERROR", i, "그림 자리",
                         "fig-slot 에 «…» 자리표시가 남았습니다 — 주제에 맞는 도식으로 다시 그리세요",
                         target=".fig-slot")
+        # TASK-cover-rework: 표지 그림 자리(.cover-art) — 주제 비특정 장식 자리. 자리표시 그림(«…»)이
+        # 남으면 텍스트 자리와 같은 ERROR 취급(갤러리 검사는 --allow-placeholders 에서만 묵음).
+        if arch == "cover":
+            for art in sec.select(".cover-art"):
+                if "«" in art.get_text() and not allow_placeholders:
+                    rep.add("ERROR", i, "표지 그림",
+                            "cover-art 에 자리표시 그림이 남았습니다 — «그림: …» 안내를 지우고 주제에 맞게 다시 그리세요",
+                            target=".cover-art")
         # TASK-quadrant-flash 최소 계약: 사분면은 축 라벨 2개(.qax-x·.qax-y), 플래시카드는 카드 3장 이상
         # + 카드마다 앞면 .fc-front·뒷면 .fc-back 짝. 부족하면 배치 의도가 깨진 것 — WARN(검사 남발 금지).
         if arch == "quadrant" and len(sec.select(".qax")) < 2:

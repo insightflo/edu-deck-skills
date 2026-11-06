@@ -1,0 +1,35 @@
+<!--
+  아키타입 cover (변형: learning-path)
+  언제: 표지. 학습 여정을 굽은 경로와 4개 정거장으로 보여 주는 형. 커리큘럼·실습 교육에 어울린다.
+  단계: 단계 없음
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  이 변형은 경로·정거장 기하가 정체성 — 뼈대는 유지하고 정거장 라벨·글자 자리표시만 채운다.
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+<section class="slide cx" data-archetype="cover" data-variant="learning-path" id="cover-learning-path" style="padding:0;background:var(--paper)">
+
+<svg aria-hidden="true" style="position:absolute;inset:0" viewBox="0 0 1920 1080">
+<circle cx="1500" cy="560" r="490" fill="var(--light)"/>
+<path d="M0 0h1920v1080H0z" fill="none" stroke="var(--chip)" stroke-width="35"/>
+<path d="M290 787 C515 968 695 733 874 795 S1166 1050 1368 743 S1665 580 1777 688" fill="none" stroke="var(--chip)" stroke-width="106" stroke-linecap="round"/>
+<path d="M290 787 C515 968 695 733 874 795 S1166 1050 1368 743 S1665 580 1777 688" fill="none" stroke="var(--blue)" stroke-width="15" stroke-dasharray="1 36" stroke-linecap="round"/>
+<g text-anchor="middle" font-weight="800">
+<circle cx="300" cy="791" r="90" fill="var(--ink)"/><text x="300" y="816" font-size="76" fill="var(--paper)">«기호»</text><text x="301" y="925" font-size="30" fill="var(--ink)">«정거장1 ≤6자»</text>
+<circle cx="757" cy="802" r="90" fill="var(--accent-light)"/><text x="757" y="831" font-size="78" fill="var(--ink)">«기호»</text><text x="757" y="950" font-size="30" fill="var(--ink)">«정거장2 ≤6자»</text>
+<circle cx="1257" cy="824" r="90" fill="var(--blue-soft)"/><text x="1257" y="852" font-size="84" fill="var(--ink)">«기호»</text><text x="1257" y="958" font-size="30" fill="var(--ink)">«정거장3 ≤6자»</text>
+<circle cx="1667" cy="645" r="90" fill="var(--blue)"/><text x="1667" y="675" font-size="77" fill="var(--paper)">«기호»</text><text x="1667" y="787" font-size="30" fill="var(--ink)">«정거장4 ≤6자»</text>
+</g>
+<g fill="var(--accent-light)"><circle cx="507" cy="718" r="12"/><circle cx="931" cy="712" r="16"/><circle cx="1088" cy="970" r="10"/></g>
+<path d="M1585 334l48-85 50 85" fill="none" stroke="var(--line)" stroke-width="4"/>
+<path d="M1650 281v120" stroke="var(--line)" stroke-width="4"/>
+</svg>
+<p class="cx-eyebrow" style="position:absolute;left:140px;top:111px;font-size:25px;letter-spacing:2px;color:var(--ink);font-weight:800">«교육 이름 ≤10자»</p>
+<div style="position:absolute;left:138px;top:245px;width:1560px">
+<h1 class="cx-title" style="font-size:130px;line-height:1.18;letter-spacing:-7px;color:var(--ink);font-weight:900"><span data-text="«표지 제목 ≤12자»" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret"></span></h1>
+<p class="cx-sub" style="margin-top:35px;font-size:43px;color:var(--soft);font-weight:600">«부제 한 문장 ≤29자»</p>
+</div>
+<p class="cover-date" style="z-index:3;left:140px;bottom:91px;font-size:26px;color:var(--soft);font-weight:700">«부가 한 줄 ≤16자»</p>
+<p style="position:absolute;right:142px;top:118px;font-size:26px;font-weight:800;color:var(--soft);margin:0;z-index:3">«연번 ≤8자»</p>
+<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>

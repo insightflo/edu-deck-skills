@@ -1,0 +1,33 @@
+<!--
+  아키타입 cover (변형: paper-collage)
+  언제: 표지. 회전·겹친 색지 스택으로 생동감을 주는 콜라주형. 워크숍·창의 교육에 어울린다.
+  단계: 단계 없음
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  .cover-art = 표지 그림 자리 — 맨 위 색지의 «그림: …» 안내를 지우고 주제 스탬프·낙서를 다시 그린다(layouts.md "표지 그림 자리").
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+<section class="slide cx" data-archetype="cover" data-variant="paper-collage" id="cover-paper-collage" style="padding:0;background:var(--paper)">
+
+<svg aria-hidden="true" style="position:absolute;inset:0" viewBox="0 0 1920 1080">
+<path d="M0 85l1300-60-70 170-1230 60z" fill="var(--accent-light)"/>
+<circle cx="1652" cy="398" r="285" fill="var(--accent)"/>
+<path d="M1122 182l668 130-167 653-707-143z" fill="var(--accent-light)"/>
+<path d="M1167 211l510 80-110 565-510-88z" fill="var(--chip)"/>
+<path d="M1280 360l390-75M1259 411l392-57M1237 467l391-40" stroke="var(--ink)" stroke-width="15" stroke-linecap="square"/>
+<path d="M113 224h210" stroke="var(--blue)" stroke-width="10"/>
+<rect x="1768" y="75" width="81" height="81" rx="15" fill="var(--blue)"/>
+<path d="M1791 115h35m-17-17v35" stroke="var(--accent-light)" stroke-width="6"/>
+</svg>
+<div class="cover-art" aria-hidden="true" style="position:absolute;left:1330px;top:430px;width:340px;height:340px;border:2px dashed var(--ink);border-radius:50%;display:flex;align-items:center;justify-content:center">
+<span style="font-size:24px;font-weight:700;color:var(--ink);text-align:center;max-width:260px">«그림: 주제 스탬프·낙서 — «대상»»</span>
+</div>
+<p class="cx-eyebrow" style="position:absolute;left:114px;top:110px;font-size:29px;font-weight:900;color:var(--blue);letter-spacing:2px">«교육 이름 ≤10자»</p>
+<div style="position:absolute;left:85px;top:296px;width:1180px;height:585px;transform:rotate(-4deg);background:var(--blue);padding:93px 40px 0 79px">
+<h1 class="cx-title" style="font-size:133px;font-weight:900;line-height:1.15;letter-spacing:-8px;color:var(--paper)"><span data-text="«표지 제목 ≤12자»" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret"></span></h1>
+<p class="cx-sub" style="font-size:40px;font-weight:650;margin-top:31px;color:var(--light)">«부제 한 문장 ≤29자»</p>
+</div>
+<p class="cover-date" style="z-index:3;left:121px;bottom:79px;font-size:27px;color:var(--blue);font-weight:800">«부가 한 줄 ≤16자»</p>
+<p style="position:absolute;right:121px;bottom:75px;font-size:27px;color:var(--blue);font-weight:800;margin:0;z-index:3">«연번 ≤8자»</p>
+<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>

@@ -181,7 +181,7 @@ class CoverCustomRender(unittest.TestCase):
         text = self.decks['hex'].read_text(encoding='utf-8')
         warns = [i for i in static_items(text) if i['kind'] == '표지' and 'var(--' in i['message']]
         self.assertTrue(warns)
-        cat = (SNIPPETS / '01-cover.html').read_text(encoding='utf-8')
+        cat = (SNIPPETS / '01-cover-split.html').read_text(encoding='utf-8')
         self.assertEqual([i for i in static_items(doc([cat, AGENDA, CLOSING])) if i['kind'] == '표지'], [])
 
     # 계약 위반: .cx-title 없는 직접 설계 표지 → WARN

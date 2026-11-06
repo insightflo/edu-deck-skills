@@ -1,0 +1,35 @@
+<!--
+  아키타입 cover (변형: editorial-lab)
+  언제: 표지. 절제된 편집 지면 틀 + 오른쪽 겹친 학습 카드. 기관 교육·기술 입문에 어울린다.
+  단계: 단계 없음
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  .cover-art = 표지 그림 자리 — 맨 위 카드 안 «그림: …» 안내를 지우고 주제 개념 그림을 다시 그린다(layouts.md "표지 그림 자리").
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+<section class="slide cx" data-archetype="cover" data-variant="editorial-lab" id="cover-editorial-lab" style="padding:0;background:var(--paper)">
+
+<svg aria-hidden="true" style="position:absolute;inset:0" viewBox="0 0 1920 1080">
+<rect x="64" y="64" width="1792" height="952" fill="none" stroke="var(--ink)" stroke-width="2"/>
+<line x1="64" y1="171" x2="1856" y2="171" stroke="var(--ink)" stroke-width="2"/>
+<line x1="64" y1="941" x2="1856" y2="941" stroke="var(--ink)" stroke-width="2"/>
+<line x1="1195" y1="171" x2="1195" y2="941" stroke="var(--line)" stroke-width="2" stroke-dasharray="7 12"/>
+<g transform="rotate(9 1495 540)"><rect x="1232" y="252" width="510" height="593" rx="5" fill="var(--accent-light)"/><rect x="1262" y="282" width="450" height="533" rx="2" fill="none" stroke="var(--ink)" stroke-width="2"/></g>
+<g transform="rotate(-8 1467 520)"><rect x="1197" y="220" width="510" height="610" rx="4" fill="var(--chip)"/></g>
+<g><rect x="1260" y="215" width="476" height="638" rx="6" fill="var(--light)"/><rect x="1292" y="248" width="412" height="571" fill="none" stroke="var(--line)" stroke-width="2"/></g>
+<circle cx="1734" cy="201" r="23" fill="var(--accent)"/><circle cx="1214" cy="840" r="15" fill="var(--blue)"/>
+<path d="M1096 314l42-40m-38 0 40 43" fill="none" stroke="var(--accent)" stroke-width="7"/>
+</svg>
+<div class="cover-art" aria-hidden="true" style="position:absolute;left:1310px;top:290px;width:380px;height:500px;display:flex;align-items:center;justify-content:center">
+<span style="font-size:24px;font-weight:700;color:var(--soft);text-align:center;max-width:300px">«그림: 주제 개념 그림 — «대상»»</span>
+</div>
+<p class="cx-eyebrow" style="position:absolute;left:140px;top:111px;font-size:25px;font-weight:850;letter-spacing:3px;color:var(--soft)">«교육 이름 ≤10자»</p>
+<div style="position:absolute;left:128px;top:265px;width:1010px">
+<p style="color:var(--accent);font-size:26px;font-weight:850;letter-spacing:4px;margin:0 0 41px">«연번 · 기수 ≤10자»</p>
+<h1 class="cx-title" style="font-size:119px;letter-spacing:-7px;line-height:1.18;font-weight:900;color:var(--ink)"><span data-text="«표지 제목 ≤12자»" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret"></span></h1>
+<p class="cx-sub" style="margin-top:43px;font-size:40px;font-weight:500;color:var(--soft)">«부제 한 문장 ≤29자»</p>
+</div>
+<p class="cover-date" style="z-index:3;left:140px;bottom:104px;font-size:26px;color:var(--soft)">«부가 한 줄 ≤16자»</p>
+<p style="position:absolute;right:119px;bottom:103px;font-size:26px;font-weight:750;color:var(--ink);margin:0;z-index:3">«날짜 YYYY. MM. DD ≤15자»</p>
+<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>

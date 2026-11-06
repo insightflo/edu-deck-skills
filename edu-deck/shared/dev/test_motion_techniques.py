@@ -34,7 +34,7 @@ TECHNIQUES = ('scatter-gather', 'slice-reveal', 'row-mask-rise',
 
 # 채택 계열 -> (스니펫 파일, 아키타입, data-fx 이름, 대상 선택자, 최대 대상 수)
 ADOPTIONS = {
-    'cover': ('01-cover.html', 'scatter-gather', '#cx-typed', 48),
+    'cover': ('01-cover-center.html', 'scatter-gather', '#cx-typed', 48),
     'agenda': ('02-agenda.html', 'row-mask-rise', '.rm-col', 12),
     'statement': ('17-statement.html', 'weight-wave', '.t2', 48),
     'before-after': ('20-before-after.html', 'slice-reveal', '.win', 12),
@@ -53,7 +53,7 @@ def first_section(stem):
 
 def build_mini():
     SRC.mkdir(parents=True, exist_ok=True)
-    order = ['01-cover.html', '02-agenda.html', '17-statement.html',
+    order = ['01-cover-center.html', '02-agenda.html', '17-statement.html',
              '20-before-after.html', '30-check.html']
     srcs = []
     for i, name in enumerate(order):

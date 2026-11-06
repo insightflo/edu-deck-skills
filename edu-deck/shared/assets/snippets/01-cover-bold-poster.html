@@ -1,0 +1,33 @@
+<!--
+  아키타입 cover (변형: bold-poster)
+  언제: 표지. 강한 타이포 대비·캠페인형 임팩트. 오리엔테이션·대규모 특강에 어울린다.
+  단계: 단계 없음
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  .cover-art = 표지 그림 자리 — 오른쪽 «그림: …» 안내를 지우고 주제 상징(대문자·도형)을 크게 다시 그린다(layouts.md "표지 그림 자리").
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+<section class="slide cx" data-archetype="cover" data-variant="bold-poster" id="cover-bold-poster" style="padding:0;background:var(--accent)">
+
+<svg aria-hidden="true" style="position:absolute;inset:0" viewBox="0 0 1920 1080">
+<path d="M0 0h1200l-130 215H0z" fill="var(--accent-light)"/>
+<path d="M1400 0h520v1080h-550l-120-175 140-300-100-180z" fill="var(--accent-text)"/>
+<path d="M1375 188l334 345" stroke="var(--ink)" stroke-width="16"/>
+<path d="M1692 175l-307 360" stroke="var(--accent-light)" stroke-width="20"/>
+<rect x="0" y="1000" width="1920" height="80" fill="var(--ink)"/>
+<g fill="var(--ink)" opacity=".5"><circle cx="1260" cy="240" r="3"/><circle cx="1290" cy="270" r="3"/><circle cx="1320" cy="300" r="3"/><circle cx="1350" cy="330" r="3"/><circle cx="1380" cy="360" r="3"/><circle cx="1410" cy="390" r="3"/><circle cx="1290" cy="210" r="3"/><circle cx="1350" cy="270" r="3"/><circle cx="1410" cy="330" r="3"/></g>
+<path d="M1004 545h72m-36-35v70" stroke="var(--accent-light)" stroke-width="11"/>
+</svg>
+<div class="cover-art" aria-hidden="true" style="position:absolute;left:1450px;top:160px;width:420px;height:800px;border:2px dashed var(--paper);border-radius:var(--r3);display:flex;align-items:center;justify-content:center">
+<span style="font-size:24px;font-weight:700;color:var(--paper);text-align:center;max-width:320px">«그림: 주제 상징 대문자·도형 — «핵심 글자»»</span>
+</div>
+<p class="cx-eyebrow" style="position:absolute;left:112px;top:75px;font-size:30px;font-weight:900;letter-spacing:2px;color:var(--light)">«교육 이름 ≤10자»</p>
+<div style="position:absolute;left:108px;top:272px;width:1110px">
+<p style="font-size:31px;font-weight:900;letter-spacing:9px;color:var(--paper);margin:0 0 34px">«핵심 가치 3어 ≤12자»</p>
+<h1 class="cx-title" style="font-size:144px;font-weight:900;line-height:1.11;letter-spacing:-10px;color:var(--paper)"><span data-text="«표지 제목 ≤12자»" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret"></span></h1>
+<p class="cx-sub" style="font-size:41px;margin-top:55px;font-weight:700;color:var(--paper)">«부제 한 문장 ≤29자»</p>
+</div>
+<p class="cover-date" style="z-index:3;left:115px;bottom:26px;color:var(--paper);font-size:27px;font-weight:800">«부가 한 줄 ≤16자»</p>
+<p style="position:absolute;right:109px;bottom:25px;color:var(--paper);font-size:27px;font-weight:700;margin:0;z-index:3">«연번 ≤8자»</p>
+<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>

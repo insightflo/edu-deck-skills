@@ -1,20 +1,18 @@
 <!--
   아키타입 cover (변형: split)
-  언제: 표지. 왼쪽 어두운 글 단 + 오른쪽 강조색 면(아이콘 세로 줄). 좌우 2분할이 어울리는 주제.
+  언제: 표지. 왼쪽 어두운 글 단 + 오른쪽 강조색 면 위 cover-art 자리(주제 상징 그림). 좌우 2분할이 어울리는 주제.
   단계: 단계 없음
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
   자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  .cover-art = 표지 그림 자리 — «그림: …» 안내를 지우고 주제 상징·아이콘으로 다시 그린다(layouts.md "표지 그림 자리").
   배치 설명: references/layouts.md · 클래스: references/classes.md
 -->
 <section class="slide cx" data-archetype="cover" data-variant="split" id="cover-split" style="padding:0">
 
 <div aria-hidden="true" style="position:absolute;left:1300px;top:0;width:620px;height:1080px;background:var(--accent)"></div>
 <div aria-hidden="true" style="position:absolute;left:1300px;top:0;width:10px;height:1080px;background:var(--accent-light)"></div>
-<div aria-hidden="true" style="position:absolute;left:1430px;top:190px;display:flex;flex-direction:column;gap:44px">
-<svg class="ico" aria-hidden="true" style="width:96px;height:96px;color:var(--ink)"><use href="#i-graduation"/></svg>
-<svg class="ico" aria-hidden="true" style="width:96px;height:96px;color:var(--paper)"><use href="#i-book"/></svg>
-<svg class="ico" aria-hidden="true" style="width:96px;height:96px;color:var(--ink)"><use href="#i-chat"/></svg>
-<svg class="ico" aria-hidden="true" style="width:96px;height:96px;color:var(--paper)"><use href="#i-gear"/></svg>
+<div class="cover-art" aria-hidden="true" style="position:absolute;left:1400px;top:170px;width:420px;height:560px;border:2px dashed var(--paper);border-radius:var(--r3);display:flex;align-items:center;justify-content:center">
+<span style="font-size:24px;font-weight:700;color:var(--paper);text-align:center;max-width:330px">«그림: 주제 상징 그림 — «대상»»</span>
 </div>
 <div aria-hidden="true" style="position:absolute;left:1400px;top:800px;width:420px;height:14px;background:var(--accent-light);opacity:.7"></div>
 <div class="cx-text" style="top:300px;width:1020px">
