@@ -1203,17 +1203,56 @@ body.ed-edit .slide [data-ed]:focus{outline:2px solid var(--accent);outline-offs
 .vpills{display:flex;flex-wrap:wrap;gap:8px}
 .vpills .vnode{padding:4px 12px;font-size:22px;font-weight:600}
 
+/* 2×2 사분면(.quad): 두 축(.qax-x 위 · .qax-y 왼쪽 세로쓰기)이 만나는 네 영역 배치.
+   칸 목록은 .qgrid>.qcell, 좌표 배치는 .qplot(십자 축선 상대 판) 안 절대 위치 칩(.qp)·거품(.qbub).
+   .qp/.qbub 은 CSS translate 속성으로 중심을 맞추므로 계열 시그니처의 transform 프레임과 겹치지 않는다.
+   독자 모션 없음 — 장 계열 시그니처·data-step 을 따른다. 축 라벨은 측정값이 아니라 개념 기준이다 */
+.quad{display:grid;grid-template-areas:". ax" "ay qg";grid-template-columns:auto 1fr;grid-template-rows:auto 1fr;gap:10px 20px;flex:1;min-height:0}
+.qax{display:flex;align-items:center;justify-content:center;gap:12px;font-size:22px;font-weight:800;color:var(--soft);white-space:nowrap}
+.qax-x{grid-area:ax}
+.qax-y{grid-area:ay;writing-mode:vertical-rl}
+.qgrid{grid-area:qg;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:14px;min-height:0}
+.qcell{display:flex;flex-direction:column;gap:10px;padding:20px 26px;border-radius:var(--r2);border:2px solid var(--line);background:var(--light);color:var(--ink);min-height:0;overflow:hidden}
+.qcell h3{margin:0;font-size:28px;font-weight:800;color:var(--ink)}
+.qplot{grid-area:qg;position:relative;border:3px solid var(--line);border-radius:var(--r2);min-height:0}
+.qplot::before,.qplot::after{content:"";position:absolute;background:var(--line)}
+.qplot::before{left:0;right:0;top:50%;height:2px}
+.qplot::after{top:0;bottom:0;left:50%;width:2px}
+.qp{position:absolute;translate:-50% -50%}
+.qbub{position:absolute;translate:-50% -50%;border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;padding:14px;background:var(--accent-soft);border:3px solid var(--accent);color:var(--ink);font-size:22px;font-weight:800}
+.dark .qbub{background:var(--light);border-color:var(--accent-light)}
+/* 플래시카드(.fcards>.fc): 앞면 .fc-front·뒷면 .fc-back. 화면에서 카드를 누르면 .on 토글로 뒤집는다
+   (motion.js 위임 핸들러 — 조작 자체는 시그니처가 아니다). 정적 완결에서는 앞·뒷면이 나란히 펼쳐진다 */
+.fcards{display:grid;gap:20px;flex:1;min-height:0}
+.fc{font:inherit;color:inherit;text-align:inherit;background:none;border:0;padding:0;position:relative;min-height:0;perspective:1200px;cursor:pointer}
+.fc-in{position:absolute;inset:0;display:block;transform-style:preserve-3d;transition:transform var(--m3) var(--e-out)}
+.fc-front,.fc-back{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:20px;border-radius:var(--r2);border:3px solid var(--line);background:var(--paper);color:var(--ink);backface-visibility:hidden}
+.fc-back{transform:rotateY(180deg);background:var(--accent-soft);border-color:var(--accent)}
+.dark .fc-back{background:var(--light);border-color:var(--accent-light)}
+.fc.on .fc-in{transform:rotateY(180deg)}
+.fc-no{position:absolute;top:12px;left:18px;font-size:20px;font-weight:800;color:var(--soft)}
+.fc.cut .fc-front,.fc.cut .fc-back{border-style:dashed;border-color:var(--muted)}
+.fc.open{cursor:default}
+.fc.open .fc-in{position:static;transform:none;display:grid;grid-template-columns:1fr 1fr;gap:12px;height:100%;transform-style:flat}
+.fc.open .fc-front,.fc.open .fc-back{position:static;transform:none;backface-visibility:visible}
+
 /* 정적 완결: 인쇄·자습에서는 탐색 상태·시트가 모두 펼쳐진다 */
 @media print{
   #edAuto,#edEdit,.dsheet-dim,.expl-ctrl,.dsheet-open,.dsheet-close{display:none !important}
   .expl-state{display:flex !important;flex-direction:column;gap:20px}
   .expl-state+.expl-state{margin-top:24px;padding-top:18px;border-top:2px dashed var(--line)}
   .dsheet-panel{position:static !important;transform:none !important;visibility:visible !important;display:flex !important;width:auto;max-height:none;overflow:visible;border:2px solid var(--line);border-top:4px solid var(--accent);border-radius:var(--r2);box-shadow:none;padding:20px 28px;margin-top:24px}
+  .fc{cursor:default}
+  .fc-in{position:static;transform:none !important;display:grid;grid-template-columns:1fr 1fr;gap:12px;transform-style:flat}
+  .fc-front,.fc-back{position:static;transform:none;backface-visibility:visible}
 }
 body.st-self .expl-ctrl,body.st-self .dsheet-dim,body.st-self .dsheet-open,body.st-self .dsheet-close{display:none}
 body.st-self .expl-state{display:flex;flex-direction:column;gap:20px}
 body.st-self .expl-state+.expl-state{margin-top:24px;padding-top:18px;border-top:2px dashed var(--line)}
 body.st-self .dsheet-panel{position:static;transform:none;visibility:visible;display:flex;width:auto;max-height:none;overflow:visible;border:2px solid var(--line);border-top:4px solid var(--accent);border-radius:var(--r2);box-shadow:none;padding:20px 28px;margin-top:24px}
+body.st-self .fc,body.st-sheet .fc,body.st-printing .fc,body.st-presenter .fc{cursor:default}
+body.st-self .fc-in,body.st-sheet .fc-in,body.st-printing .fc-in,body.st-presenter .fc-in{position:static;transform:none !important;display:grid;grid-template-columns:1fr 1fr;gap:12px;transform-style:flat;height:100%}
+body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-sheet .fc-back,body.st-printing .fc-front,body.st-printing .fc-back,body.st-presenter .fc-front,body.st-presenter .fc-back{position:static;transform:none;backface-visibility:visible}
 </style>
 <style>
 /*EXTRA_CSS*/
@@ -1680,7 +1719,7 @@ body.st-self .dsheet-panel{position:static;transform:none;visibility:visible;dis
     'frame-form':'.tp,.fm-row,.pb','before-after':'.win,.stack,.card','worked-example':'.win,.card,.list li',
     'quiz-ab':'.opt','quiz-sort':'.qrow,.ans','quiz-ox':'.qrow,.ox','check':'.chk,.chk-o',
     'rules-dark':'.num,.body','checklist':'.todo,.tbox','sources':'.src-list li','closing':'.pill,.big',
-    'stat-strip':'.stat'
+    'stat-strip':'.stat','quadrant':'.qcell,.qp,.qbub','flashcards':'.fc'
   };
   const packTargets={atlas:'.atlas-origin,.atlas-source,.atlas-destination',briefing:'.briefing-row',casebook:'.casebook-narrative,.casebook-exhibit,.casebook-decision',editorial:'.editorial-story,.editorial-margin,.editorial-bottom',field:'.field-row',lab:'.lab-observation,.lab-evidence,.lab-next',seminar:'.seminar-turns span,.seminar-preparation,.seminar-invitation',workbook:'.workbook-read,.workbook-write,.workbook-reflection'};
   const packArch={atlas:'map',briefing:'compare-table',casebook:'before-after',editorial:'build-up',field:'sequence',lab:'mechanism',seminar:'hub',workbook:'frame-form'};
@@ -1726,7 +1765,11 @@ body.st-self .dsheet-panel{position:static;transform:none;visibility:visible;dis
     'detail-sheet':{name:'accumulating-pieces',frames:i=>['translateY(24px) scale(.92)','translateY(-4px) scale(1.02)','translateY(0px) scale(1)']},
     // 파트 구분지는 agenda 경로 위의 정류장 — route-cascade 재사용(chart-bar/chart-line 의
     // 이름 공유 선례와 같은 이유로 신규 실행 이름을 만들지 않는다).
-    'part-divider':{name:'route-cascade',frames:i=>['translateX(-80px)','translateX(8px)','translateX(0px)']}
+    'part-divider':{name:'route-cascade',frames:i=>['translateX(-80px)','translateX(8px)','translateX(0px)']},
+    // 2×2 사분면은 타일 파형(grid-wave)으로 네 영역·좌표 칩이 모인다, 플래시카드는 카드 회전
+    // 등장(facet-flip — traits-grid 와 같은 이름). 둘 다 기존 실행 이름 재사용.
+    'quadrant':{name:'grid-wave',frames:i=>[`translateY(${24+(i%3)*16}px) rotateX(12deg)`,'translateY(0px) rotateX(0deg)']},
+    'flashcards':{name:'facet-flip',frames:i=>['perspective(1200px) rotateY(-32deg)','perspective(1200px) rotateY(0deg)']}
   };
   // Wipe a prior result in-place: the mask and its content counter-translate,
   // so the old words remain stationary as the new result is uncovered. Neither
@@ -2323,7 +2366,9 @@ body.st-self .dsheet-panel{position:static;transform:none;visibility:visible;dis
 })();
 
 /*
-  상호작용 조각 위젯(TASK-tools G4·G5): 탐색 칩(.expl) · 사이드 시트(.dsheet).
+  상호작용 조각 위젯(TASK-tools G4·G5 · TASK-quadrant-flash): 탐색 칩(.expl) · 사이드 시트(.dsheet) · 플래시카드(.fc).
+  [카드] .fc 를 누르면 .on 토글로 앞↔뒷면이 뒤집힌다. 조작 자체는 시그니처가 아니며
+    인쇄·자습·정지 펼치기는 CSS(정적 완결)가 맡는다.
   [탐색] .expl-chip[data-x] 를 누르면 같은 .expl 안에서 data-x 가 같은 .expl-state 하나만 켠다.
     채점 없음. 상태를 바꾼 뒤 edpattern 을 흘려 그 안의 data-fx 가 필요하면 발화하게 한다.
   [시트] .dsheet-open[data-open] 를 누르면 같은 장의 .dsheet-panel[data-sheet=값] 과 .dsheet-dim 을 켠다.
@@ -2342,6 +2387,8 @@ body.st-self .dsheet-panel{position:static;transform:none;visibility:visible;dis
       doc.dispatchEvent(new Event('edpattern'));
       return;
     }
+    var fc=t&&t.closest?t.closest('.fc'):null;
+    if(fc){fc.classList.toggle('on');return;}
     var open=t&&t.closest?t.closest('.dsheet-open'):null;
     if(open){
       var sl=open.closest('.slide');if(!sl)return;

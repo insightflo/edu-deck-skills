@@ -51,6 +51,8 @@ ARCHETYPES = {
     "arch-flow",
     # TASK-miniflow-divider: 파트 구분지 계열(38)
     "part-divider",
+    # TASK-quadrant-flash: 2×2 사분면(39)·플래시카드(40)
+    "quadrant", "flashcards",
 }
 # TASK-figslots: 본문 장의 시각/텍스트/고정 형식 분류 — references/layouts.md '텍스트 나열' 절과 짝.
 # 시각(도식·차트 03~14·18·31·33·34, 모형 15·16, 채팅 21, 구성도 37)과 .fig-slot·data-variant="fig" 은
@@ -59,7 +61,8 @@ ARCHETYPES = {
 # TASK-miniflow-divider: .vflow·.vpills(미니 흐름) 보유 장도 시각으로 센다(fig-slot 과 같은 취급).
 VISUAL_ARCHS = {"timeline", "map", "mechanism", "traits-grid", "meter", "compare-2", "compare-table",
                 "hub", "levels", "tile-grid", "sequence", "mapping", "build-up", "stat-strip",
-                "chart-bar", "chart-line", "mock-legend", "mock-options", "worked-example", "arch-flow"}
+                "chart-bar", "chart-line", "mock-legend", "mock-options", "worked-example", "arch-flow",
+                "quadrant", "flashcards"}
 FIXED_ARCHS = {"cover", "quiz-ab", "quiz-sort", "quiz-ox", "check", "sources", "closing",
                "explore", "detail-sheet", "part-divider"}
 TEXT_RUN_MIN = 5  # 본문 장 연속열에서 텍스트 계열만 이 수 이상 이어지면 WARN
@@ -390,6 +393,19 @@ def static_checks(html_text, soup, rep, allow_placeholders):
                 rep.add("ERROR", i, "그림 자리",
                         "fig-slot 에 «…» 자리표시가 남았습니다 — 주제에 맞는 도식으로 다시 그리세요",
                         target=".fig-slot")
+        # TASK-quadrant-flash 최소 계약: 사분면은 축 라벨 2개(.qax-x·.qax-y), 플래시카드는 카드 3장 이상
+        # + 카드마다 앞면 .fc-front·뒷면 .fc-back 짝. 부족하면 배치 의도가 깨진 것 — WARN(검사 남발 금지).
+        if arch == "quadrant" and len(sec.select(".qax")) < 2:
+            rep.add("WARN", i, "사분면", "quadrant 장에 축 라벨(.qax)이 2개 미만입니다 — 두 축의 기준을 적으세요",
+                    target=".quad")
+        if arch == "flashcards":
+            fcs = sec.select(".fc")
+            if len(fcs) < 3:
+                rep.add("WARN", i, "플래시카드", "flashcards 장에 카드(.fc)가 3장 미만입니다 — 반복 학습 묶음을 채우세요",
+                        target=".fcards")
+            if any(not c.select_one(".fc-front") or not c.select_one(".fc-back") for c in fcs):
+                rep.add("WARN", i, "플래시카드", "앞면(.fc-front) 또는 뒷면(.fc-back)이 빠진 카드가 있습니다",
+                        target=".fc")
         # 확인 문제(check): 보기를 눌러 답하는 장. 마크업 규칙은 references/layouts.md 의 check 항
         if arch == "check":
             chks = sec.select(".chk")

@@ -1,0 +1,138 @@
+<!--
+  아키타입 quadrant (변형: classic / plotted / bubble / axis-decision / teaching)
+  언제: 두 기준(축)이 교차해 네 영역이 생기고, 항목·판정·유형이 영역에 놓일 때.
+    SWOT·아이젠하워·포지셔닝·BCG 가 전부 이 형식이다. 한 축만 있는 분류는 levels·compare-table 참조.
+  배치 규칙: 본문 장 한 장. .quad 안에 .qax-x(위)·.qax-y(왼쪽 세로쓰기) 축 라벨 2개가 반드시 있고,
+    칸 나열은 .qgrid>.qcell, 좌표 배치는 .qplot 안 절대 위치 칩(.qp = .vnode 재사용)·거품(.qbub).
+    칩·거품 위치는 left·top % 로 주고 중심 정렬은 어휘가 맡는다(translate 속성 — 모션과 무간섭).
+  축은 개념 기준이다 — 숫자 눈금·측정값처럼 보이면 .small 으로 "개념도 · 측정값 아님" 을 적는다.
+  시그니처: grid-wave 재사용 — 영역·칩이 파형으로 자리 잡는다(기존 이름만).
+  단계: classic 은 영역마다 1단계, plotted 는 칩 군 2단계, 나머지는 필요할 때만.
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두
+    실제 내용으로 바꾼다. 자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함).
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+
+<!-- classic: 두 축 + 네 영역 카드 — SWOT 식 정형 사분면 -->
+<section class="slide" data-archetype="quadrant" data-variant="classic" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤12자»</p><h2 class="title">«제목: 비교 기준 한 문장 ≤22자»</h2></div>
+  <div class="quad">
+    <p class="qax qax-x">낮음 ← «X축 기준 ≤7자» → 높음</p>
+    <p class="qax qax-y">낮음 ← «Y축 기준 ≤7자» → 높음</p>
+    <div class="qgrid">
+      <div class="qcell" data-step="1" style="background:var(--accent-soft);border-color:var(--accent)">
+        <h3>«영역 이름 ≤7자»</h3>
+        <div class="vpills"><span class="vnode">«항목 ≤6자»</span><span class="vnode">«항목 ≤6자»</span><span class="vnode">«항목 ≤6자»</span></div>
+        <p class="body" style="font-size:22px;color:var(--soft)">«이 영역의 특징 한 줄 ≤26자»</p>
+      </div>
+      <div class="qcell" data-step="2">
+        <h3>«영역 이름 ≤7자»</h3>
+        <div class="vpills"><span class="vnode">«항목 ≤6자»</span><span class="vnode">«항목 ≤6자»</span></div>
+        <p class="body" style="font-size:22px;color:var(--soft)">«이 영역의 특징 한 줄 ≤26자»</p>
+      </div>
+      <div class="qcell" data-step="3">
+        <h3>«영역 이름 ≤7자»</h3>
+        <div class="vpills"><span class="vnode">«항목 ≤6자»</span><span class="vnode">«항목 ≤6자»</span></div>
+        <p class="body" style="font-size:22px;color:var(--soft)">«이 영역의 특징 한 줄 ≤26자»</p>
+      </div>
+      <div class="qcell" data-step="4">
+        <h3>«영역 이름 ≤7자»</h3>
+        <div class="vpills"><span class="vnode">«항목 ≤6자»</span><span class="vnode">«항목 ≤6자»</span><span class="vnode">«항목 ≤5자»</span></div>
+        <p class="body" style="font-size:22px;color:var(--soft)">«이 영역의 특징 한 줄 ≤26자»</p>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 두 축이 무엇을 재는지부터 읽는다 → 영역마다 항목을 짚으며 차이를 말한다 → 어느 영역에 집중할지 결론 → 다음 장 연결»</aside>
+</section>
+
+<!-- plotted: 십자 축 위에 항목 칩을 좌표로 — 포지셔닝·우선순위 지도 -->
+<section class="slide" data-archetype="quadrant" data-variant="plotted" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤12자»</p><h2 class="title">«제목: 무엇을 배치한 지도인가 ≤22자»</h2></div>
+  <div class="quad">
+    <p class="qax qax-x">낮음 ← «X축 기준 ≤7자» → 높음</p>
+    <p class="qax qax-y">낮음 ← «Y축 기준 ≤7자» → 높음</p>
+    <div class="qplot">
+      <span class="vnode qp is-on" data-step="1" style="left:74%;top:24%">«핵심 항목 ≤6자»</span>
+      <span class="vnode qp" data-step="1" style="left:62%;top:38%">«항목 ≤6자»</span>
+      <span class="vnode qp" data-step="2" style="left:28%;top:22%">«항목 ≤6자»</span>
+      <span class="vnode qp" data-step="2" style="left:38%;top:56%">«항목 ≤6자»</span>
+      <span class="vnode qp is-off" data-step="2" style="left:22%;top:78%">«버리는 것 ≤6자»</span>
+      <span class="vnode qp" data-step="2" style="left:70%;top:74%">«항목 ≤6자»</span>
+    </div>
+  </div>
+  <p class="small" style="font-size:20px">축은 개념 기준 — 개념도 · 측정값 아님</p>
+  <aside class="notes">«발표자 노트 110~450자: 축 기준을 먼저 읽는다 → 오른쪽 위(두 축 모두 높은 곳)의 핵심부터 짚는다 → 왼쪽 아래로 갈수록 우선순위가 낮아짐 → 다음 장 연결»</aside>
+</section>
+
+<!-- bubble: 분면+거품 크기가 세 번째 변수 — BCG 식 포트폴리오 -->
+<section class="slide" data-archetype="quadrant" data-variant="bubble" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤12자»</p><h2 class="title">«제목: 무엇의 포트폴리오인가 ≤22자»</h2></div>
+  <div class="quad">
+    <p class="qax qax-x">낮음 ← «X축 기준 ≤7자» → 높음</p>
+    <p class="qax qax-y">낮음 ← «Y축 기준 ≤7자» → 높음</p>
+    <div class="qplot">
+      <div class="qbub" data-step="1" style="left:72%;top:26%;width:230px;height:230px;font-size:30px">«주력 ≤5자»</div>
+      <div class="qbub" data-step="2" style="left:26%;top:30%;width:160px;height:160px">«육성 ≤5자»</div>
+      <div class="qbub" data-step="3" style="left:66%;top:72%;width:130px;height:130px;background:var(--light);border-color:var(--line)">«유지 ≤5자»</div>
+      <div class="qbub" data-step="4" style="left:30%;top:72%;width:110px;height:110px;background:var(--light);border-style:dashed;border-color:var(--muted);color:var(--soft)">«정리 ≤5자»</div>
+    </div>
+  </div>
+  <p class="small" style="font-size:20px">거품 크기 = «세 번째 기준 ≤10자» — 개념도 · 측정값 아님</p>
+  <aside class="notes">«발표자 노트 110~450자: 축 두 기준과 거품 크기가 재는 세 번째 변수를 읽는다 → 큰 거품부터 위치와 크기를 함께 해석 → 정리 영역의 작은 거품까지 → 다음 장 연결»</aside>
+</section>
+
+<!-- axis-decision: 두 기준 축으로 예/아니오 판정 영역 — 의사결정의 2축 압축 -->
+<section class="slide" data-archetype="quadrant" data-variant="axis-decision" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤12자»</p><h2 class="title">«제목: 무엇을 판정하는가 ≤22자»</h2></div>
+  <div class="quad">
+    <p class="qax qax-x">아니오 ← «판정 기준 1 ≤7자» → 예</p>
+    <p class="qax qax-y">아니오 ← «판정 기준 2 ≤7자» → 예</p>
+    <div class="qgrid">
+      <div class="qcell" style="background:var(--accent-soft);border-color:var(--accent)">
+        <h3 style="font-size:36px;color:var(--accent-text)">바로 한다</h3>
+        <p class="body" style="font-size:24px">«두 기준 모두 예일 때 — 지금 착수 ≤24자»</p>
+      </div>
+      <div class="qcell">
+        <h3 style="font-size:36px">계획한다</h3>
+        <p class="body" style="font-size:24px">«기준 1만 예 — 시기를 정한다 ≤24자»</p>
+      </div>
+      <div class="qcell">
+        <h3 style="font-size:36px">맡긴다</h3>
+        <p class="body" style="font-size:24px">«기준 2만 예 — 사람·도구에 넘긴다 ≤24자»</p>
+      </div>
+      <div class="qcell" style="background:var(--paper);border-style:dashed">
+        <h3 style="font-size:36px;color:var(--soft)">버린다</h3>
+        <p class="body" style="font-size:24px;color:var(--soft)">«둘 다 아니오 — 목록에서 지운다 ≤24자»</p>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 두 판정 기준을 읽는다 → 오른쪽 위 '바로 한다'부터 영역별 행동을 짚는다 → 지금 대상을 마음속으로 놓아 보게 한다 → 다음 장 연결»</aside>
+</section>
+
+<!-- teaching: 축을 학습 판별 기준으로 — 교실에서 학습자 유형을 나눌 때 -->
+<section class="slide" data-archetype="quadrant" data-variant="teaching" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤12자»</p><h2 class="title">«제목: 무엇으로 학습자를 나누는가 ≤22자»</h2></div>
+  <div class="quad">
+    <p class="qax qax-x">모른다 ← «판별 기준 1 ≤7자» → 안다</p>
+    <p class="qax qax-y">못 한다 ← «판별 기준 2 ≤7자» → 해낸다</p>
+    <div class="qgrid">
+      <div class="qcell" data-step="1" style="background:var(--accent-soft);border-color:var(--accent)">
+        <h3>«유형 이름 ≤7자»</h3>
+        <p class="body" style="font-size:24px">«이 유형에게 맞는 도움 한 줄 ≤26자»</p>
+      </div>
+      <div class="qcell" data-step="2">
+        <h3>«유형 이름 ≤7자»</h3>
+        <p class="body" style="font-size:24px">«이 유형에게 맞는 도움 한 줄 ≤26자»</p>
+      </div>
+      <div class="qcell" data-step="3">
+        <h3>«유형 이름 ≤7자»</h3>
+        <p class="body" style="font-size:24px">«이 유형에게 맞는 도움 한 줄 ≤26자»</p>
+      </div>
+      <div class="qcell" data-step="4">
+        <h3>«유형 이름 ≤7자»</h3>
+        <p class="body" style="font-size:24px">«이 유형에게 맞는 도움 한 줄 ≤26자»</p>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 두 판별 기준(알고 있는가·해낼 수 있는가)을 읽는다 → 유형마다 필요한 도움이 다름을 짚는다 → 우리 반 학습자를 어디에 둘지 묻는다 → 다음 장 연결»</aside>
+</section>

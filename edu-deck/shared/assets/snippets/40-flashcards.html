@@ -1,0 +1,88 @@
+<!--
+  아키타입 flashcards (변형: term-def / picture-word / qa / cut-sheet / category)
+  언제: 용어·그림·질문을 앞면/뒷면 카드로 반복 학습·암기할 때.
+    확인 문제(.chk·quiz 계열)는 채점이고 이 계열은 채점 없는 암기 재료다 — quiz 는 check·quiz 참조.
+  배치 규칙: 본문 장 한 장. .fcards 그리드 안 .fc 카드(버튼)마다 .fc-front(앞면)·.fc-back(뒷면)
+    두 면이 짝을 이룬다. 화면 발표에서 카드를 누르면 뒤집힌다(Enter·Space 도 됨).
+    인쇄·자습(S)·정지 환경에서는 앞·뒷면이 나란히 펼쳐져 손실이 없다.
+    .fc.open 은 처음부터 펼친 모습(오려 쓰는 판 등), .fc.cut 은 파선 재단선.
+  그림은 아이콘 사본(#i-*)·k-* 도형만 — 외부 이미지는 화면 인용(32) 계약 그대로.
+  시그니처: facet-flip 재사용 — 카드가 살짝 회전하며 자리 잡는다(기존 이름만).
+  단계: 필요할 때만(묶음별 공개). 뒤집기 자체는 단계가 아니다.
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두
+    실제 내용으로 바꾼다. 카드를 늘리거나 줄이면 .fcards 의 칸 수(grid-template-columns)도 맞춘다.
+    자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함).
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+
+<!-- term-def: 용어 앞 · 뜻 뒤 — 기본 암기 카드 -->
+<section class="slide" data-archetype="flashcards" data-variant="term-def" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤12자»</p><h2 class="title">«제목: 무엇을 외우는가 ≤20자»</h2></div>
+  <div class="fcards" style="grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr">
+    <button type="button" class="fc"><span class="fc-in"><span class="fc-front"><span class="fc-no">1</span><span style="font-size:48px;font-weight:800">«용어 ≤8자»</span></span><span class="fc-back"><span class="fc-no">1</span><span class="body" style="font-size:26px;color:var(--ink)">«뜻 한두 줄 ≤34자»</span></span></span></button>
+    <button type="button" class="fc"><span class="fc-in"><span class="fc-front"><span class="fc-no">2</span><span style="font-size:48px;font-weight:800">«용어 ≤8자»</span></span><span class="fc-back"><span class="fc-no">2</span><span class="body" style="font-size:26px;color:var(--ink)">«뜻 한두 줄 ≤34자»</span></span></span></button>
+    <button type="button" class="fc"><span class="fc-in"><span class="fc-front"><span class="fc-no">3</span><span style="font-size:48px;font-weight:800">«용어 ≤8자»</span></span><span class="fc-back"><span class="fc-no">3</span><span class="body" style="font-size:26px;color:var(--ink)">«뜻 한두 줄 ≤34자»</span></span></span></button>
+    <button type="button" class="fc"><span class="fc-in"><span class="fc-front"><span class="fc-no">4</span><span style="font-size:48px;font-weight:800">«용어 ≤8자»</span></span><span class="fc-back"><span class="fc-no">4</span><span class="body" style="font-size:26px;color:var(--ink)">«뜻 한두 줄 ≤34자»</span></span></span></button>
+  </div>
+  <p class="small" style="font-size:20px">카드를 누르면 뒷면 — 인쇄·자습에서는 앞뒤가 함께 펼쳐집니다</p>
+  <aside class="notes">«발표자 노트 110~450자: 앞면 용어를 먼저 읽고 학습자에게 뜻을 묻는다 → 카드를 뒤집어 확인 → 틀리기 쉬운 용어를 다시 짚는다 → 다음 장 연결»</aside>
+</section>
+
+<!-- picture-word: 그림 앞 · 단어 뒤 — 초급 어휘 카드 -->
+<section class="slide" data-archetype="flashcards" data-variant="picture-word" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤12자»</p><h2 class="title">«제목: 어떤 낱말을 익히는가 ≤20자»</h2></div>
+  <div class="fcards" style="grid-template-columns:repeat(4,1fr)">
+    <button type="button" class="fc"><span class="fc-in"><span class="fc-front"><svg class="ico" aria-hidden="true" style="width:120px;height:120px;color:var(--accent)"><use href="#i-book"/></svg></span><span class="fc-back"><span class="fc-no">1</span><span style="font-size:44px;font-weight:800">«단어 ≤7자»</span><span class="body" style="font-size:24px;color:var(--soft)">«예문 ≤20자»</span></span></span></button>
+    <button type="button" class="fc"><span class="fc-in"><span class="fc-front"><svg class="ico" aria-hidden="true" style="width:120px;height:120px;color:var(--accent)"><use href="#i-clock"/></svg></span><span class="fc-back"><span class="fc-no">2</span><span style="font-size:44px;font-weight:800">«단어 ≤7자»</span><span class="body" style="font-size:24px;color:var(--soft)">«예문 ≤20자»</span></span></span></button>
+    <button type="button" class="fc"><span class="fc-in"><span class="fc-front"><svg class="ico" aria-hidden="true" style="width:120px;height:120px;color:var(--accent)"><use href="#i-bulb"/></svg></span><span class="fc-back"><span class="fc-no">3</span><span style="font-size:44px;font-weight:800">«단어 ≤7자»</span><span class="body" style="font-size:24px;color:var(--soft)">«예문 ≤20자»</span></span></span></button>
+    <button type="button" class="fc"><span class="fc-in"><span class="fc-front"><svg class="ico" aria-hidden="true" style="width:120px;height:120px;color:var(--accent)"><use href="#i-flag"/></svg></span><span class="fc-back"><span class="fc-no">4</span><span style="font-size:44px;font-weight:800">«단어 ≤7자»</span><span class="body" style="font-size:24px;color:var(--soft)">«예문 ≤20자»</span></span></span></button>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 그림을 보고 단어를 맞히게 한다 → 카드를 뒤집어 단어와 예문을 함께 읽는다 → 모르는 카드만 다시 앞면으로 → 다음 장 연결»</aside>
+</section>
+
+<!-- qa: 질문 앞 · 답 뒤 — 자습 점검 카드 -->
+<section class="slide" data-archetype="flashcards" data-variant="qa" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤12자»</p><h2 class="title">«제목: 무엇을 점검하는가 ≤20자»</h2></div>
+  <div class="fcards" style="grid-template-columns:repeat(3,1fr)">
+    <button type="button" class="fc"><span class="fc-in"><span class="fc-front"><span class="fc-no">Q1</span><span style="font-size:34px;font-weight:800;text-align:center">«질문 ≤12자»<br>«질문 ≤10자»</span></span><span class="fc-back"><span class="fc-no">A1</span><span class="body" style="font-size:26px;color:var(--ink)">«답 한두 줄 ≤36자»</span></span></span></button>
+    <button type="button" class="fc"><span class="fc-in"><span class="fc-front"><span class="fc-no">Q2</span><span style="font-size:34px;font-weight:800;text-align:center">«질문 ≤12자»<br>«질문 ≤10자»</span></span><span class="fc-back"><span class="fc-no">A2</span><span class="body" style="font-size:26px;color:var(--ink)">«답 한두 줄 ≤36자»</span></span></span></button>
+    <button type="button" class="fc"><span class="fc-in"><span class="fc-front"><span class="fc-no">Q3</span><span style="font-size:34px;font-weight:800;text-align:center">«질문 ≤12자»<br>«질문 ≤10자»</span></span><span class="fc-back"><span class="fc-no">A3</span><span class="body" style="font-size:26px;color:var(--ink)">«답 한두 줄 ≤36자»</span></span></span></button>
+  </div>
+  <p class="small" style="font-size:20px">스스로 답해 본 뒤 뒤집어 확인 — 채점이 아니라 자기 점검입니다</p>
+  <aside class="notes">«발표자 노트 110~450자: 질문을 읽고 조용히 답을 떠올리게 한다 → 뒤집어 맞췄는지 스스로 확인 → 막힌 질문은 노트에 표시하게 → 다음 장 연결»</aside>
+</section>
+
+<!-- cut-sheet: 인쇄해서 오려 쓰는 판 — 앞면·뒷면이 나란히 놓인 재단본 -->
+<section class="slide" data-archetype="flashcards" data-variant="cut-sheet" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤12자»</p><h2 class="title">«제목: 오려 쓰는 카드 묶음 ≤20자»</h2></div>
+  <div class="fcards" style="grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr">
+    <button type="button" class="fc open cut"><span class="fc-in"><span class="fc-front"><span class="fc-no">앞1</span><span style="font-size:38px;font-weight:800">«용어 ≤8자»</span></span><span class="fc-back"><span class="fc-no">뒤1</span><span class="body" style="font-size:24px;color:var(--ink)">«뜻 ≤30자»</span></span></span></button>
+    <button type="button" class="fc open cut"><span class="fc-in"><span class="fc-front"><span class="fc-no">앞2</span><span style="font-size:38px;font-weight:800">«용어 ≤8자»</span></span><span class="fc-back"><span class="fc-no">뒤2</span><span class="body" style="font-size:24px;color:var(--ink)">«뜻 ≤30자»</span></span></span></button>
+    <button type="button" class="fc open cut"><span class="fc-in"><span class="fc-front"><span class="fc-no">앞3</span><span style="font-size:38px;font-weight:800">«용어 ≤8자»</span></span><span class="fc-back"><span class="fc-no">뒤3</span><span class="body" style="font-size:24px;color:var(--ink)">«뜻 ≤30자»</span></span></span></button>
+    <button type="button" class="fc open cut"><span class="fc-in"><span class="fc-front"><span class="fc-no">앞4</span><span style="font-size:38px;font-weight:800">«용어 ≤8자»</span></span><span class="fc-back"><span class="fc-no">뒤4</span><span class="body" style="font-size:24px;color:var(--ink)">«뜻 ≤30자»</span></span></span></button>
+  </div>
+  <p class="small" style="font-size:20px">인쇄해 파선을 따라 오린 뒤 앞·뒷면을 맞춰 씁니다</p>
+  <aside class="notes">«발표자 노트 110~450자: 이 장은 인쇄물 — 앞면·뒷면이 나란히 보이는 게 정상이다 → 오려서 앞면을 보고 뒷면을 맞히는 활동을 안내 → 다음 장 연결»</aside>
+</section>
+
+<!-- category: 묶음 이름이 붙은 카드 덱 — 분류별 암기 -->
+<section class="slide" data-archetype="flashcards" data-variant="category" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤12자»</p><h2 class="title">«제목: 어떤 분류로 외우는가 ≤20자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;gap:32px">
+    <div class="col" data-step="1" style="flex:1;min-height:0;gap:14px">
+      <p class="eyebrow" style="color:var(--accent-text)">«묶음 이름 ≤7자»</p>
+      <div class="fcards" style="grid-template-rows:1fr 1fr">
+        <button type="button" class="fc"><span class="fc-in"><span class="fc-front"><span class="fc-no">1</span><span style="font-size:38px;font-weight:800">«용어 ≤7자»</span></span><span class="fc-back"><span class="fc-no">1</span><span class="body" style="font-size:24px;color:var(--ink)">«뜻 ≤28자»</span></span></span></button>
+        <button type="button" class="fc"><span class="fc-in"><span class="fc-front"><span class="fc-no">2</span><span style="font-size:38px;font-weight:800">«용어 ≤7자»</span></span><span class="fc-back"><span class="fc-no">2</span><span class="body" style="font-size:24px;color:var(--ink)">«뜻 ≤28자»</span></span></span></button>
+      </div>
+    </div>
+    <div class="col" data-step="2" style="flex:1;min-height:0;gap:14px">
+      <p class="eyebrow" style="color:var(--accent-text)">«묶음 이름 ≤7자»</p>
+      <div class="fcards" style="grid-template-rows:1fr 1fr">
+        <button type="button" class="fc"><span class="fc-in"><span class="fc-front"><span class="fc-no">3</span><span style="font-size:38px;font-weight:800">«용어 ≤7자»</span></span><span class="fc-back"><span class="fc-no">3</span><span class="body" style="font-size:24px;color:var(--ink)">«뜻 ≤28자»</span></span></span></button>
+        <button type="button" class="fc"><span class="fc-in"><span class="fc-front"><span class="fc-no">4</span><span style="font-size:38px;font-weight:800">«용어 ≤7자»</span></span><span class="fc-back"><span class="fc-no">4</span><span class="body" style="font-size:24px;color:var(--ink)">«뜻 ≤28자»</span></span></span></button>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 묶음 이름을 먼저 읽는다 → 묶음별로 카드를 넘기며 공통점을 말하게 한다 → 두 묶음의 차이를 정리 → 다음 장 연결»</aside>
+</section>

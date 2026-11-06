@@ -52,7 +52,7 @@
     'frame-form':'.tp,.fm-row,.pb','before-after':'.win,.stack,.card','worked-example':'.win,.card,.list li',
     'quiz-ab':'.opt','quiz-sort':'.qrow,.ans','quiz-ox':'.qrow,.ox','check':'.chk,.chk-o',
     'rules-dark':'.num,.body','checklist':'.todo,.tbox','sources':'.src-list li','closing':'.pill,.big',
-    'stat-strip':'.stat'
+    'stat-strip':'.stat','quadrant':'.qcell,.qp,.qbub','flashcards':'.fc'
   };
   const packTargets={atlas:'.atlas-origin,.atlas-source,.atlas-destination',briefing:'.briefing-row',casebook:'.casebook-narrative,.casebook-exhibit,.casebook-decision',editorial:'.editorial-story,.editorial-margin,.editorial-bottom',field:'.field-row',lab:'.lab-observation,.lab-evidence,.lab-next',seminar:'.seminar-turns span,.seminar-preparation,.seminar-invitation',workbook:'.workbook-read,.workbook-write,.workbook-reflection'};
   const packArch={atlas:'map',briefing:'compare-table',casebook:'before-after',editorial:'build-up',field:'sequence',lab:'mechanism',seminar:'hub',workbook:'frame-form'};
@@ -98,7 +98,11 @@
     'detail-sheet':{name:'accumulating-pieces',frames:i=>['translateY(24px) scale(.92)','translateY(-4px) scale(1.02)','translateY(0px) scale(1)']},
     // 파트 구분지는 agenda 경로 위의 정류장 — route-cascade 재사용(chart-bar/chart-line 의
     // 이름 공유 선례와 같은 이유로 신규 실행 이름을 만들지 않는다).
-    'part-divider':{name:'route-cascade',frames:i=>['translateX(-80px)','translateX(8px)','translateX(0px)']}
+    'part-divider':{name:'route-cascade',frames:i=>['translateX(-80px)','translateX(8px)','translateX(0px)']},
+    // 2×2 사분면은 타일 파형(grid-wave)으로 네 영역·좌표 칩이 모인다, 플래시카드는 카드 회전
+    // 등장(facet-flip — traits-grid 와 같은 이름). 둘 다 기존 실행 이름 재사용.
+    'quadrant':{name:'grid-wave',frames:i=>[`translateY(${24+(i%3)*16}px) rotateX(12deg)`,'translateY(0px) rotateX(0deg)']},
+    'flashcards':{name:'facet-flip',frames:i=>['perspective(1200px) rotateY(-32deg)','perspective(1200px) rotateY(0deg)']}
   };
   // Wipe a prior result in-place: the mask and its content counter-translate,
   // so the old words remain stationary as the new result is uncovered. Neither
@@ -695,7 +699,9 @@
 })();
 
 /*
-  상호작용 조각 위젯(TASK-tools G4·G5): 탐색 칩(.expl) · 사이드 시트(.dsheet).
+  상호작용 조각 위젯(TASK-tools G4·G5 · TASK-quadrant-flash): 탐색 칩(.expl) · 사이드 시트(.dsheet) · 플래시카드(.fc).
+  [카드] .fc 를 누르면 .on 토글로 앞↔뒷면이 뒤집힌다. 조작 자체는 시그니처가 아니며
+    인쇄·자습·정지 펼치기는 CSS(정적 완결)가 맡는다.
   [탐색] .expl-chip[data-x] 를 누르면 같은 .expl 안에서 data-x 가 같은 .expl-state 하나만 켠다.
     채점 없음. 상태를 바꾼 뒤 edpattern 을 흘려 그 안의 data-fx 가 필요하면 발화하게 한다.
   [시트] .dsheet-open[data-open] 를 누르면 같은 장의 .dsheet-panel[data-sheet=값] 과 .dsheet-dim 을 켠다.
@@ -714,6 +720,8 @@
       doc.dispatchEvent(new Event('edpattern'));
       return;
     }
+    var fc=t&&t.closest?t.closest('.fc'):null;
+    if(fc){fc.classList.toggle('on');return;}
     var open=t&&t.closest?t.closest('.dsheet-open'):null;
     if(open){
       var sl=open.closest('.slide');if(!sl)return;

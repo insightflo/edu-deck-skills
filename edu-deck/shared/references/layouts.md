@@ -188,6 +188,18 @@
 | 38 | part-divider (question) | 주황 전면에 파트가 답할 도입 질문 | 0 | 호기심으로 연다 |
 | 38 | part-divider (takeaways) | 이번 파트에서 얻는 것 3카드 | 카드마다 1 | 기대를 심는다 |
 | 38 | part-divider (quiet) | 어두운 단색에 번호 120px + 작은 제목 | 0 | 잦은 전환에도 소리 없이 |
+| 39 | quadrant | 2×2 사분면: 두 축 라벨(.qax-x 위·.qax-y 왼쪽 세로)이 만드는 네 영역 배치 — SWOT·우선순위·포지셔닝 | 변형마다 다름 | 축 라벨 2개 필수(WARN). 축은 개념 기준 — 측정값처럼 보이면 "개념도 · 측정값 아님" 표기. 시각 계열. 시그니처 grid-wave(재사용) |
+| 39 | quadrant (classic) | 네 영역 카드(.qgrid>.qcell)에 항목 칩 나열 — SWOT 식 | 영역마다 1 | 영역 제목 ≤7자 · 항목 칩은 .vnode 재사용 |
+| 39 | quadrant (plotted) | 십자 축선 .qplot 위에 좌표 칩 .qp — 포지셔닝 지도 | 칩 군 2 | 위치는 left·top % — 중심 정렬은 어휘가 맡는다 |
+| 39 | quadrant (bubble) | 분면+거품 크기 .qbub 가 세 번째 변수 — BCG 식 | 거품마다 1 | 거품 크기 의미는 .small 에 표기 |
+| 39 | quadrant (axis-decision) | 두 기준의 예/아니오 판정 영역 — 바로 한다/계획한다/맡긴다/버린다 | 0 | 의사결정의 2축 압축 |
+| 39 | quadrant (teaching) | 축을 학습 판별 기준으로(안다×해낸다) — 학습자 유형+도움 | 영역마다 1 | 교실 판별용 |
+| 40 | flashcards | 플래시카드: .fcards 그리드 안 .fc 카드의 앞면(.fc-front)·뒷면(.fc-back) 학습 재료 — 채점 없는 암기 | 변형마다 다름 | 카드 3장 이상(WARN)·앞뒷면 짝 필수. 화면에서 클릭·Enter·Space 로 뒤집기(위젯 — 시그니처 아님). 인쇄·자습·정지에서는 앞뒤 나란히 전개(정적 완결). 시각 계열. 시그니처 facet-flip(재사용) |
+| 40 | flashcards (term-def) | 용어 앞 · 뜻 뒤 2×2 | 0 | 기본 암기 카드 |
+| 40 | flashcards (picture-word) | 아이콘 사본 앞 · 단어+예문 뒤 4열 | 0 | 초급 어휘 — 그림은 #i-* 아이콘만 |
+| 40 | flashcards (qa) | 질문 앞 · 답 뒤 3열 자기 점검 | 0 | 채점 아님 — 스스로 확인 |
+| 40 | flashcards (cut-sheet) | .fc.open 상시 전개+.fc.cut 파선 — 오려 쓰는 판 | 0 | 앞뒤 나란히가 정상 — 인쇄물 해석 |
+| 40 | flashcards (category) | 묶음 라벨이 붙은 카드 덱 2열 | 묶음마다 1 | 분류별 암기 |
 
 ## 표지 직접 설계 계약
 
@@ -208,7 +220,7 @@
 
 `check_deck.py`는 본문 장의 계열을 아래 셋으로 나눠 **텍스트 나열**을 경고한다 — 고정 형식 장을 뺀 연속열에서 텍스트 계열만 **5장 이상** 이어지면 WARN(“시각 계열을 섞으세요”).
 
-- **시각으로 센다**: 도식·차트 계열(timeline·map·mechanism·traits-grid·meter·compare-2·compare-table·hub·levels·tile-grid·sequence·mapping·build-up·stat-strip·chart-bar·chart-line) + 모형(mock-legend·mock-options) + 채팅(worked-example) + 구성도(arch-flow) + **`data-variant="fig"` 또는 `.fig-slot` 보유 장** + **미니 흐름(`.vflow`·`.vpills`) 보유 장**. 연속열을 끊는다.
+- **시각으로 센다**: 도식·차트 계열(timeline·map·mechanism·traits-grid·meter·compare-2·compare-table·hub·levels·tile-grid·sequence·mapping·build-up·stat-strip·chart-bar·chart-line) + 모형(mock-legend·mock-options) + 채팅(worked-example) + 구성도(arch-flow) + 사분면(quadrant) + 플래시카드(flashcards) + **`data-variant="fig"` 또는 `.fig-slot` 보유 장** + **미니 흐름(`.vflow`·`.vpills`) 보유 장**. 연속열을 끊는다.
 - **고정 형식(연속열에서 제외 — 세지도 끊지도 않는다)**: cover·quiz-ab·quiz-sort·quiz-ox·check·sources·closing·explore·detail-sheet·**part-divider**(+screen-cite 조각 — 아키타입 mapping 이라 시각으로 센다). 고정 형식은 아키타입으로 확정 — 안에 미니 흐름이 있어도 제외다.
 - **텍스트로 센다**: agenda·statement·frame-form·before-after·rules-dark·checklist (아키타입 없는 팩 장도 텍스트 — `.fig-slot` 을 얹으면 시각이 된다).
 

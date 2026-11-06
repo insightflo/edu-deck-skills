@@ -169,6 +169,34 @@ legacy와 팩 모두 `assets/css/visual-motion.css`의 아래 공통 어휘를 �
 
 독자 등장 모션은 없습니다. 장 계열 시그니처·`data-step`을 따라 드러납니다. 노드 글자는 20px 미만 금지 규칙을 따릅니다(기본 24px · `.vpills` 안 22px). 색은 토큰만 씁니다. 미니 흐름 보유 장은 텍스트 나열 계산에서 시각으로 센다(`.fig-slot`과 같은 취급 — layouts.md '그림 자리와 텍스트 나열'). 시연: `06-traits-grid(flow)` · `26-rules-dark(flow)` · `38-part-divider(progress-map)`.
 
+### 사분면 (q-*) — 계열 39 전용
+
+두 축이 만드는 2×2 배치 어휘입니다(39-quadrant). 축 라벨 2개가 계약입니다(check_deck WARN).
+
+| 클래스 | 용도 |
+|---|---|
+| `.quad` | 축 라벨+본체를 담는 그리드 — `.qax-x`(위)·`.qax-y`(왼쪽, 세로쓰기)+본체 |
+| `.qgrid>.qcell` | 네 영역 카드 — 제목·항목 칩(`.vnode` 재사용)·한 줄 설명 |
+| `.qplot` | 십자 축선이 있는 상대 좌표 판 — 안에 절대 위치 요소를 둔다 |
+| `.qp` | 좌표 칩 — `.vnode`와 함께 쓰고 `left·top %`로 위치(중심 정렬은 CSS translate — 모션 무간섭) |
+| `.qbub` | 거품 — 위치+크기(세 번째 변수)를 인라인으로, 색은 토큰 |
+
+독자 모션 없음 — 장 시그니처(grid-wave)·`data-step`을 따릅니다. 다크 장 지원(면·글자는 토큰).
+
+### 플래시카드 (.fc*) — 계열 40 전용
+
+앞면/뒷면 학습 카드 어휘입니다(40-flashcards). 카드는 `<button class="fc">` — 클릭·Enter·Space로 `.on` 토글 뒤집기(motion.js 위임 핸들러, 시그니처 아님).
+
+| 클래스 | 용도 |
+|---|---|
+| `.fcards` | 카드 그리드 — 칸 수는 `grid-template-*` 인라인으로 |
+| `.fc` | 카드(버튼) — `.fc-front`+`.fc-back` 두 면 짝이 계약(WARN) |
+| `.fc-in` | 뒤집히는 속통 — preserve-3d 전환 |
+| `.fc-front` / `.fc-back` | 앞면(--paper 면) / 뒷면(--accent-soft 면·다크는 --light) |
+| `.fc-no` | 모서리 번호 · `.fc.cut` 파선 재단선 · `.fc.open` 상시 전개(오려 쓰는 판) |
+
+정적 완결: 인쇄·자습(S)·정지·접촉판(?sheet)에서 앞·뒷면이 나란히 펼쳐집니다 — 화면에서만 보이는 면을 두지 않습니다. 카드 3장 이상 권장(check_deck WARN). 시연: `40-flashcards` 5변형.
+
 ## 접근성·장식
 
 - 장식 요소(배경 원, 뒤에 깔린 카드, 점 연결망)는 `aria-hidden="true"`.
