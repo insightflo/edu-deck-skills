@@ -6898,6 +6898,1216 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
   <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
 </section>
 
+<!-- ==== 42-sankey-flow.html ==== -->
+<!--
+  아키타입 sankey-flow (변형: hub-split / composition)
+  언제: 여러 출처가 한 곳에 모였다가 다시 갈라지는 흐름·구성비 — 수업 시간 배정, 예산 유입원과
+    사용처, 수강생 유입 경로와 결과 분배처럼 "양이 어디서 와서 어디로 가는지"를 보여 줄 때.
+    단순 순서는 sequence·arch-flow, 비율 나열은 meter·ops-report(ratio).
+  배치 규칙: 본문 장 한 장. 밴드는 채움 다각형(k-solid-b/k-solid-o/k-solid-n + opacity 단계),
+    유입 노드는 파랑 면·배출 노드는 주황 면, 합류 기둥은 남색 면. 밴드 위 글자는 k-t-w(면 위),
+    노드·축 라벨은 fill="var(--ink)". 밴드의 굵기=비중(개념 비례 — 정밀 측정 아님을 표기).
+  시그니처: stream-converge(신규 실행 이름) — 유입 밴드가 왼쪽에서 흘러와 합류 기둥에 모이고
+    배출 밴드가 오른쪽으로 뻗어 나간다(대상 .sk, m3). 점선 안내길(.dash-flow)은 입자가 지나간다.
+  단계: 단계 3 — 유입(1) → 합류(2) → 분배(3). 정적 완결: 전 밴드·라벨 노출이 최종 상태.
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두
+    실제 내용으로 바꾼다. 자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함).
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+
+<!-- hub-split: 3유입 → 1합류 기둥 → 2분배 — 시간·예산·인원의 유입과 배정 -->
+<section class="slide" data-archetype="sankey-flow" data-variant="hub-split" style="gap:22px">
+  <div class="head"><p class="eyebrow">«흐름 단위 ≤12자»</p><h2 class="title">«제목: 어디서 와서 어디로 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«유입이 합류 기둥에 모여 두 갈래로 나뉘는 흐름 도식»">
+    <g class="sk" data-step="1">
+      <path d="M280,104 C480,104 560,186 700,196 L700,244 C560,238 480,156 280,152 Z" class="k-solid-b" opacity=".92"/>
+      <rect x="40" y="60" width="240" height="88" class="k-solid-b"/>
+      <text x="160" y="98" font-size="26" font-weight="700" class="k-t-w" text-anchor="middle">«유입1 ≤7자»</text>
+      <text x="160" y="132" font-size="22" class="k-t-w" text-anchor="middle">«양 ≤6자»</text>
+      <text x="490" y="120" font-size="22" font-weight="700" class="k-t-b">«비중 ≤4자»</text>
+    </g>
+    <g class="sk" data-step="1">
+      <path d="M280,274 C480,274 600,288 700,290 L700,338 C600,336 480,322 280,322 Z" class="k-solid-b" opacity=".66"/>
+      <rect x="40" y="230" width="240" height="88" class="k-solid-b" opacity=".66"/>
+      <text x="160" y="268" font-size="26" font-weight="700" class="k-t-w" text-anchor="middle">«유입2 ≤7자»</text>
+      <text x="160" y="302" font-size="22" class="k-t-w" text-anchor="middle">«양 ≤6자»</text>
+      <text x="500" y="300" font-size="22" font-weight="700" class="k-t-b">«비중 ≤4자»</text>
+    </g>
+    <g class="sk" data-step="1">
+      <path d="M280,444 C480,444 560,400 700,384 L700,432 C560,448 480,492 280,492 Z" class="k-solid-b" opacity=".42"/>
+      <rect x="40" y="400" width="240" height="88" class="k-solid-b" opacity=".42"/>
+      <text x="160" y="438" font-size="26" font-weight="700" class="k-t-w" text-anchor="middle">«유입3 ≤7자»</text>
+      <text x="160" y="472" font-size="22" class="k-t-w" text-anchor="middle">«양 ≤6자»</text>
+      <text x="490" y="440" font-size="22" font-weight="700" class="k-t-b">«비중 ≤4자»</text>
+    </g>
+    <g class="sk" data-step="2">
+      <rect x="700" y="150" width="80" height="330" class="k-solid-n"/>
+      <text x="740" y="510" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«합류 ≤6자»</text>
+      <text x="830" y="300" font-size="26" font-weight="800" fill="var(--ink)">«총량 ≤7자»</text>
+      <path class="dash-flow" d="M340,128 C560,128 620,290 820,300" stroke="var(--line)" stroke-width="3" marker-end="url(#ah-n)"/>
+    </g>
+    <g class="sk" data-step="3">
+      <path d="M780,206 C940,206 1020,150 1180,150 L1180,198 C1020,198 940,254 780,254 Z" class="k-solid-o"/>
+      <rect x="1180" y="106" width="300" height="136" class="k-orange"/>
+      <text x="1330" y="160" font-size="26" font-weight="700" fill="var(--ink)" text-anchor="middle">«배출1 ≤8자»</text>
+      <text x="1330" y="200" font-size="22" fill="var(--ink)" text-anchor="middle">«양 ≤6자»</text>
+      <text x="980" y="196" font-size="22" font-weight="700" class="k-t-o">«비중 ≤4자»</text>
+    </g>
+    <g class="sk" data-step="3">
+      <path d="M780,316 C940,316 1020,372 1180,372 L1180,420 C1020,420 940,364 780,364 Z" class="k-solid-o" opacity=".62"/>
+      <rect x="1180" y="328" width="300" height="136" class="k-orange" opacity=".62"/>
+      <text x="1330" y="382" font-size="26" font-weight="700" fill="var(--ink)" text-anchor="middle">«배출2 ≤8자»</text>
+      <text x="1330" y="422" font-size="22" fill="var(--ink)" text-anchor="middle">«양 ≤6자»</text>
+      <text x="980" y="370" font-size="22" font-weight="700" class="k-t-o">«비중 ≤4자»</text>
+    </g>
+  </svg>
+  <p class="small">개념 비례 — 밴드 굵기는 대략적 비중이며 정밀 측정이 아닙니다 · «읽는 법 한 줄 ≤30자»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(왼쪽 세 유입이 가운데 기둥에 모여 오른쪽 두 갈래로 나뉜다) → 진행 지시(→ 누를 때마다 유입·합류·분배 순서로 드러난다) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- composition: 4유입 → 1합류 → 2배출 — 출처별 구성비가 한 덩어리가 되는 그림 -->
+<section class="slide" data-archetype="sankey-flow" data-variant="composition" style="gap:22px">
+  <div class="head"><p class="eyebrow">«구성 단위 ≤12자»</p><h2 class="title">«제목: 구성비 합류 한 문장 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«네 출처의 구성이 하나로 합쳐져 두 몫으로 나뉘는 구성비 도식»">
+    <g class="sk" data-step="1">
+      <path d="M260,84 C460,84 560,160 700,170 L700,206 C560,198 460,122 260,122 Z" class="k-solid-b"/>
+      <rect x="40" y="50" width="220" height="66" class="k-blue"/>
+      <text x="150" y="92" font-size="24" font-weight="700" fill="var(--ink)" text-anchor="middle">«출처1 ≤7자»</text>
+      <text x="470" y="104" font-size="20" font-weight="700" class="k-t-b">«% ≤4자»</text>
+    </g>
+    <g class="sk" data-step="1">
+      <path d="M260,196 C460,196 580,222 700,228 L700,264 C580,258 460,234 260,234 Z" class="k-solid-b" opacity=".72"/>
+      <rect x="40" y="162" width="220" height="66" class="k-blue" opacity=".72"/>
+      <text x="150" y="204" font-size="24" font-weight="700" fill="var(--ink)" text-anchor="middle">«출처2 ≤7자»</text>
+      <text x="480" y="212" font-size="20" font-weight="700" class="k-t-b">«% ≤4자»</text>
+    </g>
+    <g class="sk" data-step="1">
+      <path d="M260,322 C460,322 580,296 700,290 L700,326 C580,332 460,360 260,360 Z" class="k-solid-b" opacity=".5"/>
+      <rect x="40" y="288" width="220" height="66" class="k-blue" opacity=".5"/>
+      <text x="150" y="330" font-size="24" font-weight="700" fill="var(--ink)" text-anchor="middle">«출처3 ≤7자»</text>
+      <text x="480" y="310" font-size="20" font-weight="700" class="k-t-b">«% ≤4자»</text>
+    </g>
+    <g class="sk" data-step="1">
+      <path d="M260,434 C460,434 560,390 700,364 L700,400 C560,424 460,472 260,472 Z" class="k-solid-b" opacity=".32"/>
+      <rect x="40" y="400" width="220" height="66" class="k-blue" opacity=".32"/>
+      <text x="150" y="442" font-size="24" font-weight="700" fill="var(--ink)" text-anchor="middle">«출처4 ≤7자»</text>
+      <text x="470" y="420" font-size="20" font-weight="700" class="k-t-b">«% ≤4자»</text>
+    </g>
+    <g class="sk" data-step="2">
+      <rect x="700" y="120" width="76" height="330" class="k-solid-n"/>
+      <text x="738" y="490" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«합계 ≤6자»</text>
+      <text x="820" y="280" font-size="30" font-weight="800" fill="var(--ink)">«100%»</text>
+      <path class="dash-flow" d="M340,90 C540,90 620,270 830,270" stroke="var(--line)" stroke-width="3" marker-end="url(#ah-n)"/>
+    </g>
+    <g class="sk" data-step="3">
+      <path d="M776,200 C940,200 1010,160 1160,160 L1160,208 C1010,208 940,248 776,248 Z" class="k-solid-o"/>
+      <rect x="1160" y="120" width="320" height="128" class="k-orange"/>
+      <text x="1320" y="172" font-size="26" font-weight="700" fill="var(--ink)" text-anchor="middle">«몫1 ≤8자»</text>
+      <text x="1320" y="212" font-size="22" fill="var(--ink)" text-anchor="middle">«비중 ≤6자»</text>
+    </g>
+    <g class="sk" data-step="3">
+      <path d="M776,304 C940,304 1010,344 1160,344 L1160,392 C1010,392 940,352 776,352 Z" class="k-solid-o" opacity=".62"/>
+      <rect x="1160" y="304" width="320" height="128" class="k-orange" opacity=".62"/>
+      <text x="1320" y="356" font-size="26" font-weight="700" fill="var(--ink)" text-anchor="middle">«몫2 ≤8자»</text>
+      <text x="1320" y="396" font-size="22" fill="var(--ink)" text-anchor="middle">«비중 ≤6자»</text>
+    </g>
+  </svg>
+  <p class="small">«읽는 법·주의 한 줄 ≤40자» · 개념 비례(밴드 굵기 ≈ 비중)</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(네 출처의 몫이 한 기둥으로 합쳐진 뒤 두 몫으로 나뉜다) → 진행 지시(→ 누를 때마다 단계별로 드러난다) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- ==== 43-decision-tree.html ==== -->
+<!--
+  아키타입 decision-tree (변형: approve / triage)
+  언제: 조건 질문에 예/아니오로 답하며 내려가다 끝에서 판정에 도달하는 절차 — 지출 결재 기준,
+    안전 점검 판별, 상담·분류 규칙처럼 "이 경우엔 이렇게 처리한다"를 나무로 보여 줄 때.
+    두 안 비교는 compare-2, 순서 나열은 sequence, 규칙 목록은 frame-form(rules).
+  배치 규칙: 본문 장 한 장. 판단 노드는 마름모(k-blue 면·잉크 글자), 판정 끝은 카드(k-paper)+
+    판정 알약(k-solid-o 주황=조치 / k-solid-b 파랑=통과). 분기선은 k-ln-b(예)·k-ln-g(아니오)
+    + 라벨 칩. 선택 가지가 마지막 단계에서 accent 판정에 도달한다.
+  시그니처: branch-verdict(신규 실행 이름) — 마름모가 점등되며 분기선이 그려지고(.dt, draw,
+    m3) 각 끝의 판정 카드가 순서대로 자리 잡는다.
+  단계: 단계 3 — 뿌리 질문(1) → 갈림과 다음 판단(2) → 끝 판정(3).
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두
+    실제 내용으로 바꾼다. 자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함).
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+
+<!-- approve: 예/아니오 두 단계 판단 — 기준을 묻는 마름모와 끝 판정 -->
+<section class="slide" data-archetype="decision-tree" data-variant="approve" style="gap:22px">
+  <div class="head"><p class="eyebrow">«절차 이름 ≤12자»</p><h2 class="title">«제목: 판단 절차 한 문장 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«조건 판단 마름모가 갈라지며 끝의 판정에 도달하는 나무 도식»">
+    <g class="dt" data-step="1">
+      <polygon points="780,40 950,116 780,192 610,116" class="k-blue"/>
+      <text x="780" y="108" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">«조건1 ≤6자»</text>
+      <text x="780" y="140" font-size="20" fill="var(--ink)" text-anchor="middle">«기준 ≤8자»</text>
+    </g>
+    <g class="dt" data-step="2">
+      <path d="M650,170 C560,220 480,250 400,280" class="k-ln-b"/>
+      <path d="M910,170 C1000,220 1080,250 1160,280" class="k-ln-g"/>
+      <rect x="540" y="196" width="84" height="36" class="k-blue"/>
+      <text x="582" y="221" font-size="20" font-weight="800" fill="var(--ink)" text-anchor="middle">예</text>
+      <rect x="940" y="196" width="84" height="36" class="k-gray"/>
+      <text x="982" y="221" font-size="20" font-weight="800" fill="var(--ink)" text-anchor="middle">아니오</text>
+      <polygon points="400,238 540,306 400,374 260,306" class="k-blue" opacity=".8"/>
+      <text x="400" y="300" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«조건2 ≤6자»</text>
+      <text x="400" y="330" font-size="20" fill="var(--ink)" text-anchor="middle">«기준 ≤8자»</text>
+      <polygon points="1160,238 1300,306 1160,374 1020,306" class="k-blue" opacity=".8"/>
+      <text x="1160" y="300" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«조건3 ≤6자»</text>
+      <text x="1160" y="330" font-size="20" fill="var(--ink)" text-anchor="middle">«기준 ≤8자»</text>
+    </g>
+    <g class="dt" data-step="3">
+      <path d="M340,360 C300,400 260,430 230,460" class="k-ln-b"/>
+      <path d="M460,360 C500,400 540,430 570,460" class="k-ln-g"/>
+      <path d="M1100,360 C1060,400 1020,430 990,460" class="k-ln-g"/>
+      <path d="M1220,360 C1260,400 1300,430 1330,460" class="k-ln-b"/>
+      <rect x="80" y="460" width="300" height="84" class="k-paper"/>
+      <rect x="100" y="480" width="140" height="44" class="k-solid-b"/>
+      <text x="170" y="510" font-size="22" font-weight="800" class="k-t-w" text-anchor="middle">«판정A ≤5자»</text>
+      <text x="256" y="508" font-size="20" fill="var(--ink)">«조치 ≤5자»</text>
+      <rect x="420" y="460" width="300" height="84" class="k-paper"/>
+      <rect x="440" y="480" width="140" height="44" class="k-solid-o"/>
+      <text x="510" y="510" font-size="22" font-weight="800" class="k-t-w" text-anchor="middle">«판정B ≤5자»</text>
+      <text x="596" y="508" font-size="20" fill="var(--ink)">«조치 ≤5자»</text>
+      <rect x="840" y="460" width="300" height="84" class="k-paper"/>
+      <rect x="860" y="480" width="140" height="44" class="k-solid-o"/>
+      <text x="930" y="510" font-size="22" font-weight="800" class="k-t-w" text-anchor="middle">«판정C ≤5자»</text>
+      <text x="1016" y="508" font-size="20" fill="var(--ink)">«조치 ≤5자»</text>
+      <rect x="1220" y="460" width="300" height="84" class="k-paper"/>
+      <rect x="1240" y="480" width="140" height="44" class="k-solid-b"/>
+      <text x="1310" y="510" font-size="22" font-weight="800" class="k-t-w" text-anchor="middle">«판정D ≤5자»</text>
+      <text x="1396" y="508" font-size="20" fill="var(--ink)">«조치 ≤5자»</text>
+    </g>
+  </svg>
+  <p class="small">«읽는 법 한 줄 ≤40자» · 파란 선=예, 회색 선=아니오</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(위에서 조건을 묻고 예/아니오로 갈라져 아래 판정에 도달한다) → 진행 지시(→ 누를 때마다 뿌리·갈림·판정 순서로 드러난다) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- triage: 한 조건에서 세 갈래 분류 — 심각도·우선순위 나누기 -->
+<section class="slide" data-archetype="decision-tree" data-variant="triage" style="gap:22px">
+  <div class="head"><p class="eyebrow">«분류 절차 ≤12자»</p><h2 class="title">«제목: 세 갈래 분류 기준 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«한 판단 노드에서 세 갈래로 나뉘어 각각 판정에 도달하는 분류 도식»">
+    <g class="dt" data-step="1">
+      <polygon points="780,60 1000,160 780,260 560,160" class="k-blue"/>
+      <text x="780" y="150" font-size="28" font-weight="800" fill="var(--ink)" text-anchor="middle">«판단 기준 ≤8자»</text>
+      <text x="780" y="184" font-size="20" fill="var(--ink)" text-anchor="middle">«재는 척도 ≤10자»</text>
+    </g>
+    <g class="dt" data-step="2">
+      <path d="M640,220 C520,280 420,320 320,370" class="k-ln-g"/>
+      <path d="M780,260 L780,360" class="k-ln-b"/>
+      <path d="M920,220 C1040,280 1140,320 1240,370" class="k-ln-g"/>
+      <rect x="268" y="330" width="110" height="36" class="k-blue" opacity=".7"/>
+      <text x="323" y="355" font-size="20" font-weight="800" fill="var(--ink)" text-anchor="middle">«구간1 ≤4자»</text>
+      <rect x="725" y="330" width="110" height="36" class="k-blue" opacity=".7"/>
+      <text x="780" y="355" font-size="20" font-weight="800" fill="var(--ink)" text-anchor="middle">«구간2 ≤4자»</text>
+      <rect x="1182" y="330" width="110" height="36" class="k-blue" opacity=".7"/>
+      <text x="1237" y="355" font-size="20" font-weight="800" fill="var(--ink)" text-anchor="middle">«구간3 ≤4자»</text>
+    </g>
+    <g class="dt" data-step="3">
+      <path d="M320,370 L320,440" class="k-ln-g"/>
+      <path d="M780,360 L780,440" class="k-ln-b"/>
+      <path d="M1240,370 L1240,440" class="k-ln-g"/>
+      <rect x="170" y="440" width="300" height="96" class="k-paper"/>
+      <rect x="190" y="462" width="140" height="44" class="k-solid-b"/>
+      <text x="260" y="492" font-size="22" font-weight="800" class="k-t-w" text-anchor="middle">«처리1 ≤5자»</text>
+      <text x="346" y="492" font-size="20" fill="var(--ink)">«대상 ≤5자»</text>
+      <rect x="630" y="440" width="300" height="96" class="k-paper"/>
+      <rect x="650" y="462" width="140" height="44" class="k-solid-o"/>
+      <text x="720" y="492" font-size="22" font-weight="800" class="k-t-w" text-anchor="middle">«처리2 ≤5자»</text>
+      <text x="806" y="492" font-size="20" fill="var(--ink)">«대상 ≤5자»</text>
+      <rect x="1090" y="440" width="300" height="96" class="k-paper"/>
+      <rect x="1110" y="462" width="140" height="44" class="k-solid-o"/>
+      <text x="1180" y="492" font-size="22" font-weight="800" class="k-t-w" text-anchor="middle">«처리3 ≤5자»</text>
+      <text x="1266" y="492" font-size="20" fill="var(--ink)">«대상 ≤5자»</text>
+    </g>
+  </svg>
+  <p class="small">«읽는 법 한 줄 ≤40자»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(하나의 기준이 세 구간으로 갈라져 각각 다른 처리에 도달한다) → 진행 지시(→ 누를 때마다 단계별로 드러난다) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- ==== 44-kanban-board.html ==== -->
+<!--
+  아키타입 kanban-board (변형: flow / stages)
+  언제: 작업이 상태 칸 사이를 오가며 진행되는 모습 — 과제 진행 보드, 행사 준비 항목, 수업
+    활동 관리처럼 "무엇이 어디까지 왔는가"를 한눈에 보여 줄 때. 단순 절차는 sequence,
+    역할별 인계는 swimlane, 기간 일정은 timeline·ops-report(calendar).
+  배치 규칙: 본문 장 한 장. 칸은 회색 띠(k-gray 면+머리 알약 k-solid-n), 카드는 종이 카드
+    (k-paper·제목 굵게+담당 작게). 방금 옮긴 카드는 주황 테두리(k-orange 면)와 점선 이동
+    화살표(k-ln-g+ah 화살촉)로 출발 칸을 가리킨다.
+  시그니처: card-drift(신규 실행 이름) — 카드가 오른쪽으로 미끄러지듯 자리 잡는다
+    (.kb, translateX, m3).
+  단계: 단계 3 — 칸별로 순서대로 공개(칸1→칸2→칸3), 이동 화살표는 도착 칸 단계에 둔다.
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두
+    실제 내용으로 바꾼다. 자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함).
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+
+<!-- flow: 할 일 → 하는 중 → 다 한 일 3칸, 카드가 칸을 넘으며 진행 -->
+<section class="slide" data-archetype="kanban-board" data-variant="flow" style="gap:22px">
+  <div class="head"><p class="eyebrow">«보드 이름 ≤12자»</p><h2 class="title">«제목: 흐름 한 문장 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«세 상태 칸 사이를 카드가 넘어가는 진행 보드 도식»">
+    <rect x="40" y="50" width="440" height="480" class="k-gray"/>
+    <rect x="560" y="50" width="440" height="480" class="k-gray"/>
+    <rect x="1080" y="50" width="440" height="480" class="k-gray"/>
+    <g data-step="1">
+      <rect x="64" y="72" width="180" height="44" class="k-solid-n"/>
+      <text x="154" y="101" font-size="22" font-weight="800" class="k-t-w" text-anchor="middle">«칸1 ≤6자»</text>
+      <text x="452" y="101" font-size="20" font-weight="700" fill="var(--soft)" text-anchor="end">«건수 ≤3자»</text>
+    </g>
+    <g class="kb" data-step="1">
+      <rect x="80" y="140" width="360" height="72" class="k-paper"/>
+      <text x="104" y="172" font-size="24" font-weight="700" fill="var(--ink)">«카드1 ≤10자»</text>
+      <text x="104" y="198" font-size="20" fill="var(--soft)">«담당 ≤6자»</text>
+    </g>
+    <g class="kb" data-step="1">
+      <rect x="80" y="228" width="360" height="72" class="k-paper"/>
+      <text x="104" y="260" font-size="24" font-weight="700" fill="var(--ink)">«카드2 ≤10자»</text>
+      <text x="104" y="286" font-size="20" fill="var(--soft)">«담당 ≤6자»</text>
+    </g>
+    <g class="kb" data-step="1">
+      <rect x="80" y="316" width="360" height="72" class="k-paper"/>
+      <text x="104" y="348" font-size="24" font-weight="700" fill="var(--ink)">«카드3 ≤10자»</text>
+      <text x="104" y="374" font-size="20" fill="var(--soft)">«담당 ≤6자»</text>
+    </g>
+    <g data-step="2">
+      <rect x="584" y="72" width="180" height="44" class="k-solid-b"/>
+      <text x="674" y="101" font-size="22" font-weight="800" class="k-t-w" text-anchor="middle">«칸2 ≤6자»</text>
+      <text x="972" y="101" font-size="20" font-weight="700" fill="var(--soft)" text-anchor="end">«건수 ≤3자»</text>
+    </g>
+    <g class="kb" data-step="2">
+      <path d="M440,176 C500,176 540,176 592,176" class="dash-flow" stroke="var(--line)" stroke-width="3" marker-end="url(#ah-b)"/>
+      <rect x="600" y="140" width="360" height="72" class="k-orange"/>
+      <text x="624" y="172" font-size="24" font-weight="700" fill="var(--ink)">«방금 옮긴 카드 ≤9자»</text>
+      <text x="624" y="198" font-size="20" fill="var(--soft)">«담당 ≤6자»</text>
+    </g>
+    <g class="kb" data-step="2">
+      <rect x="600" y="228" width="360" height="72" class="k-paper"/>
+      <text x="624" y="260" font-size="24" font-weight="700" fill="var(--ink)">«카드5 ≤10자»</text>
+      <text x="624" y="286" font-size="20" fill="var(--soft)">«담당 ≤6자»</text>
+    </g>
+    <g data-step="3">
+      <rect x="1104" y="72" width="180" height="44" class="k-solid-o"/>
+      <text x="1194" y="101" font-size="22" font-weight="800" class="k-t-w" text-anchor="middle">«칸3 ≤6자»</text>
+      <text x="1492" y="101" font-size="20" font-weight="700" fill="var(--soft)" text-anchor="end">«건수 ≤3자»</text>
+    </g>
+    <g class="kb" data-step="3">
+      <path d="M960,264 C1020,264 1060,320 1112,330" class="dash-flow" stroke="var(--line)" stroke-width="3" marker-end="url(#ah-o)"/>
+      <rect x="1120" y="294" width="360" height="72" class="k-orange"/>
+      <text x="1144" y="326" font-size="24" font-weight="700" fill="var(--ink)">«완료된 카드 ≤10자»</text>
+      <text x="1144" y="352" font-size="20" fill="var(--soft)">«담당 ≤6자»</text>
+    </g>
+    <g class="kb" data-step="3">
+      <rect x="1120" y="382" width="360" height="72" class="k-paper"/>
+      <text x="1144" y="414" font-size="24" font-weight="700" fill="var(--ink)">«카드7 ≤10자»</text>
+      <text x="1144" y="440" font-size="20" fill="var(--soft)">«담당 ≤6자»</text>
+    </g>
+  </svg>
+  <p class="small">«읽는 법 한 줄 ≤40자» · 주황 테두리=방금 옮긴 카드, 점선 화살표=출발 칸</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(카드가 세 칸을 오가며 진행 상태를 보여 준다) → 진행 지시(→ 누를 때마다 칸별로 공개, 점선 화살표가 옮긴 카드를 가리킨다) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- stages: 대기 → 준비 → 진행 → 검토 4칸, 단계가 많은 업무 흐름 -->
+<section class="slide" data-archetype="kanban-board" data-variant="stages" style="gap:22px">
+  <div class="head"><p class="eyebrow">«보드 이름 ≤12자»</p><h2 class="title">«제목: 단계 흐름 한 문장 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«네 단계 칸을 카드가 지나가는 업무 보드 도식»">
+    <rect x="40" y="50" width="340" height="480" class="k-gray"/>
+    <rect x="410" y="50" width="340" height="480" class="k-gray"/>
+    <rect x="780" y="50" width="340" height="480" class="k-gray"/>
+    <rect x="1150" y="50" width="370" height="480" class="k-gray"/>
+    <g data-step="1">
+      <rect x="60" y="72" width="150" height="44" class="k-solid-n"/>
+      <text x="135" y="101" font-size="22" font-weight="800" class="k-t-w" text-anchor="middle">«단계1 ≤5자»</text>
+    </g>
+    <g class="kb" data-step="1">
+      <rect x="64" y="140" width="292" height="80" class="k-paper"/>
+      <text x="84" y="174" font-size="23" font-weight="700" fill="var(--ink)">«카드1 ≤9자»</text>
+      <text x="84" y="202" font-size="20" fill="var(--soft)">«담당 ≤6자»</text>
+    </g>
+    <g class="kb" data-step="1">
+      <rect x="64" y="236" width="292" height="80" class="k-paper"/>
+      <text x="84" y="270" font-size="23" font-weight="700" fill="var(--ink)">«카드2 ≤9자»</text>
+      <text x="84" y="298" font-size="20" fill="var(--soft)">«담당 ≤6자»</text>
+    </g>
+    <g data-step="2">
+      <rect x="430" y="72" width="150" height="44" class="k-solid-b" opacity=".75"/>
+      <text x="505" y="101" font-size="22" font-weight="800" class="k-t-w" text-anchor="middle">«단계2 ≤5자»</text>
+    </g>
+    <g class="kb" data-step="2">
+      <rect x="434" y="140" width="292" height="80" class="k-paper"/>
+      <text x="454" y="174" font-size="23" font-weight="700" fill="var(--ink)">«카드3 ≤9자»</text>
+      <text x="454" y="202" font-size="20" fill="var(--soft)">«담당 ≤6자»</text>
+    </g>
+    <g data-step="3">
+      <rect x="800" y="72" width="150" height="44" class="k-solid-b"/>
+      <text x="875" y="101" font-size="22" font-weight="800" class="k-t-w" text-anchor="middle">«단계3 ≤5자»</text>
+    </g>
+    <g class="kb" data-step="3">
+      <path d="M726,180 C770,180 780,180 796,180" class="dash-flow" stroke="var(--line)" stroke-width="3" marker-end="url(#ah-b)"/>
+      <rect x="804" y="140" width="292" height="80" class="k-orange"/>
+      <text x="824" y="174" font-size="23" font-weight="700" fill="var(--ink)">«옮긴 카드 ≤9자»</text>
+      <text x="824" y="202" font-size="20" fill="var(--soft)">«담당 ≤6자»</text>
+    </g>
+    <g data-step="4">
+      <rect x="1170" y="72" width="150" height="44" class="k-solid-o"/>
+      <text x="1245" y="101" font-size="22" font-weight="800" class="k-t-w" text-anchor="middle">«단계4 ≤5자»</text>
+    </g>
+    <g class="kb" data-step="4">
+      <rect x="1174" y="140" width="292" height="80" class="k-paper"/>
+      <text x="1194" y="174" font-size="23" font-weight="700" fill="var(--ink)">«카드5 ≤9자»</text>
+      <text x="1194" y="202" font-size="20" fill="var(--soft)">«담당 ≤6자»</text>
+    </g>
+  </svg>
+  <p class="small">«읽는 법 한 줄 ≤40자»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(네 단계 칸을 카드가 지나간다) → 진행 지시(→ 누를 때마다 단계별로 드러난다) → 화면에 없는 보충 사실과 출처 → 이 장에서 청중이 가져갈 한 가지 → 다음 장 연결»</aside>
+</section>
+
+<!-- ==== 45-version-graph.html ==== -->
+<!--
+  아키타입 version-graph (변형: release / documents)
+  언제: 하나의 줄기가 갈라져 따로 작업된 뒤 다시 합쳐지는 버전 흐름 — 강의 자료 개정, 문서
+    공동 편집, 규정 개정안 심의처럼 "따로 고쳐서 합치는" 과정을 보여 줄 때. 단순 수정 이력은
+    timeline, 역할별 작업은 swimlane.
+  배치 규칙: 본문 장 한 장. 줄기는 가로 레인(레인 라벨 왼쪽), 커밋은 원 도장(k-blue 테두리+
+    속점 k-solid-b), 병합점은 주황 이중 고리(k-orange 면 도장), 태그는 깃발 카드(k-solid-n).
+    분기·병합 곡선은 k-ln-b, 본류 직선은 k-ln-n.
+  시그니처: merge-trace(신규 실행 이름) — 줄기 선이 순서대로 그려지고(.vg, draw, m3)
+    커밋 도장이 찍히다가 병합점 고리가 점등된다.
+  단계: 단계 3 — 본류 커밋(1) → 갈래 분기·커밋(2) → 병합점·태그(3).
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두
+    실제 내용으로 바꾼다. 자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함).
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+
+<!-- release: 본류 + 작업 갈래 하나가 병합점에서 합쳐지고 태그가 붙는 릴리스 흐름 -->
+<section class="slide" data-archetype="version-graph" data-variant="release" style="gap:22px">
+  <div class="head"><p class="eyebrow">«버전 단위 ≤12자»</p><h2 class="title">«제목: 갈라졌다 합치는 과정 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«본류에서 갈라진 작업 줄기가 병합점에서 합쳐지는 버전 그래프 도식»">
+    <text x="60" y="196" font-size="22" font-weight="800" fill="var(--ink)">«본류 ≤5자»</text>
+    <text x="60" y="416" font-size="22" font-weight="800" fill="var(--soft)">«갈래 ≤5자»</text>
+    <g class="vg" data-step="1">
+      <path d="M140,200 L700,200" class="k-ln-n"/>
+      <circle cx="140" cy="200" r="22" fill="var(--paper)" stroke="var(--blue)" stroke-width="4"/>
+      <circle cx="140" cy="200" r="9" class="k-solid-b"/>
+      <text x="140" y="156" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">«커밋1 ≤6자»</text>
+      <circle cx="420" cy="200" r="22" fill="var(--paper)" stroke="var(--blue)" stroke-width="4"/>
+      <circle cx="420" cy="200" r="9" class="k-solid-b"/>
+      <text x="420" y="156" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">«커밋2 ≤6자»</text>
+      <circle cx="700" cy="200" r="22" fill="var(--paper)" stroke="var(--blue)" stroke-width="4"/>
+      <circle cx="700" cy="200" r="9" class="k-solid-b"/>
+      <text x="700" y="156" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">«커밋3 ≤6자»</text>
+    </g>
+    <g class="vg" data-step="2">
+      <path d="M420,200 C470,200 480,400 560,400" class="k-ln-b"/>
+      <path d="M560,400 L900,400" class="k-ln-b"/>
+      <circle cx="640" cy="400" r="22" fill="var(--paper)" stroke="var(--blue)" stroke-width="4"/>
+      <circle cx="640" cy="400" r="9" class="k-solid-b"/>
+      <text x="640" y="444" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">«갈래1 ≤6자»</text>
+      <circle cx="880" cy="400" r="22" fill="var(--paper)" stroke="var(--blue)" stroke-width="4"/>
+      <circle cx="880" cy="400" r="9" class="k-solid-b"/>
+      <text x="880" y="444" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">«갈래2 ≤6자»</text>
+    </g>
+    <g class="vg" data-step="3">
+      <path d="M700,200 L1010,200" class="k-ln-n"/>
+      <path d="M900,400 C960,400 950,200 1010,200" class="k-ln-b"/>
+      <circle cx="1010" cy="200" r="30" fill="var(--paper)" stroke="var(--accent)" stroke-width="5"/>
+      <circle cx="1010" cy="200" r="16" fill="none" stroke="var(--accent)" stroke-width="3"/>
+      <circle cx="1010" cy="200" r="9" class="k-solid-o"/>
+      <text x="1010" y="156" font-size="20" font-weight="800" class="k-t-o" text-anchor="middle">«병합 ≤6자»</text>
+      <path d="M1010,200 L1300,200" class="k-ln-n"/>
+      <rect x="1230" y="160" width="200" height="80" class="k-solid-n"/>
+      <text x="1330" y="194" font-size="24" font-weight="800" class="k-t-w" text-anchor="middle">«태그 ≤6자»</text>
+      <text x="1330" y="222" font-size="18" class="k-t-w" text-anchor="middle">«배포 시점 ≤7자»</text>
+    </g>
+  </svg>
+  <p class="small">«읽는 법 한 줄 ≤40자» · 파란 선=갈래 작업, 주황 고리=병합점</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(본류에서 갈래가 나와 따로 커밋된 뒤 병합점에서 합쳐진다) → 진행 지시(→ 누를 때마다 본류·갈래·병합 순서로 그려진다) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- documents: 자료 원안 + 검토 갈래·긴급 수정 갈래가 각각 병합되는 문서 버전 흐름 -->
+<section class="slide" data-archetype="version-graph" data-variant="documents" style="gap:22px">
+  <div class="head"><p class="eyebrow">«문서 이름 ≤12자»</p><h2 class="title">«제목: 개정 흐름 한 문장 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«원안에서 두 갈래가 갈라져 차례로 병합되는 문서 버전 도식»">
+    <text x="60" y="296" font-size="22" font-weight="800" fill="var(--ink)">«원안 ≤5자»</text>
+    <text x="60" y="136" font-size="22" font-weight="800" fill="var(--soft)">«검토 ≤5자»</text>
+    <text x="60" y="456" font-size="22" font-weight="800" fill="var(--soft)">«긴급 ≤5자»</text>
+    <g class="vg" data-step="1">
+      <path d="M140,280 L520,280" class="k-ln-n"/>
+      <circle cx="140" cy="280" r="22" fill="var(--paper)" stroke="var(--blue)" stroke-width="4"/>
+      <circle cx="140" cy="280" r="9" class="k-solid-b"/>
+      <text x="140" y="330" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">«초안 ≤6자»</text>
+      <circle cx="360" cy="280" r="22" fill="var(--paper)" stroke="var(--blue)" stroke-width="4"/>
+      <circle cx="360" cy="280" r="9" class="k-solid-b"/>
+      <text x="360" y="330" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">«수정 ≤6자»</text>
+    </g>
+    <g class="vg" data-step="2">
+      <path d="M360,280 C410,280 420,120 500,120" class="k-ln-b"/>
+      <path d="M500,120 L760,120" class="k-ln-b"/>
+      <circle cx="630" cy="120" r="22" fill="var(--paper)" stroke="var(--blue)" stroke-width="4"/>
+      <circle cx="630" cy="120" r="9" class="k-solid-b"/>
+      <text x="630" y="76" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">«검토안 ≤6자»</text>
+      <path d="M760,120 C820,120 800,280 860,280" class="k-ln-b"/>
+      <path d="M520,280 L860,280" class="k-ln-n"/>
+      <circle cx="860" cy="280" r="30" fill="var(--paper)" stroke="var(--accent)" stroke-width="5"/>
+      <circle cx="860" cy="280" r="16" fill="none" stroke="var(--accent)" stroke-width="3"/>
+      <circle cx="860" cy="280" r="9" class="k-solid-o"/>
+      <text x="860" y="236" font-size="20" font-weight="800" class="k-t-o" text-anchor="middle">«병합1 ≤6자»</text>
+    </g>
+    <g class="vg" data-step="3">
+      <path d="M860,280 C910,280 920,440 1000,440" class="k-ln-b" opacity=".7"/>
+      <path d="M1000,440 L1240,440" class="k-ln-b" opacity=".7"/>
+      <circle cx="1120" cy="440" r="22" fill="var(--paper)" stroke="var(--blue)" stroke-width="4"/>
+      <circle cx="1120" cy="440" r="9" class="k-solid-b"/>
+      <text x="1120" y="484" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">«긴급수정 ≤6자»</text>
+      <path d="M1240,440 C1300,440 1290,280 1350,280" class="k-ln-b" opacity=".7"/>
+      <path d="M860,280 L1350,280" class="k-ln-n"/>
+      <circle cx="1350" cy="280" r="30" fill="var(--paper)" stroke="var(--accent)" stroke-width="5"/>
+      <circle cx="1350" cy="280" r="16" fill="none" stroke="var(--accent)" stroke-width="3"/>
+      <circle cx="1350" cy="280" r="9" class="k-solid-o"/>
+      <text x="1350" y="236" font-size="20" font-weight="800" class="k-t-o" text-anchor="middle">«병합2 ≤6자»</text>
+      <rect x="1400" y="240" width="120" height="80" class="k-solid-n"/>
+      <text x="1460" y="274" font-size="22" font-weight="800" class="k-t-w" text-anchor="middle">«확정 ≤4자»</text>
+      <text x="1460" y="300" font-size="18" class="k-t-w" text-anchor="middle">«버전 ≤5자»</text>
+    </g>
+  </svg>
+  <p class="small">«읽는 법 한 줄 ≤40자»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(검토 갈래와 긴급 수정 갈래가 차례로 원안에 병합된다) → 진행 지시(→ 누를 때마다 단계가 순서대로 드러난다) → 화면에 없는 보충 사실과 출처 → 이 장에서 청중이 가져갈 한 가지 → 다음 장 연결»</aside>
+</section>
+
+<!-- ==== 46-event-fanout.html ==== -->
+<!--
+  아키타입 event-fanout (변형: notice / roles)
+  언제: 하나의 사건·신호가 여러 처리·채널·역할로 동시에 퍼지는 순간 — 공지 발송, 신청 접수
+    후속 처리, 비상 연락 전파처럼 "하나가 켜지면 넷이 움직인다"를 보여 줄 때. 순서 처리는
+    sequence, 중심과 둘레 관계 설명은 hub.
+  배치 규칙: 본문 장 한 장. 중심 사건은 남색 면 원(k-solid-n, 흰 글자), 바깥 노드는 파랑 면
+    카드(k-blue 면·잉크 글자), 전파선은 dash-flow+k-ln-b(입자가 지나간다). 도달 확인은 주황
+    확인 알약(k-solid-o).
+  시그니처: pulse-fanout(신규 실행 이름) — 중심이 먼저 자리 잡고 바깥 노드가 작게→크게→제자리로
+    동시에 켜지며 전파선이 그려진다(.ef, scale 파형 + draw, m3).
+  단계: 단계 3 — 중심 사건(1) → 전파선+외곽 노드 동시 공개(2) → 도달 확인(3).
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두
+    실제 내용으로 바꾼다. 자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함).
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+
+<!-- notice: 공지 하나가 네 채널로 동시 전파 — 사건의 확산 -->
+<section class="slide" data-archetype="event-fanout" data-variant="notice" style="gap:22px">
+  <div class="head"><p class="eyebrow">«사건 이름 ≤12자»</p><h2 class="title">«제목: 동시 전파 한 문장 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«중심 사건에서 네 채널로 동시에 퍼지는 전파 도식»">
+    <g class="ef" data-step="1">
+      <circle cx="780" cy="280" r="76" class="k-solid-n"/>
+      <circle cx="780" cy="280" r="96" fill="none" stroke="var(--ink)" stroke-width="2" stroke-dasharray="4 8"/>
+      <text x="780" y="272" font-size="28" font-weight="800" class="k-t-w" text-anchor="middle">«사건 ≤6자»</text>
+      <text x="780" y="306" font-size="20" class="k-t-w" text-anchor="middle">«시점 ≤7자»</text>
+    </g>
+    <g class="ef" data-step="2">
+      <path class="dash-flow" d="M720,230 C580,170 460,140 340,120" stroke="var(--blue)" stroke-width="4" marker-end="url(#ah-b)"/>
+      <rect x="60" y="60" width="280" height="104" class="k-blue"/>
+      <text x="200" y="104" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">«채널1 ≤7자»</text>
+      <text x="200" y="138" font-size="20" fill="var(--ink)" text-anchor="middle">«받는 이 ≤8자»</text>
+    </g>
+    <g class="ef" data-step="2">
+      <path class="dash-flow" d="M840,230 C980,170 1100,140 1220,120" stroke="var(--blue)" stroke-width="4" marker-end="url(#ah-b)"/>
+      <rect x="1220" y="60" width="280" height="104" class="k-blue"/>
+      <text x="1360" y="104" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">«채널2 ≤7자»</text>
+      <text x="1360" y="138" font-size="20" fill="var(--ink)" text-anchor="middle">«받는 이 ≤8자»</text>
+    </g>
+    <g class="ef" data-step="2">
+      <path class="dash-flow" d="M720,330 C580,390 460,420 340,440" stroke="var(--blue)" stroke-width="4" marker-end="url(#ah-b)"/>
+      <rect x="60" y="396" width="280" height="104" class="k-blue"/>
+      <text x="200" y="440" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">«채널3 ≤7자»</text>
+      <text x="200" y="474" font-size="20" fill="var(--ink)" text-anchor="middle">«받는 이 ≤8자»</text>
+    </g>
+    <g class="ef" data-step="2">
+      <path class="dash-flow" d="M840,330 C980,390 1100,420 1220,440" stroke="var(--blue)" stroke-width="4" marker-end="url(#ah-b)"/>
+      <rect x="1220" y="396" width="280" height="104" class="k-blue"/>
+      <text x="1360" y="440" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">«채널4 ≤7자»</text>
+      <text x="1360" y="474" font-size="20" fill="var(--ink)" text-anchor="middle">«받는 이 ≤8자»</text>
+    </g>
+    <g class="ef" data-step="3">
+      <rect x="640" y="420" width="280" height="56" class="k-solid-o"/>
+      <text x="780" y="456" font-size="22" font-weight="800" class="k-t-w" text-anchor="middle">«도달 확인 ≤10자»</text>
+      <text x="780" y="524" font-size="20" fill="var(--soft)" text-anchor="middle">«한 채널이 못 받으면 어떻게 하나 ≤16자»</text>
+    </g>
+  </svg>
+  <p class="small">«읽는 법 한 줄 ≤40자» · 점선 화살표=전파 방향(입자 흐름)</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(가운데 사건 하나가 네 채널로 동시에 퍼진다) → 진행 지시(→ 누를 때마다 사건·전파·확인 순서로 드러난다) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- roles: 접수 하나가 네 역할로 동시 분배 — 사건에 따른 역할 발동 -->
+<section class="slide" data-archetype="event-fanout" data-variant="roles" style="gap:22px">
+  <div class="head"><p class="eyebrow">«발동 사건 ≤12자»</p><h2 class="title">«제목: 역할 분배 한 문장 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«한 사건이 네 역할에 동시에 분배되는 발동 도식»">
+    <g class="ef" data-step="1">
+      <rect x="660" y="230" width="240" height="100" class="k-solid-n"/>
+      <text x="780" y="274" font-size="26" font-weight="800" class="k-t-w" text-anchor="middle">«발동 조건 ≤7자»</text>
+      <text x="780" y="306" font-size="20" class="k-t-w" text-anchor="middle">«예: 접수 완료 ≤8자»</text>
+    </g>
+    <g class="ef" data-step="2">
+      <path class="dash-flow" d="M660,250 C540,200 440,160 350,130" stroke="var(--blue)" stroke-width="4" marker-end="url(#ah-b)"/>
+      <rect x="80" y="70" width="270" height="110" class="k-blue"/>
+      <text x="215" y="114" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«역할1 ≤7자»</text>
+      <text x="215" y="148" font-size="20" fill="var(--ink)" text-anchor="middle">«맡는 일 ≤9자»</text>
+    </g>
+    <g class="ef" data-step="2">
+      <path class="dash-flow" d="M900,250 C1020,200 1120,160 1210,130" stroke="var(--blue)" stroke-width="4" marker-end="url(#ah-b)"/>
+      <rect x="1210" y="70" width="270" height="110" class="k-blue"/>
+      <text x="1345" y="114" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«역할2 ≤7자»</text>
+      <text x="1345" y="148" font-size="20" fill="var(--ink)" text-anchor="middle">«맡는 일 ≤9자»</text>
+    </g>
+    <g class="ef" data-step="2">
+      <path class="dash-flow" d="M660,310 C540,360 440,400 350,430" stroke="var(--blue)" stroke-width="4" marker-end="url(#ah-b)"/>
+      <rect x="80" y="380" width="270" height="110" class="k-blue"/>
+      <text x="215" y="424" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«역할3 ≤7자»</text>
+      <text x="215" y="458" font-size="20" fill="var(--ink)" text-anchor="middle">«맡는 일 ≤9자»</text>
+    </g>
+    <g class="ef" data-step="2">
+      <path class="dash-flow" d="M900,310 C1020,360 1120,400 1210,430" stroke="var(--blue)" stroke-width="4" marker-end="url(#ah-b)"/>
+      <rect x="1210" y="380" width="270" height="110" class="k-blue"/>
+      <text x="1345" y="424" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«역할4 ≤7자»</text>
+      <text x="1345" y="458" font-size="20" fill="var(--ink)" text-anchor="middle">«맡는 일 ≤9자»</text>
+    </g>
+    <g class="ef" data-step="3">
+      <text x="780" y="480" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«동시에 움직이되 겹치는 일은 따로 정한다 ≤18자»</text>
+    </g>
+  </svg>
+  <p class="small">«읽는 법 한 줄 ≤40자»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(발동 조건 하나에 네 역할이 동시에 움직인다) → 진행 지시(→ 누를 때마다 단계가 순서대로 드러난다) → 화면에 없는 보충 사실과 출처 → 이 장에서 청중이 가져갈 한 가지 → 다음 장 연결»</aside>
+</section>
+
+<!-- ==== 47-route-tour.html ==== -->
+<!--
+  아키타입 route-tour (변형: round / inspection)
+  언제: 정해진 순서로 지점을 도는 순회·동선 — 현장 점검 코스, 안내 동선, 학생 상담 순번처럼
+    "어디를 어떤 순서로 도는가"를 지도 위의 길로 보여 줄 때. 일정 시간표는 timeline,
+    지점 간 이동 관계는 sequence·map.
+  배치 규칙: 본문 장 한 장. 배경은 추상 지형 패널(k-gray 둥근 면 몇 개 — 실지도 아님),
+    순회선은 dash-flow+k-ln-o(입자가 지나가는 길), 정거장은 번호 원(k-solid-b 통과 완료 /
+    k-paper 미통과), 현재 위치는 주황 이동체(k-solid-o 원).
+  시그니처: waypoint-crawl(신규 실행 이름) — 경로선이 그려지고(draw, m3) 정거장이 순서대로
+    켜지며 번호·체크가 자리 잡는다(.rt).
+  단계: 단계 3 — 지형+출발(1) → 앞 정거장 통과(2) → 나머지 정거장+도착(3).
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두
+    실제 내용으로 바꾼다. 자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함).
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+
+<!-- round: 한 바퀴 순회 코스 — 출발지에서 네 정거장을 거쳐 도착 -->
+<section class="slide" data-archetype="route-tour" data-variant="round" style="gap:22px">
+  <div class="head"><p class="eyebrow">«순회 이름 ≤12자»</p><h2 class="title">«제목: 도는 순서 한 문장 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«추상 지형 위를 순회선이 정거장을 지나는 동선 도식»">
+    <g data-step="1" aria-hidden="true">
+      <rect x="80" y="60" width="420" height="180" rx="24" class="k-gray" opacity=".5"/>
+      <rect x="620" y="40" width="340" height="150" rx="24" class="k-gray" opacity=".4"/>
+      <rect x="1060" y="80" width="380" height="200" rx="24" class="k-gray" opacity=".45"/>
+      <rect x="140" y="300" width="300" height="200" rx="24" class="k-gray" opacity=".35"/>
+      <rect x="700" y="330" width="360" height="170" rx="24" class="k-gray" opacity=".4"/>
+      <rect x="1160" y="360" width="280" height="150" rx="24" class="k-gray" opacity=".35"/>
+    </g>
+    <g data-step="1"><text x="80" y="540" font-size="20" fill="var(--soft)">추상 지형 — 실지도 아님</text></g>
+    <g class="rt" data-step="1">
+      <path class="dash-flow" d="M180,260 C260,220 340,180 440,170 C560,158 640,200 720,240 C800,280 880,300 980,290 C1080,280 1160,240 1240,220 C1320,200 1380,240 1410,300" stroke="var(--accent)" stroke-width="5" fill="none"/>
+      <circle cx="180" cy="260" r="26" class="k-solid-n"/>
+      <text x="180" y="268" font-size="20" font-weight="800" class="k-t-w" text-anchor="middle">출발</text>
+      <text x="180" y="310" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">«출발지 ≤7자»</text>
+    </g>
+    <g class="rt" data-step="2">
+      <circle cx="440" cy="170" r="24" fill="var(--paper)" stroke="var(--blue)" stroke-width="4"/>
+      <text x="440" y="178" font-size="20" font-weight="800" class="k-t-b" text-anchor="middle">1</text>
+      <text x="440" y="126" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">«지점1 ≤6자»</text>
+      <circle cx="720" cy="240" r="24" fill="var(--paper)" stroke="var(--blue)" stroke-width="4"/>
+      <text x="720" y="248" font-size="20" font-weight="800" class="k-t-b" text-anchor="middle">2</text>
+      <text x="720" y="196" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">«지점2 ≤6자»</text>
+    </g>
+    <g class="rt" data-step="3">
+      <circle cx="980" cy="290" r="24" fill="var(--paper)" stroke="var(--blue)" stroke-width="4"/>
+      <text x="980" y="298" font-size="20" font-weight="800" class="k-t-b" text-anchor="middle">3</text>
+      <text x="980" y="336" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">«지점3 ≤6자»</text>
+      <circle cx="1240" cy="220" r="24" fill="var(--paper)" stroke="var(--blue)" stroke-width="4"/>
+      <text x="1240" y="228" font-size="20" font-weight="800" class="k-t-b" text-anchor="middle">4</text>
+      <text x="1240" y="176" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">«지점4 ≤6자»</text>
+      <circle cx="1410" cy="300" r="26" class="k-solid-o"/>
+      <text x="1410" y="308" font-size="20" font-weight="800" class="k-t-w" text-anchor="middle">도착</text>
+      <text x="1410" y="352" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">«도착지 ≤7자»</text>
+    </g>
+  </svg>
+  <p class="small">«읽는 법 한 줄 ≤40자» · 번호=지나는 순서, 주황=현재·도착 위치</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(출발지에서 번호 순서대로 지점을 거쳐 도착지에 이른다) → 진행 지시(→ 누를 때마다 경로·앞 지점·뒤 지점 순서로 드러난다) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- inspection: 점검 동선 — 지점마다 확인 항목이 달린 순회 -->
+<section class="slide" data-archetype="route-tour" data-variant="inspection" style="gap:22px">
+  <div class="head"><p class="eyebrow">«점검 이름 ≤12자»</p><h2 class="title">«제목: 점검 동선 한 문장 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«점검 항목이 달린 정거장을 도는 확인 동선 도식»">
+    <g data-step="1" aria-hidden="true">
+      <rect x="100" y="80" width="1360" height="400" rx="28" class="k-gray" opacity=".35"/>
+      <rect x="180" y="140" width="300" height="130" rx="18" class="k-gray" opacity=".5"/>
+      <rect x="560" y="120" width="340" height="120" rx="18" class="k-gray" opacity=".45"/>
+      <rect x="980" y="150" width="300" height="140" rx="18" class="k-gray" opacity=".5"/>
+      <rect x="420" y="340" width="320" height="110" rx="18" class="k-gray" opacity=".4"/>
+      <rect x="1060" y="350" width="280" height="100" rx="18" class="k-gray" opacity=".45"/>
+    </g>
+    <g data-step="1"><text x="120" y="520" font-size="20" fill="var(--soft)">추상 공간 — 실측 도면 아님</text></g>
+    <g class="rt" data-step="1">
+      <path class="dash-flow" d="M220,330 C340,330 420,300 500,290 C600,278 680,300 760,320 C840,340 900,320 980,310 C1080,298 1180,330 1290,340 C1350,346 1380,330 1400,300" stroke="var(--accent)" stroke-width="5" fill="none"/>
+      <rect x="140" y="300" width="100" height="60" class="k-solid-n"/>
+      <text x="190" y="337" font-size="20" font-weight="800" class="k-t-w" text-anchor="middle">집결</text>
+    </g>
+    <g class="rt" data-step="2">
+      <circle cx="500" cy="290" r="24" fill="var(--paper)" stroke="var(--blue)" stroke-width="4"/>
+      <text x="500" y="298" font-size="20" font-weight="800" class="k-t-b" text-anchor="middle">1</text>
+      <rect x="540" y="252" width="200" height="64" class="k-paper"/>
+      <text x="560" y="278" font-size="20" font-weight="700" fill="var(--ink)">«확인1 ≤8자»</text>
+      <text x="560" y="304" font-size="18" fill="var(--soft)">«보는 곳 ≤7자»</text>
+      <circle cx="760" cy="320" r="24" fill="var(--paper)" stroke="var(--blue)" stroke-width="4"/>
+      <text x="760" y="328" font-size="20" font-weight="800" class="k-t-b" text-anchor="middle">2</text>
+      <rect x="800" y="282" width="200" height="64" class="k-paper"/>
+      <text x="820" y="308" font-size="20" font-weight="700" fill="var(--ink)">«확인2 ≤8자»</text>
+      <text x="820" y="334" font-size="18" fill="var(--soft)">«보는 곳 ≤7자»</text>
+    </g>
+    <g class="rt" data-step="3">
+      <circle cx="980" cy="310" r="24" fill="var(--paper)" stroke="var(--blue)" stroke-width="4"/>
+      <text x="980" y="318" font-size="20" font-weight="800" class="k-t-b" text-anchor="middle">3</text>
+      <rect x="1020" y="272" width="200" height="64" class="k-paper"/>
+      <text x="1040" y="298" font-size="20" font-weight="700" fill="var(--ink)">«확인3 ≤8자»</text>
+      <text x="1040" y="324" font-size="18" fill="var(--soft)">«보는 곳 ≤7자»</text>
+      <circle cx="1290" cy="340" r="24" fill="var(--paper)" stroke="var(--blue)" stroke-width="4"/>
+      <text x="1290" y="348" font-size="20" font-weight="800" class="k-t-b" text-anchor="middle">4</text>
+      <rect x="1060" y="388" width="200" height="64" class="k-paper"/>
+      <text x="1080" y="414" font-size="20" font-weight="700" fill="var(--ink)">«확인4 ≤8자»</text>
+      <text x="1080" y="440" font-size="18" fill="var(--soft)">«보는 곳 ≤7자»</text>
+      <circle cx="1400" cy="300" r="26" class="k-solid-o"/>
+      <path d="M1390,300 l8,8 14,-16" fill="none" stroke="var(--paper)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="1400" y="356" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">«완료 ≤6자»</text>
+    </g>
+  </svg>
+  <p class="small">«읽는 법 한 줄 ≤40자»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(집결지에서 출발해 확인 항목이 달린 네 지점을 순서대로 점검한다) → 진행 지시(→ 누를 때마다 단계가 순서대로 드러난다) → 화면에 없는 보충 사실과 출처 → 이 장에서 청중이 가져갈 한 가지 → 다음 장 연결»</aside>
+</section>
+
+<!-- ==== 48-waterfall.html ==== -->
+<!--
+  아키타입 waterfall (변형: budget / enroll)
+  언제: 시작 수치에 증가·감소가 차례로 쌓여 최종 수치가 되는 다리 — 예산 증감, 정원 변동,
+    재고 흐름처럼 "처음에서 끝까지 무엇이 얼마나 오르고 내렸는가"를 보여 줄 때. 단순 비교는
+    chart-bar, 비율 구성은 meter·sankey-flow.
+  배치 규칙: 본문 장 한 장. 기준선(k-ln-n) 위에 시작·최종 막대는 꽉 찬 면(k-solid-b·k-solid-n),
+    증감 막대는 부유 막대(증가 k-solid-b, 감소 k-solid-o)로 앞 막대 끝에서 다음 막대 끝까지
+    매달리고, 막대 사이는 점선 연결(k-ln-g). 증감 라벨은 ±부호를 붙인다.
+  시그니처: cascade-ledge(신규 실행 이름) — 막대가 기준선에서 차례로 매달리며 쌓이고
+    최종 합계가 확정된다(.wf, translateY 하강, m3 + 합계 숫자 릴).
+  단계: 단계 4 — 시작 막대(1) → 증감 앞 절반(2) → 증감 뒤 절반(3) → 최종 막대(4).
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두
+    실제 내용으로 바꾼다. 자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함).
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+
+<!-- budget: 시작 예산 + 증감 4 → 최종 잔액 — 증감 다리 -->
+<section class="slide" data-archetype="waterfall" data-variant="budget" style="gap:22px">
+  <div class="head"><p class="eyebrow">«단위·기간 ≤12자»</p><h2 class="title">«제목: 증감 다리 한 문장 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«시작 막대에서 증감 막대가 매달려 최종 막대에 이르는 폭포수 도식»">
+    <path d="M60,480 L1500,480" class="k-ln-n"/>
+    <g class="wf" data-step="1">
+      <rect x="80" y="140" width="200" height="340" class="k-solid-b"/>
+      <text x="180" y="116" font-size="30" font-weight="800" fill="var(--ink)" text-anchor="middle">«시작 ≤6자»</text>
+      <text x="180" y="520" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«항목 ≤7자»</text>
+    </g>
+    <g class="wf" data-step="2">
+      <path d="M280,140 L340,140" class="k-ln-g"/>
+      <rect x="340" y="140" width="200" height="102" class="k-solid-o"/>
+      <text x="440" y="116" font-size="26" font-weight="800" class="k-t-o" text-anchor="middle">«−감소 ≤6자»</text>
+      <text x="440" y="520" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«항목 ≤7자»</text>
+      <path d="M540,242 L600,242" class="k-ln-g"/>
+      <rect x="600" y="242" width="200" height="80" class="k-solid-b"/>
+      <text x="700" y="218" font-size="26" font-weight="800" class="k-t-b" text-anchor="middle">«+증가 ≤6자»</text>
+      <text x="700" y="520" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«항목 ≤7자»</text>
+    </g>
+    <g class="wf" data-step="3">
+      <path d="M800,322 L860,322" class="k-ln-g"/>
+      <rect x="860" y="322" width="200" height="62" class="k-solid-o"/>
+      <text x="960" y="298" font-size="26" font-weight="800" class="k-t-o" text-anchor="middle">«−감소 ≤6자»</text>
+      <text x="960" y="520" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«항목 ≤7자»</text>
+      <path d="M1060,384 L1120,384" class="k-ln-g"/>
+      <rect x="1120" y="384" width="200" height="42" class="k-solid-o" opacity=".75"/>
+      <text x="1220" y="360" font-size="26" font-weight="800" class="k-t-o" text-anchor="middle">«−감소 ≤6자»</text>
+      <text x="1220" y="520" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«항목 ≤7자»</text>
+    </g>
+    <g class="wf" data-step="4">
+      <path d="M1320,426 L1380,426" class="k-ln-g"/>
+      <rect x="1380" y="426" width="120" height="54" class="k-solid-n"/>
+      <text x="1440" y="402" font-size="30" font-weight="800" fill="var(--ink)" text-anchor="middle" data-count>«최종 ≤6자»</text>
+      <text x="1440" y="520" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«합계 ≤7자»</text>
+    </g>
+  </svg>
+  <p class="small">«읽는 법 한 줄 ≤40자» · 부유 막대의 위치=앞 막대의 누적 높이</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(시작 수치에서 증감이 다리처럼 이어져 최종값에 이른다) → 진행 지시(→ 누를 때마다 시작·증감·최종 순서로 쌓인다) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- enroll: 시작 정원 ± 변동 = 말소 정원 — 인원 흐름 다리 -->
+<section class="slide" data-archetype="waterfall" data-variant="enroll" style="gap:22px">
+  <div class="head"><p class="eyebrow">«대상·기간 ≤12자»</p><h2 class="title">«제목: 인원 변동 한 문장 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«시작 인원에서 유출입 막대가 매달려 최종 인원에 이르는 도식»">
+    <path d="M60,480 L1500,480" class="k-ln-n"/>
+    <g class="wf" data-step="1">
+      <rect x="80" y="180" width="200" height="300" class="k-solid-b"/>
+      <text x="180" y="156" font-size="30" font-weight="800" fill="var(--ink)" text-anchor="middle">«시작 ≤6자»</text>
+      <text x="180" y="520" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«기준 ≤7자»</text>
+    </g>
+    <g class="wf" data-step="2">
+      <path d="M280,180 L340,180" class="k-ln-g"/>
+      <rect x="340" y="180" width="200" height="70" class="k-solid-o"/>
+      <text x="440" y="156" font-size="26" font-weight="800" class="k-t-o" text-anchor="middle">«−유출 ≤6자»</text>
+      <text x="440" y="520" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«사유 ≤7자»</text>
+      <path d="M540,250 L600,250" class="k-ln-g"/>
+      <rect x="600" y="250" width="200" height="90" class="k-solid-b"/>
+      <text x="700" y="226" font-size="26" font-weight="800" class="k-t-b" text-anchor="middle">«+유입 ≤6자»</text>
+      <text x="700" y="520" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«사유 ≤7자»</text>
+    </g>
+    <g class="wf" data-step="3">
+      <path d="M800,340 L860,340" class="k-ln-g"/>
+      <rect x="860" y="340" width="200" height="56" class="k-solid-o"/>
+      <text x="960" y="316" font-size="26" font-weight="800" class="k-t-o" text-anchor="middle">«−유출 ≤6자»</text>
+      <text x="960" y="520" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«사유 ≤7자»</text>
+      <path d="M1060,396 L1120,396" class="k-ln-g"/>
+      <rect x="1120" y="396" width="200" height="30" class="k-solid-b"/>
+      <text x="1220" y="372" font-size="26" font-weight="800" class="k-t-b" text-anchor="middle">«+유입 ≤6자»</text>
+      <text x="1220" y="520" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«사유 ≤7자»</text>
+    </g>
+    <g class="wf" data-step="4">
+      <path d="M1320,426 L1380,426" class="k-ln-g"/>
+      <rect x="1380" y="426" width="120" height="54" class="k-solid-n"/>
+      <text x="1440" y="402" font-size="30" font-weight="800" fill="var(--ink)" text-anchor="middle" data-count>«최종 ≤6자»</text>
+      <text x="1440" y="520" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«말소 ≤7자»</text>
+    </g>
+  </svg>
+  <p class="small">«읽는 법 한 줄 ≤40자»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(시작 인원에서 유출·유입이 차례로 매달려 말소 인원에 이른다) → 진행 지시(→ 누를 때마다 단계가 순서대로 드러난다) → 화면에 없는 보충 사실과 출처 → 이 장에서 청중이 가져갈 한 가지 → 다음 장 연결»</aside>
+</section>
+
+<!-- ==== 49-mesh-network.html ==== -->
+<!--
+  아키타입 mesh-network (변형: nodes / resilient)
+  언제: 여러 대상이 서로 얽혀 이어진 망 — 협업 관계망, 정보 연결망, 통신 구조처럼 "누가 누구와
+    직접 이어져 있고 우회가 가능한가"를 보여 줄 때. 방향 절차는 arch-flow·sequence, 중심-둘레
+    설명은 hub.
+  배치 규칙: 본문 장 한 장. 노드는 파랑 면 원(k-blue 면·잉크 글자, 핵심은 k-solid-b 흰 글자),
+    평상시 연결은 k-ln-g 가는 선. 고장 표시는 선의 accent 파선(k-ln-o dash)과 우회 강조선
+    (k-ln-b 굵게). 노드는 곡률 없이 배치해 선이 라벨을 가로지르지 않게 한다.
+  시그니처: hop-relay(신규 실행 이름) — 연결선이 그려지고(draw, m3) 노드가 자리 잡은 뒤,
+    고장 표시가 켜지면 우회 경로가 점등된다(.ms 대상 — 우회 선은 step 공개로 나타난다).
+  단계: 단계 3 — 노드(1) → 평상시 연결선(2) → 고장 표시+우회 경로(3).
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두
+    실제 내용으로 바꾼다. 자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함).
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+
+<!-- nodes: 6노드가 서로 이어진 망 — 직접 연결 관계 개요 -->
+<section class="slide" data-archetype="mesh-network" data-variant="nodes" style="gap:22px">
+  <div class="head"><p class="eyebrow">«망 이름 ≤12자»</p><h2 class="title">«제목: 연결 관계 한 문장 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«여섯 노드가 서로 직접 이어진 연결망 도식»">
+    <g class="ms" data-step="1">
+      <circle cx="300" cy="140" r="58" class="k-solid-b"/>
+      <text x="300" y="148" font-size="24" font-weight="800" class="k-t-w" text-anchor="middle">«노드1 ≤5자»</text>
+      <circle cx="780" cy="90" r="58" class="k-blue"/>
+      <text x="780" y="98" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«노드2 ≤5자»</text>
+      <circle cx="1260" cy="150" r="58" class="k-blue"/>
+      <text x="1260" y="158" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«노드3 ≤5자»</text>
+      <circle cx="280" cy="430" r="58" class="k-blue"/>
+      <text x="280" y="438" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«노드4 ≤5자»</text>
+      <circle cx="790" cy="470" r="58" class="k-blue"/>
+      <text x="790" y="478" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«노드5 ≤5자»</text>
+      <circle cx="1270" cy="420" r="58" class="k-blue"/>
+      <text x="1270" y="428" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«노드6 ≤5자»</text>
+    </g>
+    <g class="ms" data-step="2">
+      <path d="M352,126 C480,110 620,100 722,92" class="k-ln-g"/>
+      <path d="M838,94 C980,108 1120,126 1204,138" class="k-ln-g"/>
+      <path d="M306,196 C300,260 296,330 288,374" class="k-ln-g"/>
+      <path d="M352,458 C480,462 620,466 732,468" class="k-ln-g"/>
+      <path d="M848,464 C980,454 1120,440 1212,430" class="k-ln-g"/>
+      <path d="M1264,208 C1266,268 1268,330 1269,364" class="k-ln-g"/>
+      <path d="M340,396 C480,340 620,270 730,150" class="k-ln-g" stroke-dasharray="2 8"/>
+      <path d="M836,132 C960,220 1120,330 1224,392" class="k-ln-g" stroke-dasharray="2 8"/>
+    </g>
+    <g class="ms" data-step="3">
+      <path d="M360,168 C420,220 480,270 540,320" class="k-ln-o" stroke-dasharray="10 8"/>
+      <path d="M560,300 C700,380 900,400 1080,370 C1160,356 1210,380 1248,392" class="k-ln-b" stroke-width="6" marker-end="url(#ah-b)"/>
+      <circle cx="560" cy="330" r="12" class="k-solid-o"/>
+      <rect x="600" y="240" width="240" height="56" class="k-paper"/>
+      <text x="720" y="276" font-size="20" font-weight="800" fill="var(--ink)" text-anchor="middle">«고장 구간 ≤7자»</text>
+      <rect x="920" y="300" width="240" height="56" class="k-paper"/>
+      <text x="1040" y="336" font-size="20" font-weight="800" class="k-t-b" text-anchor="middle">«우회 경로 ≤7자»</text>
+    </g>
+  </svg>
+  <p class="small">«읽는 법 한 줄 ≤40자» · 파선 주황=고장, 굵은 파랑=우회</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(노드가 직접 이어진 망에서 한 구간이 끊겨도 우회로 간다) → 진행 지시(→ 누를 때마다 노드·연결·우회 순서로 드러난다) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- resilient: 연락망 한 곳이 끊겨도 남은 길로 전달 — 회복력 있는 망 -->
+<section class="slide" data-archetype="mesh-network" data-variant="resilient" style="gap:22px">
+  <div class="head"><p class="eyebrow">«망 이름 ≤12자»</p><h2 class="title">«제목: 우회 전달 한 문장 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«한 구간이 끊겨도 우회 경로로 도달하는 회복 망 도식»">
+    <g class="ms" data-step="1">
+      <circle cx="250" cy="280" r="62" class="k-solid-n"/>
+      <text x="250" y="288" font-size="24" font-weight="800" class="k-t-w" text-anchor="middle">«출발 ≤5자»</text>
+      <circle cx="630" cy="130" r="54" class="k-blue"/>
+      <text x="630" y="138" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«중계1 ≤5자»</text>
+      <circle cx="630" cy="430" r="54" class="k-blue"/>
+      <text x="630" y="438" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«중계2 ≤5자»</text>
+      <circle cx="1030" cy="140" r="54" class="k-blue"/>
+      <text x="1030" y="148" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«중계3 ≤5자»</text>
+      <circle cx="1030" cy="420" r="54" class="k-blue"/>
+      <text x="1030" y="428" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«중계4 ≤5자»</text>
+      <circle cx="1330" cy="280" r="62" class="k-blue"/>
+      <text x="1330" y="288" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«도착 ≤5자»</text>
+    </g>
+    <g class="ms" data-step="2">
+      <path d="M310,250 C420,210 500,170 578,146" class="k-ln-g"/>
+      <path d="M310,310 C420,350 500,390 578,414" class="k-ln-g"/>
+      <path d="M684,140 C790,140 900,140 978,140" class="k-ln-g"/>
+      <path d="M684,420 C790,420 900,420 978,420" class="k-ln-g"/>
+      <path d="M1084,148 C1170,188 1240,230 1278,252" class="k-ln-g"/>
+      <path d="M1084,412 C1170,372 1240,330 1278,308" class="k-ln-g"/>
+      <path d="M660,176 C720,240 720,320 660,384" class="k-ln-g" stroke-dasharray="2 8"/>
+    </g>
+    <g class="ms" data-step="3">
+      <path d="M690,146 C800,150 900,152 970,150" class="k-ln-o" stroke-dasharray="10 8"/>
+      <path d="M700,430 C840,430 950,430 1000,428" class="k-ln-b" stroke-width="6" marker-end="url(#ah-b)"/>
+      <rect x="800" y="80" width="220" height="56" class="k-paper"/>
+      <text x="910" y="116" font-size="20" font-weight="800" fill="var(--ink)" text-anchor="middle">«끊긴 길 ≤6자»</text>
+      <rect x="800" y="480" width="220" height="56" class="k-paper"/>
+      <text x="910" y="516" font-size="20" font-weight="800" class="k-t-b" text-anchor="middle">«남은 길 ≤6자»</text>
+    </g>
+  </svg>
+  <p class="small">«읽는 법 한 줄 ≤40자» · 망이 여러 길을 품고 있어 끊겨도 도달한다</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(출발에서 도착까지 중계를 거치는 여러 길 중 하나가 끊겨도 아랫길로 간다) → 진행 지시(→ 누를 때마다 단계가 순서대로 드러난다) → 화면에 없는 보충 사실과 출처 → 이 장에서 청중이 가져갈 한 가지 → 다음 장 연결»</aside>
+</section>
+
+<!-- ==== 50-heatmap-grid.html ==== -->
+<!--
+  아키타입 heatmap-grid (변형: timeslot / month)
+  언제: 두 축이 교차하는 칸의 밀도·강도 비교 — 요일×시간 참여도, 주×과목 학습량처럼 "어느
+    교차점이 뜨겁고 차가운가"를 색 면적으로 보여 줄 때. 수치 나열은 compare-table,
+    흐름은 sequence·waterfall.
+  배치 규칙: 본문 장 한 장. 칸은 rect 그리드(.hm 셀, 채움 색 5단계 — k-solid-b opacity
+    0.15/0.35/0.55/0.75/1), 축 라벨은 잉크 글자, 범례는 색 계단 5칸. 셀 수는 변형당 15~40개로
+    유지(작은 글자 금지 — 셀 안 숫자 생략, 면적만으로 비교).
+  시그니처: grid-flare(신규 실행 이름) — 행·열 순으로 칸이 작게→크게→제자리로 켜진다
+    (.hm, scale 파형, m3, stagger 방향 row).
+  단계: 단계 2 — 축·격자(1) → 범례·주석(2). 셀 자체는 1단계에 전부 둔다.
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두
+    실제 내용으로 바꾼다. 자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함).
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+
+<!-- timeslot: 요일×시간대 참여 강도 — 5×6 칸 색 격자 -->
+<section class="slide" data-archetype="heatmap-grid" data-variant="timeslot" style="gap:22px">
+  <div class="head"><p class="eyebrow">«측정 단위 ≤12자»</p><h2 class="title">«제목: 교차 강도 한 문장 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«요일과 시간대 교차점의 강도를 색 면적으로 비교하는 격자 도식»">
+    <g data-step="1">
+      <text x="200" y="118" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«시간1 ≤4자»</text>
+      <text x="420" y="118" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«시간2 ≤4자»</text>
+      <text x="640" y="118" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«시간3 ≤4자»</text>
+      <text x="860" y="118" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«시간4 ≤4자»</text>
+      <text x="1080" y="118" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«시간5 ≤4자»</text>
+      <text x="1300" y="118" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«시간6 ≤4자»</text>
+      <text x="115" y="170" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">«요일1»</text>
+      <text x="115" y="252" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">«요일2»</text>
+      <text x="115" y="334" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">«요일3»</text>
+      <text x="115" y="416" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">«요일4»</text>
+      <text x="115" y="498" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">«요일5»</text>
+    </g>
+    <g data-step="1">
+      <rect x="130" y="140" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".75"/>
+      <rect x="350" y="140" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".35"/>
+      <rect x="570" y="140" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".15"/>
+      <rect x="790" y="140" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".55"/>
+      <rect x="1010" y="140" width="140" height="60" rx="6" class="hm k-solid-b"/>
+      <rect x="1230" y="140" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".55"/>
+      <rect x="130" y="222" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".55"/>
+      <rect x="350" y="222" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".55"/>
+      <rect x="570" y="222" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".35"/>
+      <rect x="790" y="222" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".75"/>
+      <rect x="1010" y="222" width="140" height="60" rx="6" class="hm k-solid-b"/>
+      <rect x="1230" y="222" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".35"/>
+      <rect x="130" y="304" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".15"/>
+      <rect x="350" y="304" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".75"/>
+      <rect x="570" y="304" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".55"/>
+      <rect x="790" y="304" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".35"/>
+      <rect x="1010" y="304" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".75"/>
+      <rect x="1230" y="304" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".15"/>
+      <rect x="130" y="386" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".35"/>
+      <rect x="350" y="386" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".55"/>
+      <rect x="570" y="386" width="140" height="60" rx="6" class="hm k-solid-b"/>
+      <rect x="790" y="386" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".55"/>
+      <rect x="1010" y="386" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".35"/>
+      <rect x="1230" y="386" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".75"/>
+      <rect x="130" y="468" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".15"/>
+      <rect x="350" y="468" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".35"/>
+      <rect x="570" y="468" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".75"/>
+      <rect x="790" y="468" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".55"/>
+      <rect x="1010" y="468" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".15"/>
+      <rect x="1230" y="468" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".35"/>
+    </g>
+    <g data-step="2">
+      <text x="1400" y="150" font-size="20" font-weight="700" fill="var(--ink)">«낮음 ≤3자»</text>
+      <rect x="1400" y="170" width="28" height="28" rx="4" class="k-solid-b" opacity=".15"/>
+      <rect x="1400" y="206" width="28" height="28" rx="4" class="k-solid-b" opacity=".35"/>
+      <rect x="1400" y="242" width="28" height="28" rx="4" class="k-solid-b" opacity=".55"/>
+      <rect x="1400" y="278" width="28" height="28" rx="4" class="k-solid-b" opacity=".75"/>
+      <rect x="1400" y="314" width="28" height="28" rx="4" class="k-solid-b"/>
+      <text x="1400" y="368" font-size="20" font-weight="700" fill="var(--ink)">«높음 ≤3자»</text>
+      <rect x="1340" y="420" width="216" height="56" class="k-paper"/>
+      <text x="1448" y="454" font-size="20" font-weight="800" fill="var(--ink)" text-anchor="middle">«집중 구간 ≤5자»</text>
+    </g>
+  </svg>
+  <p class="small">«읽는 법 한 줄 ≤40자» · 색 면적=강도(개념 비교 — 셀 수치 생략)</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(요일과 시간대 교차점의 색 농도로 강도를 비교한다) → 진행 지시(→ 누르면 격자가 먼저, 범례와 집중 구간이 다음에 드러난다) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- month: 월×활동별 학습량 — 4×6 칸 색 격자 -->
+<section class="slide" data-archetype="heatmap-grid" data-variant="month" style="gap:22px">
+  <div class="head"><p class="eyebrow">«측정 단위 ≤12자»</p><h2 class="title">«제목: 활동 강도 한 문장 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«월과 활동 종류의 교차 강도 색 격자»">
+    <g data-step="1">
+      <text x="240" y="120" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«활동1 ≤4자»</text>
+      <text x="470" y="120" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«활동2 ≤4자»</text>
+      <text x="700" y="120" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«활동3 ≤4자»</text>
+      <text x="930" y="120" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«활동4 ≤4자»</text>
+      <text x="1160" y="120" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«활동5 ≤4자»</text>
+      <text x="1390" y="120" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«활동6 ≤4자»</text>
+      <text x="115" y="196" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">«기간1»</text>
+      <text x="115" y="292" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">«기간2»</text>
+      <text x="115" y="388" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">«기간3»</text>
+      <text x="115" y="484" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">«기간4»</text>
+    </g>
+    <g data-step="1">
+      <rect x="140" y="150" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".35"/>
+      <rect x="370" y="150" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".15"/>
+      <rect x="600" y="150" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".55"/>
+      <rect x="830" y="150" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".35"/>
+      <rect x="1060" y="150" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".75"/>
+      <rect x="1290" y="150" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".15"/>
+      <rect x="140" y="246" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".55"/>
+      <rect x="370" y="246" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".35"/>
+      <rect x="600" y="246" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".75"/>
+      <rect x="830" y="246" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".55"/>
+      <rect x="1060" y="246" width="200" height="90" rx="8" class="hm k-solid-b"/>
+      <rect x="1290" y="246" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".35"/>
+      <rect x="140" y="342" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".75"/>
+      <rect x="370" y="342" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".55"/>
+      <rect x="600" y="342" width="200" height="90" rx="8" class="hm k-solid-b"/>
+      <rect x="830" y="342" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".75"/>
+      <rect x="1060" y="342" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".55"/>
+      <rect x="1290" y="342" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".55"/>
+      <rect x="140" y="438" width="200" height="90" rx="8" class="hm k-solid-b"/>
+      <rect x="370" y="438" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".75"/>
+      <rect x="600" y="438" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".75"/>
+      <rect x="830" y="438" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".55"/>
+      <rect x="1060" y="438" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".35"/>
+      <rect x="1290" y="438" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".75"/>
+    </g>
+    <g data-step="2">
+      <text x="1410" y="530" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="end">«낮음→높음 ≤8자»</text>
+      <rect x="1160" y="544" width="56" height="10" rx="3" class="k-solid-b" opacity=".15"/>
+      <rect x="1220" y="544" width="56" height="10" rx="3" class="k-solid-b" opacity=".55"/>
+      <rect x="1280" y="544" width="56" height="10" rx="3" class="k-solid-b"/>
+    </g>
+  </svg>
+  <p class="small">«읽는 법 한 줄 ≤40자»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(월과 활동 종류 교차점의 색 농도로 강도를 비교한다) → 진행 지시(→ 누를 때마다 단계가 순서대로 드러난다) → 화면에 없는 보충 사실과 출처 → 이 장에서 청중이 가져갈 한 가지 → 다음 장 연결»</aside>
+</section>
+
+<!-- ==== 51-swimlane.html ==== -->
+<!--
+  아키타입 swimlane (변형: process / roles)
+  언제: 주체별 가로 띠 위에 작업이 배치되고 주체 사이를 넘어가는 인계 — 요청→처리→검수,
+    준비→운영→정리처럼 "누가 어느 구간에서 무엇을 맡고 어디로 넘기는가"를 보여 줄 때.
+    칸만 나열하는 보드는 kanban-board, 시간 흐름은 timeline.
+  배치 규칙: 본문 장 한 장. 띠는 번갈은 회색 면(k-gray, 왼쪽 주체 라벨 칸 k-solid-n 흰 글자),
+    작업은 종이 카드(k-paper·제목+메모), 주체를 넘는 인계는 k-ln-o 굵은 화살표+ah-o.
+    같은 주체 안 다음 단계는 k-ln-g 점선.
+  시그니처: lane-slide(신규 실행 이름) — 카드가 띠 위에 차례로 올라가고 인계 화살표가
+    다음 띠로 넘어가며 도착 카드가 점등된다(.sl, translateY + draw, m3).
+  단계: 단계 3 — 띠+첫 주체 카드(1) → 인계+다음 주체 카드(2) → 마지막 인계+완료(3).
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두
+    실제 내용으로 바꾼다. 자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함).
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+
+<!-- process: 3띠 위를 S자로 지나는 인계 — 요청이 처리를 거쳐 검수로 -->
+<section class="slide" data-archetype="swimlane" data-variant="process" style="gap:22px">
+  <div class="head"><p class="eyebrow">«절차 이름 ≤12자»</p><h2 class="title">«제목: 주체 인계 한 문장 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«세 주체 띠 위에서 작업이 인계되는 도식»">
+    <g data-step="1">
+      <rect x="40" y="60" width="1480" height="140" class="k-gray" opacity=".45"/>
+      <rect x="40" y="200" width="1480" height="140" class="k-gray" opacity=".25"/>
+      <rect x="40" y="340" width="1480" height="140" class="k-gray" opacity=".45"/>
+      <rect x="40" y="60" width="180" height="140" class="k-solid-n"/>
+      <text x="130" y="120" font-size="24" font-weight="800" class="k-t-w" text-anchor="middle">«주체1 ≤5자»</text>
+      <text x="130" y="152" font-size="18" class="k-t-w" text-anchor="middle">«역할 ≤6자»</text>
+      <rect x="40" y="200" width="180" height="140" class="k-solid-n" opacity=".9"/>
+      <text x="130" y="260" font-size="24" font-weight="800" class="k-t-w" text-anchor="middle">«주체2 ≤5자»</text>
+      <text x="130" y="292" font-size="18" class="k-t-w" text-anchor="middle">«역할 ≤6자»</text>
+      <rect x="40" y="340" width="180" height="140" class="k-solid-n" opacity=".8"/>
+      <text x="130" y="400" font-size="24" font-weight="800" class="k-t-w" text-anchor="middle">«주체3 ≤5자»</text>
+      <text x="130" y="432" font-size="18" class="k-t-w" text-anchor="middle">«역할 ≤6자»</text>
+    </g>
+    <g class="sl" data-step="1">
+      <rect x="260" y="86" width="240" height="88" class="k-paper"/>
+      <text x="284" y="120" font-size="23" font-weight="700" fill="var(--ink)">«작업1 ≤8자»</text>
+      <text x="284" y="150" font-size="19" fill="var(--soft)">«메모 ≤8자»</text>
+      <rect x="560" y="86" width="240" height="88" class="k-paper"/>
+      <text x="584" y="120" font-size="23" font-weight="700" fill="var(--ink)">«작업2 ≤8자»</text>
+      <text x="584" y="150" font-size="19" fill="var(--soft)">«메모 ≤8자»</text>
+      <path d="M500,130 L556,130" class="k-ln-g" marker-end="url(#ah-n)"/>
+    </g>
+    <g class="sl" data-step="2">
+      <path d="M800,130 C880,150 900,200 920,230" class="dash-flow" stroke="var(--accent)" stroke-width="5" marker-end="url(#ah-o)"/>
+      <rect x="940" y="226" width="240" height="88" class="k-paper"/>
+      <text x="964" y="260" font-size="23" font-weight="700" fill="var(--ink)">«작업3 ≤8자»</text>
+      <text x="964" y="290" font-size="19" fill="var(--soft)">«메모 ≤8자»</text>
+      <rect x="820" y="140" width="200" height="44" class="k-solid-o"/>
+      <text x="920" y="169" font-size="20" font-weight="800" class="k-t-w" text-anchor="middle">«인계1 ≤6자»</text>
+    </g>
+    <g class="sl" data-step="3">
+      <path d="M1180,270 C1240,290 1260,340 1280,370" class="dash-flow" stroke="var(--accent)" stroke-width="5" marker-end="url(#ah-o)"/>
+      <rect x="1200" y="150" width="200" height="44" class="k-solid-o"/>
+      <text x="1300" y="179" font-size="20" font-weight="800" class="k-t-w" text-anchor="middle">«인계2 ≤6자»</text>
+      <rect x="1300" y="366" width="180" height="88" class="k-orange"/>
+      <text x="1390" y="400" font-size="23" font-weight="800" fill="var(--ink)" text-anchor="middle">«완료 ≤5자»</text>
+      <text x="1390" y="430" font-size="19" fill="var(--ink)" text-anchor="middle">«산출 ≤6자»</text>
+    </g>
+  </svg>
+  <p class="small">«읽는 법 한 줄 ≤40자» · 주황 화살표=주체를 넘는 인계</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(세 주체 띠 위를 작업이 S자로 인계된다) → 진행 지시(→ 누를 때마다 띠·카드·인계 순서로 드러난다) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- roles: 2띠 — 신청자와 담당자 사이를 오가는 왕복 인계 -->
+<section class="slide" data-archetype="swimlane" data-variant="roles" style="gap:22px">
+  <div class="head"><p class="eyebrow">«절차 이름 ≤12자»</p><h2 class="title">«제목: 왕복 인계 한 문장 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«두 주체 띠 사이를 작업이 왕복하며 인계되는 도식»">
+    <g data-step="1">
+      <rect x="40" y="70" width="1480" height="180" class="k-gray" opacity=".45"/>
+      <rect x="40" y="290" width="1480" height="180" class="k-gray" opacity=".25"/>
+      <rect x="40" y="70" width="180" height="180" class="k-solid-n"/>
+      <text x="130" y="150" font-size="24" font-weight="800" class="k-t-w" text-anchor="middle">«주체A ≤5자»</text>
+      <text x="130" y="182" font-size="18" class="k-t-w" text-anchor="middle">«하는 일 ≤6자»</text>
+      <rect x="40" y="290" width="180" height="180" class="k-solid-n" opacity=".9"/>
+      <text x="130" y="370" font-size="24" font-weight="800" class="k-t-w" text-anchor="middle">«주체B ≤5자»</text>
+      <text x="130" y="402" font-size="18" class="k-t-w" text-anchor="middle">«하는 일 ≤6자»</text>
+    </g>
+    <g class="sl" data-step="1">
+      <rect x="280" y="110" width="260" height="100" class="k-paper"/>
+      <text x="304" y="146" font-size="23" font-weight="700" fill="var(--ink)">«제출 ≤8자»</text>
+      <text x="304" y="176" font-size="19" fill="var(--soft)">«메모 ≤8자»</text>
+    </g>
+    <g class="sl" data-step="2">
+      <path d="M540,160 C620,180 640,280 660,330" class="dash-flow" stroke="var(--accent)" stroke-width="5" marker-end="url(#ah-o)"/>
+      <rect x="680" y="330" width="260" height="100" class="k-paper"/>
+      <text x="704" y="366" font-size="23" font-weight="700" fill="var(--ink)">«처리 ≤8자»</text>
+      <text x="704" y="396" font-size="19" fill="var(--soft)">«메모 ≤8자»</text>
+    </g>
+    <g class="sl" data-step="3">
+      <path d="M940,380 C1020,360 1040,260 1060,220" class="dash-flow" stroke="var(--accent)" stroke-width="5" marker-end="url(#ah-o)"/>
+      <rect x="1080" y="120" width="260" height="100" class="k-paper"/>
+      <text x="1104" y="156" font-size="23" font-weight="700" fill="var(--ink)">«회신 ≤8자»</text>
+      <text x="1104" y="186" font-size="19" fill="var(--soft)">«메모 ≤8자»</text>
+      <rect x="760" y="240" width="220" height="50" class="k-solid-o"/>
+      <text x="870" y="271" font-size="20" font-weight="800" class="k-t-w" text-anchor="middle">«왕복 기준 ≤7자»</text>
+    </g>
+  </svg>
+  <p class="small">«읽는 법 한 줄 ≤40자»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(두 주체 띠 사이를 작업이 내려갔다 올라오며 완결된다) → 진행 지시(→ 누를 때마다 단계가 순서대로 드러난다) → 화면에 없는 보충 사실과 출처 → 이 장에서 청중이 가져갈 한 가지 → 다음 장 연결»</aside>
+</section>
+
+<!-- ==== 52-cycle-ring.html ==== -->
+<!--
+  아키타입 cycle-ring (변형: ring / spiral)
+  언제: 끝나면 다시 처음으로 돌아오는 순환 — 학습 주기, 점검 루틴, 피드백 회전처럼 "시작과
+    끝이 이어져 반복된다"를 보여 줄 때. 일방향 절차는 sequence, 비교는 compare-table.
+  배치 규칙: 본문 장 한 장. 고리는 4부분 호(.cy 조각, k-blue 면 단계별 명도), 가운데는
+    남색 면 원(k-solid-n·순환 이름 흰 글자), 조각 라벨은 고리 바깥 잉크 글자, 회전 방향은
+    점선 호 안내길(.dash-flow+ah)과 시작점 주황 도장.
+  시그니처: ring-circuit(신규 실행 이름) — 조각이 시계 방향으로 순차 점등되고(.cy, m3)
+    방향 안내길이 그려지며(draw) 시작 도장이 점등된다.
+  단계: 단계 4 — 고리 조각 순서 공개(1~3) → 방향 안내·시작 도장(4).
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두
+    실제 내용으로 바꾼다. 자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함).
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+
+<!-- ring: 4조각 순환 고리 — 계획→실행→점검→개선 회전 -->
+<section class="slide" data-archetype="cycle-ring" data-variant="ring" style="gap:22px">
+  <div class="head"><p class="eyebrow">«순환 이름 ≤12자»</p><h2 class="title">«제목: 회전 구조 한 문장 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«네 조각이 이어져 한 바퀴를 도는 순환 고리 도식»">
+    <g class="cy" data-step="1">
+      <path d="M780,70 A210,210 0 0 1 990,280 L890,280 A110,110 0 0 0 780,170 Z" class="k-blue"/>
+      <text x="980" y="140" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«단계1 ≤5자»</text>
+      <text x="980" y="172" font-size="19" fill="var(--soft)" text-anchor="middle">«하는 일 ≤8자»</text>
+    </g>
+    <g class="cy" data-step="2">
+      <path d="M990,280 A210,210 0 0 1 780,490 L780,390 A110,110 0 0 0 890,280 Z" class="k-blue" opacity=".8"/>
+      <text x="1080" y="430" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«단계2 ≤5자»</text>
+      <text x="1080" y="462" font-size="19" fill="var(--soft)" text-anchor="middle">«하는 일 ≤8자»</text>
+    </g>
+    <g class="cy" data-step="3">
+      <path d="M780,490 A210,210 0 0 1 570,280 L670,280 A110,110 0 0 0 780,390 Z" class="k-blue" opacity=".65"/>
+      <text x="580" y="500" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«단계3 ≤5자»</text>
+      <text x="580" y="532" font-size="19" fill="var(--soft)" text-anchor="middle">«하는 일 ≤8자»</text>
+    </g>
+    <g class="cy" data-step="3">
+      <path d="M570,280 A210,210 0 0 1 780,70 L780,170 A110,110 0 0 0 670,280 Z" class="k-blue" opacity=".5"/>
+      <text x="480" y="140" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«단계4 ≤5자»</text>
+      <text x="480" y="172" font-size="19" fill="var(--soft)" text-anchor="middle">«하는 일 ≤8자»</text>
+    </g>
+    <g class="cy" data-step="4">
+      <circle cx="780" cy="280" r="88" class="k-solid-n"/>
+      <text x="780" y="274" font-size="26" font-weight="800" class="k-t-w" text-anchor="middle">«순환 ≤5자»</text>
+      <text x="780" y="306" font-size="19" class="k-t-w" text-anchor="middle">«주기 ≤6자»</text>
+      <path class="dash-flow" d="M900,120 A240,240 0 0 1 940,200" fill="none" stroke="var(--accent)" stroke-width="4" marker-end="url(#ah-o)"/>
+      <circle cx="900" cy="120" r="14" class="k-solid-o"/>
+      <text x="930" y="90" font-size="20" font-weight="800" class="k-t-o" text-anchor="middle">시작</text>
+      <rect x="1190" y="480" width="300" height="60" class="k-paper"/>
+      <text x="1340" y="518" font-size="20" font-weight="800" fill="var(--ink)" text-anchor="middle">«끝나면 다시 처음으로 ≤9자»</text>
+    </g>
+  </svg>
+  <p class="small">«읽는 법 한 줄 ≤40자» · 시계 방향으로 도는 한 바퀴가 1주기</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(네 조각이 이어져 한 바퀴를 돌고 끝은 시작으로 이어진다) → 진행 지시(→ 누를 때마다 조각이 순서대로 드러나고 방향 안내가 마지막에 온다) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- spiral: 같은 회전이 매 바퀴 한 단계씩 깊어지는 성장 고리 -->
+<section class="slide" data-archetype="cycle-ring" data-variant="spiral" style="gap:22px">
+  <div class="head"><p class="eyebrow">«순환 이름 ≤12자»</p><h2 class="title">«제목: 회전 성장 한 문장 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«세 바퀴를 돌며 단계가 깊어지는 성장 순환 도식»">
+    <g class="cy" data-step="1">
+      <path d="M640,280 A140,140 0 0 1 920,280" fill="none" class="k-blue" stroke-width="34"/>
+      <text x="640" y="140" font-size="22" font-weight="800" fill="var(--ink)" text-anchor="middle">«1주기 ≤5자»</text>
+    </g>
+    <g class="cy" data-step="2">
+      <path d="M920,280 A140,140 0 0 1 640,280" fill="none" class="k-blue" stroke-width="34" opacity=".8"/>
+      <text x="960" y="430" font-size="22" font-weight="800" fill="var(--ink)" text-anchor="middle">«2주기 ≤5자»</text>
+    </g>
+    <g class="cy" data-step="3">
+      <path d="M640,280 A140,140 0 0 1 780,140" fill="none" class="k-blue" stroke-width="34" opacity=".6"/>
+      <path d="M780,420 A140,140 0 0 1 640,280" fill="none" class="k-blue" stroke-width="34" opacity=".6"/>
+      <circle cx="780" cy="280" r="72" class="k-solid-n"/>
+      <text x="780" y="274" font-size="24" font-weight="800" class="k-t-w" text-anchor="middle">«순환 ≤5자»</text>
+      <text x="780" y="304" font-size="18" class="k-t-w" text-anchor="middle">«핵심 ≤5자»</text>
+    </g>
+    <g class="cy" data-step="4">
+      <path class="dash-flow" d="M940,240 A160,160 0 0 1 950,300" fill="none" stroke="var(--accent)" stroke-width="4" marker-end="url(#ah-o)"/>
+      <circle cx="940" cy="240" r="13" class="k-solid-o"/>
+      <text x="560" y="470" font-size="22" font-weight="800" fill="var(--ink)" text-anchor="middle">«매 바퀴 깊어짐 ≤8자»</text>
+      <rect x="1090" y="240" width="360" height="80" class="k-paper"/>
+      <text x="1270" y="272" font-size="22" font-weight="800" fill="var(--ink)" text-anchor="middle">«돌 때마다 무엇이 쌓이나 ≤10자»</text>
+      <text x="1270" y="302" font-size="19" fill="var(--soft)" text-anchor="middle">«예: 경험·근거 ≤8자»</text>
+    </g>
+  </svg>
+  <p class="small">«읽는 법 한 줄 ≤40자»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(같은 고리를 도되 매 바퀴 의미가 깊어지는 성장 순환) → 진행 지시(→ 누를 때마다 단계가 순서대로 드러난다) → 화면에 없는 보충 사실과 출처 → 이 장에서 청중이 가져갈 한 가지 → 다음 장 연결»</aside>
+</section>
+
 </div>
 
 <div id="progress"></div>
@@ -7352,7 +8562,10 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
     'frame-form':'.tp,.fm-row,.pb','before-after':'.win,.stack,.card','worked-example':'.win,.card,.list li',
     'quiz-ab':'.opt','quiz-sort':'.qrow,.ans','quiz-ox':'.qrow,.ox','check':'.chk,.chk-o',
     'rules-dark':'.num,.body','checklist':'.todo,.tbox','sources':'.src-list li','closing':'.pill,.big',
-    'stat-strip':'.stat','quadrant':'.qcell,.qp,.qbub','flashcards':'.fc','ops-report':'.oi'
+    'stat-strip':'.stat','quadrant':'.qcell,.qp,.qbub','flashcards':'.fc','ops-report':'.oi',
+    'sankey-flow':'.sk','decision-tree':'.dt','kanban-board':'.kb','version-graph':'.vg',
+    'event-fanout':'.ef','route-tour':'.rt','waterfall':'.wf','mesh-network':'.ms',
+    'heatmap-grid':'.hm','swimlane':'.sl','cycle-ring':'.cy'
   };
   const packTargets={atlas:'.atlas-origin,.atlas-source,.atlas-destination',briefing:'.briefing-row',casebook:'.casebook-narrative,.casebook-exhibit,.casebook-decision',editorial:'.editorial-story,.editorial-margin,.editorial-bottom',field:'.field-row',lab:'.lab-observation,.lab-evidence,.lab-next',seminar:'.seminar-turns span,.seminar-preparation,.seminar-invitation',workbook:'.workbook-read,.workbook-write,.workbook-reflection'};
   const packArch={atlas:'map',briefing:'compare-table',casebook:'before-after',editorial:'build-up',field:'sequence',lab:'mechanism',seminar:'hub',workbook:'frame-form'};
@@ -7404,7 +8617,31 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
     'quadrant':{name:'grid-wave',frames:i=>[`translateY(${24+(i%3)*16}px) rotateX(12deg)`,'translateY(0px) rotateX(0deg)']},
     'flashcards':{name:'facet-flip',frames:i=>['perspective(1200px) rotateY(-32deg)','perspective(1200px) rotateY(0deg)']},
     // TASK-ops-report: 지표 덩어리(.oi)는 증거 띠·막대와 같은 metric-rally 상승 — 신규 이름 없이 재사용.
-    'ops-report':{name:'metric-rally',frames:i=>['translateY(44px)','translateY(0px)'],m:'m4'}
+    'ops-report':{name:'metric-rally',frames:i=>['translateY(44px)','translateY(0px)'],m:'m4'},
+    // TASK-workflow-series: 워크플로 도식 11계열 — 실행 이름 신규 11종(31→42). 각 이름이 다른
+    // 관계를 표현한다 — 이름만 다른 일반 상승 복사가 아니라 조각의 .마커 대상에 개별 움직임.
+    // 샌키: 유입 밴드가 왼쪽에서 밀려와 합류·분출 — 수평 수렴(dash-flow 안내길 입자 포함).
+    'sankey-flow':{name:'stream-converge',frames:i=>['translateX(-64px) scaleX(.92)','translateX(0px) scaleX(1)'],draw:true},
+    // 판단트리: 마름모가 점등되며 가지선이 그려지고 끝 판정이 도장처럼 자리 잡는다.
+    'decision-tree':{name:'branch-verdict',frames:i=>['translateY(-24px) scale(.94)','translateY(0px) scale(1.02)','scale(1)'],draw:true},
+    // 칸반: 카드가 칸 사이를 오른쪽으로 미끄러지듯 드리프트 — 느린 이행 m2.
+    'kanban-board':{name:'card-drift',frames:i=>['translateX(56px)','translateX(-4px)','translateX(0px)'],m:'m2'},
+    // 버전그래프: 줄기·갈래 선이 그려지고(draw) 커밋·병합 도장이 찍힌다.
+    'version-graph':{name:'merge-trace',frames:i=>['scale(.8)','scale(1.06)','scale(1)'],draw:true},
+    // 팬아웃: 중심 사건이 자리 잡고 외곽 노드가 동시에 켜진다 — 스태거 축소로 동시성 유지.
+    'event-fanout':{name:'pulse-fanout',frames:i=>['scale(.7)','scale(1.08)','scale(1)'],draw:true,particles:true},
+    // 경로순회: 순회선이 그려지고 정거장 번호가 차례로 찍힌다.
+    'route-tour':{name:'waypoint-crawl',frames:i=>['translateY(24px) scale(.9)','translateY(0px) scale(1)'],draw:true},
+    // 폭포수: 증감 막대가 위에서 매달리듯 내려와 누적 높이에 자리 잡고 합계가 카운트된다.
+    'waterfall':{name:'cascade-ledge',frames:i=>['translateY(-32px)','translateY(0px)'],numbers:true},
+    // 메시: 연결선이 그려지고 노드가 홉 단계로 자리 잡는다.
+    'mesh-network':{name:'hop-relay',frames:i=>['scale(.88)','scale(1.04)','scale(1)'],draw:true},
+    // 히트맵: 칸이 행·열 순서로 플레어(작게→크게→제자리) — 면적이 곧 강도.
+    'heatmap-grid':{name:'grid-flare',frames:i=>['scale(.5)','scale(1.12)','scale(1)']},
+    // 스윔레인: 카드가 띠 위에 올라가고 인계 화살표가 다음 띠로 넘어간다.
+    'swimlane':{name:'lane-slide',frames:i=>['translateY(28px)','translateY(-3px)','translateY(0px)'],draw:true},
+    // 순환링: 조각이 회전하듯 제자리로 돌아와 시계 방향 한 바퀴가 완성된다.
+    'cycle-ring':{name:'ring-circuit',frames:i=>['rotate(-14deg) scale(.94)','rotate(2deg) scale(1.01)','rotate(0deg) scale(1)'],draw:true}
   };
   // Wipe a prior result in-place: the mask and its content counter-translate,
   // so the old words remain stationary as the new result is uncovered. Neither
