@@ -207,6 +207,17 @@
 | 41 | ops-report (calendar) | 연속 활동 달력 — 한 달 격자 활동일+연속 구간 | 0 | `.ocm` 당 `.ocd` 28~31칸 · 활동일 ≠ 부담 표기 |
 | 41 | ops-report (median) | 대표값 이중 패널 — 건수 막대 + 중앙값·평균 선 | 패널마다 1 | 왜 중앙값인지 한 줄 표기 |
 | 41 | ops-report (distribution) | 주체별 분산 — 면적 비례 원 집합 | 주체마다 1 | `.odi` ≥3 · 면적 비례 표기 |
+| 42 | sankey-flow | 흐름·구성비 합류: 여러 출처가 한 기둥에 모였다가 갈라지는 양의 흐름 — 시간·예산·인원의 유입과 배정 | 변형마다 다름 | svg.dg+k-*/t-*. 밴드=채움 다각형(굵기≈비중, 개념 비례 표기). 마커 .sk. 시각 계열. 시그니처 stream-converge(신규). 변형: hub-split 3유입→1합류→2분배 · composition 4유입 구성비 |
+| 43 | decision-tree | 조건 판단 절차: 예/아니오 마름모를 따라 내려가 끝 판정에 도달하는 나무 — 결재·분류·점검 기준 | 단계 3 | 마름모 k-blue·판정 카드 k-paper+알약. 예=k-ln-b·아니오=k-ln-g 선 라벨 필수. 마커 .dt. 시각 계열. 시그니처 branch-verdict(신규). 변형: approve 2단계 예/아니오 · triage 세 갈래 분류 |
+| 44 | kanban-board | 상태 칸 사이를 넘는 작업 항목: 할 일→하는 중→완료 진행 보드 — 과제·행사 준비 관리 | 칸마다 1 | 칸 k-gray+머리 알약 k-solid-*, 카드 k-paper. 방금 옮긴 카드 k-orange+dash-flow 출발 표시. 마커 .kb. 시각 계열. 시그니처 card-drift(신규). 변형: flow 3칸 · stages 4칸 |
+| 45 | version-graph | 버전 분기·병합: 본류에서 갈라져 따로 커밋된 뒤 병합점에서 합쳐지는 줄기 그래프 — 자료 개정·문서 공동편집 | 줄기마다 1 | 커밋 원 도장, 병합점 주황 이중 고리, 태그 k-solid-n 깃발. 갈래 k-ln-b. 마커 .vg. 시각 계열. 시그니처 merge-trace(신규). 변형: release 1갈래 · documents 2갈래 |
+| 46 | event-fanout | 사건 동시 확산: 하나의 사건·신호가 여러 채널·역할로 동시에 퍼지는 팬아웃 — 공지·접수 후속·비상 연락 | 단계 3 | 중심 k-solid-n 원 + dash-flow 스포크, 외곽 k-blue 카드 동시 점등. 마커 .ef. 시각 계열. 시그니처 pulse-fanout(신규). 변형: notice 채널 전파 · roles 역할 발동 |
+| 47 | route-tour | 정거장 순회 경로: 추상 지형 위를 번호 정거장 순서로 도는 동선 — 점검 코스·안내 동선·상담 순번 | 정거장 군마다 1 | 추상 패널(k-gray)은 실지도 아님 표기. 순회선 dash-flow+k-ln-o, 정거장 번호 원, 도착 k-solid-o. 마커 .rt. 시각 계열. 시그니처 waypoint-crawl(신규). 변형: round 한 바퀴 · inspection 확인 항목 |
+| 48 | waterfall | 증감 누적 다리: 시작 수치에 ±막대가 매달려 최종 수치에 이르는 브리지 — 예산·정원·재고 흐름 | 막대 군마다 1 | 기준선 k-ln-n 위 부유 막대(증 k-solid-b·감 k-solid-o), ±부호 라벨, 막대 사이 k-ln-g 연결. 마커 .wf. 시각 계열. 시그니처 cascade-ledge(신규). 변형: budget 예산 · enroll 인원 |
+| 49 | mesh-network | 다중 경로 망: 중심 없이 얽힌 연결에서 끊긴 길을 우회하는 회복 구조 — 협업망·연락망·통신 구조 | 단계 3 | 노드 k-blue 원(출발 k-solid-n), 평상시 연결 k-ln-g, 고장 k-ln-o 파선, 우회 k-ln-b 굵게. 마커 .ms. 시각 계열. 시그니처 hop-relay(신규). 변형: nodes 6노드 개요 · resilient 우회 전달 |
+| 50 | heatmap-grid | 교차 강도 격자: 두 축이 만나는 칸의 색 농도로 밀도·강도 비교 — 요일×시간 참여·월×활동 학습량 | 단계 2 | 셀 .hm k-solid-b 명도 5단계(개념 비교 — 셀 수치 생략, 18px 미만 글자 금지), 범례 계단 필수. 마커 .hm. 시각 계열. 시그니처 grid-flare(신규). 변형: timeslot 5×6 · month 4×6 |
+| 51 | swimlane | 주체별 띠 인계: 역할 띠 위에 작업이 배치되고 띠를 넘어가는 인수인계 — 요청→처리→검수 | 단계 3 | 띠 번갈은 k-gray+주체 칸 k-solid-n, 작업 k-paper 카드, 인계 dash-flow+k-ln-o. 마커 .sl. 시각 계열. 시그니처 lane-slide(신규). 변형: process 3띠 S자 · roles 2띠 왕복 |
+| 52 | cycle-ring | 되돌아오는 순환: 단계 조각이 이어져 한 바퀴를 도는 고리 — 학습 주기·점검 루틴·피드백 회전 | 조각마다 1 | 고리 호 조각 k-blue 명도 단계, 중심 k-solid-n 원, 방향 dash-flow+시작 k-solid-o 도장. 마커 .cy. 시각 계열. 시그니처 ring-circuit(신규). 변형: ring 4조각 · spiral 성장 고리 |
 
 ## 표지 직접 설계 계약
 

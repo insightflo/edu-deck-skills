@@ -33,6 +33,129 @@
   "note": "Authoring upper bounds, not automatic truncation. Preview every slide; split dense content rather than shrinking type. No external font downloads; local Korean font metrics vary."
  },
  "provenance": "Original CSS, markup and atlas SVG created for these packs. No copied legacy visual assets or external assets.",
+ "snippet_guide": {
+  "sankey-flow": {
+   "file": "assets/snippets/42-sankey-flow.html",
+   "archetype": "sankey-flow",
+   "variants": [
+    "hub-split",
+    "composition"
+   ],
+   "signature": "stream-converge",
+   "budget": "제목 ≤20자 · 라벨 ≤9자 · 수치 ≤6자",
+   "grammar": "references/diagrams.md svg.dg + k-*/t-*/ah-* · 배치 references/layouts.md"
+  },
+  "decision-tree": {
+   "file": "assets/snippets/43-decision-tree.html",
+   "archetype": "decision-tree",
+   "variants": [
+    "approve",
+    "triage"
+   ],
+   "signature": "branch-verdict",
+   "budget": "제목 ≤20자 · 라벨 ≤9자 · 수치 ≤6자",
+   "grammar": "references/diagrams.md svg.dg + k-*/t-*/ah-* · 배치 references/layouts.md"
+  },
+  "kanban-board": {
+   "file": "assets/snippets/44-kanban-board.html",
+   "archetype": "kanban-board",
+   "variants": [
+    "flow",
+    "stages"
+   ],
+   "signature": "card-drift",
+   "budget": "제목 ≤20자 · 라벨 ≤9자 · 수치 ≤6자",
+   "grammar": "references/diagrams.md svg.dg + k-*/t-*/ah-* · 배치 references/layouts.md"
+  },
+  "version-graph": {
+   "file": "assets/snippets/45-version-graph.html",
+   "archetype": "version-graph",
+   "variants": [
+    "release",
+    "documents"
+   ],
+   "signature": "merge-trace",
+   "budget": "제목 ≤20자 · 라벨 ≤9자 · 수치 ≤6자",
+   "grammar": "references/diagrams.md svg.dg + k-*/t-*/ah-* · 배치 references/layouts.md"
+  },
+  "event-fanout": {
+   "file": "assets/snippets/46-event-fanout.html",
+   "archetype": "event-fanout",
+   "variants": [
+    "notice",
+    "roles"
+   ],
+   "signature": "pulse-fanout",
+   "budget": "제목 ≤20자 · 라벨 ≤9자 · 수치 ≤6자",
+   "grammar": "references/diagrams.md svg.dg + k-*/t-*/ah-* · 배치 references/layouts.md"
+  },
+  "route-tour": {
+   "file": "assets/snippets/47-route-tour.html",
+   "archetype": "route-tour",
+   "variants": [
+    "round",
+    "inspection"
+   ],
+   "signature": "waypoint-crawl",
+   "budget": "제목 ≤20자 · 라벨 ≤9자 · 수치 ≤6자",
+   "grammar": "references/diagrams.md svg.dg + k-*/t-*/ah-* · 배치 references/layouts.md"
+  },
+  "waterfall": {
+   "file": "assets/snippets/48-waterfall.html",
+   "archetype": "waterfall",
+   "variants": [
+    "budget",
+    "enroll"
+   ],
+   "signature": "cascade-ledge",
+   "budget": "제목 ≤20자 · 라벨 ≤9자 · 수치 ≤6자",
+   "grammar": "references/diagrams.md svg.dg + k-*/t-*/ah-* · 배치 references/layouts.md"
+  },
+  "mesh-network": {
+   "file": "assets/snippets/49-mesh-network.html",
+   "archetype": "mesh-network",
+   "variants": [
+    "nodes",
+    "resilient"
+   ],
+   "signature": "hop-relay",
+   "budget": "제목 ≤20자 · 라벨 ≤9자 · 수치 ≤6자",
+   "grammar": "references/diagrams.md svg.dg + k-*/t-*/ah-* · 배치 references/layouts.md"
+  },
+  "heatmap-grid": {
+   "file": "assets/snippets/50-heatmap-grid.html",
+   "archetype": "heatmap-grid",
+   "variants": [
+    "timeslot",
+    "month"
+   ],
+   "signature": "grid-flare",
+   "budget": "제목 ≤20자 · 라벨 ≤9자 · 수치 ≤6자",
+   "grammar": "references/diagrams.md svg.dg + k-*/t-*/ah-* · 배치 references/layouts.md"
+  },
+  "swimlane": {
+   "file": "assets/snippets/51-swimlane.html",
+   "archetype": "swimlane",
+   "variants": [
+    "process",
+    "roles"
+   ],
+   "signature": "lane-slide",
+   "budget": "제목 ≤20자 · 라벨 ≤9자 · 수치 ≤6자",
+   "grammar": "references/diagrams.md svg.dg + k-*/t-*/ah-* · 배치 references/layouts.md"
+  },
+  "cycle-ring": {
+   "file": "assets/snippets/52-cycle-ring.html",
+   "archetype": "cycle-ring",
+   "variants": [
+    "ring",
+    "spiral"
+   ],
+   "signature": "ring-circuit",
+   "budget": "제목 ≤20자 · 라벨 ≤9자 · 수치 ≤6자",
+   "grammar": "references/diagrams.md svg.dg + k-*/t-*/ah-* · 배치 references/layouts.md"
+  }
+ },
  "designs": [
   {
    "id": "editorial",

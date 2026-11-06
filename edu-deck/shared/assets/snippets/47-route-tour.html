@@ -1,0 +1,108 @@
+<!--
+  아키타입 route-tour (변형: round / inspection)
+  언제: 정해진 순서로 지점을 도는 순회·동선 — 현장 점검 코스, 안내 동선, 학생 상담 순번처럼
+    "어디를 어떤 순서로 도는가"를 지도 위의 길로 보여 줄 때. 일정 시간표는 timeline,
+    지점 간 이동 관계는 sequence·map.
+  배치 규칙: 본문 장 한 장. 배경은 추상 지형 패널(k-gray 둥근 면 몇 개 — 실지도 아님),
+    순회선은 dash-flow+k-ln-o(입자가 지나가는 길), 정거장은 번호 원(k-solid-b 통과 완료 /
+    k-paper 미통과), 현재 위치는 주황 이동체(k-solid-o 원).
+  시그니처: waypoint-crawl(신규 실행 이름) — 경로선이 그려지고(draw, m3) 정거장이 순서대로
+    켜지며 번호·체크가 자리 잡는다(.rt).
+  단계: 단계 3 — 지형+출발(1) → 앞 정거장 통과(2) → 나머지 정거장+도착(3).
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두
+    실제 내용으로 바꾼다. 자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함).
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+
+<!-- round: 한 바퀴 순회 코스 — 출발지에서 네 정거장을 거쳐 도착 -->
+<section class="slide" data-archetype="route-tour" data-variant="round" style="gap:22px">
+  <div class="head"><p class="eyebrow">«순회 이름 ≤12자»</p><h2 class="title">«제목: 도는 순서 한 문장 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«추상 지형 위를 순회선이 정거장을 지나는 동선 도식»">
+    <g data-step="1" aria-hidden="true">
+      <rect x="80" y="60" width="420" height="180" rx="24" class="k-gray" opacity=".5"/>
+      <rect x="620" y="40" width="340" height="150" rx="24" class="k-gray" opacity=".4"/>
+      <rect x="1060" y="80" width="380" height="200" rx="24" class="k-gray" opacity=".45"/>
+      <rect x="140" y="300" width="300" height="200" rx="24" class="k-gray" opacity=".35"/>
+      <rect x="700" y="330" width="360" height="170" rx="24" class="k-gray" opacity=".4"/>
+      <rect x="1160" y="360" width="280" height="150" rx="24" class="k-gray" opacity=".35"/>
+    </g>
+    <g data-step="1"><text x="80" y="540" font-size="20" fill="var(--soft)">추상 지형 — 실지도 아님</text></g>
+    <g class="rt" data-step="1">
+      <path class="dash-flow" d="M180,260 C260,220 340,180 440,170 C560,158 640,200 720,240 C800,280 880,300 980,290 C1080,280 1160,240 1240,220 C1320,200 1380,240 1410,300" stroke="var(--accent)" stroke-width="5" fill="none"/>
+      <circle cx="180" cy="260" r="26" class="k-solid-n"/>
+      <text x="180" y="268" font-size="20" font-weight="800" class="k-t-w" text-anchor="middle">출발</text>
+      <text x="180" y="310" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">«출발지 ≤7자»</text>
+    </g>
+    <g class="rt" data-step="2">
+      <circle cx="440" cy="170" r="24" fill="var(--paper)" stroke="var(--blue)" stroke-width="4"/>
+      <text x="440" y="178" font-size="20" font-weight="800" class="k-t-b" text-anchor="middle">1</text>
+      <text x="440" y="126" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">«지점1 ≤6자»</text>
+      <circle cx="720" cy="240" r="24" fill="var(--paper)" stroke="var(--blue)" stroke-width="4"/>
+      <text x="720" y="248" font-size="20" font-weight="800" class="k-t-b" text-anchor="middle">2</text>
+      <text x="720" y="196" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">«지점2 ≤6자»</text>
+    </g>
+    <g class="rt" data-step="3">
+      <circle cx="980" cy="290" r="24" fill="var(--paper)" stroke="var(--blue)" stroke-width="4"/>
+      <text x="980" y="298" font-size="20" font-weight="800" class="k-t-b" text-anchor="middle">3</text>
+      <text x="980" y="336" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">«지점3 ≤6자»</text>
+      <circle cx="1240" cy="220" r="24" fill="var(--paper)" stroke="var(--blue)" stroke-width="4"/>
+      <text x="1240" y="228" font-size="20" font-weight="800" class="k-t-b" text-anchor="middle">4</text>
+      <text x="1240" y="176" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">«지점4 ≤6자»</text>
+      <circle cx="1410" cy="300" r="26" class="k-solid-o"/>
+      <text x="1410" y="308" font-size="20" font-weight="800" class="k-t-w" text-anchor="middle">도착</text>
+      <text x="1410" y="352" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">«도착지 ≤7자»</text>
+    </g>
+  </svg>
+  <p class="small">«읽는 법 한 줄 ≤40자» · 번호=지나는 순서, 주황=현재·도착 위치</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(출발지에서 번호 순서대로 지점을 거쳐 도착지에 이른다) → 진행 지시(→ 누를 때마다 경로·앞 지점·뒤 지점 순서로 드러난다) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- inspection: 점검 동선 — 지점마다 확인 항목이 달린 순회 -->
+<section class="slide" data-archetype="route-tour" data-variant="inspection" style="gap:22px">
+  <div class="head"><p class="eyebrow">«점검 이름 ≤12자»</p><h2 class="title">«제목: 점검 동선 한 문장 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«점검 항목이 달린 정거장을 도는 확인 동선 도식»">
+    <g data-step="1" aria-hidden="true">
+      <rect x="100" y="80" width="1360" height="400" rx="28" class="k-gray" opacity=".35"/>
+      <rect x="180" y="140" width="300" height="130" rx="18" class="k-gray" opacity=".5"/>
+      <rect x="560" y="120" width="340" height="120" rx="18" class="k-gray" opacity=".45"/>
+      <rect x="980" y="150" width="300" height="140" rx="18" class="k-gray" opacity=".5"/>
+      <rect x="420" y="340" width="320" height="110" rx="18" class="k-gray" opacity=".4"/>
+      <rect x="1060" y="350" width="280" height="100" rx="18" class="k-gray" opacity=".45"/>
+    </g>
+    <g data-step="1"><text x="120" y="520" font-size="20" fill="var(--soft)">추상 공간 — 실측 도면 아님</text></g>
+    <g class="rt" data-step="1">
+      <path class="dash-flow" d="M220,330 C340,330 420,300 500,290 C600,278 680,300 760,320 C840,340 900,320 980,310 C1080,298 1180,330 1290,340 C1350,346 1380,330 1400,300" stroke="var(--accent)" stroke-width="5" fill="none"/>
+      <rect x="140" y="300" width="100" height="60" class="k-solid-n"/>
+      <text x="190" y="337" font-size="20" font-weight="800" class="k-t-w" text-anchor="middle">집결</text>
+    </g>
+    <g class="rt" data-step="2">
+      <circle cx="500" cy="290" r="24" fill="var(--paper)" stroke="var(--blue)" stroke-width="4"/>
+      <text x="500" y="298" font-size="20" font-weight="800" class="k-t-b" text-anchor="middle">1</text>
+      <rect x="540" y="252" width="200" height="64" class="k-paper"/>
+      <text x="560" y="278" font-size="20" font-weight="700" fill="var(--ink)">«확인1 ≤8자»</text>
+      <text x="560" y="304" font-size="18" fill="var(--soft)">«보는 곳 ≤7자»</text>
+      <circle cx="760" cy="320" r="24" fill="var(--paper)" stroke="var(--blue)" stroke-width="4"/>
+      <text x="760" y="328" font-size="20" font-weight="800" class="k-t-b" text-anchor="middle">2</text>
+      <rect x="800" y="282" width="200" height="64" class="k-paper"/>
+      <text x="820" y="308" font-size="20" font-weight="700" fill="var(--ink)">«확인2 ≤8자»</text>
+      <text x="820" y="334" font-size="18" fill="var(--soft)">«보는 곳 ≤7자»</text>
+    </g>
+    <g class="rt" data-step="3">
+      <circle cx="980" cy="310" r="24" fill="var(--paper)" stroke="var(--blue)" stroke-width="4"/>
+      <text x="980" y="318" font-size="20" font-weight="800" class="k-t-b" text-anchor="middle">3</text>
+      <rect x="1020" y="272" width="200" height="64" class="k-paper"/>
+      <text x="1040" y="298" font-size="20" font-weight="700" fill="var(--ink)">«확인3 ≤8자»</text>
+      <text x="1040" y="324" font-size="18" fill="var(--soft)">«보는 곳 ≤7자»</text>
+      <circle cx="1290" cy="340" r="24" fill="var(--paper)" stroke="var(--blue)" stroke-width="4"/>
+      <text x="1290" y="348" font-size="20" font-weight="800" class="k-t-b" text-anchor="middle">4</text>
+      <rect x="1060" y="388" width="200" height="64" class="k-paper"/>
+      <text x="1080" y="414" font-size="20" font-weight="700" fill="var(--ink)">«확인4 ≤8자»</text>
+      <text x="1080" y="440" font-size="18" fill="var(--soft)">«보는 곳 ≤7자»</text>
+      <circle cx="1400" cy="300" r="26" class="k-solid-o"/>
+      <path d="M1390,300 l8,8 14,-16" fill="none" stroke="var(--paper)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="1400" y="356" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">«완료 ≤6자»</text>
+    </g>
+  </svg>
+  <p class="small">«읽는 법 한 줄 ≤40자»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(집결지에서 출발해 확인 항목이 달린 네 지점을 순서대로 점검한다) → 진행 지시(→ 누를 때마다 단계가 순서대로 드러난다) → 화면에 없는 보충 사실과 출처 → 이 장에서 청중이 가져갈 한 가지 → 다음 장 연결»</aside>
+</section>

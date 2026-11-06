@@ -1,0 +1,101 @@
+<!--
+  아키타입 swimlane (변형: process / roles)
+  언제: 주체별 가로 띠 위에 작업이 배치되고 주체 사이를 넘어가는 인계 — 요청→처리→검수,
+    준비→운영→정리처럼 "누가 어느 구간에서 무엇을 맡고 어디로 넘기는가"를 보여 줄 때.
+    칸만 나열하는 보드는 kanban-board, 시간 흐름은 timeline.
+  배치 규칙: 본문 장 한 장. 띠는 번갈은 회색 면(k-gray, 왼쪽 주체 라벨 칸 k-solid-n 흰 글자),
+    작업은 종이 카드(k-paper·제목+메모), 주체를 넘는 인계는 k-ln-o 굵은 화살표+ah-o.
+    같은 주체 안 다음 단계는 k-ln-g 점선.
+  시그니처: lane-slide(신규 실행 이름) — 카드가 띠 위에 차례로 올라가고 인계 화살표가
+    다음 띠로 넘어가며 도착 카드가 점등된다(.sl, translateY + draw, m3).
+  단계: 단계 3 — 띠+첫 주체 카드(1) → 인계+다음 주체 카드(2) → 마지막 인계+완료(3).
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두
+    실제 내용으로 바꾼다. 자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함).
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+
+<!-- process: 3띠 위를 S자로 지나는 인계 — 요청이 처리를 거쳐 검수로 -->
+<section class="slide" data-archetype="swimlane" data-variant="process" style="gap:22px">
+  <div class="head"><p class="eyebrow">«절차 이름 ≤12자»</p><h2 class="title">«제목: 주체 인계 한 문장 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«세 주체 띠 위에서 작업이 인계되는 도식»">
+    <g data-step="1">
+      <rect x="40" y="60" width="1480" height="140" class="k-gray" opacity=".45"/>
+      <rect x="40" y="200" width="1480" height="140" class="k-gray" opacity=".25"/>
+      <rect x="40" y="340" width="1480" height="140" class="k-gray" opacity=".45"/>
+      <rect x="40" y="60" width="180" height="140" class="k-solid-n"/>
+      <text x="130" y="120" font-size="24" font-weight="800" class="k-t-w" text-anchor="middle">«주체1 ≤5자»</text>
+      <text x="130" y="152" font-size="18" class="k-t-w" text-anchor="middle">«역할 ≤6자»</text>
+      <rect x="40" y="200" width="180" height="140" class="k-solid-n" opacity=".9"/>
+      <text x="130" y="260" font-size="24" font-weight="800" class="k-t-w" text-anchor="middle">«주체2 ≤5자»</text>
+      <text x="130" y="292" font-size="18" class="k-t-w" text-anchor="middle">«역할 ≤6자»</text>
+      <rect x="40" y="340" width="180" height="140" class="k-solid-n" opacity=".8"/>
+      <text x="130" y="400" font-size="24" font-weight="800" class="k-t-w" text-anchor="middle">«주체3 ≤5자»</text>
+      <text x="130" y="432" font-size="18" class="k-t-w" text-anchor="middle">«역할 ≤6자»</text>
+    </g>
+    <g class="sl" data-step="1">
+      <rect x="260" y="86" width="240" height="88" class="k-paper"/>
+      <text x="284" y="120" font-size="23" font-weight="700" fill="var(--ink)">«작업1 ≤8자»</text>
+      <text x="284" y="150" font-size="19" fill="var(--soft)">«메모 ≤8자»</text>
+      <rect x="560" y="86" width="240" height="88" class="k-paper"/>
+      <text x="584" y="120" font-size="23" font-weight="700" fill="var(--ink)">«작업2 ≤8자»</text>
+      <text x="584" y="150" font-size="19" fill="var(--soft)">«메모 ≤8자»</text>
+      <path d="M500,130 L556,130" class="k-ln-g" marker-end="url(#ah-n)"/>
+    </g>
+    <g class="sl" data-step="2">
+      <path d="M800,130 C880,150 900,200 920,230" class="dash-flow" stroke="var(--accent)" stroke-width="5" marker-end="url(#ah-o)"/>
+      <rect x="940" y="226" width="240" height="88" class="k-paper"/>
+      <text x="964" y="260" font-size="23" font-weight="700" fill="var(--ink)">«작업3 ≤8자»</text>
+      <text x="964" y="290" font-size="19" fill="var(--soft)">«메모 ≤8자»</text>
+      <rect x="820" y="140" width="200" height="44" class="k-solid-o"/>
+      <text x="920" y="169" font-size="20" font-weight="800" class="k-t-w" text-anchor="middle">«인계1 ≤6자»</text>
+    </g>
+    <g class="sl" data-step="3">
+      <path d="M1180,270 C1240,290 1260,340 1280,370" class="dash-flow" stroke="var(--accent)" stroke-width="5" marker-end="url(#ah-o)"/>
+      <rect x="1200" y="150" width="200" height="44" class="k-solid-o"/>
+      <text x="1300" y="179" font-size="20" font-weight="800" class="k-t-w" text-anchor="middle">«인계2 ≤6자»</text>
+      <rect x="1300" y="366" width="180" height="88" class="k-orange"/>
+      <text x="1390" y="400" font-size="23" font-weight="800" fill="var(--ink)" text-anchor="middle">«완료 ≤5자»</text>
+      <text x="1390" y="430" font-size="19" fill="var(--ink)" text-anchor="middle">«산출 ≤6자»</text>
+    </g>
+  </svg>
+  <p class="small">«읽는 법 한 줄 ≤40자» · 주황 화살표=주체를 넘는 인계</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(세 주체 띠 위를 작업이 S자로 인계된다) → 진행 지시(→ 누를 때마다 띠·카드·인계 순서로 드러난다) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- roles: 2띠 — 신청자와 담당자 사이를 오가는 왕복 인계 -->
+<section class="slide" data-archetype="swimlane" data-variant="roles" style="gap:22px">
+  <div class="head"><p class="eyebrow">«절차 이름 ≤12자»</p><h2 class="title">«제목: 왕복 인계 한 문장 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«두 주체 띠 사이를 작업이 왕복하며 인계되는 도식»">
+    <g data-step="1">
+      <rect x="40" y="70" width="1480" height="180" class="k-gray" opacity=".45"/>
+      <rect x="40" y="290" width="1480" height="180" class="k-gray" opacity=".25"/>
+      <rect x="40" y="70" width="180" height="180" class="k-solid-n"/>
+      <text x="130" y="150" font-size="24" font-weight="800" class="k-t-w" text-anchor="middle">«주체A ≤5자»</text>
+      <text x="130" y="182" font-size="18" class="k-t-w" text-anchor="middle">«하는 일 ≤6자»</text>
+      <rect x="40" y="290" width="180" height="180" class="k-solid-n" opacity=".9"/>
+      <text x="130" y="370" font-size="24" font-weight="800" class="k-t-w" text-anchor="middle">«주체B ≤5자»</text>
+      <text x="130" y="402" font-size="18" class="k-t-w" text-anchor="middle">«하는 일 ≤6자»</text>
+    </g>
+    <g class="sl" data-step="1">
+      <rect x="280" y="110" width="260" height="100" class="k-paper"/>
+      <text x="304" y="146" font-size="23" font-weight="700" fill="var(--ink)">«제출 ≤8자»</text>
+      <text x="304" y="176" font-size="19" fill="var(--soft)">«메모 ≤8자»</text>
+    </g>
+    <g class="sl" data-step="2">
+      <path d="M540,160 C620,180 640,280 660,330" class="dash-flow" stroke="var(--accent)" stroke-width="5" marker-end="url(#ah-o)"/>
+      <rect x="680" y="330" width="260" height="100" class="k-paper"/>
+      <text x="704" y="366" font-size="23" font-weight="700" fill="var(--ink)">«처리 ≤8자»</text>
+      <text x="704" y="396" font-size="19" fill="var(--soft)">«메모 ≤8자»</text>
+    </g>
+    <g class="sl" data-step="3">
+      <path d="M940,380 C1020,360 1040,260 1060,220" class="dash-flow" stroke="var(--accent)" stroke-width="5" marker-end="url(#ah-o)"/>
+      <rect x="1080" y="120" width="260" height="100" class="k-paper"/>
+      <text x="1104" y="156" font-size="23" font-weight="700" fill="var(--ink)">«회신 ≤8자»</text>
+      <text x="1104" y="186" font-size="19" fill="var(--soft)">«메모 ≤8자»</text>
+      <rect x="760" y="240" width="220" height="50" class="k-solid-o"/>
+      <text x="870" y="271" font-size="20" font-weight="800" class="k-t-w" text-anchor="middle">«왕복 기준 ≤7자»</text>
+    </g>
+  </svg>
+  <p class="small">«읽는 법 한 줄 ≤40자»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(두 주체 띠 사이를 작업이 내려갔다 올라오며 완결된다) → 진행 지시(→ 누를 때마다 단계가 순서대로 드러난다) → 화면에 없는 보충 사실과 출처 → 이 장에서 청중이 가져갈 한 가지 → 다음 장 연결»</aside>
+</section>

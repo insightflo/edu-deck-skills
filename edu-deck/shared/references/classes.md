@@ -215,6 +215,26 @@ legacy와 팩 모두 `assets/css/visual-motion.css`의 아래 공통 어휘를 �
 
 달력 칸·점 격자는 개념 표현이며, "실제 비례가 아님" 표기를 화면에 둡니다. 시연: `41-ops-report` 6변형.
 
+### 워크플로 도식 (시그니처 마커) — 계열 42~52 전용
+
+워크플로 11계열 전부 `svg.dg` + `k-*`/`t-*`/`ah-*` 공용 어휘로만 그립니다(전용 도형 클래스 없음). 아래 마커 클래스는 계열 시그니처가 움직일 대상(`<g>` 그룹·셀 rect)에 다는 표식이며, 시각 효과가 아니라 모션 엔진 대상 선택자입니다 — 지우면 시그니처가 발화하지 않습니다.
+
+| 클래스 | 계열(시그니처) | 다는 곳 |
+|---|---|---|
+| `.sk` | 42 sankey-flow (stream-converge) | 밴드·노드 단계 그룹 |
+| `.dt` | 43 decision-tree (branch-verdict) | 마름모·분기선·판정 단계 그룹 |
+| `.kb` | 44 kanban-board (card-drift) | 카드 그룹 |
+| `.vg` | 45 version-graph (merge-trace) | 커밋·갈래·병합 단계 그룹 |
+| `.ef` | 46 event-fanout (pulse-fanout) | 중심·스포크·외곽 단계 그룹 |
+| `.rt` | 47 route-tour (waypoint-crawl) | 경로·정거장 단계 그룹 |
+| `.wf` | 48 waterfall (cascade-ledge) | 막대 단계 그룹(합계 텍스트에 `data-count`) |
+| `.ms` | 49 mesh-network (hop-relay) | 노드·연결·우회 단계 그룹 |
+| `.hm` | 50 heatmap-grid (grid-flare) | 격자 셀 rect(범례 견본에는 달지 않는다) |
+| `.sl` | 51 swimlane (lane-slide) | 작업 카드·인계 단계 그룹 |
+| `.cy` | 52 cycle-ring (ring-circuit) | 고리 조각·안내 단계 그룹 |
+
+흐름선·전파선·인계 화살표는 `dash-flow`(공용 표식 — 엔진 입자가 지나가는 경로)에 덱 선 클래스와 화살촉을 단다. 다크 슬라이드 바탕 위 글자는 `k-ds` 표식(운영 지표 절과 같은 계약).
+
 ## 접근성·장식
 
 - 장식 요소(배경 원, 뒤에 깔린 카드, 점 연결망)는 `aria-hidden="true"`.

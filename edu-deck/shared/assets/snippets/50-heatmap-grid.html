@@ -1,0 +1,133 @@
+<!--
+  아키타입 heatmap-grid (변형: timeslot / month)
+  언제: 두 축이 교차하는 칸의 밀도·강도 비교 — 요일×시간 참여도, 주×과목 학습량처럼 "어느
+    교차점이 뜨겁고 차가운가"를 색 면적으로 보여 줄 때. 수치 나열은 compare-table,
+    흐름은 sequence·waterfall.
+  배치 규칙: 본문 장 한 장. 칸은 rect 그리드(.hm 셀, 채움 색 5단계 — k-solid-b opacity
+    0.15/0.35/0.55/0.75/1), 축 라벨은 잉크 글자, 범례는 색 계단 5칸. 셀 수는 변형당 15~40개로
+    유지(작은 글자 금지 — 셀 안 숫자 생략, 면적만으로 비교).
+  시그니처: grid-flare(신규 실행 이름) — 행·열 순으로 칸이 작게→크게→제자리로 켜진다
+    (.hm, scale 파형, m3, stagger 방향 row).
+  단계: 단계 2 — 축·격자(1) → 범례·주석(2). 셀 자체는 1단계에 전부 둔다.
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두
+    실제 내용으로 바꾼다. 자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함).
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+
+<!-- timeslot: 요일×시간대 참여 강도 — 5×6 칸 색 격자 -->
+<section class="slide" data-archetype="heatmap-grid" data-variant="timeslot" style="gap:22px">
+  <div class="head"><p class="eyebrow">«측정 단위 ≤12자»</p><h2 class="title">«제목: 교차 강도 한 문장 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«요일과 시간대 교차점의 강도를 색 면적으로 비교하는 격자 도식»">
+    <g data-step="1">
+      <text x="200" y="118" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«시간1 ≤4자»</text>
+      <text x="420" y="118" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«시간2 ≤4자»</text>
+      <text x="640" y="118" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«시간3 ≤4자»</text>
+      <text x="860" y="118" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«시간4 ≤4자»</text>
+      <text x="1080" y="118" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«시간5 ≤4자»</text>
+      <text x="1300" y="118" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«시간6 ≤4자»</text>
+      <text x="115" y="170" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">«요일1»</text>
+      <text x="115" y="252" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">«요일2»</text>
+      <text x="115" y="334" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">«요일3»</text>
+      <text x="115" y="416" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">«요일4»</text>
+      <text x="115" y="498" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">«요일5»</text>
+    </g>
+    <g data-step="1">
+      <rect x="130" y="140" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".75"/>
+      <rect x="350" y="140" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".35"/>
+      <rect x="570" y="140" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".15"/>
+      <rect x="790" y="140" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".55"/>
+      <rect x="1010" y="140" width="140" height="60" rx="6" class="hm k-solid-b"/>
+      <rect x="1230" y="140" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".55"/>
+      <rect x="130" y="222" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".55"/>
+      <rect x="350" y="222" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".55"/>
+      <rect x="570" y="222" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".35"/>
+      <rect x="790" y="222" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".75"/>
+      <rect x="1010" y="222" width="140" height="60" rx="6" class="hm k-solid-b"/>
+      <rect x="1230" y="222" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".35"/>
+      <rect x="130" y="304" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".15"/>
+      <rect x="350" y="304" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".75"/>
+      <rect x="570" y="304" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".55"/>
+      <rect x="790" y="304" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".35"/>
+      <rect x="1010" y="304" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".75"/>
+      <rect x="1230" y="304" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".15"/>
+      <rect x="130" y="386" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".35"/>
+      <rect x="350" y="386" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".55"/>
+      <rect x="570" y="386" width="140" height="60" rx="6" class="hm k-solid-b"/>
+      <rect x="790" y="386" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".55"/>
+      <rect x="1010" y="386" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".35"/>
+      <rect x="1230" y="386" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".75"/>
+      <rect x="130" y="468" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".15"/>
+      <rect x="350" y="468" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".35"/>
+      <rect x="570" y="468" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".75"/>
+      <rect x="790" y="468" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".55"/>
+      <rect x="1010" y="468" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".15"/>
+      <rect x="1230" y="468" width="140" height="60" rx="6" class="hm k-solid-b" opacity=".35"/>
+    </g>
+    <g data-step="2">
+      <text x="1400" y="150" font-size="20" font-weight="700" fill="var(--ink)">«낮음 ≤3자»</text>
+      <rect x="1400" y="170" width="28" height="28" rx="4" class="k-solid-b" opacity=".15"/>
+      <rect x="1400" y="206" width="28" height="28" rx="4" class="k-solid-b" opacity=".35"/>
+      <rect x="1400" y="242" width="28" height="28" rx="4" class="k-solid-b" opacity=".55"/>
+      <rect x="1400" y="278" width="28" height="28" rx="4" class="k-solid-b" opacity=".75"/>
+      <rect x="1400" y="314" width="28" height="28" rx="4" class="k-solid-b"/>
+      <text x="1400" y="368" font-size="20" font-weight="700" fill="var(--ink)">«높음 ≤3자»</text>
+      <rect x="1340" y="420" width="216" height="56" class="k-paper"/>
+      <text x="1448" y="454" font-size="20" font-weight="800" fill="var(--ink)" text-anchor="middle">«집중 구간 ≤5자»</text>
+    </g>
+  </svg>
+  <p class="small">«읽는 법 한 줄 ≤40자» · 색 면적=강도(개념 비교 — 셀 수치 생략)</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(요일과 시간대 교차점의 색 농도로 강도를 비교한다) → 진행 지시(→ 누르면 격자가 먼저, 범례와 집중 구간이 다음에 드러난다) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- month: 월×활동별 학습량 — 4×6 칸 색 격자 -->
+<section class="slide" data-archetype="heatmap-grid" data-variant="month" style="gap:22px">
+  <div class="head"><p class="eyebrow">«측정 단위 ≤12자»</p><h2 class="title">«제목: 활동 강도 한 문장 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«월과 활동 종류의 교차 강도 색 격자»">
+    <g data-step="1">
+      <text x="240" y="120" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«활동1 ≤4자»</text>
+      <text x="470" y="120" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«활동2 ≤4자»</text>
+      <text x="700" y="120" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«활동3 ≤4자»</text>
+      <text x="930" y="120" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«활동4 ≤4자»</text>
+      <text x="1160" y="120" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«활동5 ≤4자»</text>
+      <text x="1390" y="120" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«활동6 ≤4자»</text>
+      <text x="115" y="196" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">«기간1»</text>
+      <text x="115" y="292" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">«기간2»</text>
+      <text x="115" y="388" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">«기간3»</text>
+      <text x="115" y="484" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">«기간4»</text>
+    </g>
+    <g data-step="1">
+      <rect x="140" y="150" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".35"/>
+      <rect x="370" y="150" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".15"/>
+      <rect x="600" y="150" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".55"/>
+      <rect x="830" y="150" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".35"/>
+      <rect x="1060" y="150" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".75"/>
+      <rect x="1290" y="150" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".15"/>
+      <rect x="140" y="246" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".55"/>
+      <rect x="370" y="246" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".35"/>
+      <rect x="600" y="246" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".75"/>
+      <rect x="830" y="246" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".55"/>
+      <rect x="1060" y="246" width="200" height="90" rx="8" class="hm k-solid-b"/>
+      <rect x="1290" y="246" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".35"/>
+      <rect x="140" y="342" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".75"/>
+      <rect x="370" y="342" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".55"/>
+      <rect x="600" y="342" width="200" height="90" rx="8" class="hm k-solid-b"/>
+      <rect x="830" y="342" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".75"/>
+      <rect x="1060" y="342" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".55"/>
+      <rect x="1290" y="342" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".55"/>
+      <rect x="140" y="438" width="200" height="90" rx="8" class="hm k-solid-b"/>
+      <rect x="370" y="438" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".75"/>
+      <rect x="600" y="438" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".75"/>
+      <rect x="830" y="438" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".55"/>
+      <rect x="1060" y="438" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".35"/>
+      <rect x="1290" y="438" width="200" height="90" rx="8" class="hm k-solid-b" opacity=".75"/>
+    </g>
+    <g data-step="2">
+      <text x="1410" y="530" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="end">«낮음→높음 ≤8자»</text>
+      <rect x="1160" y="544" width="56" height="10" rx="3" class="k-solid-b" opacity=".15"/>
+      <rect x="1220" y="544" width="56" height="10" rx="3" class="k-solid-b" opacity=".55"/>
+      <rect x="1280" y="544" width="56" height="10" rx="3" class="k-solid-b"/>
+    </g>
+  </svg>
+  <p class="small">«읽는 법 한 줄 ≤40자»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(월과 활동 종류 교차점의 색 농도로 강도를 비교한다) → 진행 지시(→ 누를 때마다 단계가 순서대로 드러난다) → 화면에 없는 보충 사실과 출처 → 이 장에서 청중이 가져갈 한 가지 → 다음 장 연결»</aside>
+</section>

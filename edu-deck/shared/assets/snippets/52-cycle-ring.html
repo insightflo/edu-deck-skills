@@ -1,0 +1,85 @@
+<!--
+  아키타입 cycle-ring (변형: ring / spiral)
+  언제: 끝나면 다시 처음으로 돌아오는 순환 — 학습 주기, 점검 루틴, 피드백 회전처럼 "시작과
+    끝이 이어져 반복된다"를 보여 줄 때. 일방향 절차는 sequence, 비교는 compare-table.
+  배치 규칙: 본문 장 한 장. 고리는 4부분 호(.cy 조각, k-blue 면 단계별 명도), 가운데는
+    남색 면 원(k-solid-n·순환 이름 흰 글자), 조각 라벨은 고리 바깥 잉크 글자, 회전 방향은
+    점선 호 안내길(.dash-flow+ah)과 시작점 주황 도장.
+  시그니처: ring-circuit(신규 실행 이름) — 조각이 시계 방향으로 순차 점등되고(.cy, m3)
+    방향 안내길이 그려지며(draw) 시작 도장이 점등된다.
+  단계: 단계 4 — 고리 조각 순서 공개(1~3) → 방향 안내·시작 도장(4).
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두
+    실제 내용으로 바꾼다. 자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함).
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+
+<!-- ring: 4조각 순환 고리 — 계획→실행→점검→개선 회전 -->
+<section class="slide" data-archetype="cycle-ring" data-variant="ring" style="gap:22px">
+  <div class="head"><p class="eyebrow">«순환 이름 ≤12자»</p><h2 class="title">«제목: 회전 구조 한 문장 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«네 조각이 이어져 한 바퀴를 도는 순환 고리 도식»">
+    <g class="cy" data-step="1">
+      <path d="M780,70 A210,210 0 0 1 990,280 L890,280 A110,110 0 0 0 780,170 Z" class="k-blue"/>
+      <text x="980" y="140" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«단계1 ≤5자»</text>
+      <text x="980" y="172" font-size="19" fill="var(--soft)" text-anchor="middle">«하는 일 ≤8자»</text>
+    </g>
+    <g class="cy" data-step="2">
+      <path d="M990,280 A210,210 0 0 1 780,490 L780,390 A110,110 0 0 0 890,280 Z" class="k-blue" opacity=".8"/>
+      <text x="1080" y="430" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«단계2 ≤5자»</text>
+      <text x="1080" y="462" font-size="19" fill="var(--soft)" text-anchor="middle">«하는 일 ≤8자»</text>
+    </g>
+    <g class="cy" data-step="3">
+      <path d="M780,490 A210,210 0 0 1 570,280 L670,280 A110,110 0 0 0 780,390 Z" class="k-blue" opacity=".65"/>
+      <text x="580" y="500" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«단계3 ≤5자»</text>
+      <text x="580" y="532" font-size="19" fill="var(--soft)" text-anchor="middle">«하는 일 ≤8자»</text>
+    </g>
+    <g class="cy" data-step="3">
+      <path d="M570,280 A210,210 0 0 1 780,70 L780,170 A110,110 0 0 0 670,280 Z" class="k-blue" opacity=".5"/>
+      <text x="480" y="140" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«단계4 ≤5자»</text>
+      <text x="480" y="172" font-size="19" fill="var(--soft)" text-anchor="middle">«하는 일 ≤8자»</text>
+    </g>
+    <g class="cy" data-step="4">
+      <circle cx="780" cy="280" r="88" class="k-solid-n"/>
+      <text x="780" y="274" font-size="26" font-weight="800" class="k-t-w" text-anchor="middle">«순환 ≤5자»</text>
+      <text x="780" y="306" font-size="19" class="k-t-w" text-anchor="middle">«주기 ≤6자»</text>
+      <path class="dash-flow" d="M900,120 A240,240 0 0 1 940,200" fill="none" stroke="var(--accent)" stroke-width="4" marker-end="url(#ah-o)"/>
+      <circle cx="900" cy="120" r="14" class="k-solid-o"/>
+      <text x="930" y="90" font-size="20" font-weight="800" class="k-t-o" text-anchor="middle">시작</text>
+      <rect x="1190" y="480" width="300" height="60" class="k-paper"/>
+      <text x="1340" y="518" font-size="20" font-weight="800" fill="var(--ink)" text-anchor="middle">«끝나면 다시 처음으로 ≤9자»</text>
+    </g>
+  </svg>
+  <p class="small">«읽는 법 한 줄 ≤40자» · 시계 방향으로 도는 한 바퀴가 1주기</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(네 조각이 이어져 한 바퀴를 돌고 끝은 시작으로 이어진다) → 진행 지시(→ 누를 때마다 조각이 순서대로 드러나고 방향 안내가 마지막에 온다) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- spiral: 같은 회전이 매 바퀴 한 단계씩 깊어지는 성장 고리 -->
+<section class="slide" data-archetype="cycle-ring" data-variant="spiral" style="gap:22px">
+  <div class="head"><p class="eyebrow">«순환 이름 ≤12자»</p><h2 class="title">«제목: 회전 성장 한 문장 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«세 바퀴를 돌며 단계가 깊어지는 성장 순환 도식»">
+    <g class="cy" data-step="1">
+      <path d="M640,280 A140,140 0 0 1 920,280" fill="none" class="k-blue" stroke-width="34"/>
+      <text x="640" y="140" font-size="22" font-weight="800" fill="var(--ink)" text-anchor="middle">«1주기 ≤5자»</text>
+    </g>
+    <g class="cy" data-step="2">
+      <path d="M920,280 A140,140 0 0 1 640,280" fill="none" class="k-blue" stroke-width="34" opacity=".8"/>
+      <text x="960" y="430" font-size="22" font-weight="800" fill="var(--ink)" text-anchor="middle">«2주기 ≤5자»</text>
+    </g>
+    <g class="cy" data-step="3">
+      <path d="M640,280 A140,140 0 0 1 780,140" fill="none" class="k-blue" stroke-width="34" opacity=".6"/>
+      <path d="M780,420 A140,140 0 0 1 640,280" fill="none" class="k-blue" stroke-width="34" opacity=".6"/>
+      <circle cx="780" cy="280" r="72" class="k-solid-n"/>
+      <text x="780" y="274" font-size="24" font-weight="800" class="k-t-w" text-anchor="middle">«순환 ≤5자»</text>
+      <text x="780" y="304" font-size="18" class="k-t-w" text-anchor="middle">«핵심 ≤5자»</text>
+    </g>
+    <g class="cy" data-step="4">
+      <path class="dash-flow" d="M940,240 A160,160 0 0 1 950,300" fill="none" stroke="var(--accent)" stroke-width="4" marker-end="url(#ah-o)"/>
+      <circle cx="940" cy="240" r="13" class="k-solid-o"/>
+      <text x="560" y="470" font-size="22" font-weight="800" fill="var(--ink)" text-anchor="middle">«매 바퀴 깊어짐 ≤8자»</text>
+      <rect x="1090" y="240" width="360" height="80" class="k-paper"/>
+      <text x="1270" y="272" font-size="22" font-weight="800" fill="var(--ink)" text-anchor="middle">«돌 때마다 무엇이 쌓이나 ≤10자»</text>
+      <text x="1270" y="302" font-size="19" fill="var(--soft)" text-anchor="middle">«예: 경험·근거 ≤8자»</text>
+    </g>
+  </svg>
+  <p class="small">«읽는 법 한 줄 ≤40자»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(같은 고리를 도되 매 바퀴 의미가 깊어지는 성장 순환) → 진행 지시(→ 누를 때마다 단계가 순서대로 드러난다) → 화면에 없는 보충 사실과 출처 → 이 장에서 청중이 가져갈 한 가지 → 다음 장 연결»</aside>
+</section>

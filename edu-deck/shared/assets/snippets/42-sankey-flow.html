@@ -1,0 +1,116 @@
+<!--
+  아키타입 sankey-flow (변형: hub-split / composition)
+  언제: 여러 출처가 한 곳에 모였다가 다시 갈라지는 흐름·구성비 — 수업 시간 배정, 예산 유입원과
+    사용처, 수강생 유입 경로와 결과 분배처럼 "양이 어디서 와서 어디로 가는지"를 보여 줄 때.
+    단순 순서는 sequence·arch-flow, 비율 나열은 meter·ops-report(ratio).
+  배치 규칙: 본문 장 한 장. 밴드는 채움 다각형(k-solid-b/k-solid-o/k-solid-n + opacity 단계),
+    유입 노드는 파랑 면·배출 노드는 주황 면, 합류 기둥은 남색 면. 밴드 위 글자는 k-t-w(면 위),
+    노드·축 라벨은 fill="var(--ink)". 밴드의 굵기=비중(개념 비례 — 정밀 측정 아님을 표기).
+  시그니처: stream-converge(신규 실행 이름) — 유입 밴드가 왼쪽에서 흘러와 합류 기둥에 모이고
+    배출 밴드가 오른쪽으로 뻗어 나간다(대상 .sk, m3). 점선 안내길(.dash-flow)은 입자가 지나간다.
+  단계: 단계 3 — 유입(1) → 합류(2) → 분배(3). 정적 완결: 전 밴드·라벨 노출이 최종 상태.
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두
+    실제 내용으로 바꾼다. 자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함).
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+
+<!-- hub-split: 3유입 → 1합류 기둥 → 2분배 — 시간·예산·인원의 유입과 배정 -->
+<section class="slide" data-archetype="sankey-flow" data-variant="hub-split" style="gap:22px">
+  <div class="head"><p class="eyebrow">«흐름 단위 ≤12자»</p><h2 class="title">«제목: 어디서 와서 어디로 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«유입이 합류 기둥에 모여 두 갈래로 나뉘는 흐름 도식»">
+    <g class="sk" data-step="1">
+      <path d="M280,104 C480,104 560,186 700,196 L700,244 C560,238 480,156 280,152 Z" class="k-solid-b" opacity=".92"/>
+      <rect x="40" y="60" width="240" height="88" class="k-solid-b"/>
+      <text x="160" y="98" font-size="26" font-weight="700" class="k-t-w" text-anchor="middle">«유입1 ≤7자»</text>
+      <text x="160" y="132" font-size="22" class="k-t-w" text-anchor="middle">«양 ≤6자»</text>
+      <text x="490" y="120" font-size="22" font-weight="700" class="k-t-b">«비중 ≤4자»</text>
+    </g>
+    <g class="sk" data-step="1">
+      <path d="M280,274 C480,274 600,288 700,290 L700,338 C600,336 480,322 280,322 Z" class="k-solid-b" opacity=".66"/>
+      <rect x="40" y="230" width="240" height="88" class="k-solid-b" opacity=".66"/>
+      <text x="160" y="268" font-size="26" font-weight="700" class="k-t-w" text-anchor="middle">«유입2 ≤7자»</text>
+      <text x="160" y="302" font-size="22" class="k-t-w" text-anchor="middle">«양 ≤6자»</text>
+      <text x="500" y="300" font-size="22" font-weight="700" class="k-t-b">«비중 ≤4자»</text>
+    </g>
+    <g class="sk" data-step="1">
+      <path d="M280,444 C480,444 560,400 700,384 L700,432 C560,448 480,492 280,492 Z" class="k-solid-b" opacity=".42"/>
+      <rect x="40" y="400" width="240" height="88" class="k-solid-b" opacity=".42"/>
+      <text x="160" y="438" font-size="26" font-weight="700" class="k-t-w" text-anchor="middle">«유입3 ≤7자»</text>
+      <text x="160" y="472" font-size="22" class="k-t-w" text-anchor="middle">«양 ≤6자»</text>
+      <text x="490" y="440" font-size="22" font-weight="700" class="k-t-b">«비중 ≤4자»</text>
+    </g>
+    <g class="sk" data-step="2">
+      <rect x="700" y="150" width="80" height="330" class="k-solid-n"/>
+      <text x="740" y="510" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«합류 ≤6자»</text>
+      <text x="830" y="300" font-size="26" font-weight="800" fill="var(--ink)">«총량 ≤7자»</text>
+      <path class="dash-flow" d="M340,128 C560,128 620,290 820,300" stroke="var(--line)" stroke-width="3" marker-end="url(#ah-n)"/>
+    </g>
+    <g class="sk" data-step="3">
+      <path d="M780,206 C940,206 1020,150 1180,150 L1180,198 C1020,198 940,254 780,254 Z" class="k-solid-o"/>
+      <rect x="1180" y="106" width="300" height="136" class="k-orange"/>
+      <text x="1330" y="160" font-size="26" font-weight="700" fill="var(--ink)" text-anchor="middle">«배출1 ≤8자»</text>
+      <text x="1330" y="200" font-size="22" fill="var(--ink)" text-anchor="middle">«양 ≤6자»</text>
+      <text x="980" y="196" font-size="22" font-weight="700" class="k-t-o">«비중 ≤4자»</text>
+    </g>
+    <g class="sk" data-step="3">
+      <path d="M780,316 C940,316 1020,372 1180,372 L1180,420 C1020,420 940,364 780,364 Z" class="k-solid-o" opacity=".62"/>
+      <rect x="1180" y="328" width="300" height="136" class="k-orange" opacity=".62"/>
+      <text x="1330" y="382" font-size="26" font-weight="700" fill="var(--ink)" text-anchor="middle">«배출2 ≤8자»</text>
+      <text x="1330" y="422" font-size="22" fill="var(--ink)" text-anchor="middle">«양 ≤6자»</text>
+      <text x="980" y="370" font-size="22" font-weight="700" class="k-t-o">«비중 ≤4자»</text>
+    </g>
+  </svg>
+  <p class="small">개념 비례 — 밴드 굵기는 대략적 비중이며 정밀 측정이 아닙니다 · «읽는 법 한 줄 ≤30자»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(왼쪽 세 유입이 가운데 기둥에 모여 오른쪽 두 갈래로 나뉜다) → 진행 지시(→ 누를 때마다 유입·합류·분배 순서로 드러난다) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- composition: 4유입 → 1합류 → 2배출 — 출처별 구성비가 한 덩어리가 되는 그림 -->
+<section class="slide" data-archetype="sankey-flow" data-variant="composition" style="gap:22px">
+  <div class="head"><p class="eyebrow">«구성 단위 ≤12자»</p><h2 class="title">«제목: 구성비 합류 한 문장 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«네 출처의 구성이 하나로 합쳐져 두 몫으로 나뉘는 구성비 도식»">
+    <g class="sk" data-step="1">
+      <path d="M260,84 C460,84 560,160 700,170 L700,206 C560,198 460,122 260,122 Z" class="k-solid-b"/>
+      <rect x="40" y="50" width="220" height="66" class="k-blue"/>
+      <text x="150" y="92" font-size="24" font-weight="700" fill="var(--ink)" text-anchor="middle">«출처1 ≤7자»</text>
+      <text x="470" y="104" font-size="20" font-weight="700" class="k-t-b">«% ≤4자»</text>
+    </g>
+    <g class="sk" data-step="1">
+      <path d="M260,196 C460,196 580,222 700,228 L700,264 C580,258 460,234 260,234 Z" class="k-solid-b" opacity=".72"/>
+      <rect x="40" y="162" width="220" height="66" class="k-blue" opacity=".72"/>
+      <text x="150" y="204" font-size="24" font-weight="700" fill="var(--ink)" text-anchor="middle">«출처2 ≤7자»</text>
+      <text x="480" y="212" font-size="20" font-weight="700" class="k-t-b">«% ≤4자»</text>
+    </g>
+    <g class="sk" data-step="1">
+      <path d="M260,322 C460,322 580,296 700,290 L700,326 C580,332 460,360 260,360 Z" class="k-solid-b" opacity=".5"/>
+      <rect x="40" y="288" width="220" height="66" class="k-blue" opacity=".5"/>
+      <text x="150" y="330" font-size="24" font-weight="700" fill="var(--ink)" text-anchor="middle">«출처3 ≤7자»</text>
+      <text x="480" y="310" font-size="20" font-weight="700" class="k-t-b">«% ≤4자»</text>
+    </g>
+    <g class="sk" data-step="1">
+      <path d="M260,434 C460,434 560,390 700,364 L700,400 C560,424 460,472 260,472 Z" class="k-solid-b" opacity=".32"/>
+      <rect x="40" y="400" width="220" height="66" class="k-blue" opacity=".32"/>
+      <text x="150" y="442" font-size="24" font-weight="700" fill="var(--ink)" text-anchor="middle">«출처4 ≤7자»</text>
+      <text x="470" y="420" font-size="20" font-weight="700" class="k-t-b">«% ≤4자»</text>
+    </g>
+    <g class="sk" data-step="2">
+      <rect x="700" y="120" width="76" height="330" class="k-solid-n"/>
+      <text x="738" y="490" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«합계 ≤6자»</text>
+      <text x="820" y="280" font-size="30" font-weight="800" fill="var(--ink)">«100%»</text>
+      <path class="dash-flow" d="M340,90 C540,90 620,270 830,270" stroke="var(--line)" stroke-width="3" marker-end="url(#ah-n)"/>
+    </g>
+    <g class="sk" data-step="3">
+      <path d="M776,200 C940,200 1010,160 1160,160 L1160,208 C1010,208 940,248 776,248 Z" class="k-solid-o"/>
+      <rect x="1160" y="120" width="320" height="128" class="k-orange"/>
+      <text x="1320" y="172" font-size="26" font-weight="700" fill="var(--ink)" text-anchor="middle">«몫1 ≤8자»</text>
+      <text x="1320" y="212" font-size="22" fill="var(--ink)" text-anchor="middle">«비중 ≤6자»</text>
+    </g>
+    <g class="sk" data-step="3">
+      <path d="M776,304 C940,304 1010,344 1160,344 L1160,392 C1010,392 940,352 776,352 Z" class="k-solid-o" opacity=".62"/>
+      <rect x="1160" y="304" width="320" height="128" class="k-orange" opacity=".62"/>
+      <text x="1320" y="356" font-size="26" font-weight="700" fill="var(--ink)" text-anchor="middle">«몫2 ≤8자»</text>
+      <text x="1320" y="396" font-size="22" fill="var(--ink)" text-anchor="middle">«비중 ≤6자»</text>
+    </g>
+  </svg>
+  <p class="small">«읽는 법·주의 한 줄 ≤40자» · 개념 비례(밴드 굵기 ≈ 비중)</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(네 출처의 몫이 한 기둥으로 합쳐진 뒤 두 몫으로 나뉜다) → 진행 지시(→ 누를 때마다 단계별로 드러난다) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>

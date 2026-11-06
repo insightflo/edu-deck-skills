@@ -1,0 +1,100 @@
+<!--
+  아키타입 event-fanout (변형: notice / roles)
+  언제: 하나의 사건·신호가 여러 처리·채널·역할로 동시에 퍼지는 순간 — 공지 발송, 신청 접수
+    후속 처리, 비상 연락 전파처럼 "하나가 켜지면 넷이 움직인다"를 보여 줄 때. 순서 처리는
+    sequence, 중심과 둘레 관계 설명은 hub.
+  배치 규칙: 본문 장 한 장. 중심 사건은 남색 면 원(k-solid-n, 흰 글자), 바깥 노드는 파랑 면
+    카드(k-blue 면·잉크 글자), 전파선은 dash-flow+k-ln-b(입자가 지나간다). 도달 확인은 주황
+    확인 알약(k-solid-o).
+  시그니처: pulse-fanout(신규 실행 이름) — 중심이 먼저 자리 잡고 바깥 노드가 작게→크게→제자리로
+    동시에 켜지며 전파선이 그려진다(.ef, scale 파형 + draw, m3).
+  단계: 단계 3 — 중심 사건(1) → 전파선+외곽 노드 동시 공개(2) → 도달 확인(3).
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두
+    실제 내용으로 바꾼다. 자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함).
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+
+<!-- notice: 공지 하나가 네 채널로 동시 전파 — 사건의 확산 -->
+<section class="slide" data-archetype="event-fanout" data-variant="notice" style="gap:22px">
+  <div class="head"><p class="eyebrow">«사건 이름 ≤12자»</p><h2 class="title">«제목: 동시 전파 한 문장 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«중심 사건에서 네 채널로 동시에 퍼지는 전파 도식»">
+    <g class="ef" data-step="1">
+      <circle cx="780" cy="280" r="76" class="k-solid-n"/>
+      <circle cx="780" cy="280" r="96" fill="none" stroke="var(--ink)" stroke-width="2" stroke-dasharray="4 8"/>
+      <text x="780" y="272" font-size="28" font-weight="800" class="k-t-w" text-anchor="middle">«사건 ≤6자»</text>
+      <text x="780" y="306" font-size="20" class="k-t-w" text-anchor="middle">«시점 ≤7자»</text>
+    </g>
+    <g class="ef" data-step="2">
+      <path class="dash-flow" d="M720,230 C580,170 460,140 340,120" stroke="var(--blue)" stroke-width="4" marker-end="url(#ah-b)"/>
+      <rect x="60" y="60" width="280" height="104" class="k-blue"/>
+      <text x="200" y="104" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">«채널1 ≤7자»</text>
+      <text x="200" y="138" font-size="20" fill="var(--ink)" text-anchor="middle">«받는 이 ≤8자»</text>
+    </g>
+    <g class="ef" data-step="2">
+      <path class="dash-flow" d="M840,230 C980,170 1100,140 1220,120" stroke="var(--blue)" stroke-width="4" marker-end="url(#ah-b)"/>
+      <rect x="1220" y="60" width="280" height="104" class="k-blue"/>
+      <text x="1360" y="104" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">«채널2 ≤7자»</text>
+      <text x="1360" y="138" font-size="20" fill="var(--ink)" text-anchor="middle">«받는 이 ≤8자»</text>
+    </g>
+    <g class="ef" data-step="2">
+      <path class="dash-flow" d="M720,330 C580,390 460,420 340,440" stroke="var(--blue)" stroke-width="4" marker-end="url(#ah-b)"/>
+      <rect x="60" y="396" width="280" height="104" class="k-blue"/>
+      <text x="200" y="440" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">«채널3 ≤7자»</text>
+      <text x="200" y="474" font-size="20" fill="var(--ink)" text-anchor="middle">«받는 이 ≤8자»</text>
+    </g>
+    <g class="ef" data-step="2">
+      <path class="dash-flow" d="M840,330 C980,390 1100,420 1220,440" stroke="var(--blue)" stroke-width="4" marker-end="url(#ah-b)"/>
+      <rect x="1220" y="396" width="280" height="104" class="k-blue"/>
+      <text x="1360" y="440" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">«채널4 ≤7자»</text>
+      <text x="1360" y="474" font-size="20" fill="var(--ink)" text-anchor="middle">«받는 이 ≤8자»</text>
+    </g>
+    <g class="ef" data-step="3">
+      <rect x="640" y="420" width="280" height="56" class="k-solid-o"/>
+      <text x="780" y="456" font-size="22" font-weight="800" class="k-t-w" text-anchor="middle">«도달 확인 ≤10자»</text>
+      <text x="780" y="524" font-size="20" fill="var(--soft)" text-anchor="middle">«한 채널이 못 받으면 어떻게 하나 ≤16자»</text>
+    </g>
+  </svg>
+  <p class="small">«읽는 법 한 줄 ≤40자» · 점선 화살표=전파 방향(입자 흐름)</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(가운데 사건 하나가 네 채널로 동시에 퍼진다) → 진행 지시(→ 누를 때마다 사건·전파·확인 순서로 드러난다) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- roles: 접수 하나가 네 역할로 동시 분배 — 사건에 따른 역할 발동 -->
+<section class="slide" data-archetype="event-fanout" data-variant="roles" style="gap:22px">
+  <div class="head"><p class="eyebrow">«발동 사건 ≤12자»</p><h2 class="title">«제목: 역할 분배 한 문장 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«한 사건이 네 역할에 동시에 분배되는 발동 도식»">
+    <g class="ef" data-step="1">
+      <rect x="660" y="230" width="240" height="100" class="k-solid-n"/>
+      <text x="780" y="274" font-size="26" font-weight="800" class="k-t-w" text-anchor="middle">«발동 조건 ≤7자»</text>
+      <text x="780" y="306" font-size="20" class="k-t-w" text-anchor="middle">«예: 접수 완료 ≤8자»</text>
+    </g>
+    <g class="ef" data-step="2">
+      <path class="dash-flow" d="M660,250 C540,200 440,160 350,130" stroke="var(--blue)" stroke-width="4" marker-end="url(#ah-b)"/>
+      <rect x="80" y="70" width="270" height="110" class="k-blue"/>
+      <text x="215" y="114" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«역할1 ≤7자»</text>
+      <text x="215" y="148" font-size="20" fill="var(--ink)" text-anchor="middle">«맡는 일 ≤9자»</text>
+    </g>
+    <g class="ef" data-step="2">
+      <path class="dash-flow" d="M900,250 C1020,200 1120,160 1210,130" stroke="var(--blue)" stroke-width="4" marker-end="url(#ah-b)"/>
+      <rect x="1210" y="70" width="270" height="110" class="k-blue"/>
+      <text x="1345" y="114" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«역할2 ≤7자»</text>
+      <text x="1345" y="148" font-size="20" fill="var(--ink)" text-anchor="middle">«맡는 일 ≤9자»</text>
+    </g>
+    <g class="ef" data-step="2">
+      <path class="dash-flow" d="M660,310 C540,360 440,400 350,430" stroke="var(--blue)" stroke-width="4" marker-end="url(#ah-b)"/>
+      <rect x="80" y="380" width="270" height="110" class="k-blue"/>
+      <text x="215" y="424" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«역할3 ≤7자»</text>
+      <text x="215" y="458" font-size="20" fill="var(--ink)" text-anchor="middle">«맡는 일 ≤9자»</text>
+    </g>
+    <g class="ef" data-step="2">
+      <path class="dash-flow" d="M900,310 C1020,360 1120,400 1210,430" stroke="var(--blue)" stroke-width="4" marker-end="url(#ah-b)"/>
+      <rect x="1210" y="380" width="270" height="110" class="k-blue"/>
+      <text x="1345" y="424" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«역할4 ≤7자»</text>
+      <text x="1345" y="458" font-size="20" fill="var(--ink)" text-anchor="middle">«맡는 일 ≤9자»</text>
+    </g>
+    <g class="ef" data-step="3">
+      <text x="780" y="480" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«동시에 움직이되 겹치는 일은 따로 정한다 ≤18자»</text>
+    </g>
+  </svg>
+  <p class="small">«읽는 법 한 줄 ≤40자»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(발동 조건 하나에 네 역할이 동시에 움직인다) → 진행 지시(→ 누를 때마다 단계가 순서대로 드러난다) → 화면에 없는 보충 사실과 출처 → 이 장에서 청중이 가져갈 한 가지 → 다음 장 연결»</aside>
+</section>

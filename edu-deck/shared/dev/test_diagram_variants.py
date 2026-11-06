@@ -24,7 +24,10 @@ from build_deck import build
 from check_deck import launch
 
 A_FAMILIES = {'15', '16', '19', '23', '24', '25', '26', '27', '28', '29', '32', '35', '36'}
-PENDING_B = {'02': 1, '17': 2, '20': 4, '30': 2}
+PENDING_B = {'02': 1, '17': 2, '20': 4, '30': 2,
+             # TASK-workflow-series: 계약상 계열당 2변형(22장).
+             '42': 2, '43': 2, '44': 2, '45': 2, '46': 2, '47': 2,
+             '48': 2, '49': 2, '50': 2, '51': 2, '52': 2}
 LEGACY_VARIANTS = {'15': {'tour', 'cases'}, '19': {'form', 'rules'}, '32': {None, 'screens'}}
 A_SIGNATURE = {'15': 'spotlight-pin', '16': 'selection-track', '19': 'outline-then-fill',
                '23': 'choice-verdict', '24': 'classification-lanes', '25': 'judgment-stamp',
@@ -57,7 +60,7 @@ class DiagramVariantsTest(unittest.TestCase):
         cls.groups = families()
 
     def test_each_discovered_family_has_the_required_variants(self):
-        self.assertEqual(set(self.groups), {f'{n:02}' for n in range(1, 42)})
+        self.assertEqual(set(self.groups), {f'{n:02}' for n in range(1, 53)})
         all_complete = os.environ.get('EDU_DECK_ALL_VARIANTS_COMPLETE') == '1'
         for family, variants in self.groups.items():
             required = 5 if all_complete else PENDING_B.get(family, 5)

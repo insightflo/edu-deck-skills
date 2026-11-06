@@ -1,0 +1,107 @@
+<!--
+  아키타입 decision-tree (변형: approve / triage)
+  언제: 조건 질문에 예/아니오로 답하며 내려가다 끝에서 판정에 도달하는 절차 — 지출 결재 기준,
+    안전 점검 판별, 상담·분류 규칙처럼 "이 경우엔 이렇게 처리한다"를 나무로 보여 줄 때.
+    두 안 비교는 compare-2, 순서 나열은 sequence, 규칙 목록은 frame-form(rules).
+  배치 규칙: 본문 장 한 장. 판단 노드는 마름모(k-blue 면·잉크 글자), 판정 끝은 카드(k-paper)+
+    판정 알약(k-solid-o 주황=조치 / k-solid-b 파랑=통과). 분기선은 k-ln-b(예)·k-ln-g(아니오)
+    + 라벨 칩. 선택 가지가 마지막 단계에서 accent 판정에 도달한다.
+  시그니처: branch-verdict(신규 실행 이름) — 마름모가 점등되며 분기선이 그려지고(.dt, draw,
+    m3) 각 끝의 판정 카드가 순서대로 자리 잡는다.
+  단계: 단계 3 — 뿌리 질문(1) → 갈림과 다음 판단(2) → 끝 판정(3).
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두
+    실제 내용으로 바꾼다. 자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함).
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+
+<!-- approve: 예/아니오 두 단계 판단 — 기준을 묻는 마름모와 끝 판정 -->
+<section class="slide" data-archetype="decision-tree" data-variant="approve" style="gap:22px">
+  <div class="head"><p class="eyebrow">«절차 이름 ≤12자»</p><h2 class="title">«제목: 판단 절차 한 문장 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«조건 판단 마름모가 갈라지며 끝의 판정에 도달하는 나무 도식»">
+    <g class="dt" data-step="1">
+      <polygon points="780,40 950,116 780,192 610,116" class="k-blue"/>
+      <text x="780" y="108" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">«조건1 ≤6자»</text>
+      <text x="780" y="140" font-size="20" fill="var(--ink)" text-anchor="middle">«기준 ≤8자»</text>
+    </g>
+    <g class="dt" data-step="2">
+      <path d="M650,170 C560,220 480,250 400,280" class="k-ln-b"/>
+      <path d="M910,170 C1000,220 1080,250 1160,280" class="k-ln-g"/>
+      <rect x="540" y="196" width="84" height="36" class="k-blue"/>
+      <text x="582" y="221" font-size="20" font-weight="800" fill="var(--ink)" text-anchor="middle">예</text>
+      <rect x="940" y="196" width="84" height="36" class="k-gray"/>
+      <text x="982" y="221" font-size="20" font-weight="800" fill="var(--ink)" text-anchor="middle">아니오</text>
+      <polygon points="400,238 540,306 400,374 260,306" class="k-blue" opacity=".8"/>
+      <text x="400" y="300" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«조건2 ≤6자»</text>
+      <text x="400" y="330" font-size="20" fill="var(--ink)" text-anchor="middle">«기준 ≤8자»</text>
+      <polygon points="1160,238 1300,306 1160,374 1020,306" class="k-blue" opacity=".8"/>
+      <text x="1160" y="300" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«조건3 ≤6자»</text>
+      <text x="1160" y="330" font-size="20" fill="var(--ink)" text-anchor="middle">«기준 ≤8자»</text>
+    </g>
+    <g class="dt" data-step="3">
+      <path d="M340,360 C300,400 260,430 230,460" class="k-ln-b"/>
+      <path d="M460,360 C500,400 540,430 570,460" class="k-ln-g"/>
+      <path d="M1100,360 C1060,400 1020,430 990,460" class="k-ln-g"/>
+      <path d="M1220,360 C1260,400 1300,430 1330,460" class="k-ln-b"/>
+      <rect x="80" y="460" width="300" height="84" class="k-paper"/>
+      <rect x="100" y="480" width="140" height="44" class="k-solid-b"/>
+      <text x="170" y="510" font-size="22" font-weight="800" class="k-t-w" text-anchor="middle">«판정A ≤5자»</text>
+      <text x="256" y="508" font-size="20" fill="var(--ink)">«조치 ≤5자»</text>
+      <rect x="420" y="460" width="300" height="84" class="k-paper"/>
+      <rect x="440" y="480" width="140" height="44" class="k-solid-o"/>
+      <text x="510" y="510" font-size="22" font-weight="800" class="k-t-w" text-anchor="middle">«판정B ≤5자»</text>
+      <text x="596" y="508" font-size="20" fill="var(--ink)">«조치 ≤5자»</text>
+      <rect x="840" y="460" width="300" height="84" class="k-paper"/>
+      <rect x="860" y="480" width="140" height="44" class="k-solid-o"/>
+      <text x="930" y="510" font-size="22" font-weight="800" class="k-t-w" text-anchor="middle">«판정C ≤5자»</text>
+      <text x="1016" y="508" font-size="20" fill="var(--ink)">«조치 ≤5자»</text>
+      <rect x="1220" y="460" width="300" height="84" class="k-paper"/>
+      <rect x="1240" y="480" width="140" height="44" class="k-solid-b"/>
+      <text x="1310" y="510" font-size="22" font-weight="800" class="k-t-w" text-anchor="middle">«판정D ≤5자»</text>
+      <text x="1396" y="508" font-size="20" fill="var(--ink)">«조치 ≤5자»</text>
+    </g>
+  </svg>
+  <p class="small">«읽는 법 한 줄 ≤40자» · 파란 선=예, 회색 선=아니오</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(위에서 조건을 묻고 예/아니오로 갈라져 아래 판정에 도달한다) → 진행 지시(→ 누를 때마다 뿌리·갈림·판정 순서로 드러난다) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- triage: 한 조건에서 세 갈래 분류 — 심각도·우선순위 나누기 -->
+<section class="slide" data-archetype="decision-tree" data-variant="triage" style="gap:22px">
+  <div class="head"><p class="eyebrow">«분류 절차 ≤12자»</p><h2 class="title">«제목: 세 갈래 분류 기준 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«한 판단 노드에서 세 갈래로 나뉘어 각각 판정에 도달하는 분류 도식»">
+    <g class="dt" data-step="1">
+      <polygon points="780,60 1000,160 780,260 560,160" class="k-blue"/>
+      <text x="780" y="150" font-size="28" font-weight="800" fill="var(--ink)" text-anchor="middle">«판단 기준 ≤8자»</text>
+      <text x="780" y="184" font-size="20" fill="var(--ink)" text-anchor="middle">«재는 척도 ≤10자»</text>
+    </g>
+    <g class="dt" data-step="2">
+      <path d="M640,220 C520,280 420,320 320,370" class="k-ln-g"/>
+      <path d="M780,260 L780,360" class="k-ln-b"/>
+      <path d="M920,220 C1040,280 1140,320 1240,370" class="k-ln-g"/>
+      <rect x="268" y="330" width="110" height="36" class="k-blue" opacity=".7"/>
+      <text x="323" y="355" font-size="20" font-weight="800" fill="var(--ink)" text-anchor="middle">«구간1 ≤4자»</text>
+      <rect x="725" y="330" width="110" height="36" class="k-blue" opacity=".7"/>
+      <text x="780" y="355" font-size="20" font-weight="800" fill="var(--ink)" text-anchor="middle">«구간2 ≤4자»</text>
+      <rect x="1182" y="330" width="110" height="36" class="k-blue" opacity=".7"/>
+      <text x="1237" y="355" font-size="20" font-weight="800" fill="var(--ink)" text-anchor="middle">«구간3 ≤4자»</text>
+    </g>
+    <g class="dt" data-step="3">
+      <path d="M320,370 L320,440" class="k-ln-g"/>
+      <path d="M780,360 L780,440" class="k-ln-b"/>
+      <path d="M1240,370 L1240,440" class="k-ln-g"/>
+      <rect x="170" y="440" width="300" height="96" class="k-paper"/>
+      <rect x="190" y="462" width="140" height="44" class="k-solid-b"/>
+      <text x="260" y="492" font-size="22" font-weight="800" class="k-t-w" text-anchor="middle">«처리1 ≤5자»</text>
+      <text x="346" y="492" font-size="20" fill="var(--ink)">«대상 ≤5자»</text>
+      <rect x="630" y="440" width="300" height="96" class="k-paper"/>
+      <rect x="650" y="462" width="140" height="44" class="k-solid-o"/>
+      <text x="720" y="492" font-size="22" font-weight="800" class="k-t-w" text-anchor="middle">«처리2 ≤5자»</text>
+      <text x="806" y="492" font-size="20" fill="var(--ink)">«대상 ≤5자»</text>
+      <rect x="1090" y="440" width="300" height="96" class="k-paper"/>
+      <rect x="1110" y="462" width="140" height="44" class="k-solid-o"/>
+      <text x="1180" y="492" font-size="22" font-weight="800" class="k-t-w" text-anchor="middle">«처리3 ≤5자»</text>
+      <text x="1266" y="492" font-size="20" fill="var(--ink)">«대상 ≤5자»</text>
+    </g>
+  </svg>
+  <p class="small">«읽는 법 한 줄 ≤40자»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(하나의 기준이 세 구간으로 갈라져 각각 다른 처리에 도달한다) → 진행 지시(→ 누를 때마다 단계별로 드러난다) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>

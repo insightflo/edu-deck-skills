@@ -1,0 +1,97 @@
+<!--
+  아키타입 waterfall (변형: budget / enroll)
+  언제: 시작 수치에 증가·감소가 차례로 쌓여 최종 수치가 되는 다리 — 예산 증감, 정원 변동,
+    재고 흐름처럼 "처음에서 끝까지 무엇이 얼마나 오르고 내렸는가"를 보여 줄 때. 단순 비교는
+    chart-bar, 비율 구성은 meter·sankey-flow.
+  배치 규칙: 본문 장 한 장. 기준선(k-ln-n) 위에 시작·최종 막대는 꽉 찬 면(k-solid-b·k-solid-n),
+    증감 막대는 부유 막대(증가 k-solid-b, 감소 k-solid-o)로 앞 막대 끝에서 다음 막대 끝까지
+    매달리고, 막대 사이는 점선 연결(k-ln-g). 증감 라벨은 ±부호를 붙인다.
+  시그니처: cascade-ledge(신규 실행 이름) — 막대가 기준선에서 차례로 매달리며 쌓이고
+    최종 합계가 확정된다(.wf, translateY 하강, m3 + 합계 숫자 릴).
+  단계: 단계 4 — 시작 막대(1) → 증감 앞 절반(2) → 증감 뒤 절반(3) → 최종 막대(4).
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두
+    실제 내용으로 바꾼다. 자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함).
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+
+<!-- budget: 시작 예산 + 증감 4 → 최종 잔액 — 증감 다리 -->
+<section class="slide" data-archetype="waterfall" data-variant="budget" style="gap:22px">
+  <div class="head"><p class="eyebrow">«단위·기간 ≤12자»</p><h2 class="title">«제목: 증감 다리 한 문장 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«시작 막대에서 증감 막대가 매달려 최종 막대에 이르는 폭포수 도식»">
+    <path d="M60,480 L1500,480" class="k-ln-n"/>
+    <g class="wf" data-step="1">
+      <rect x="80" y="140" width="200" height="340" class="k-solid-b"/>
+      <text x="180" y="116" font-size="30" font-weight="800" fill="var(--ink)" text-anchor="middle">«시작 ≤6자»</text>
+      <text x="180" y="520" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«항목 ≤7자»</text>
+    </g>
+    <g class="wf" data-step="2">
+      <path d="M280,140 L340,140" class="k-ln-g"/>
+      <rect x="340" y="140" width="200" height="102" class="k-solid-o"/>
+      <text x="440" y="116" font-size="26" font-weight="800" class="k-t-o" text-anchor="middle">«−감소 ≤6자»</text>
+      <text x="440" y="520" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«항목 ≤7자»</text>
+      <path d="M540,242 L600,242" class="k-ln-g"/>
+      <rect x="600" y="242" width="200" height="80" class="k-solid-b"/>
+      <text x="700" y="218" font-size="26" font-weight="800" class="k-t-b" text-anchor="middle">«+증가 ≤6자»</text>
+      <text x="700" y="520" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«항목 ≤7자»</text>
+    </g>
+    <g class="wf" data-step="3">
+      <path d="M800,322 L860,322" class="k-ln-g"/>
+      <rect x="860" y="322" width="200" height="62" class="k-solid-o"/>
+      <text x="960" y="298" font-size="26" font-weight="800" class="k-t-o" text-anchor="middle">«−감소 ≤6자»</text>
+      <text x="960" y="520" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«항목 ≤7자»</text>
+      <path d="M1060,384 L1120,384" class="k-ln-g"/>
+      <rect x="1120" y="384" width="200" height="42" class="k-solid-o" opacity=".75"/>
+      <text x="1220" y="360" font-size="26" font-weight="800" class="k-t-o" text-anchor="middle">«−감소 ≤6자»</text>
+      <text x="1220" y="520" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«항목 ≤7자»</text>
+    </g>
+    <g class="wf" data-step="4">
+      <path d="M1320,426 L1380,426" class="k-ln-g"/>
+      <rect x="1380" y="426" width="120" height="54" class="k-solid-n"/>
+      <text x="1440" y="402" font-size="30" font-weight="800" fill="var(--ink)" text-anchor="middle" data-count>«최종 ≤6자»</text>
+      <text x="1440" y="520" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«합계 ≤7자»</text>
+    </g>
+  </svg>
+  <p class="small">«읽는 법 한 줄 ≤40자» · 부유 막대의 위치=앞 막대의 누적 높이</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(시작 수치에서 증감이 다리처럼 이어져 최종값에 이른다) → 진행 지시(→ 누를 때마다 시작·증감·최종 순서로 쌓인다) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- enroll: 시작 정원 ± 변동 = 말소 정원 — 인원 흐름 다리 -->
+<section class="slide" data-archetype="waterfall" data-variant="enroll" style="gap:22px">
+  <div class="head"><p class="eyebrow">«대상·기간 ≤12자»</p><h2 class="title">«제목: 인원 변동 한 문장 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«시작 인원에서 유출입 막대가 매달려 최종 인원에 이르는 도식»">
+    <path d="M60,480 L1500,480" class="k-ln-n"/>
+    <g class="wf" data-step="1">
+      <rect x="80" y="180" width="200" height="300" class="k-solid-b"/>
+      <text x="180" y="156" font-size="30" font-weight="800" fill="var(--ink)" text-anchor="middle">«시작 ≤6자»</text>
+      <text x="180" y="520" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«기준 ≤7자»</text>
+    </g>
+    <g class="wf" data-step="2">
+      <path d="M280,180 L340,180" class="k-ln-g"/>
+      <rect x="340" y="180" width="200" height="70" class="k-solid-o"/>
+      <text x="440" y="156" font-size="26" font-weight="800" class="k-t-o" text-anchor="middle">«−유출 ≤6자»</text>
+      <text x="440" y="520" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«사유 ≤7자»</text>
+      <path d="M540,250 L600,250" class="k-ln-g"/>
+      <rect x="600" y="250" width="200" height="90" class="k-solid-b"/>
+      <text x="700" y="226" font-size="26" font-weight="800" class="k-t-b" text-anchor="middle">«+유입 ≤6자»</text>
+      <text x="700" y="520" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«사유 ≤7자»</text>
+    </g>
+    <g class="wf" data-step="3">
+      <path d="M800,340 L860,340" class="k-ln-g"/>
+      <rect x="860" y="340" width="200" height="56" class="k-solid-o"/>
+      <text x="960" y="316" font-size="26" font-weight="800" class="k-t-o" text-anchor="middle">«−유출 ≤6자»</text>
+      <text x="960" y="520" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«사유 ≤7자»</text>
+      <path d="M1060,396 L1120,396" class="k-ln-g"/>
+      <rect x="1120" y="396" width="200" height="30" class="k-solid-b"/>
+      <text x="1220" y="372" font-size="26" font-weight="800" class="k-t-b" text-anchor="middle">«+유입 ≤6자»</text>
+      <text x="1220" y="520" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«사유 ≤7자»</text>
+    </g>
+    <g class="wf" data-step="4">
+      <path d="M1320,426 L1380,426" class="k-ln-g"/>
+      <rect x="1380" y="426" width="120" height="54" class="k-solid-n"/>
+      <text x="1440" y="402" font-size="30" font-weight="800" fill="var(--ink)" text-anchor="middle" data-count>«최종 ≤6자»</text>
+      <text x="1440" y="520" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">«말소 ≤7자»</text>
+    </g>
+  </svg>
+  <p class="small">«읽는 법 한 줄 ≤40자»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(시작 인원에서 유출·유입이 차례로 매달려 말소 인원에 이른다) → 진행 지시(→ 누를 때마다 단계가 순서대로 드러난다) → 화면에 없는 보충 사실과 출처 → 이 장에서 청중이 가져갈 한 가지 → 다음 장 연결»</aside>
+</section>

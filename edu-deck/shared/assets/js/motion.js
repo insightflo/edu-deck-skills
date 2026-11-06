@@ -52,7 +52,10 @@
     'frame-form':'.tp,.fm-row,.pb','before-after':'.win,.stack,.card','worked-example':'.win,.card,.list li',
     'quiz-ab':'.opt','quiz-sort':'.qrow,.ans','quiz-ox':'.qrow,.ox','check':'.chk,.chk-o',
     'rules-dark':'.num,.body','checklist':'.todo,.tbox','sources':'.src-list li','closing':'.pill,.big',
-    'stat-strip':'.stat','quadrant':'.qcell,.qp,.qbub','flashcards':'.fc','ops-report':'.oi'
+    'stat-strip':'.stat','quadrant':'.qcell,.qp,.qbub','flashcards':'.fc','ops-report':'.oi',
+    'sankey-flow':'.sk','decision-tree':'.dt','kanban-board':'.kb','version-graph':'.vg',
+    'event-fanout':'.ef','route-tour':'.rt','waterfall':'.wf','mesh-network':'.ms',
+    'heatmap-grid':'.hm','swimlane':'.sl','cycle-ring':'.cy'
   };
   const packTargets={atlas:'.atlas-origin,.atlas-source,.atlas-destination',briefing:'.briefing-row',casebook:'.casebook-narrative,.casebook-exhibit,.casebook-decision',editorial:'.editorial-story,.editorial-margin,.editorial-bottom',field:'.field-row',lab:'.lab-observation,.lab-evidence,.lab-next',seminar:'.seminar-turns span,.seminar-preparation,.seminar-invitation',workbook:'.workbook-read,.workbook-write,.workbook-reflection'};
   const packArch={atlas:'map',briefing:'compare-table',casebook:'before-after',editorial:'build-up',field:'sequence',lab:'mechanism',seminar:'hub',workbook:'frame-form'};
@@ -104,7 +107,31 @@
     'quadrant':{name:'grid-wave',frames:i=>[`translateY(${24+(i%3)*16}px) rotateX(12deg)`,'translateY(0px) rotateX(0deg)']},
     'flashcards':{name:'facet-flip',frames:i=>['perspective(1200px) rotateY(-32deg)','perspective(1200px) rotateY(0deg)']},
     // TASK-ops-report: 지표 덩어리(.oi)는 증거 띠·막대와 같은 metric-rally 상승 — 신규 이름 없이 재사용.
-    'ops-report':{name:'metric-rally',frames:i=>['translateY(44px)','translateY(0px)'],m:'m4'}
+    'ops-report':{name:'metric-rally',frames:i=>['translateY(44px)','translateY(0px)'],m:'m4'},
+    // TASK-workflow-series: 워크플로 도식 11계열 — 실행 이름 신규 11종(31→42). 각 이름이 다른
+    // 관계를 표현한다 — 이름만 다른 일반 상승 복사가 아니라 조각의 .마커 대상에 개별 움직임.
+    // 샌키: 유입 밴드가 왼쪽에서 밀려와 합류·분출 — 수평 수렴(dash-flow 안내길 입자 포함).
+    'sankey-flow':{name:'stream-converge',frames:i=>['translateX(-64px) scaleX(.92)','translateX(0px) scaleX(1)'],draw:true},
+    // 판단트리: 마름모가 점등되며 가지선이 그려지고 끝 판정이 도장처럼 자리 잡는다.
+    'decision-tree':{name:'branch-verdict',frames:i=>['translateY(-24px) scale(.94)','translateY(0px) scale(1.02)','scale(1)'],draw:true},
+    // 칸반: 카드가 칸 사이를 오른쪽으로 미끄러지듯 드리프트 — 느린 이행 m2.
+    'kanban-board':{name:'card-drift',frames:i=>['translateX(56px)','translateX(-4px)','translateX(0px)'],m:'m2'},
+    // 버전그래프: 줄기·갈래 선이 그려지고(draw) 커밋·병합 도장이 찍힌다.
+    'version-graph':{name:'merge-trace',frames:i=>['scale(.8)','scale(1.06)','scale(1)'],draw:true},
+    // 팬아웃: 중심 사건이 자리 잡고 외곽 노드가 동시에 켜진다 — 스태거 축소로 동시성 유지.
+    'event-fanout':{name:'pulse-fanout',frames:i=>['scale(.7)','scale(1.08)','scale(1)'],draw:true,particles:true},
+    // 경로순회: 순회선이 그려지고 정거장 번호가 차례로 찍힌다.
+    'route-tour':{name:'waypoint-crawl',frames:i=>['translateY(24px) scale(.9)','translateY(0px) scale(1)'],draw:true},
+    // 폭포수: 증감 막대가 위에서 매달리듯 내려와 누적 높이에 자리 잡고 합계가 카운트된다.
+    'waterfall':{name:'cascade-ledge',frames:i=>['translateY(-32px)','translateY(0px)'],numbers:true},
+    // 메시: 연결선이 그려지고 노드가 홉 단계로 자리 잡는다.
+    'mesh-network':{name:'hop-relay',frames:i=>['scale(.88)','scale(1.04)','scale(1)'],draw:true},
+    // 히트맵: 칸이 행·열 순서로 플레어(작게→크게→제자리) — 면적이 곧 강도.
+    'heatmap-grid':{name:'grid-flare',frames:i=>['scale(.5)','scale(1.12)','scale(1)']},
+    // 스윔레인: 카드가 띠 위에 올라가고 인계 화살표가 다음 띠로 넘어간다.
+    'swimlane':{name:'lane-slide',frames:i=>['translateY(28px)','translateY(-3px)','translateY(0px)'],draw:true},
+    // 순환링: 조각이 회전하듯 제자리로 돌아와 시계 방향 한 바퀴가 완성된다.
+    'cycle-ring':{name:'ring-circuit',frames:i=>['rotate(-14deg) scale(.94)','rotate(2deg) scale(1.01)','rotate(0deg) scale(1)'],draw:true}
   };
   // Wipe a prior result in-place: the mask and its content counter-translate,
   // so the old words remain stationary as the new result is uncovered. Neither

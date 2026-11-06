@@ -27,7 +27,7 @@ class VisualMotion(unittest.TestCase):
   p=self.page()
   self.assertTrue(p.evaluate('!!window.eduMotion'),'shell must install the shared motion engine')
   rows=p.evaluate('''async()=>{let out=[];const N=deckInfo().count;for(let i=0;i<N;i++){deckGo(i,0);await new Promise(r=>requestAnimationFrame(r));let s=document.querySelector('.slide.active');out.push({arch:s.dataset.archetype,signature:s.dataset.motionSignature,n:s.getAnimations({subtree:true}).length});}return out;}''')
-  self.assertEqual(len({r['arch'] for r in rows}),39)
+  self.assertEqual(len({r['arch'] for r in rows}),50)
   # arch-flow는 부품(data-c=stack)이 'stack-reveal'을 직접 기록한다 — 엔진 레시피 밖이라
   # data-motion-signature가 없는 게 계약이다(애니메이션은 부품의 is-play CSS가 돌린다).
   self.assertTrue(all(r['n'] and (r['signature'] or r['arch']=='arch-flow') for r in rows),rows)
@@ -43,21 +43,21 @@ class VisualMotion(unittest.TestCase):
   self.assertEqual(p.locator('.active .opt.right.lit').count(),0)
  def test_static_modes_cancel_without_revealing_future_steps(self):
   p=self.page();self.assertTrue(p.evaluate('!!window.eduMotion'))
-  p.evaluate("deckGo([...document.querySelectorAll('#stage>.slide')].findIndex(s=>s.dataset.archetype==='agenda'),0)");p.emulate_media(reduced_motion='reduce');p.wait_for_timeout(150)
-  self.assertEqual(p.evaluate('document.getAnimations().filter(a=>a.playState==="running").length'),0)
+  p.evaluate("deckGo([...document.querySelectorAll('#stage>.slide')].findIndex(s=>s.dataset.archetype==='agenda'),0)");p.emulate_media(reduced_motion='reduce')
+  p.wait_for_function("document.getAnimations().filter(a=>a.playState==='running').length===0")
   self.assertGreater(p.locator('.active .step-hide').count(),0)
-  p.emulate_media(reduced_motion='no-preference');p.keyboard.press('s');p.wait_for_timeout(150)
-  self.assertEqual(p.evaluate('document.getAnimations().filter(a=>a.playState==="running").length'),0)
+  p.emulate_media(reduced_motion='no-preference');p.keyboard.press('s')
+  p.wait_for_function("document.getAnimations().filter(a=>a.playState==='running').length===0")
   p.evaluate('window.dispatchEvent(new Event("beforeprint"))')
-  self.assertEqual(p.evaluate('document.getAnimations().filter(a=>a.playState==="running").length'),0)
+  p.wait_for_function("document.getAnimations().filter(a=>a.playState==='running').length===0")
  def test_fallback_groups_outgoing_and_incoming(self):
   p=self.page();p.evaluate('document.startViewTransition=undefined;deckGo(0,0)');p.wait_for_timeout(50)
   p.keyboard.press('ArrowRight');p.wait_for_timeout(40)
   self.assertEqual(p.locator('.ed-ghost').count(),1)
   self.assertEqual(p.evaluate('deckInfo().slide'),1)
   self.assertGreater(p.evaluate('document.querySelector(".ed-ghost").getAnimations().length'),0)
-  p.emulate_media(reduced_motion='reduce');p.wait_for_timeout(50)
-  self.assertEqual(p.locator('.ed-ghost').count(),0)
+  p.emulate_media(reduced_motion='reduce')
+  p.wait_for_function("document.querySelectorAll('.ed-ghost').length===0")
  def test_font_is_loaded_offline(self):
   p=self.page(True)
   self.assertTrue(p.evaluate('document.fonts.check("32px \'Pretendard Variable\'")'))

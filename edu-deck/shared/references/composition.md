@@ -172,6 +172,17 @@
 | 한 자리에서 여러 화면·변형을 나눠 보기 | tabs (부품 — 호스트 안에) |
 | 예상 질문을 눌러서 펼치는 목록 | faq (부품 — 호스트 안에) |
 | 사용자 제공 실제 화면에 번호 핀 | pin-shot + .pin-list (부품 — 호스트 안에) |
+| 여러 출처가 합쳐져 나뉘는 흐름·구성비 | sankey-flow |
+| 예/아니오 조건으로 갈리는 판단 절차 | decision-tree |
+| 상태 칸 사이를 넘는 작업 항목 | kanban-board |
+| 갈라졌다 합쳐지는 버전·문서 흐름 | version-graph |
+| 하나의 사건이 여러 처리로 동시 확산 | event-fanout |
+| 정거장을 도는 순회·점검 동선 | route-tour |
+| 증감이 다리처럼 쌓이는 계산 흐름 | waterfall |
+| 중심 없는 다중 경로·우회 망 | mesh-network |
+| 두 축 교차점의 밀도·강도 비교 | heatmap-grid |
+| 역할별 띠에서 진행되는 인수인계 | swimlane |
+| 되돌아오는 순환 구조 | cycle-ring |
 
 조각 파일과 배치 규칙: `references/layouts.md`. 부품(code·tabs·faq·pin-shot·fx)은 슬라이드가 아니라 호스트 아키타입 본문 안에 넣는다(classes.md "가르치는 부품").
 

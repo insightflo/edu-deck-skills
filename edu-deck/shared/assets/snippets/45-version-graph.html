@@ -1,0 +1,110 @@
+<!--
+  아키타입 version-graph (변형: release / documents)
+  언제: 하나의 줄기가 갈라져 따로 작업된 뒤 다시 합쳐지는 버전 흐름 — 강의 자료 개정, 문서
+    공동 편집, 규정 개정안 심의처럼 "따로 고쳐서 합치는" 과정을 보여 줄 때. 단순 수정 이력은
+    timeline, 역할별 작업은 swimlane.
+  배치 규칙: 본문 장 한 장. 줄기는 가로 레인(레인 라벨 왼쪽), 커밋은 원 도장(k-blue 테두리+
+    속점 k-solid-b), 병합점은 주황 이중 고리(k-orange 면 도장), 태그는 깃발 카드(k-solid-n).
+    분기·병합 곡선은 k-ln-b, 본류 직선은 k-ln-n.
+  시그니처: merge-trace(신규 실행 이름) — 줄기 선이 순서대로 그려지고(.vg, draw, m3)
+    커밋 도장이 찍히다가 병합점 고리가 점등된다.
+  단계: 단계 3 — 본류 커밋(1) → 갈래 분기·커밋(2) → 병합점·태그(3).
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두
+    실제 내용으로 바꾼다. 자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함).
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+
+<!-- release: 본류 + 작업 갈래 하나가 병합점에서 합쳐지고 태그가 붙는 릴리스 흐름 -->
+<section class="slide" data-archetype="version-graph" data-variant="release" style="gap:22px">
+  <div class="head"><p class="eyebrow">«버전 단위 ≤12자»</p><h2 class="title">«제목: 갈라졌다 합치는 과정 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«본류에서 갈라진 작업 줄기가 병합점에서 합쳐지는 버전 그래프 도식»">
+    <text x="60" y="196" font-size="22" font-weight="800" fill="var(--ink)">«본류 ≤5자»</text>
+    <text x="60" y="416" font-size="22" font-weight="800" fill="var(--soft)">«갈래 ≤5자»</text>
+    <g class="vg" data-step="1">
+      <path d="M140,200 L700,200" class="k-ln-n"/>
+      <circle cx="140" cy="200" r="22" fill="var(--paper)" stroke="var(--blue)" stroke-width="4"/>
+      <circle cx="140" cy="200" r="9" class="k-solid-b"/>
+      <text x="140" y="156" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">«커밋1 ≤6자»</text>
+      <circle cx="420" cy="200" r="22" fill="var(--paper)" stroke="var(--blue)" stroke-width="4"/>
+      <circle cx="420" cy="200" r="9" class="k-solid-b"/>
+      <text x="420" y="156" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">«커밋2 ≤6자»</text>
+      <circle cx="700" cy="200" r="22" fill="var(--paper)" stroke="var(--blue)" stroke-width="4"/>
+      <circle cx="700" cy="200" r="9" class="k-solid-b"/>
+      <text x="700" y="156" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">«커밋3 ≤6자»</text>
+    </g>
+    <g class="vg" data-step="2">
+      <path d="M420,200 C470,200 480,400 560,400" class="k-ln-b"/>
+      <path d="M560,400 L900,400" class="k-ln-b"/>
+      <circle cx="640" cy="400" r="22" fill="var(--paper)" stroke="var(--blue)" stroke-width="4"/>
+      <circle cx="640" cy="400" r="9" class="k-solid-b"/>
+      <text x="640" y="444" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">«갈래1 ≤6자»</text>
+      <circle cx="880" cy="400" r="22" fill="var(--paper)" stroke="var(--blue)" stroke-width="4"/>
+      <circle cx="880" cy="400" r="9" class="k-solid-b"/>
+      <text x="880" y="444" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">«갈래2 ≤6자»</text>
+    </g>
+    <g class="vg" data-step="3">
+      <path d="M700,200 L1010,200" class="k-ln-n"/>
+      <path d="M900,400 C960,400 950,200 1010,200" class="k-ln-b"/>
+      <circle cx="1010" cy="200" r="30" fill="var(--paper)" stroke="var(--accent)" stroke-width="5"/>
+      <circle cx="1010" cy="200" r="16" fill="none" stroke="var(--accent)" stroke-width="3"/>
+      <circle cx="1010" cy="200" r="9" class="k-solid-o"/>
+      <text x="1010" y="156" font-size="20" font-weight="800" class="k-t-o" text-anchor="middle">«병합 ≤6자»</text>
+      <path d="M1010,200 L1300,200" class="k-ln-n"/>
+      <rect x="1230" y="160" width="200" height="80" class="k-solid-n"/>
+      <text x="1330" y="194" font-size="24" font-weight="800" class="k-t-w" text-anchor="middle">«태그 ≤6자»</text>
+      <text x="1330" y="222" font-size="18" class="k-t-w" text-anchor="middle">«배포 시점 ≤7자»</text>
+    </g>
+  </svg>
+  <p class="small">«읽는 법 한 줄 ≤40자» · 파란 선=갈래 작업, 주황 고리=병합점</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(본류에서 갈래가 나와 따로 커밋된 뒤 병합점에서 합쳐진다) → 진행 지시(→ 누를 때마다 본류·갈래·병합 순서로 그려진다) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- documents: 자료 원안 + 검토 갈래·긴급 수정 갈래가 각각 병합되는 문서 버전 흐름 -->
+<section class="slide" data-archetype="version-graph" data-variant="documents" style="gap:22px">
+  <div class="head"><p class="eyebrow">«문서 이름 ≤12자»</p><h2 class="title">«제목: 개정 흐름 한 문장 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«원안에서 두 갈래가 갈라져 차례로 병합되는 문서 버전 도식»">
+    <text x="60" y="296" font-size="22" font-weight="800" fill="var(--ink)">«원안 ≤5자»</text>
+    <text x="60" y="136" font-size="22" font-weight="800" fill="var(--soft)">«검토 ≤5자»</text>
+    <text x="60" y="456" font-size="22" font-weight="800" fill="var(--soft)">«긴급 ≤5자»</text>
+    <g class="vg" data-step="1">
+      <path d="M140,280 L520,280" class="k-ln-n"/>
+      <circle cx="140" cy="280" r="22" fill="var(--paper)" stroke="var(--blue)" stroke-width="4"/>
+      <circle cx="140" cy="280" r="9" class="k-solid-b"/>
+      <text x="140" y="330" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">«초안 ≤6자»</text>
+      <circle cx="360" cy="280" r="22" fill="var(--paper)" stroke="var(--blue)" stroke-width="4"/>
+      <circle cx="360" cy="280" r="9" class="k-solid-b"/>
+      <text x="360" y="330" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">«수정 ≤6자»</text>
+    </g>
+    <g class="vg" data-step="2">
+      <path d="M360,280 C410,280 420,120 500,120" class="k-ln-b"/>
+      <path d="M500,120 L760,120" class="k-ln-b"/>
+      <circle cx="630" cy="120" r="22" fill="var(--paper)" stroke="var(--blue)" stroke-width="4"/>
+      <circle cx="630" cy="120" r="9" class="k-solid-b"/>
+      <text x="630" y="76" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">«검토안 ≤6자»</text>
+      <path d="M760,120 C820,120 800,280 860,280" class="k-ln-b"/>
+      <path d="M520,280 L860,280" class="k-ln-n"/>
+      <circle cx="860" cy="280" r="30" fill="var(--paper)" stroke="var(--accent)" stroke-width="5"/>
+      <circle cx="860" cy="280" r="16" fill="none" stroke="var(--accent)" stroke-width="3"/>
+      <circle cx="860" cy="280" r="9" class="k-solid-o"/>
+      <text x="860" y="236" font-size="20" font-weight="800" class="k-t-o" text-anchor="middle">«병합1 ≤6자»</text>
+    </g>
+    <g class="vg" data-step="3">
+      <path d="M860,280 C910,280 920,440 1000,440" class="k-ln-b" opacity=".7"/>
+      <path d="M1000,440 L1240,440" class="k-ln-b" opacity=".7"/>
+      <circle cx="1120" cy="440" r="22" fill="var(--paper)" stroke="var(--blue)" stroke-width="4"/>
+      <circle cx="1120" cy="440" r="9" class="k-solid-b"/>
+      <text x="1120" y="484" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">«긴급수정 ≤6자»</text>
+      <path d="M1240,440 C1300,440 1290,280 1350,280" class="k-ln-b" opacity=".7"/>
+      <path d="M860,280 L1350,280" class="k-ln-n"/>
+      <circle cx="1350" cy="280" r="30" fill="var(--paper)" stroke="var(--accent)" stroke-width="5"/>
+      <circle cx="1350" cy="280" r="16" fill="none" stroke="var(--accent)" stroke-width="3"/>
+      <circle cx="1350" cy="280" r="9" class="k-solid-o"/>
+      <text x="1350" y="236" font-size="20" font-weight="800" class="k-t-o" text-anchor="middle">«병합2 ≤6자»</text>
+      <rect x="1400" y="240" width="120" height="80" class="k-solid-n"/>
+      <text x="1460" y="274" font-size="22" font-weight="800" class="k-t-w" text-anchor="middle">«확정 ≤4자»</text>
+      <text x="1460" y="300" font-size="18" class="k-t-w" text-anchor="middle">«버전 ≤5자»</text>
+    </g>
+  </svg>
+  <p class="small">«읽는 법 한 줄 ≤40자»</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(검토 갈래와 긴급 수정 갈래가 차례로 원안에 병합된다) → 진행 지시(→ 누를 때마다 단계가 순서대로 드러난다) → 화면에 없는 보충 사실과 출처 → 이 장에서 청중이 가져갈 한 가지 → 다음 장 연결»</aside>
+</section>

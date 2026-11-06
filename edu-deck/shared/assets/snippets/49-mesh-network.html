@@ -1,0 +1,97 @@
+<!--
+  아키타입 mesh-network (변형: nodes / resilient)
+  언제: 여러 대상이 서로 얽혀 이어진 망 — 협업 관계망, 정보 연결망, 통신 구조처럼 "누가 누구와
+    직접 이어져 있고 우회가 가능한가"를 보여 줄 때. 방향 절차는 arch-flow·sequence, 중심-둘레
+    설명은 hub.
+  배치 규칙: 본문 장 한 장. 노드는 파랑 면 원(k-blue 면·잉크 글자, 핵심은 k-solid-b 흰 글자),
+    평상시 연결은 k-ln-g 가는 선. 고장 표시는 선의 accent 파선(k-ln-o dash)과 우회 강조선
+    (k-ln-b 굵게). 노드는 곡률 없이 배치해 선이 라벨을 가로지르지 않게 한다.
+  시그니처: hop-relay(신규 실행 이름) — 연결선이 그려지고(draw, m3) 노드가 자리 잡은 뒤,
+    고장 표시가 켜지면 우회 경로가 점등된다(.ms 대상 — 우회 선은 step 공개로 나타난다).
+  단계: 단계 3 — 노드(1) → 평상시 연결선(2) → 고장 표시+우회 경로(3).
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두
+    실제 내용으로 바꾼다. 자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함).
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+
+<!-- nodes: 6노드가 서로 이어진 망 — 직접 연결 관계 개요 -->
+<section class="slide" data-archetype="mesh-network" data-variant="nodes" style="gap:22px">
+  <div class="head"><p class="eyebrow">«망 이름 ≤12자»</p><h2 class="title">«제목: 연결 관계 한 문장 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«여섯 노드가 서로 직접 이어진 연결망 도식»">
+    <g class="ms" data-step="1">
+      <circle cx="300" cy="140" r="58" class="k-solid-b"/>
+      <text x="300" y="148" font-size="24" font-weight="800" class="k-t-w" text-anchor="middle">«노드1 ≤5자»</text>
+      <circle cx="780" cy="90" r="58" class="k-blue"/>
+      <text x="780" y="98" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«노드2 ≤5자»</text>
+      <circle cx="1260" cy="150" r="58" class="k-blue"/>
+      <text x="1260" y="158" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«노드3 ≤5자»</text>
+      <circle cx="280" cy="430" r="58" class="k-blue"/>
+      <text x="280" y="438" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«노드4 ≤5자»</text>
+      <circle cx="790" cy="470" r="58" class="k-blue"/>
+      <text x="790" y="478" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«노드5 ≤5자»</text>
+      <circle cx="1270" cy="420" r="58" class="k-blue"/>
+      <text x="1270" y="428" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«노드6 ≤5자»</text>
+    </g>
+    <g class="ms" data-step="2">
+      <path d="M352,126 C480,110 620,100 722,92" class="k-ln-g"/>
+      <path d="M838,94 C980,108 1120,126 1204,138" class="k-ln-g"/>
+      <path d="M306,196 C300,260 296,330 288,374" class="k-ln-g"/>
+      <path d="M352,458 C480,462 620,466 732,468" class="k-ln-g"/>
+      <path d="M848,464 C980,454 1120,440 1212,430" class="k-ln-g"/>
+      <path d="M1264,208 C1266,268 1268,330 1269,364" class="k-ln-g"/>
+      <path d="M340,396 C480,340 620,270 730,150" class="k-ln-g" stroke-dasharray="2 8"/>
+      <path d="M836,132 C960,220 1120,330 1224,392" class="k-ln-g" stroke-dasharray="2 8"/>
+    </g>
+    <g class="ms" data-step="3">
+      <path d="M360,168 C420,220 480,270 540,320" class="k-ln-o" stroke-dasharray="10 8"/>
+      <path d="M560,300 C700,380 900,400 1080,370 C1160,356 1210,380 1248,392" class="k-ln-b" stroke-width="6" marker-end="url(#ah-b)"/>
+      <circle cx="560" cy="330" r="12" class="k-solid-o"/>
+      <rect x="600" y="240" width="240" height="56" class="k-paper"/>
+      <text x="720" y="276" font-size="20" font-weight="800" fill="var(--ink)" text-anchor="middle">«고장 구간 ≤7자»</text>
+      <rect x="920" y="300" width="240" height="56" class="k-paper"/>
+      <text x="1040" y="336" font-size="20" font-weight="800" class="k-t-b" text-anchor="middle">«우회 경로 ≤7자»</text>
+    </g>
+  </svg>
+  <p class="small">«읽는 법 한 줄 ≤40자» · 파선 주황=고장, 굵은 파랑=우회</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(노드가 직접 이어진 망에서 한 구간이 끊겨도 우회로 간다) → 진행 지시(→ 누를 때마다 노드·연결·우회 순서로 드러난다) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- resilient: 연락망 한 곳이 끊겨도 남은 길로 전달 — 회복력 있는 망 -->
+<section class="slide" data-archetype="mesh-network" data-variant="resilient" style="gap:22px">
+  <div class="head"><p class="eyebrow">«망 이름 ≤12자»</p><h2 class="title">«제목: 우회 전달 한 문장 ≤20자»</h2></div>
+  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="«한 구간이 끊겨도 우회 경로로 도달하는 회복 망 도식»">
+    <g class="ms" data-step="1">
+      <circle cx="250" cy="280" r="62" class="k-solid-n"/>
+      <text x="250" y="288" font-size="24" font-weight="800" class="k-t-w" text-anchor="middle">«출발 ≤5자»</text>
+      <circle cx="630" cy="130" r="54" class="k-blue"/>
+      <text x="630" y="138" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«중계1 ≤5자»</text>
+      <circle cx="630" cy="430" r="54" class="k-blue"/>
+      <text x="630" y="438" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«중계2 ≤5자»</text>
+      <circle cx="1030" cy="140" r="54" class="k-blue"/>
+      <text x="1030" y="148" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«중계3 ≤5자»</text>
+      <circle cx="1030" cy="420" r="54" class="k-blue"/>
+      <text x="1030" y="428" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«중계4 ≤5자»</text>
+      <circle cx="1330" cy="280" r="62" class="k-blue"/>
+      <text x="1330" y="288" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">«도착 ≤5자»</text>
+    </g>
+    <g class="ms" data-step="2">
+      <path d="M310,250 C420,210 500,170 578,146" class="k-ln-g"/>
+      <path d="M310,310 C420,350 500,390 578,414" class="k-ln-g"/>
+      <path d="M684,140 C790,140 900,140 978,140" class="k-ln-g"/>
+      <path d="M684,420 C790,420 900,420 978,420" class="k-ln-g"/>
+      <path d="M1084,148 C1170,188 1240,230 1278,252" class="k-ln-g"/>
+      <path d="M1084,412 C1170,372 1240,330 1278,308" class="k-ln-g"/>
+      <path d="M660,176 C720,240 720,320 660,384" class="k-ln-g" stroke-dasharray="2 8"/>
+    </g>
+    <g class="ms" data-step="3">
+      <path d="M690,146 C800,150 900,152 970,150" class="k-ln-o" stroke-dasharray="10 8"/>
+      <path d="M700,430 C840,430 950,430 1000,428" class="k-ln-b" stroke-width="6" marker-end="url(#ah-b)"/>
+      <rect x="800" y="80" width="220" height="56" class="k-paper"/>
+      <text x="910" y="116" font-size="20" font-weight="800" fill="var(--ink)" text-anchor="middle">«끊긴 길 ≤6자»</text>
+      <rect x="800" y="480" width="220" height="56" class="k-paper"/>
+      <text x="910" y="516" font-size="20" font-weight="800" class="k-t-b" text-anchor="middle">«남은 길 ≤6자»</text>
+    </g>
+  </svg>
+  <p class="small">«읽는 법 한 줄 ≤40자» · 망이 여러 길을 품고 있어 끊겨도 도달한다</p>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명(출발에서 도착까지 중계를 거치는 여러 길 중 하나가 끊겨도 아랫길로 간다) → 진행 지시(→ 누를 때마다 단계가 순서대로 드러난다) → 화면에 없는 보충 사실과 출처 → 이 장에서 청중이 가져갈 한 가지 → 다음 장 연결»</aside>
+</section>
