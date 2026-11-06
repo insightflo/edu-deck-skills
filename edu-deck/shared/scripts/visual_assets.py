@@ -21,7 +21,8 @@ def motion_js():
           +(BASE/'js/motion.js').read_text(encoding='utf-8')+'\n'
           +(BASE/'js/patterns.js').read_text(encoding='utf-8')+'\n'
           +(BASE/'js/viewer.js').read_text(encoding='utf-8')+'\n'
-          +(BASE/'js/talk.js').read_text(encoding='utf-8'))
+          +(BASE/'js/talk.js').read_text(encoding='utf-8')+'\n'
+          +(BASE/'js/sheet.js').read_text(encoding='utf-8'))
     if '</script' in text.lower():raise ValueError('motion.js cannot contain an HTML script closing tag')
     return text
 

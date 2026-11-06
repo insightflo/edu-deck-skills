@@ -16,7 +16,7 @@
   const sigLog=[];
   const all=(q,r=document)=>Array.from(r.querySelectorAll(q));
   const current=()=>document.body.classList.contains('in-hub')?null:stage.querySelector('.deck.on>.slide.active,:scope>.slide.active');
-  const staticMode=()=>reduce.matches||printing||mediaPrint.matches||document.body.classList.contains('st-self')||document.body.classList.contains('st-printing')||document.body.classList.contains('st-presenter');
+  const staticMode=()=>reduce.matches||printing||mediaPrint.matches||document.body.classList.contains('st-self')||document.body.classList.contains('st-printing')||document.body.classList.contains('st-presenter')||document.body.classList.contains('st-sheet');
   function token(name,el=stage){return getComputedStyle(el).getPropertyValue(name).trim()||getComputedStyle(document.documentElement).getPropertyValue(name).trim();}
   function duration(name,el){const v=token('--'+name,el);return parseFloat(v)*(v.endsWith('ms')?1:1000);}
   function shown(el){return !!el&&!el.closest('.step-hide,.gone,.notes')&&getComputedStyle(el).display!=='none'&&getComputedStyle(el).visibility!=='hidden';}

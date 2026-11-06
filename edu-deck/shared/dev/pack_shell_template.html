@@ -67,6 +67,23 @@ body.ed-edit .slide [data-ed]:focus{outline:2px solid var(--accent);outline-offs
    fig-slot 보다 작은 카드 단위 층 — 도식 문법(svg.dg)이 아니라 HTML 인라인. 독자 등장 모션은 없고
    장 계열 시그니처·data-step 을 따른다. is-on/is-off 도 애니메이션이 아니라 정적 강조다 */
 .vflow{display:flex;flex-direction:row;align-items:center;flex-wrap:wrap;gap:10px}
+/* 저자 검수 뷰어 모드(?sheet·?shot — assets/js/sheet.js): shell_template 과 같은 규칙. */
+@media screen{
+html.is-sheet body,html.is-shot body{overflow:auto;height:auto;background:var(--paper)}
+html.is-sheet #progress,html.is-sheet #dots,html.is-sheet #counter,html.is-sheet #help,
+html.is-shot #progress,html.is-shot #dots,html.is-shot #counter,html.is-shot #help,
+html.is-sheet .ed-reader-nav,html.is-shot .ed-reader-nav{display:none}
+body.st-sheet .step-hide{visibility:visible !important}
+html.is-sheet #stage{position:static !important;transform:none !important;left:auto;top:auto;
+  width:max-content;display:grid;grid-template-columns:repeat(var(--sheet-cols,3),640px);gap:16px;padding:16px;
+  counter-reset:sheet-n}
+html.is-sheet #stage>.slide,html.is-sheet #stage>.deck>.slide{position:relative;left:auto;top:auto;
+  transform:scale(.33334);transform-origin:0 0;display:flex !important;width:1920px;height:1080px;
+  margin:0 -1280px -720px 0;counter-increment:sheet-n}
+html.is-sheet #stage>.slide::after,html.is-sheet #stage>.deck>.slide::after{content:counter(sheet-n);
+  position:absolute;right:0;top:0;padding:8px 26px;background:#ffd400;color:#000;
+  font-size:52px;font-weight:800;line-height:1.2;font-family:inherit;z-index:9}
+}
 .vflow.col{flex-direction:column;align-items:flex-start;flex-wrap:nowrap;gap:8px}
 .vflow.col .varr{transform:rotate(90deg)}
 .vnode{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:999px;border:2px solid var(--line);background:var(--paper);font-size:24px;font-weight:700;line-height:1.3;color:var(--ink);white-space:nowrap}
