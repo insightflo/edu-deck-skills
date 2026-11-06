@@ -1609,6 +1609,44 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
 <marker id="ah-b" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="var(--blue)"/></marker>
 <marker id="ah-n" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="var(--ink)"/></marker>
 </defs></svg>
+<!-- ==== 01-cover-bauhaus.html ==== -->
+<!--
+  아키타입 cover (변형: bauhaus)
+  언제: 표지. 정면 기하 구성·리듬 있는 컬러의 스튜디오형. 교양·디자인·프로젝트에 어울린다.
+  단계: 단계 없음
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  이 변형은 기하 구성 자체가 정체성 — 뼈대는 유지하고 글자 자리표시만 채운다.
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+<section class="slide cx" data-archetype="cover" data-variant="bauhaus" id="cover-bauhaus" style="padding:0;background:var(--paper)">
+
+<svg aria-hidden="true" style="position:absolute;inset:0" viewBox="0 0 1920 1080">
+<rect x="1034" y="218" width="735" height="720" rx="10" fill="var(--light)" stroke="var(--ink)" stroke-width="8"/>
+<circle cx="1383" cy="564" r="279" fill="var(--accent)" stroke="var(--ink)" stroke-width="10"/>
+<path d="M1160 740L1610 322L1750 750z" fill="var(--accent-light)" stroke="var(--ink)" stroke-width="9"/>
+<circle cx="1452" cy="532" r="127" fill="var(--blue)" stroke="var(--ink)" stroke-width="9"/>
+<circle cx="1452" cy="532" r="60" fill="var(--light)" stroke="var(--ink)" stroke-width="8"/>
+<path d="M1044 339l202-124M1690 810l200 150" stroke="var(--ink)" stroke-width="13"/>
+<rect x="1066" y="792" width="141" height="122" fill="var(--blue)" stroke="var(--ink)" stroke-width="9"/>
+<rect x="1580" y="230" width="175" height="121" fill="var(--paper)" stroke="var(--ink)" stroke-width="9"/>
+<g fill="var(--ink)"><rect x="1822" y="250" width="22" height="620"/><rect x="1869" y="250" width="22" height="620"/></g>
+<path d="M124 208h766" stroke="var(--ink)" stroke-width="7"/>
+<path d="M124 898h765" stroke="var(--ink)" stroke-width="7"/>
+<circle cx="838" cy="905" r="28" fill="var(--accent)"/>
+</svg>
+<div aria-hidden="true" style="position:absolute;top:0;left:0;width:1920px;height:138px;background:var(--ink)"></div>
+<p class="cx-eyebrow" style="position:absolute;left:127px;top:48px;font-size:29px;letter-spacing:7px;color:var(--paper);font-weight:900;background:var(--ink)">«교육 이름 ≤10자»</p>
+<div style="position:absolute;left:124px;top:318px;width:950px">
+<p style="font-size:30px;letter-spacing:3px;font-weight:900;color:var(--blue-text);margin:0 0 35px">«핵심 주제어 ≤10자»</p>
+<h1 class="cx-title" style="font-size:128px;line-height:1.24;letter-spacing:-9px;font-weight:900;color:var(--ink)"><span data-text="«표지 제목 ≤12자»" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret"></span></h1>
+<p class="cx-sub" style="font-size:39px;margin-top:46px;font-weight:650;color:var(--soft)">«부제 한 문장 ≤29자»</p>
+</div>
+<p class="cover-date" style="z-index:3;left:127px;bottom:80px;font-size:26px;color:var(--ink);font-weight:800">«부가 한 줄 ≤16자»</p>
+<p style="position:absolute;right:152px;bottom:82px;font-size:26px;color:var(--ink);font-weight:800;margin:0;z-index:3">«연번 ≤8자»</p>
+<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
 <!-- ==== 01-cover-bigstat.html ==== -->
 <!--
   아키타입 cover (변형: bigstat)
@@ -1638,23 +1676,102 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
 <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
 </section>
 
-<!-- ==== 01-cover-center.html ==== -->
+<!-- ==== 01-cover-blueprint.html ==== -->
 <!--
-  아키타입 cover (변형: center)
-  언제: 표지. 큰 제목이 정중앙에 오는 포스터형. 뒤에 동심원 장식. 선언·비전·주제 발표형 도입에 어울린다.
+  아키타입 cover (변형: blueprint)
+  언제: 표지. 설계도 격자 위 개념을 등각 스택으로 전개하는 도면형. AI·IT 기술 교육에 어울린다. 어두운 장.
   단계: 단계 없음
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
   자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  이 변형은 격자·등각 스택 자체가 정체성 — 뼈대 기하는 유지하고 글자 자리표시만 채운다.
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+<section class="slide cx dark" data-archetype="cover" data-variant="blueprint" id="cover-blueprint" style="padding:0">
+
+<svg aria-hidden="true" style="position:absolute;inset:0" viewBox="0 0 1920 1080">
+<defs><pattern id="cov3-grid" width="64" height="64" patternUnits="userSpaceOnUse"><path d="M64 0H0V64" fill="none" stroke="var(--soft)" stroke-width="1.1" opacity=".3"/></pattern></defs>
+<rect width="1920" height="1080" fill="url(#cov3-grid)"/>
+<path d="M78 102h1720v870H78z" fill="none" stroke="var(--soft)" stroke-width="2" stroke-dasharray="9 11"/>
+<line x1="78" y1="230" x2="1800" y2="230" stroke="var(--soft)" stroke-width="2"/>
+<circle cx="1562" cy="558" r="315" fill="none" stroke="var(--soft)" stroke-width="2" stroke-dasharray="3 17"/>
+<circle cx="1562" cy="558" r="235" fill="none" stroke="var(--line)" stroke-width="2"/>
+<g>
+<path d="M1295 386l327-144 269 157-341 155z" fill="var(--blue)" stroke="var(--blue-text)" stroke-width="4"/>
+<path d="M1295 386v128l255 143V554z" fill="var(--ink)" stroke="var(--soft)" stroke-width="3"/>
+<path d="M1550 554l341-155v119l-341 139z" fill="var(--ink)" stroke="var(--soft)" stroke-width="3"/>
+<path d="M1240 587l331-140 272 157-334 158z" fill="var(--blue)" stroke="var(--blue-text)" stroke-width="4"/>
+<path d="M1240 587v110l269 158V762z" fill="var(--ink)" stroke="var(--soft)" stroke-width="3"/>
+<path d="M1509 762l334-158v99l-334 152z" fill="var(--ink)" stroke="var(--soft)" stroke-width="3"/>
+<path d="M1190 769l309-136 264 154-305 142z" fill="var(--accent)" stroke="var(--accent-light)" stroke-width="4"/>
+<path d="M1190 769v83l268 160v-83z" fill="var(--accent-text)" stroke="var(--accent-light)" stroke-width="3"/>
+<path d="M1458 929l305-142v83l-305 142z" fill="var(--accent-text)" stroke="var(--accent-light)" stroke-width="3"/>
+</g>
+<circle cx="1562" cy="324" r="24" fill="var(--accent-light)"/><circle cx="1562" cy="558" r="24" fill="var(--light)"/><circle cx="1562" cy="748" r="24" fill="var(--accent-light)"/>
+<path d="M1562 348v185m0 49v142" stroke="var(--muted)" stroke-width="4" stroke-dasharray="11 14"/>
+<g fill="var(--muted)" font-size="31" font-weight="700"><text x="1698" y="255">«1단계 ≤6자»</text><text x="1138" y="532">«2단계 ≤6자»</text><text x="1626" y="968">«3단계 ≤6자»</text></g>
+<path d="M1297 386l255 143 339-130" fill="none" stroke="var(--muted)" stroke-width="4" stroke-dasharray="8 10"/>
+<g stroke="var(--soft)" stroke-width="3"><line x1="1095" y1="280" x2="1095" y2="913"/><line x1="1095" y1="913" x2="1149" y2="913"/></g>
+</svg>
+<p class="cx-eyebrow" style="position:absolute;left:126px;top:149px;font-size:27px;font-weight:800;letter-spacing:4px;color:var(--accent-light)">«교육 이름 ≤10자»</p>
+<div style="position:absolute;left:126px;top:351px;width:1050px">
+<h1 class="cx-title" style="font-size:117px;line-height:1.17;letter-spacing:-6px;font-weight:900;color:var(--light)"><span data-text="«표지 제목 ≤12자»" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret"></span></h1>
+<p class="cx-sub" style="color:var(--muted);font-size:41px;margin-top:54px">«부제 한 문장 ≤29자»</p>
+</div>
+<p class="cover-date" style="z-index:3;left:125px;bottom:92px;color:var(--muted);font-size:26px">«부가 한 줄 ≤16자»</p>
+<p style="position:absolute;right:126px;top:160px;font-size:24px;font-weight:800;color:var(--muted);margin:0;z-index:3">«연번 ≤8자»</p>
+<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- ==== 01-cover-bold-poster.html ==== -->
+<!--
+  아키타입 cover (변형: bold-poster)
+  언제: 표지. 강한 타이포 대비·캠페인형 임팩트. 오리엔테이션·대규모 특강에 어울린다.
+  단계: 단계 없음
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  .cover-art = 표지 그림 자리 — 오른쪽 «그림: …» 안내를 지우고 주제 상징(대문자·도형)을 크게 다시 그린다(layouts.md "표지 그림 자리").
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+<section class="slide cx" data-archetype="cover" data-variant="bold-poster" id="cover-bold-poster" style="padding:0;background:var(--accent)">
+
+<svg aria-hidden="true" style="position:absolute;inset:0" viewBox="0 0 1920 1080">
+<path d="M0 0h1200l-130 215H0z" fill="var(--accent-light)"/>
+<path d="M1400 0h520v1080h-550l-120-175 140-300-100-180z" fill="var(--accent-text)"/>
+<path d="M1375 188l334 345" stroke="var(--ink)" stroke-width="16"/>
+<path d="M1692 175l-307 360" stroke="var(--accent-light)" stroke-width="20"/>
+<rect x="0" y="1000" width="1920" height="80" fill="var(--ink)"/>
+<g fill="var(--ink)" opacity=".5"><circle cx="1260" cy="240" r="3"/><circle cx="1290" cy="270" r="3"/><circle cx="1320" cy="300" r="3"/><circle cx="1350" cy="330" r="3"/><circle cx="1380" cy="360" r="3"/><circle cx="1410" cy="390" r="3"/><circle cx="1290" cy="210" r="3"/><circle cx="1350" cy="270" r="3"/><circle cx="1410" cy="330" r="3"/></g>
+<path d="M1004 545h72m-36-35v70" stroke="var(--accent-light)" stroke-width="11"/>
+</svg>
+<div class="cover-art" aria-hidden="true" style="position:absolute;left:1450px;top:160px;width:420px;height:800px;border:2px dashed var(--paper);border-radius:var(--r3);display:flex;align-items:center;justify-content:center">
+<span style="font-size:24px;font-weight:700;color:var(--paper);text-align:center;max-width:320px">«그림: 주제 상징 대문자·도형 — «핵심 글자»»</span>
+</div>
+<p class="cx-eyebrow" style="position:absolute;left:112px;top:75px;font-size:30px;font-weight:900;letter-spacing:2px;color:var(--light)">«교육 이름 ≤10자»</p>
+<div style="position:absolute;left:108px;top:272px;width:1110px">
+<p style="font-size:31px;font-weight:900;letter-spacing:9px;color:var(--paper);margin:0 0 34px">«핵심 가치 3어 ≤12자»</p>
+<h1 class="cx-title" style="font-size:144px;font-weight:900;line-height:1.11;letter-spacing:-10px;color:var(--paper)"><span data-text="«표지 제목 ≤12자»" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret"></span></h1>
+<p class="cx-sub" style="font-size:41px;margin-top:55px;font-weight:700;color:var(--paper)">«부제 한 문장 ≤29자»</p>
+</div>
+<p class="cover-date" style="z-index:3;left:115px;bottom:26px;color:var(--paper);font-size:27px;font-weight:800">«부가 한 줄 ≤16자»</p>
+<p style="position:absolute;right:109px;bottom:25px;color:var(--paper);font-size:27px;font-weight:700;margin:0;z-index:3">«연번 ≤8자»</p>
+<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- ==== 01-cover-center.html ==== -->
+<!--
+  아키타입 cover (변형: center)
+  언제: 표지. 큰 제목이 정중앙에 오는 포스터형. 뒤쪽 cover-art 자리에 주제 장식을 다시 그린다. 선언·비전·주제 발표형 도입에 어울린다.
+  단계: 단계 없음
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  .cover-art = 표지 그림 자리 — «그림: …» 안내를 지우고 주제에 맞는 장식·상징으로 다시 그린다(layouts.md "표지 그림 자리").
   배치 설명: references/layouts.md · 클래스: references/classes.md
 -->
 <section class="slide cx" data-archetype="cover" data-variant="center" id="cover-center" style="padding:0">
 
-<svg aria-hidden="true" style="position:absolute;inset:0" viewBox="0 0 1920 1080">
-<circle cx="960" cy="540" r="430" fill="none" stroke="var(--blue)" stroke-width="2" stroke-dasharray="4 16" opacity=".55"></circle>
-<circle cx="960" cy="540" r="560" fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="2 20" opacity=".4"></circle>
-<line x1="660" y1="300" x2="1260" y2="300" stroke="var(--accent-light)" stroke-width="3" opacity=".8"></line>
-<line x1="660" y1="788" x2="1260" y2="788" stroke="var(--accent-light)" stroke-width="3" opacity=".8"></line>
-</svg>
+<div class="cover-art" aria-hidden="true" style="position:absolute;left:520px;top:80px;width:880px;height:920px;border:2px dashed var(--muted);border-radius:var(--r3);display:flex;align-items:flex-end;justify-content:center;padding-bottom:36px">
+<span style="font-size:24px;font-weight:700;color:var(--soft);text-align:center">«그림: 제목 뒤 주제 장식 — «대상»»</span>
+</div>
 <div class="cx-text" style="left:0;top:236px;width:1920px;align-items:center;text-align:center">
 <p class="cx-eyebrow">«교육 이름 ≤10자»</p>
 <h1 class="cx-title"><span data-text="«표지 제목 ≤12자»" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret"></span></h1>
@@ -1671,29 +1788,18 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
 <!-- ==== 01-cover-diagram.html ==== -->
 <!--
   아키타입 cover (변형: diagram)
-  언제: 표지. 오른쪽에 개념 3개가 이어진 도식을 둔 도식형. 구조·관계·원리를 다루는 주제에 어울린다.
+  언제: 표지. 오른쪽 cover-art 자리에 주제의 개념 도식을 다시 그리는 도식형. 구조·관계·원리를 다루는 주제에 어울린다.
   단계: 단계 없음
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
   자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  .cover-art = 표지 그림 자리 — «그림: …» 안내를 지우고 주제 개념 도식을 다시 그린다(layouts.md "표지 그림 자리").
   배치 설명: references/layouts.md · 클래스: references/classes.md
 -->
 <section class="slide cx" data-archetype="cover" data-variant="diagram" id="cover-diagram" style="padding:0">
 
-<svg aria-hidden="true" style="position:absolute;left:1180px;top:170px" width="700" height="740" viewBox="0 0 700 740">
-<path d="M350 120 L140 330" fill="none" stroke="var(--blue)" stroke-width="5" stroke-linecap="round"></path>
-<path d="M350 120 L560 330" fill="none" stroke="var(--blue)" stroke-width="5" stroke-linecap="round"></path>
-<path d="M140 430 L350 620" fill="none" stroke="var(--blue)" stroke-width="5" stroke-linecap="round" stroke-dasharray="3 14"></path>
-<path d="M560 430 L350 620" fill="none" stroke="var(--blue)" stroke-width="5" stroke-linecap="round" stroke-dasharray="3 14"></path>
-<circle cx="350" cy="120" r="96" fill="var(--accent)" stroke="var(--accent-light)" stroke-width="4"></circle>
-<circle cx="140" cy="380" r="78" fill="var(--blue)" stroke="var(--muted)" stroke-width="3"></circle>
-<circle cx="560" cy="380" r="78" fill="var(--blue)" stroke="var(--muted)" stroke-width="3"></circle>
-<circle cx="350" cy="620" r="66" fill="none" stroke="var(--accent-light)" stroke-width="4" stroke-dasharray="10 10"></circle>
-<text x="350" y="112" text-anchor="middle" style="font-size:44px;font-weight:800;fill:var(--paper)">개념</text>
-<text x="350" y="150" text-anchor="middle" style="font-size:24px;fill:var(--paper)">중심</text>
-<text x="140" y="390" text-anchor="middle" style="font-size:30px;font-weight:700;fill:var(--paper)">요소</text>
-<text x="560" y="390" text-anchor="middle" style="font-size:30px;font-weight:700;fill:var(--paper)">요소</text>
-<text x="350" y="630" text-anchor="middle" style="font-size:26px;font-weight:700;fill:var(--accent-light)">결과</text>
-</svg>
+<div class="cover-art" aria-hidden="true" style="position:absolute;left:1180px;top:170px;width:700px;height:740px;border:2px dashed var(--muted);border-radius:var(--r3);display:flex;align-items:center;justify-content:center">
+<span style="font-size:24px;font-weight:700;color:var(--soft);text-align:center;max-width:560px">«그림: 주제 개념 도식 — «핵심 관계»»</span>
+</div>
 <div class="cx-text" style="top:290px;width:1000px">
 <p class="cx-eyebrow">«교육 이름 ≤10자»</p>
 <h1 class="cx-title"><span data-text="«표지 제목 ≤12자»" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret"></span></h1>
@@ -1707,24 +1813,210 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
 <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
 </section>
 
-<!-- ==== 01-cover-mosaic.html ==== -->
+<!-- ==== 01-cover-editorial-lab.html ==== -->
 <!--
-  아키타입 cover (변형: mosaic)
-  언제: 표지. 오른쪽에 아이콘 타일이 2×3 격자로 놓인 모자이크형. 여러 활동·메뉴를 아우르는 주제.
+  아키타입 cover (변형: editorial-lab)
+  언제: 표지. 절제된 편집 지면 틀 + 오른쪽 겹친 학습 카드. 기관 교육·기술 입문에 어울린다.
   단계: 단계 없음
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
   자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  .cover-art = 표지 그림 자리 — 맨 위 카드 안 «그림: …» 안내를 지우고 주제 개념 그림을 다시 그린다(layouts.md "표지 그림 자리").
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+<section class="slide cx" data-archetype="cover" data-variant="editorial-lab" id="cover-editorial-lab" style="padding:0;background:var(--paper)">
+
+<svg aria-hidden="true" style="position:absolute;inset:0" viewBox="0 0 1920 1080">
+<rect x="64" y="64" width="1792" height="952" fill="none" stroke="var(--ink)" stroke-width="2"/>
+<line x1="64" y1="171" x2="1856" y2="171" stroke="var(--ink)" stroke-width="2"/>
+<line x1="64" y1="941" x2="1856" y2="941" stroke="var(--ink)" stroke-width="2"/>
+<line x1="1195" y1="171" x2="1195" y2="941" stroke="var(--line)" stroke-width="2" stroke-dasharray="7 12"/>
+<g transform="rotate(9 1495 540)"><rect x="1232" y="252" width="510" height="593" rx="5" fill="var(--accent-light)"/><rect x="1262" y="282" width="450" height="533" rx="2" fill="none" stroke="var(--ink)" stroke-width="2"/></g>
+<g transform="rotate(-8 1467 520)"><rect x="1197" y="220" width="510" height="610" rx="4" fill="var(--chip)"/></g>
+<g><rect x="1260" y="215" width="476" height="638" rx="6" fill="var(--light)"/><rect x="1292" y="248" width="412" height="571" fill="none" stroke="var(--line)" stroke-width="2"/></g>
+<circle cx="1734" cy="201" r="23" fill="var(--accent)"/><circle cx="1214" cy="840" r="15" fill="var(--blue)"/>
+<path d="M1096 314l42-40m-38 0 40 43" fill="none" stroke="var(--accent)" stroke-width="7"/>
+</svg>
+<div class="cover-art" aria-hidden="true" style="position:absolute;left:1310px;top:290px;width:380px;height:500px;display:flex;align-items:center;justify-content:center">
+<span style="font-size:24px;font-weight:700;color:var(--soft);text-align:center;max-width:300px">«그림: 주제 개념 그림 — «대상»»</span>
+</div>
+<p class="cx-eyebrow" style="position:absolute;left:140px;top:111px;font-size:25px;font-weight:850;letter-spacing:3px;color:var(--soft)">«교육 이름 ≤10자»</p>
+<div style="position:absolute;left:128px;top:265px;width:1010px">
+<p style="color:var(--accent);font-size:26px;font-weight:850;letter-spacing:4px;margin:0 0 41px">«연번 · 기수 ≤10자»</p>
+<h1 class="cx-title" style="font-size:119px;letter-spacing:-7px;line-height:1.18;font-weight:900;color:var(--ink)"><span data-text="«표지 제목 ≤12자»" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret"></span></h1>
+<p class="cx-sub" style="margin-top:43px;font-size:40px;font-weight:500;color:var(--soft)">«부제 한 문장 ≤29자»</p>
+</div>
+<p class="cover-date" style="z-index:3;left:140px;bottom:104px;font-size:26px;color:var(--soft)">«부가 한 줄 ≤16자»</p>
+<p style="position:absolute;right:119px;bottom:103px;font-size:26px;font-weight:750;color:var(--ink);margin:0;z-index:3">«날짜 YYYY. MM. DD ≤15자»</p>
+<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- ==== 01-cover-future-portal.html ==== -->
+<!--
+  아키타입 cover (변형: future-portal)
+  언제: 표지. 빛의 포털과 길이 전환을 상징하는 형. 비전·변화관리 교육에 어울린다. 어두운 장.
+  단계: 단계 없음
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  이 변형은 포털·태양·길 구도가 정체성(전환 상징) — 뼈대는 유지하고 글자 자리표시만 채운다.
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+<section class="slide cx dark" data-archetype="cover" data-variant="future-portal" id="cover-future-portal" style="padding:0">
+
+<svg aria-hidden="true" style="position:absolute;inset:0" viewBox="0 0 1920 1080">
+<defs>
+<linearGradient id="cov8-portal" x1="0" x2="1" y1="0" y2=".8"><stop stop-color="var(--accent-light)"/><stop offset=".48" stop-color="var(--accent)"/><stop offset="1" stop-color="var(--blue)"/></linearGradient>
+<radialGradient id="cov8-sun" cx=".5" cy=".5" r=".5"><stop stop-color="var(--accent-light)"/><stop offset="1" stop-color="var(--accent)"/></radialGradient>
+</defs>
+<path d="M1008 1080L1224 239 1715 239 1920 1080Z" fill="var(--soft)" opacity=".35"/>
+<path d="M1115 1080L1295 290 1664 290 1860 1080Z" fill="var(--soft)" opacity=".29"/>
+<rect x="1172" y="126" width="592" height="824" rx="293" fill="var(--blue)"/>
+<rect x="1210" y="163" width="516" height="746" rx="258" fill="url(#cov8-portal)"/>
+<circle cx="1472" cy="450" r="133" fill="var(--accent-light)" opacity=".86"/>
+<path d="M1210 671 Q1461 540 1726 673V909H1210z" fill="var(--blue)" opacity=".72"/>
+<path d="M1210 751Q1474 613 1726 756V908H1210Z" fill="var(--ink)" opacity=".55"/>
+<path d="M1167 940l225-303h167l222 303" fill="var(--accent-light)" opacity=".83"/>
+<path d="M1070 1080l280-140h252l280 140" fill="var(--blue)" opacity=".3"/>
+<path d="M1361 940l-76 140M1583 940l68 140M1475 942v138" stroke="var(--ink)" stroke-width="4" opacity=".7"/>
+<path d="M1312 991h322M1256 1040h437" stroke="var(--ink)" stroke-width="5"/>
+<path d="M1190 820l-190-45M1194 730l-199-60" stroke="var(--soft)" stroke-width="2"/>
+<g fill="var(--muted)"><circle cx="1120" cy="220" r="7"/><circle cx="1790" cy="330" r="5"/><circle cx="1040" cy="560" r="4"/><circle cx="1870" cy="760" r="6"/></g>
+<path d="M180 940h790" stroke="var(--soft)" stroke-width="2"/>
+<path d="M180 940h202" stroke="var(--accent-light)" stroke-width="7"/>
+</svg>
+<p class="cx-eyebrow" style="position:absolute;left:140px;top:128px;font-size:27px;color:var(--accent-light);letter-spacing:4px;font-weight:800">«교육 이름 ≤10자»</p>
+<div style="position:absolute;left:140px;top:321px;width:1030px">
+<h1 class="cx-title" style="font-size:118px;line-height:1.2;letter-spacing:-6px;color:var(--light);font-weight:900"><span data-text="«표지 제목 ≤12자»" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret"></span></h1>
+<p class="cx-sub" style="font-size:42px;color:var(--muted);margin-top:59px">«부제 한 문장 ≤29자»</p>
+</div>
+<p class="cover-date" style="z-index:3;left:141px;bottom:76px;font-size:27px;color:var(--muted)">«부가 한 줄 ≤16자»</p>
+<p style="position:absolute;right:147px;bottom:72px;font-size:29px;color:var(--muted);font-weight:700;margin:0;z-index:3">«연번 ≤8자»</p>
+<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- ==== 01-cover-learning-path.html ==== -->
+<!--
+  아키타입 cover (변형: learning-path)
+  언제: 표지. 학습 여정을 굽은 경로와 4개 정거장으로 보여 주는 형. 커리큘럼·실습 교육에 어울린다.
+  단계: 단계 없음
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  이 변형은 경로·정거장 기하가 정체성 — 뼈대는 유지하고 정거장 라벨·글자 자리표시만 채운다.
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+<section class="slide cx" data-archetype="cover" data-variant="learning-path" id="cover-learning-path" style="padding:0;background:var(--paper)">
+
+<svg aria-hidden="true" style="position:absolute;inset:0" viewBox="0 0 1920 1080">
+<circle cx="1500" cy="560" r="490" fill="var(--light)"/>
+<path d="M0 0h1920v1080H0z" fill="none" stroke="var(--chip)" stroke-width="35"/>
+<path d="M290 787 C515 968 695 733 874 795 S1166 1050 1368 743 S1665 580 1777 688" fill="none" stroke="var(--chip)" stroke-width="106" stroke-linecap="round"/>
+<path d="M290 787 C515 968 695 733 874 795 S1166 1050 1368 743 S1665 580 1777 688" fill="none" stroke="var(--blue)" stroke-width="15" stroke-dasharray="1 36" stroke-linecap="round"/>
+<g text-anchor="middle" font-weight="800">
+<circle cx="300" cy="791" r="90" fill="var(--ink)"/><text x="300" y="816" font-size="76" fill="var(--paper)">«기호»</text><text x="301" y="925" font-size="30" fill="var(--ink)">«정거장1 ≤6자»</text>
+<circle cx="757" cy="802" r="90" fill="var(--accent-light)"/><text x="757" y="831" font-size="78" fill="var(--ink)">«기호»</text><text x="757" y="950" font-size="30" fill="var(--ink)">«정거장2 ≤6자»</text>
+<circle cx="1257" cy="824" r="90" fill="var(--blue-soft)"/><text x="1257" y="852" font-size="84" fill="var(--ink)">«기호»</text><text x="1257" y="958" font-size="30" fill="var(--ink)">«정거장3 ≤6자»</text>
+<circle cx="1667" cy="645" r="90" fill="var(--blue)"/><text x="1667" y="675" font-size="77" fill="var(--paper)">«기호»</text><text x="1667" y="787" font-size="30" fill="var(--ink)">«정거장4 ≤6자»</text>
+</g>
+<g fill="var(--accent-light)"><circle cx="507" cy="718" r="12"/><circle cx="931" cy="712" r="16"/><circle cx="1088" cy="970" r="10"/></g>
+<path d="M1585 334l48-85 50 85" fill="none" stroke="var(--line)" stroke-width="4"/>
+<path d="M1650 281v120" stroke="var(--line)" stroke-width="4"/>
+</svg>
+<p class="cx-eyebrow" style="position:absolute;left:140px;top:111px;font-size:25px;letter-spacing:2px;color:var(--ink);font-weight:800">«교육 이름 ≤10자»</p>
+<div style="position:absolute;left:138px;top:245px;width:1560px">
+<h1 class="cx-title" style="font-size:130px;line-height:1.18;letter-spacing:-7px;color:var(--ink);font-weight:900"><span data-text="«표지 제목 ≤12자»" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret"></span></h1>
+<p class="cx-sub" style="margin-top:35px;font-size:43px;color:var(--soft);font-weight:600">«부제 한 문장 ≤29자»</p>
+</div>
+<p class="cover-date" style="z-index:3;left:140px;bottom:91px;font-size:26px;color:var(--soft);font-weight:700">«부가 한 줄 ≤16자»</p>
+<p style="position:absolute;right:142px;top:118px;font-size:26px;font-weight:800;color:var(--soft);margin:0;z-index:3">«연번 ≤8자»</p>
+<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- ==== 01-cover-modular-cards.html ==== -->
+<!--
+  아키타입 cover (변형: modular-cards)
+  언제: 표지. 지식 카드 3층이 기울어 쌓인 모듈형. 기술 실무·조직 협업에 어울린다.
+  단계: 단계 없음
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  이 변형은 카드 3층 스택이 정체성 — 뼈대는 유지하고 카드 라벨·글자 자리표시만 채운다.
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+<section class="slide cx" data-archetype="cover" data-variant="modular-cards" id="cover-modular-cards" style="padding:0;background:var(--paper)">
+
+<svg aria-hidden="true" style="position:absolute;inset:0" viewBox="0 0 1920 1080">
+<rect x="0" width="44" height="1080" fill="var(--accent)"/>
+<rect x="62" y="60" width="1795" height="955" rx="10" fill="none" stroke="var(--line)" stroke-width="2"/>
+<path d="M103 192h1715M104 905h1714" stroke="var(--line)" stroke-width="2"/>
+<g>
+<g transform="rotate(-16 1436 399)"><rect x="1190" y="220" width="520" height="365" rx="24" fill="var(--ink)"/><rect x="1221" y="251" width="455" height="298" rx="16" fill="none" stroke="var(--muted)" stroke-width="3"/></g>
+<g transform="rotate(7 1458 558)"><rect x="1177" y="402" width="562" height="330" rx="24" fill="var(--accent-light)"/><rect x="1207" y="434" width="501" height="268" rx="18" fill="none" stroke="var(--accent-text)" stroke-width="3"/></g>
+<g transform="rotate(-5 1460 755)"><rect x="1163" y="605" width="587" height="322" rx="22" fill="var(--light)" stroke="var(--blue-text)" stroke-width="4"/><rect x="1197" y="641" width="520" height="255" rx="14" fill="none" stroke="var(--blue-text)" stroke-width="2"/></g>
+</g>
+<circle cx="1719" cy="433" r="22" fill="var(--paper)" stroke="var(--soft)" stroke-width="4"/>
+<path d="M1813 542l-40 20m40-20-12 50" fill="none" stroke="var(--soft)" stroke-width="5"/>
+<circle cx="1105" cy="704" r="28" fill="var(--accent)"/>
+<path d="M1080 704h50m-25-25v50" stroke="var(--ink)" stroke-width="5"/>
+<g fill="var(--soft)"><circle cx="1050" cy="340" r="9"/><circle cx="1116" cy="320" r="9"/><circle cx="1034" cy="380" r="9"/></g>
+</svg>
+<p aria-hidden="true" style="position:absolute;left:1305px;top:365px;transform:rotate(-16deg);font-size:62px;font-weight:900;color:var(--paper);margin:0">«역할1 ≤4자»</p>
+<p aria-hidden="true" style="position:absolute;left:1360px;top:545px;transform:rotate(7deg);font-size:62px;font-weight:900;color:var(--ink);margin:0">«역할2 ≤4자»</p>
+<p aria-hidden="true" style="position:absolute;left:1305px;top:733px;transform:rotate(-5deg);font-size:65px;font-weight:900;color:var(--ink);margin:0">«역할3 ≤4자»</p>
+<p class="cx-eyebrow" style="position:absolute;left:150px;top:111px;font-size:28px;letter-spacing:4px;color:var(--blue-text);font-weight:850">«교육 이름 ≤10자»</p>
+<div style="position:absolute;left:145px;top:299px;width:1060px">
+<h1 class="cx-title" style="font-size:125px;line-height:1.19;letter-spacing:-8px;font-weight:900;color:var(--ink)"><span data-text="«표지 제목 ≤12자»" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret"></span></h1>
+<p class="cx-sub" style="margin-top:46px;font-size:43px;font-weight:550;color:var(--soft)">«부제 한 문장 ≤29자»</p>
+</div>
+<p class="cover-date" style="z-index:3;left:149px;bottom:112px;font-size:27px;color:var(--soft);font-weight:700">«부가 한 줄 ≤16자»</p>
+<p style="position:absolute;right:145px;bottom:112px;font-size:27px;color:var(--soft);font-weight:700;margin:0;z-index:3">«날짜 YYYY. MM. DD ≤15자»</p>
+<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- ==== 01-cover-monograph.html ==== -->
+<!--
+  아키타입 cover (변형: monograph)
+  언제: 표지. 명조 활자·북커버형 절제. 경영·정책·인문 교육에 어울린다. font=gowun-batang 과 잘 어울린다.
+  단계: 단계 없음
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  .cover-art = 표지 그림 자리 — 책 안 메달리온 «그림: …» 안내를 지우고 주제 상징 문양을 다시 그린다(layouts.md "표지 그림 자리").
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+<section class="slide cx" data-archetype="cover" data-variant="monograph" id="cover-monograph" style="padding:0;background:var(--paper)">
+
+<svg aria-hidden="true" style="position:absolute;inset:0" viewBox="0 0 1920 1080">
+<rect x="79" y="78" width="1762" height="924" fill="none" stroke="var(--soft)" stroke-width="2"/>
+<line x1="600" y1="78" x2="600" y2="1002" stroke="var(--line)" stroke-width="2"/>
+<rect x="171" y="170" width="540" height="713" fill="var(--ink)"/>
+<rect x="199" y="200" width="484" height="650" fill="none" stroke="var(--chip)" stroke-width="2"/>
+<path d="M1659 119h118M1771 119v118" stroke="var(--accent)" stroke-width="7" fill="none"/>
+</svg>
+<div class="cover-art" aria-hidden="true" style="position:absolute;left:250px;top:250px;width:382px;height:560px;border:2px dashed var(--muted);border-radius:var(--r3);display:flex;align-items:center;justify-content:center">
+<span style="font-size:24px;font-weight:700;color:var(--muted);text-align:center;max-width:290px">«그림: 주제 상징 문양 — «대상»»</span>
+</div>
+<p class="cx-eyebrow" style="position:absolute;left:819px;top:166px;font-family:'Gowun Batang','Noto Serif CJK KR',serif;font-size:29px;font-weight:650;letter-spacing:4px;color:var(--accent-text)">«교육 이름 ≤10자»</p>
+<div style="position:absolute;left:815px;top:296px;width:1000px">
+<h1 class="cx-title" style="font-family:'Gowun Batang','Noto Serif CJK KR',serif;font-weight:900;font-size:120px;line-height:1.33;letter-spacing:-6px;color:var(--ink)"><span data-text="«표지 제목 ≤12자»" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret"></span></h1>
+<div style="width:126px;height:8px;background:var(--accent);margin-top:35px"></div>
+<p class="cx-sub" style="font-size:43px;font-weight:550;margin-top:51px;line-height:1.5;color:var(--soft)">«부제 한 문장 ≤29자»</p>
+</div>
+<p class="cover-date" style="z-index:3;left:820px;bottom:112px;font-size:25px;color:var(--soft)">«부가 한 줄 ≤16자»</p>
+<p style="position:absolute;right:142px;bottom:112px;font-size:25px;font-weight:700;color:var(--soft);margin:0;z-index:3">«날짜 YYYY. MM. DD ≤15자»</p>
+<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- ==== 01-cover-mosaic.html ==== -->
+<!--
+  아키타입 cover (변형: mosaic)
+  언제: 표지. 오른쪽 2×3 타일 자리(cover-art)에 주제 아이콘·그림을 다시 채우는 모자이크형. 여러 활동·메뉴를 아우르는 주제.
+  단계: 단계 없음
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  .cover-art = 표지 그림 자리 — «그림: …» 안내를 지우고 주제 타일·아이콘으로 다시 그린다(layouts.md "표지 그림 자리").
   배치 설명: references/layouts.md · 클래스: references/classes.md
 -->
 <section class="slide cx" data-archetype="cover" data-variant="mosaic" id="cover-mosaic" style="padding:0">
 
-<div aria-hidden="true" style="position:absolute;left:1300px;top:200px;display:grid;grid-template-columns:repeat(2,240px);gap:28px">
-<div style="width:240px;height:200px;border-radius:var(--r3);background:var(--accent);display:flex;align-items:center;justify-content:center"><svg class="ico" aria-hidden="true" style="width:88px;height:88px;color:var(--ink)"><use href="#i-graduation"/></svg></div>
-<div style="width:240px;height:200px;border-radius:var(--r3);border:3px solid var(--blue);display:flex;align-items:center;justify-content:center"><svg class="ico" aria-hidden="true" style="width:88px;height:88px;color:var(--muted)"><use href="#i-book"/></svg></div>
-<div style="width:240px;height:200px;border-radius:var(--r3);border:3px solid var(--accent-light);display:flex;align-items:center;justify-content:center"><svg class="ico" aria-hidden="true" style="width:88px;height:88px;color:var(--accent-light)"><use href="#i-chat"/></svg></div>
-<div style="width:240px;height:200px;border-radius:var(--r3);background:var(--blue);display:flex;align-items:center;justify-content:center"><svg class="ico" aria-hidden="true" style="width:88px;height:88px;color:var(--paper)"><use href="#i-gear"/></svg></div>
-<div style="width:240px;height:200px;border-radius:var(--r3);border:3px dashed var(--muted);display:flex;align-items:center;justify-content:center"><svg class="ico" aria-hidden="true" style="width:88px;height:88px;color:var(--muted)"><use href="#i-check"/></svg></div>
-<div style="width:240px;height:200px;border-radius:var(--r3);background:color-mix(in srgb,var(--accent) 30%,var(--ink));display:flex;align-items:center;justify-content:center"><svg class="ico" aria-hidden="true" style="width:88px;height:88px;color:var(--accent-light)"><use href="#i-target"/></svg></div>
+<div class="cover-art" aria-hidden="true" style="position:absolute;left:1300px;top:200px;width:508px;height:656px;border:2px dashed var(--muted);border-radius:var(--r3);display:flex;align-items:center;justify-content:center">
+<span style="font-size:24px;font-weight:700;color:var(--soft);text-align:center;max-width:400px">«그림: 주제 타일 그림 — i-* 아이콘·기하 조합»</span>
 </div>
 <div class="cx-text" style="top:290px;width:1040px">
 <p class="cx-eyebrow">«교육 이름 ≤10자»</p>
@@ -1739,24 +2031,57 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
 <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
 </section>
 
-<!-- ==== 01-cover-split.html ==== -->
+<!-- ==== 01-cover-paper-collage.html ==== -->
 <!--
-  아키타입 cover (변형: split)
-  언제: 표지. 왼쪽 어두운 글 단 + 오른쪽 강조색 면(아이콘 세로 줄). 좌우 2분할이 어울리는 주제.
+  아키타입 cover (변형: paper-collage)
+  언제: 표지. 회전·겹친 색지 스택으로 생동감을 주는 콜라주형. 워크숍·창의 교육에 어울린다.
   단계: 단계 없음
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
   자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  .cover-art = 표지 그림 자리 — 맨 위 색지의 «그림: …» 안내를 지우고 주제 스탬프·낙서를 다시 그린다(layouts.md "표지 그림 자리").
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+<section class="slide cx" data-archetype="cover" data-variant="paper-collage" id="cover-paper-collage" style="padding:0;background:var(--paper)">
+
+<svg aria-hidden="true" style="position:absolute;inset:0" viewBox="0 0 1920 1080">
+<path d="M0 85l1300-60-70 170-1230 60z" fill="var(--accent-light)"/>
+<circle cx="1652" cy="398" r="285" fill="var(--accent)"/>
+<path d="M1122 182l668 130-167 653-707-143z" fill="var(--accent-light)"/>
+<path d="M1167 211l510 80-110 565-510-88z" fill="var(--chip)"/>
+<path d="M1280 360l390-75M1259 411l392-57M1237 467l391-40" stroke="var(--ink)" stroke-width="15" stroke-linecap="square"/>
+<path d="M113 224h210" stroke="var(--blue)" stroke-width="10"/>
+<rect x="1768" y="75" width="81" height="81" rx="15" fill="var(--blue)"/>
+<path d="M1791 115h35m-17-17v35" stroke="var(--accent-light)" stroke-width="6"/>
+</svg>
+<div class="cover-art" aria-hidden="true" style="position:absolute;left:1330px;top:430px;width:340px;height:340px;border:2px dashed var(--ink);border-radius:50%;display:flex;align-items:center;justify-content:center">
+<span style="font-size:24px;font-weight:700;color:var(--ink);text-align:center;max-width:260px">«그림: 주제 스탬프·낙서 — «대상»»</span>
+</div>
+<p class="cx-eyebrow" style="position:absolute;left:114px;top:110px;font-size:29px;font-weight:900;color:var(--blue);letter-spacing:2px">«교육 이름 ≤10자»</p>
+<div style="position:absolute;left:85px;top:296px;width:1180px;height:585px;transform:rotate(-4deg);background:var(--blue);padding:93px 40px 0 79px">
+<h1 class="cx-title" style="font-size:133px;font-weight:900;line-height:1.15;letter-spacing:-8px;color:var(--paper)"><span data-text="«표지 제목 ≤12자»" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret"></span></h1>
+<p class="cx-sub" style="font-size:40px;font-weight:650;margin-top:31px;color:var(--light)">«부제 한 문장 ≤29자»</p>
+</div>
+<p class="cover-date" style="z-index:3;left:121px;bottom:79px;font-size:27px;color:var(--blue);font-weight:800">«부가 한 줄 ≤16자»</p>
+<p style="position:absolute;right:121px;bottom:75px;font-size:27px;color:var(--blue);font-weight:800;margin:0;z-index:3">«연번 ≤8자»</p>
+<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- ==== 01-cover-split.html ==== -->
+<!--
+  아키타입 cover (변형: split)
+  언제: 표지. 왼쪽 어두운 글 단 + 오른쪽 강조색 면 위 cover-art 자리(주제 상징 그림). 좌우 2분할이 어울리는 주제.
+  단계: 단계 없음
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  .cover-art = 표지 그림 자리 — «그림: …» 안내를 지우고 주제 상징·아이콘으로 다시 그린다(layouts.md "표지 그림 자리").
   배치 설명: references/layouts.md · 클래스: references/classes.md
 -->
 <section class="slide cx" data-archetype="cover" data-variant="split" id="cover-split" style="padding:0">
 
 <div aria-hidden="true" style="position:absolute;left:1300px;top:0;width:620px;height:1080px;background:var(--accent)"></div>
 <div aria-hidden="true" style="position:absolute;left:1300px;top:0;width:10px;height:1080px;background:var(--accent-light)"></div>
-<div aria-hidden="true" style="position:absolute;left:1430px;top:190px;display:flex;flex-direction:column;gap:44px">
-<svg class="ico" aria-hidden="true" style="width:96px;height:96px;color:var(--ink)"><use href="#i-graduation"/></svg>
-<svg class="ico" aria-hidden="true" style="width:96px;height:96px;color:var(--paper)"><use href="#i-book"/></svg>
-<svg class="ico" aria-hidden="true" style="width:96px;height:96px;color:var(--ink)"><use href="#i-chat"/></svg>
-<svg class="ico" aria-hidden="true" style="width:96px;height:96px;color:var(--paper)"><use href="#i-gear"/></svg>
+<div class="cover-art" aria-hidden="true" style="position:absolute;left:1400px;top:170px;width:420px;height:560px;border:2px dashed var(--paper);border-radius:var(--r3);display:flex;align-items:center;justify-content:center">
+<span style="font-size:24px;font-weight:700;color:var(--paper);text-align:center;max-width:330px">«그림: 주제 상징 그림 — «대상»»</span>
 </div>
 <div aria-hidden="true" style="position:absolute;left:1400px;top:800px;width:420px;height:14px;background:var(--accent-light);opacity:.7"></div>
 <div class="cx-text" style="top:300px;width:1020px">
@@ -1799,55 +2124,39 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
 <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
 </section>
 
-<!-- ==== 01-cover.html ==== -->
+<!-- ==== 01-cover-workbook-notes.html ==== -->
 <!--
-  아키타입 cover (변형: 기본)
-  언제: 표지. 교육 이름·제목(바로 표시)·핵심어 3~4개·부제·날짜. 오른쪽 궤도 그림의 가운데·위성 아이콘을 주제에 맞게 바꾼다.
+  아키타입 cover (변형: workbook-notes)
+  언제: 표지. 필기·체크박스·줄노트 문법의 학습지형. 자습·학습지·실습에 어울린다. font=gowun-dodum 과 잘 어울린다.
   단계: 단계 없음
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
   자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  이 변형은 줄노트·체크리스트·연필 기하가 정체성 — 뼈대는 유지하고 글자 자리표시만 채운다.
   배치 설명: references/layouts.md · 클래스: references/classes.md
 -->
-<section class="slide cx" data-archetype="cover" id="cover" style="padding:0">
+<section class="slide cx" data-archetype="cover" data-variant="workbook-notes" id="cover-workbook-notes" style="padding:0;background:var(--paper)">
 
-<svg aria-hidden="true" class="cx-orbit" viewBox="0 0 1920 1080">
-<defs>
-<radialGradient cx="38%" cy="32%" id="cov-core" r="72%"><stop offset="0" stop-color="var(--blue-soft)"></stop><stop offset=".5" stop-color="var(--blue)"></stop><stop offset="1" stop-color="var(--ink)"></stop></radialGradient>
-<radialGradient id="cov-halo" r="50%"><stop offset="0" stop-color="var(--blue)" stop-opacity=".5"></stop><stop offset="1" stop-color="var(--blue)" stop-opacity="0"></stop></radialGradient>
-<linearGradient id="cov-arc" x1="0" x2="1"><stop offset="0" stop-color="var(--accent)" stop-opacity="0"></stop><stop offset=".55" stop-color="var(--accent-light)"></stop><stop offset="1" stop-color="var(--accent)" stop-opacity="0"></stop></linearGradient>
-</defs>
-<circle cx="1480" cy="540" fill="url(#cov-halo)" r="310"></circle>
-<g transform="rotate(-8 1480 540)">
-<path d="M1100 540a380 160 0 1 0 760 0a380 160 0 1 0 -760 0" fill="none" stroke="var(--muted)" stroke-dasharray="2 14" stroke-linecap="round" stroke-width="3"></path>
-</g>
-<g transform="rotate(15 1480 540)">
-<path d="M1240 540a240 96 0 1 0 480 0a240 96 0 1 0 -480 0" fill="none" stroke="var(--blue-text)" stroke-dasharray="12 8" stroke-width="2"></path>
-<path class="cx-spin" style="transform-box:fill-box;transform-origin:center" d="M1240 540a240 96 0 1 0 480 0" fill="none" stroke="url(#cov-arc)" stroke-width="3"></path>
-<circle cx="1720" cy="540" fill="var(--accent-light)" r="7"></circle>
-<circle cx="1620" cy="612" fill="var(--muted)" r="5"></circle>
-</g>
-<circle class="ring" cx="1480" cy="540" fill="none" r="170" stroke="var(--blue)" stroke-width="2" stroke-dasharray="6 12"></circle>
-<circle class="ring" cx="1480" cy="540" fill="none" r="122" stroke="var(--accent)" stroke-width="2"></circle>
-<circle cx="1480" cy="540" fill="url(#cov-core)" r="112"></circle>
-<use height="140" href="#i-target" style="color:var(--paper)" width="140" x="1410" y="470"></use>
-<g transform="rotate(-8 1480 540)">
-<g transform="translate(1860 540)"><g transform="rotate(8)"><rect x="-40" y="-40" width="80" height="80" rx="22" fill="var(--ink)" stroke="var(--accent)" stroke-width="2"></rect><use height="48" href="#i-graduation" style="color:var(--accent-light)" width="48" x="-24" y="-24"></use></g></g>
-<g transform="translate(1597.4 692.2)"><g transform="rotate(8)"><rect x="-40" y="-40" width="80" height="80" rx="22" fill="var(--ink)" stroke="var(--blue)" stroke-width="2"></rect><use height="48" href="#i-book" style="color:var(--muted)" width="48" x="-24" y="-24"></use></g></g>
-<g transform="translate(1172.6 634.1)"><g transform="rotate(8)"><rect x="-40" y="-40" width="80" height="80" rx="22" fill="var(--ink)" stroke="var(--blue)" stroke-width="2"></rect><use height="48" href="#i-chat" style="color:var(--muted)" width="48" x="-24" y="-24"></use></g></g>
-<g transform="translate(1172.6 445.9)"><g transform="rotate(8)"><rect x="-40" y="-40" width="80" height="80" rx="22" fill="var(--ink)" stroke="var(--accent)" stroke-width="2"></rect><use height="48" href="#i-gear" style="color:var(--accent-light)" width="48" x="-24" y="-24"></use></g></g>
-<g transform="translate(1597.4 387.8)"><g transform="rotate(8)"><rect x="-40" y="-40" width="80" height="80" rx="22" fill="var(--ink)" stroke="var(--blue)" stroke-width="2"></rect><use height="48" href="#i-check" style="color:var(--muted)" width="48" x="-24" y="-24"></use></g></g>
-</g>
+<svg aria-hidden="true" style="position:absolute;inset:0" viewBox="0 0 1920 1080">
+<defs><pattern id="cov7-lines" width="100" height="57" patternUnits="userSpaceOnUse"><path d="M0 56H100" fill="none" stroke="var(--line)" stroke-width="2" opacity=".55"/></pattern></defs>
+<rect x="155" y="0" width="1765" height="1080" fill="url(#cov7-lines)" opacity=".9"/>
+<path d="M172 0v1080" stroke="var(--danger)" stroke-width="4" opacity=".8"/>
+<g fill="var(--ink)"><circle cx="83" cy="190" r="30"/><circle cx="83" cy="540" r="30"/><circle cx="83" cy="890" r="30"/></g>
+<rect x="218" y="335" width="970" height="155" rx="8" fill="var(--accent-light)" transform="rotate(-1 218 335)" opacity=".85"/>
+<g transform="rotate(8 1463 597)"><rect x="1238" y="180" width="473" height="740" rx="6" fill="var(--light)"/><line x1="1270" y1="300" x2="1678" y2="300" stroke="var(--soft)" stroke-width="3"/>
+<g stroke="var(--ink)" fill="none" stroke-width="5" stroke-linejoin="round"><rect x="1300" y="358" width="52" height="52"/><path d="M1311 379l19 18 41-45"/><rect x="1300" y="473" width="52" height="52"/><path d="M1310 495l20 20 42-47"/><rect x="1300" y="588" width="52" height="52"/></g>
+<path d="M1385 377h235M1385 405h147M1385 486h230M1385 515h163M1385 600h230M1385 631h173" stroke="var(--line)" stroke-width="9"/></g>
+<path d="M1651 75l80 129" stroke="var(--ink)" stroke-width="18" stroke-linecap="round"/><path d="M1732 204l-19 30-34-7z" fill="var(--ink)"/><path d="M1644 67l19-11 80 132-19 11z" fill="var(--accent)"/>
+<path d="M1121 776l91-33 24 49-91 33" fill="none" stroke="var(--accent)" stroke-width="9"/>
+<g stroke="var(--blue)" fill="none" stroke-width="6"><path d="M227 787c72 22 147 26 227 9"/><path d="M454 796l-32-19 10 44"/></g>
+<path d="M977 846l26-42m-5 42 22-31" stroke="var(--accent)" stroke-width="8" stroke-linecap="round"/>
 </svg>
-<div class="cx-text">
-<p class="cx-eyebrow">«교육 이름 ≤10자»</p>
-<h1 class="cx-title"><span data-text="«표지 제목 ≤12자»" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret"></span></h1>
-<div class="cx-tokens">
-<span style="--d:0">«핵심어 ≤4자»</span><span style="--d:1">·</span><span style="--d:2">«핵심어 ≤5자»</span><span style="--d:3">·</span><span style="--d:4">«핵심어 ≤4자»</span><span style="--d:5">·</span><span style="--d:6">«핵심어 ≤4자»</span>
+<p class="cx-eyebrow" style="position:absolute;left:241px;top:148px;font-family:'Gowun Dodum','Nanum Pen','Noto Sans CJK KR';font-weight:800;font-size:48px;color:var(--blue-text)">«교육 이름 ≤10자»</p>
+<div style="position:absolute;left:234px;top:329px;width:1060px">
+<h1 class="cx-title" style="font-size:118px;line-height:1.33;letter-spacing:-8px;font-weight:900;color:var(--ink)"><span data-text="«표지 제목 ≤12자»" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret"></span></h1>
+<p class="cx-sub" style="font-family:'Gowun Dodum','Nanum Pen','Noto Sans CJK KR';font-size:53px;margin-top:47px;color:var(--soft)">«부제 한 문장 ≤29자»</p>
 </div>
-<p class="cx-badge"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 12h4l3-7 4 14 3-7h4" fill="none" stroke="var(--accent-light)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>«표지 배지(선택) ≤27자»</p>
-<p class="cx-sub">«부제 한 문장 ≤29자»</p>
-</div>
-<p class="cover-date" style="z-index:3">«날짜 YYYY. MM. DD ≤15자»</p>
+<p class="cover-date" style="z-index:3;left:242px;bottom:97px;font-size:27px;font-weight:800;color:var(--soft)">«부가 한 줄 ≤16자»</p>
+<p style="position:absolute;right:248px;top:105px;font-size:29px;font-weight:850;color:var(--ink);margin:0;z-index:3">«연번 ≤8자»</p>
 <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
 </section>
 
