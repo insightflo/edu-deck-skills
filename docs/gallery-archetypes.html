@@ -1374,6 +1374,58 @@ body.st-self .dsheet-panel{position:static;transform:none;visibility:visible;dis
 .screen-cite .sc-gist{font-size:26px;line-height:1.45;color:var(--soft)}
 .screen-cite .sc-gist b{color:var(--accent-text);font-weight:800}
 
+/* 구성도·업무 흐름(data-c="stack") 공통 어휘 — 덱·팩·장 배치 조각 어디서나 같은 클래스다.
+   노드를 행·열 격자에 놓고 assets/kit/stack.js 가 SVG 로 그린다. 색은 슬라이드 토큰을 따른다.
+   형식은 references/stack.md. 포팅 원천: ppt-html stack.css(caru-ini/stack-diagram MIT 계승). */
+.viz-fig{margin:0;display:flex;flex-direction:column;gap:14px;min-width:0}
+.viz-fig figcaption{font-size:24px;line-height:1.5;color:var(--soft)}
+.slide.dark .viz-fig figcaption{color:color-mix(in srgb,var(--light) 78%,var(--ink))}
+.stack-fig{--sf-ink:var(--ink);--sf-sub:var(--soft);--sf-paper:var(--paper);--sf-tile:var(--paper);--sf-rule:var(--line);--sf-brand:var(--accent);--sf-accent:var(--accent-deep,var(--accent));
+  position:relative;width:100%;margin:0}
+.slide.dark .stack-fig{--sf-ink:var(--light);--sf-sub:color-mix(in srgb,var(--light) 62%,var(--ink));--sf-paper:var(--ink);--sf-tile:color-mix(in srgb,var(--light) 8%,var(--ink));--sf-rule:color-mix(in srgb,var(--light) 22%,var(--ink));--sf-brand:var(--accent-light,var(--accent));--sf-accent:var(--accent,var(--accent-light))}
+.stack-fig svg{display:block;width:100%;height:auto;max-height:600px;overflow:visible}
+.stack-fig .sf-tile{fill:var(--sf-tile);stroke:var(--sf-rule);stroke-width:1.5}
+.stack-fig .sf-ico{fill:none;stroke:var(--sf-ink);stroke-linecap:round;stroke-linejoin:round}
+.stack-fig .sf-name,.stack-fig .sf-role,.stack-fig .sf-el,.stack-fig .sf-glabel{paint-order:stroke;stroke:var(--sf-paper);stroke-width:6;stroke-linejoin:round;font-family:var(--pack-sans,inherit)}
+.stack-fig .sf-name{font-size:19px;font-weight:700;fill:var(--sf-ink)}
+.stack-fig .sf-role{font-size:14px;font-weight:500;fill:var(--sf-sub)}
+.stack-fig .sf-el{font-size:14px;font-weight:600;fill:var(--sf-sub)}
+.stack-fig .sf-e-main .sf-el{fill:var(--sf-brand)}
+.stack-fig .sf-t-brand .sf-tile{fill:color-mix(in srgb,var(--sf-brand) 14%,var(--sf-paper));stroke:var(--sf-brand)}
+.stack-fig .sf-t-brand .sf-ico{stroke:var(--sf-brand)}
+.stack-fig .sf-t-dark .sf-tile{fill:var(--sf-ink);stroke:var(--sf-ink)}
+.stack-fig .sf-t-dark .sf-ico{stroke:var(--sf-paper)}
+.stack-fig .sf-badge{fill:var(--sf-brand)}
+.stack-fig .sf-badge-t{fill:var(--sf-paper);font-size:13px;font-weight:700;dominant-baseline:central;font-family:var(--pack-sans,inherit)}
+.stack-fig .sf-group rect{fill:color-mix(in srgb,var(--sf-ink) 4%,var(--sf-paper));stroke:var(--sf-rule);stroke-width:1.5}
+.stack-fig .sf-g-brand rect{fill:color-mix(in srgb,var(--sf-brand) 8%,var(--sf-paper));stroke:color-mix(in srgb,var(--sf-brand) 55%,var(--sf-paper))}
+.stack-fig .sf-g-accent rect{fill:color-mix(in srgb,var(--sf-accent) 9%,var(--sf-paper));stroke:color-mix(in srgb,var(--sf-accent) 55%,var(--sf-paper))}
+.stack-fig .sf-glabel{font-size:16px;font-weight:700;fill:var(--sf-ink);stroke:var(--gh);stroke-width:7}
+.stack-fig .sf-lg-plain{--gh:color-mix(in srgb,var(--sf-ink) 4%,var(--sf-paper))}
+.stack-fig .sf-lg-brand{--gh:color-mix(in srgb,var(--sf-brand) 8%,var(--sf-paper))}
+.stack-fig .sf-lg-accent{--gh:color-mix(in srgb,var(--sf-accent) 9%,var(--sf-paper))}
+.stack-fig .sf-gico{fill:none;stroke:var(--sf-sub);stroke-linecap:round;stroke-linejoin:round}
+.stack-fig .sf-edge path{fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.stack-fig .sf-e-main path{stroke:var(--sf-brand)}
+.stack-fig .sf-e-sub path,.stack-fig .sf-e-dash path{stroke:var(--sf-sub)}
+.stack-fig .sf-e-dash path{stroke-dasharray:7 6}
+.stack-fig .sf-ar-main{fill:var(--sf-brand)}
+.stack-fig .sf-ar-sub{fill:var(--sf-sub)}
+/* 장에 들어올 때: 그룹 → 노드 → 화살표·라벨 순으로 나타난다(is-play). 인쇄·캡처·동작 줄이기·자습에서는 is-play 가 없어 완성 모습이다 */
+@keyframes sfPop{from{opacity:0;transform:translateY(8px) scale(.94)}to{opacity:1;transform:none}}
+@keyframes sfFade{from{opacity:0}to{opacity:1}}
+@keyframes sfDraw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+.stack-fig.is-play .sf-group,.stack-fig.is-play .sf-glw{animation:sfFade .45s ease both;animation-delay:var(--d,0ms)}
+.stack-fig.is-play .sf-node{animation:sfPop .45s cubic-bezier(.22,1,.36,1) both;animation-delay:var(--d,0ms);transform-box:fill-box;transform-origin:center}
+.stack-fig.is-play .sf-e-main path,.stack-fig.is-play .sf-e-sub path{stroke-dasharray:1;animation:sfDraw .6s ease both;animation-delay:var(--d,0ms)}
+.stack-fig.is-play .sf-e-dash path{animation:sfFade .5s ease both;animation-delay:var(--d,0ms)}
+.stack-fig.is-play .sf-el{animation:sfFade .4s ease both;animation-delay:var(--d,0ms)}
+@media print{.stack-fig .sf-group,.stack-fig .sf-glw,.stack-fig .sf-node,.stack-fig .sf-edge path,.stack-fig .sf-el{animation:none!important;opacity:1!important}}
+@media (prefers-reduced-motion:reduce){.stack-fig .sf-group,.stack-fig .sf-glw,.stack-fig .sf-node,.stack-fig .sf-edge path,.stack-fig .sf-el{animation:none!important;opacity:1!important}}
+body.st-self .stack-fig .sf-group,body.st-self .stack-fig .sf-glw,body.st-self .stack-fig .sf-node,body.st-self .stack-fig .sf-edge path,body.st-self .stack-fig .sf-el,
+body.st-printing .stack-fig .sf-group,body.st-printing .stack-fig .sf-glw,body.st-printing .stack-fig .sf-node,body.st-printing .stack-fig .sf-edge path,body.st-printing .stack-fig .sf-el,
+body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body.st-presenter .stack-fig .sf-node,body.st-presenter .stack-fig .sf-edge path,body.st-presenter .stack-fig .sf-el{animation:none!important;opacity:1!important}
+
 </style>
 </head>
 <body>
@@ -1485,7 +1537,7 @@ body.st-self .dsheet-panel{position:static;transform:none;visibility:visible;dis
   배치 설명: references/layouts.md · 클래스: references/classes.md
 -->
 <section class="slide cx" data-archetype="cover" data-variant="bigstat" id="cover-bigstat" style="padding:0">
-<div aria-hidden="true" class="cx-blob cx-b1"></div>
+
 <div aria-hidden="true" style="position:absolute;left:1240px;top:0;width:680px;height:1080px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;background:color-mix(in srgb,var(--blue) 24%,var(--ink))">
 <p style="font-size:230px;font-weight:900;color:var(--accent-light);line-height:1;letter-spacing:-6px;margin:0">«핵심어 ≤4자»</p>
 <div style="width:200px;height:10px;background:var(--accent)"></div>
@@ -1514,7 +1566,7 @@ body.st-self .dsheet-panel{position:static;transform:none;visibility:visible;dis
   배치 설명: references/layouts.md · 클래스: references/classes.md
 -->
 <section class="slide cx" data-archetype="cover" data-variant="center" id="cover-center" style="padding:0">
-<div aria-hidden="true" class="cx-blob cx-b2"></div>
+
 <svg aria-hidden="true" style="position:absolute;inset:0" viewBox="0 0 1920 1080">
 <circle cx="960" cy="540" r="430" fill="none" stroke="var(--blue)" stroke-width="2" stroke-dasharray="4 16" opacity=".55"></circle>
 <circle cx="960" cy="540" r="560" fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="2 20" opacity=".4"></circle>
@@ -1544,7 +1596,7 @@ body.st-self .dsheet-panel{position:static;transform:none;visibility:visible;dis
   배치 설명: references/layouts.md · 클래스: references/classes.md
 -->
 <section class="slide cx" data-archetype="cover" data-variant="diagram" id="cover-diagram" style="padding:0">
-<div aria-hidden="true" class="cx-blob cx-b2"></div>
+
 <svg aria-hidden="true" style="position:absolute;left:1180px;top:170px" width="700" height="740" viewBox="0 0 700 740">
 <path d="M350 120 L140 330" fill="none" stroke="var(--blue)" stroke-width="5" stroke-linecap="round"></path>
 <path d="M350 120 L560 330" fill="none" stroke="var(--blue)" stroke-width="5" stroke-linecap="round"></path>
@@ -1583,7 +1635,7 @@ body.st-self .dsheet-panel{position:static;transform:none;visibility:visible;dis
   배치 설명: references/layouts.md · 클래스: references/classes.md
 -->
 <section class="slide cx" data-archetype="cover" data-variant="mosaic" id="cover-mosaic" style="padding:0">
-<div aria-hidden="true" class="cx-blob cx-b3"></div>
+
 <div aria-hidden="true" style="position:absolute;left:1300px;top:200px;display:grid;grid-template-columns:repeat(2,240px);gap:28px">
 <div style="width:240px;height:200px;border-radius:var(--r3);background:var(--accent);display:flex;align-items:center;justify-content:center"><svg class="ico" aria-hidden="true" style="width:88px;height:88px;color:var(--ink)"><use href="#i-graduation"/></svg></div>
 <div style="width:240px;height:200px;border-radius:var(--r3);border:3px solid var(--blue);display:flex;align-items:center;justify-content:center"><svg class="ico" aria-hidden="true" style="width:88px;height:88px;color:var(--muted)"><use href="#i-book"/></svg></div>
@@ -1615,7 +1667,7 @@ body.st-self .dsheet-panel{position:static;transform:none;visibility:visible;dis
   배치 설명: references/layouts.md · 클래스: references/classes.md
 -->
 <section class="slide cx" data-archetype="cover" data-variant="split" id="cover-split" style="padding:0">
-<div aria-hidden="true" class="cx-blob cx-b1"></div><div aria-hidden="true" class="cx-blob cx-b3"></div>
+
 <div aria-hidden="true" style="position:absolute;left:1300px;top:0;width:620px;height:1080px;background:var(--accent)"></div>
 <div aria-hidden="true" style="position:absolute;left:1300px;top:0;width:10px;height:1080px;background:var(--accent-light)"></div>
 <div aria-hidden="true" style="position:absolute;left:1430px;top:190px;display:flex;flex-direction:column;gap:44px">
@@ -1675,7 +1727,7 @@ body.st-self .dsheet-panel{position:static;transform:none;visibility:visible;dis
   배치 설명: references/layouts.md · 클래스: references/classes.md
 -->
 <section class="slide cx" data-archetype="cover" id="cover" style="padding:0">
-<div aria-hidden="true" class="cx-blob cx-b1"></div><div aria-hidden="true" class="cx-blob cx-b2"></div><div aria-hidden="true" class="cx-blob cx-b3"></div>
+
 <svg aria-hidden="true" class="cx-orbit" viewBox="0 0 1920 1080">
 <defs>
 <radialGradient cx="38%" cy="32%" id="cov-core" r="72%"><stop offset="0" stop-color="var(--blue-soft)"></stop><stop offset=".5" stop-color="var(--blue)"></stop><stop offset="1" stop-color="var(--ink)"></stop></radialGradient>
@@ -5638,6 +5690,105 @@ body.st-self .dsheet-panel{position:static;transform:none;visibility:visible;dis
   <aside class="notes">«발표자 노트 110~450자: 화면의 핵심을 설명하고 단계별 공개 순서와 학습자 활동을 안내한 뒤 다음 내용으로 연결합니다.»</aside>
 </section>
 
+<!-- ==== 37-arch-flow.html ==== -->
+<!--
+  아키타입 arch-flow (변형: lanes / layers / steps / state / parallel / decision / hub / link)
+  언제: 구성도(시스템 구성·제품 층)와 업무 흐름(처리 단계·상태 전이·분기·연동)을 격자 위에 그릴 때.
+  배치 규칙: 본문 장 한 장. 표지에는 쓰지 않는다. 같은 figure 안에 k-*·.tile·.ed-diagram 같은
+    레거시 도식 클래스와 섞지 않는다 — 이 계열은 data-c="stack" 부품이 도식 전체를 그린다.
+  데이터: div.stack-fig 의 data-d 에 작은따옴표 JSON(내부는 큰따옴표만, 어포스트로피 금지)으로
+    노드·간선·그룹을 쓴다. 격자: row 0~2 · col 0~5 · 칸 중복 금지 · 노드 2~14 · 간선 ≤20 · 그룹 ≤5.
+    규칙 주인은 scripts/stack_schema.py — 형태 오류는 빌드 실패(ERROR), 칸 넘침은 WARN.
+  아이콘: assets/kit/vendor/lucide-subset.json 의 101개 Lucide(ISC) 이름만. 로고·브랜드 마크 금지.
+  등장: 장에 들어오면 그룹→노드→화살표·라벨 순으로 자동 등장(stack-reveal). data-step 을 쓰지 않는다
+    (도식 내부 순서는 부품이 소유) — 캡션·요약 글자에만 단계를 줄 수 있다.
+    인쇄·자습·동작 줄이기·캡처에서는 완성 그림. 한 번 본 장은 다시 재생하지 않는다.
+  쓰는 법: 필요한 section 하나만 복사하고 data-d 의 «…» 자리표시와 겹꺾쇠 텍스트를 모두 바꾼다.
+    자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다. 형식: references/stack.md.
+  예산: 노드명 ≤8자 · 역할 ≤11자 · 간선 라벨 ≤7자 · 그룹 라벨 ≤6자.
+  배치 설명: references/layouts.md · 클래스: references/classes.md · 규칙: references/expression.md
+-->
+
+<!-- lanes: 레인(그룹)으로 주체를 나누고 번호 배지 순서대로 일이 오가는 업무 흐름 -->
+<section class="slide" data-archetype="arch-flow" data-variant="lanes" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <figure class="viz-fig">
+    <div class="stack-fig" data-c="stack" role="img" aria-label="«도식 요지 한 문장: lanes — 무엇이 어떻게 연결되는지»" data-d='{"nodes":[{"id":"req","name":"«항목 ≤8자»","icon":"mail","row":0,"col":0,"role":"«역할 ≤11자»","badge":1},{"id":"ana","name":"«항목 ≤8자»","icon":"search","row":1,"col":1,"role":"«역할 ≤11자»","badge":2},{"id":"doc","name":"«항목 ≤8자»","icon":"file-text","row":1,"col":2,"role":"«역할 ≤11자»","badge":3},{"id":"rev","name":"«항목 ≤8자»","icon":"eye","row":0,"col":3,"role":"«역할 ≤11자»","badge":4},{"id":"neg","name":"«항목 ≤8자»","icon":"messages-square","row":1,"col":3,"role":"«역할 ≤11자»","badge":5},{"id":"ok","name":"«항목 ≤8자»","icon":"circle-check","row":0,"col":4,"role":"«역할 ≤11자»","tone":"brand","badge":6}],"edges":[{"from":"req","to":"ana"},{"from":"ana","to":"doc"},{"from":"doc","to":"rev","label":"«관계 ≤7자»"},{"from":"rev","to":"neg","label":"«관계 ≤7자»"},{"from":"neg","to":"ok","label":"«관계 ≤7자»"}],"groups":[{"id":"cust","label":"«주체 ≤6자»","icon":"building","nodes":["req","rev","ok"],"cols":[0,4],"tone":"accent"},{"id":"team","label":"«주체 ≤6자»","icon":"users","nodes":["ana","doc","neg"],"cols":[0,4],"tone":"brand"}]}'></div>
+    <figcaption>«그림 설명 ≤30자»</figcaption>
+  </figure>
+  <aside class="notes">레인 변형: 위아래 두 그룹이 주체(고객·제안팀)를 나누고 노드의 번호 배지가 일의 순서를 가리킨다. 발표 때는 배지 순서대로 "요구 전달→분석→작성→검토→협의→승인" 흐름을 짚고, 주체가 바뀌는 지점(레인을 넘는 화살표)에서 잠깐 멈춰 책임 이동을 강조한다.</aside>
+</section>
+
+<!-- layers: 화면·기능·데이터처럼 위에서 아래로 쌓이는 제품·시스템 층 구조 -->
+<section class="slide" data-archetype="arch-flow" data-variant="layers" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <figure class="viz-fig">
+    <div class="stack-fig" data-c="stack" role="img" aria-label="«도식 요지 한 문장: layers — 무엇이 어떻게 연결되는지»" data-d='{"nodes":[{"id":"web","name":"«항목 ≤8자»","icon":"monitor","row":0,"col":0,"role":"«역할 ≤11자»"},{"id":"app","name":"«항목 ≤8자»","icon":"smartphone","row":0,"col":1,"role":"«역할 ≤11자»"},{"id":"adm","name":"«항목 ≤8자»","icon":"layout-dashboard","row":0,"col":2,"role":"«역할 ≤11자»"},{"id":"wr","name":"«항목 ≤8자»","icon":"file-text","row":1,"col":0,"role":"«역할 ≤11자»"},{"id":"chk","name":"«항목 ≤8자»","icon":"shield-check","row":1,"col":1,"role":"«역할 ≤11자»","tone":"brand"},{"id":"flow","name":"«항목 ≤8자»","icon":"workflow","row":1,"col":2,"role":"«역할 ≤11자»"},{"id":"ntf","name":"«항목 ≤8자»","icon":"bell","row":1,"col":3,"role":"«역할 ≤11자»"},{"id":"db","name":"«항목 ≤8자»","icon":"database","row":2,"col":0,"role":"«역할 ≤11자»"},{"id":"fs","name":"«항목 ≤8자»","icon":"hard-drive","row":2,"col":1,"role":"«역할 ≤11자»"},{"id":"ext","name":"«항목 ≤8자»","icon":"link","row":2,"col":2,"role":"«역할 ≤11자»"}],"edges":[{"from":"web","to":"wr"},{"from":"app","to":"chk"},{"from":"adm","to":"flow"},{"from":"wr","to":"db","kind":"sub"},{"from":"chk","to":"fs","kind":"sub"},{"from":"flow","to":"ext","kind":"sub"}],"groups":[{"id":"ui","label":"«주체 ≤6자»","icon":"layout-dashboard","nodes":["web","app","adm"],"cols":[0,3]},{"id":"fn","label":"«주체 ≤6자»","icon":"layers","nodes":["wr","chk","flow","ntf"],"cols":[0,3],"tone":"brand"},{"id":"dt","label":"«주체 ≤6자»","icon":"database","nodes":["db","fs","ext"],"cols":[0,3],"tone":"accent"}]}'></div>
+    <figcaption>«그림 설명 ≤30자»</figcaption>
+  </figure>
+  <aside class="notes">층 변형: 사용자 화면·핵심 기능·데이터 세 그룹이 위에서 아래로 쌓인 그림이다. 위층이 아래층을 부른다는 의존 관계를 화살표 방향으로 설명하고, 굵은 실선은 주요 호출, 가는 sub 선은 내부 저장 흐름으로 구분해 짚는다. 실제 덱에서는 층 이름과 각 칸의 역할을 주제에 맞게 채운다.</aside>
+</section>
+
+<!-- steps: 한 줄로 이어지는 처리 단계와 점선으로 표시한 예외(반려·긴급) 경로 -->
+<section class="slide" data-archetype="arch-flow" data-variant="steps" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <figure class="viz-fig">
+    <div class="stack-fig" data-c="stack" role="img" aria-label="«도식 요지 한 문장: steps — 무엇이 어떻게 연결되는지»" data-d='{"nodes":[{"id":"a","name":"«항목 ≤8자»","icon":"clipboard-list","row":0,"col":0,"role":"«역할 ≤11자»","badge":1},{"id":"b","name":"«항목 ≤8자»","icon":"search","row":0,"col":1,"role":"«역할 ≤11자»","badge":2},{"id":"c","name":"«항목 ≤8자»","icon":"gavel","row":0,"col":2,"role":"«역할 ≤11자»","badge":3},{"id":"d","name":"«항목 ≤8자»","icon":"wrench","row":0,"col":3,"role":"«역할 ≤11자»","badge":4},{"id":"e","name":"«항목 ≤8자»","icon":"circle-check","row":0,"col":4,"role":"«역할 ≤11자»","tone":"brand","badge":5}],"edges":[{"from":"a","to":"b"},{"from":"b","to":"c","label":"«관계 ≤7자»"},{"from":"c","to":"d"},{"from":"d","to":"e"},{"from":"b","to":"a","label":"«관계 ≤7자»","kind":"dash"},{"from":"a","to":"e","label":"«관계 ≤7자»","kind":"dash"}]}'></div>
+    <figcaption>«그림 설명 ≤30자»</figcaption>
+  </figure>
+  <aside class="notes">단계 변형: 한 줄의 번호 배지가 접수부터 완료까지 정규 경로를 보여 준다. 점선 두 갈래는 정규 경로를 벗어나는 예외다 — "반려"는 이전 단계로 되돌아가고 "긴급 건"은 처음에서 끝으로 건너뛴다. 예외가 진짜 예외인지(자주 일어나면 정규 경로로 그릴 것)를 짚고 넘어간다.</aside>
+</section>
+
+<!-- state: 요청의 상태가 바뀌는 전이 그림과 점선 롤백(반려→보완→재제출) 고리 -->
+<section class="slide" data-archetype="arch-flow" data-variant="state" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <figure class="viz-fig">
+    <div class="stack-fig" data-c="stack" role="img" aria-label="«도식 요지 한 문장: state — 무엇이 어떻게 연결되는지»" data-d='{"nodes":[{"id":"w","name":"«항목 ≤8자»","icon":"clock","row":0,"col":0,"role":"«역할 ≤11자»","badge":1},{"id":"r","name":"«항목 ≤8자»","icon":"file-search","row":0,"col":1,"role":"«역할 ≤11자»","badge":2},{"id":"a","name":"«항목 ≤8자»","icon":"circle-check","row":0,"col":2,"role":"«역할 ≤11자»","badge":3},{"id":"d","name":"«항목 ≤8자»","icon":"rocket","row":0,"col":3,"role":"«역할 ≤11자»","tone":"brand","badge":4},{"id":"x","name":"«항목 ≤8자»","icon":"circle-x","row":1,"col":1,"role":"«역할 ≤11자»"},{"id":"f","name":"«항목 ≤8자»","icon":"pencil","row":1,"col":0,"role":"«역할 ≤11자»"}],"edges":[{"from":"w","to":"r","label":"«관계 ≤7자»"},{"from":"r","to":"a","label":"«관계 ≤7자»"},{"from":"a","to":"d","label":"«관계 ≤7자»"},{"from":"r","to":"x","label":"«관계 ≤7자»","kind":"dash"},{"from":"x","to":"f","label":"«관계 ≤7자»","kind":"dash"},{"from":"f","to":"w","label":"«관계 ≤7자»","kind":"dash"}]}'></div>
+    <figcaption>«그림 설명 ≤30자»</figcaption>
+  </figure>
+  <aside class="notes">상태 변형: 윗줄이 대기→검토→승인→완료의 정상 전이고, 아랫줄 반려·보완이 점선 롤백 고리다. "불충분"으로 떨어진 상태가 안내를 거쳐 재제출로 처음 상태로 돌아오는 순환을 강조한다. 실덱에서는 각 상태명·전이 조건 라벨을 문서 상태·업무 용어로 바꾼다.</aside>
+</section>
+
+<!-- parallel: 한 지점에서 두 갈래로 갈라졌다가 다시 합쳐지는 동시 진행 업무 -->
+<section class="slide" data-archetype="arch-flow" data-variant="parallel" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <figure class="viz-fig">
+    <div class="stack-fig" data-c="stack" role="img" aria-label="«도식 요지 한 문장: parallel — 무엇이 어떻게 연결되는지»" data-d='{"nodes":[{"id":"in","name":"«항목 ≤8자»","icon":"clipboard-list","row":1,"col":0,"role":"«역할 ≤11자»","badge":1},{"id":"doc","name":"«항목 ≤8자»","icon":"file-check","row":0,"col":1,"role":"«역할 ≤11자»","badge":2},{"id":"site","name":"«항목 ≤8자»","icon":"map-pin","row":2,"col":1,"role":"«역할 ≤11자»","badge":2},{"id":"join","name":"«항목 ≤8자»","icon":"layers","row":1,"col":2,"role":"«역할 ≤11자»","badge":3},{"id":"dec","name":"«항목 ≤8자»","icon":"gavel","row":1,"col":3,"role":"«역할 ≤11자»","tone":"brand","badge":4}],"edges":[{"from":"in","to":"doc","label":"«관계 ≤7자»"},{"from":"in","to":"site","label":"«관계 ≤7자»"},{"from":"doc","to":"join","label":"«관계 ≤7자»"},{"from":"site","to":"join","label":"«관계 ≤7자»"},{"from":"join","to":"dec"}]}'></div>
+    <figcaption>«그림 설명 ≤30자»</figcaption>
+  </figure>
+  <aside class="notes">병렬 변형: 접수에서 위(서류 검토)·아래(현장 확인)로 동시에 갈라져 결과 취합에서 다시 합쳐진다. 두 일이 "동시"에 진행된다는 라벨과, 취합 노드의 "둘 다 필요" 역할이 병렬의 의미다. 어느 쪽이 먼저 끝나도 다음으로 못 간다는 점을 짚는다.</aside>
+</section>
+
+<!-- decision: 조건에 따라 위·아래로 갈라지는 분기와 라벨이 붙은 선택지 -->
+<section class="slide" data-archetype="arch-flow" data-variant="decision" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <figure class="viz-fig">
+    <div class="stack-fig" data-c="stack" role="img" aria-label="«도식 요지 한 문장: decision — 무엇이 어떻게 연결되는지»" data-d='{"nodes":[{"id":"q","name":"«항목 ≤8자»","icon":"mail","row":1,"col":0,"role":"«역할 ≤11자»","badge":1},{"id":"c","name":"«항목 ≤8자»","icon":"scale","row":1,"col":1,"role":"«역할 ≤11자»","tone":"brand","badge":2},{"id":"auto","name":"«항목 ≤8자»","icon":"zap","row":0,"col":2,"role":"«역할 ≤11자»"},{"id":"man","name":"«항목 ≤8자»","icon":"user","row":2,"col":2,"role":"«역할 ≤11자»"},{"id":"ok","name":"«항목 ≤8자»","icon":"circle-check","row":1,"col":3,"role":"«역할 ≤11자»"},{"id":"no","name":"«항목 ≤8자»","icon":"circle-x","row":2,"col":3,"role":"«역할 ≤11자»"}],"edges":[{"from":"q","to":"c"},{"from":"c","to":"auto","label":"«관계 ≤7자»"},{"from":"c","to":"man","label":"«관계 ≤7자»"},{"from":"auto","to":"ok"},{"from":"man","to":"ok","label":"«관계 ≤7자»"},{"from":"man","to":"no","label":"«관계 ≤7자»","kind":"dash"}]}'></div>
+    <figcaption>«그림 설명 ≤30자»</figcaption>
+  </figure>
+  <aside class="notes">분기 변형: 가운데 확인 노드(기준 금액)에서 "이하"는 위로 자동 승인, "초과"는 아래로 담당자 검토로 갈라진다. 분기 라벨이 조건 그 자체이므로 라벨 없는 분기는 만들지 않는다. 점선 "미흡"은 검토 실패 시 반려로 빠지는 탈출 경로다.</aside>
+</section>
+
+<!-- hub: 여러 창구가 가운데 허브로 모이는 집중 구조(허브 노드 강조) -->
+<section class="slide" data-archetype="arch-flow" data-variant="hub" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <figure class="viz-fig">
+    <div class="stack-fig" data-c="stack" role="img" aria-label="«도식 요지 한 문장: hub — 무엇이 어떻게 연결되는지»" data-d='{"nodes":[{"id":"hub","name":"«항목 ≤8자»","icon":"workflow","row":1,"col":2,"role":"«역할 ≤11자»","tone":"brand"},{"id":"tel","name":"«항목 ≤8자»","icon":"phone","row":1,"col":0,"role":"«역할 ≤11자»"},{"id":"mail","name":"«항목 ≤8자»","icon":"mail","row":0,"col":2,"role":"«역할 ≤11자»"},{"id":"bot","name":"«항목 ≤8자»","icon":"bot","row":1,"col":4,"role":"«역할 ≤11자»"},{"id":"visit","name":"«항목 ≤8자»","icon":"building-2","row":2,"col":2,"role":"«역할 ≤11자»"}],"edges":[{"from":"tel","to":"hub"},{"from":"mail","to":"hub"},{"from":"bot","to":"hub"},{"from":"visit","to":"hub"}]}'></div>
+    <figcaption>«그림 설명 ≤30자»</figcaption>
+  </figure>
+  <aside class="notes">허브 변형: 전화·메일·챗봇·방문 네 창구가 가운데 접수 허브로 모인다. 허브 노드만 brand 톤이라 눈에 먼저 들어온다 — "어디로 와도 한 곳에서 분류·배분한다"가 이 그림의 메시지다. 바깥 노드는 채널, 가운데는 단일 진입점이다.</aside>
+</section>
+
+<!-- link: 두 묶음(우리 제품·고객 시스템) 사이를 잇는 연동 경로 -->
+<section class="slide" data-archetype="arch-flow" data-variant="link" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <figure class="viz-fig">
+    <div class="stack-fig" data-c="stack" role="img" aria-label="«도식 요지 한 문장: link — 무엇이 어떻게 연결되는지»" data-d='{"nodes":[{"id":"ui","name":"«항목 ≤8자»","icon":"monitor","row":0,"col":0,"role":"«역할 ≤11자»"},{"id":"eng","name":"«항목 ≤8자»","icon":"cpu","row":0,"col":1,"role":"«역할 ≤11자»","tone":"brand"},{"id":"store","name":"«항목 ≤8자»","icon":"database","row":1,"col":1,"role":"«역할 ≤11자»"},{"id":"erp","name":"«항목 ≤8자»","icon":"building","row":0,"col":3,"role":"«역할 ≤11자»"},{"id":"gw","name":"«항목 ≤8자»","icon":"mail","row":1,"col":4,"role":"«역할 ≤11자»"}],"edges":[{"from":"ui","to":"eng"},{"from":"eng","to":"store","kind":"sub"},{"from":"eng","to":"erp","label":"«관계 ≤7자»"},{"from":"store","to":"gw","label":"«관계 ≤7자»","kind":"dash"}],"groups":[{"id":"mine","label":"«주체 ≤6자»","icon":"box","nodes":["ui","eng","store"],"cols":[0,1],"tone":"brand"},{"id":"cust","label":"«주체 ≤6자»","icon":"building-2","nodes":["erp","gw"],"cols":[3,4],"tone":"accent"}]}'></div>
+    <figcaption>«그림 설명 ≤30자»</figcaption>
+  </figure>
+  <aside class="notes">연동 변형: 왼쪽 우리 제품 묶음과 오른쪽 고객 시스템 묶음 사이를 화살표가 잇는다. "API 실시간" 실선과 "파일 야간" 점선의 차이 — 실시간성·매체·주기가 연동 성격을 나눈다. 경계를 넘는 선만 연동이고 묶음 안 선은 내부 구조다.</aside>
+</section>
+
 </div>
 
 <div id="progress"></div>
@@ -8048,6 +8199,359 @@ doc.addEventListener('keydown',function(e){
   try{var o=JSON.parse(localStorage.getItem(EKEY)||'{}');}catch(e){return;}
   Object.keys(o).forEach(function(k){var el=doc.querySelector('[data-ed="'+k+'"]');if(el)el.innerHTML=o[k];});
 })();
+})();
+</script>
+<script type="application/json" id="ppt-stack-icons">{
+ "icons": {
+  "archive": "<rect width=\"20\" height=\"5\" x=\"2\" y=\"3\" rx=\"1\"/><path d=\"M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8\"/><path d=\"M10 12h4\"/>",
+  "arrow-down": "<path d=\"M12 5v14\"/><path d=\"m19 12-7 7-7-7\"/>",
+  "arrow-left": "<path d=\"m12 19-7-7 7-7\"/><path d=\"M19 12H5\"/>",
+  "arrow-right": "<path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/>",
+  "arrow-up": "<path d=\"m5 12 7-7 7 7\"/><path d=\"M12 19V5\"/>",
+  "award": "<path d=\"m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526\"/><circle cx=\"12\" cy=\"8\" r=\"6\"/>",
+  "bell": "<path d=\"M10.268 21a2 2 0 0 0 3.464 0\"/><path d=\"M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326\"/>",
+  "book-open": "<path d=\"M12 5v16\"/><path d=\"M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z\"/>",
+  "bot": "<path d=\"M12 8V4H8\"/><rect width=\"16\" height=\"12\" x=\"4\" y=\"8\" rx=\"2\"/><path d=\"M2 14h2\"/><path d=\"M20 14h2\"/><path d=\"M15 13v2\"/><path d=\"M9 13v2\"/>",
+  "box": "<path d=\"M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z\"/><path d=\"m3.3 7 8.7 5 8.7-5\"/><path d=\"M12 22V12\"/>",
+  "brain": "<path d=\"M12 18V5\"/><path d=\"M15 13a4.17 4.17 0 01-3-4 4.17 4.17 0 01-3 4\"/><path d=\"M17.707 6.294A3 3 0 1012 5a3 3 0 10-5.707 1.294\"/><path d=\"M17.996 5.125a4 4 0 012.526 5.77\"/><path d=\"M18 18a4 4 0 002-7.465\"/><path d=\"M19.967 17.482a4 4 0 11-7.967.517 4 4 0 11-7.967-.517\"/><path d=\"M6 18a4 4 0 01-2-7.465\"/><path d=\"M6.004 5.125a4 4 0 00-2.526 5.77\"/>",
+  "briefcase": "<path d=\"M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16\"/><rect width=\"20\" height=\"14\" x=\"2\" y=\"6\" rx=\"2\"/>",
+  "building": "<path d=\"M12 10h.01\"/><path d=\"M12 14h.01\"/><path d=\"M12 6h.01\"/><path d=\"M16 10h.01\"/><path d=\"M16 14h.01\"/><path d=\"M16 6h.01\"/><path d=\"M8 10h.01\"/><path d=\"M8 14h.01\"/><path d=\"M8 6h.01\"/><path d=\"M9 22v-3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3\"/><rect x=\"4\" y=\"2\" width=\"16\" height=\"20\" rx=\"2\"/>",
+  "building-2": "<path d=\"M10 12h4\"/><path d=\"M10 8h4\"/><path d=\"M14 21v-3a2 2 0 0 0-4 0v3\"/><path d=\"M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2\"/><path d=\"M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16\"/>",
+  "calendar": "<path d=\"M8 2v3\"/><path d=\"M16 2v3\"/><rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"2\"/><path d=\"M3 9h18\"/>",
+  "camera": "<path d=\"M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z\"/><circle cx=\"12\" cy=\"13\" r=\"3\"/>",
+  "chart-column": "<path d=\"M3 3v16a2 2 0 0 0 2 2h16\"/><path d=\"M18 17V9\"/><path d=\"M13 17V5\"/><path d=\"M8 17v-3\"/>",
+  "chart-line": "<path d=\"M3 3v16a2 2 0 0 0 2 2h16\"/><path d=\"m19 9-5 5-4-4-3 3\"/>",
+  "chart-pie": "<path d=\"M21 12c.552 0 1.005-.449.95-.998a10 10 0 0 0-8.953-8.951c-.55-.055-.998.398-.998.95v8a1 1 0 0 0 1 1z\"/><path d=\"M21.21 15.89A10 10 0 1 1 8 2.83\"/>",
+  "check": "<path d=\"M20 6 9 17l-5-5\"/>",
+  "circle-check": "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"m16 9-5.5 5.5L8 12\"/>",
+  "circle-x": "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"m15 9-6 6\"/><path d=\"m9 9 6 6\"/>",
+  "clipboard-check": "<rect width=\"8\" height=\"4\" x=\"8\" y=\"2\" rx=\"1\" ry=\"1\"/><path d=\"M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2\"/><path d=\"m9 14 2 2 4-4\"/>",
+  "clipboard-list": "<rect width=\"8\" height=\"4\" x=\"8\" y=\"2\" rx=\"1\" ry=\"1\"/><path d=\"M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2\"/><path d=\"M12 11h4\"/><path d=\"M12 16h4\"/><path d=\"M8 11h.01\"/><path d=\"M8 16h.01\"/>",
+  "clock": "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M12 6v6l4 2\"/>",
+  "cloud": "<path d=\"M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z\"/>",
+  "code": "<path d=\"m16 18 6-6-6-6\"/><path d=\"m8 6-6 6 6 6\"/>",
+  "cpu": "<path d=\"M12 20v2\"/><path d=\"M12 2v2\"/><path d=\"M17 20v2\"/><path d=\"M17 2v2\"/><path d=\"M2 12h2\"/><path d=\"M2 17h2\"/><path d=\"M2 7h2\"/><path d=\"M20 12h2\"/><path d=\"M20 17h2\"/><path d=\"M20 7h2\"/><path d=\"M7 20v2\"/><path d=\"M7 2v2\"/><rect x=\"4\" y=\"4\" width=\"16\" height=\"16\" rx=\"2\"/><rect x=\"8\" y=\"8\" width=\"8\" height=\"8\" rx=\"1\"/>",
+  "credit-card": "<rect width=\"20\" height=\"14\" x=\"2\" y=\"5\" rx=\"2\"/><line x1=\"2\" x2=\"22\" y1=\"10\" y2=\"10\"/><path d=\"M6 14h2\"/>",
+  "database": "<ellipse cx=\"12\" cy=\"5\" rx=\"9\" ry=\"3\"/><path d=\"M3 5V19A9 3 0 0 0 21 19V5\"/><path d=\"M3 12A9 3 0 0 0 21 12\"/>",
+  "download": "<path d=\"M12 15V3\"/><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"/><path d=\"m7 10 5 5 5-5\"/>",
+  "eye": "<path d=\"M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/>",
+  "file": "<path d=\"M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z\"/><path d=\"M14 2v5a1 1 0 0 0 1 1h5\"/>",
+  "file-check": "<path d=\"M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z\"/><path d=\"M14 2v5a1 1 0 0 0 1 1h5\"/><path d=\"m9 15 2 2 4-4\"/>",
+  "file-search": "<path d=\"M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z\"/><path d=\"M14 2v5a1 1 0 0 0 1 1h5\"/><circle cx=\"11.5\" cy=\"14.5\" r=\"2.5\"/><path d=\"M13.3 16.3 15 18\"/>",
+  "file-signature": "<path d=\"M14.364 13.634a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506l4.013-4.009a1 1 0 0 0-3.004-3.004z\"/><path d=\"M14.487 7.858A1 1 0 0 1 14 7V2\"/><path d=\"M20 19.645V20a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l2.516 2.516\"/><path d=\"M8 18h1\"/>",
+  "file-text": "<path d=\"M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z\"/><path d=\"M14 2v5a1 1 0 0 0 1 1h5\"/><path d=\"M10 9H8\"/><path d=\"M16 13H8\"/><path d=\"M16 17H8\"/>",
+  "filter": "<path d=\"M10 20a1 1 0 0 0 .553.895l2 1A1 1 0 0 0 14 21v-7a2 2 0 0 1 .517-1.341L21.74 4.67A1 1 0 0 0 21 3H3a1 1 0 0 0-.742 1.67l7.225 7.989A2 2 0 0 1 10 14z\"/>",
+  "flag": "<path d=\"M4 22V4a1 1 0 0 1 .4-.8A6 6 0 0 1 8 2c3 0 5 2 7.333 2q2 0 3.067-.8A1 1 0 0 1 20 4v10a1 1 0 0 1-.4.8A6 6 0 0 1 16 16c-3 0-5-2-8-2a6 6 0 0 0-4 1.528\"/>",
+  "folder": "<path d=\"M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z\"/>",
+  "gavel": "<path d=\"m14 13-8.381 8.38a1 1 0 0 1-3.001-3l8.384-8.381\"/><path d=\"m16 16 6-6\"/><path d=\"m21.5 10.5-8-8\"/><path d=\"m8 8 6-6\"/><path d=\"m8.5 7.5 8 8\"/>",
+  "git-branch": "<path d=\"M15 6a9 9 0 0 0-9 9V3\"/><circle cx=\"18\" cy=\"6\" r=\"3\"/><circle cx=\"6\" cy=\"18\" r=\"3\"/>",
+  "globe": "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20\"/><path d=\"M2 12h20\"/>",
+  "graduation-cap": "<path d=\"M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z\"/><path d=\"M22 10v6\"/><path d=\"M6 12.5V16a6 3 0 0 0 12 0v-3.5\"/>",
+  "handshake": "<path d=\"m11 17 2 2a1 1 0 1 0 3-3\"/><path d=\"m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4\"/><path d=\"m21 3 1 11h-2\"/><path d=\"M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3\"/><path d=\"M3 4h8\"/>",
+  "hard-drive": "<path d=\"M10 16h.01\"/><path d=\"M2.212 11.577a2 2 0 0 0-.212.896V18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5.527a2 2 0 0 0-.212-.896L18.55 5.11A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z\"/><path d=\"M21.946 12.013H2.054\"/><path d=\"M6 16h.01\"/>",
+  "heart": "<path d=\"M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5\"/>",
+  "house": "<path d=\"M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8\"/><path d=\"M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"/>",
+  "key": "<path d=\"m2 21 9.6-9.6\"/><path d=\"m7.5 15.5 2.3 2.3a1 1 0 0 1 0 1.4l-2.1 2.1a1 1 0 0 1-1.4 0L4 19\"/><circle cx=\"15.5\" cy=\"7.5\" r=\"5.5\"/>",
+  "laptop": "<path d=\"M18 5a2 2 0 0 1 2 2v8.526a2 2 0 0 0 .212.897l1.068 2.127a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45l1.068-2.127A2 2 0 0 0 4 15.526V7a2 2 0 0 1 2-2z\"/><path d=\"M20.054 15.987H3.946\"/>",
+  "layers": "<path d=\"M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z\"/><path d=\"M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12\"/><path d=\"M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17\"/>",
+  "layout-dashboard": "<rect width=\"7\" height=\"9\" x=\"3\" y=\"3\" rx=\"1\"/><rect width=\"7\" height=\"5\" x=\"14\" y=\"3\" rx=\"1\"/><rect width=\"7\" height=\"9\" x=\"14\" y=\"12\" rx=\"1\"/><rect width=\"7\" height=\"5\" x=\"3\" y=\"16\" rx=\"1\"/>",
+  "lightbulb": "<path d=\"M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5\"/><path d=\"M9 18h6\"/><path d=\"M10 22h4\"/>",
+  "link": "<path d=\"M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71\"/><path d=\"M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71\"/>",
+  "list-checks": "<path d=\"M13 5h8\"/><path d=\"M13 12h8\"/><path d=\"M13 19h8\"/><path d=\"m3 17 2 2 4-4\"/><path d=\"m3 7 2 2 4-4\"/>",
+  "lock": "<rect width=\"18\" height=\"11\" x=\"3\" y=\"11\" rx=\"2\" ry=\"2\"/><path d=\"M7 11V7a5 5 0 0 1 10 0v4\"/>",
+  "mail": "<path d=\"m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7\"/><rect x=\"2\" y=\"4\" width=\"20\" height=\"16\" rx=\"2\"/>",
+  "map-pin": "<path d=\"M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0\"/><circle cx=\"12\" cy=\"10\" r=\"3\"/>",
+  "message-square": "<path d=\"M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z\"/>",
+  "messages-square": "<path d=\"M16 10a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 14.286V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z\"/><path d=\"M20 9a2 2 0 0 1 2 2v10.286a.71.71 0 0 1-1.212.502l-2.202-2.202A2 2 0 0 0 17.172 19H10a2 2 0 0 1-2-2v-1\"/>",
+  "mic": "<path d=\"M12 19v3\"/><path d=\"M19 10v2a7 7 0 0 1-14 0v-2\"/><rect x=\"9\" y=\"2\" width=\"6\" height=\"13\" rx=\"3\"/>",
+  "monitor": "<rect width=\"20\" height=\"14\" x=\"2\" y=\"3\" rx=\"2\"/><line x1=\"8\" x2=\"16\" y1=\"21\" y2=\"21\"/><line x1=\"12\" x2=\"12\" y1=\"17\" y2=\"21\"/>",
+  "network": "<rect x=\"16\" y=\"16\" width=\"6\" height=\"6\" rx=\"1\"/><rect x=\"2\" y=\"16\" width=\"6\" height=\"6\" rx=\"1\"/><rect x=\"9\" y=\"2\" width=\"6\" height=\"6\" rx=\"1\"/><path d=\"M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3\"/><path d=\"M12 12V8\"/>",
+  "package": "<path d=\"M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z\"/><path d=\"M12 22V12\"/><polyline points=\"3.29 7 12 12 20.71 7\"/><path d=\"m7.5 4.27 9 5.15\"/>",
+  "pencil": "<path d=\"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z\"/><path d=\"m15 5 4 4\"/>",
+  "phone": "<path d=\"M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384\"/>",
+  "printer": "<path d=\"M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2\"/><path d=\"M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6\"/><rect x=\"6\" y=\"14\" width=\"12\" height=\"8\" rx=\"1\"/>",
+  "qr-code": "<rect width=\"5\" height=\"5\" x=\"3\" y=\"3\" rx=\"1\"/><rect width=\"5\" height=\"5\" x=\"16\" y=\"3\" rx=\"1\"/><rect width=\"5\" height=\"5\" x=\"3\" y=\"16\" rx=\"1\"/><path d=\"M21 16h-3a2 2 0 0 0-2 2v3\"/><path d=\"M21 21v.01\"/><path d=\"M12 7v3a2 2 0 0 1-2 2H7\"/><path d=\"M3 12h.01\"/><path d=\"M12 3h.01\"/><path d=\"M12 16v.01\"/><path d=\"M16 12h1\"/><path d=\"M21 12v.01\"/><path d=\"M12 21v-1\"/>",
+  "receipt": "<path d=\"M12 17V7\"/><path d=\"M16 8h-6a2 2 0 0 0 0 4h4a2 2 0 0 1 0 4H8\"/><path d=\"M4 3a1 1 0 0 1 1-1 1.3 1.3 0 0 1 .7.2l.933.6a1.3 1.3 0 0 0 1.4 0l.934-.6a1.3 1.3 0 0 1 1.4 0l.933.6a1.3 1.3 0 0 0 1.4 0l.933-.6a1.3 1.3 0 0 1 1.4 0l.934.6a1.3 1.3 0 0 0 1.4 0l.933-.6A1.3 1.3 0 0 1 19 2a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1 1.3 1.3 0 0 1-.7-.2l-.933-.6a1.3 1.3 0 0 0-1.4 0l-.934.6a1.3 1.3 0 0 1-1.4 0l-.933-.6a1.3 1.3 0 0 0-1.4 0l-.933.6a1.3 1.3 0 0 1-1.4 0l-.934-.6a1.3 1.3 0 0 0-1.4 0l-.933.6a1.3 1.3 0 0 1-.7.2 1 1 0 0 1-1-1z\"/>",
+  "refresh-cw": "<path d=\"M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8\"/><path d=\"M21 3v5h-5\"/><path d=\"M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16\"/><path d=\"M8 16H3v5\"/>",
+  "repeat": "<path d=\"m17 2 4 4-4 4\"/><path d=\"M3 11v-1a4 4 0 0 1 4-4h14\"/><path d=\"m7 22-4-4 4-4\"/><path d=\"M21 13v1a4 4 0 0 1-4 4H3\"/>",
+  "rocket": "<path d=\"M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5\"/><path d=\"M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09\"/><path d=\"M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z\"/><path d=\"M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05\"/>",
+  "scale": "<path d=\"M12 3v18\"/><path d=\"m19 8 3 8a5 5 0 0 1-6 0zV7\"/><path d=\"M3 7h1a17 17 0 0 0 8-2 17 17 0 0 0 8 2h1\"/><path d=\"m5 8 3 8a5 5 0 0 1-6 0zV7\"/><path d=\"M7 21h10\"/>",
+  "scan-search": "<path d=\"M3 7V5a2 2 0 0 1 2-2h2\"/><path d=\"M17 3h2a2 2 0 0 1 2 2v2\"/><path d=\"M21 17v2a2 2 0 0 1-2 2h-2\"/><path d=\"M7 21H5a2 2 0 0 1-2-2v-2\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/><path d=\"m16 16-1.9-1.9\"/>",
+  "search": "<path d=\"m21 21-4.34-4.34\"/><circle cx=\"11\" cy=\"11\" r=\"8\"/>",
+  "send": "<path d=\"M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z\"/><path d=\"m21.854 2.147-10.94 10.939\"/>",
+  "server": "<rect width=\"20\" height=\"8\" x=\"2\" y=\"2\" rx=\"2\" ry=\"2\"/><rect width=\"20\" height=\"8\" x=\"2\" y=\"14\" rx=\"2\" ry=\"2\"/><line x1=\"6\" x2=\"6.01\" y1=\"6\" y2=\"6\"/><line x1=\"6\" x2=\"6.01\" y1=\"18\" y2=\"18\"/>",
+  "settings": "<path d=\"M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/>",
+  "share-2": "<circle cx=\"18\" cy=\"5\" r=\"3\"/><circle cx=\"6\" cy=\"12\" r=\"3\"/><circle cx=\"18\" cy=\"19\" r=\"3\"/><line x1=\"8.59\" x2=\"15.42\" y1=\"13.51\" y2=\"17.49\"/><line x1=\"15.41\" x2=\"8.59\" y1=\"6.51\" y2=\"10.49\"/>",
+  "shield-check": "<path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\"/><path d=\"m9 12 2 2 4-4\"/>",
+  "smartphone": "<rect width=\"14\" height=\"20\" x=\"5\" y=\"2\" rx=\"2\" ry=\"2\"/><path d=\"M12 18h.01\"/>",
+  "sparkles": "<path d=\"M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z\"/><path d=\"M20 2v4\"/><path d=\"M22 4h-4\"/><circle cx=\"4\" cy=\"20\" r=\"2\"/>",
+  "star": "<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z\"/>",
+  "store": "<path d=\"M15 21v-5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5\"/><path d=\"M17.774 10.31a1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.451 0 1.12 1.12 0 0 0-1.548 0 2.5 2.5 0 0 1-3.452 0 1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.77-3.248l2.889-4.184A2 2 0 0 1 7 2h10a2 2 0 0 1 1.653.873l2.895 4.192a2.5 2.5 0 0 1-3.774 3.244\"/><path d=\"M4 10.95V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.05\"/>",
+  "tablet": "<rect width=\"16\" height=\"20\" x=\"4\" y=\"2\" rx=\"2\" ry=\"2\"/><line x1=\"12\" x2=\"12.01\" y1=\"18\" y2=\"18\"/>",
+  "target": "<circle cx=\"12\" cy=\"12\" r=\"10\"/><circle cx=\"12\" cy=\"12\" r=\"6\"/><circle cx=\"12\" cy=\"12\" r=\"2\"/>",
+  "terminal": "<path d=\"M12 19h8\"/><path d=\"m4 17 6-6-6-6\"/>",
+  "thumbs-up": "<path d=\"M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z\"/><path d=\"M7 10v12\"/>",
+  "trash-2": "<path d=\"M10 11v6\"/><path d=\"M14 11v6\"/><path d=\"M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6\"/><path d=\"M3 6h18\"/><path d=\"M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2\"/>",
+  "trending-up": "<path d=\"M16 7h6v6\"/><path d=\"m22 7-8.5 8.5-5-5L2 17\"/>",
+  "triangle-alert": "<path d=\"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3\"/><path d=\"M12 9v4\"/><path d=\"M12 17h.01\"/>",
+  "truck": "<path d=\"M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2\"/><path d=\"M15 18H9\"/><path d=\"M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14\"/><circle cx=\"17\" cy=\"18\" r=\"2\"/><circle cx=\"7\" cy=\"18\" r=\"2\"/>",
+  "upload": "<path d=\"M12 3v12\"/><path d=\"m17 8-5-5-5 5\"/><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"/>",
+  "user": "<path d=\"M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2\"/><circle cx=\"12\" cy=\"7\" r=\"4\"/>",
+  "user-round": "<circle cx=\"12\" cy=\"8\" r=\"5\"/><path d=\"M20 21a8 8 0 0 0-16 0\"/>",
+  "users": "<path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\"/><path d=\"M16 3.128a4 4 0 0 1 0 7.744\"/><path d=\"M22 21v-2a4 4 0 0 0-3-3.87\"/><circle cx=\"9\" cy=\"7\" r=\"4\"/>",
+  "wallet": "<path d=\"M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1\"/><path d=\"M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4\"/>",
+  "wifi": "<path d=\"M12 20h.01\"/><path d=\"M2 8.82a15 15 0 0 1 20 0\"/><path d=\"M5 12.859a10 10 0 0 1 14 0\"/><path d=\"M8.5 16.429a5 5 0 0 1 7 0\"/>",
+  "workflow": "<rect width=\"8\" height=\"8\" x=\"3\" y=\"3\" rx=\"2\"/><path d=\"M7 11v4a2 2 0 0 0 2 2h4\"/><rect width=\"8\" height=\"8\" x=\"13\" y=\"13\" rx=\"2\"/>",
+  "wrench": "<path d=\"M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z\"/>",
+  "zap": "<path d=\"M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z\"/>"
+ },
+ "library": "lucide-static",
+ "license": "ISC (https://lucide.dev/license)",
+ "version": "1.69.0"
+}</script>
+<script>/* 구성도·업무 흐름 부품 — 슬라이드에서 data-c="stack" 으로 켠다.
+   <div class="stack-fig" data-c="stack" data-d='{"nodes":[…],"edges":[…],"groups":[…]}' role="img" aria-label="…"></div>
+   노드는 행·열 격자에 놓고, 좌표·그룹 상자·화살표 경로는 이 파일이 규칙으로 계산한다(사람이 좌표를 짜지 않는다).
+   배치 규칙은 caru-ini/stack-diagram(MIT)의 geometry 규칙을 따라 한글 폭·슬라이드 크기에 맞게 옮겼다:
+     · 노드 = 타일 + 그 아래 글자(박스). 세로 화살표는 위 노드의 박스 아래쪽 → 아래 노드의 타일 위쪽을 잇는다(글자를 가로지르지 않는다).
+     · 같은 줄의 먼 노드 사이는 노드가 없는 위쪽 통로, 줄·열이 다르면 열 사이 틈과 줄 사이 띠로만 꺾는다(노드 박스를 지나지 않는다).
+   아이콘은 Lucide 선 아이콘(ISC)만 쓴다(빌드가 <script id="ppt-stack-icons"> 로 넣는 사본). 로고(브랜드 마크)는 쓰지 않는다.
+   색은 슬라이드 토큰(--ink·--accent 등)을 따르고 어두운 장(.slide.dark)도 따른다.
+   데이터 형식은 references/stack.md, 검사는 scripts/stack_schema.py.
+
+   edu-deck 마운트(아래 "마운트" 절): 모든 data-c="stack" 요소는 로드 시 즉시 그린다(인쇄·자습·reduced 완성 모습).
+   화면 발표에서 장에 들어올 때만 is-play 를 켜 그룹→노드→화살표 순 등장을 태우고, 한 번 본 요소는 다시 재생하지 않는다.
+   발화 감사는 eduMotion.sigLog 에 'stack-reveal' 로 기록한다. */
+(function () {
+  'use strict';
+  const ICONS = (() => {
+    try {
+      const tag = document.getElementById('ppt-stack-icons');
+      const o = tag ? JSON.parse(tag.textContent) : (window.PPTStackIcons || {});
+      return o.icons || {};
+    } catch (e) { return {}; }
+  })();
+
+  // 격자 상수(논리 단위). scripts/stack_schema.py 의 같은 이름 상수와 맞춰 둔다.
+  const T = 64, BW = 176, BH = 110, PX = 204, PY = 166, OX = 40, OY = 44, GPX = 12, GPT = 40, GPB = 8, NEST = 12;
+  const NS = 'http://www.w3.org/2000/svg';
+  let SEQ = 0;
+  const mk = (tag, attrs, parent) => {
+    const e = document.createElementNS(NS, tag);
+    for (const k in attrs || {}) e.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(e);
+    return e;
+  };
+  const mcv = document.createElement('canvas').getContext('2d');
+  function fit(s, max, size, w, family) {      // 칸 폭을 넘으면 …으로 줄인다
+    s = String(s); mcv.font = `${w} ${size}px ${family}`;
+    if (mcv.measureText(s).width <= max) return s;
+    while (s.length > 1 && mcv.measureText(s + '…').width > max) s = s.slice(0, -1);
+    return s + '…';
+  }
+
+  /* ───────── 배치 ───────── */
+  function geometry(o) {
+    const N = {}, G = {};
+    o.nodes.forEach((n, i) => { N[n.id] = Object.assign({}, n, { i, cx: OX + n.col * PX + BW / 2, top: OY + n.row * PY }); });
+    (o.groups || []).forEach((g, i) => { G[g.id] = Object.assign({}, g, { i, kids: [] }); });
+    Object.values(G).forEach((g) => { if (g.parent && G[g.parent]) G[g.parent].kids.push(g.id); });
+    const cache = {};
+    const rect = (g) => {
+      if (cache[g.id]) return cache[g.id];
+      let c0 = Infinity, c1 = -Infinity, r0 = Infinity, r1 = -Infinity;
+      for (const id of g.nodes || []) { const n = N[id]; if (!n) continue; c0 = Math.min(c0, n.col); c1 = Math.max(c1, n.col); r0 = Math.min(r0, n.row); r1 = Math.max(r1, n.row); }
+      if (g.cols) { c0 = g.cols[0]; c1 = g.cols[1]; }
+      const has = c0 !== Infinity;
+      let x0 = has ? OX + c0 * PX - GPX : Infinity, x1 = has ? OX + c1 * PX + BW + GPX : -Infinity;
+      let y0 = has ? OY + r0 * PY - GPT : Infinity, y1 = has ? OY + r1 * PY + BH + GPB : -Infinity;
+      for (const kid of g.kids) { const k = rect(G[kid]); x0 = Math.min(x0, k.x0 - NEST); x1 = Math.max(x1, k.x1 + NEST); y0 = Math.min(y0, k.y0 - 30); y1 = Math.max(y1, k.y1 + NEST); }
+      return (cache[g.id] = { x0, y0, x1, y1 });
+    };
+    Object.values(G).forEach((g) => { g.r = rect(g); });
+    let W = 0, H = 0;
+    Object.values(N).forEach((n) => { W = Math.max(W, n.cx + BW / 2 + OX); H = Math.max(H, n.top + BH + 24); });
+    Object.values(G).forEach((g) => { W = Math.max(W, g.r.x1 + 16); H = Math.max(H, g.r.y1 + 12); });
+    return { N, G, W, H };
+  }
+
+  /* ───────── 화살표 경로 ───────── */
+  function route(a, b, at, shift) {   // shift: 서로 반대로 가는 한 쌍이면 ±9 로 나란히 벌린다(같은 선에 겹치지 않게)
+    const dr = b.row - a.row, dc = b.col - a.col, s = dc > 0 ? 1 : -1, M = T / 2 + 5;
+    const ym = (n) => n.top + T / 2;
+    let pts, lab;
+    if (dr === 0) {
+      const lo = Math.min(a.col, b.col), hi = Math.max(a.col, b.col);
+      let blocked = false;
+      for (let c = lo + 1; c < hi; c++) if (at(a.row, c)) blocked = true;
+      if (!blocked) { const y = ym(a) + shift; pts = [[a.cx + s * M, y], [b.cx - s * M, y]]; lab = { x: (a.cx + b.cx) / 2, y: shift > 0 ? y + 21 : y - 10, a: 'middle' }; }
+      else { const y = a.top - 20; pts = [[a.cx, a.top - 5], [a.cx, y], [b.cx, y], [b.cx, b.top - 5]]; lab = { x: (a.cx + b.cx) / 2, y: y - 7, a: 'middle' }; }
+    } else if (dc === 0) {
+      const lo = Math.min(a.row, b.row), hi = Math.max(a.row, b.row);
+      let blocked = false;
+      for (let r = lo + 1; r < hi; r++) if (at(r, a.col)) blocked = true;
+      if (!blocked) {
+        const x = a.cx + shift;
+        pts = dr > 0 ? [[x, a.top + BH + 4], [x, b.top - 5]] : [[x, a.top - 4], [x, b.top + BH + 5]];
+        lab = { x: shift < 0 ? x - 11 : x + 11, y: dr > 0 ? a.top + BH + (PY - BH) / 2 : a.top - (PY - BH) / 2, a: shift < 0 ? 'end' : 'start' };
+      } else {
+        const gx = a.cx + PX / 2;
+        pts = [[a.cx + M, ym(a)], [gx, ym(a)], [gx, ym(b)], [b.cx + M, ym(b)]];
+        lab = { x: gx + 9, y: (ym(a) + ym(b)) / 2, a: 'start' };
+      }
+    } else if (Math.abs(dc) === 1) {
+      const gx = a.cx + s * PX / 2;
+      pts = [[a.cx + s * M, ym(a)], [gx, ym(a)], [gx, ym(b)], [b.cx - s * M, ym(b)]];
+      lab = { x: gx, y: dr > 0 ? a.top + BH + (PY - BH) / 2 : a.top - (PY - BH) / 2, a: 'middle' };
+    } else {
+      const xs = a.cx + s * PX / 2, xt = b.cx - s * PX / 2, yb = dr > 0 ? b.top - 34 : b.top + BH + 12;
+      pts = [[a.cx + s * M, ym(a)], [xs, ym(a)], [xs, yb], [xt, yb], [xt, ym(b)], [b.cx - s * M, ym(b)]];
+      lab = { x: (xs + xt) / 2, y: yb - 7, a: 'middle' };
+    }
+    return { pts, lab };
+  }
+  function pathOf(pts, r) {                     // 꺾이는 곳을 둥글게
+    let d = `M${pts[0][0]} ${pts[0][1]}`;
+    for (let i = 1; i < pts.length; i++) {
+      const p = pts[i], q = pts[i - 1], n = pts[i + 1];
+      if (!n) { d += ` L${p[0]} ${p[1]}`; break; }
+      const l1 = Math.hypot(p[0] - q[0], p[1] - q[1]), l2 = Math.hypot(n[0] - p[0], n[1] - p[1]), k = Math.min(r, l1 / 2, l2 / 2);
+      const a = [p[0] - ((p[0] - q[0]) / l1) * k, p[1] - ((p[1] - q[1]) / l1) * k], b = [p[0] + ((n[0] - p[0]) / l2) * k, p[1] + ((n[1] - p[1]) / l2) * k];
+      d += ` L${a[0]} ${a[1]} Q${p[0]} ${p[1]} ${b[0]} ${b[1]}`;
+    }
+    return d;
+  }
+
+  /* ───────── 그리기 ───────── */
+  function draw(host, o) {
+    const family = getComputedStyle(host).getPropertyValue('--pack-sans').trim() || getComputedStyle(host).fontFamily || 'Pretendard,system-ui,sans-serif';
+    const { N, G, W, H } = geometry(o);
+    const at = (r, c) => o.nodes.find((n) => n.row === r && n.col === c);
+    const uid = 'sf' + (++SEQ);
+    host.textContent = '';
+    const svg = mk('svg', { viewBox: `0 0 ${W} ${H}`, 'aria-hidden': 'true', preserveAspectRatio: 'xMidYMid meet' });
+    const defs = mk('defs', {}, svg);
+    [['m', 'sf-ar-main'], ['s', 'sf-ar-sub']].forEach(([k, cls]) => {
+      const m = mk('marker', { id: `${uid}-${k}`, viewBox: '0 0 12 12', refX: 11, refY: 6, markerWidth: 12, markerHeight: 12, markerUnits: 'userSpaceOnUse', orient: 'auto' }, defs);
+      mk('path', { d: 'M1 1 L11 6 L1 11 L4 6 Z', class: cls }, m);
+    });
+    const lg = mk('g', { class: 'sf-groups' }, svg), le = mk('g', { class: 'sf-edges' }, svg), ln = mk('g', { class: 'sf-nodes' }, svg), ll = mk('g', { class: 'sf-labels' }, svg);
+
+    // 그룹: 큰 것부터(바깥 → 안쪽)
+    Object.values(G).sort((p, q) => (q.r.x1 - q.r.x0) * (q.r.y1 - q.r.y0) - (p.r.x1 - p.r.x0) * (p.r.y1 - p.r.y0)).forEach((g) => {
+      const r = g.r, gg = mk('g', { class: `sf-group sf-g-${g.tone || 'plain'}`, style: `--d:${g.i * 60}ms` }, lg);
+      mk('rect', { x: r.x0, y: r.y0, width: r.x1 - r.x0, height: r.y1 - r.y0, rx: 16 }, gg);
+      // 라벨은 화살표 위 레이어에 둔다: 선이 라벨을 지나가면 라벨 글자 둘레의 그룹색 테두리(halo)가 선을 가린다
+      const gl = mk('g', { class: `sf-glw sf-lg-${g.tone || 'plain'}`, style: `--d:${g.i * 60}ms` }, ll);
+      let lx = r.x0 + 16;
+      if (g.icon && ICONS[g.icon]) { const ic = mk('g', { transform: `translate(${lx} ${r.y0 + 10}) scale(.85)`, class: 'sf-gico', 'stroke-width': 2.2 }, gl); ic.innerHTML = ICONS[g.icon]; lx += 27; }
+      const t = mk('text', { x: lx, y: r.y0 + 25, class: 'sf-glabel' }, gl);
+      t.textContent = fit(g.label, r.x1 - lx - 14, 16, 700, family);
+    });
+
+    // 화살표
+    const base = 150 + o.nodes.length * 80;
+    (o.edges || []).forEach((e, j) => {
+      const a = N[e.from], b = N[e.to], kind = e.kind || 'main';
+      const rev = o.edges.some((x) => x.from === e.to && x.to === e.from), fwd = a.row < b.row || (a.row === b.row && a.col < b.col);
+      const { pts, lab } = route(a, b, at, rev ? (fwd ? -9 : 9) : 0);
+      const ge = mk('g', { class: `sf-edge sf-e-${kind}`, style: `--d:${base + j * 110}ms` }, le);
+      mk('path', { d: pathOf(pts, 12), pathLength: 1, 'marker-end': `url(#${uid}-${kind === 'main' ? 'm' : 's'})` }, ge);
+      if (e.label) {
+        const t = mk('text', { x: lab.x, y: lab.y, 'text-anchor': lab.a, class: 'sf-el' }, ll);
+        t.setAttribute('style', `--d:${base + j * 110 + 300}ms`);
+        t.textContent = fit(e.label, 104, 14, 600, family);
+      }
+    });
+
+    // 노드
+    o.nodes.forEach((n0) => {
+      const n = N[n0.id], tone = n.tone || 'plain', g = mk('g', { class: `sf-node sf-t-${tone}`, style: `--d:${150 + n.i * 80}ms` }, ln);
+      mk('rect', { x: n.cx - T / 2, y: n.top, width: T, height: T, rx: 15, class: 'sf-tile' }, g);
+      if (ICONS[n.icon]) { const ic = mk('g', { transform: `translate(${n.cx - 16} ${n.top + 16}) scale(1.333)`, class: 'sf-ico', 'stroke-width': 1.6 }, g); ic.innerHTML = ICONS[n.icon]; }
+      const nm = mk('text', { x: n.cx, y: n.top + T + 20, 'text-anchor': 'middle', class: 'sf-name' }, g);
+      nm.textContent = fit(n.name, BW - 6, 19, 700, family);
+      if (n.role) { const rl = mk('text', { x: n.cx, y: n.top + T + 42, 'text-anchor': 'middle', class: 'sf-role' }, g); rl.textContent = fit(n.role, BW - 6, 14, 500, family); }
+      if (n.badge) {
+        mk('circle', { cx: n.cx - T / 2 + 2, cy: n.top + 2, r: 12, class: 'sf-badge' }, g);
+        const bt = mk('text', { x: n.cx - T / 2 + 2, y: n.top + 2.5, 'text-anchor': 'middle', class: 'sf-badge-t' }, g);
+        bt.textContent = String(n.badge);
+      }
+    });
+    host.appendChild(svg);
+  }
+
+  window.PPTStack = { draw, geometry, route, consts: { T, BW, BH, PX, PY, OX, OY, GPX, GPT, GPB, NEST } };
+
+  /* ───────── 마운트: edu-deck ─────────
+     모든 요소는 로드 시 즉시 그린다 — 인쇄·자습·reduced·미지원 환경의 완성 모습.
+     화면 발표에서는 활성 장에 들어올 때 한 번만 is-play 를 켠다(그룹→노드→화살표 순, CSS).
+     무성 장 감사와 맞추기 위해 발화는 'stack-reveal' 로 sigLog 에 남긴다. */
+  const REDUCE = matchMedia('(prefers-reduced-motion: reduce)');
+  const PRINT = matchMedia('print');
+  const seen = new WeakSet();      // 발표에서 한 번 본 요소 — 재방문해도 다시 재생하지 않는다
+  let printing = false;
+  const staticMode = () => printing || PRINT.matches || REDUCE.matches ||
+    document.body.classList.contains('st-self') ||
+    document.body.classList.contains('st-printing') ||
+    document.body.classList.contains('st-presenter');
+  const currentSlide = () => document.querySelector('.deck.on>.slide.active, #stage>.slide.active');
+  const DATA = new WeakMap();      // 리사이즈 재그리기용 — 파싱한 데이터를 요소에 묶어 둔다
+  function mount(el) {
+    let o;
+    try { o = JSON.parse(el.dataset.d || '{}'); } catch (e) { return; }
+    if (!Array.isArray(o.nodes) || !o.nodes.length) return;
+    try { draw(el, o); } catch (e) { return; }   // 데이터가 어긋나면 비워 둔다. 빌드 검사가 먼저 알린다
+    DATA.set(el, o);
+    el.classList.add('is-ready');
+  }
+  function sig(s, step) {
+    const log = window.eduMotion && window.eduMotion.sigLog;
+    if (!log) return;
+    let slide = -1;
+    if (window.deckInfo) { const info = window.deckInfo(); if (info && typeof info.slide === 'number') slide = info.slide; }
+    if (slide < 0) slide = [...document.querySelectorAll('.slide')].indexOf(s);
+    log.push(Object.freeze({ slide, step, sig: 'stack-reveal' }));
+    if (log.length > 500) log.shift();
+    document.dispatchEvent(new CustomEvent('edumotion', { detail: { slide, step, sig: 'stack-reveal' } }));
+  }
+  function enter(el) {
+    if (staticMode() || seen.has(el)) { el.classList.remove('is-play'); el.classList.add('is-done'); return; }
+    seen.add(el);
+    el.classList.remove('is-play', 'is-done'); void el.offsetWidth;
+    el.classList.add('is-play');
+    const s = el.closest('.slide'), info = window.deckInfo ? window.deckInfo() : {};
+    if (s) sig(s, info.step || 0);
+    const o = DATA.get(el) || {};
+    const last = 150 + (o.nodes || []).length * 80 + ((o.edges || []).length) * 110 + 700;
+    setTimeout(() => { el.classList.remove('is-play'); el.classList.add('is-done'); }, last);
+  }
+  function onSlide() {
+    const s = currentSlide();
+    if (s) s.querySelectorAll('[data-c="stack"]').forEach(enter);
+  }
+  function settle() {
+    document.querySelectorAll('[data-c="stack"].is-play').forEach((el) => {
+      el.classList.remove('is-play'); el.classList.add('is-done');
+    });
+  }
+  document.addEventListener('deckslide', onSlide);
+  window.addEventListener('beforeprint', () => { printing = true; settle(); });
+  window.addEventListener('afterprint', () => { printing = false; });
+  REDUCE.addEventListener('change', settle);
+  PRINT.addEventListener('change', settle);
+  document.addEventListener('edmode', settle);
+  new MutationObserver(() => { if (staticMode()) settle(); }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+  document.querySelectorAll('[data-c="stack"]').forEach(mount);
+  /* 리사이즈: 폰트·폭이 바뀌면 fit() 결과가 달라지므로 다시 그린다. is-done 요소는 그대로 완성 모습. */
+  let rzT = 0;
+  window.addEventListener('resize', () => {
+    clearTimeout(rzT);
+    rzT = setTimeout(() => document.querySelectorAll('[data-c="stack"].is-ready').forEach((el) => {
+      const o = DATA.get(el); if (o) try { draw(el, o); } catch (e) {}
+    }), 150);
+  });
+  onSlide();   /* 첫 장(주소 #N 포함)은 deckslide 가 이미 지났다 */
 })();
 </script>
 </body>
