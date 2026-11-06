@@ -1160,6 +1160,13 @@ body.ed-edit .slide [data-ed]:focus{outline:2px solid var(--accent);outline-offs
 .chart{flex:1;min-height:0;display:flex;flex-direction:column;gap:16px}
 .chart>svg{flex:1;min-height:0;width:100%}
 
+/* 그림 자리(.fig-slot): 배치(계열 변형)가 주는 빈 그림 칸. 내용은 저작자가 diagrams.md 문법의
+   svg.dg(k-* 도형·t-* 글자)로 그린다 — 도형·글자 스타일은 그 규칙이 담당하고 여기서는 자리만 잡는다 */
+.fig-slot{margin:0;flex:1;min-height:0;display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center}
+.fig-slot>svg.dg{flex:1;min-height:0;width:100%}
+.fig-slot figcaption{font-size:22px;line-height:1.5;color:var(--soft)}
+.dark .fig-slot figcaption{color:var(--muted)}
+
 /* 정적 완결: 인쇄·자습에서는 탐색 상태·시트가 모두 펼쳐진다 */
 @media print{
   #edAuto,#edEdit,.dsheet-dim,.expl-ctrl,.dsheet-open,.dsheet-close{display:none !important}
@@ -1771,9 +1778,9 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
 
 <!-- ==== 02-agenda.html ==== -->
 <!--
-  아키타입 agenda (변형: 기본, progress-bar, two-col-groups, roadmap, unnumbered-flow)
+  아키타입 agenda (변형: 기본, progress-bar, two-col-groups, roadmap, unnumbered-flow, fig)
   언제: 순서. 파트 3~5개를 '학습자 질문'으로 보여 준다. 파트 수가 다르면 rm-col 을 빼거나 더하고 .rm 의 열 수를 맞춘다.
-  변형: progress-bar=왼쪽 세로 진행 레일+가로 행, two-col-groups=두 묶음 카드, roadmap=굴곡 경로+교대 정류장, unnumbered-flow=번호 없는 화살표 타일 이음.
+  변형: progress-bar=왼쪽 세로 진행 레일+가로 행, two-col-groups=두 묶음 카드, roadmap=굴곡 경로+교대 정류장, unnumbered-flow=번호 없는 화살표 타일 이음, fig=파트 목록+그림 자리 미니 맵.
   단계: 파트마다 1단계, 마지막 단계에 정리 문장
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
   자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
@@ -1938,6 +1945,38 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
     </div>
   </div>
   <div class="callout" data-step="4" style="font-size:30px"><b>«강조 앞부분 ≤15자»</b> «정리 문장 ≤58자»</div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- fig: 파트 목록 + 큰 그림 미니 맵 — 파트를 보고 마지막에 전체 지형을 한눈에 -->
+<section class="slide" data-archetype="agenda" data-variant="fig" style="gap:40px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤4자»</p><h2 class="title">«제목: 한 문장 ≤16자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;gap:48px;align-items:stretch">
+    <div class="col" style="width:760px;flex:none;min-height:0;gap:28px;justify-content:center">
+      <div class="rm-col" data-step="1" style="flex-direction:row;align-items:center;text-align:left;gap:24px">
+        <p class="rm-num" style="margin:0;color:var(--accent-text)">01</p>
+        <div class="col" style="gap:6px"><h3 class="rm-h" style="font-size:34px">«파트 이름 ≤8자»</h3><p class="rm-q" style="font-size:24px">«학습자 질문 ≤24자»</p></div>
+      </div>
+      <div class="rm-col" data-step="2" style="flex-direction:row;align-items:center;text-align:left;gap:24px">
+        <p class="rm-num" style="margin:0;color:var(--accent-text)">02</p>
+        <div class="col" style="gap:6px"><h3 class="rm-h" style="font-size:34px">«파트 이름 ≤9자»</h3><p class="rm-q" style="font-size:24px">«학습자 질문 ≤25자»</p></div>
+      </div>
+      <div class="rm-col" data-step="3" style="flex-direction:row;align-items:center;text-align:left;gap:24px">
+        <p class="rm-num" style="margin:0;color:var(--accent-text)">03</p>
+        <div class="col" style="gap:6px"><h3 class="rm-h" style="font-size:34px">«파트 이름 ≤7자»</h3><p class="rm-q" style="font-size:24px">«학습자 질문 ≤23자»</p></div>
+      </div>
+    </div>
+    <figure class="fig-slot" data-step="4">
+      <svg class="dg" viewBox="0 0 720 640" role="img" aria-label="«그림 설명: 세 파트가 이어지는 미니 맵»">
+        <path class="k-ln-o" d="M200 174Q360 250 518 274" marker-end="url(#ah-o)"/>
+        <path class="k-ln-o" d="M518 386Q360 470 202 484" marker-end="url(#ah-o)"/>
+        <g><circle class="k-blue" cx="200" cy="120" r="54"/><text class="t-l b" text-anchor="middle" x="200" y="132">1</text><text class="t-s" text-anchor="middle" x="200" y="44">«출발 ≤6자»</text></g>
+        <g><circle class="k-blue" cx="520" cy="330" r="54"/><text class="t-l b" text-anchor="middle" x="520" y="342">2</text><text class="t-s" text-anchor="middle" x="520" y="434">«경유 ≤6자»</text></g>
+        <g><circle class="k-orange" cx="200" cy="540" r="54"/><text class="t-l o" text-anchor="middle" x="200" y="552">3</text><text class="t-s" text-anchor="middle" x="200" y="620">«도착 ≤6자»</text></g>
+      </svg>
+      <figcaption>«그림 캡션 ≤24자»</figcaption>
+    </figure>
+  </div>
   <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
 </section>
 
@@ -2522,9 +2561,9 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
 
 <!-- ==== 06-traits-grid.html ==== -->
 <!--
-  아키타입 traits-grid (변형: 기본, matrix, spectrum, venn, radar)
+  아키타입 traits-grid (변형: 기본, matrix, spectrum, venn, radar, fig)
   언제: 성질·특징 2×2 또는 4줄. 제목 + 설명 + 출처 칩 + 아이콘.
-  변형: matrix=특징×대상 체크 매트릭스, spectrum=축 위 배치, venn=3원 교집합, radar=5축 방사형 척도.
+  변형: matrix=특징×대상 체크 매트릭스, spectrum=축 위 배치, venn=3원 교집합, radar=5축 방사형 척도, fig=특성 카드+그림 자리.
   단계: 특징별 1단계
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
   자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
@@ -2655,6 +2694,31 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
     <ul class="list" data-step="3" style="font-size:28px"><li>«축별 수준 설명 ≤22자»</li><li>«축별 수준 설명 ≤24자»</li><li>«축별 수준 설명 ≤20자»</li></ul>
     <p class="fact" data-step="4" data-src="«F01»">«출처 칩: 발행처「문서」(연도) 값 ≤30자»</p>
   </div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- fig: 특성 카드 + 그림 자리 — 특성을 읽고 둘의 관계를 도식으로 본다 -->
+<section class="slide" data-archetype="traits-grid" data-variant="fig" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤24자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;gap:48px;align-items:stretch">
+    <div class="col" style="width:760px;flex:none;min-height:0;gap:24px;justify-content:center">
+      <div class="card trait f1" data-step="1"><div class="col" style="gap:8px"><h3 style="font-size:38px">«특성 A ≤5자»</h3><p class="body">«설명 ≤40자»</p><p data-src="«F01»" class="fact">«출처 칩: 발행처「문서」(연도) 값 ≤34자»</p></div><svg viewBox="0 0 100 100" class="ticon" aria-hidden="true"><use href="#i-star" width="100" height="100" style="color:var(--accent-text)"/></svg></div>
+      <div class="card trait f1" data-step="2"><div class="col" style="gap:8px"><h3 style="font-size:38px">«특성 B ≤5자»</h3><p class="body">«설명 ≤42자»</p><p data-src="«F01»" class="fact">«출처 칩: 발행처「문서」(연도) 값 ≤30자»</p></div><svg viewBox="0 0 100 100" class="ticon" aria-hidden="true"><use href="#i-list" width="100" height="100" style="color:var(--blue)"/></svg></div>
+    </div>
+    <figure class="fig-slot" data-step="3">
+      <svg class="dg" viewBox="0 0 720 560" role="img" aria-label="«그림 설명: 두 특성이 만나는 지점»">
+        <rect class="k-paper" x="48" y="120" width="250" height="150" rx="18"/>
+        <text class="t-l" text-anchor="middle" x="173" y="186">«특성 A ≤6자»</text>
+        <text class="t-s" text-anchor="middle" x="173" y="232">«짧은 설명 ≤8자»</text>
+        <rect class="k-paper" x="422" y="120" width="250" height="150" rx="18"/>
+        <text class="t-l" text-anchor="middle" x="547" y="186">«특성 B ≤6자»</text>
+        <text class="t-s" text-anchor="middle" x="547" y="232">«짧은 설명 ≤8자»</text>
+        <path class="k-ln-b" d="M298 195C360 195 360 330 360 330C360 330 360 195 422 195" marker-end="url(#ah-b)"/>
+        <ellipse class="k-orange" cx="360" cy="420" rx="130" ry="72"/>
+        <text class="t-l o" text-anchor="middle" x="360" y="430">«만나는 점 ≤7자»</text>
+      </svg>
+    </figure>
   </div>
   <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
 </section>
@@ -3215,7 +3279,7 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
 
 <!-- ==== 11-levels.html ==== -->
 <!--
-  아키타입 levels (변형: 기본 · stairs · pyramid · ladder · mountain)
+  아키타입 levels (변형: 기본 · stairs · pyramid · ladder · mountain · fig)
   언제: 수준·단계가 올라가는 구조(1→4, 막대가 길어짐).
   단계: 수준별 1단계
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
@@ -3330,6 +3394,31 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
       <div class="card" data-step="5" style="padding:24px 30px;gap:8px"><h4 style="font-size:26px">«카드 제목 ≤12자»</h4><p class="small">«설명 ≤44자»</p></div>
       <div class="callout" data-step="6" style="font-size:26px;padding:20px 28px"><b>«강조 ≤12자»</b> «정리 문장 ≤32자»</div>
     </div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- fig: 위계 목록 + 그림 자리 — 수준을 보고 마지막에 전체 형태를 도식으로 본다 -->
+<section class="slide" data-archetype="levels" data-variant="fig" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤26자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;gap:48px;align-items:stretch">
+    <div class="col" style="width:760px;flex:none;min-height:0;gap:20px;justify-content:center">
+      <div class="lv" data-step="1"><div><h4>«1단계 제목 ≤12자»</h4><p>«문구 ≤40자»</p></div><div class="lv-bar" style="width:30%"></div></div>
+      <div class="lv" data-step="2"><div><h4>«2단계 제목 ≤13자»</h4><p>«문구 ≤36자»</p></div><div class="lv-bar" style="width:62%"></div></div>
+      <div class="lv" data-step="3"><div><h4>«3단계 제목 ≤13자»</h4><p>«문구 ≤32자»</p></div><div class="lv-bar" style="width:100%"></div></div>
+    </div>
+    <figure class="fig-slot" data-step="4">
+      <svg class="dg" viewBox="0 0 720 560" role="img" aria-label="«그림 설명: 수준이 쌓인 피라미드»">
+        <polygon class="k-solid-o" points="360,40 480,180 240,180"/>
+        <text class="t-l k-t-w" text-anchor="middle" x="360" y="145">«꼭짓점 ≤5자»</text>
+        <polygon class="k-solid-b" points="228,196 492,196 560,340 160,340"/>
+        <text class="t-l k-t-w" text-anchor="middle" x="360" y="290">«중간 ≤5자»</text>
+        <polygon class="k-gray" points="148,356 572,356 640,500 80,500"/>
+        <text class="t-l" text-anchor="middle" x="360" y="450">«바탕 ≤5자»</text>
+        <path class="k-ln-g" d="M676 480V96" marker-end="url(#ahk)"/>
+        <text class="t-s" text-anchor="end" x="712" y="72">«오름 ≤4자»</text>
+      </svg>
+    </figure>
   </div>
   <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
 </section>
@@ -3807,9 +3896,9 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
 
 <!-- ==== 17-statement.html ==== -->
 <!--
-  아키타입 statement (변형: orange, dark, quote-card, question-declare, banner-strip)
+  아키타입 statement (변형: orange, dark, quote-card, question-declare, banner-strip, fig)
   언제: 파트를 여는 핵심 문장 한 줄(주황/어두운 전면). 공식 출처가 있으면 아래에 칩.
-  변형: quote-card=말줄임 카드+인용자, question-declare=질문 칩→화살→선언, banner-strip=전폭 주황 띠 선언.
+  변형: quote-card=말줄임 카드+인용자, question-declare=질문 칩→화살→선언, banner-strip=전폭 주황 띠 선언, fig=큰 주장+그림 자리.
   단계: 단계 없음
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
   t2 문법: 둘째 줄 마지막 어절 자리표시를 <em class="t2"> 로 감싼 채 두면 강조색 2톤이 된다(문장당 1회). 규칙: references/expression.md 1절.
@@ -3858,6 +3947,34 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
   </div>
   <p class="small" style="font-size:24px;color:var(--soft);padding:28px 120px 0">«각주·출처 한 줄 ≤46자»</p>
   <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(띠 안의 선언을 또박또박 읽는다) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- fig: 큰 주장 + 그림 자리 — 선언을 듣고 개념 그림으로 이어 간다 -->
+<section class="slide" data-archetype="statement" data-variant="fig" style="gap:48px">
+  <div class="row" style="flex:1;min-height:0;gap:56px;align-items:center">
+    <div class="col" style="width:860px;flex:none;gap:32px;justify-content:center">
+      <p class="eyebrow" style="font-size:30px">«파트 표시 ≤12자»</p>
+      <h2 class="big" style="font-size:72px">«핵심 문장 ≤11자»<br>«핵심 문장 ≤9자» <em class="t2">«어절 ≤4자»</em></h2>
+      <p class="body" style="font-size:32px">«주장을 받치는 한 줄 ≤34자»</p>
+    </div>
+    <figure class="fig-slot" data-step="1">
+      <svg class="dg" viewBox="0 0 640 600" role="img" aria-label="«그림 설명: 주장이 가리키는 개념»">
+        <circle class="k-solid-o" cx="320" cy="290" r="108"/>
+        <text class="t-l k-t-w" text-anchor="middle" x="320" y="282">«핵심 ≤5자»</text>
+        <text class="t-s k-t-w" text-anchor="middle" x="320" y="326">«보조 ≤6자»</text>
+        <path class="k-ln-g" d="M224 216L136 140"/>
+        <path class="k-ln-g" d="M416 216L504 140"/>
+        <path class="k-ln-g" d="M320 398V506" marker-end="url(#ahk)"/>
+        <circle class="k-blue" cx="112" cy="110" r="44"/>
+        <circle class="k-blue" cx="528" cy="110" r="44"/>
+        <circle class="k-orange" cx="320" cy="546" r="44"/>
+        <text class="t-s" text-anchor="middle" x="112" y="34">«주변 ≤5자»</text>
+        <text class="t-s" text-anchor="middle" x="528" y="34">«주변 ≤5자»</text>
+        <text class="t-s" text-anchor="middle" x="440" y="552">«결과 ≤5자»</text>
+      </svg>
+    </figure>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
 </section>
 
 <!-- ==== 18-build-up.html ==== -->
@@ -4667,7 +4784,7 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
 
 <!-- ==== 26-rules-dark.html ==== -->
 <!--
-  아키타입 rules-dark (변형: 기본)
+  아키타입 rules-dark (변형: 기본, numbered-clauses, allowed-forbidden, warning-bands, rule-matrix, fig)
   언제: 꼭 지킬 3가지(어두운 배경). 위험·확인 파트의 끝.
   단계: 규칙별 1단계
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
@@ -4706,6 +4823,34 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
   <div class="head"><p class="eyebrow">«파트 표시 ≤12자»</p><h2 class="title">«제목: 한 문장 ≤24자»</h2></div>
   <div style="flex:1;background:var(--paper);color:var(--ink);padding:26px 32px"><div class="row" style="border-bottom:3px solid var(--ink);font-size:24px;font-weight:800;padding:10px 0"><span style="width:180px">«구분 ≤8자»</span><span>«행동 기준 ≤14자»</span></div><div class="col" style="gap:18px;padding-top:22px"><div data-step="1" style="display:flex;gap:26px;align-items:flex-start;"><p class="num" style="font-size:52px;line-height:1;color:var(--ink);">01</p><div><h3 style="font-size:34px;color:var(--ink);">«규칙 1 제목 ≤14자»</h3><p class="body" style="font-size:26px;color:var(--ink);">«규칙 설명 ≤28자»</p></div></div><div data-step="2" style="display:flex;gap:26px;align-items:flex-start;"><p class="num" style="font-size:52px;line-height:1;color:var(--ink);">02</p><div><h3 style="font-size:34px;color:var(--ink);">«규칙 2 제목 ≤14자»</h3><p class="body" style="font-size:26px;color:var(--ink);">«규칙 설명 ≤28자»</p></div></div><div data-step="3" style="display:flex;gap:26px;align-items:flex-start;"><p class="num" style="font-size:52px;line-height:1;color:var(--ink);">03</p><div><h3 style="font-size:34px;color:var(--ink);">«규칙 3 제목 ≤14자»</h3><p class="body" style="font-size:26px;color:var(--ink);">«규칙 설명 ≤28자»</p></div></div></div></div>
   <aside class="notes">«발표자 노트 110~450자: 화면의 핵심을 설명하고 단계별 공개 순서와 학습자 활동을 안내한 뒤 다음 내용으로 연결합니다.»</aside>
+</section>
+
+<!-- fig: 규칙 목록 + 그림 자리 — 규칙을 세우고 허용·금지 경계를 도식으로 본다 -->
+<section class="slide dark" data-archetype="rules-dark" data-variant="fig" style="gap:40px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤12자»</p><h2 class="title">«제목: 한 문장 ≤20자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;gap:48px;align-items:stretch">
+    <div class="col" style="width:760px;flex:none;min-height:0;gap:24px;justify-content:center">
+      <div class="col f1" data-step="1" style="gap:10px;justify-content:center"><p class="num" style="font-size:56px">1</p><h3 style="font-size:36px;font-weight:700">«규칙 1 ≤12자»</h3><p class="body" style="font-size:26px">«설명 ≤30자»</p></div>
+      <div class="col f1" data-step="2" style="gap:10px;justify-content:center"><p class="num" style="font-size:56px">2</p><h3 style="font-size:36px;font-weight:700">«규칙 2 ≤10자»</h3><p class="body" style="font-size:26px">«설명 ≤32자»</p></div>
+      <div class="col f1" data-step="3" style="gap:10px;justify-content:center"><p class="num" style="font-size:56px">3</p><h3 style="font-size:36px;font-weight:700">«규칙 3 ≤11자»</h3><p class="body" style="font-size:26px">«설명 ≤28자»</p></div>
+    </div>
+    <figure class="fig-slot" data-step="4">
+      <svg class="dg" viewBox="0 0 720 560" role="img" aria-label="«그림 설명: 허용 영역과 금지 영역의 경계»">
+        <rect class="k-frame" x="40" y="60" width="430" height="440" rx="24"/>
+        <text class="t-l o" x="76" y="126">«허용 영역 ≤7자»</text>
+        <rect class="k-solid-b" x="96" y="180" width="230" height="86" rx="16"/>
+        <text class="t-l k-t-w" text-anchor="middle" x="211" y="234">«되는 일 ≤6자»</text>
+        <rect class="k-solid-b" x="96" y="320" width="230" height="86" rx="16"/>
+        <text class="t-l k-t-w" text-anchor="middle" x="211" y="374">«되는 일 ≤6자»</text>
+        <g><rect class="k-gray" x="510" y="200" width="170" height="86" rx="16" opacity=".55"/>
+        <text class="t-s k-t-w" text-anchor="middle" x="595" y="254">«금지 ≤5자»</text>
+        <path class="k-ln-o" d="M520 210L670 276M670 210L520 276"/></g>
+        <text class="t-s k-t-w" text-anchor="middle" x="595" y="340">«밖 ≤5자»</text>
+      </svg>
+      <figcaption>«그림 캡션 ≤24자»</figcaption>
+    </figure>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
 </section>
 
 <!-- ==== 27-checklist.html ==== -->
