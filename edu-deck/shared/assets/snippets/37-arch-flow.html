@@ -1,0 +1,97 @@
+<!--
+  아키타입 arch-flow (변형: lanes / layers / steps / state / parallel / decision / hub / link)
+  언제: 구성도(시스템 구성·제품 층)와 업무 흐름(처리 단계·상태 전이·분기·연동)을 격자 위에 그릴 때.
+  배치 규칙: 본문 장 한 장. 표지에는 쓰지 않는다. 같은 figure 안에 k-*·.tile·.ed-diagram 같은
+    레거시 도식 클래스와 섞지 않는다 — 이 계열은 data-c="stack" 부품이 도식 전체를 그린다.
+  데이터: div.stack-fig 의 data-d 에 작은따옴표 JSON(내부는 큰따옴표만, 어포스트로피 금지)으로
+    노드·간선·그룹을 쓴다. 격자: row 0~2 · col 0~5 · 칸 중복 금지 · 노드 2~14 · 간선 ≤20 · 그룹 ≤5.
+    규칙 주인은 scripts/stack_schema.py — 형태 오류는 빌드 실패(ERROR), 칸 넘침은 WARN.
+  아이콘: assets/kit/vendor/lucide-subset.json 의 101개 Lucide(ISC) 이름만. 로고·브랜드 마크 금지.
+  등장: 장에 들어오면 그룹→노드→화살표·라벨 순으로 자동 등장(stack-reveal). data-step 을 쓰지 않는다
+    (도식 내부 순서는 부품이 소유) — 캡션·요약 글자에만 단계를 줄 수 있다.
+    인쇄·자습·동작 줄이기·캡처에서는 완성 그림. 한 번 본 장은 다시 재생하지 않는다.
+  쓰는 법: 필요한 section 하나만 복사하고 data-d 의 «…» 자리표시와 겹꺾쇠 텍스트를 모두 바꾼다.
+    자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다. 형식: references/stack.md.
+  예산: 노드명 ≤8자 · 역할 ≤11자 · 간선 라벨 ≤7자 · 그룹 라벨 ≤6자.
+  배치 설명: references/layouts.md · 클래스: references/classes.md · 규칙: references/expression.md
+-->
+
+<!-- lanes: 레인(그룹)으로 주체를 나누고 번호 배지 순서대로 일이 오가는 업무 흐름 -->
+<section class="slide" data-archetype="arch-flow" data-variant="lanes" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <figure class="viz-fig">
+    <div class="stack-fig" data-c="stack" role="img" aria-label="«도식 요지 한 문장: lanes — 무엇이 어떻게 연결되는지»" data-d='{"nodes":[{"id":"req","name":"«항목 ≤8자»","icon":"mail","row":0,"col":0,"role":"«역할 ≤11자»","badge":1},{"id":"ana","name":"«항목 ≤8자»","icon":"search","row":1,"col":1,"role":"«역할 ≤11자»","badge":2},{"id":"doc","name":"«항목 ≤8자»","icon":"file-text","row":1,"col":2,"role":"«역할 ≤11자»","badge":3},{"id":"rev","name":"«항목 ≤8자»","icon":"eye","row":0,"col":3,"role":"«역할 ≤11자»","badge":4},{"id":"neg","name":"«항목 ≤8자»","icon":"messages-square","row":1,"col":3,"role":"«역할 ≤11자»","badge":5},{"id":"ok","name":"«항목 ≤8자»","icon":"circle-check","row":0,"col":4,"role":"«역할 ≤11자»","tone":"brand","badge":6}],"edges":[{"from":"req","to":"ana"},{"from":"ana","to":"doc"},{"from":"doc","to":"rev","label":"«관계 ≤7자»"},{"from":"rev","to":"neg","label":"«관계 ≤7자»"},{"from":"neg","to":"ok","label":"«관계 ≤7자»"}],"groups":[{"id":"cust","label":"«주체 ≤6자»","icon":"building","nodes":["req","rev","ok"],"cols":[0,4],"tone":"accent"},{"id":"team","label":"«주체 ≤6자»","icon":"users","nodes":["ana","doc","neg"],"cols":[0,4],"tone":"brand"}]}'></div>
+    <figcaption>«그림 설명 ≤30자»</figcaption>
+  </figure>
+  <aside class="notes">레인 변형: 위아래 두 그룹이 주체(고객·제안팀)를 나누고 노드의 번호 배지가 일의 순서를 가리킨다. 발표 때는 배지 순서대로 "요구 전달→분석→작성→검토→협의→승인" 흐름을 짚고, 주체가 바뀌는 지점(레인을 넘는 화살표)에서 잠깐 멈춰 책임 이동을 강조한다.</aside>
+</section>
+
+<!-- layers: 화면·기능·데이터처럼 위에서 아래로 쌓이는 제품·시스템 층 구조 -->
+<section class="slide" data-archetype="arch-flow" data-variant="layers" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <figure class="viz-fig">
+    <div class="stack-fig" data-c="stack" role="img" aria-label="«도식 요지 한 문장: layers — 무엇이 어떻게 연결되는지»" data-d='{"nodes":[{"id":"web","name":"«항목 ≤8자»","icon":"monitor","row":0,"col":0,"role":"«역할 ≤11자»"},{"id":"app","name":"«항목 ≤8자»","icon":"smartphone","row":0,"col":1,"role":"«역할 ≤11자»"},{"id":"adm","name":"«항목 ≤8자»","icon":"layout-dashboard","row":0,"col":2,"role":"«역할 ≤11자»"},{"id":"wr","name":"«항목 ≤8자»","icon":"file-text","row":1,"col":0,"role":"«역할 ≤11자»"},{"id":"chk","name":"«항목 ≤8자»","icon":"shield-check","row":1,"col":1,"role":"«역할 ≤11자»","tone":"brand"},{"id":"flow","name":"«항목 ≤8자»","icon":"workflow","row":1,"col":2,"role":"«역할 ≤11자»"},{"id":"ntf","name":"«항목 ≤8자»","icon":"bell","row":1,"col":3,"role":"«역할 ≤11자»"},{"id":"db","name":"«항목 ≤8자»","icon":"database","row":2,"col":0,"role":"«역할 ≤11자»"},{"id":"fs","name":"«항목 ≤8자»","icon":"hard-drive","row":2,"col":1,"role":"«역할 ≤11자»"},{"id":"ext","name":"«항목 ≤8자»","icon":"link","row":2,"col":2,"role":"«역할 ≤11자»"}],"edges":[{"from":"web","to":"wr"},{"from":"app","to":"chk"},{"from":"adm","to":"flow"},{"from":"wr","to":"db","kind":"sub"},{"from":"chk","to":"fs","kind":"sub"},{"from":"flow","to":"ext","kind":"sub"}],"groups":[{"id":"ui","label":"«주체 ≤6자»","icon":"layout-dashboard","nodes":["web","app","adm"],"cols":[0,3]},{"id":"fn","label":"«주체 ≤6자»","icon":"layers","nodes":["wr","chk","flow","ntf"],"cols":[0,3],"tone":"brand"},{"id":"dt","label":"«주체 ≤6자»","icon":"database","nodes":["db","fs","ext"],"cols":[0,3],"tone":"accent"}]}'></div>
+    <figcaption>«그림 설명 ≤30자»</figcaption>
+  </figure>
+  <aside class="notes">층 변형: 사용자 화면·핵심 기능·데이터 세 그룹이 위에서 아래로 쌓인 그림이다. 위층이 아래층을 부른다는 의존 관계를 화살표 방향으로 설명하고, 굵은 실선은 주요 호출, 가는 sub 선은 내부 저장 흐름으로 구분해 짚는다. 실제 덱에서는 층 이름과 각 칸의 역할을 주제에 맞게 채운다.</aside>
+</section>
+
+<!-- steps: 한 줄로 이어지는 처리 단계와 점선으로 표시한 예외(반려·긴급) 경로 -->
+<section class="slide" data-archetype="arch-flow" data-variant="steps" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <figure class="viz-fig">
+    <div class="stack-fig" data-c="stack" role="img" aria-label="«도식 요지 한 문장: steps — 무엇이 어떻게 연결되는지»" data-d='{"nodes":[{"id":"a","name":"«항목 ≤8자»","icon":"clipboard-list","row":0,"col":0,"role":"«역할 ≤11자»","badge":1},{"id":"b","name":"«항목 ≤8자»","icon":"search","row":0,"col":1,"role":"«역할 ≤11자»","badge":2},{"id":"c","name":"«항목 ≤8자»","icon":"gavel","row":0,"col":2,"role":"«역할 ≤11자»","badge":3},{"id":"d","name":"«항목 ≤8자»","icon":"wrench","row":0,"col":3,"role":"«역할 ≤11자»","badge":4},{"id":"e","name":"«항목 ≤8자»","icon":"circle-check","row":0,"col":4,"role":"«역할 ≤11자»","tone":"brand","badge":5}],"edges":[{"from":"a","to":"b"},{"from":"b","to":"c","label":"«관계 ≤7자»"},{"from":"c","to":"d"},{"from":"d","to":"e"},{"from":"b","to":"a","label":"«관계 ≤7자»","kind":"dash"},{"from":"a","to":"e","label":"«관계 ≤7자»","kind":"dash"}]}'></div>
+    <figcaption>«그림 설명 ≤30자»</figcaption>
+  </figure>
+  <aside class="notes">단계 변형: 한 줄의 번호 배지가 접수부터 완료까지 정규 경로를 보여 준다. 점선 두 갈래는 정규 경로를 벗어나는 예외다 — "반려"는 이전 단계로 되돌아가고 "긴급 건"은 처음에서 끝으로 건너뛴다. 예외가 진짜 예외인지(자주 일어나면 정규 경로로 그릴 것)를 짚고 넘어간다.</aside>
+</section>
+
+<!-- state: 요청의 상태가 바뀌는 전이 그림과 점선 롤백(반려→보완→재제출) 고리 -->
+<section class="slide" data-archetype="arch-flow" data-variant="state" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <figure class="viz-fig">
+    <div class="stack-fig" data-c="stack" role="img" aria-label="«도식 요지 한 문장: state — 무엇이 어떻게 연결되는지»" data-d='{"nodes":[{"id":"w","name":"«항목 ≤8자»","icon":"clock","row":0,"col":0,"role":"«역할 ≤11자»","badge":1},{"id":"r","name":"«항목 ≤8자»","icon":"file-search","row":0,"col":1,"role":"«역할 ≤11자»","badge":2},{"id":"a","name":"«항목 ≤8자»","icon":"circle-check","row":0,"col":2,"role":"«역할 ≤11자»","badge":3},{"id":"d","name":"«항목 ≤8자»","icon":"rocket","row":0,"col":3,"role":"«역할 ≤11자»","tone":"brand","badge":4},{"id":"x","name":"«항목 ≤8자»","icon":"circle-x","row":1,"col":1,"role":"«역할 ≤11자»"},{"id":"f","name":"«항목 ≤8자»","icon":"pencil","row":1,"col":0,"role":"«역할 ≤11자»"}],"edges":[{"from":"w","to":"r","label":"«관계 ≤7자»"},{"from":"r","to":"a","label":"«관계 ≤7자»"},{"from":"a","to":"d","label":"«관계 ≤7자»"},{"from":"r","to":"x","label":"«관계 ≤7자»","kind":"dash"},{"from":"x","to":"f","label":"«관계 ≤7자»","kind":"dash"},{"from":"f","to":"w","label":"«관계 ≤7자»","kind":"dash"}]}'></div>
+    <figcaption>«그림 설명 ≤30자»</figcaption>
+  </figure>
+  <aside class="notes">상태 변형: 윗줄이 대기→검토→승인→완료의 정상 전이고, 아랫줄 반려·보완이 점선 롤백 고리다. "불충분"으로 떨어진 상태가 안내를 거쳐 재제출로 처음 상태로 돌아오는 순환을 강조한다. 실덱에서는 각 상태명·전이 조건 라벨을 문서 상태·업무 용어로 바꾼다.</aside>
+</section>
+
+<!-- parallel: 한 지점에서 두 갈래로 갈라졌다가 다시 합쳐지는 동시 진행 업무 -->
+<section class="slide" data-archetype="arch-flow" data-variant="parallel" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <figure class="viz-fig">
+    <div class="stack-fig" data-c="stack" role="img" aria-label="«도식 요지 한 문장: parallel — 무엇이 어떻게 연결되는지»" data-d='{"nodes":[{"id":"in","name":"«항목 ≤8자»","icon":"clipboard-list","row":1,"col":0,"role":"«역할 ≤11자»","badge":1},{"id":"doc","name":"«항목 ≤8자»","icon":"file-check","row":0,"col":1,"role":"«역할 ≤11자»","badge":2},{"id":"site","name":"«항목 ≤8자»","icon":"map-pin","row":2,"col":1,"role":"«역할 ≤11자»","badge":2},{"id":"join","name":"«항목 ≤8자»","icon":"layers","row":1,"col":2,"role":"«역할 ≤11자»","badge":3},{"id":"dec","name":"«항목 ≤8자»","icon":"gavel","row":1,"col":3,"role":"«역할 ≤11자»","tone":"brand","badge":4}],"edges":[{"from":"in","to":"doc","label":"«관계 ≤7자»"},{"from":"in","to":"site","label":"«관계 ≤7자»"},{"from":"doc","to":"join","label":"«관계 ≤7자»"},{"from":"site","to":"join","label":"«관계 ≤7자»"},{"from":"join","to":"dec"}]}'></div>
+    <figcaption>«그림 설명 ≤30자»</figcaption>
+  </figure>
+  <aside class="notes">병렬 변형: 접수에서 위(서류 검토)·아래(현장 확인)로 동시에 갈라져 결과 취합에서 다시 합쳐진다. 두 일이 "동시"에 진행된다는 라벨과, 취합 노드의 "둘 다 필요" 역할이 병렬의 의미다. 어느 쪽이 먼저 끝나도 다음으로 못 간다는 점을 짚는다.</aside>
+</section>
+
+<!-- decision: 조건에 따라 위·아래로 갈라지는 분기와 라벨이 붙은 선택지 -->
+<section class="slide" data-archetype="arch-flow" data-variant="decision" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <figure class="viz-fig">
+    <div class="stack-fig" data-c="stack" role="img" aria-label="«도식 요지 한 문장: decision — 무엇이 어떻게 연결되는지»" data-d='{"nodes":[{"id":"q","name":"«항목 ≤8자»","icon":"mail","row":1,"col":0,"role":"«역할 ≤11자»","badge":1},{"id":"c","name":"«항목 ≤8자»","icon":"scale","row":1,"col":1,"role":"«역할 ≤11자»","tone":"brand","badge":2},{"id":"auto","name":"«항목 ≤8자»","icon":"zap","row":0,"col":2,"role":"«역할 ≤11자»"},{"id":"man","name":"«항목 ≤8자»","icon":"user","row":2,"col":2,"role":"«역할 ≤11자»"},{"id":"ok","name":"«항목 ≤8자»","icon":"circle-check","row":1,"col":3,"role":"«역할 ≤11자»"},{"id":"no","name":"«항목 ≤8자»","icon":"circle-x","row":2,"col":3,"role":"«역할 ≤11자»"}],"edges":[{"from":"q","to":"c"},{"from":"c","to":"auto","label":"«관계 ≤7자»"},{"from":"c","to":"man","label":"«관계 ≤7자»"},{"from":"auto","to":"ok"},{"from":"man","to":"ok","label":"«관계 ≤7자»"},{"from":"man","to":"no","label":"«관계 ≤7자»","kind":"dash"}]}'></div>
+    <figcaption>«그림 설명 ≤30자»</figcaption>
+  </figure>
+  <aside class="notes">분기 변형: 가운데 확인 노드(기준 금액)에서 "이하"는 위로 자동 승인, "초과"는 아래로 담당자 검토로 갈라진다. 분기 라벨이 조건 그 자체이므로 라벨 없는 분기는 만들지 않는다. 점선 "미흡"은 검토 실패 시 반려로 빠지는 탈출 경로다.</aside>
+</section>
+
+<!-- hub: 여러 창구가 가운데 허브로 모이는 집중 구조(허브 노드 강조) -->
+<section class="slide" data-archetype="arch-flow" data-variant="hub" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <figure class="viz-fig">
+    <div class="stack-fig" data-c="stack" role="img" aria-label="«도식 요지 한 문장: hub — 무엇이 어떻게 연결되는지»" data-d='{"nodes":[{"id":"hub","name":"«항목 ≤8자»","icon":"workflow","row":1,"col":2,"role":"«역할 ≤11자»","tone":"brand"},{"id":"tel","name":"«항목 ≤8자»","icon":"phone","row":1,"col":0,"role":"«역할 ≤11자»"},{"id":"mail","name":"«항목 ≤8자»","icon":"mail","row":0,"col":2,"role":"«역할 ≤11자»"},{"id":"bot","name":"«항목 ≤8자»","icon":"bot","row":1,"col":4,"role":"«역할 ≤11자»"},{"id":"visit","name":"«항목 ≤8자»","icon":"building-2","row":2,"col":2,"role":"«역할 ≤11자»"}],"edges":[{"from":"tel","to":"hub"},{"from":"mail","to":"hub"},{"from":"bot","to":"hub"},{"from":"visit","to":"hub"}]}'></div>
+    <figcaption>«그림 설명 ≤30자»</figcaption>
+  </figure>
+  <aside class="notes">허브 변형: 전화·메일·챗봇·방문 네 창구가 가운데 접수 허브로 모인다. 허브 노드만 brand 톤이라 눈에 먼저 들어온다 — "어디로 와도 한 곳에서 분류·배분한다"가 이 그림의 메시지다. 바깥 노드는 채널, 가운데는 단일 진입점이다.</aside>
+</section>
+
+<!-- link: 두 묶음(우리 제품·고객 시스템) 사이를 잇는 연동 경로 -->
+<section class="slide" data-archetype="arch-flow" data-variant="link" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 한 문장 ≤28자»</h2></div>
+  <figure class="viz-fig">
+    <div class="stack-fig" data-c="stack" role="img" aria-label="«도식 요지 한 문장: link — 무엇이 어떻게 연결되는지»" data-d='{"nodes":[{"id":"ui","name":"«항목 ≤8자»","icon":"monitor","row":0,"col":0,"role":"«역할 ≤11자»"},{"id":"eng","name":"«항목 ≤8자»","icon":"cpu","row":0,"col":1,"role":"«역할 ≤11자»","tone":"brand"},{"id":"store","name":"«항목 ≤8자»","icon":"database","row":1,"col":1,"role":"«역할 ≤11자»"},{"id":"erp","name":"«항목 ≤8자»","icon":"building","row":0,"col":3,"role":"«역할 ≤11자»"},{"id":"gw","name":"«항목 ≤8자»","icon":"mail","row":1,"col":4,"role":"«역할 ≤11자»"}],"edges":[{"from":"ui","to":"eng"},{"from":"eng","to":"store","kind":"sub"},{"from":"eng","to":"erp","label":"«관계 ≤7자»"},{"from":"store","to":"gw","label":"«관계 ≤7자»","kind":"dash"}],"groups":[{"id":"mine","label":"«주체 ≤6자»","icon":"box","nodes":["ui","eng","store"],"cols":[0,1],"tone":"brand"},{"id":"cust","label":"«주체 ≤6자»","icon":"building-2","nodes":["erp","gw"],"cols":[3,4],"tone":"accent"}]}'></div>
+    <figcaption>«그림 설명 ≤30자»</figcaption>
+  </figure>
+  <aside class="notes">연동 변형: 왼쪽 우리 제품 묶음과 오른쪽 고객 시스템 묶음 사이를 화살표가 잇는다. "API 실시간" 실선과 "파일 야간" 점선의 차이 — 실시간성·매체·주기가 연동 성격을 나눈다. 경계를 넘는 선만 연동이고 묶음 안 선은 내부 구조다.</aside>
+</section>

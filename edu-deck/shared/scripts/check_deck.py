@@ -47,6 +47,8 @@ ARCHETYPES = {
     "closing", "sources", "check", "stat-strip",
     # TASK-tools G3~G5: 도구·재료 확장 조각(33~36)
     "chart-bar", "chart-line", "explore", "detail-sheet",
+    # TASK-stack: 구성도·업무 흐름 부품(37)
+    "arch-flow",
 }
 STAT_NUM_CLASS = "stat-num"          # 숫자 증거 띠 큰 숫자(numbers() 숫자 릴 대상)
 STAT_BUDGETS = (12, 16)              # catalog.json 을 못 읽을 때의 폴백 예산(숫자, 라벨)
@@ -340,6 +342,18 @@ def static_checks(html_text, soup, rep, allow_placeholders):
             rep.add("ERROR", i, "아키타입", f"알 수 없는 data-archetype=\"{arch}\"")
         if sec.find("script"):
             rep.add("ERROR", i, "스크립트", "슬라이드 안에 <script> 가 있습니다")
+        # 구성도·업무 흐름(data-c="stack"): 읽기 계약(role/aria-label)과 데이터 형식 검사.
+        # 형태 오류는 ERROR, 칸 넘침은 WARN — 규칙의 주인은 scripts/stack_schema.py 다.
+        for el in sec.select('[data-c="stack"]'):
+            if el.get("role") != "img" or not el.get("aria-label"):
+                rep.add("ERROR", i, "구성도", "data-c=\"stack\" 에 role=\"img\" 와 aria-label(도식 요지)이 필요합니다", target=".stack-fig")
+            raw = el.get("data-d", "")
+            try:
+                from stack_schema import check_data_d, StackSchemaError
+                for w in check_data_d(raw):
+                    rep.add("WARN", i, "구성도", w, target=el.get("data-variant") or ".stack-fig")
+            except StackSchemaError as exc:
+                rep.add("ERROR", i, "구성도", str(exc), target=".stack-fig")
         # 확인 문제(check): 보기를 눌러 답하는 장. 마크업 규칙은 references/layouts.md 의 check 항
         if arch == "check":
             chks = sec.select(".chk")
@@ -1027,6 +1041,15 @@ RENDER_JS = r"""
       if (w > 0 && h > 0 && w * h > 0.3 * Math.min(p.width * p.height, q.width * q.height)) { hit = true; break; }
     } if (hit) break; }
     if (hit) out.push({sev: 'WARN', kind: '글자 겹침', target: desc(a.e) + '|' + desc(b.e), msg: desc(a.e) + ' 와 ' + desc(b.e) + ' 가 겹칩니다'});
+  }
+  // 구성도(data-c="stack"): 도식 높이 상한 600px — 자연 높이가 넘으면 max-height 로 줄여 그린다(WARN).
+  for (const host of slide.querySelectorAll('[data-c="stack"]')) {
+    const sv = host.querySelector('svg');
+    if (!sv || !sv.viewBox || !sv.viewBox.baseVal) continue;
+    const r = sv.getBoundingClientRect(), vb = sv.viewBox.baseVal;
+    if (r.height > 600 + T) out.push({sev: 'ERROR', kind: '도식 높이', target: '.stack-fig', msg: '구성도 도식이 600px 를 넘게 그려졌습니다'});
+    else if (vb.height && vb.width && r.width && vb.height * (r.width / vb.width) > 600 + T)
+      out.push({sev: 'WARN', kind: '도식 높이', target: '.stack-fig', msg: '구성도 도식 자연 높이가 600px 를 넘어 줄여 그립니다'});
   }
   return out;
 }

@@ -57,7 +57,7 @@ class DiagramVariantsTest(unittest.TestCase):
         cls.groups = families()
 
     def test_each_discovered_family_has_the_required_variants(self):
-        self.assertEqual(set(self.groups), {f'{n:02}' for n in range(1, 37)})
+        self.assertEqual(set(self.groups), {f'{n:02}' for n in range(1, 38)})
         all_complete = os.environ.get('EDU_DECK_ALL_VARIANTS_COMPLETE') == '1'
         for family, variants in self.groups.items():
             required = 5 if all_complete else PENDING_B.get(family, 5)

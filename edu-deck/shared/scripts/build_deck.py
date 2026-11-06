@@ -199,11 +199,22 @@ def build(title, slide_files, css_dirs, icon_dirs, out_path, study=None, resourc
         css += font_css(font)
     except ValueError as exc:
         raise BuildError(str(exc)) from exc
+    slides_html, count = collect_slides(slide_files)
+    stack_on = 'data-c="stack"' in strip_comments(slides_html)
+    if stack_on:
+        # 구성도·업무 흐름 부품: 도식이 있는 덱에만 kit 자산을 싣는다(없는 덱은 바이트가 늘지 않는다).
+        # data-d 형태 오류는 빌드 실패 — stack_schema.py 가 형식·배치 규칙의 주인이다.
+        from stack_schema import check_data_d, StackSchemaError
+        for m in re.finditer(r"data-d='([^']*)'", strip_comments(slides_html)):
+            try:
+                warnings.extend(check_data_d(m.group(1)))
+            except StackSchemaError as exc:
+                raise BuildError(f"data-c=\"stack\" 데이터 오류: {exc}") from exc
+        css += "\n" + read_utf8(assets / "kit" / "patterns.css")
     shell = read_utf8(shell_path)
     for mark in (MARK_TITLE, MARK_CSS, MARK_ICONS, MARK_SLIDES, MARK_STUDY):
         if shell.count(mark) != 1:
             raise BuildError(f"셸 표식 '{mark}' 이 정확히 1번 있어야 합니다 ({shell_path})")
-    slides_html, count = collect_slides(slide_files)
     study_html = ""
     if study:
         # </ 가 들어오면 <script> 가 닫히므로 안전하게 이스케이프한다
@@ -214,6 +225,15 @@ def build(title, slide_files, css_dirs, icon_dirs, out_path, study=None, resourc
     out = out.replace(MARK_ICONS, collect_icons(icon_dirs, warnings))
     out = out.replace(MARK_STUDY, study_html)
     out = out.replace(MARK_SLIDES, slides_html)
+    if stack_on:
+        # 아이콘 사본 → JSON 스크립트, 그 뒤에 부품 스크립트(엔진 스크립트 뒤 body 끝).
+        icons = read_utf8(assets / "kit" / "vendor" / "lucide-subset.json").replace("</", "<\\/")
+        js = read_utf8(assets / "kit" / "stack.js")
+        if "</script" in js.lower():
+            raise BuildError("stack.js 에 </script 가 있어 인라인할 수 없습니다")
+        out = out.replace("</body>",
+                          '<script type="application/json" id="ppt-stack-icons">'
+                          + icons + "</script>\n<script>" + js + "</script>\n</body>", 1)
     if resource_pack is not None:
         metadata = html.escape(json.dumps(pack, ensure_ascii=False), quote=True)
         out = out.replace('</head>', f'<meta name="edu-deck-resource-pack" content="{metadata}">\n</head>', 1)

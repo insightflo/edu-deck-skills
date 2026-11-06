@@ -1,0 +1,51 @@
+/* 구성도·업무 흐름(data-c="stack") 공통 어휘 — 덱·팩·장 배치 조각 어디서나 같은 클래스다.
+   노드를 행·열 격자에 놓고 assets/kit/stack.js 가 SVG 로 그린다. 색은 슬라이드 토큰을 따른다.
+   형식은 references/stack.md. 포팅 원천: ppt-html stack.css(caru-ini/stack-diagram MIT 계승). */
+.viz-fig{margin:0;display:flex;flex-direction:column;gap:14px;min-width:0}
+.viz-fig figcaption{font-size:24px;line-height:1.5;color:var(--soft)}
+.slide.dark .viz-fig figcaption{color:color-mix(in srgb,var(--light) 78%,var(--ink))}
+.stack-fig{--sf-ink:var(--ink);--sf-sub:var(--soft);--sf-paper:var(--paper);--sf-tile:var(--paper);--sf-rule:var(--line);--sf-brand:var(--accent);--sf-accent:var(--accent-deep,var(--accent));
+  position:relative;width:100%;margin:0}
+.slide.dark .stack-fig{--sf-ink:var(--light);--sf-sub:color-mix(in srgb,var(--light) 62%,var(--ink));--sf-paper:var(--ink);--sf-tile:color-mix(in srgb,var(--light) 8%,var(--ink));--sf-rule:color-mix(in srgb,var(--light) 22%,var(--ink));--sf-brand:var(--accent-light,var(--accent));--sf-accent:var(--accent,var(--accent-light))}
+.stack-fig svg{display:block;width:100%;height:auto;max-height:600px;overflow:visible}
+.stack-fig .sf-tile{fill:var(--sf-tile);stroke:var(--sf-rule);stroke-width:1.5}
+.stack-fig .sf-ico{fill:none;stroke:var(--sf-ink);stroke-linecap:round;stroke-linejoin:round}
+.stack-fig .sf-name,.stack-fig .sf-role,.stack-fig .sf-el,.stack-fig .sf-glabel{paint-order:stroke;stroke:var(--sf-paper);stroke-width:6;stroke-linejoin:round;font-family:var(--pack-sans,inherit)}
+.stack-fig .sf-name{font-size:19px;font-weight:700;fill:var(--sf-ink)}
+.stack-fig .sf-role{font-size:14px;font-weight:500;fill:var(--sf-sub)}
+.stack-fig .sf-el{font-size:14px;font-weight:600;fill:var(--sf-sub)}
+.stack-fig .sf-e-main .sf-el{fill:var(--sf-brand)}
+.stack-fig .sf-t-brand .sf-tile{fill:color-mix(in srgb,var(--sf-brand) 14%,var(--sf-paper));stroke:var(--sf-brand)}
+.stack-fig .sf-t-brand .sf-ico{stroke:var(--sf-brand)}
+.stack-fig .sf-t-dark .sf-tile{fill:var(--sf-ink);stroke:var(--sf-ink)}
+.stack-fig .sf-t-dark .sf-ico{stroke:var(--sf-paper)}
+.stack-fig .sf-badge{fill:var(--sf-brand)}
+.stack-fig .sf-badge-t{fill:var(--sf-paper);font-size:13px;font-weight:700;dominant-baseline:central;font-family:var(--pack-sans,inherit)}
+.stack-fig .sf-group rect{fill:color-mix(in srgb,var(--sf-ink) 4%,var(--sf-paper));stroke:var(--sf-rule);stroke-width:1.5}
+.stack-fig .sf-g-brand rect{fill:color-mix(in srgb,var(--sf-brand) 8%,var(--sf-paper));stroke:color-mix(in srgb,var(--sf-brand) 55%,var(--sf-paper))}
+.stack-fig .sf-g-accent rect{fill:color-mix(in srgb,var(--sf-accent) 9%,var(--sf-paper));stroke:color-mix(in srgb,var(--sf-accent) 55%,var(--sf-paper))}
+.stack-fig .sf-glabel{font-size:16px;font-weight:700;fill:var(--sf-ink);stroke:var(--gh);stroke-width:7}
+.stack-fig .sf-lg-plain{--gh:color-mix(in srgb,var(--sf-ink) 4%,var(--sf-paper))}
+.stack-fig .sf-lg-brand{--gh:color-mix(in srgb,var(--sf-brand) 8%,var(--sf-paper))}
+.stack-fig .sf-lg-accent{--gh:color-mix(in srgb,var(--sf-accent) 9%,var(--sf-paper))}
+.stack-fig .sf-gico{fill:none;stroke:var(--sf-sub);stroke-linecap:round;stroke-linejoin:round}
+.stack-fig .sf-edge path{fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.stack-fig .sf-e-main path{stroke:var(--sf-brand)}
+.stack-fig .sf-e-sub path,.stack-fig .sf-e-dash path{stroke:var(--sf-sub)}
+.stack-fig .sf-e-dash path{stroke-dasharray:7 6}
+.stack-fig .sf-ar-main{fill:var(--sf-brand)}
+.stack-fig .sf-ar-sub{fill:var(--sf-sub)}
+/* 장에 들어올 때: 그룹 → 노드 → 화살표·라벨 순으로 나타난다(is-play). 인쇄·캡처·동작 줄이기·자습에서는 is-play 가 없어 완성 모습이다 */
+@keyframes sfPop{from{opacity:0;transform:translateY(8px) scale(.94)}to{opacity:1;transform:none}}
+@keyframes sfFade{from{opacity:0}to{opacity:1}}
+@keyframes sfDraw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+.stack-fig.is-play .sf-group,.stack-fig.is-play .sf-glw{animation:sfFade .45s ease both;animation-delay:var(--d,0ms)}
+.stack-fig.is-play .sf-node{animation:sfPop .45s cubic-bezier(.22,1,.36,1) both;animation-delay:var(--d,0ms);transform-box:fill-box;transform-origin:center}
+.stack-fig.is-play .sf-e-main path,.stack-fig.is-play .sf-e-sub path{stroke-dasharray:1;animation:sfDraw .6s ease both;animation-delay:var(--d,0ms)}
+.stack-fig.is-play .sf-e-dash path{animation:sfFade .5s ease both;animation-delay:var(--d,0ms)}
+.stack-fig.is-play .sf-el{animation:sfFade .4s ease both;animation-delay:var(--d,0ms)}
+@media print{.stack-fig .sf-group,.stack-fig .sf-glw,.stack-fig .sf-node,.stack-fig .sf-edge path,.stack-fig .sf-el{animation:none!important;opacity:1!important}}
+@media (prefers-reduced-motion:reduce){.stack-fig .sf-group,.stack-fig .sf-glw,.stack-fig .sf-node,.stack-fig .sf-edge path,.stack-fig .sf-el{animation:none!important;opacity:1!important}}
+body.st-self .stack-fig .sf-group,body.st-self .stack-fig .sf-glw,body.st-self .stack-fig .sf-node,body.st-self .stack-fig .sf-edge path,body.st-self .stack-fig .sf-el,
+body.st-printing .stack-fig .sf-group,body.st-printing .stack-fig .sf-glw,body.st-printing .stack-fig .sf-node,body.st-printing .stack-fig .sf-edge path,body.st-printing .stack-fig .sf-el,
+body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body.st-presenter .stack-fig .sf-node,body.st-presenter .stack-fig .sf-edge path,body.st-presenter .stack-fig .sf-el{animation:none!important;opacity:1!important}

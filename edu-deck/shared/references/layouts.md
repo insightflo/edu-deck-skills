@@ -166,6 +166,15 @@
 | 36 | detail-sheet (bottom-sheet) | 아래에서 여는 배경·사례 | 2단계 | 열기와 시트의 키를 맞추고 인쇄·자습에 모두 펼침 |
 | 36 | detail-sheet (definition-cards) | 용어 카드와 확대 풀이 | 2단계 | 열기와 시트의 키를 맞추고 인쇄·자습에 모두 펼침 |
 | 36 | detail-sheet (attribute-sheet) | 속성별 상세 시트 | 2단계 | 열기와 시트의 키를 맞추고 인쇄·자습에 모두 펼침 |
+| 37 | arch-flow | 구성도·업무 흐름 부품: `figure.viz-fig` 안 `.stack-fig[data-c="stack"]` 의 `data-d`(작은따옴표 JSON)에 노드 행·열 칸과 간선·그룹만 쓰면 부품이 상자·경로를 계산해 SVG로 그린다 | 0(도식 내부에 data-step 금지 — 부품이 그룹→노드→화살표 순서를 소유) | **같은 figure 안에 k-*·.tile·.ed-diagram 금지.** role="img"·aria-label 필수. 격자 row0~2·col0~5·칸 중복 금지·노드2~14·간선≤20·그룹≤5·중첩 1단·직사각 그룹·비구성원 덮음 오류 — 규칙 주인 stack_schema.py. 아이콘은 Lucide 고정 사본 101종만. 도식 최대 높이 600px, 넘으면 줄여 그림(WARN). 시그니처 stack-reveal |
+| 37 | arch-flow (lanes) | 주체별 레인(그룹 2) + 번호 배지 순서 업무 흐름 | 0 | 그룹 라벨 ≤6자 · 노드명 ≤8자 · 역할 ≤11자 · 관계 라벨 ≤7자 |
+| 37 | arch-flow (layers) | 화면·기능·데이터 제품 층(그룹 3) | 0 | 위층→아래층 의존 화살표, 내부 저장은 kind="sub" |
+| 37 | arch-flow (steps) | 한 줄 처리 단계 + 점선 예외(반려·긴급) | 0 | kind="dash" 가 예외 경로 |
+| 37 | arch-flow (state) | 상태 전이 + 점선 롤백 고리 | 0 | 전이 조건은 간선 라벨 |
+| 37 | arch-flow (parallel) | 분기 후 합류하는 동시 진행 | 0 | "동시" 라벨로 병렬 표시 |
+| 37 | arch-flow (decision) | 조건 라벨 분기 + 점선 탈출 | 0 | 라벨 없는 분기 금지 |
+| 37 | arch-flow (hub) | 창구들이 중앙 허브로 집중 | 0 | 허브 노드 tone="brand" |
+| 37 | arch-flow (link) | 두 묶음(그룹 2) 사이 연동 | 0 | 실선 실시간·점선 야간 구분 |
 
 ## 표지 직접 설계 계약
 
