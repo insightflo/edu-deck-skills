@@ -1773,7 +1773,7 @@ body.st-self .dsheet-panel{position:static;transform:none;visibility:visible;dis
     if(!title||title.dataset.edKinetic)return;
     title.dataset.edKinetic='1';
     const walk=document.createTreeWalker(title,NodeFilter.SHOW_TEXT);let node,nodes=[];
-    while((node=walk.nextNode()))if(node.textContent.trim())nodes.push(node);
+    while((node=walk.nextNode()))if(node.textContent.trim()&&!node.parentElement.closest('[data-fx]'))nodes.push(node);
     for(const text of nodes){
       const frag=document.createDocumentFragment();
       for(const ch of Array.from(text.textContent)){if(/\s/.test(ch)){frag.append(document.createTextNode(ch));continue;}
@@ -1784,7 +1784,7 @@ body.st-self .dsheet-panel{position:static;transform:none;visibility:visible;dis
   function titleImpact(s,arch){
     const t=s.querySelector('.cx-title,.big,.title,.pack-prompt');if(!t)return;
     if(arch==='cover'||arch==='statement'){
-      kinetic(t);all('.ed-letter',t).slice(0,48).forEach((e,i)=>{
+      kinetic(t);all('.ed-letter',t).filter(e=>!e.closest('[data-fx]')).slice(0,48).forEach((e,i)=>{
         move(e,['translateY(32px) scale(.92)','translateY(0px) scale(1)'],'m3','e-spring',Math.min(i,16)*duration('m1',s)/8);
         animate(e,[{filter:'blur(6px)'},{filter:'blur(0px)'}],'m2','e-out',Math.min(i,16)*duration('m1',s)/8);
       });
@@ -1961,6 +1961,9 @@ body.st-self .dsheet-panel{position:static;transform:none;visibility:visible;dis
   }
   function verdict(el,ok){
     mark(el);const c=el&&el.closest('.chk');if(!c||staticMode())return;
+    // Grading reveals the .chk-why/.chk-fb block outside the step contract, so
+    // due data-fx inside it (e.g. rack-focus on the explanation) fire here.
+    all('[data-fx]',c).filter(e=>!e._edFx&&shown(e)&&e.getClientRects().length).forEach(fxFire);
     if(!ok){const picked=c.querySelector('.chk-picked');move(picked,['translateX(0px)','translateX(-12px)','translateX(10px)','translateX(-6px)','translateX(0px)'],'m2');return;}
     // Eight short rays, once; no flashing or confetti obscuring the explanation.
     for(let i=0;i<8;i++){const ray=document.createElement('i');ray.className='ed-particle ed-ray';ray.setAttribute('aria-hidden','true');c.append(ray);
@@ -1988,7 +1991,7 @@ body.st-self .dsheet-panel{position:static;transform:none;visibility:visible;dis
   // becomes visible (slide entry when visible at step 0, or at the step whose
   // data-step/data-add/data-only reveals it). Static modes and revisited
   // (back) states show the authored final DOM — overlays stay, text is intact.
-  const FX={strike:'m3',stamp:'m3',mark:'m4',count:'m4',travel:'m4',block:'m4',type:1500,press:'m2'};
+  const FX={strike:'m3',stamp:'m3',mark:'m4',count:'m4',travel:'m4',block:'m4',type:1500,press:'m2','scatter-gather':'m4','slice-reveal':'m4','row-mask-rise':'m3','weight-wave':'m3','rack-focus':'m3'};
   function animateMs(el,frames,ms,ease='e-out',delay=0,cleanup){
     if(!el||staticMode()||!el.animate){if(cleanup)cleanup();return null;}
     const a=el.animate(frames,{duration:ms,easing:token('--'+ease,el),delay,fill:'backwards'});
@@ -2052,6 +2055,77 @@ body.st-self .dsheet-panel{position:static;transform:none;visibility:visible;dis
     const spans=all('.ed-fx-ch',el);
     spans.forEach((s,k)=>animateMs(s,[{visibility:'hidden'},{visibility:'visible'}],1,'e-out',at+k*rate,k===len-1?restore:null));
   }
+  // ---- TASK-motions: shared technique vocabulary (5 kinds) ----
+  // Each one is a finite, cancellable opt-in effect; static modes keep the
+  // authored final DOM untouched. Letter splits match kinetic() exactly —
+  // .ed-letter spans for glyphs, plain text nodes for spaces — so the settled
+  // DOM is byte-identical to a slide the technique never visited (print diff 0).
+  function fxLetters(el){
+    if(el.children.length)return null;
+    const orig=el.textContent;if(!orig.trim())return null;
+    el.textContent='';
+    const spans=[];
+    for(const ch of Array.from(orig)){
+      if(/\s/.test(ch)){el.append(document.createTextNode(ch));continue;}
+      const s=document.createElement('span');s.className='ed-letter';s.textContent=ch;el.append(s);spans.push(s);
+    }
+    return spans.length?spans:null;
+  }
+  // scatter-gather: title letters converge from scattered positions into place.
+  // Deterministic offsets (index-hash) — the assemble is a hero moment, once.
+  function fxScatter(el,at){
+    const spans=fxLetters(el);if(!spans)return;
+    const ms=duration(FX['scatter-gather'],el);
+    spans.slice(0,48).forEach((s,k)=>{
+      const dx=((k*37)%5-2)*120,dy=((k*53)%7-3)*72,rot=((k*29)%7-3)*10;
+      animateMs(s,[{transform:`translate(${dx}px,${dy}px) rotate(${rot}deg)`,opacity:0},{transform:'translate(0px,0px) rotate(0deg)',opacity:1}],ms,'e-spring',at+Math.min(k,16)*45);
+    });
+  }
+  // slice-reveal: the element's own clip-path opens horizontal bands in spatial
+  // order (top -> bottom). One of the two approved property exceptions.
+  function fxSlice(el,at){
+    if(!CSS.supports('clip-path','inset(0px)'))return;
+    const N=5,frames=[];
+    for(let i=0;i<=N;i++)frames.push({clipPath:`inset(0% 0% ${(1-i/N)*100}% 0%)`,offset:i/N});
+    animateMs(el,frames,duration(FX['slice-reveal'],el),'e-out',at);
+  }
+  // row-mask-rise: each child line rises out of an overflow-hidden mask, one at
+  // a time. Masks are display:block spans removed by the last line's cleanup.
+  function fxRowMask(el,at){
+    const kids=Array.from(el.children).filter(shown).slice(0,12);
+    if(!kids.length)return;
+    const ms=duration(FX['row-mask-rise'],el),wraps=[];
+    const unwrap=()=>{for(const w of wraps){while(w.firstChild)w.before(w.firstChild);w.remove();}};
+    kids.forEach((k,i)=>{
+      const w=document.createElement('span');w.className='ed-fx-mask';
+      w.style.display='block';w.style.overflow='hidden';
+      k.before(w);w.append(k);wraps.push(w);
+      animateMs(k,[{transform:'translateY(110%)'},{transform:'translateY(0%)'}],ms,'e-spring',at+i*Math.max(40,ms/5),i===kids.length-1?unwrap:null);
+    });
+  }
+  // weight-wave: the Pretendard Variable wght axis swells and releases across
+  // the phrase, so emphasis visibly travels. For titles/keywords only.
+  function fxWeight(el,at){
+    const spans=fxLetters(el);if(!spans)return;
+    // Unsupported engines still keep the kinetic-style letter split so the
+    // settled DOM matches a slide that never carried the attribute.
+    if(!CSS.supports('font-variation-settings','"wght" 700'))return;
+    const base=Math.round(parseFloat(getComputedStyle(el).fontWeight)||400);
+    const peak=Math.min(900,Math.max(base+250,700));
+    const ms=duration(FX['weight-wave'],el)*1.8;
+    spans.slice(0,48).forEach((s,k)=>{
+      animateMs(s,[{fontVariationSettings:`"wght" ${base}`},{fontVariationSettings:`"wght" ${peak}`,offset:.45},{fontVariationSettings:`"wght" ${base}`}],ms,'e-inout',at+k*60);
+    });
+  }
+  // rack-focus: attention transfers — the incoming element pulls into focus
+  // (blur -> sharp, second approved exception) while data-fx-dim targets dip
+  // and recover. Nothing stays blurred: the final state is the authored DOM.
+  function fxRack(el,at){
+    const ms=duration(FX['rack-focus'],el);
+    animateMs(el,[{filter:'blur(6px)'},{filter:'blur(0px)'}],ms,'e-out',at);
+    const scope=el.closest('.chk')||el.closest('.slide')||document;
+    if(el.dataset.fxDim)all(el.dataset.fxDim,scope).slice(0,3).forEach(d=>animateMs(d,[{filter:'blur(0px)'},{filter:'blur(3px)',offset:.4},{filter:'blur(3px)',offset:.72},{filter:'blur(0px)'}],ms*1.8,'e-inout',at));
+  }
   function fxFire(el){
     const name=el.dataset.fx;
     if(!FX[name])return false;
@@ -2068,6 +2142,11 @@ body.st-self .dsheet-panel{position:static;transform:none;visibility:visible;dis
       case 'travel':animate(el,[{transform:`translateX(${token('--dx',el)||'-240px'})`+suffix},{transform:'translateX(0px)'+suffix}],FX.travel,'e-out',at);break;
       case 'block':animate(el,[{transform:`translateX(${token('--dx',el)||'-240px'})`+suffix,offset:0},{transform:'translateX(0px)'+suffix,offset:.55},{transform:'translateX(-16px)'+suffix,offset:.8},{transform:'translateX(0px)'+suffix}],FX.block,'e-out',at);break;
       case 'press':animate(el,[{transform:'translateY(0px)'+suffix},{transform:'translateY(4px) scale(.96)'+suffix,offset:.4},{transform:'translateY(0px)'+suffix}],FX.press,'e-inout',at);break;
+      case 'scatter-gather':fxScatter(el,at);break;
+      case 'slice-reveal':fxSlice(el,at);break;
+      case 'row-mask-rise':fxRowMask(el,at);break;
+      case 'weight-wave':fxWeight(el,at);break;
+      case 'rack-focus':fxRack(el,at);break;
     }
     return 'fx-'+name;
   }
@@ -2076,7 +2155,10 @@ body.st-self .dsheet-panel{position:static;transform:none;visibility:visible;dis
   function fxSweep(s,step,back){
     const names=[];
     for(const el of all('[data-fx]',s)){
-      if(el._edFx||!shown(el))continue;
+      // shown() reads only the element's own box: content hidden by an ancestor's
+      // display:none (e.g. .chk-why inside .chk-fb) still reports shown, so it
+      // must also have a rendered box or it would fire before it is visible.
+      if(el._edFx||!shown(el)||!el.getClientRects().length)continue;
       if(revealStep(el,s)>step)continue;
       if(back||staticMode()){el._edFx=1;fxFinal(el);continue;}
       const sig=fxFire(el);

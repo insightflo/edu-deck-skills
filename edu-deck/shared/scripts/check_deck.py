@@ -57,7 +57,10 @@ DATA_IMG = re.compile(r"data:image/[\w.+-]+;base64,([A-Za-z0-9+/=\s]+)")
 STEP_ATTRS = ("data-step", "data-add", "data-only", "data-lit", "data-until")
 # data-fx 효과(assets/js/motion.js 의 FX 표와 같은 기본 길이, ms). 장당 최종 종료 시각 3초 상한.
 FX_KINDS = {"strike": 500, "stamp": 500, "mark": 800, "count": 800,
-            "travel": 800, "block": 800, "type": 1500, "press": 300}
+            "travel": 800, "block": 800, "type": 1500, "press": 300,
+            # TASK-motions 공통 기법 5종 — weight-wave 는 wght 왕복×1.8 기준.
+            "scatter-gather": 800, "slice-reveal": 800, "row-mask-rise": 500,
+            "weight-wave": 900, "rack-focus": 500}
 # 라틴 단어(내부 .-' 허용)가 공백으로 이어져 6개 이상 = 외국어 문장으로 본다.
 FOREIGN_RUN = re.compile(
     r"[A-Za-z]+(?:[.,'\-’][A-Za-z]+)*(?:\s+[A-Za-z]+(?:[.,'\-’][A-Za-z]+)*){5,}")
