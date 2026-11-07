@@ -442,7 +442,10 @@
   // becomes visible (slide entry when visible at step 0, or at the step whose
   // data-step/data-add/data-only reveals it). Static modes and revisited
   // (back) states show the authored final DOM — overlays stay, text is intact.
-  const FX={strike:'m3',stamp:'m3',mark:'m4',count:'m4',travel:'m4',block:'m4',type:1500,press:'m2','scatter-gather':'m4','slice-reveal':'m4','row-mask-rise':'m3','weight-wave':'m3','rack-focus':'m3'};
+  const FX={strike:'m3',stamp:'m3',mark:'m4',count:'m4',travel:'m4',block:'m4',type:1500,press:'m2','scatter-gather':'m4','slice-reveal':'m4','row-mask-rise':'m3','weight-wave':'m3','rack-focus':'m3','bar-grow':'m3','card-deal':'m3',blinds:'m4'};
+  // A declared transform-reveal technique owns the element's own entrance: the
+  // archetype signature must not stack a second transform animation on it.
+  const FX_OWN_TRANSFORM=new Set(['bar-grow','card-deal']);
   function animateMs(el,frames,ms,ease='e-out',delay=0,cleanup){
     if(!el||staticMode()||!el.animate){if(cleanup)cleanup();return null;}
     const a=el.animate(frames,{duration:ms,easing:token('--'+ease,el),delay,fill:'backwards'});
@@ -469,7 +472,7 @@
     const name=el.dataset.fx;
     if(name==='strike')fxOverlay(el,'ed-fx-strike');
     else if(name==='mark')fxOverlay(el,'ed-fx-mark');
-    // count/type/travel/block/stamp/press: the authored DOM is already final.
+    // Other kinds leave no overlay: the authored DOM is already final.
   }
   function fxCount(el,at){
     const orig=el.textContent;
@@ -506,7 +509,7 @@
     const spans=all('.ed-fx-ch',el);
     spans.forEach((s,k)=>animateMs(s,[{visibility:'hidden'},{visibility:'visible'}],1,'e-out',at+k*rate,k===len-1?restore:null));
   }
-  // ---- TASK-motions: shared technique vocabulary (5 kinds) ----
+  // ---- TASK-motions + TASK-fx-absorb: shared technique vocabulary (8 kinds) ----
   // Each one is a finite, cancellable opt-in effect; static modes keep the
   // authored final DOM untouched. Letter splits match kinetic() exactly —
   // .ed-letter spans for glyphs, plain text nodes for spaces — so the settled
@@ -577,6 +580,58 @@
     const scope=el.closest('.chk')||el.closest('.slide')||document;
     if(el.dataset.fxDim)all(el.dataset.fxDim,scope).slice(0,3).forEach(d=>animateMs(d,[{filter:'blur(0px)'},{filter:'blur(3px)',offset:.4},{filter:'blur(3px)',offset:.72},{filter:'blur(0px)'}],ms*1.8,'e-inout',at));
   }
+  // ---- TASK-fx-absorb: three techniques ported by concept from the klic
+  // motion catalogue (own implementation; no code copied) ----
+  // bar-grow: a bar, gauge or progress strip grows from its fixed base edge
+  // into the authored size — the element's own width/height IS the final state.
+  // The authored transform-origin picks the axis (bottom anchors a vertical
+  // grow, left a horizontal one; top/right follow the same rule). Without an
+  // edge anchor the aspect ratio decides: taller than wide grows upward,
+  // wider than tall grows rightward, and the base edge is set for the play.
+  function fxBarGrow(el,at){
+    const base=getComputedStyle(el).transform,suffix=base==='none'?'':' '+base;
+    const w=el.offsetWidth||el.getBoundingClientRect().width||0,h=el.offsetHeight||el.getBoundingClientRect().height||0;
+    const o=getComputedStyle(el).transformOrigin.split(' ').map(parseFloat);
+    const edge=Math.abs(o[1]-h)<2?'bottom':Math.abs(o[1])<2?'top':Math.abs(o[0])<2?'left':Math.abs(o[0]-w)<2?'right':'';
+    const vertical=edge?edge==='bottom'||edge==='top':h>w;
+    if(!edge)el.style.transformOrigin=vertical?'center bottom':'left center';
+    const axis=vertical?'scaleY':'scaleX';
+    const peers=all('[data-fx="bar-grow"]',el.closest('.slide')||document),i=Math.max(0,peers.indexOf(el));
+    animateMs(el,[{transform:`${axis}(0)`+suffix},{transform:`${axis}(1)`+suffix}],duration(FX['bar-grow'],el),'e-spring',at+Math.min(i,6)*duration('m1',el)/4);
+  }
+  // card-deal: a card is dealt out of a slightly stacked pile — it slides from
+  // a small offset toward the pile's centre with a hint of index-hashed tilt
+  // and settles square (final rotation 0). Offsets stay within ±24px/±4deg.
+  function fxDeal(el,at){
+    const base=getComputedStyle(el).transform,suffix=base==='none'?'':' '+base;
+    const pile=el.parentElement?el.parentElement.getBoundingClientRect():null,r=el.getBoundingClientRect();
+    let dx=0,dy=0;
+    if(pile&&r.width&&r.height){
+      dx=Math.max(-24,Math.min(24,(pile.left+pile.width/2-(r.left+r.width/2))*.35));
+      dy=Math.max(-24,Math.min(24,(pile.top+pile.height/2-(r.top+r.height/2))*.35));
+    }
+    const peers=all('[data-fx="card-deal"]',el.closest('.slide')||document),i=Math.max(0,peers.indexOf(el));
+    const rot=((i*29)%7-3)*4/3;
+    animateMs(el,[{transform:`translate(${dx.toFixed(1)}px,${dy.toFixed(1)}px) rotate(${rot.toFixed(2)}deg)`+suffix,opacity:0},{transform:'translate(0px,0px) rotate(0deg)'+suffix,opacity:1}],duration(FX['card-deal'],el),'e-spring',at+Math.min(i,6)*duration('m1',el)/4);
+  }
+  // blinds: the element is cut into horizontal strips that open top to bottom
+  // in stagger — the clip-path exception slice-reveal already owns, so the
+  // bands are one multi-rect polygon whose per-band edge sweeps down in turn.
+  // One large-area element at a time; strip edges collapse to zero-height
+  // rects until their window so the vertex count never changes.
+  function fxBlinds(el,at){
+    if(!CSS.supports('clip-path','polygon(0% 0%,100% 0%,100% 100%,0% 100%)'))return;
+    const N=5,stagger=.12,span=.52;
+    const times=new Set([0,1]);for(let i=0;i<N;i++){times.add(i*stagger);times.add(Math.min(1,i*stagger+span));}
+    const frames=[...times].sort((a,b)=>a-b).map(t=>{
+      const pts=[];for(let i=0;i<N;i++){
+        const y0=i*100/N,y1=y0+Math.min(1,Math.max(0,(t-i*stagger)/span))*100/N;
+        pts.push(`0% ${y0.toFixed(2)}%`,`100% ${y0.toFixed(2)}%`,`100% ${y1.toFixed(2)}%`,`0% ${y1.toFixed(2)}%`);
+      }
+      return{clipPath:`polygon(${pts.join(',')})`,offset:t};
+    });
+    animateMs(el,frames,duration(FX.blinds,el),'e-out',at);
+  }
   function fxFire(el){
     const name=el.dataset.fx;
     if(!FX[name])return false;
@@ -598,6 +653,9 @@
       case 'row-mask-rise':fxRowMask(el,at);break;
       case 'weight-wave':fxWeight(el,at);break;
       case 'rack-focus':fxRack(el,at);break;
+      case 'bar-grow':fxBarGrow(el,at);break;
+      case 'card-deal':fxDeal(el,at);break;
+      case 'blinds':fxBlinds(el,at);break;
     }
     return 'fx-'+name;
   }
@@ -647,7 +705,8 @@
     if(entry)titleImpact(s,arch);
     if(arch==='before-after'||arch==='worked-example')semanticScene(s,arch,step,entry);
     else{
-      targets.forEach((e,i)=>{e.style.transformOrigin=arch==='meter'?'left center':arch==='sequence'?'left bottom':'center';
+      targets.forEach((e,i)=>{if(FX_OWN_TRANSFORM.has(e.dataset.fx))return;
+        e.style.transformOrigin=arch==='meter'?'left center':arch==='sequence'?'left bottom':'center';
         // A newly revealed chat bubble is not a pin: pin overshoot crosses the
         // clipped chat viewport. Keep the bubble inside its final footprint.
         const frames=arch==='mock-legend'&&!e.matches('.mk')?['scale(.96)','scale(1)']:r.frames(i);
