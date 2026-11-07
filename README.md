@@ -11,7 +11,7 @@
 [![Ships](https://img.shields.io/badge/산출물-단일%20HTML%20%C2%B7%20외부의존%200-0e7d95?style=flat-square)](#2-한눈에-보는-구성)
 [![Assets](https://img.shields.io/badge/%EB%A6%AC%EC%86%8C%EC%8A%A4%ED%8C%A9-%EC%84%A4%EA%B3%84%208%EC%A2%85%20%C2%B7%20%ED%9D%90%EB%A6%84%208%EC%A2%85-2f6fb0?style=flat-square)](docs/gallery.html)
 [![Assets](https://img.shields.io/badge/%EC%9E%A5%20%EB%B0%B0%EC%B9%98-41%EA%B3%84%EC%97%B4%20231%EB%B3%80%ED%98%95-e8772e?style=flat-square)](docs/gallery.html)
-[![Tests](https://img.shields.io/badge/%ED%9A%8C%EA%B7%80-354%20tests%20%C2%B7%20pack%2064%2F64-59c3d6?style=flat-square)](#5-검증--검사기는-계약-품질-판단은-사람)
+[![Tests](https://img.shields.io/badge/%ED%9A%8C%EA%B7%80-384%20tests%20%C2%B7%20pack%2064%2F64-59c3d6?style=flat-square)](#5-검증--검사기는-계약-품질-판단은-사람)
 
 ![데모](docs/demo-quiz.gif)
 
@@ -66,7 +66,7 @@
 
 <img src="docs/diagrams/diagram-pipeline.png" width="46%" alt="저작 파이프라인 도식 — 요청→라우팅→legacy/팩 경로→조립→검사"> <img src="docs/diagrams/diagram-cross.png" width="52.6%" alt="완성 덱 단면 도식 — 슬라이드·단계공개·노트·퀴즈·자습·출처 층위">
 
-**완성 덱 하나의 단면** — 파일 하나에 교육 자료 전체 층위: 슬라이드(253변형·8테마·모션 실행 이름 42종+기법 5종) / 단계 공개 / 발표자 노트(60자 이상 검사) / 확인 문제·퀴즈 / 자습 모드·용어집·검색 / 출처·검증 층. [**▶ 자산 갤러리에서 실물 315점 보기**](https://insightflo.github.io/edu-deck-skills/docs/gallery.html)
+**완성 덱 하나의 단면** — 파일 하나에 교육 자료 전체 층위: 슬라이드(253변형·8테마·모션 실행 이름 42종+기법 8종) / 단계 공개 / 발표자 노트(60자 이상 검사) / 확인 문제·퀴즈 / 자습 모드·용어집·검색 / 출처·검증 층. [**▶ 자산 갤러리에서 실물 315점 보기**](https://insightflo.github.io/edu-deck-skills/docs/gallery.html)
 
 ## 3. 자산 갤러리 — 재료 전부
 
@@ -79,7 +79,7 @@
 | 리소스팩 설계 | **8종** — 배치 문법 자체가 다름(마주본 면·사례 기록·편집 지면…) · 흐름 8종(수업 뼈대)과 64조합 전수 빌드·검사(64/64) | 설계별 표지 + **흐름 8종 실제 예시 덱**(주제 동일) |
 | 장 배치 조각 | **52계열 253변형** | 썸네일 + 253장 열람 덱 |
 | 테마 | **8종** | 같은 덱 3장(표지·목차·내용) × 전 테마 매트릭스 + 같은 장면 비교 |
-| 모션 시그니처 | **실행 이름 42종 전체 + 공통 기법 5종**(data-fx) | 카드를 스크롤하면 실물이 그 자리에서 자동 재생(녹화물 없음) |
+| 모션 시그니처 | **실행 이름 42종 전체 + 공통 기법 8종**(data-fx) | 카드를 스크롤하면 실물이 그 자리에서 자동 재생(녹화물 없음) |
 | 표지 | 직접 설계 + 카탈로그 16종 | 아키타입 갤러리 |
 
 이전 수동 제작 소개 영상(showreel mp4·GIF)은 [코드 재생 소개 쇼](docs/intro.html)로 교체했습니다 — `promo/make_intro.py`가 덱을 조립하고 쇼 런처를 주입해 생성합니다.
@@ -109,14 +109,14 @@ git clone https://github.com/insightflo/edu-deck-skills.git ~/.pi/agent/skills/e
 
 검사 통과는 기술 계약의 통과일 뿐 디자인 품질의 보장이 아닙니다. 시각 위계·가독성·메시지 전달은 캡처·축소판을 직접 보고 판단하고, 취향 경고만으로 좋은 디자인을 버리지 않습니다(`shared/references/authoring.md` 6절).
 
-저장소 회귀: 단위 테스트 367개(렌더 포함, skip 1), 리소스팩 브라우저 64/64 조합, 대비 매트릭스 238셀.
+저장소 회귀: 단위 테스트 384개(렌더 포함), 리소스팩 브라우저 64/64 조합, 대비 매트릭스 238셀.
 
 완성 덱은 브라우저에서 `덱.html?sheet` 로 전 장을 한 화면에(전개된 완성 모습+번호표) 검수하고, `?shot=N` 으로 한 장만 떼어 캡처할 수 있습니다(저자 검수 뷰어 — 발표·인쇄 동작은 그대로).
 
 ```bash
 cd edu-deck/shared
 EDU_DECK_TEST_DECK=../../examples/states-quiz/물질의상태변화-단원평가퀴즈-교육자료.html \
-  python3 -m unittest discover -s dev -p 'test_*py'   # Ran 354 tests OK
+  python3 -m unittest discover -s dev -p 'test_*py'   # Ran 384 tests OK
 python3 scripts/check_deck.py ../../examples/states-quiz/물질의상태변화-단원평가퀴즈-교육자료.html   # 기본: 안전 가드
 python3 scripts/check_deck.py --style <덱.html>   # 취향 상세
 ```
