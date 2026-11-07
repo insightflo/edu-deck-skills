@@ -543,6 +543,11 @@ body,.slide,.pack{font-family:'Pretendard Variable',sans-serif}
 .k-t-w{fill:var(--paper)}
 .k-t-o{fill:var(--accent-text)}
 .k-t-b{fill:var(--blue-text)}
+/* 다크 슬라이드 "면 위가 아니라 슬라이드 바탕 위" 도식 글자 표식(k-ds) — .dark .eyebrow 와 같은
+   어댑테이션. 밝은 도형(k-paper/k-blue/k-orange) 위의 잉크 글자는 표식하지 않는다. */
+.slide.dark .k-ds{fill:var(--light)}
+.slide.dark .k-ds.k-t-tag{fill:var(--muted)}
+.slide.dark .k-ds.k-t-o,.slide.dark .k-ds.k-t-b{fill:var(--accent-light)}
 /* "가상 예시" · "개념도 · 측정값 아님" 표기(HTML). 점선 테두리로 사실 칩(.fact)과 구분한다. */
 .k-note{font-size:22px;font-weight:700;color:var(--soft);background:var(--paper);border:2px dashed var(--line);border-radius:var(--r2);padding:4px 16px;align-self:flex-start}
 /* Pack motifs reuse the existing semantic composition rather than importing legacy cards. */
@@ -909,6 +914,27 @@ body{font-family:'Pretendard Variable','Apple SD Gothic Neo','Malgun Gothic','�
 body.st-self #stage{top:var(--st-top,50%) !important;transform:translate(-50%,-50%) scale(var(--st-sc,1)) !important}
 body.st-self .st-panel{display:block}
 body.st-self #progress,body.st-self #dots,body.st-self #counter,body.st-self #help{display:none}
+
+/* 저자 검수 뷰어 모드(?sheet·?shot — assets/js/sheet.js): URL 파라미터로만 켜진다.
+   접촉판(?sheet)은 전 장을 3단 그리드(1/3 축소)로 늘어놓고 번호표를 단다 — diagrams.md 의
+   “전 장 축소판을 직접 본다”를 URL 하나로. ?shot=N 은 한 장만 깨끗하게(캡처용).
+   인쇄·발표 동작은 건드리지 않는다(파라미터 없으면 어떤 규칙도 걸리지 않는다). */
+@media screen{
+html.is-sheet body,html.is-shot body{overflow:auto;height:auto;background:var(--paper)}
+html.is-sheet #progress,html.is-sheet #dots,html.is-sheet #counter,html.is-sheet #help,
+html.is-shot #progress,html.is-shot #dots,html.is-shot #counter,html.is-shot #help,
+html.is-sheet .ed-reader-nav,html.is-shot .ed-reader-nav{display:none}
+body.st-sheet .step-hide{visibility:visible !important} /* 인쇄와 같은 정적 완결 */
+html.is-sheet #stage{position:static !important;transform:none !important;left:auto;top:auto;
+  width:max-content;display:grid;grid-template-columns:repeat(var(--sheet-cols,3),640px);gap:16px;padding:16px;
+  counter-reset:sheet-n}
+html.is-sheet #stage>.slide,html.is-sheet #stage>.deck>.slide{position:relative;left:auto;top:auto;
+  transform:scale(.33334);transform-origin:0 0;display:flex !important;width:1920px;height:1080px;
+  margin:0 -1280px -720px 0;counter-increment:sheet-n}
+html.is-sheet #stage>.slide::after,html.is-sheet #stage>.deck>.slide::after{content:counter(sheet-n);
+  position:absolute;right:0;top:0;padding:8px 26px;background:#ffd400;color:#000;
+  font-size:52px;font-weight:800;line-height:1.2;font-family:inherit;z-index:9}
+}
 .st-panel{--st-k:1;--st-w:1400px;display:none;position:fixed;left:0;right:0;bottom:0;z-index:4;padding:calc(10px*var(--st-k)) calc(28px*var(--st-k)) calc(34px*var(--st-k));background:var(--ink);color:var(--light);border-top:3px solid var(--accent);box-shadow:var(--shadow-2)}
 .st-pin{width:var(--st-w);max-width:100%;margin:0 auto}
 .st-ph{display:flex;align-items:center;flex-wrap:wrap;gap:calc(10px*var(--st-k)) calc(18px*var(--st-k));font-size:calc(18px*var(--st-k));line-height:1.3;padding-bottom:calc(10px*var(--st-k))}
@@ -1120,6 +1146,118 @@ body.st-fold .st-ph{padding-bottom:0}
   /* 모션 층도 인쇄에서는 끈다(장·칸 등장 애니메이션이 인쇄 지연·중간 상태를 만들지 않게) */
   .slide.active,.card,.rm-col,.todo,.qrow,.lv,.pill,.tile,#dots i.on{}
 }
+
+/* ---------- 도구 층: 자동 발표 표시 · 편집 표시줄 · 탐색 위젯 · 사이드 시트 · 차트 ---------- */
+#edAuto{position:fixed;right:28px;bottom:72px;z-index:9;display:none;background:var(--accent);color:var(--paper);font:700 17px/1 'Pretendard Variable','Apple SD Gothic Neo','Malgun Gothic',sans-serif;padding:10px 16px;border-radius:var(--r2);box-shadow:var(--shadow-1)}
+html.ed-auto #edAuto{display:block}
+#edEdit{position:fixed;left:50%;top:18px;transform:translateX(-50%);z-index:9;display:none;align-items:center;gap:16px;background:var(--ink);color:var(--light);font:600 16px/1.3 'Pretendard Variable','Apple SD Gothic Neo','Malgun Gothic',sans-serif;padding:10px 18px;border-radius:var(--r2);box-shadow:var(--shadow-2)}
+body.ed-edit #edEdit{display:flex}
+#edEdit .ed-reset{font:inherit;font-size:15px;font-weight:700;color:var(--paper);background:var(--accent);border:none;border-radius:var(--r1);padding:6px 14px;cursor:pointer}
+body.ed-edit .slide [data-ed]{cursor:text}
+body.ed-edit .slide [data-ed]:hover{outline:2px dashed var(--accent-light);outline-offset:3px}
+body.ed-edit .slide [data-ed]:focus{outline:2px solid var(--accent);outline-offset:3px}
+
+/* 탐색 위젯(.expl): 칩으로 연결 상태를 바꾼다. 채점 없음 — 인쇄·자습에서는 모든 상태가 펼쳐진다 */
+.expl{display:flex;flex-direction:column;gap:20px;flex:1;min-height:0}
+.expl-ctrl{display:flex;flex-wrap:wrap;gap:12px}
+.expl-chip{font:inherit;font-size:22px;font-weight:700;color:var(--soft);background:var(--paper);border:2px solid var(--accent-light);border-radius:999px;padding:8px 22px;cursor:pointer}
+.expl-chip:hover{border-color:var(--accent)}
+.expl-chip.on{background:var(--accent);border-color:var(--accent);color:var(--paper)}
+.expl-state{display:none;flex-direction:column;gap:20px}
+.expl-state.on{display:flex}
+.expl-cap{font-size:20px;font-weight:700;color:var(--accent-text)}
+
+/* 사이드 시트(.dsheet): 본문 칩이 하단 시트를 올린다. 무대(#stage) 좌표계 안에서 고정 — 주변은 dim 으로 어둡게(blur 없음) */
+.dsheet-open{font:inherit;font-size:20px;font-weight:700;color:var(--accent-text);background:var(--light);border:2px solid var(--accent-light);border-radius:999px;padding:6px 18px;cursor:pointer}
+.dsheet-open:hover{border-color:var(--accent)}
+.dsheet-dim{position:fixed;inset:0;z-index:6;display:none;background:color-mix(in srgb,var(--ink) 55%,transparent)}
+.dsheet-dim.on{display:block}
+.dsheet-panel{position:fixed;left:50%;bottom:0;z-index:7;width:min(1560px,88%);max-height:64%;overflow:auto;background:var(--paper);border-radius:var(--r2) var(--r2) 0 0;border-top:6px solid var(--accent);box-shadow:var(--shadow-2);padding:28px 36px;display:flex;flex-direction:column;gap:14px;transform:translate(-50%,110%);visibility:hidden;transition:transform var(--m3) var(--e-out),visibility 0s var(--m3)}
+.dsheet-panel.on{transform:translate(-50%,0);visibility:visible;transition:transform var(--m3) var(--e-out)}
+.dsheet-panel .dsheet-h{display:flex;align-items:center;gap:16px}
+.dsheet-panel .dsheet-h h3{margin:0;font-size:26px;font-weight:800;color:var(--ink)}
+.dsheet-close{margin-left:auto;font:inherit;font-size:18px;font-weight:700;color:var(--soft);background:transparent;border:2px solid var(--accent-light);border-radius:var(--r1);padding:6px 14px;cursor:pointer}
+.dsheet-close:hover{border-color:var(--accent)}
+.dsheet-panel .dsheet-b{font-size:23px;line-height:1.6;color:var(--ink)}
+.dsheet-panel .dsheet-b p{margin:0}
+.dsheet-panel .dsheet-src{font-size:19px;color:var(--soft)}
+
+/* SVG 차트(.chart): 조각 33·34. 네이티브 SVG 만 — 외부 라이브러리 없음 */
+.chart{flex:1;min-height:0;display:flex;flex-direction:column;gap:16px}
+.chart>svg{flex:1;min-height:0;width:100%}
+
+/* 그림 자리(.fig-slot): 배치(계열 변형)가 주는 빈 그림 칸. 내용은 저작자가 diagrams.md 문법의
+   svg.dg(k-* 도형·t-* 글자)로 그린다 — 도형·글자 스타일은 그 규칙이 담당하고 여기서는 자리만 잡는다 */
+.fig-slot{margin:0;flex:1;min-height:0;display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center}
+.fig-slot>svg.dg{flex:1;min-height:0;width:100%}
+.fig-slot figcaption{font-size:22px;line-height:1.5;color:var(--soft)}
+.dark .fig-slot figcaption{color:var(--muted)}
+
+/* 미니 흐름(.vflow·.vnode·.varr·.vpills): 카드·본문 안 한 줄/한 줄기 "A → B → C" 인라인 흐름 어휘.
+   fig-slot 보다 작은 카드 단위 층 — 도식 문법(svg.dg)이 아니라 HTML 인라인. 독자 등장 모션은 없고
+   장 계열 시그니처·data-step 을 따른다. is-on/is-off 도 애니메이션이 아니라 정적 강조다 */
+.vflow{display:flex;flex-direction:row;align-items:center;flex-wrap:wrap;gap:10px}
+.vflow.col{flex-direction:column;align-items:flex-start;flex-wrap:nowrap;gap:8px}
+.vflow.col .varr{transform:rotate(90deg)}
+.vnode{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:999px;border:2px solid var(--line);background:var(--paper);font-size:24px;font-weight:700;line-height:1.3;color:var(--ink);white-space:nowrap}
+.vnode.is-on{background:var(--accent);border-color:var(--accent);color:var(--paper)}
+.vnode.is-off{color:var(--soft);border-style:dashed;text-decoration:line-through}
+.dark .vnode.is-off{background:transparent;border-color:var(--muted);color:var(--muted)}
+.varr{color:var(--accent);font-size:28px;font-weight:800;line-height:1;flex:none}
+.dark .varr{color:var(--accent-light)}
+.vpills{display:flex;flex-wrap:wrap;gap:8px}
+.vpills .vnode{padding:4px 12px;font-size:22px;font-weight:600}
+
+/* 2×2 사분면(.quad): 두 축(.qax-x 위 · .qax-y 왼쪽 세로쓰기)이 만나는 네 영역 배치.
+   칸 목록은 .qgrid>.qcell, 좌표 배치는 .qplot(십자 축선 상대 판) 안 절대 위치 칩(.qp)·거품(.qbub).
+   .qp/.qbub 은 CSS translate 속성으로 중심을 맞추므로 계열 시그니처의 transform 프레임과 겹치지 않는다.
+   독자 모션 없음 — 장 계열 시그니처·data-step 을 따른다. 축 라벨은 측정값이 아니라 개념 기준이다 */
+.quad{display:grid;grid-template-areas:". ax" "ay qg";grid-template-columns:auto 1fr;grid-template-rows:auto 1fr;gap:10px 20px;flex:1;min-height:0}
+.qax{display:flex;align-items:center;justify-content:center;gap:12px;font-size:22px;font-weight:800;color:var(--soft);white-space:nowrap}
+.qax-x{grid-area:ax}
+.qax-y{grid-area:ay;writing-mode:vertical-rl}
+.qgrid{grid-area:qg;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:14px;min-height:0}
+.qcell{display:flex;flex-direction:column;gap:10px;padding:20px 26px;border-radius:var(--r2);border:2px solid var(--line);background:var(--light);color:var(--ink);min-height:0;overflow:hidden}
+.qcell h3{margin:0;font-size:28px;font-weight:800;color:var(--ink)}
+.qplot{grid-area:qg;position:relative;border:3px solid var(--line);border-radius:var(--r2);min-height:0}
+.qplot::before,.qplot::after{content:"";position:absolute;background:var(--line)}
+.qplot::before{left:0;right:0;top:50%;height:2px}
+.qplot::after{top:0;bottom:0;left:50%;width:2px}
+.qp{position:absolute;translate:-50% -50%}
+.qbub{position:absolute;translate:-50% -50%;border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;padding:14px;background:var(--accent-soft);border:3px solid var(--accent);color:var(--ink);font-size:22px;font-weight:800}
+.dark .qbub{background:var(--light);border-color:var(--accent-light)}
+/* 플래시카드(.fcards>.fc): 앞면 .fc-front·뒷면 .fc-back. 화면에서 카드를 누르면 .on 토글로 뒤집는다
+   (motion.js 위임 핸들러 — 조작 자체는 시그니처가 아니다). 정적 완결에서는 앞·뒷면이 나란히 펼쳐진다 */
+.fcards{display:grid;gap:20px;flex:1;min-height:0}
+.fc{font:inherit;color:inherit;text-align:inherit;background:none;border:0;padding:0;position:relative;min-height:0;perspective:1200px;cursor:pointer}
+.fc-in{position:absolute;inset:0;display:block;transform-style:preserve-3d;transition:transform var(--m3) var(--e-out)}
+.fc-front,.fc-back{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:20px;border-radius:var(--r2);border:3px solid var(--line);background:var(--paper);color:var(--ink);backface-visibility:hidden}
+.fc-back{transform:rotateY(180deg);background:var(--accent-soft);border-color:var(--accent)}
+.dark .fc-back{background:var(--light);border-color:var(--accent-light)}
+.fc.on .fc-in{transform:rotateY(180deg)}
+.fc-no{position:absolute;top:12px;left:18px;font-size:20px;font-weight:800;color:var(--soft)}
+.fc.cut .fc-front,.fc.cut .fc-back{border-style:dashed;border-color:var(--muted)}
+.fc.open{cursor:default}
+.fc.open .fc-in{position:static;transform:none;display:grid;grid-template-columns:1fr 1fr;gap:12px;height:100%;transform-style:flat}
+.fc.open .fc-front,.fc.open .fc-back{position:static;transform:none;backface-visibility:visible}
+
+/* 정적 완결: 인쇄·자습에서는 탐색 상태·시트가 모두 펼쳐진다 */
+@media print{
+  #edAuto,#edEdit,.dsheet-dim,.expl-ctrl,.dsheet-open,.dsheet-close{display:none !important}
+  .expl-state{display:flex !important;flex-direction:column;gap:20px}
+  .expl-state+.expl-state{margin-top:24px;padding-top:18px;border-top:2px dashed var(--line)}
+  .dsheet-panel{position:static !important;transform:none !important;visibility:visible !important;display:flex !important;width:auto;max-height:none;overflow:visible;border:2px solid var(--line);border-top:4px solid var(--accent);border-radius:var(--r2);box-shadow:none;padding:20px 28px;margin-top:24px}
+  .fc{cursor:default}
+  .fc-in{position:static;transform:none !important;display:grid;grid-template-columns:1fr 1fr;gap:12px;transform-style:flat}
+  .fc-front,.fc-back{position:static;transform:none;backface-visibility:visible}
+}
+body.st-self .expl-ctrl,body.st-self .dsheet-dim,body.st-self .dsheet-open,body.st-self .dsheet-close{display:none}
+body.st-self .expl-state{display:flex;flex-direction:column;gap:20px}
+body.st-self .expl-state+.expl-state{margin-top:24px;padding-top:18px;border-top:2px dashed var(--line)}
+body.st-self .dsheet-panel{position:static;transform:none;visibility:visible;display:flex;width:auto;max-height:none;overflow:visible;border:2px solid var(--line);border-top:4px solid var(--accent);border-radius:var(--r2);box-shadow:none;padding:20px 28px;margin-top:24px}
+body.st-self .fc,body.st-sheet .fc,body.st-printing .fc,body.st-presenter .fc{cursor:default}
+body.st-self .fc-in,body.st-sheet .fc-in,body.st-printing .fc-in,body.st-presenter .fc-in{position:static;transform:none !important;display:grid;grid-template-columns:1fr 1fr;gap:12px;transform-style:flat;height:100%}
+body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-sheet .fc-back,body.st-printing .fc-front,body.st-printing .fc-back,body.st-presenter .fc-front,body.st-presenter .fc-back{position:static;transform:none;backface-visibility:visible}
 </style>
 <style>
 /* ---- components.css ---- */
@@ -1729,7 +1867,7 @@ body.st-fold .st-ph{padding-bottom:0}
 <div id="progress"></div>
 <div id="dots"></div>
 <div id="counter"></div>
-<div id="help">→ 다음 (한 단계씩) · ← 이전 · F 전체화면 · N 발표자 노트 · S 자습 · P 인쇄 · G 용어집</div>
+<div id="help">→ 다음 (한 단계씩) · ← 이전 · F 전체화면 · N 발표자 노트 · S 자습 · P 인쇄 · G 용어집 · A 자동 발표 · E 편집</div>
 <div id="notes"><div class="h">발표자 노트 (N으로 닫기)</div><div id="notesText"></div></div>
 
 <script>/* Shared on-screen reader. It never owns lesson state: deckGo/step events and
@@ -2142,7 +2280,7 @@ body.st-fold .st-ph{padding-bottom:0}
   const sigLog=[];
   const all=(q,r=document)=>Array.from(r.querySelectorAll(q));
   const current=()=>document.body.classList.contains('in-hub')?null:stage.querySelector('.deck.on>.slide.active,:scope>.slide.active');
-  const staticMode=()=>reduce.matches||printing||mediaPrint.matches||document.body.classList.contains('st-self')||document.body.classList.contains('st-printing')||document.body.classList.contains('st-presenter');
+  const staticMode=()=>reduce.matches||printing||mediaPrint.matches||document.body.classList.contains('st-self')||document.body.classList.contains('st-printing')||document.body.classList.contains('st-presenter')||document.body.classList.contains('st-sheet');
   function token(name,el=stage){return getComputedStyle(el).getPropertyValue(name).trim()||getComputedStyle(document.documentElement).getPropertyValue(name).trim();}
   function duration(name,el){const v=token('--'+name,el);return parseFloat(v)*(v.endsWith('ms')?1:1000);}
   function shown(el){return !!el&&!el.closest('.step-hide,.gone,.notes')&&getComputedStyle(el).display!=='none'&&getComputedStyle(el).visibility!=='hidden';}
@@ -2178,7 +2316,10 @@ body.st-fold .st-ph{padding-bottom:0}
     'frame-form':'.tp,.fm-row,.pb','before-after':'.win,.stack,.card','worked-example':'.win,.card,.list li',
     'quiz-ab':'.opt','quiz-sort':'.qrow,.ans','quiz-ox':'.qrow,.ox','check':'.chk,.chk-o',
     'rules-dark':'.num,.body','checklist':'.todo,.tbox','sources':'.src-list li','closing':'.pill,.big',
-    'stat-strip':'.stat'
+    'stat-strip':'.stat','quadrant':'.qcell,.qp,.qbub','flashcards':'.fc','ops-report':'.oi',
+    'sankey-flow':'.sk','decision-tree':'.dt','kanban-board':'.kb','version-graph':'.vg',
+    'event-fanout':'.ef','route-tour':'.rt','waterfall':'.wf','mesh-network':'.ms',
+    'heatmap-grid':'.hm','swimlane':'.sl','cycle-ring':'.cy'
   };
   const packTargets={atlas:'.atlas-origin,.atlas-source,.atlas-destination',briefing:'.briefing-row',casebook:'.casebook-narrative,.casebook-exhibit,.casebook-decision',editorial:'.editorial-story,.editorial-margin,.editorial-bottom',field:'.field-row',lab:'.lab-observation,.lab-evidence,.lab-next',seminar:'.seminar-turns span,.seminar-preparation,.seminar-invitation',workbook:'.workbook-read,.workbook-write,.workbook-reflection'};
   const packArch={atlas:'map',briefing:'compare-table',casebook:'before-after',editorial:'build-up',field:'sequence',lab:'mechanism',seminar:'hub',workbook:'frame-form'};
@@ -2214,7 +2355,47 @@ body.st-fold .st-ph{padding-bottom:0}
     sources:{name:'evidence-align',frames:i=>[`translateX(${i%2?40:-40}px) rotate(${i%2?1:-1}deg)`,'translateX(0px) rotate(0deg)']},
     closing:{name:'summary-convergence',frames:i=>[`translate(${(i-1)*72}px,32px) scale(.94)`,'translate(0px,0px) scale(1)']},
     // P1-1: numbers() 재사용 등록 — 지표 카드가 한 덩어리로 등장하며 숫자 릴이 카운트업한다(transform 만, m4).
-    'stat-strip':{name:'metric-rally',frames:i=>['translateY(44px)','translateY(0px)'],m:'m4',numbers:6}
+    'stat-strip':{name:'metric-rally',frames:i=>['translateY(44px)','translateY(0px)'],m:'m4',numbers:6},
+    // TASK-tools G3: SVG 차트 조각은 기존 시그니처 이름만 재사용한다(신규 시그니처 없음).
+    // 막대는 지표와 같은 metric-rally 상승, 선 그래프는 타일 파형(grid-wave)으로 계열이 모인다.
+    'chart-bar':{name:'metric-rally',frames:i=>['translateY(44px)','translateY(0px)'],m:'m4'},
+    'chart-line':{name:'grid-wave',frames:i=>[`translateY(${24+(i%3)*16}px) rotateX(12deg)`,'translateY(0px) rotateX(0deg)']},
+    // 탐색 위젯·사이드 시트도 기존 이름만 재사용한다 — 위젯 조작 자체는 시그니처가 아니라 클릭 핸들러다.
+    'explore':{name:'grid-wave',frames:i=>[`translateY(${24+(i%3)*16}px) rotateX(12deg)`,'translateY(0px) rotateX(0deg)']},
+    'detail-sheet':{name:'accumulating-pieces',frames:i=>['translateY(24px) scale(.92)','translateY(-4px) scale(1.02)','translateY(0px) scale(1)']},
+    // 파트 구분지는 agenda 경로 위의 정류장 — route-cascade 재사용(chart-bar/chart-line 의
+    // 이름 공유 선례와 같은 이유로 신규 실행 이름을 만들지 않는다).
+    'part-divider':{name:'route-cascade',frames:i=>['translateX(-80px)','translateX(8px)','translateX(0px)']},
+    // 2×2 사분면은 타일 파형(grid-wave)으로 네 영역·좌표 칩이 모인다, 플래시카드는 카드 회전
+    // 등장(facet-flip — traits-grid 와 같은 이름). 둘 다 기존 실행 이름 재사용.
+    'quadrant':{name:'grid-wave',frames:i=>[`translateY(${24+(i%3)*16}px) rotateX(12deg)`,'translateY(0px) rotateX(0deg)']},
+    'flashcards':{name:'facet-flip',frames:i=>['perspective(1200px) rotateY(-32deg)','perspective(1200px) rotateY(0deg)']},
+    // TASK-ops-report: 지표 덩어리(.oi)는 증거 띠·막대와 같은 metric-rally 상승 — 신규 이름 없이 재사용.
+    'ops-report':{name:'metric-rally',frames:i=>['translateY(44px)','translateY(0px)'],m:'m4'},
+    // TASK-workflow-series: 워크플로 도식 11계열 — 실행 이름 신규 11종(31→42). 각 이름이 다른
+    // 관계를 표현한다 — 이름만 다른 일반 상승 복사가 아니라 조각의 .마커 대상에 개별 움직임.
+    // 샌키: 유입 밴드가 왼쪽에서 밀려와 합류·분출 — 수평 수렴(dash-flow 안내길 입자 포함).
+    'sankey-flow':{name:'stream-converge',frames:i=>['translateX(-64px) scaleX(.92)','translateX(0px) scaleX(1)'],draw:true},
+    // 판단트리: 마름모가 점등되며 가지선이 그려지고 끝 판정이 도장처럼 자리 잡는다.
+    'decision-tree':{name:'branch-verdict',frames:i=>['translateY(-24px) scale(.94)','translateY(0px) scale(1.02)','scale(1)'],draw:true},
+    // 칸반: 카드가 칸 사이를 오른쪽으로 미끄러지듯 드리프트 — 느린 이행 m2.
+    'kanban-board':{name:'card-drift',frames:i=>['translateX(56px)','translateX(-4px)','translateX(0px)'],m:'m2'},
+    // 버전그래프: 줄기·갈래 선이 그려지고(draw) 커밋·병합 도장이 찍힌다.
+    'version-graph':{name:'merge-trace',frames:i=>['scale(.8)','scale(1.06)','scale(1)'],draw:true},
+    // 팬아웃: 중심 사건이 자리 잡고 외곽 노드가 동시에 켜진다 — 스태거 축소로 동시성 유지.
+    'event-fanout':{name:'pulse-fanout',frames:i=>['scale(.7)','scale(1.08)','scale(1)'],draw:true,particles:true},
+    // 경로순회: 순회선이 그려지고 정거장 번호가 차례로 찍힌다.
+    'route-tour':{name:'waypoint-crawl',frames:i=>['translateY(24px) scale(.9)','translateY(0px) scale(1)'],draw:true},
+    // 폭포수: 증감 막대가 위에서 매달리듯 내려와 누적 높이에 자리 잡고 합계가 카운트된다.
+    'waterfall':{name:'cascade-ledge',frames:i=>['translateY(-32px)','translateY(0px)'],numbers:true},
+    // 메시: 연결선이 그려지고 노드가 홉 단계로 자리 잡는다.
+    'mesh-network':{name:'hop-relay',frames:i=>['scale(.88)','scale(1.04)','scale(1)'],draw:true},
+    // 히트맵: 칸이 행·열 순서로 플레어(작게→크게→제자리) — 면적이 곧 강도.
+    'heatmap-grid':{name:'grid-flare',frames:i=>['scale(.5)','scale(1.12)','scale(1)']},
+    // 스윔레인: 카드가 띠 위에 올라가고 인계 화살표가 다음 띠로 넘어간다.
+    'swimlane':{name:'lane-slide',frames:i=>['translateY(28px)','translateY(-3px)','translateY(0px)'],draw:true},
+    // 순환링: 조각이 회전하듯 제자리로 돌아와 시계 방향 한 바퀴가 완성된다.
+    'cycle-ring':{name:'ring-circuit',frames:i=>['rotate(-14deg) scale(.94)','rotate(2deg) scale(1.01)','rotate(0deg) scale(1)'],draw:true}
   };
   // Wipe a prior result in-place: the mask and its content counter-translate,
   // so the old words remain stationary as the new result is uncovered. Neither
@@ -2307,7 +2488,7 @@ body.st-fold .st-ph{padding-bottom:0}
     if(!title||title.dataset.edKinetic)return;
     title.dataset.edKinetic='1';
     const walk=document.createTreeWalker(title,NodeFilter.SHOW_TEXT);let node,nodes=[];
-    while((node=walk.nextNode()))if(node.textContent.trim())nodes.push(node);
+    while((node=walk.nextNode()))if(node.textContent.trim()&&!node.parentElement.closest('[data-fx]'))nodes.push(node);
     for(const text of nodes){
       const frag=document.createDocumentFragment();
       for(const ch of Array.from(text.textContent)){if(/\s/.test(ch)){frag.append(document.createTextNode(ch));continue;}
@@ -2318,7 +2499,7 @@ body.st-fold .st-ph{padding-bottom:0}
   function titleImpact(s,arch){
     const t=s.querySelector('.cx-title,.big,.title,.pack-prompt');if(!t)return;
     if(arch==='cover'||arch==='statement'){
-      kinetic(t);all('.ed-letter',t).slice(0,48).forEach((e,i)=>{
+      kinetic(t);all('.ed-letter',t).filter(e=>!e.closest('[data-fx]')).slice(0,48).forEach((e,i)=>{
         move(e,['translateY(32px) scale(.92)','translateY(0px) scale(1)'],'m3','e-spring',Math.min(i,16)*duration('m1',s)/8);
         animate(e,[{filter:'blur(6px)'},{filter:'blur(0px)'}],'m2','e-out',Math.min(i,16)*duration('m1',s)/8);
       });
@@ -2495,6 +2676,9 @@ body.st-fold .st-ph{padding-bottom:0}
   }
   function verdict(el,ok){
     mark(el);const c=el&&el.closest('.chk');if(!c||staticMode())return;
+    // Grading reveals the .chk-why/.chk-fb block outside the step contract, so
+    // due data-fx inside it (e.g. rack-focus on the explanation) fire here.
+    all('[data-fx]',c).filter(e=>!e._edFx&&shown(e)&&e.getClientRects().length).forEach(fxFire);
     if(!ok){const picked=c.querySelector('.chk-picked');move(picked,['translateX(0px)','translateX(-12px)','translateX(10px)','translateX(-6px)','translateX(0px)'],'m2');return;}
     // Eight short rays, once; no flashing or confetti obscuring the explanation.
     for(let i=0;i<8;i++){const ray=document.createElement('i');ray.className='ed-particle ed-ray';ray.setAttribute('aria-hidden','true');c.append(ray);
@@ -2522,7 +2706,10 @@ body.st-fold .st-ph{padding-bottom:0}
   // becomes visible (slide entry when visible at step 0, or at the step whose
   // data-step/data-add/data-only reveals it). Static modes and revisited
   // (back) states show the authored final DOM — overlays stay, text is intact.
-  const FX={strike:'m3',stamp:'m3',mark:'m4',count:'m4',travel:'m4',block:'m4',type:1500,press:'m2'};
+  const FX={strike:'m3',stamp:'m3',mark:'m4',count:'m4',travel:'m4',block:'m4',type:1500,press:'m2','scatter-gather':'m4','slice-reveal':'m4','row-mask-rise':'m3','weight-wave':'m3','rack-focus':'m3','bar-grow':'m3','card-deal':'m3',blinds:'m4'};
+  // A declared transform-reveal technique owns the element's own entrance: the
+  // archetype signature must not stack a second transform animation on it.
+  const FX_OWN_TRANSFORM=new Set(['bar-grow','card-deal']);
   function animateMs(el,frames,ms,ease='e-out',delay=0,cleanup){
     if(!el||staticMode()||!el.animate){if(cleanup)cleanup();return null;}
     const a=el.animate(frames,{duration:ms,easing:token('--'+ease,el),delay,fill:'backwards'});
@@ -2549,7 +2736,7 @@ body.st-fold .st-ph{padding-bottom:0}
     const name=el.dataset.fx;
     if(name==='strike')fxOverlay(el,'ed-fx-strike');
     else if(name==='mark')fxOverlay(el,'ed-fx-mark');
-    // count/type/travel/block/stamp/press: the authored DOM is already final.
+    // Other kinds leave no overlay: the authored DOM is already final.
   }
   function fxCount(el,at){
     const orig=el.textContent;
@@ -2586,6 +2773,129 @@ body.st-fold .st-ph{padding-bottom:0}
     const spans=all('.ed-fx-ch',el);
     spans.forEach((s,k)=>animateMs(s,[{visibility:'hidden'},{visibility:'visible'}],1,'e-out',at+k*rate,k===len-1?restore:null));
   }
+  // ---- TASK-motions + TASK-fx-absorb: shared technique vocabulary (8 kinds) ----
+  // Each one is a finite, cancellable opt-in effect; static modes keep the
+  // authored final DOM untouched. Letter splits match kinetic() exactly —
+  // .ed-letter spans for glyphs, plain text nodes for spaces — so the settled
+  // DOM is byte-identical to a slide the technique never visited (print diff 0).
+  function fxLetters(el){
+    if(el.children.length)return null;
+    const orig=el.textContent;if(!orig.trim())return null;
+    el.textContent='';
+    const spans=[];
+    for(const ch of Array.from(orig)){
+      if(/\s/.test(ch)){el.append(document.createTextNode(ch));continue;}
+      const s=document.createElement('span');s.className='ed-letter';s.textContent=ch;el.append(s);spans.push(s);
+    }
+    return spans.length?spans:null;
+  }
+  // scatter-gather: title letters converge from scattered positions into place.
+  // Deterministic offsets (index-hash) — the assemble is a hero moment, once.
+  function fxScatter(el,at){
+    const spans=fxLetters(el);if(!spans)return;
+    const ms=duration(FX['scatter-gather'],el);
+    spans.slice(0,48).forEach((s,k)=>{
+      const dx=((k*37)%5-2)*120,dy=((k*53)%7-3)*72,rot=((k*29)%7-3)*10;
+      animateMs(s,[{transform:`translate(${dx}px,${dy}px) rotate(${rot}deg)`,opacity:0},{transform:'translate(0px,0px) rotate(0deg)',opacity:1}],ms,'e-spring',at+Math.min(k,16)*45);
+    });
+  }
+  // slice-reveal: the element's own clip-path opens horizontal bands in spatial
+  // order (top -> bottom). One of the two approved property exceptions.
+  function fxSlice(el,at){
+    if(!CSS.supports('clip-path','inset(0px)'))return;
+    const N=5,frames=[];
+    for(let i=0;i<=N;i++)frames.push({clipPath:`inset(0% 0% ${(1-i/N)*100}% 0%)`,offset:i/N});
+    animateMs(el,frames,duration(FX['slice-reveal'],el),'e-out',at);
+  }
+  // row-mask-rise: each child line rises out of an overflow-hidden mask, one at
+  // a time. Masks are display:block spans removed by the last line's cleanup.
+  function fxRowMask(el,at){
+    const kids=Array.from(el.children).filter(shown).slice(0,12);
+    if(!kids.length)return;
+    const ms=duration(FX['row-mask-rise'],el),wraps=[];
+    const unwrap=()=>{for(const w of wraps){while(w.firstChild)w.before(w.firstChild);w.remove();}};
+    kids.forEach((k,i)=>{
+      const w=document.createElement('span');w.className='ed-fx-mask';
+      w.style.display='block';w.style.overflow='hidden';
+      k.before(w);w.append(k);wraps.push(w);
+      animateMs(k,[{transform:'translateY(110%)'},{transform:'translateY(0%)'}],ms,'e-spring',at+i*Math.max(40,ms/5),i===kids.length-1?unwrap:null);
+    });
+  }
+  // weight-wave: the Pretendard Variable wght axis swells and releases across
+  // the phrase, so emphasis visibly travels. For titles/keywords only.
+  function fxWeight(el,at){
+    const spans=fxLetters(el);if(!spans)return;
+    // Unsupported engines still keep the kinetic-style letter split so the
+    // settled DOM matches a slide that never carried the attribute.
+    if(!CSS.supports('font-variation-settings','"wght" 700'))return;
+    const base=Math.round(parseFloat(getComputedStyle(el).fontWeight)||400);
+    const peak=Math.min(900,Math.max(base+250,700));
+    const ms=duration(FX['weight-wave'],el)*1.8;
+    spans.slice(0,48).forEach((s,k)=>{
+      animateMs(s,[{fontVariationSettings:`"wght" ${base}`},{fontVariationSettings:`"wght" ${peak}`,offset:.45},{fontVariationSettings:`"wght" ${base}`}],ms,'e-inout',at+k*60);
+    });
+  }
+  // rack-focus: attention transfers — the incoming element pulls into focus
+  // (blur -> sharp, second approved exception) while data-fx-dim targets dip
+  // and recover. Nothing stays blurred: the final state is the authored DOM.
+  function fxRack(el,at){
+    const ms=duration(FX['rack-focus'],el);
+    animateMs(el,[{filter:'blur(6px)'},{filter:'blur(0px)'}],ms,'e-out',at);
+    const scope=el.closest('.chk')||el.closest('.slide')||document;
+    if(el.dataset.fxDim)all(el.dataset.fxDim,scope).slice(0,3).forEach(d=>animateMs(d,[{filter:'blur(0px)'},{filter:'blur(3px)',offset:.4},{filter:'blur(3px)',offset:.72},{filter:'blur(0px)'}],ms*1.8,'e-inout',at));
+  }
+  // ---- TASK-fx-absorb: three techniques ported by concept from the klic
+  // motion catalogue (own implementation; no code copied) ----
+  // bar-grow: a bar, gauge or progress strip grows from its fixed base edge
+  // into the authored size — the element's own width/height IS the final state.
+  // The authored transform-origin picks the axis (bottom anchors a vertical
+  // grow, left a horizontal one; top/right follow the same rule). Without an
+  // edge anchor the aspect ratio decides: taller than wide grows upward,
+  // wider than tall grows rightward, and the base edge is set for the play.
+  function fxBarGrow(el,at){
+    const base=getComputedStyle(el).transform,suffix=base==='none'?'':' '+base;
+    const w=el.offsetWidth||el.getBoundingClientRect().width||0,h=el.offsetHeight||el.getBoundingClientRect().height||0;
+    const o=getComputedStyle(el).transformOrigin.split(' ').map(parseFloat);
+    const edge=Math.abs(o[1]-h)<2?'bottom':Math.abs(o[1])<2?'top':Math.abs(o[0])<2?'left':Math.abs(o[0]-w)<2?'right':'';
+    const vertical=edge?edge==='bottom'||edge==='top':h>w;
+    if(!edge)el.style.transformOrigin=vertical?'center bottom':'left center';
+    const axis=vertical?'scaleY':'scaleX';
+    const peers=all('[data-fx="bar-grow"]',el.closest('.slide')||document),i=Math.max(0,peers.indexOf(el));
+    animateMs(el,[{transform:`${axis}(0)`+suffix},{transform:`${axis}(1)`+suffix}],duration(FX['bar-grow'],el),'e-spring',at+Math.min(i,6)*duration('m1',el)/4);
+  }
+  // card-deal: a card is dealt out of a slightly stacked pile — it slides from
+  // a small offset toward the pile's centre with a hint of index-hashed tilt
+  // and settles square (final rotation 0). Offsets stay within ±24px/±4deg.
+  function fxDeal(el,at){
+    const base=getComputedStyle(el).transform,suffix=base==='none'?'':' '+base;
+    const pile=el.parentElement?el.parentElement.getBoundingClientRect():null,r=el.getBoundingClientRect();
+    let dx=0,dy=0;
+    if(pile&&r.width&&r.height){
+      dx=Math.max(-24,Math.min(24,(pile.left+pile.width/2-(r.left+r.width/2))*.35));
+      dy=Math.max(-24,Math.min(24,(pile.top+pile.height/2-(r.top+r.height/2))*.35));
+    }
+    const peers=all('[data-fx="card-deal"]',el.closest('.slide')||document),i=Math.max(0,peers.indexOf(el));
+    const rot=((i*29)%7-3)*4/3;
+    animateMs(el,[{transform:`translate(${dx.toFixed(1)}px,${dy.toFixed(1)}px) rotate(${rot.toFixed(2)}deg)`+suffix,opacity:0},{transform:'translate(0px,0px) rotate(0deg)'+suffix,opacity:1}],duration(FX['card-deal'],el),'e-spring',at+Math.min(i,6)*duration('m1',el)/4);
+  }
+  // blinds: the element is cut into horizontal strips that open top to bottom
+  // in stagger — the clip-path exception slice-reveal already owns, so the
+  // bands are one multi-rect polygon whose per-band edge sweeps down in turn.
+  // One large-area element at a time; strip edges collapse to zero-height
+  // rects until their window so the vertex count never changes.
+  function fxBlinds(el,at){
+    if(!CSS.supports('clip-path','polygon(0% 0%,100% 0%,100% 100%,0% 100%)'))return;
+    const N=5,stagger=.12,span=.52;
+    const times=new Set([0,1]);for(let i=0;i<N;i++){times.add(i*stagger);times.add(Math.min(1,i*stagger+span));}
+    const frames=[...times].sort((a,b)=>a-b).map(t=>{
+      const pts=[];for(let i=0;i<N;i++){
+        const y0=i*100/N,y1=y0+Math.min(1,Math.max(0,(t-i*stagger)/span))*100/N;
+        pts.push(`0% ${y0.toFixed(2)}%`,`100% ${y0.toFixed(2)}%`,`100% ${y1.toFixed(2)}%`,`0% ${y1.toFixed(2)}%`);
+      }
+      return{clipPath:`polygon(${pts.join(',')})`,offset:t};
+    });
+    animateMs(el,frames,duration(FX.blinds,el),'e-out',at);
+  }
   function fxFire(el){
     const name=el.dataset.fx;
     if(!FX[name])return false;
@@ -2602,6 +2912,14 @@ body.st-fold .st-ph{padding-bottom:0}
       case 'travel':animate(el,[{transform:`translateX(${token('--dx',el)||'-240px'})`+suffix},{transform:'translateX(0px)'+suffix}],FX.travel,'e-out',at);break;
       case 'block':animate(el,[{transform:`translateX(${token('--dx',el)||'-240px'})`+suffix,offset:0},{transform:'translateX(0px)'+suffix,offset:.55},{transform:'translateX(-16px)'+suffix,offset:.8},{transform:'translateX(0px)'+suffix}],FX.block,'e-out',at);break;
       case 'press':animate(el,[{transform:'translateY(0px)'+suffix},{transform:'translateY(4px) scale(.96)'+suffix,offset:.4},{transform:'translateY(0px)'+suffix}],FX.press,'e-inout',at);break;
+      case 'scatter-gather':fxScatter(el,at);break;
+      case 'slice-reveal':fxSlice(el,at);break;
+      case 'row-mask-rise':fxRowMask(el,at);break;
+      case 'weight-wave':fxWeight(el,at);break;
+      case 'rack-focus':fxRack(el,at);break;
+      case 'bar-grow':fxBarGrow(el,at);break;
+      case 'card-deal':fxDeal(el,at);break;
+      case 'blinds':fxBlinds(el,at);break;
     }
     return 'fx-'+name;
   }
@@ -2610,7 +2928,10 @@ body.st-fold .st-ph{padding-bottom:0}
   function fxSweep(s,step,back){
     const names=[];
     for(const el of all('[data-fx]',s)){
-      if(el._edFx||!shown(el))continue;
+      // shown() reads only the element's own box: content hidden by an ancestor's
+      // display:none (e.g. .chk-why inside .chk-fb) still reports shown, so it
+      // must also have a rendered box or it would fire before it is visible.
+      if(el._edFx||!shown(el)||!el.getClientRects().length)continue;
       if(revealStep(el,s)>step)continue;
       if(back||staticMode()){el._edFx=1;fxFinal(el);continue;}
       const sig=fxFire(el);
@@ -2648,7 +2969,8 @@ body.st-fold .st-ph{padding-bottom:0}
     if(entry)titleImpact(s,arch);
     if(arch==='before-after'||arch==='worked-example')semanticScene(s,arch,step,entry);
     else{
-      targets.forEach((e,i)=>{e.style.transformOrigin=arch==='meter'?'left center':arch==='sequence'?'left bottom':'center';
+      targets.forEach((e,i)=>{if(FX_OWN_TRANSFORM.has(e.dataset.fx))return;
+        e.style.transformOrigin=arch==='meter'?'left center':arch==='sequence'?'left bottom':'center';
         // A newly revealed chat bubble is not a pin: pin overshoot crosses the
         // clipped chat viewport. Keep the bubble inside its final footprint.
         const frames=arch==='mock-legend'&&!e.matches('.mk')?['scale(.96)','scale(1)']:r.frames(i);
@@ -2726,6 +3048,48 @@ body.st-fold .st-ph{padding-bottom:0}
   new MutationObserver(()=>{if(staticMode())settle();}).observe(document.body,{attributes:true,attributeFilter:['class']});
   document.addEventListener('visibilitychange',()=>{if(document.hidden)settle();});
   init();
+})();
+
+/*
+  상호작용 조각 위젯(TASK-tools G4·G5 · TASK-quadrant-flash): 탐색 칩(.expl) · 사이드 시트(.dsheet) · 플래시카드(.fc).
+  [카드] .fc 를 누르면 .on 토글로 앞↔뒷면이 뒤집힌다. 조작 자체는 시그니처가 아니며
+    인쇄·자습·정지 펼치기는 CSS(정적 완결)가 맡는다.
+  [탐색] .expl-chip[data-x] 를 누르면 같은 .expl 안에서 data-x 가 같은 .expl-state 하나만 켠다.
+    채점 없음. 상태를 바꾼 뒤 edpattern 을 흘려 그 안의 data-fx 가 필요하면 발화하게 한다.
+  [시트] .dsheet-open[data-open] 를 누르면 같은 장의 .dsheet-panel[data-sheet=값] 과 .dsheet-dim 을 켠다.
+    닫기: .dsheet-close·dim 클릭·Escape. 인쇄·자습 펼치기는 CSS(정적 완결)가 맡고 여기선 화면 조작만 한다.
+*/
+(function(){
+  var doc=document;
+  doc.addEventListener('click',function(e){
+    var t=e.target;
+    var chip=t&&t.closest?t.closest('.expl-chip'):null;
+    if(chip){
+      var box=chip.closest('.expl');if(!box)return;
+      var x=chip.getAttribute('data-x');
+      [].forEach.call(box.querySelectorAll('.expl-chip'),function(c){c.classList.toggle('on',c===chip);});
+      [].forEach.call(box.querySelectorAll('.expl-state'),function(s){s.classList.toggle('on',s.getAttribute('data-x')===x);});
+      doc.dispatchEvent(new Event('edpattern'));
+      return;
+    }
+    var fc=t&&t.closest?t.closest('.fc'):null;
+    if(fc){fc.classList.toggle('on');return;}
+    var open=t&&t.closest?t.closest('.dsheet-open'):null;
+    if(open){
+      var sl=open.closest('.slide');if(!sl)return;
+      var id=open.getAttribute('data-open');
+      [].forEach.call(sl.querySelectorAll('.dsheet-panel'),function(p){p.classList.toggle('on',p.getAttribute('data-sheet')===id);});
+      var dim=sl.querySelector('.dsheet-dim');if(dim)dim.classList.add('on');
+      doc.dispatchEvent(new Event('edpattern'));
+      return;
+    }
+    if(t&&t.closest&&(t.closest('.dsheet-close')||t.closest('.dsheet-dim'))){
+      [].forEach.call(doc.querySelectorAll('.dsheet-panel.on,.dsheet-dim.on'),function(el){el.classList.remove('on');});
+    }
+  });
+  doc.addEventListener('keydown',function(e){
+    if(e.key==='Escape')[].forEach.call(doc.querySelectorAll('.dsheet-panel.on,.dsheet-dim.on'),function(el){el.classList.remove('on');});
+  });
 })();
 
 /* edu-deck authoring patterns: code copy, tabs, FAQ, screen pins, cross-links.
@@ -3211,6 +3575,31 @@ function init(){
 }
 if(doc.readyState==='loading')doc.addEventListener('DOMContentLoaded',init);else init();
 })();
+
+/* 저자 검수 뷰어 모드 — ?sheet(전 장 축소판·접촉판)과 ?shot=N(한 장 캡처).
+   덱 결과물 하나를 URL 만으로 검수·캡처에 쓴다. 수업·발표 동작은 바꾸지 않는다:
+   파라미터가 없으면 아무 일도 하지 않는다. 단계·애니메이션의 주인은 기존 엔진이고
+   여기서는 클래스만 단다(st-sheet 는 motion.js 정적 판정에 합류해 전 장 완성 상태). */
+(function(){
+  'use strict';
+  var P=new URLSearchParams(location.search);
+  if(P.has('sheet')){
+    document.documentElement.classList.add('is-sheet');
+    document.body.classList.add('st-sheet'); /* 전 장 정적 완결(motion.js staticMode) */
+    var cols=parseInt(P.get('sheet')||'',10);
+    if(cols>=2&&cols<=6)document.documentElement.style.setProperty('--sheet-cols',cols);
+    try{if(window.eduMotion&&window.eduMotion.settle)window.eduMotion.settle();}catch(e){}
+    return;
+  }
+  var shot=P.get('shot');
+  if(shot!==null){
+    var n=parseInt(shot,10)||0;
+    document.documentElement.classList.add('is-shot');
+    document.body.classList.add('st-shot');
+    var go=function(){ if(typeof window.deckGo==='function')window.deckGo(n);else setTimeout(go,30); };
+    if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();
+  }
+})();
 </script>
 <script>
 /*
@@ -3285,6 +3674,7 @@ try{
   /* idx 장으로 간다. toEnd 면 그 장의 마지막 단계부터 시작(←로 돌아갈 때),
      instant 면 전환 연출 없이 바로 칠한다(deckGo·첫 표시) */
   function jumpTo(idx,toEnd,instant){
+    cancelFinish();
     deckEl.dataset.dir=(idx>pos)?'fwd':'back';
     pos=Math.max(0,Math.min(pages.length-1,idx));
     mark=toEnd?topMark(pages[pos]):0;
@@ -3302,8 +3692,8 @@ try{
     if(window.eduMotion&&!instant&&deckEl.querySelector('.slide.active')) window.eduMotion.navigate(commit,deckEl.dataset.dir);
     else commit();
   }
-  function advance(){ if(mark<topMark(pages[pos])){ mark++; emitStep(true); } else if(pos<pages.length-1){ jumpTo(pos+1,false); } }
-  function retreat(){ if(mark>0){ mark--; emitStep(false); } else if(pos>0){ jumpTo(pos-1,true); } }
+  function advance(){ cancelFinish(); if(mark<topMark(pages[pos])){ mark++; emitStep(true); } else if(pos<pages.length-1){ jumpTo(pos+1,false); } }
+  function retreat(){ cancelFinish(); if(mark>0){ mark--; emitStep(false); } else if(pos>0){ jumpTo(pos-1,true); } }
   /* 검사기·읽기 계층이 부르는 동기 점프: 전환 연출 없이 장·단계를 곧바로 맞춘다 */
   window.deckGo=function(i,st){
     jumpTo(i,false,true);
@@ -3332,13 +3722,48 @@ try{
     else if(k==='f'||k==='F'||k==='ㄹ'){ bigScreen(); }
     else if(k==='n'||k==='N'||k==='ㅜ'){ swapMemo(); }
   });
-  var CLICK_GUARD='a,button,.todo,.chk,.code,.tabs,.faq,.pin-shot,.pin-list,.st-panel,.st-modal,.st-print';
+  var CLICK_GUARD='a,button,.todo,.chk,.code,.tabs,.faq,.pin-shot,.pin-list,.st-panel,.st-modal,.st-print,.expl,.dsheet';
   document.addEventListener('click',function(e){
     if(rootEl.classList.contains('ed-compact')) return;
     if(memoBox.contains(e.target)) return;
     /* 참고 자료 링크·체크리스트 칸·확인 문제·자습 창을 누른 클릭은 장을 넘기지 않는다 */
     if(e.target.closest&&e.target.closest(CLICK_GUARD)) return;
     if(e.clientX<window.innerWidth/3) retreat(); else advance();
+  });
+  /* 더블클릭: 현재 장의 남은 단계를 순차 재생해 끝까지 공개한다(장 이동 없음).
+     dblclick 전에 click 이 먼저 단계를 넘기는 것은 감수한다 — click 반응을
+     지연 큐로 늦추지 않는다. 이미 마지막 단계면 아무 일도 하지 않는다. */
+  var finishTimer=null;
+  function cancelFinish(){ if(finishTimer!==null){ clearTimeout(finishTimer); finishTimer=null; } }
+  function staticNow(){
+    var mq=window.matchMedia?window.matchMedia.bind(window):function(){return{matches:false};};
+    return mq('(prefers-reduced-motion: reduce)').matches||mq('print').matches
+      ||/st-(self|printing|presenter|sheet)/.test(document.body.className);
+  }
+  /* 스킵 점프가 아니라 단계 공개 경로를 재생 간격으로 연달아 호출한다 —
+     남은 단계의 모션이 다 보인다. 전체 3초 상한 안에서 남은 수로 균등 분할. */
+  function finishSteps(){
+    cancelFinish();
+    var top=topMark(pages[pos]);
+    if(mark>=top) return;
+    if(staticNow()){ mark=top; emitStep(false); return; }
+    var gap=Math.min(600,3000/(top-mark));
+    var tick=function(){
+      finishTimer=null;
+      if(mark>=topMark(pages[pos])) return;
+      mark++; emitStep(true);
+      if(mark<topMark(pages[pos])) finishTimer=setTimeout(tick,gap);
+    };
+    finishTimer=setTimeout(tick,gap);
+  }
+  document.addEventListener('dblclick',function(e){
+    if(rootEl.classList.contains('ed-compact')) return;
+    if(document.body.classList.contains('in-hub')) return;
+    if(memoBox.contains(e.target)) return;
+    /* click 과 같은 가드·같은 영역 — 왼쪽 1/3(이전 영역) 위에서는 동작하지 않는다 */
+    if(e.target.closest&&e.target.closest(CLICK_GUARD)) return;
+    if(e.clientX<window.innerWidth/3) return;
+    finishSteps();
   });
   var drag=null;
   document.addEventListener('touchstart',function(e){ drag=e.touches[0].clientX; },{passive:true});
@@ -3914,6 +4339,100 @@ try{
 [].slice.call(document.querySelectorAll('.todo')).forEach(function(box){
   box.addEventListener('click',function(e){ e.stopPropagation(); box.classList.toggle('done'); });
 });
+</script>
+<script>
+/*
+  도구 층: 자동 발표(A) · 화면 편집(E)
+  [자동 발표] A 키로 시작·정지. 현재 장의 남은 단계를 한 단계씩 전부 공개한 뒤
+    그 장의 data-sec 초(없으면 6초)만큼 머물고 다음 장으로 간다. 마지막 장이면 끝.
+    아무 키 입력으로 정지한다. T·R 타이머와는 독립이고 deckGo 로 움직이므로
+    발표자 보기(?presenter) 동기에는 그대로 실린다. 인쇄·reduced-motion 에는 영향 없음.
+  [편집] E 키로 켜고 끈다. 제목·문단·표 칸·목록 같은 글자 요소만 contenteditable —
+    상호작용 요소(.chk·.todo·버튼·링크·노트·자습·시트 패널)는 제외하고 줄바꿈(Enter)은 막아
+    요소를 새로 만들지 못한다(텍스트만). 수정본은 localStorage 'edeck-edit-<파일이름>' 에
+    {"<장번호>-<순번>":innerHTML} 로 저장하고, 편집 표시줄의 "수정 초기화" 로 전부 되돌린다.
+    인쇄·자습·발표자 보기는 수정된 DOM 을 그대로 읽으므로 자동 반영된다.
+    편집을 켜면 자동 발표는 멈춘다(글자 고치는 중 장이 넘어가지 않게).
+*/
+(function(){
+var doc=document,root=doc.documentElement,body=doc.body;
+function slides(){return [].slice.call(doc.querySelectorAll('#stage>.slide'));}
+
+/* ---- 자동 발표 ---- */
+var autoTimer=null,autoOn=false;
+function autoStop(){autoOn=false;if(autoTimer){clearTimeout(autoTimer);autoTimer=null;}root.classList.remove('ed-auto');}
+function autoStep(){
+  if(!autoOn)return;
+  var info=window.deckInfo?deckInfo():null;
+  if(!info){autoStop();return;}
+  var pg=slides()[info.slide];
+  if(info.step<info.maxStep){deckGo(info.slide,info.step+1);autoTimer=setTimeout(autoStep,800);return;}
+  var sec=parseFloat(pg&&pg.getAttribute('data-sec'))||6;
+  sec=Math.max(2,sec);
+  autoTimer=setTimeout(function(){
+    if(!autoOn)return;
+    var i2=window.deckInfo?deckInfo():null;
+    if(i2&&i2.slide<i2.count-1){deckGo(i2.slide+1,0);autoTimer=setTimeout(autoStep,700);}
+    else autoStop();
+  },sec*1000);
+}
+function autoStart(){if(autoOn)return;autoOn=true;root.classList.add('ed-auto');autoTimer=setTimeout(autoStep,700);}
+window.eduAuto={start:autoStart,stop:autoStop,on:function(){return autoOn;}};
+
+/* ---- 화면 편집 ---- */
+var EDIT_SEL='.slide h1,.slide h2,.slide h3,.slide h4,.slide p,.slide li,.slide td,.slide th,.slide figcaption,.slide summary';
+var EDIT_EXCL='.chk,.todo,button,a,aside,.st-panel,.st-modal,.st-print,.st-toast,.dsheet-panel,script,style';
+var EKEY='edeck-edit-'+(decodeURIComponent(location.pathname.split('/').pop())||'deck');
+var editOn=false,orig=new Map(),saveT=null,editBar=null;
+function editables(){return [].slice.call(doc.querySelectorAll(EDIT_SEL)).filter(function(el){return !el.closest(EDIT_EXCL);});}
+function editSave(){
+  var o={};
+  orig.forEach(function(html,el){if(el.innerHTML!==html){var k=el.getAttribute('data-ed');if(k)o[k]=el.innerHTML;}});
+  try{localStorage.setItem(EKEY,JSON.stringify(o));}catch(e){}
+}
+function editReset(){
+  try{localStorage.removeItem(EKEY);}catch(e){}
+  orig.forEach(function(html,el){el.innerHTML=html;});
+}
+function editToggle(){
+  editOn=!editOn;body.classList.toggle('ed-edit',editOn);
+  editables().forEach(function(el){if(editOn)el.setAttribute('contenteditable','true');else el.removeAttribute('contenteditable');});
+  if(editBar)editBar.hidden=!editOn;
+  if(editOn)autoStop();else editSave();
+}
+doc.addEventListener('input',function(e){
+  if(!editOn)return;
+  var t=e.target;
+  if(!t||!t.getAttribute||!t.getAttribute('data-ed'))return;
+  if(saveT)clearTimeout(saveT);saveT=setTimeout(editSave,400);
+});
+doc.addEventListener('keydown',function(e){
+  var t=e.target;
+  if(t&&(t.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))){
+    if(t.isContentEditable&&e.key==='Enter'&&!e.isComposing)e.preventDefault();
+    return;
+  }
+  if(e.ctrlKey||e.metaKey||e.altKey||e.isComposing)return;
+  var k=e.key;
+  if(k==='a'||k==='A'||k==='ㅁ'){if(autoOn)autoStop();else autoStart();}
+  else if(k==='e'||k==='E'||k==='ㄷ'){editToggle();}
+  else if(autoOn)autoStop();
+});
+(function init(){
+  var tag=doc.createElement('div');tag.id='edAuto';tag.textContent='자동 발표 중 — 아무 키로 정지';body.appendChild(tag);
+  var bar=doc.createElement('div');bar.id='edEdit';bar.hidden=true;
+  bar.innerHTML='<span>편집 중 — 글자를 바로 고칩니다 (E 종료)</span><button type="button" class="ed-reset">수정 초기화</button>';
+  bar.querySelector('.ed-reset').addEventListener('click',function(){editReset();if(window.edToast)edToast('수정을 모두 되돌렸습니다');});
+  editBar=bar;body.appendChild(bar);
+  var order={};
+  editables().forEach(function(el){
+    var s=el.closest('.slide'),si=slides().indexOf(s),n=(order[si]=(order[si]||0)+1);
+    el.setAttribute('data-ed',si+'-'+n);orig.set(el,el.innerHTML);
+  });
+  try{var o=JSON.parse(localStorage.getItem(EKEY)||'{}');}catch(e){return;}
+  Object.keys(o).forEach(function(k){var el=doc.querySelector('[data-ed="'+k+'"]');if(el)el.innerHTML=o[k];});
+})();
+})();
 </script>
 </body>
 </html>
