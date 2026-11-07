@@ -45,22 +45,22 @@ description: "Entry skill for education deck requests. Use FIRST when the user w
    - 신호가 한쪽으로 분명하면 **스스로 정하고 진행**한다. brief 와 최종 보고에 `경로: 팩 (근거: …)` 한 줄을 남긴다.
    - 신호가 섞이거나 약하면 **사용자에게 한 번 묻는다.** 두 경로를 각각 한 줄로 설명하고 추천 하나와 이유를 붙인다. 답이 올 때까지 저작을 시작하지 않는다.
    - 위임 실행처럼 물을 수 없으면 추천 경로로 진행하고, brief 와 최종 보고의 "확인 필요"에 `경로를 추천으로 정함(근거: …)` 을 남긴다. 신호가 비슷하면 팩을 추천한다(디자인·흐름 조합이 더 넓다).
-4. 경로가 정해지면 해당 라우터를 돌린다: 팩은 `shared/scripts/pack_router.py`(디자인 8·흐름 8 후보 3종), legacy 는 `shared/scripts/tone_router.py`(테마 9·표지 7·arc 6). 라우터 점수는 후보를 좁히는 휴리스틱이므로 청중·수행 행동·평가 증거로 확인한다.
+4. 경로가 정해지면 해당 라우터를 돌린다: 팩은 `shared/scripts/pack_router.py`(디자인 8·흐름 8 후보 3종), legacy 는 `shared/scripts/tone_router.py`(테마 9·표지 16·arc 6). 라우터 점수는 후보를 좁히는 휴리스틱이므로 청중·수행 행동·평가 증거로 확인한다.
 5. 저작 중에 경로를 바꾸면 이미 쓴 장을 새 경로로 다시 써야 한다. 바꿔야 하는 이유가 생기면 진행을 멈추고 사용자에게 알린다.
 
 ### 자유 모드와 가이드 모드
 
-기본은 **자유 모드**다. 조각·팩 템플릿·arc 메뉴·아키타입 표는 참고 예시이고 지시가 아니다 — 에이전트가 직접 설계해도 되며, 스킬은 예시 경로·샘플·재료·도구만 준다. 검사기는 안전 가드(깨짐·접근성·계약)만 ERROR 로 막고, 취향 규칙은 INFO 다(`check_deck.py --style` 에서 WARN 상세). 모델 이름으로 분기하지 않는다. **가이드 모드**로 가는 경로는 세 가지뿐이다:
+기본은 **자유 모드**다. 조각·팩 템플릿·arc 메뉴·아키타입 표는 참고 예시이고 지시가 아니다 — 에이전트가 직접 설계해도 되며, 스킬은 예시 경로·샘플·재료·도구만 준다. 재료 사용 4방식·작업 덱 수정 권한·품질 판단 기준은 `shared/references/authoring.md` 한 곳에 있다. 검사기는 안전 가드(깨짐·접근성·계약)만 ERROR 로 막고, 취향 규칙은 INFO 다(`check_deck.py --style` 에서 WARN 상세). 모델 이름으로 분기하지 않는다. **가이드 모드**로 가는 경로는 세 가지뿐이다:
 
-1. 자동 폴백: 직접 설계한 장이 `check_deck.py` 를 같은 고침 3회 안에 통과하지 못하면 가이드 문서(`composition.md`·`layouts.md`·`design.md` 판단 기준·카탈로그 조각)를 읽고 그쪽으로 전환한다.
+1. 자동 폴백: 같은 장의 같은 고침이 3회 반복되면 고침 재시도 대신 원인 분석부터 한다(authoring.md 7절) — 가이드 문서(`composition.md`·`layouts.md`·`design.md` 판단 기준·카탈로그 조각)로의 전환은 그 장의 해결 수단 중 하나다. 실패 횟수만으로 덱 전체를 고정 형식으로 바꾸지 않는다.
 2. 사용자·지시문이 "가이드 모드"라고 지정하면 처음부터 가이드 문서를 따른다.
 3. 위임자가 약한 모델이라고 판단해 위임문에 "가이드 모드"를 넣으면 따른다.
 
 안전 가드는 두 모드 모두에 적용된다. `data-archetype` 가 없는 장도 허용된다 — 엔진이 자동 배정한다(statement, `.chk` 가 있으면 check).
 
-**팩 경로**: 같은 모양이 반복되지 않도록 디자인 8종과 학습 흐름 8종에서 주제에 맞는 조합을 고른다. `pack_router.py` 의 후보 3종·추천·흐름(최근 쓴 디자인은 `--recent` 로 감점)으로 시안(`preview_pack.py`)을 만들어 사용자에게 보여 고르게 한다. 답이 없거나 위임 실행이라 물을 수 없으면 추천 후보로 진행하고 `resource_pack_choice` 에 `by: default` 와 근거를 남긴다. 선택은 `deck.json.resource_pack` 에 명시하며 보조활동은 주흐름과 다른 흐름을 중복 없이 최대 2종만 고른다. 팩 덱도 공통 아이콘 묶음과 개념 SVG 도식은 쓸 수 있으나 legacy 배치 클래스·조각·CSS 는 섞지 않는다.
+**팩 경로**: 같은 모양이 반복되지 않도록 디자인 8종과 학습 흐름 8종에서 주제에 맞는 조합을 고른다. `pack_router.py` 의 후보 3종·추천·흐름(최근 쓴 디자인은 `--recent` 로 감점)을 시작점으로 삼고, **에이전트가 청중·수행 행동·평가 증거로 스스로 확정한다** — 시안 3종 비교(`preview_pack.py`)는 사용자가 비교·승인을 요청했을 때나 시각 비교가 필요하다고 판단할 때 쓰는 선택적 기법이다(solo 3.5절·`shared/references/authoring.md` 5절). 선택은 `deck.json.resource_pack` 에 명시하며 보조활동은 주흐름과 다른 흐름을 중복 없이 최대 2종만 고른다. 팩 덱도 공통 아이콘 묶음과 개념 SVG 도식은 쓸 수 있으나 legacy 배치 클래스·조각·CSS 는 섞지 않는다.
 
-**legacy 경로**: `shared/references/composition.md` 의 유형표·줄거리, `layouts.md` 의 아키타입·`assets/snippets/`·공통 아이콘(`icons.md`)·개념 SVG 도식(`diagrams.md`)으로 저작하고, 장의 배치·강조·밀도·색 판단은 `shared/references/design.md` 의 기준을 따른다. 덱마다 얼굴이 달라지게 `deck.json` 의 `theme`(9종, 기본 classic)·`arc`(6종, 기본 standard)를 `python3 shared/scripts/tone_router.py --title … --outcomes … --audience …` 의 추천으로 고른다. 표지는 주제에 맞게 **직접 설계하는 것이 기본**이고, 못 만들 때만 카탈로그 변형 7종(`01-cover*.html`)으로 폴백한다 — 폴백 후보는 라우터의 cover 추천을 쓰고, 계약은 `shared/references/layouts.md` "표지 직접 설계 계약"을 따른다. 모두 생략하면 기존 결과 그대로다.
+**legacy 경로**: `shared/references/composition.md` 의 유형표·줄거리, `layouts.md` 의 아키타입·`assets/snippets/`·공통 아이콘(`icons.md`)·개념 SVG 도식(`diagrams.md`)으로 저작하고, 장의 배치·강조·밀도·색 판단은 `shared/references/design.md` 의 기준을 따른다. 덱마다 얼굴이 달라지게 `deck.json` 의 `theme`(9종, 기본 classic)·`arc`(6종, 기본 standard)를 `python3 shared/scripts/tone_router.py --title … --outcomes … --audience …` 의 추천으로 고른다. 표지는 `shared/references/authoring.md` 3절의 재료 사용 4방식(그대로·변형·조합·새로 설계) 중 내용에 맞는 방식으로 만든다 — 카탈로그 변형 16종(`01-cover*.html`)은 출발점 재료이지 실패 폴백이 아니다. 방식과 무관하게 표지 계약은 `shared/references/layouts.md` "표지 직접 설계 계약"을 따른다. 모두 생략하면 기존 결과 그대로다.
 
 새 팩 생성기는 저작용 뼈대이지 검증된 강의가 아니다. 실제 조사 내용·110~450자 발표자 노트와 같은 디자인 안의 다양한 배치 변형을 작성하고 하위 스킬의 검사를 거친다. 팩 경로는 legacy 포팅 도구나 원래 Downloads HTML을 필요로 하지 않는다.
 

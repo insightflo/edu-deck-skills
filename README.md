@@ -10,8 +10,8 @@
 [![Works with](https://img.shields.io/badge/agents-pi%20%C2%B7%20Claude%20Code%20%C2%B7%20Codex-7a5cc4?style=flat-square)](#4-사용법)
 [![Ships](https://img.shields.io/badge/산출물-단일%20HTML%20%C2%B7%20외부의존%200-0e7d95?style=flat-square)](#2-한눈에-보는-구성)
 [![Assets](https://img.shields.io/badge/%EB%A6%AC%EC%86%8C%EC%8A%A4%ED%8C%A9-%EC%84%A4%EA%B3%84%208%EC%A2%85%20%C2%B7%20%ED%9D%90%EB%A6%84%208%EC%A2%85-2f6fb0?style=flat-square)](docs/gallery.html)
-[![Assets](https://img.shields.io/badge/%EC%9E%A5%20%EB%B0%B0%EC%B9%98-32%EA%B3%84%EC%97%B4%2063%EB%B3%80%ED%98%95-e8772e?style=flat-square)](docs/gallery.html)
-[![Tests](https://img.shields.io/badge/%ED%9A%8C%EA%B7%80-229%20tests%20%C2%B7%20pack%2064%2F64-59c3d6?style=flat-square)](#5-검증--검사기가-품질을-담당)
+[![Assets](https://img.shields.io/badge/%EC%9E%A5%20%EB%B0%B0%EC%B9%98-41%EA%B3%84%EC%97%B4%20231%EB%B3%80%ED%98%95-e8772e?style=flat-square)](docs/gallery.html)
+[![Tests](https://img.shields.io/badge/%ED%9A%8C%EA%B7%80-354%20tests%20%C2%B7%20pack%2064%2F64-59c3d6?style=flat-square)](#5-검증--검사기는-계약-품질-판단은-사람)
 
 ![데모](docs/demo-quiz.gif)
 
@@ -60,7 +60,7 @@
 
 **무엇을 만들 수 있나 — 지원 범위** (수치는 저장소 회귀로 검증)
 
-<img src="docs/diagrams/diagram-scope.png" width="100%" alt="지원 범위 도식 — 규모 1편/N편, legacy 8테마·5흐름·63조각·표지 16종, 팩 8설계×8흐름 64조합, 덱 유형 4종, 기본 포함 기능">
+<img src="docs/diagrams/diagram-scope.png" width="100%" alt="지원 범위 도식 — 규모 1편/N편, legacy 테마 8종·arc 5종·조각 41계열 231변형·표지 16종, 팩 8설계×8흐름 64조합, 덱 유형 4종, 기본 포함 기능">
 
 **어떻게 만들어지나 — 요청부터 검사까지** (실선=코드 강제, 점선=에이전트 수행)
 
@@ -79,8 +79,8 @@
 | 리소스팩 설계 | **8종** — 배치 문법 자체가 다름(마주본 면·사례 기록·편집 지면…) · 흐름 8종(수업 뼈대)과 64조합 전수 빌드·검사(64/64) | 설계별 표지 + **흐름 8종 실제 예시 덱**(주제 동일) |
 | 장 배치 조각 | **52계열 253변형** | 썸네일 + 253장 열람 덱 |
 | 테마 | **8종** | 같은 덱 3장(표지·목차·내용) × 전 테마 매트릭스 + 같은 장면 비교 |
-| 모션 시그니처 | **실행 이름 42종 전체 + 공통 기법 5종**(data-fx) | GIF 36종 열람(퀴즈 판정·기법은 실제 조작 녹화) |
-| 표지 | 직접 설계(3안 비교) + 카탈로그 16종 | 아키타입 갤러리 |
+| 모션 시그니처 | **실행 이름 42종 전체 + 공통 기법 5종**(data-fx) | GIF 47종 열람(퀴즈 판정·기법은 실제 조작 녹화) |
+| 표지 | 직접 설계 + 카탈로그 16종 | 아키타입 갤러리 |
 
 50초 이전 수동 제작 소개 영상은 [15초·30초 showreel](docs/edu-deck-skills-30-v1.0.0.mp4)로 교체했습니다.
 
@@ -98,14 +98,16 @@ git clone https://github.com/insightflo/edu-deck-skills.git ~/.pi/agent/skills/e
 - "신입 직원용 개인정보 보호 교육자료 만들어줘" → `edu-deck-solo` (한 주제 한 덱)
 - "안전 교육 6편 시리즈로 만들어, 진도 관리되게" → `edu-deck-series` (시리즈 + 포털)
 
-저작은 기본이 **자유 모드**(에이전트가 배치를 직접 설계)이고, 막히거나 지시받으면 가이드 문서로 전환합니다(3회 실패 자동·지시 지정·위임자 판단). 모델 이름으로 갈리지 않습니다.
+저작은 기본이 **자유 모드**입니다. 재료(조각·템플릿·카탈로그·표지 변형)는 그대로 쓰거나 변형·조합·새로 설계해도 모두 정상 저작이고, 선택은 에이전트가 판단합니다(`shared/references/authoring.md`). 막히거나 지시받으면 가이드 문서로 전환합니다(3회 실패 자동·지시 지정·위임자 판단). 모델 이름으로 갈리지 않습니다.
 
-## 5. 검증 — 검사기가 품질을 담당
+## 5. 검증 — 검사기는 계약, 품질 판단은 사람
 
 `check_deck.py`가 완성 덱을 정적+렌더 검사합니다. 규칙은 두 층입니다.
 
 - **안전 가드(ERROR)** — 깨진 참조·외부 자원·대비(4.5:1/3:1)·글자 18px 미만·노트 부재·계약 위반. 통과해야 완성입니다.
 - **취향(INFO)** — 제목 길이·구성 반복·밀도. `--style`을 주면 경고(WARN) 상세로 올라갑니다. 사람이 읽고 판단합니다.
+
+검사 통과는 기술 계약의 통과일 뿐 디자인 품질의 보장이 아닙니다. 시각 위계·가독성·메시지 전달은 캡처·축소판을 직접 보고 판단하고, 취향 경고만으로 좋은 디자인을 버리지 않습니다(`shared/references/authoring.md` 6절).
 
 저장소 회귀: 단위 테스트 367개(렌더 포함, skip 1), 리소스팩 브라우저 64/64 조합, 대비 매트릭스 238셀.
 
@@ -114,7 +116,7 @@ git clone https://github.com/insightflo/edu-deck-skills.git ~/.pi/agent/skills/e
 ```bash
 cd edu-deck/shared
 EDU_DECK_TEST_DECK=../../examples/states-quiz/물질의상태변화-단원평가퀴즈-교육자료.html \
-  python3 -m unittest discover -s dev -p 'test_*py'   # Ran 229 tests OK
+  python3 -m unittest discover -s dev -p 'test_*py'   # Ran 354 tests OK
 python3 scripts/check_deck.py ../../examples/states-quiz/물질의상태변화-단원평가퀴즈-교육자료.html   # 기본: 안전 가드
 python3 scripts/check_deck.py --style <덱.html>   # 취향 상세
 ```
@@ -122,7 +124,7 @@ python3 scripts/check_deck.py --style <덱.html>   # 취향 상세
 ## 6. 구조
 
 ```
-edu-deck/          진입(라우터) 스킬 + 공통: 셸·모션 엔진·조각 40계열·아이콘·팩 8종·검사·조립 도구
+edu-deck/          진입(라우터) 스킬 + 공통: 셸·모션 엔진·조각 41계열·아이콘·팩 8종·검사·조립 도구
 edu-deck-solo/     한 주제 한 덱 — brief → 조사 → outline → 저작 → 검사
 edu-deck-series/   여러 편 시리즈 + 목차 포털·진도·같은 편 복습
 examples/          실물 예시 4종(저작 과정 포함)
