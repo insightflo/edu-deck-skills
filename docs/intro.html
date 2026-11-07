@@ -4679,7 +4679,7 @@ doc.addEventListener('keydown',function(e){
 <script>
 
 (function(){
-var BUDGET=[4500, 5500, 3200, 3200, 2600, 2600, 2800, 2800, 2800, 0], SCENES=[[0], [1], [2, 3], [4, 5, 6], [7, 8], [9]], CAP=['프롬프트 하나로, 한국어 교육 자료가 만들어집니다', '요청 한 줄이 조사·구성·저작·검사를 지나 단일 HTML이 됩니다', '배치 계열 52 · 변형 253 · 모션 실행 이름 42 — 재료는 카탈로그에 있습니다', '지금 보이는 모션은 녹화가 아니라 코드가 그립니다', '퀴즈 판정·자습·인쇄·출처 검증까지 한 파일에 담깁니다', '실제 예시와 자산 갤러리에서 직접 확인할 수 있습니다'];
+var BUDGET=[3000, 3500, 2200, 2200, 1800, 1800, 2000, 2000, 2000, 0], SCENES=[[0], [1], [2, 3], [4, 5, 6], [7, 8], [9]], CAP=['프롬프트 하나로, 한국어 교육 자료가 만들어집니다', '요청 한 줄이 조사·구성·저작·검사를 지나 단일 HTML이 됩니다', '배치 계열 52 · 변형 253 · 모션 실행 이름 42 — 재료는 카탈로그에 있습니다', '지금 보이는 모션은 녹화가 아니라 코드가 그립니다', '퀴즈 판정·자습·인쇄·출처 검증까지 한 파일에 담깁니다', '실제 예시와 자산 갤러리에서 직접 확인할 수 있습니다'];
 var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 var cap=document.createElement('div');cap.id='show-cap';document.body.appendChild(cap);
 var bar=document.createElement('div');bar.id='show-bar';document.body.appendChild(bar);
@@ -4687,7 +4687,8 @@ var hint=document.createElement('div');hint.id='show-state';hint.textContent='�
 var segs=SCENES.map(function(){var i=document.createElement('i');i.appendChild(document.createElement('b'));bar.appendChild(i);return i.firstElementChild;});
 var slideScene=[];SCENES.forEach(function(s,si){s.forEach(function(sl){slideScene[sl]=si;});});
 var NSLIDES=slideScene.length;
-var sched=[],idx=0,t0=0,el=0,timer=null,paused=false,started=false;
+var sched=[],idx=0,t0=0,el=0,timer=null,paused=false,started=false,via='-';
+var DIAG=window.__introDiag={started:false,elapsed:0,lastScene:-1,via:'-'};
 function maxOf(i){var p=document.querySelectorAll('#stage>.slide');if(i<p.length){var m=0;p[i].querySelectorAll('[data-step],[data-add],[data-only],[data-lit],[data-until]').forEach(function(e){['step','add','only','lit','until'].forEach(function(a){if(e.dataset[a]!==undefined)m=Math.max(m,+e.dataset[a]);});});return m;}return 0;}
 function sceneOf(i){return slideScene[i]===undefined?SCENES.length-1:slideScene[i];}
 function paint(){
@@ -4696,19 +4697,30 @@ function paint(){
  var frac=(k+(m?Math.min(st,m)/(m+1):1))/members.length;
  segs.forEach(function(b,si){b.style.transform='scaleX('+(si<sc?1:si===sc?frac:0)+')';});
  cap.textContent=CAP[sc]||'';
- document.dispatchEvent(new CustomEvent('introscene',{detail:{scene:sc,slide:pos}}));
+ DIAG.lastScene=sc;DIAG.elapsed=started?Date.now()-t0:0;DIAG.via=via;
+ document.dispatchEvent(new CustomEvent('introscene',{detail:{scene:sc,slide:pos,via:via}}));
 }
-function press(){document.dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowRight',bubbles:true,cancelable:true}));}
+/* 브라우저 무관 진행 — 엔진 공개 API deckGo 직접 호출, 불가 시 합성 키 폴백 */
+function press(){
+ var used=false;
+ if(window.deckGo&&window.deckInfo){try{
+  var inf=deckInfo();
+  if(inf.step<inf.maxStep)deckGo(inf.slide,inf.step+1);else deckGo(inf.slide+1,0);
+  used=true;via='api';}catch(e){used=false;}}
+ if(!used){via='key';document.dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowRight',bubbles:true,cancelable:true}));}
+}
 function arm(){if(paused||idx>=sched.length)return;var wait=sched[idx]-el;if(wait<0)wait=0;timer=setTimeout(tick,wait);}
 function tick(){el=sched[idx];idx++;press();arm();}
 function play(){paused=false;hint.classList.remove('on');t0=Date.now()-el;arm();}
 function pause(){paused=true;hint.classList.add('on');el=Date.now()-t0;clearTimeout(timer);}
 function restart(){clearTimeout(timer);el=0;idx=0;paused=false;window.deckGo&&deckGo(0,0);play();}
-document.addEventListener('deckslide',function(){var info=window.deckInfo?deckInfo():{slide:0};if(sceneOf(info.slide)!==undefined)paint();
- // 퀴즈 장: 마지막 단계 직후 실제 판정을 그린다
- if(info.slide===7)setTimeout(function(){var e=document.querySelector('.slide.active .ox.o');if(e&&!e.classList.contains('lit')){e.classList.add('lit','picked');if(window.eduMotion&&eduMotion.verdict)eduMotion.verdict(e,true);}},900);
+document.addEventListener('deckstep',function(){
+ paint();
+ // 퀴즈 장: 마지막 단계 도달 직후 실제 판정을 그린다
+ var inf=window.deckInfo&&deckInfo();
+ if(inf&&inf.slide===7&&inf.step>=inf.maxStep)setTimeout(function(){var e=document.querySelector('.slide.active .ox.o');if(e&&!e.classList.contains('lit')){e.classList.add('lit','picked');if(window.eduMotion&&eduMotion.verdict)eduMotion.verdict(e,true);}},350);
 });
-document.addEventListener('deckstep',paint);
+document.addEventListener('deckslide',function(){var inf=window.deckInfo&&deckInfo();if(inf)paint();});
 /* Space·클릭 = 일시정지/재개 — 캡처 단계에서 가로채 엔진의 advance와 충돌하지 않게 한다 */
 document.addEventListener('keydown',function(e){
  if(!e.isTrusted)return; // 런처가 보낸 합성 키는 엔진으로 그대로 통과
@@ -4724,15 +4736,27 @@ document.addEventListener('click',function(e){
 function stripCompact(){var h=document.documentElement;if(h.classList.contains('ed-compact'))h.classList.remove('ed-compact');}
 stripCompact();new MutationObserver(stripCompact).observe(document.documentElement,{attributes:true,attributeFilter:['class']});
 window.__intro={restart:restart,play:play,pause:pause,schedule:function(){return sched.slice();}};
-document.fonts.ready.then(function(){
- var t=1400;
- for(var i=0;i<NSLIDES;i++){var m=maxOf(i),p=(i<NSLIDES-1)?m+1:m;if(!p)continue;
-  var g=(BUDGET[i]||3000)/p;for(var k=0;k<p;k++){t+=g;sched.push(t);}}
+/* 스케줄: 장 i에서 단계 k는 k×(B-800)/m, 퇴장은 +B — 마지막 단계 후 대기 ≤800ms */
+for(var i=0,t=800;i<NSLIDES;i++){var B=BUDGET[i]||2000,m=maxOf(i);
+ if(i<NSLIDES-1){for(var k=1;k<=m;k++)sched.push(t+k*(B-800)/m);sched.push(t+B);}
+ t+=B;}
+paint(); // 로드 전부터 진행 바·자막 노출 — "재생 중" 표시
+function begin(){
+ if(started)return;started=true;DIAG.started=true;
  if(reduce){ // 정적 완결: 자동 재생 없이 첫 장을 최종 상태로
   window.deckGo&&deckGo(0,maxOf(0));paint();return;
  }
- t0=Date.now();started=true;paint();arm();
-});
+ /* 1장 재발화: seen이 요소 WeakMap이라 클론 스왑으로 초기화 → 쇼 시작 시점에 시그니처가 확실히 움직인다 */
+ var act=document.querySelector('#stage>.slide.active');
+ if(act){var cl=act.cloneNode(true);
+  // 전환 시 나가는 클론의 제목이 들어오는 장 제목과 edu-title을 공유하지 않게 한다
+  cl.querySelectorAll('.title,.cx-title,.big,.pack-prompt').forEach(function(e){e.style.viewTransitionName='vt-ign';});
+  act.replaceWith(cl);cl.classList.add('active');}
+ document.dispatchEvent(new Event('deckslide'));
+ t0=Date.now();el=0;idx=0;paint();arm();
+}
+if(document.readyState==='complete')setTimeout(begin,0);
+else window.addEventListener('load',function(){begin();});
 })();
 
 </script>
