@@ -1,8 +1,10 @@
 # edu-deck skills — 프롬프트 하나로 한국어 교육 자료
 
-**30초 소개 영상** (소리 있음 · [15초 버전](docs/edu-deck-skills-15-v1.0.0.mp4)):
+**30초 소개 쇼** — 녹화물이 아니라 덱 엔진이 브라우저에서 직접 재생합니다(클릭·Space 일시정지, R 재시작):
 
-[![소개 영상](docs/reel-loop.gif)](docs/edu-deck-skills-30-v1.0.0.mp4)
+[![소개 쇼](docs/intro-cover.png)](docs/intro.html)
+
+<sub>이전 녹화물: [30초](docs/edu-deck-skills-30-v1.0.0.mp4) · [15초](docs/edu-deck-skills-15-v1.0.0.mp4) · [GIF](docs/reel-loop.gif)</sub>
 
 에이전트 스킬 묶음입니다. "○○ 교육자료 만들어줘" 한 줄이면 조사→구성→저작→검증까지 거쳐 **브라우저에서 바로 쓰는 단일 HTML 교육 덱**을 만듭니다. 퀴즈·학습지·발표 덱·사례 교육 무엇이든, 발표자 노트·자습 모드·인쇄·출처 검증까지 갖춘 상태로 나옵니다.
 
@@ -82,7 +84,7 @@
 | 모션 시그니처 | **실행 이름 42종 전체 + 공통 기법 5종**(data-fx) | GIF 47종 열람(퀴즈 판정·기법은 실제 조작 녹화) |
 | 표지 | 직접 설계 + 카탈로그 16종 | 아키타입 갤러리 |
 
-50초 이전 수동 제작 소개 영상은 [15초·30초 showreel](docs/edu-deck-skills-30-v1.0.0.mp4)로 교체했습니다.
+이전 수동 제작 소개 영상(showreel mp4·GIF)은 [코드 재생 소개 쇼](docs/intro.html)로 교체했습니다 — `promo/make_intro.py`가 덱을 조립하고 쇼 런처를 주입해 생성합니다.
 
 ## 4. 사용법
 
@@ -128,7 +130,7 @@ edu-deck/          진입(라우터) 스킬 + 공통: 셸·모션 엔진·조각
 edu-deck-solo/     한 주제 한 덱 — brief → 조사 → outline → 저작 → 검사
 edu-deck-series/   여러 편 시리즈 + 목차 포털·진도·같은 편 복습
 examples/          실물 예시 4종(저작 과정 포함)
-docs/              데모 GIF·소개 영상·도식·자산 갤러리(315점)
+docs/              소개 쇼(intro.html)·데모 GIF·도식·자산 갤러리(315점)
 ```
 
 ## 7. 라이선스·크레딧
