@@ -1576,7 +1576,10 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
   // becomes visible (slide entry when visible at step 0, or at the step whose
   // data-step/data-add/data-only reveals it). Static modes and revisited
   // (back) states show the authored final DOM — overlays stay, text is intact.
-  const FX={strike:'m3',stamp:'m3',mark:'m4',count:'m4',travel:'m4',block:'m4',type:1500,press:'m2','scatter-gather':'m4','slice-reveal':'m4','row-mask-rise':'m3','weight-wave':'m3','rack-focus':'m3'};
+  const FX={strike:'m3',stamp:'m3',mark:'m4',count:'m4',travel:'m4',block:'m4',type:1500,press:'m2','scatter-gather':'m4','slice-reveal':'m4','row-mask-rise':'m3','weight-wave':'m3','rack-focus':'m3','bar-grow':'m3','card-deal':'m3',blinds:'m4'};
+  // A declared transform-reveal technique owns the element's own entrance: the
+  // archetype signature must not stack a second transform animation on it.
+  const FX_OWN_TRANSFORM=new Set(['bar-grow','card-deal']);
   function animateMs(el,frames,ms,ease='e-out',delay=0,cleanup){
     if(!el||staticMode()||!el.animate){if(cleanup)cleanup();return null;}
     const a=el.animate(frames,{duration:ms,easing:token('--'+ease,el),delay,fill:'backwards'});
@@ -1603,7 +1606,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
     const name=el.dataset.fx;
     if(name==='strike')fxOverlay(el,'ed-fx-strike');
     else if(name==='mark')fxOverlay(el,'ed-fx-mark');
-    // count/type/travel/block/stamp/press: the authored DOM is already final.
+    // Other kinds leave no overlay: the authored DOM is already final.
   }
   function fxCount(el,at){
     const orig=el.textContent;
@@ -1640,7 +1643,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
     const spans=all('.ed-fx-ch',el);
     spans.forEach((s,k)=>animateMs(s,[{visibility:'hidden'},{visibility:'visible'}],1,'e-out',at+k*rate,k===len-1?restore:null));
   }
-  // ---- TASK-motions: shared technique vocabulary (5 kinds) ----
+  // ---- TASK-motions + TASK-fx-absorb: shared technique vocabulary (8 kinds) ----
   // Each one is a finite, cancellable opt-in effect; static modes keep the
   // authored final DOM untouched. Letter splits match kinetic() exactly —
   // .ed-letter spans for glyphs, plain text nodes for spaces — so the settled
@@ -1711,6 +1714,58 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
     const scope=el.closest('.chk')||el.closest('.slide')||document;
     if(el.dataset.fxDim)all(el.dataset.fxDim,scope).slice(0,3).forEach(d=>animateMs(d,[{filter:'blur(0px)'},{filter:'blur(3px)',offset:.4},{filter:'blur(3px)',offset:.72},{filter:'blur(0px)'}],ms*1.8,'e-inout',at));
   }
+  // ---- TASK-fx-absorb: three techniques ported by concept from the klic
+  // motion catalogue (own implementation; no code copied) ----
+  // bar-grow: a bar, gauge or progress strip grows from its fixed base edge
+  // into the authored size — the element's own width/height IS the final state.
+  // The authored transform-origin picks the axis (bottom anchors a vertical
+  // grow, left a horizontal one; top/right follow the same rule). Without an
+  // edge anchor the aspect ratio decides: taller than wide grows upward,
+  // wider than tall grows rightward, and the base edge is set for the play.
+  function fxBarGrow(el,at){
+    const base=getComputedStyle(el).transform,suffix=base==='none'?'':' '+base;
+    const w=el.offsetWidth||el.getBoundingClientRect().width||0,h=el.offsetHeight||el.getBoundingClientRect().height||0;
+    const o=getComputedStyle(el).transformOrigin.split(' ').map(parseFloat);
+    const edge=Math.abs(o[1]-h)<2?'bottom':Math.abs(o[1])<2?'top':Math.abs(o[0])<2?'left':Math.abs(o[0]-w)<2?'right':'';
+    const vertical=edge?edge==='bottom'||edge==='top':h>w;
+    if(!edge)el.style.transformOrigin=vertical?'center bottom':'left center';
+    const axis=vertical?'scaleY':'scaleX';
+    const peers=all('[data-fx="bar-grow"]',el.closest('.slide')||document),i=Math.max(0,peers.indexOf(el));
+    animateMs(el,[{transform:`${axis}(0)`+suffix},{transform:`${axis}(1)`+suffix}],duration(FX['bar-grow'],el),'e-spring',at+Math.min(i,6)*duration('m1',el)/4);
+  }
+  // card-deal: a card is dealt out of a slightly stacked pile — it slides from
+  // a small offset toward the pile's centre with a hint of index-hashed tilt
+  // and settles square (final rotation 0). Offsets stay within ±24px/±4deg.
+  function fxDeal(el,at){
+    const base=getComputedStyle(el).transform,suffix=base==='none'?'':' '+base;
+    const pile=el.parentElement?el.parentElement.getBoundingClientRect():null,r=el.getBoundingClientRect();
+    let dx=0,dy=0;
+    if(pile&&r.width&&r.height){
+      dx=Math.max(-24,Math.min(24,(pile.left+pile.width/2-(r.left+r.width/2))*.35));
+      dy=Math.max(-24,Math.min(24,(pile.top+pile.height/2-(r.top+r.height/2))*.35));
+    }
+    const peers=all('[data-fx="card-deal"]',el.closest('.slide')||document),i=Math.max(0,peers.indexOf(el));
+    const rot=((i*29)%7-3)*4/3;
+    animateMs(el,[{transform:`translate(${dx.toFixed(1)}px,${dy.toFixed(1)}px) rotate(${rot.toFixed(2)}deg)`+suffix,opacity:0},{transform:'translate(0px,0px) rotate(0deg)'+suffix,opacity:1}],duration(FX['card-deal'],el),'e-spring',at+Math.min(i,6)*duration('m1',el)/4);
+  }
+  // blinds: the element is cut into horizontal strips that open top to bottom
+  // in stagger — the clip-path exception slice-reveal already owns, so the
+  // bands are one multi-rect polygon whose per-band edge sweeps down in turn.
+  // One large-area element at a time; strip edges collapse to zero-height
+  // rects until their window so the vertex count never changes.
+  function fxBlinds(el,at){
+    if(!CSS.supports('clip-path','polygon(0% 0%,100% 0%,100% 100%,0% 100%)'))return;
+    const N=5,stagger=.12,span=.52;
+    const times=new Set([0,1]);for(let i=0;i<N;i++){times.add(i*stagger);times.add(Math.min(1,i*stagger+span));}
+    const frames=[...times].sort((a,b)=>a-b).map(t=>{
+      const pts=[];for(let i=0;i<N;i++){
+        const y0=i*100/N,y1=y0+Math.min(1,Math.max(0,(t-i*stagger)/span))*100/N;
+        pts.push(`0% ${y0.toFixed(2)}%`,`100% ${y0.toFixed(2)}%`,`100% ${y1.toFixed(2)}%`,`0% ${y1.toFixed(2)}%`);
+      }
+      return{clipPath:`polygon(${pts.join(',')})`,offset:t};
+    });
+    animateMs(el,frames,duration(FX.blinds,el),'e-out',at);
+  }
   function fxFire(el){
     const name=el.dataset.fx;
     if(!FX[name])return false;
@@ -1732,6 +1787,9 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
       case 'row-mask-rise':fxRowMask(el,at);break;
       case 'weight-wave':fxWeight(el,at);break;
       case 'rack-focus':fxRack(el,at);break;
+      case 'bar-grow':fxBarGrow(el,at);break;
+      case 'card-deal':fxDeal(el,at);break;
+      case 'blinds':fxBlinds(el,at);break;
     }
     return 'fx-'+name;
   }
@@ -1781,7 +1839,8 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
     if(entry)titleImpact(s,arch);
     if(arch==='before-after'||arch==='worked-example')semanticScene(s,arch,step,entry);
     else{
-      targets.forEach((e,i)=>{e.style.transformOrigin=arch==='meter'?'left center':arch==='sequence'?'left bottom':'center';
+      targets.forEach((e,i)=>{if(FX_OWN_TRANSFORM.has(e.dataset.fx))return;
+        e.style.transformOrigin=arch==='meter'?'left center':arch==='sequence'?'left bottom':'center';
         // A newly revealed chat bubble is not a pin: pin overshoot crosses the
         // clipped chat viewport. Keep the bubble inside its final footprint.
         const frames=arch==='mock-legend'&&!e.matches('.mk')?['scale(.96)','scale(1)']:r.frames(i);
@@ -2485,6 +2544,7 @@ try{
   /* idx 장으로 간다. toEnd 면 그 장의 마지막 단계부터 시작(←로 돌아갈 때),
      instant 면 전환 연출 없이 바로 칠한다(deckGo·첫 표시) */
   function jumpTo(idx,toEnd,instant){
+    cancelFinish();
     deckEl.dataset.dir=(idx>pos)?'fwd':'back';
     pos=Math.max(0,Math.min(pages.length-1,idx));
     mark=toEnd?topMark(pages[pos]):0;
@@ -2502,8 +2562,8 @@ try{
     if(window.eduMotion&&!instant&&deckEl.querySelector('.slide.active')) window.eduMotion.navigate(commit,deckEl.dataset.dir);
     else commit();
   }
-  function advance(){ if(mark<topMark(pages[pos])){ mark++; emitStep(true); } else if(pos<pages.length-1){ jumpTo(pos+1,false); } }
-  function retreat(){ if(mark>0){ mark--; emitStep(false); } else if(pos>0){ jumpTo(pos-1,true); } }
+  function advance(){ cancelFinish(); if(mark<topMark(pages[pos])){ mark++; emitStep(true); } else if(pos<pages.length-1){ jumpTo(pos+1,false); } }
+  function retreat(){ cancelFinish(); if(mark>0){ mark--; emitStep(false); } else if(pos>0){ jumpTo(pos-1,true); } }
   /* 검사기·읽기 계층이 부르는 동기 점프: 전환 연출 없이 장·단계를 곧바로 맞춘다 */
   window.deckGo=function(i,st){
     jumpTo(i,false,true);
@@ -2539,6 +2599,41 @@ try{
     /* 참고 자료 링크·체크리스트 칸·확인 문제·자습 창을 누른 클릭은 장을 넘기지 않는다 */
     if(e.target.closest&&e.target.closest(CLICK_GUARD)) return;
     if(e.clientX<window.innerWidth/3) retreat(); else advance();
+  });
+  /* 더블클릭: 현재 장의 남은 단계를 순차 재생해 끝까지 공개한다(장 이동 없음).
+     dblclick 전에 click 이 먼저 단계를 넘기는 것은 감수한다 — click 반응을
+     지연 큐로 늦추지 않는다. 이미 마지막 단계면 아무 일도 하지 않는다. */
+  var finishTimer=null;
+  function cancelFinish(){ if(finishTimer!==null){ clearTimeout(finishTimer); finishTimer=null; } }
+  function staticNow(){
+    var mq=window.matchMedia?window.matchMedia.bind(window):function(){return{matches:false};};
+    return mq('(prefers-reduced-motion: reduce)').matches||mq('print').matches
+      ||/st-(self|printing|presenter|sheet)/.test(document.body.className);
+  }
+  /* 스킵 점프가 아니라 단계 공개 경로를 재생 간격으로 연달아 호출한다 —
+     남은 단계의 모션이 다 보인다. 전체 3초 상한 안에서 남은 수로 균등 분할. */
+  function finishSteps(){
+    cancelFinish();
+    var top=topMark(pages[pos]);
+    if(mark>=top) return;
+    if(staticNow()){ mark=top; emitStep(false); return; }
+    var gap=Math.min(600,3000/(top-mark));
+    var tick=function(){
+      finishTimer=null;
+      if(mark>=topMark(pages[pos])) return;
+      mark++; emitStep(true);
+      if(mark<topMark(pages[pos])) finishTimer=setTimeout(tick,gap);
+    };
+    finishTimer=setTimeout(tick,gap);
+  }
+  document.addEventListener('dblclick',function(e){
+    if(rootEl.classList.contains('ed-compact')) return;
+    if(document.body.classList.contains('in-hub')) return;
+    if(memoBox.contains(e.target)) return;
+    /* click 과 같은 가드·같은 영역 — 왼쪽 1/3(이전 영역) 위에서는 동작하지 않는다 */
+    if(e.target.closest&&e.target.closest(CLICK_GUARD)) return;
+    if(e.clientX<window.innerWidth/3) return;
+    finishSteps();
   });
   var drag=null;
   document.addEventListener('touchstart',function(e){ drag=e.touches[0].clientX; },{passive:true});

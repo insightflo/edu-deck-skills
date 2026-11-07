@@ -228,6 +228,7 @@ try{
   /* idx 장으로 간다. toEnd 면 그 장의 마지막 단계부터 시작(←로 돌아갈 때),
      instant 면 전환 연출 없이 바로 칠한다(deckGo·첫 표시) */
   function jumpTo(idx,toEnd,instant){
+    cancelFinish();
     deckEl.dataset.dir=(idx>pos)?'fwd':'back';
     pos=Math.max(0,Math.min(pages.length-1,idx));
     mark=toEnd?topMark(pages[pos]):0;
@@ -245,8 +246,8 @@ try{
     if(window.eduMotion&&!instant&&deckEl.querySelector('.slide.active')) window.eduMotion.navigate(commit,deckEl.dataset.dir);
     else commit();
   }
-  function advance(){ if(mark<topMark(pages[pos])){ mark++; emitStep(true); } else if(pos<pages.length-1){ jumpTo(pos+1,false); } }
-  function retreat(){ if(mark>0){ mark--; emitStep(false); } else if(pos>0){ jumpTo(pos-1,true); } }
+  function advance(){ cancelFinish(); if(mark<topMark(pages[pos])){ mark++; emitStep(true); } else if(pos<pages.length-1){ jumpTo(pos+1,false); } }
+  function retreat(){ cancelFinish(); if(mark>0){ mark--; emitStep(false); } else if(pos>0){ jumpTo(pos-1,true); } }
   /* 검사기·읽기 계층이 부르는 동기 점프: 전환 연출 없이 장·단계를 곧바로 맞춘다 */
   window.deckGo=function(i,st){
     jumpTo(i,false,true);
@@ -282,6 +283,41 @@ try{
     /* 참고 자료 링크·체크리스트 칸·확인 문제·자습 창을 누른 클릭은 장을 넘기지 않는다 */
     if(e.target.closest&&e.target.closest(CLICK_GUARD)) return;
     if(e.clientX<window.innerWidth/3) retreat(); else advance();
+  });
+  /* 더블클릭: 현재 장의 남은 단계를 순차 재생해 끝까지 공개한다(장 이동 없음).
+     dblclick 전에 click 이 먼저 단계를 넘기는 것은 감수한다 — click 반응을
+     지연 큐로 늦추지 않는다. 이미 마지막 단계면 아무 일도 하지 않는다. */
+  var finishTimer=null;
+  function cancelFinish(){ if(finishTimer!==null){ clearTimeout(finishTimer); finishTimer=null; } }
+  function staticNow(){
+    var mq=window.matchMedia?window.matchMedia.bind(window):function(){return{matches:false};};
+    return mq('(prefers-reduced-motion: reduce)').matches||mq('print').matches
+      ||/st-(self|printing|presenter|sheet)/.test(document.body.className);
+  }
+  /* 스킵 점프가 아니라 단계 공개 경로를 재생 간격으로 연달아 호출한다 —
+     남은 단계의 모션이 다 보인다. 전체 3초 상한 안에서 남은 수로 균등 분할. */
+  function finishSteps(){
+    cancelFinish();
+    var top=topMark(pages[pos]);
+    if(mark>=top) return;
+    if(staticNow()){ mark=top; emitStep(false); return; }
+    var gap=Math.min(600,3000/(top-mark));
+    var tick=function(){
+      finishTimer=null;
+      if(mark>=topMark(pages[pos])) return;
+      mark++; emitStep(true);
+      if(mark<topMark(pages[pos])) finishTimer=setTimeout(tick,gap);
+    };
+    finishTimer=setTimeout(tick,gap);
+  }
+  document.addEventListener('dblclick',function(e){
+    if(rootEl.classList.contains('ed-compact')) return;
+    if(document.body.classList.contains('in-hub')) return;
+    if(memoBox.contains(e.target)) return;
+    /* click 과 같은 가드·같은 영역 — 왼쪽 1/3(이전 영역) 위에서는 동작하지 않는다 */
+    if(e.target.closest&&e.target.closest(CLICK_GUARD)) return;
+    if(e.clientX<window.innerWidth/3) return;
+    finishSteps();
   });
   var drag=null;
   document.addEventListener('touchstart',function(e){ drag=e.touches[0].clientX; },{passive:true});
