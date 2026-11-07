@@ -26,30 +26,30 @@
 <table>
 <tr>
 <td width="50%" valign="top">
-<a href="https://raw.githack.com/insightflo/edu-deck-skills/main/examples/states-quiz/물질의상태변화-단원평가퀴즈-교육자료.html"><img src="docs/covers/cover-quiz.png" width="100%" alt="물질의 상태 변화 퀴즈 표지 — 남색 배경, 큰 글씨 6갈래"></a>
+<a href="https://insightflo.github.io/edu-deck-skills/examples/states-quiz/물질의상태변화-단원평가퀴즈-교육자료.html"><img src="docs/covers/cover-quiz.png" width="100%" alt="물질의 상태 변화 퀴즈 표지 — 남색 배경, 큰 글씨 6갈래"></a>
 <b>물질의 상태 변화 단원 퀴즈</b> · 중1 과학 · 15장<br>
 <sub>가이드 모드 · OX·4택·분류 퀴즈 혼합 · 틀리면 해설·다시 보기로 연결</sub><br>
-<sub><a href="https://raw.githack.com/insightflo/edu-deck-skills/main/examples/states-quiz/물질의상태변화-단원평가퀴즈-교육자료.html">▶ 재생</a> · <a href="examples/states-quiz">소스</a></sub>
+<sub><a href="https://insightflo.github.io/edu-deck-skills/examples/states-quiz/물질의상태변화-단원평가퀴즈-교육자료.html">▶ 재생</a> · <a href="examples/states-quiz">소스</a></sub>
 </td>
 <td width="50%" valign="top">
-<a href="https://raw.githack.com/insightflo/edu-deck-skills/main/examples/ratio-worksheet/비와-비율-학습지.html"><img src="docs/covers/cover-workbook.png" width="100%" alt="비와 비율 학습지 표지 — 읽는 면과 해보는 면이 나란히"></a>
+<a href="https://insightflo.github.io/edu-deck-skills/examples/ratio-worksheet/비와-비율-학습지.html"><img src="docs/covers/cover-workbook.png" width="100%" alt="비와 비율 학습지 표지 — 읽는 면과 해보는 면이 나란히"></a>
 <b>비와 비율 학습지</b> · 초6 수학 · 10장<br>
 <sub>리소스팩 workbook · 읽는 면/해보는 면 · 인쇄해서 쓰는 자습 학습지</sub><br>
-<sub><a href="https://raw.githack.com/insightflo/edu-deck-skills/main/examples/ratio-worksheet/비와-비율-학습지.html">▶ 재생</a> · <a href="examples/ratio-worksheet">소스</a></sub>
+<sub><a href="https://insightflo.github.io/edu-deck-skills/examples/ratio-worksheet/비와-비율-학습지.html">▶ 재생</a> · <a href="examples/ratio-worksheet">소스</a></sub>
 </td>
 </tr>
 <tr>
 <td width="50%" valign="top">
-<a href="https://raw.githack.com/insightflo/edu-deck-skills/main/examples/privacy-talk/개인정보-보호-기본-교육자료.html"><img src="docs/covers/cover-talk.png" width="100%" alt="개인정보 보호 기본 표지 — 남색, 보호 습관 도식"></a>
+<a href="https://insightflo.github.io/edu-deck-skills/examples/privacy-talk/개인정보-보호-기본-교육자료.html"><img src="docs/covers/cover-talk.png" width="100%" alt="개인정보 보호 기본 표지 — 남색, 보호 습관 도식"></a>
 <b>개인정보 보호 기본</b> · 전 직원 · 18장<br>
 <sub>발표 덱(talk) · 대본 노트·발표 타이머 · 20분 시간 계약</sub><br>
-<sub><a href="https://raw.githack.com/insightflo/edu-deck-skills/main/examples/privacy-talk/개인정보-보호-기본-교육자료.html">▶ 재생</a> · <a href="examples/privacy-talk">소스</a></sub>
+<sub><a href="https://insightflo.github.io/edu-deck-skills/examples/privacy-talk/개인정보-보호-기본-교육자료.html">▶ 재생</a> · <a href="examples/privacy-talk">소스</a></sub>
 </td>
 <td width="50%" valign="top">
-<a href="https://raw.githack.com/insightflo/edu-deck-skills/main/examples/safety-casebook/사고-사례-현장-안전-교육자료.html"><img src="docs/covers/cover-casebook.png" width="100%" alt="사고 사례로 배우는 현장 안전 표지 — 크림 바탕 사례철 문법"></a>
+<a href="https://insightflo.github.io/edu-deck-skills/examples/safety-casebook/사고-사례-현장-안전-교육자료.html"><img src="docs/covers/cover-casebook.png" width="100%" alt="사고 사례로 배우는 현장 안전 표지 — 크림 바탕 사례철 문법"></a>
 <b>사고 사례로 배우는 현장 안전</b> · 신규 입사자 · 11장<br>
 <sub>리소스팩 casebook · 사례→원인→교훈 · 공개 통계 출처 검증</sub><br>
-<sub><a href="https://raw.githack.com/insightflo/edu-deck-skills/main/examples/safety-casebook/사고-사례-현장-안전-교육자료.html">▶ 재생</a> · <a href="examples/safety-casebook">소스</a></sub>
+<sub><a href="https://insightflo.github.io/edu-deck-skills/examples/safety-casebook/사고-사례-현장-안전-교육자료.html">▶ 재생</a> · <a href="examples/safety-casebook">소스</a></sub>
 </td>
 </tr>
 </table>
@@ -66,13 +66,13 @@
 
 <img src="docs/diagrams/diagram-pipeline.png" width="46%" alt="저작 파이프라인 도식 — 요청→라우팅→legacy/팩 경로→조립→검사"> <img src="docs/diagrams/diagram-cross.png" width="52.6%" alt="완성 덱 단면 도식 — 슬라이드·단계공개·노트·퀴즈·자습·출처 층위">
 
-**완성 덱 하나의 단면** — 파일 하나에 교육 자료 전체 층위: 슬라이드(253변형·8테마·모션 실행 이름 42종+기법 5종) / 단계 공개 / 발표자 노트(60자 이상 검사) / 확인 문제·퀴즈 / 자습 모드·용어집·검색 / 출처·검증 층. [**▶ 자산 갤러리에서 실물 315점 보기**](https://raw.githack.com/insightflo/edu-deck-skills/main/docs/gallery.html)
+**완성 덱 하나의 단면** — 파일 하나에 교육 자료 전체 층위: 슬라이드(253변형·8테마·모션 실행 이름 42종+기법 5종) / 단계 공개 / 발표자 노트(60자 이상 검사) / 확인 문제·퀴즈 / 자습 모드·용어집·검색 / 출처·검증 층. [**▶ 자산 갤러리에서 실물 315점 보기**](https://insightflo.github.io/edu-deck-skills/docs/gallery.html)
 
 ## 3. 자산 갤러리 — 재료 전부
 
 스킬이 조립에 쓰는 재료를 실제 빌드 파이프라인으로 렌더해 전시합니다 — 다양함의 원천이 무엇인지 솔직하게: 눈에 보이는 다양함은 **설계 8종·배치 조각 253변형·테마 8종**이 만들고, 흐름은 수업 구성을 바꿉니다.
 
-**[▶ 갤러리 열기 (설계 필터·라이트박스)](https://raw.githack.com/insightflo/edu-deck-skills/main/docs/gallery.html)** · [▶ 장 배치 63종 전체 덱으로 넘겨 보기](https://raw.githack.com/insightflo/edu-deck-skills/main/docs/gallery-archetypes.html)
+**[▶ 갤러리 열기 (설계 필터·라이트박스)](https://insightflo.github.io/edu-deck-skills/docs/gallery.html)** · [▶ 장 배치 63종 전체 덱으로 넘겨 보기](https://insightflo.github.io/edu-deck-skills/docs/gallery-archetypes.html)
 
 | 재료 | 수 | 갤러리에서 |
 |---|---|---|
