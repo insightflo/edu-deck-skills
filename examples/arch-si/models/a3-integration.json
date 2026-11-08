@@ -6,9 +6,9 @@
   "titleSvg": "연계 구성 — EAI 허브·IF 라벨·동기/비동기 구분",
   "notes": "P0 연계 아키텍처. 허브(EAI) 매개 패턴으로 IF 번호·프로토콜·동기/비동기·주기를 라벨에 싣는다. IF-01·IF-03은 동기 호출+응답(b/r 방향 쌍), IF-02 파일 배치와 IF-04 JDBC 배치는 보조선(g). 외부기관은 외부 띠에 두고 내부망과의 사이에 신뢰 경계선을 넣는다. 1단계 존·경계, 2단계 시스템, 3단계 연계선.",
   "layout": {
-    "dir": "LR",
-    "nodesep": 6,
-    "ranksep": 32,
+    "dir": "TB",
+    "ranksep": 22,
+    "nodesep": 200,
     "chipAvoid": true
   },
   "nodes": [
@@ -127,8 +127,8 @@
         "legacy"
       ],
       "pad": {
-        "top": 40,
-        "bottom": 16,
+        "top": 30,
+        "bottom": 14,
         "side": 24
       }
     },
@@ -140,8 +140,8 @@
         "ext"
       ],
       "pad": {
-        "top": 40,
-        "bottom": 16,
+        "top": 30,
+        "bottom": 14,
         "side": 24
       }
     },
@@ -153,8 +153,8 @@
         "z-ext"
       ],
       "pad": {
-        "top": 40,
-        "bottom": 16,
+        "top": 30,
+        "bottom": 14,
         "side": 24
       },
       "labelAt": "top"
