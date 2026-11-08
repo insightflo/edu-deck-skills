@@ -1,0 +1,106 @@
+<section class="slide" data-archetype="arch-diagram" style="gap:20px">
+  <div class="head"><p class="eyebrow">가상 예시 · 아키텍처 3/4 — Network Topology</p><h2 class="title">네트워크 토폴로지: 인입부터 DB까지의 물리 경로</h2></div>
+  <svg class="dg" viewBox="0 0 1664 508" role="img" aria-label="가상 예시 네트워크 토폴로지: 인터넷 트래픽이 방화벽과 로드밸런서를 지나 이중 스위치와 웹 서버 두 대로 퍼지고 두 서버가 데이터베이스에 접속한다">
+  <title>네트워크 토폴로지 — 가상 예시</title>
+  <g data-step="1">
+    <rect class="k-frame" x="284" y="122" width="476" height="208" style="rx:12px"/>
+    <text class="k-t-tag" x="300" y="156">DMZ</text>
+  </g>
+  <g data-step="1">
+    <rect class="k-frame" x="844" y="30" width="756" height="392" style="rx:12px"/>
+    <text class="k-t-tag" x="860" y="64">내부망</text>
+  </g>
+  <g data-step="3">
+      <path class="k-ln-b dash-flow" d="M176 242 L230 242 Q242 242 254 242 L308 242" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="123.5" y="122" width="149" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="198" y="148" text-anchor="middle">inbound</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M456 242 L510 242 Q522 242 534 242 L588 242" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="481.5" y="224" width="81" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="522" y="250" text-anchor="middle">443</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M736 290.6 L792 327.4 Q802 334 814 334 L868 334" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="730.6" y="312.4" width="132" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="796.6" y="338.4" text-anchor="middle">uplink</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M736 193.4 L792 156.6 Q802 150 814 150 L868 150" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="686.6" y="67.6" width="132" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="752.6" y="93.6" text-anchor="middle">uplink</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M1016 334 L1070 334 Q1082 334 1094 334 L1148 334" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="1050" y="316" width="64" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1082" y="342" text-anchor="middle">1G</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M1016 150 L1070 150 Q1082 150 1094 150 L1148 150" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="1050" y="132" width="64" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1082" y="158" text-anchor="middle">1G</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-g" d="M1296 334 L1350 334 Q1362 334 1372 327.4 L1428 290.6" marker-end="url(#ahg)"/>
+      <rect class="k-paper" x="1326.9" y="312.4" width="81" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1367.4" y="338.4" text-anchor="middle">sql</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-g" d="M1296 150 L1350 150 Q1362 150 1372 156.6 L1428 193.4" marker-end="url(#ahg)"/>
+      <rect class="k-paper" x="1326.9" y="135.6" width="81" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1367.4" y="161.6" text-anchor="middle">sql</text>
+    </g>
+  <g data-step="2">
+    <circle class="k-paper" cx="120" cy="242" r="56"/>
+    <use href="#i-globe" x="98" y="212" width="44" height="44" style="color:var(--ink)"/>
+    <text class="k-t-tag" x="120" y="276" text-anchor="middle" style="fill:var(--ink)">Internet</text>
+    <text class="k-t-tag" x="120" y="324" text-anchor="middle">외부 망</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-orange" x="308" y="178" width="148" height="128" style="rx:9px"/>
+    <use href="#i-shield" x="358" y="192" width="48" height="48" style="color:var(--accent)"/>
+    <text class="t-l" x="382" y="274" text-anchor="middle">FW</text>
+    <text class="k-t-tag" x="382" y="302" text-anchor="middle">방화벽</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-blue" x="588" y="178" width="148" height="128" style="rx:9px"/>
+    <use href="#i-gear" x="638" y="192" width="48" height="48" style="color:var(--blue)"/>
+    <text class="t-l" x="662" y="274" text-anchor="middle">LB</text>
+    <text class="k-t-tag" x="662" y="302" text-anchor="middle">부하 분산</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="868" y="270" width="148" height="128" style="rx:9px"/>
+    <use href="#i-link" x="918" y="284" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="942" y="366" text-anchor="middle">SW-A</text>
+    <text class="k-t-tag" x="942" y="394" text-anchor="middle">코어 스위치</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="868" y="86" width="148" height="128" style="rx:9px"/>
+    <use href="#i-link" x="918" y="100" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="942" y="182" text-anchor="middle">SW-B</text>
+    <text class="k-t-tag" x="942" y="210" text-anchor="middle">코어 스위치</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="1148" y="270" width="148" height="128" style="rx:9px"/>
+    <use href="#i-window" x="1198" y="284" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="1222" y="366" text-anchor="middle">Web-1</text>
+    <text class="k-t-tag" x="1222" y="394" text-anchor="middle">웹 서버</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="1148" y="86" width="148" height="128" style="rx:9px"/>
+    <use href="#i-window" x="1198" y="100" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="1222" y="182" text-anchor="middle">Web-2</text>
+    <text class="k-t-tag" x="1222" y="210" text-anchor="middle">웹 서버</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="1428" y="178" width="148" height="128" style="rx:9px"/>
+    <use href="#i-db" x="1478" y="192" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="1502" y="274" text-anchor="middle">DB</text>
+    <text class="k-t-tag" x="1502" y="302" text-anchor="middle">데이터 저장</text>
+    </g>
+  <g><polyline class="k-ln-b" points="34,468 104,468"/><text class="k-t-tag" x="118" y="476">트래픽 경로</text>
+    <polyline class="k-ln-g" points="322,468 392,468"/><text class="k-t-tag" x="406" y="476">데이터 접속</text></g>
+</svg>
+  <p class="small">읽는 법 — 점선 틀: DMZ/내부망 · 파란 선: 트래픽 경로 · 회색 선: 데이터 접속 · 인입선 위 점: 패킷</p>
+  <aside class="notes">가상 예시 시스템이다. 1단계에 DMZ·내부망 경계가 뜨고, 2단계에 장비 8개가 켜지며, 3단계에 경로가 그려진다. 인입선(inet→fw)에 패킷이 흐른다. rankdir=LR가 물리 계층을 좌→우로 정렬하고, 로드밸런서→이중 스위치→웹 서버 팬아웃이 대칭으로 펴지는지 본다. 이중화 구간이 겹치지 않고 두 줄로 나란히 가는 것이 포인트다.</aside>
+</section>

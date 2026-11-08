@@ -1,0 +1,116 @@
+<section class="slide" data-archetype="arch-diagram" style="gap:20px">
+  <div class="head"><p class="eyebrow">가상 예시 · 아키텍처 2/4 — Layered</p><h2 class="title">레이어드 아키텍처: 위층이 아래층만 부른다</h2></div>
+  <svg class="dg" viewBox="0 0 1664 736" role="img" aria-label="가상 예시 레이어드 아키텍처: 표현층 웹·API·관리자가 응용층 주문·결제·도메인을 부르고, 응용층이 데이터층 DB·캐시를 부르며 로깅은 횡단 관심사로 둔다">
+  <title>레이어드 아키텍처 — 가상 예시</title>
+  <g data-step="1">
+    <rect class="k-frame" x="528" y="30" width="638" height="208" style="rx:12px"/>
+    <text class="k-t-tag" x="544" y="64">표현층</text>
+  </g>
+  <g data-step="1">
+    <rect class="k-frame" x="498" y="236" width="668" height="208" style="rx:12px"/>
+    <text class="k-t-tag" x="514" y="270">응용층</text>
+  </g>
+  <g data-step="1">
+    <rect class="k-frame" x="530" y="442" width="634" height="208" style="rx:12px"/>
+    <text class="k-t-tag" x="546" y="476">데이터층</text>
+  </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M862 214 L862 241 Q862 253 858.6 264.5 L850.6 292" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="917.8" y="303.8" width="64" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="949.8" y="329.8" text-anchor="middle">호출</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M691.4 214 L721.6 244.5 Q730 253 738.4 261.5 L768.6 292" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="698" y="235" width="64" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="730" y="261" text-anchor="middle">호출</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M609.4 214 L601.4 241.5 Q598 253 598 265 L598 292" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="390.2" y="234.2" width="64" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="422.2" y="260.2" text-anchor="middle">호출</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M1066 214 L1066 241 Q1066 253 1066 265 L1066 292" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="1166" y="235" width="64" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1198" y="261" text-anchor="middle">관리</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M768.6 420 L738.4 450.5 Q730 459 721.6 467.5 L691.4 498" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="672.5" y="441" width="115" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="730" y="467" text-anchor="middle">write</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M598 420 L598 447 Q598 459 601.4 470.5 L609.4 498" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="408.7" y="441.8" width="115" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="466.2" y="467.8" text-anchor="middle">write</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-g" d="M1066 420 L1066 447 Q1066 459 1066 471 L1066 498" marker-end="url(#ahg)"/>
+      <rect class="k-paper" x="1193" y="441" width="98" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1242" y="467" text-anchor="middle">read</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-g" d="M851.3 420 L859.5 447.5 Q863 459 863 471 L863 498" marker-end="url(#ahg)"/>
+      <rect class="k-paper" x="918.8" y="372.2" width="64" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="950.8" y="398.2" text-anchor="middle">기록</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="786" y="86" width="152" height="128" style="rx:9px"/>
+    <use href="#i-window" x="838" y="100" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="862" y="182" text-anchor="middle">Web</text>
+    <text class="k-t-tag" x="862" y="210" text-anchor="middle">사용자 화면</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-blue" x="552" y="86" width="152" height="128" style="rx:9px"/>
+    <use href="#i-globe" x="604" y="100" width="48" height="48" style="color:var(--blue)"/>
+    <text class="t-l" x="628" y="182" text-anchor="middle">API</text>
+    <text class="k-t-tag" x="628" y="210" text-anchor="middle">공개 진입</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="990" y="86" width="152" height="128" style="rx:9px"/>
+    <use href="#i-gear" x="1042" y="100" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="1066" y="182" text-anchor="middle">Admin</text>
+    <text class="k-t-tag" x="1066" y="210" text-anchor="middle">운영 콘솔</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="756" y="292" width="152" height="128" style="rx:9px"/>
+    <use href="#i-work" x="808" y="306" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="832" y="388" text-anchor="middle">OrderSvc</text>
+    <text class="k-t-tag" x="832" y="416" text-anchor="middle">주문 서비스</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="522" y="292" width="152" height="128" style="rx:9px"/>
+    <use href="#i-coin" x="574" y="306" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="598" y="388" text-anchor="middle">PaySvc</text>
+    <text class="k-t-tag" x="598" y="416" text-anchor="middle">결제 서비스</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-blue" x="990" y="292" width="152" height="128" style="rx:9px"/>
+    <use href="#i-org" x="1042" y="306" width="48" height="48" style="color:var(--blue)"/>
+    <text class="t-l" x="1066" y="388" text-anchor="middle">Domain</text>
+    <text class="k-t-tag" x="1066" y="416" text-anchor="middle">도메인 규칙</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="554" y="498" width="148" height="128" style="rx:9px"/>
+    <use href="#i-db" x="604" y="512" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="628" y="594" text-anchor="middle">DB</text>
+    <text class="k-t-tag" x="628" y="622" text-anchor="middle">기본 저장</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="992" y="498" width="148" height="128" style="rx:9px"/>
+    <use href="#i-db" x="1042" y="512" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="1066" y="594" text-anchor="middle">Cache</text>
+    <text class="k-t-tag" x="1066" y="622" text-anchor="middle">조회 캐시</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="787" y="498" width="152" height="128" style="rx:9px"/>
+    <use href="#i-list" x="839" y="512" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="863" y="594" text-anchor="middle">Logging</text>
+    <text class="k-t-tag" x="863" y="622" text-anchor="middle">공통 관심사</text>
+    </g>
+  <g><polyline class="k-ln-b" points="34,696 104,696"/><text class="k-t-tag" x="118" y="704">하향 호출</text>
+    <polyline class="k-ln-g" points="298,696 368,696"/><text class="k-t-tag" x="382" y="704">보조(캐시·로그)</text></g>
+</svg>
+  <p class="small">읽는 법 — 점선 띠: 층(표현→응용→데이터) · 선은 모두 위에서 아래로 · 공통 로깅은 횡단 관심사</p>
+  <aside class="notes">가상 예시 시스템이다. 1단계에 층 경계 세 띠(표현·응용·데이터)가 뜨고, 2단계에 노드 9개가 켜지며, 3단계에 의존선 8개가 위→아래로 그려진다. dagre rankdir=TB가 랭크를 층으로 정렬한 결과 — 수평 띠 배치는 stack.js의 그룹 사각이 남기던 빈 면적 없이 층 리듬을 보여준다. 모든 화살표가 아래로만 향하는지(상향 호출 없음), 횡단 로깅이 데이터층 옆에 따로 서는지 본다.</aside>
+</section>
