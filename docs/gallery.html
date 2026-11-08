@@ -196,7 +196,7 @@ footer { margin-top:56px; color:#5a6b76; font-size:13.5px; border-top:1.5px soli
 테마 <span class="count">8종</span>, 모션 시그니처 <span class="count">42종 + 공통 기법 5종</span>. 모션 카드는 스크롤해 눈에 들어오면 <b>그 자리에서 실제 엔진이 그대로 재생</b>한다(클릭하면 크게 본다).</p>
 <nav>
  <a href="#packs">리소스팩 64</a><a href="#arch">장 배치 253</a><a href="#themes">테마 8</a>
- <a href="#motion">모션 47</a><a href="gallery-archetypes.html">▶ 배치 전체 덱(253장 열람)</a>
+ <a href="#motion">모션 47</a><a href="#archkit">아키텍처 키트</a><a href="gallery-archetypes.html">▶ 배치 전체 덱(253장 열람)</a>
 </nav>
 <section id="packs"><h2>리소스팩 — 설계 <span class="n">8종</span> × 학습 흐름 <span class="n">8종</span></h2>
 <p class="desc">눈에 보이는 다양함은 <b>설계</b>가 만든다 — 워크북의 마주본 면, 사례철의 기록A/B, 잡지의 편집 지면처럼 배치 문법 자체가 다르다.
@@ -218,6 +218,9 @@ footer { margin-top:56px; color:#5a6b76; font-size:13.5px; border-top:1.5px soli
 <h3 style="margin:26px 0 8px;font-size:19px">공통 기법 5종 — 실행 이름 위에 얹히는 조형 어휘 (data-fx)</h3>
 <p class="desc" style="margin:10px 0 12px">계열 시그니처와 별개로 조각이 <code>data-fx</code> 로 옵트인하는 기법이다. 인쇄·정적 상태는 기법 없을 때와 픽셀 차이 0(검증 완료).</p>
 <div class="grid motiong"><figure class='card wide live-motion' data-motion='fx-scatter-gather' data-alt='모션 fx-scatter-gather'><div class='lvwrap'><img loading='lazy' src='gallery/motion/fx-scatter-gather.png' alt='모션 표지 제목 fx-scatter-gather'><div class='lvs lvzone'></div></div><figcaption><b>표지 제목</b> <code>fx-scatter-gather</code> — 흩어진 글자가 모여 주제가 성립한다</figcaption><span class='live-badge'>크게 보기</span></figure><figure class='card wide live-motion' data-motion='fx-row-mask-rise' data-alt='모션 fx-row-mask-rise'><div class='lvwrap'><img loading='lazy' src='gallery/motion/fx-row-mask-rise.png' alt='모션 목차 행 fx-row-mask-rise'><div class='lvs lvzone'></div></div><figcaption><b>목차 행</b> <code>fx-row-mask-rise</code> — 행이 마스크 아래에서 경로 순서로 솟는다</figcaption><span class='live-badge'>크게 보기</span></figure><figure class='card wide live-motion' data-motion='fx-weight-wave' data-alt='모션 fx-weight-wave'><div class='lvwrap'><img loading='lazy' src='gallery/motion/fx-weight-wave.png' alt='모션 핵심 어절 fx-weight-wave'><div class='lvs lvzone'></div></div><figcaption><b>핵심 어절</b> <code>fx-weight-wave</code> — 가변 굵기(wght)가 강조를 따라 흐른다</figcaption><span class='live-badge'>크게 보기</span></figure><figure class='card wide live-motion' data-motion='fx-slice-reveal' data-alt='모션 fx-slice-reveal'><div class='lvwrap'><img loading='lazy' src='gallery/motion/fx-slice-reveal.png' alt='모션 비교 면 fx-slice-reveal'><div class='lvs lvzone'></div></div><figcaption><b>비교 면</b> <code>fx-slice-reveal</code> — 띠가 차례로 열리며 면이 공개된다</figcaption><span class='live-badge'>크게 보기</span></figure><figure class='card wide live-motion' data-motion='fx-rack-focus' data-alt='모션 fx-rack-focus'><div class='lvwrap'><img loading='lazy' src='gallery/motion/fx-rack-focus.png' alt='모션 채점 해설 fx-rack-focus'><div class='lvs lvzone'></div></div><figcaption><b>채점 해설</b> <code>fx-rack-focus</code> — 초점이 문제에서 해설로 넘어간다</figcaption><span class='live-badge'>크게 보기</span></figure></div></section>
+<section id="archkit"><h2>아키텍처 모션 그래픽 키트 — <span class="n">생성기 + 실행 이름 1종</span></h2>
+<p class="desc">시맨틱 JSON(nodes·edges·zones·states)을 <code>scripts/arch_layout.mjs</code>가 빌드 시점 dagre 배치로 <code>svg.dg</code> 조각으로 굽는다 — 런타임 레이아웃 엔진 없이 고정 좌표. 6장 전부 같은 계열 <code>arch-diagram</code>이라 한 실행 이름 <b>arch-trace</b>(등장+선 그리기+패킷)가 발화한다. 아이소메트릭 2장(DC·하이브리드)은 저장소 밖 조립기 산출물이다. 카드에 스크롤하면 실물로 움직이고, 누르면 크게 본다.</p>
+<div class="grid motiong"><figure class='card wide live-motion' data-motion='arch-ms' data-alt='아키텍처 마이크로서비스'><div class='lvwrap'><img loading='lazy' src='gallery/archdemo/arch-ms.png' alt='아키텍처 마이크로서비스'><div class='lvs lvzone'></div></div><figcaption><b>마이크로서비스</b> <code>arch-trace</code> — 동기 호출과 이벤트 버스가 공존하는 경로</figcaption><span class='live-badge'>크게 보기</span></figure><figure class='card wide live-motion' data-motion='arch-layer' data-alt='아키텍처 레이어드 아키텍처'><div class='lvwrap'><img loading='lazy' src='gallery/archdemo/arch-layer.png' alt='아키텍처 레이어드 아키텍처'><div class='lvs lvzone'></div></div><figcaption><b>레이어드 아키텍처</b> <code>arch-trace</code> — 위층이 아래층만 부르는 의존 방향</figcaption><span class='live-badge'>크게 보기</span></figure><figure class='card wide live-motion' data-motion='arch-topo' data-alt='아키텍처 네트워크 토폴로지'><div class='lvwrap'><img loading='lazy' src='gallery/archdemo/arch-topo.png' alt='아키텍처 네트워크 토폴로지'><div class='lvs lvzone'></div></div><figcaption><b>네트워크 토폴로지</b> <code>arch-trace</code> — 인입부터 DB까지의 물리 경로</figcaption><span class='live-badge'>크게 보기</span></figure><figure class='card wide live-motion' data-motion='arch-iso-dc' data-alt='아키텍처 아이소메트릭 DC'><div class='lvwrap'><img loading='lazy' src='gallery/archdemo/arch-iso-dc.png' alt='아키텍처 아이소메트릭 DC'><div class='lvs lvzone'></div></div><figcaption><b>아이소메트릭 DC</b> <code>arch-trace</code> — 요청이 지나는 세 층과 상태 점등</figcaption><span class='live-badge'>크게 보기</span></figure><figure class='card wide live-motion' data-motion='arch-ha' data-alt='아키텍처 고가용성'><div class='lvwrap'><img loading='lazy' src='gallery/archdemo/arch-ha.png' alt='아키텍처 고가용성'><div class='lvs lvzone'></div></div><figcaption><b>고가용성</b> <code>arch-trace</code> — 주·대기 전환 — 페일오버 6단계</figcaption><span class='live-badge'>크게 보기</span></figure><figure class='card wide live-motion' data-motion='arch-hybrid' data-alt='아키텍처 하이브리드 클라우드'><div class='lvwrap'><img loading='lazy' src='gallery/archdemo/arch-hybrid.png' alt='아키텍처 하이브리드 클라우드'><div class='lvs lvzone'></div></div><figcaption><b>하이브리드 클라우드</b> <code>arch-trace</code> — 방화벽 옆 온프렘·클라우드 신뢰 경계</figcaption><span class='live-badge'>크게 보기</span></figure></div></section>
 <footer>edu-deck-skills · 갤러리 이미지는 예시 자리표시 문안을 포함한 조각 원형 그대로의 렌더다.
 배치 전체를 직접 넘겨 보기: <a href="gallery-archetypes.html">gallery-archetypes.html</a></footer>
 
@@ -1435,6 +1438,650 @@ footer { margin-top:56px; color:#5a6b76; font-size:13.5px; border-top:1.5px soli
     <figcaption>«그림 설명 ≤30자»</figcaption>
   </figure>
   <aside class="notes">레인 변형: 위아래 두 그룹이 주체(고객·제안팀)를 나누고 노드의 번호 배지가 일의 순서를 가리킨다. 발표 때는 배지 순서대로 "요구 전달→분석→작성→검토→협의→승인" 흐름을 짚고, 주체가 바뀌는 지점(레인을 넘는 화살표)에서 잠깐 멈춰 책임 이동을 강조한다.</aside>
+</section></div><div class='tpl' data-tpl='arch-ms'><section class="slide" data-archetype="arch-diagram" style="gap:20px">
+  <div class="head"><p class="eyebrow">가상 예시 · 아키텍처 1/4 — Microservices</p><h2 class="title">마이크로서비스: 동기 호출과 이벤트가 공존하는 길</h2></div>
+  <svg class="dg" viewBox="0 0 1664 734" role="img" aria-label="가상 예시 마이크로서비스 구성도: 클라이언트가 게이트웨이와 인증을 거쳐 앱과 검색에 닿고, 이벤트 버스를 통해 워커와 알림이 데이터 저장소에 쓴다">
+  <title>마이크로서비스 — 가상 예시</title>
+  <g data-step="1">
+    <rect class="k-frame" x="296" y="30" width="468" height="516" style="rx:12px"/>
+    <text class="k-t-tag" x="312" y="64">코어 · 동기 호출</text>
+  </g>
+  <g data-step="1">
+    <rect class="k-frame" x="832" y="261" width="476" height="362" style="rx:12px"/>
+    <text class="k-t-tag" x="848" y="295">비동기 영역</text>
+  </g>
+  <g data-step="1">
+    <rect class="k-frame" x="1376" y="157" width="196" height="491" style="rx:12px"/>
+    <text class="k-t-tag" x="1392" y="191">데이터</text>
+  </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M204 279 L250 279 Q262 279 274 279 L320 279" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="204.5" y="261" width="115" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="262" y="287" text-anchor="middle">HTTPS</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M472 235.3 L519.6 208 Q530 202 541.2 197.7 L588 179.5" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="418" y="159.2" width="132" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="484" y="185.2" text-anchor="middle">verify</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-g" d="M588 135.8 L541.8 127.2 Q530 125 522.1 134.1 L451.7 215" marker-end="url(#ahg)"/>
+      <rect class="k-paper" x="452.7" y="155.7" width="115" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="510.2" y="181.7" text-anchor="middle">token</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M443.9 343 L522.8 448.4 Q530 458 542 458 L588 458" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="446.8" y="405.7" width="115" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="504.3" y="431.7" text-anchor="middle">route</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M472 293.2 L518.2 301.8 Q530 304 542 304 L588 304" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="472" y="285.9" width="115" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="529.5" y="311.9" text-anchor="middle">query</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-o dash-flow" d="M740 472.2 L786.2 480.8 Q798 483 810 483 L856 483" marker-end="url(#ah-o)"/>
+      <rect class="k-paper" x="679" y="532.9" width="149" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="753.5" y="558.9" text-anchor="middle">publish</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-o dash-flow" d="M1016 513.1 L1062.8 530.8 Q1074 535 1086 535 L1132 535" marker-end="url(#ah-o)"/>
+      <rect class="k-paper" x="953.6" y="550.3" width="149" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1028.1" y="576.3" text-anchor="middle">consume</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-o" d="M1016 423.9 L1064.3 388.1 Q1074 381 1086 381 L1132 381" marker-end="url(#ah-o)"/>
+      <rect class="k-paper" x="1002.3" y="367.2" width="132" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1068.3" y="393.2" text-anchor="middle">fanout</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M1284 476.6 L1332.5 439.3 Q1342 432 1349.8 422.9 L1419.5 341" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="1299.5" y="396.3" width="115" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1357" y="422.3" text-anchor="middle">write</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M1284 549.2 L1330.2 557.8 Q1342 560 1354 560 L1400 560" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="1301" y="541.9" width="81" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1341.5" y="567.9" text-anchor="middle">put</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-g" d="M703.7 394 L791.7 252.2 Q798 242 810 242 L924 242 Q936 242 948 242 L1062 242 Q1074 242 1086 242 L1196 242 Q1208 242 1220 242 L1330 242 Q1342 242 1353.6 245.1 L1400 257.4" marker-end="url(#ahg)"/>
+      <rect class="k-paper" x="970.1" y="224" width="81" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1010.6" y="250" text-anchor="middle">sql</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-g" d="M740 318.2 L786.2 326.8 Q798 329 810 329 L880 329" marker-end="url(#ahg)"/>
+      <rect class="k-paper" x="769" y="311" width="81" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="809.5" y="337" text-anchor="middle">api</text>
+    </g>
+  <g data-step="2">
+    <circle class="k-blue" cx="148" cy="279" r="56"/>
+    <use href="#i-people" x="126" y="249" width="44" height="44" style="color:var(--blue)"/>
+    <text class="k-t-tag" x="148" y="313" text-anchor="middle" style="fill:var(--blue)">Client</text>
+    <text class="k-t-tag" x="148" y="361" text-anchor="middle">외부 사용자</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="320" y="215" width="152" height="128" style="rx:9px"/>
+    <use href="#i-globe" x="372" y="229" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="396" y="311" text-anchor="middle">API GW</text>
+    <text class="k-t-tag" x="396" y="339" text-anchor="middle">인입·라우팅</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="588" y="86" width="152" height="128" style="rx:9px"/>
+    <use href="#i-key" x="640" y="100" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="664" y="182" text-anchor="middle">Auth</text>
+    <text class="k-t-tag" x="664" y="210" text-anchor="middle">인증 서비스</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-blue" x="588" y="394" width="152" height="128" style="rx:9px"/>
+    <use href="#i-window" x="640" y="408" width="48" height="48" style="color:var(--blue)"/>
+    <text class="t-l" x="664" y="490" text-anchor="middle">App</text>
+    <text class="k-t-tag" x="664" y="518" text-anchor="middle">주문 로직</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="588" y="240" width="152" height="128" style="rx:9px"/>
+    <use href="#i-search" x="640" y="254" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="664" y="336" text-anchor="middle">Search</text>
+    <text class="k-t-tag" x="664" y="364" text-anchor="middle">검색 서비스</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-orange" x="856" y="419" width="160" height="128" style="rx:9px"/>
+    <use href="#i-bolt" x="912" y="433" width="48" height="48" style="color:var(--accent)"/>
+    <text class="t-l" x="936" y="515" text-anchor="middle">Event Bus</text>
+    <text class="k-t-tag" x="936" y="543" text-anchor="middle">메시지 중개</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="1132" y="471" width="152" height="128" style="rx:9px"/>
+    <use href="#i-robot" x="1184" y="485" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="1208" y="567" text-anchor="middle">Worker</text>
+    <text class="k-t-tag" x="1208" y="595" text-anchor="middle">비동기 처리</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="1132" y="317" width="152" height="128" style="rx:9px"/>
+    <use href="#i-bell" x="1184" y="331" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="1208" y="413" text-anchor="middle">Notify</text>
+    <text class="k-t-tag" x="1208" y="441" text-anchor="middle">알림 발송</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="1400" y="213" width="148" height="128" style="rx:9px"/>
+    <use href="#i-db" x="1450" y="227" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="1474" y="309" text-anchor="middle">DB</text>
+    <text class="k-t-tag" x="1474" y="337" text-anchor="middle">주문 저장</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="1400" y="496" width="148" height="128" style="rx:9px"/>
+    <use href="#i-db" x="1450" y="510" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="1474" y="592" text-anchor="middle">Cache</text>
+    <text class="k-t-tag" x="1474" y="620" text-anchor="middle">읽기 캐시</text>
+    </g>
+  <g data-step="2">
+    <circle class="k-paper" cx="936" cy="329" r="56"/>
+    <use href="#i-cloud" x="914" y="299" width="44" height="44" style="color:var(--ink)"/>
+    <text class="k-t-tag" x="936" y="363" text-anchor="middle" style="fill:var(--ink)">외부 API</text>
+    <text class="k-t-tag" x="936" y="411" text-anchor="middle">검색 색인원</text>
+    </g>
+  <g><polyline class="k-ln-b" points="34,694 104,694"/><text class="k-t-tag" x="118" y="702">동기 호출</text>
+    <polyline class="k-ln-o" points="298,694 368,694"/><text class="k-t-tag" x="382" y="702">이벤트(패킷)</text>
+    <polyline class="k-ln-g" points="610,694 680,694"/><text class="k-t-tag" x="694" y="702">보조·회신</text></g>
+</svg>
+  <p class="small">읽는 법 — 점선 틀: 책임 경계 · 파란 선: 동기 호출 · 주황 선: 이벤트(점=패킷 흐름) · 회색 선: 보조·회신</p>
+  <aside class="notes">가상 예시 시스템이다. 1단계에 책임 경계 세 칸(코어·비동기·데이터)이 뜨고, 2단계에 노드 11개가 켜지며, 3단계에 연결선 12개가 그려진다. 격자 상한(노드 14·행 3) 안에서는 억지로 눌러 담아야 했던 11노드 규모를 dagre가 랭크 배치로 풀어낸 장면이다. publish/consume 두 이벤트 경로에 패킷이 흐르고, app→db sql이 긴 우회선으로, gw↔auth 왕복이 두 줄로 갈라지는지 본다.</aside>
+</section></div><div class='tpl' data-tpl='arch-layer'><section class="slide" data-archetype="arch-diagram" style="gap:20px">
+  <div class="head"><p class="eyebrow">가상 예시 · 아키텍처 2/4 — Layered</p><h2 class="title">레이어드 아키텍처: 위층이 아래층만 부른다</h2></div>
+  <svg class="dg" viewBox="0 0 1664 736" role="img" aria-label="가상 예시 레이어드 아키텍처: 표현층 웹·API·관리자가 응용층 주문·결제·도메인을 부르고, 응용층이 데이터층 DB·캐시를 부르며 로깅은 횡단 관심사로 둔다">
+  <title>레이어드 아키텍처 — 가상 예시</title>
+  <g data-step="1">
+    <rect class="k-frame" x="528" y="30" width="638" height="208" style="rx:12px"/>
+    <text class="k-t-tag" x="544" y="64">표현층</text>
+  </g>
+  <g data-step="1">
+    <rect class="k-frame" x="498" y="236" width="668" height="208" style="rx:12px"/>
+    <text class="k-t-tag" x="514" y="270">응용층</text>
+  </g>
+  <g data-step="1">
+    <rect class="k-frame" x="530" y="442" width="634" height="208" style="rx:12px"/>
+    <text class="k-t-tag" x="546" y="476">데이터층</text>
+  </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M862 214 L862 241 Q862 253 858.6 264.5 L850.6 292" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="917.8" y="303.8" width="64" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="949.8" y="329.8" text-anchor="middle">호출</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M691.4 214 L721.6 244.5 Q730 253 738.4 261.5 L768.6 292" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="698" y="235" width="64" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="730" y="261" text-anchor="middle">호출</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M609.4 214 L601.4 241.5 Q598 253 598 265 L598 292" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="390.2" y="234.2" width="64" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="422.2" y="260.2" text-anchor="middle">호출</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M1066 214 L1066 241 Q1066 253 1066 265 L1066 292" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="1166" y="235" width="64" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1198" y="261" text-anchor="middle">관리</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M768.6 420 L738.4 450.5 Q730 459 721.6 467.5 L691.4 498" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="672.5" y="441" width="115" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="730" y="467" text-anchor="middle">write</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M598 420 L598 447 Q598 459 601.4 470.5 L609.4 498" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="408.7" y="441.8" width="115" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="466.2" y="467.8" text-anchor="middle">write</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-g" d="M1066 420 L1066 447 Q1066 459 1066 471 L1066 498" marker-end="url(#ahg)"/>
+      <rect class="k-paper" x="1193" y="441" width="98" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1242" y="467" text-anchor="middle">read</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-g" d="M851.3 420 L859.5 447.5 Q863 459 863 471 L863 498" marker-end="url(#ahg)"/>
+      <rect class="k-paper" x="918.8" y="372.2" width="64" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="950.8" y="398.2" text-anchor="middle">기록</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="786" y="86" width="152" height="128" style="rx:9px"/>
+    <use href="#i-window" x="838" y="100" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="862" y="182" text-anchor="middle">Web</text>
+    <text class="k-t-tag" x="862" y="210" text-anchor="middle">사용자 화면</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-blue" x="552" y="86" width="152" height="128" style="rx:9px"/>
+    <use href="#i-globe" x="604" y="100" width="48" height="48" style="color:var(--blue)"/>
+    <text class="t-l" x="628" y="182" text-anchor="middle">API</text>
+    <text class="k-t-tag" x="628" y="210" text-anchor="middle">공개 진입</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="990" y="86" width="152" height="128" style="rx:9px"/>
+    <use href="#i-gear" x="1042" y="100" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="1066" y="182" text-anchor="middle">Admin</text>
+    <text class="k-t-tag" x="1066" y="210" text-anchor="middle">운영 콘솔</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="756" y="292" width="152" height="128" style="rx:9px"/>
+    <use href="#i-work" x="808" y="306" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="832" y="388" text-anchor="middle">OrderSvc</text>
+    <text class="k-t-tag" x="832" y="416" text-anchor="middle">주문 서비스</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="522" y="292" width="152" height="128" style="rx:9px"/>
+    <use href="#i-coin" x="574" y="306" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="598" y="388" text-anchor="middle">PaySvc</text>
+    <text class="k-t-tag" x="598" y="416" text-anchor="middle">결제 서비스</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-blue" x="990" y="292" width="152" height="128" style="rx:9px"/>
+    <use href="#i-org" x="1042" y="306" width="48" height="48" style="color:var(--blue)"/>
+    <text class="t-l" x="1066" y="388" text-anchor="middle">Domain</text>
+    <text class="k-t-tag" x="1066" y="416" text-anchor="middle">도메인 규칙</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="554" y="498" width="148" height="128" style="rx:9px"/>
+    <use href="#i-db" x="604" y="512" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="628" y="594" text-anchor="middle">DB</text>
+    <text class="k-t-tag" x="628" y="622" text-anchor="middle">기본 저장</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="992" y="498" width="148" height="128" style="rx:9px"/>
+    <use href="#i-db" x="1042" y="512" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="1066" y="594" text-anchor="middle">Cache</text>
+    <text class="k-t-tag" x="1066" y="622" text-anchor="middle">조회 캐시</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="787" y="498" width="152" height="128" style="rx:9px"/>
+    <use href="#i-list" x="839" y="512" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="863" y="594" text-anchor="middle">Logging</text>
+    <text class="k-t-tag" x="863" y="622" text-anchor="middle">공통 관심사</text>
+    </g>
+  <g><polyline class="k-ln-b" points="34,696 104,696"/><text class="k-t-tag" x="118" y="704">하향 호출</text>
+    <polyline class="k-ln-g" points="298,696 368,696"/><text class="k-t-tag" x="382" y="704">보조(캐시·로그)</text></g>
+</svg>
+  <p class="small">읽는 법 — 점선 띠: 층(표현→응용→데이터) · 선은 모두 위에서 아래로 · 공통 로깅은 횡단 관심사</p>
+  <aside class="notes">가상 예시 시스템이다. 1단계에 층 경계 세 띠(표현·응용·데이터)가 뜨고, 2단계에 노드 9개가 켜지며, 3단계에 의존선 8개가 위→아래로 그려진다. dagre rankdir=TB가 랭크를 층으로 정렬한 결과 — 수평 띠 배치는 stack.js의 그룹 사각이 남기던 빈 면적 없이 층 리듬을 보여준다. 모든 화살표가 아래로만 향하는지(상향 호출 없음), 횡단 로깅이 데이터층 옆에 따로 서는지 본다.</aside>
+</section></div><div class='tpl' data-tpl='arch-topo'><section class="slide" data-archetype="arch-diagram" style="gap:20px">
+  <div class="head"><p class="eyebrow">가상 예시 · 아키텍처 3/4 — Network Topology</p><h2 class="title">네트워크 토폴로지: 인입부터 DB까지의 물리 경로</h2></div>
+  <svg class="dg" viewBox="0 0 1664 508" role="img" aria-label="가상 예시 네트워크 토폴로지: 인터넷 트래픽이 방화벽과 로드밸런서를 지나 이중 스위치와 웹 서버 두 대로 퍼지고 두 서버가 데이터베이스에 접속한다">
+  <title>네트워크 토폴로지 — 가상 예시</title>
+  <g data-step="1">
+    <rect class="k-frame" x="284" y="122" width="476" height="208" style="rx:12px"/>
+    <text class="k-t-tag" x="300" y="156">DMZ</text>
+  </g>
+  <g data-step="1">
+    <rect class="k-frame" x="844" y="30" width="756" height="392" style="rx:12px"/>
+    <text class="k-t-tag" x="860" y="64">내부망</text>
+  </g>
+  <g data-step="3">
+      <path class="k-ln-b dash-flow" d="M176 242 L230 242 Q242 242 254 242 L308 242" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="123.5" y="122" width="149" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="198" y="148" text-anchor="middle">inbound</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M456 242 L510 242 Q522 242 534 242 L588 242" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="481.5" y="224" width="81" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="522" y="250" text-anchor="middle">443</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M736 290.6 L792 327.4 Q802 334 814 334 L868 334" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="730.6" y="312.4" width="132" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="796.6" y="338.4" text-anchor="middle">uplink</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M736 193.4 L792 156.6 Q802 150 814 150 L868 150" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="686.6" y="67.6" width="132" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="752.6" y="93.6" text-anchor="middle">uplink</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M1016 334 L1070 334 Q1082 334 1094 334 L1148 334" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="1050" y="316" width="64" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1082" y="342" text-anchor="middle">1G</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M1016 150 L1070 150 Q1082 150 1094 150 L1148 150" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="1050" y="132" width="64" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1082" y="158" text-anchor="middle">1G</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-g" d="M1296 334 L1350 334 Q1362 334 1372 327.4 L1428 290.6" marker-end="url(#ahg)"/>
+      <rect class="k-paper" x="1326.9" y="312.4" width="81" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1367.4" y="338.4" text-anchor="middle">sql</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-g" d="M1296 150 L1350 150 Q1362 150 1372 156.6 L1428 193.4" marker-end="url(#ahg)"/>
+      <rect class="k-paper" x="1326.9" y="135.6" width="81" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1367.4" y="161.6" text-anchor="middle">sql</text>
+    </g>
+  <g data-step="2">
+    <circle class="k-paper" cx="120" cy="242" r="56"/>
+    <use href="#i-globe" x="98" y="212" width="44" height="44" style="color:var(--ink)"/>
+    <text class="k-t-tag" x="120" y="276" text-anchor="middle" style="fill:var(--ink)">Internet</text>
+    <text class="k-t-tag" x="120" y="324" text-anchor="middle">외부 망</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-orange" x="308" y="178" width="148" height="128" style="rx:9px"/>
+    <use href="#i-shield" x="358" y="192" width="48" height="48" style="color:var(--accent)"/>
+    <text class="t-l" x="382" y="274" text-anchor="middle">FW</text>
+    <text class="k-t-tag" x="382" y="302" text-anchor="middle">방화벽</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-blue" x="588" y="178" width="148" height="128" style="rx:9px"/>
+    <use href="#i-gear" x="638" y="192" width="48" height="48" style="color:var(--blue)"/>
+    <text class="t-l" x="662" y="274" text-anchor="middle">LB</text>
+    <text class="k-t-tag" x="662" y="302" text-anchor="middle">부하 분산</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="868" y="270" width="148" height="128" style="rx:9px"/>
+    <use href="#i-link" x="918" y="284" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="942" y="366" text-anchor="middle">SW-A</text>
+    <text class="k-t-tag" x="942" y="394" text-anchor="middle">코어 스위치</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="868" y="86" width="148" height="128" style="rx:9px"/>
+    <use href="#i-link" x="918" y="100" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="942" y="182" text-anchor="middle">SW-B</text>
+    <text class="k-t-tag" x="942" y="210" text-anchor="middle">코어 스위치</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="1148" y="270" width="148" height="128" style="rx:9px"/>
+    <use href="#i-window" x="1198" y="284" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="1222" y="366" text-anchor="middle">Web-1</text>
+    <text class="k-t-tag" x="1222" y="394" text-anchor="middle">웹 서버</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="1148" y="86" width="148" height="128" style="rx:9px"/>
+    <use href="#i-window" x="1198" y="100" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="1222" y="182" text-anchor="middle">Web-2</text>
+    <text class="k-t-tag" x="1222" y="210" text-anchor="middle">웹 서버</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="1428" y="178" width="148" height="128" style="rx:9px"/>
+    <use href="#i-db" x="1478" y="192" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="1502" y="274" text-anchor="middle">DB</text>
+    <text class="k-t-tag" x="1502" y="302" text-anchor="middle">데이터 저장</text>
+    </g>
+  <g><polyline class="k-ln-b" points="34,468 104,468"/><text class="k-t-tag" x="118" y="476">트래픽 경로</text>
+    <polyline class="k-ln-g" points="322,468 392,468"/><text class="k-t-tag" x="406" y="476">데이터 접속</text></g>
+</svg>
+  <p class="small">읽는 법 — 점선 틀: DMZ/내부망 · 파란 선: 트래픽 경로 · 회색 선: 데이터 접속 · 인입선 위 점: 패킷</p>
+  <aside class="notes">가상 예시 시스템이다. 1단계에 DMZ·내부망 경계가 뜨고, 2단계에 장비 8개가 켜지며, 3단계에 경로가 그려진다. 인입선(inet→fw)에 패킷이 흐른다. rankdir=LR가 물리 계층을 좌→우로 정렬하고, 로드밸런서→이중 스위치→웹 서버 팬아웃이 대칭으로 펴지는지 본다. 이중화 구간이 겹치지 않고 두 줄로 나란히 가는 것이 포인트다.</aside>
+</section></div><div class='tpl' data-tpl='arch-iso-dc'><section class="slide" data-archetype="arch-diagram" style="gap:20px">
+  <div class="head"><p class="eyebrow">아이소메트릭 · Deployment</p><h2 class="title">요청 한 건이 데이터센터 안에서 지나는 세 개의 층</h2></div>
+  <figure class="fig-slot">
+<svg class="dg" viewBox="0 0 1664 782" role="img" aria-label="아이소메트릭 데이터센터 구성도. 사용자가 로드밸런서를 거쳐 앱 서버 두 대에 들어가고, 코어 스위치를 거쳐 스토리지 두 대에 이어진다.">
+<title>아이소메트릭 데이터센터 — 사용자 요청이 서버·스토리지까지 가는 경로</title>
+<g transform="translate(993.6 -18)">
+<g data-arch-zone="dc" data-zone-kind="zone">
+<polygon points="-731.6,96 731.6,96 731.6,608 -731.6,608" fill="var(--light)" fill-opacity=".9" stroke="var(--line)" stroke-width="2" stroke-dasharray="16 12" stroke-linejoin="round"/>
+<rect class="k-paper" x="-863.6" y="44" width="264" height="36" style="rx:8px"/>
+<text class="t-l k-t-b" x="-731.6" y="69" text-anchor="middle">DC-1 · 앱 클러스터</text>
+</g>
+<g data-step="1" data-arch-layer="edges"><path data-arch-edge="user--lb" class="dash-flow k-ln-b" d="M -802.4 160 L -40 160" marker-end="url(#ah-b)"/><text class="t-q" x="-421.2" y="190" text-anchor="middle">HTTPS</text><path data-arch-edge="sw--store1" class="k-ln-b" d="M 0 480 L -236 480 L -438.9 617.6" marker-end="url(#ah-b)" marker-start="url(#ah-b)"/><text class="t-q" x="-349.8" y="538.6" text-anchor="middle">iSCSI</text><path data-arch-edge="sw--store2" class="k-ln-n" d="M 0 480 L 236 480 L 438.9 617.6" marker-end="url(#ah-b)"/></g>
+<g data-step="2" data-arch-layer="edges"><path data-arch-edge="lb--app1" class="dash-flow k-ln-b" d="M 0 160 L -236 160 L -438.9 297.6" marker-end="url(#ah-b)"/><path data-arch-edge="lb--app2" class="k-ln-b" d="M 0 160 L 236 160 L 438.9 297.6" marker-end="url(#ah-b)"/></g>
+<g data-step="3" data-arch-layer="edges"><path data-arch-edge="app1--sw" class="k-ln-b" d="M -472 320 L -236 320 L -33.1 457.6" marker-end="url(#ah-b)"/><path data-arch-edge="app2--sw" class="k-ln-b" d="M 472 320 L 236 320 L 33.1 457.6" marker-end="url(#ah-b)"/></g>
+<g data-step="1" data-arch-layer="nodes"><g data-arch-node="lb" data-kind="lb" data-state="ok">
+<ellipse cx="0" cy="222" rx="70" ry="18" fill="var(--ink)" fill-opacity=".12"/>
+<polygon points="-70,160 0,201 0,219 -70,178" fill="var(--blue)" fill-opacity=".82" stroke="var(--blue)" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="0,201 70,160 70,178 0,219" fill="var(--blue)" fill-opacity=".58" stroke="var(--blue)" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="0,119 70,160 0,201 -70,160" fill="var(--paper)" stroke="var(--blue)" stroke-width="2.6" stroke-dasharray="none" stroke-linejoin="round"/>
+<polygon points="0,119 70,160 0,201 -70,160" fill="var(--blue)" fill-opacity=".18" stroke="none"/>
+<g stroke="var(--paper)" stroke-opacity=".55" stroke-width="2.4" stroke-linecap="round" fill="none"><polyline points="12.6,199.7 12.6,206.9"/><polyline points="35,186.6 35,193.8"/><polyline points="57.4,173.5 57.4,180.7"/></g>
+<circle cx="8.4" cy="201.5" r="3.2" fill="var(--success)"/>
+<polyline points="0,160 -4.2,132.9" stroke="var(--blue)" stroke-width="2.4" stroke-linecap="round" fill="none"/><polyline points="0,160 -25.2,145.2" stroke="var(--blue)" stroke-width="2.4" stroke-linecap="round" fill="none"/><polyline points="0,160 -46.2,157.5" stroke="var(--blue)" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+<rect class="k-paper" x="-72.5" y="230" width="144.9" height="38" style="rx:9px"/>
+<text class="t-l" x="0" y="258" text-anchor="middle">LB 스위치</text>
+</g><g data-arch-node="user" data-kind="server1u" data-state="ok">
+<ellipse cx="-802.4" cy="216" rx="59" ry="14.5" fill="var(--ink)" fill-opacity=".12"/>
+<polygon points="-861.4,160 -802.4,193 -802.4,213 -861.4,180" fill="var(--blue)" fill-opacity=".82" stroke="var(--blue)" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="-802.4,193 -743.4,160 -743.4,180 -802.4,213" fill="var(--blue)" fill-opacity=".58" stroke="var(--blue)" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="-802.4,127 -743.4,160 -802.4,193 -861.4,160" fill="var(--paper)" stroke="var(--blue)" stroke-width="2.6" stroke-dasharray="none" stroke-linejoin="round"/>
+<polygon points="-802.4,127 -743.4,160 -802.4,193 -861.4,160" fill="var(--blue)" fill-opacity=".18" stroke="none"/>
+<g stroke="var(--paper)" stroke-opacity=".55" stroke-width="2.4" stroke-linecap="round" fill="none"><polyline points="-790.6,197.6 -751.7,176.2"/></g>
+<circle cx="-795.3" cy="195" r="3.2" fill="var(--success)"/>
+<rect class="k-paper" x="-856.4" y="224" width="108" height="38" style="rx:9px"/>
+<text class="t-l" x="-802.4" y="252" text-anchor="middle">사용자</text>
+</g></g>
+<g data-step="2" data-arch-layer="nodes"><g data-arch-node="app1" data-kind="server2u" data-state="ok">
+<ellipse cx="-472" cy="398" rx="59" ry="14.5" fill="var(--ink)" fill-opacity=".12"/>
+<polygon points="-531,320 -472,353 -472,395 -531,362" fill="var(--blue)" fill-opacity=".82" stroke="var(--blue)" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="-472,353 -413,320 -413,362 -472,395" fill="var(--blue)" fill-opacity=".58" stroke="var(--blue)" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="-472,287 -413,320 -472,353 -531,320" fill="var(--paper)" stroke="var(--blue)" stroke-width="2.6" stroke-dasharray="none" stroke-linejoin="round"/>
+<polygon points="-472,287 -413,320 -472,353 -531,320" fill="var(--blue)" fill-opacity=".18" stroke="none"/>
+<g stroke="var(--paper)" stroke-opacity=".55" stroke-width="2.4" stroke-linecap="round" fill="none"><polyline points="-460.2,358.1 -421.3,337.2"/><polyline points="-460.2,377 -421.3,356.1"/></g>
+<circle cx="-464.9" cy="361.6" r="3.2" fill="var(--success)"/>
+<rect class="k-paper" x="-548.4" y="406" width="152.7" height="38" style="rx:9px"/>
+<text class="t-l" x="-472" y="434" text-anchor="middle">앱 서버 01</text>
+</g><g data-arch-node="app2" data-kind="server2u" data-state="busy">
+<ellipse cx="472" cy="398" rx="59" ry="14.5" fill="var(--ink)" fill-opacity=".12"/>
+<polygon points="413,320 472,353 472,395 413,362" fill="var(--blue)" fill-opacity=".82" stroke="var(--blue)" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="472,353 531,320 531,362 472,395" fill="var(--blue)" fill-opacity=".58" stroke="var(--blue)" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="472,287 531,320 472,353 413,320" fill="var(--paper)" stroke="var(--blue)" stroke-width="2.6" stroke-dasharray="none" stroke-linejoin="round"/>
+<polygon points="472,287 531,320 472,353 413,320" fill="var(--blue)" fill-opacity=".18" stroke="none"/>
+<g stroke="var(--paper)" stroke-opacity=".55" stroke-width="2.4" stroke-linecap="round" fill="none"><polyline points="483.8,358.1 522.7,337.2"/><polyline points="483.8,377 522.7,356.1"/></g>
+<circle cx="479.1" cy="361.6" r="3.2" fill="var(--accent)"/>
+<rect class="k-paper" x="395.6" y="406" width="152.7" height="38" style="rx:9px"/>
+<text class="t-l" x="472" y="434" text-anchor="middle">앱 서버 02</text>
+</g></g>
+<g data-step="3" data-arch-layer="nodes"><g data-arch-node="sw" data-kind="switch" data-state="ok">
+<ellipse cx="0" cy="540" rx="75" ry="18.9" fill="var(--ink)" fill-opacity=".12"/>
+<polygon points="-75,480 0,523 0,537 -75,494" fill="var(--blue)" fill-opacity=".82" stroke="var(--blue)" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="0,523 75,480 75,494 0,537" fill="var(--blue)" fill-opacity=".58" stroke="var(--blue)" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="0,437 75,480 0,523 -75,480" fill="var(--paper)" stroke="var(--blue)" stroke-width="2.6" stroke-dasharray="none" stroke-linejoin="round"/>
+<polygon points="0,437 75,480 0,523 -75,480" fill="var(--blue)" fill-opacity=".18" stroke="none"/>
+<g stroke="var(--paper)" stroke-opacity=".55" stroke-width="2.4" stroke-linecap="round" fill="none"><polyline points="13.5,520 13.5,525.6"/><polyline points="17.9,517.5 17.9,523.1"/><polyline points="22.2,515 22.2,520.6"/><polyline points="26.6,512.5 26.6,518.1"/><polyline points="31,510 31,515.6"/><polyline points="35.3,507.5 35.3,513.1"/><polyline points="39.7,505 39.7,510.6"/><polyline points="44,502.5 44,508.1"/><polyline points="48.4,500 48.4,505.6"/><polyline points="52.8,497.5 52.8,503.1"/><polyline points="57.1,495 57.1,500.6"/><polyline points="61.5,492.5 61.5,498.1"/></g>
+<circle cx="9" cy="522" r="3.2" fill="var(--success)"/>
+<rect class="k-paper" x="-83.9" y="548" width="167.8" height="38" style="rx:9px"/>
+<text class="t-l" x="0" y="576" text-anchor="middle">코어 스위치</text>
+</g><g data-arch-node="store1" data-kind="storage" data-state="ok">
+<ellipse cx="-472" cy="725" rx="63" ry="15.8" fill="var(--ink)" fill-opacity=".12"/>
+<polygon points="-535,640 -472,676 -472,722 -535,686" fill="var(--blue)" fill-opacity=".82" stroke="var(--blue)" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="-472,676 -409,640 -409,686 -472,722" fill="var(--blue)" fill-opacity=".58" stroke="var(--blue)" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="-472,604 -409,640 -472,676 -535,640" fill="var(--paper)" stroke="var(--blue)" stroke-width="2.6" stroke-dasharray="none" stroke-linejoin="round"/>
+<polygon points="-472,604 -409,640 -472,676 -535,640" fill="var(--blue)" fill-opacity=".18" stroke="none"/>
+<g stroke="var(--paper)" stroke-opacity=".55" stroke-width="2.4" stroke-linecap="round" fill="none"><polyline points="-459.4,677.4 -417.8,654.5"/><polyline points="-459.4,691.2 -417.8,668.3"/><polyline points="-459.4,705 -417.8,682.1"/></g>
+<circle cx="-464.4" cy="685.5" r="3.2" fill="var(--success)"/>
+<rect class="k-paper" x="-550.2" y="733" width="156.4" height="38" style="rx:9px"/>
+<text class="t-l" x="-472" y="761" text-anchor="middle">스토리지 A</text>
+</g><g data-arch-node="store2" data-kind="storage" data-state="standby">
+<ellipse cx="472" cy="725" rx="63" ry="15.8" fill="var(--ink)" fill-opacity=".12"/>
+<polygon points="409,640 472,676 472,722 409,686" fill="var(--blue)" fill-opacity=".82" stroke="var(--blue)" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="472,676 535,640 535,686 472,722" fill="var(--blue)" fill-opacity=".58" stroke="var(--blue)" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="472,604 535,640 472,676 409,640" fill="var(--paper)" stroke="var(--blue)" stroke-width="2.6" stroke-dasharray="none" stroke-linejoin="round"/>
+<polygon points="472,604 535,640 472,676 409,640" fill="var(--blue)" fill-opacity=".18" stroke="none"/>
+<g stroke="var(--paper)" stroke-opacity=".55" stroke-width="2.4" stroke-linecap="round" fill="none"><polyline points="484.6,677.4 526.2,654.5"/><polyline points="484.6,691.2 526.2,668.3"/><polyline points="484.6,705 526.2,682.1"/></g>
+<circle cx="479.6" cy="685.5" r="3.2" fill="var(--muted)"/>
+<circle cx="507.3" cy="640" r="8.5" fill="var(--paper)" stroke="var(--muted)" stroke-width="3"/>
+<rect class="k-paper" x="393.8" y="733" width="156.4" height="38" style="rx:9px"/>
+<text class="t-l" x="472" y="761" text-anchor="middle">스토리지 B</text>
+</g></g>
+</g>
+</svg>
+    <figcaption>가상 예시 · 사용자 → LB → 앱 서버 2대 → 코어 스위치 → 스토리지 2대</figcaption>
+  </figure>
+  <aside class="notes">아이소메트릭 계열은 배치와 소유 관계를 한눈에 보여야 할 때 쓴다. 이 장은 네 단계로 쌓인다. 1단계에서 사용자와 LB 스위치가 바닥면 앞쪽에 서고, 2단계에서 앱 서버 두 대가 바닥면 안으로 들어온다. 3단계에 코어 스위치와 스토리지가 붙으면서 경로가 완성된다. 발표할 때는 "왼쪽 위에서 오른쪽 아래로내려가는 방향이 곧 요청이 흐르는 방향"이라고 짚고, 앱 서버 02 의 주황 LED 는 처리 중, 스토리지 B 의 빈 원은 대기 상태라고 설명한다. 색만으로 구분하지 않도록 대기 상태에는 테두리 원 배지를 함께 붙였다.</aside>
+</section></div><div class='tpl' data-tpl='arch-ha'><section class="slide" data-archetype="arch-diagram" style="gap:20px">
+  <div class="head"><p class="eyebrow">가상 예시 · 아키텍처 4/4 — High Availability</p><h2 class="title">고가용성: Active–Standby 페일오버 6단계</h2></div>
+  <svg class="dg" viewBox="0 0 1664 509" role="img" aria-label="가상 예시 고가용성 구성도: 활성 앱과 대기 앱이 로드밸런서 뒤에 있고, 헬스체크가 장애를 감지하면 대기 앱과 복제 DB로 승격된다">
+  <title>HA 페일오버 — 가상 예시</title>
+  <g data-step="1">
+    <rect class="k-frame" x="704" y="30" width="776" height="392" style="rx:12px"/>
+    <text class="k-t-tag" x="720" y="64">주 사이트</text>
+  </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M296 125 L354 125 Q366 125 378 125 L438 125" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="309.5" y="107" width="115" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="367" y="133" text-anchor="middle">HTTPS</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M586 171.6 L647.8 210.6 Q658 217 667.4 224.5 L728 273.1" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="602.3" y="200.4" width="115" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="659.8" y="226.4" text-anchor="middle">route</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M880 334 L938 334 Q950 334 962 334 L1020 334" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="892.5" y="316" width="115" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="950" y="342" text-anchor="middle">write</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-o dash-flow" d="M1168 334 L1226 334 Q1238 334 1248.1 327.5 L1308 289.3" marker-end="url(#ah-o)"/>
+      <rect class="k-paper" x="1211.5" y="312.5" width="64" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1243.5" y="338.5" text-anchor="middle">복제</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-g" d="M588 372 L646.2 382 Q658 384 669.4 380.1 L728 360" marker-end="url(#ahg)"/>
+      <rect class="k-paper" x="593.4" y="365.5" width="132" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="659.4" y="391.5" text-anchor="middle">health</text>
+    </g>
+  <g data-step="5">
+      <path class="k-ln-o" d="M586 112.3 L646.2 102 Q658 100 669.4 103.9 L728 124" marker-end="url(#ah-o)"/>
+      <rect class="k-paper" x="626.4" y="82.2" width="64" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="658.4" y="108.2" text-anchor="middle">승격</text>
+    </g>
+  <g data-step="5">
+      <path class="k-ln-o" d="M880 150 L938 150 Q950 150 962 150 L1082 150 Q1094 150 1106 150 L1226 150 Q1238 150 1248.1 156.5 L1308 194.7" marker-end="url(#ah-o)"/>
+      <rect class="k-paper" x="1068.5" y="132" width="64" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1100.5" y="158" text-anchor="middle">승격</text>
+    </g>
+  <g data-step="5">
+      <path class="k-ln-g" d="M588 311.1 L647.8 273.4 Q658 267 667.4 259.5 L728 210.9" marker-end="url(#ahg)"/>
+      <rect class="k-paper" x="594.7" y="246.8" width="132" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="660.7" y="272.8" text-anchor="middle">health</text>
+    </g>
+  <g data-step="2">
+    <circle class="k-blue" cx="240" cy="125" r="56"/>
+    <use href="#i-people" x="218" y="95" width="44" height="44" style="color:var(--blue)"/>
+    <text class="k-t-tag" x="240" y="159" text-anchor="middle" style="fill:var(--blue)">사용자</text>
+    <text class="k-t-tag" x="240" y="207" text-anchor="middle">외부</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-blue" x="438" y="61" width="148" height="128" style="rx:9px"/>
+    <use href="#i-gear" x="488" y="75" width="48" height="48" style="color:var(--blue)"/>
+    <text class="t-l" x="512" y="157" text-anchor="middle">LB</text>
+    <text class="k-t-tag" x="512" y="185" text-anchor="middle">트래픽 분배</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-orange" x="436" y="295" width="152" height="128" style="rx:9px"/>
+    <use href="#i-heart" x="488" y="309" width="48" height="48" style="color:var(--accent)"/>
+    <text class="t-l" x="512" y="391" text-anchor="middle">Monitor</text>
+    <text class="k-t-tag" x="512" y="419" text-anchor="middle">헬스체크</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-blue" x="728" y="270" width="152" height="128" style="rx:9px"/>
+    <use href="#i-window" x="818" y="284" width="48" height="48" style="color:var(--blue)"/>
+    <text class="t-l" x="804" y="366" text-anchor="middle">App-A</text>
+    <text class="k-t-tag" x="804" y="394" text-anchor="middle">활성</text>
+    <g data-until="3"><circle cx="744" cy="286" r="9" style="fill:var(--blue)"/><text class="k-t-tag" x="759" y="293">정상</text></g>
+    <g data-step="4"><circle cx="744" cy="286" r="9" style="fill:var(--accent)"/><text class="k-t-tag" x="759" y="293">장애</text></g>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="728" y="86" width="152" height="128" style="rx:9px"/>
+    <use href="#i-window" x="818" y="100" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="804" y="182" text-anchor="middle">App-B</text>
+    <text class="k-t-tag" x="804" y="210" text-anchor="middle">대기</text>
+    <g data-until="4"><circle cx="744" cy="102" r="9" style="fill:var(--accent)"/><text class="k-t-tag" x="759" y="109">주의</text></g>
+    <g data-step="5"><circle cx="744" cy="102" r="9" style="fill:var(--blue)"/><text class="k-t-tag" x="759" y="109">정상</text></g>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="1020" y="270" width="148" height="128" style="rx:9px"/>
+    <use href="#i-db" x="1106" y="284" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="1094" y="366" text-anchor="middle">DB-P</text>
+    <text class="k-t-tag" x="1094" y="394" text-anchor="middle">주 저장</text>
+    <g data-until="3"><circle cx="1036" cy="286" r="9" style="fill:var(--blue)"/><text class="k-t-tag" x="1051" y="293">정상</text></g>
+    <g data-step="4"><circle cx="1036" cy="286" r="9" style="fill:var(--accent)"/><text class="k-t-tag" x="1051" y="293">장애</text></g>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="1308" y="178" width="148" height="128" style="rx:9px"/>
+    <use href="#i-db" x="1394" y="192" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="1382" y="274" text-anchor="middle">DB-R</text>
+    <text class="k-t-tag" x="1382" y="302" text-anchor="middle">복제본</text>
+    <g data-until="5"><circle cx="1324" cy="194" r="9" style="fill:var(--accent)"/><text class="k-t-tag" x="1339" y="201">주의</text></g>
+    <g data-step="6"><circle cx="1324" cy="194" r="9" style="fill:var(--blue)"/><text class="k-t-tag" x="1339" y="201">정상</text></g>
+    </g>
+  <g><polyline class="k-ln-b" points="34,469 104,469"/><text class="k-t-tag" x="118" y="477">정상 경로</text>
+    <polyline class="k-ln-o" points="298,469 368,469"/><text class="k-t-tag" x="382" y="477">승격·복제</text>
+    <polyline class="k-ln-g" points="562,469 632,469"/><text class="k-t-tag" x="646" y="477">헬스체크</text></g>
+</svg>
+  <p class="small">읽는 법 — ①경계 ②노드 ③정상 경로 ④장애 발생(칩 교체) ⑤승격 경로 ⑥신주 승격 완료</p>
+  <aside class="notes">가상 예시 시스템이다. 페일오버는 상태를 칠하는 게 아니라 칩을 갈아끼운다 — 4단계에서 활성 앱·주 DB의 정상 칩(data-until)이 사라지고 장애 칩(data-step)이 나타나며, 5단계에 승격 경로가 그려지고, 6단계에 대기 앱·복제 DB가 정상으로 전환된다. 정적 완결에서는 마지막 상태 칩만 남는다.</aside>
+</section></div><div class='tpl' data-tpl='arch-hybrid'><section class="slide" data-archetype="arch-diagram" style="gap:20px">
+  <div class="head"><p class="eyebrow">아이소메트릭 · Context</p><h2 class="title">온프렘과 클라우드를 가르는 선은 방화벽 옆에 있다</h2></div>
+  <figure class="fig-slot">
+<svg class="dg" viewBox="0 0 1664 793" role="img" aria-label="하이브리드 클라우드 구성도. 온프렘 앱이 방화벽을 지나 VPN 으로 클라우드 게이트웨이에 닿고, 그 너머 오브젝트 저장소와 분석 워커로 이어진다. 신뢰 경계는 방화벽과 클라우드 게이트웨이 사이에 있다.">
+<title>하이브리드 클라우드 — 온프렘에서 클라우드로 건너가는 지점</title>
+<g transform="translate(560.5 182)">
+<g data-arch-zone="onprem" data-zone-kind="zone">
+<polygon points="-283.2,-104 283.2,-104 283.2,232 -283.2,232" fill="var(--light)" fill-opacity=".9" stroke="var(--line)" stroke-width="2" stroke-dasharray="16 12" stroke-linejoin="round"/>
+<rect class="k-paper" x="-338.2" y="-156" width="110" height="36" style="rx:8px"/>
+<text class="t-l k-t-b" x="-283.2" y="-131" text-anchor="middle">온프렘</text>
+</g>
+<g data-arch-zone="trust" data-zone-kind="trust">
+<polygon points="-283.2,248 755.2,248 755.2,600 -283.2,600" fill="var(--light)" fill-opacity=".9" stroke="var(--accent)" stroke-width="2" stroke-dasharray="12 9" stroke-linejoin="round"/>
+<rect class="k-paper" x="612.2" y="196" width="286" height="36" style="rx:8px"/>
+<text class="t-l k-t-b" x="755.2" y="221" text-anchor="middle">신뢰 경계 · 클라우드</text>
+</g>
+<g data-step="1" data-arch-layer="edges"><path data-arch-edge="app--fw" class="k-ln-b" d="M 0 0 L 0 120" marker-end="url(#ah-b)"/></g>
+<g data-step="2" data-arch-layer="edges"><path data-arch-edge="fw--cgw" class="dash-flow k-ln-b" d="M 0 160 L 0 280" marker-end="url(#ah-b)" marker-start="url(#ah-b)"/><text class="t-q" x="-90" y="228" text-anchor="middle">VPN</text></g>
+<g data-step="3" data-arch-layer="edges"><path data-arch-edge="cgw--obj" class="dash-flow k-ln-b" d="M 0 320 L 432 320" marker-end="url(#ah-b)"/><text class="t-q" x="216" y="350" text-anchor="middle">S3</text><path data-arch-edge="cgw--worker" class="k-ln-n" d="M 0 320 L 0 440" marker-end="url(#ah-b)"/></g>
+<g data-step="1" data-arch-layer="nodes"><g data-arch-node="app" data-kind="server2u" data-state="ok">
+<ellipse cx="0" cy="78" rx="59" ry="14.5" fill="var(--ink)" fill-opacity=".12"/>
+<polygon points="-59,0 0,33 0,75 -59,42" fill="var(--blue)" fill-opacity=".82" stroke="var(--blue)" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="0,33 59,0 59,42 0,75" fill="var(--blue)" fill-opacity=".58" stroke="var(--blue)" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="0,-33 59,0 0,33 -59,0" fill="var(--paper)" stroke="var(--blue)" stroke-width="2.6" stroke-dasharray="none" stroke-linejoin="round"/>
+<polygon points="0,-33 59,0 0,33 -59,0" fill="var(--blue)" fill-opacity=".18" stroke="none"/>
+<g stroke="var(--paper)" stroke-opacity=".55" stroke-width="2.4" stroke-linecap="round" fill="none"><polyline points="11.8,38.1 50.7,17.2"/><polyline points="11.8,57 50.7,36.1"/></g>
+<circle cx="7.1" cy="41.6" r="3.2" fill="var(--success)"/>
+<rect class="k-paper" x="-70.9" y="86" width="141.8" height="38" style="rx:9px"/>
+<text class="t-l" x="0" y="114" text-anchor="middle">온프렘 앱</text>
+</g><g data-arch-node="fw" data-kind="firewall" data-state="ok">
+<ellipse cx="0" cy="226" rx="64" ry="16.3" fill="var(--ink)" fill-opacity=".12"/>
+<polygon points="-64,160 0,197 0,223 -64,186" fill="var(--blue)" fill-opacity=".82" stroke="var(--blue)" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="0,197 64,160 64,186 0,223" fill="var(--blue)" fill-opacity=".58" stroke="var(--blue)" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="0,123 64,160 0,197 -64,160" fill="var(--paper)" stroke="var(--blue)" stroke-width="2.6" stroke-dasharray="none" stroke-linejoin="round"/>
+<polygon points="0,123 64,160 0,197 -64,160" fill="var(--blue)" fill-opacity=".18" stroke="none"/>
+<g stroke="var(--paper)" stroke-opacity=".55" stroke-width="2.4" stroke-linecap="round" fill="none"><polyline points="3.8,200.5 23,189.4"/><polyline points="30.7,185 49.9,173.9"/><polyline points="9,204.3 28.2,193.2"/><polyline points="35.8,188.8 55,177.7"/><polyline points="3.8,214 23,202.9"/><polyline points="30.7,198.5 49.9,187.4"/></g>
+<circle cx="7.7" cy="200.4" r="3.2" fill="var(--success)"/>
+<rect class="k-paper" x="-54" y="234" width="108" height="38" style="rx:9px"/>
+<text class="t-l" x="0" y="262" text-anchor="middle">방화벽</text>
+</g></g>
+<g data-step="2" data-arch-layer="nodes"><g data-arch-node="cgw" data-kind="router" data-state="ok">
+<ellipse cx="0" cy="382" rx="68" ry="17.2" fill="var(--ink)" fill-opacity=".12"/>
+<polygon points="-68,320 0,359 0,379 -68,340" fill="var(--blue)" fill-opacity=".82" stroke="var(--blue)" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="0,359 68,320 68,340 0,379" fill="var(--blue)" fill-opacity=".58" stroke="var(--blue)" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="0,281 68,320 0,359 -68,320" fill="var(--paper)" stroke="var(--blue)" stroke-width="2.6" stroke-dasharray="none" stroke-linejoin="round"/>
+<polygon points="0,281 68,320 0,359 -68,320" fill="var(--blue)" fill-opacity=".18" stroke="none"/>
+<g stroke="var(--paper)" stroke-opacity=".55" stroke-width="2.4" stroke-linecap="round" fill="none"><polyline points="12.2,358.8 12.2,366.8"/><polyline points="26.7,350.5 26.7,358.5"/><polyline points="41.3,342.1 41.3,350.1"/><polyline points="55.8,333.8 55.8,341.8"/></g>
+<circle cx="8.2" cy="360.3" r="3.2" fill="var(--success)"/>
+<polyline points="0,304.4 0,335.6" stroke="var(--blue)" stroke-width="2.6" stroke-linecap="round"/><polyline points="27.2,320 -27.2,320" stroke="var(--blue)" stroke-width="2.6" stroke-linecap="round" opacity=".55"/>
+<rect class="k-paper" x="-85.5" y="390" width="170.9" height="38" style="rx:9px"/>
+<text class="t-l" x="0" y="418" text-anchor="middle">클라우드 GW</text>
+</g></g>
+<g data-step="3" data-arch-layer="nodes"><g data-arch-node="obj" data-kind="storage" data-state="ok">
+<ellipse cx="472" cy="405" rx="63" ry="15.8" fill="var(--ink)" fill-opacity=".12"/>
+<polygon points="409,320 472,356 472,402 409,366" fill="var(--blue)" fill-opacity=".82" stroke="var(--blue)" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="472,356 535,320 535,366 472,402" fill="var(--blue)" fill-opacity=".58" stroke="var(--blue)" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="472,284 535,320 472,356 409,320" fill="var(--paper)" stroke="var(--blue)" stroke-width="2.6" stroke-dasharray="none" stroke-linejoin="round"/>
+<polygon points="472,284 535,320 472,356 409,320" fill="var(--blue)" fill-opacity=".18" stroke="none"/>
+<g stroke="var(--paper)" stroke-opacity=".55" stroke-width="2.4" stroke-linecap="round" fill="none"><polyline points="484.6,357.4 526.2,334.5"/><polyline points="484.6,371.2 526.2,348.3"/><polyline points="484.6,385 526.2,362.1"/></g>
+<circle cx="479.6" cy="365.5" r="3.2" fill="var(--success)"/>
+<rect class="k-paper" x="362.1" y="413" width="219.8" height="38" style="rx:9px"/>
+<text class="t-l" x="472" y="441" text-anchor="middle">오브젝트 저장소</text>
+</g><g data-arch-node="worker" data-kind="server1u" data-state="busy">
+<ellipse cx="0" cy="536" rx="59" ry="14.5" fill="var(--ink)" fill-opacity=".12"/>
+<polygon points="-59,480 0,513 0,533 -59,500" fill="var(--blue)" fill-opacity=".82" stroke="var(--blue)" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="0,513 59,480 59,500 0,533" fill="var(--blue)" fill-opacity=".58" stroke="var(--blue)" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="0,447 59,480 0,513 -59,480" fill="var(--paper)" stroke="var(--blue)" stroke-width="2.6" stroke-dasharray="none" stroke-linejoin="round"/>
+<polygon points="0,447 59,480 0,513 -59,480" fill="var(--blue)" fill-opacity=".18" stroke="none"/>
+<g stroke="var(--paper)" stroke-opacity=".55" stroke-width="2.4" stroke-linecap="round" fill="none"><polyline points="11.8,517.6 50.7,496.2"/></g>
+<circle cx="7.1" cy="515" r="3.2" fill="var(--accent)"/>
+<rect class="k-paper" x="-70.9" y="544" width="141.8" height="38" style="rx:9px"/>
+<text class="t-l" x="0" y="572" text-anchor="middle">분석 워커</text>
+</g></g>
+</g>
+</svg>
+    <figcaption>가상 예시 · 신뢰 경계는 방화벽과 클라우드 게이트웨이 사이</figcaption>
+  </figure>
+  <aside class="notes">하이브리드 구성에서 학습자가 가장 자주 틀리는 지점은 "어디까지가 우리 통제 안인가"다. 그래서 이 장은 신뢰 경계를 바닥면 자체로 그린다. 온프렘 바닥면과 클라우드 바닥면이 서로 다른 점선과 색을 쓰고, 그 사이에 방화벽 한 대만 놓았다. 1단계에서 온프렘 앱과 방화벽이 서고, 2단계에 VPN 선이 경계를 넘어 클라우드 게이트웨이에 닿는다. 3단계에서 저장소와 분석 워커가 붙는다. 질문으로 확인한다. "VPN 선이 끊기면 어느 쪽 데이터가 남는가." 답은 온프렘 쪽이다.</aside>
 </section></div></div>
 <div id="ed-icons" hidden aria-hidden="true"><svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden"><defs>
 <symbol id="i-nn" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="2" opacity=".55"><path d="M16 26L50 22M16 26L50 50M16 26L50 78M16 50L50 22M16 50L50 50M16 50L50 78M16 74L50 22M16 74L50 50M16 74L50 78M50 22L84 36M50 22L84 64M50 50L84 36M50 50L84 64M50 78L84 36M50 78L84 64"/></g><g fill="currentColor"><circle cx="16" cy="26" r="6"/><circle cx="16" cy="50" r="6"/><circle cx="16" cy="74" r="6"/><circle cx="50" cy="22" r="6"/><circle cx="50" cy="50" r="6"/><circle cx="50" cy="78" r="6"/><circle cx="84" cy="36" r="7"/><circle cx="84" cy="64" r="7"/></g></symbol>
@@ -1588,7 +2235,9 @@ footer { margin-top:56px; color:#5a6b76; font-size:13.5px; border-top:1.5px soli
     'stat-strip':'.stat','quadrant':'.qcell,.qp,.qbub','flashcards':'.fc','ops-report':'.oi',
     'sankey-flow':'.sk','decision-tree':'.dt','kanban-board':'.kb','version-graph':'.vg',
     'event-fanout':'.ef','route-tour':'.rt','waterfall':'.wf','mesh-network':'.ms',
-    'heatmap-grid':'.hm','swimlane':'.sl','cycle-ring':'.cy'
+    'heatmap-grid':'.hm','swimlane':'.sl','cycle-ring':'.cy',
+    // TASK-arch-kit: 생성기가 굽는 svg.dg 아키텍처 도식 — 단계 루트는 g[data-step]
+    'arch-diagram':'svg g[data-step]'
   };
   const packTargets={atlas:'.atlas-origin,.atlas-source,.atlas-destination',briefing:'.briefing-row',casebook:'.casebook-narrative,.casebook-exhibit,.casebook-decision',editorial:'.editorial-story,.editorial-margin,.editorial-bottom',field:'.field-row',lab:'.lab-observation,.lab-evidence,.lab-next',seminar:'.seminar-turns span,.seminar-preparation,.seminar-invitation',workbook:'.workbook-read,.workbook-write,.workbook-reflection'};
   const packArch={atlas:'map',briefing:'compare-table',casebook:'before-after',editorial:'build-up',field:'sequence',lab:'mechanism',seminar:'hub',workbook:'frame-form'};
@@ -1664,7 +2313,10 @@ footer { margin-top:56px; color:#5a6b76; font-size:13.5px; border-top:1.5px soli
     // 스윔레인: 카드가 띠 위에 올라가고 인계 화살표가 다음 띠로 넘어간다.
     'swimlane':{name:'lane-slide',frames:i=>['translateY(28px)','translateY(-3px)','translateY(0px)'],draw:true},
     // 순환링: 조각이 회전하듯 제자리로 돌아와 시계 방향 한 바퀴가 완성된다.
-    'cycle-ring':{name:'ring-circuit',frames:i=>['rotate(-14deg) scale(.94)','rotate(2deg) scale(1.01)','rotate(0deg) scale(1)'],draw:true}
+    'cycle-ring':{name:'ring-circuit',frames:i=>['rotate(-14deg) scale(.94)','rotate(2deg) scale(1.01)','rotate(0deg) scale(1)'],draw:true},
+    // TASK-arch-kit: 생성기 산출 svg.dg 아키텍처 — 단계 그룹이 아래에서 자리 잡고
+    // 새로 드러난 선이 그려지며(draw) dash-flow 경로에 패킷 입자가 흐른다(design §4.11).
+    'arch-diagram':{name:'arch-trace',frames:i=>['translateY(28px) scale(.98)','translateY(0px) scale(1)'],draw:true,particles:true}
   };
   // Wipe a prior result in-place: the mask and its content counter-translate,
   // so the old words remain stationary as the new result is uncovered. Neither
