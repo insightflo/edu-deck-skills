@@ -55,7 +55,9 @@
     'stat-strip':'.stat','quadrant':'.qcell,.qp,.qbub','flashcards':'.fc','ops-report':'.oi',
     'sankey-flow':'.sk','decision-tree':'.dt','kanban-board':'.kb','version-graph':'.vg',
     'event-fanout':'.ef','route-tour':'.rt','waterfall':'.wf','mesh-network':'.ms',
-    'heatmap-grid':'.hm','swimlane':'.sl','cycle-ring':'.cy'
+    'heatmap-grid':'.hm','swimlane':'.sl','cycle-ring':'.cy',
+    // TASK-arch-kit: 생성기가 굽는 svg.dg 아키텍처 도식 — 단계 루트는 g[data-step]
+    'arch-diagram':'svg g[data-step]'
   };
   const packTargets={atlas:'.atlas-origin,.atlas-source,.atlas-destination',briefing:'.briefing-row',casebook:'.casebook-narrative,.casebook-exhibit,.casebook-decision',editorial:'.editorial-story,.editorial-margin,.editorial-bottom',field:'.field-row',lab:'.lab-observation,.lab-evidence,.lab-next',seminar:'.seminar-turns span,.seminar-preparation,.seminar-invitation',workbook:'.workbook-read,.workbook-write,.workbook-reflection'};
   const packArch={atlas:'map',briefing:'compare-table',casebook:'before-after',editorial:'build-up',field:'sequence',lab:'mechanism',seminar:'hub',workbook:'frame-form'};
@@ -131,7 +133,10 @@
     // 스윔레인: 카드가 띠 위에 올라가고 인계 화살표가 다음 띠로 넘어간다.
     'swimlane':{name:'lane-slide',frames:i=>['translateY(28px)','translateY(-3px)','translateY(0px)'],draw:true},
     // 순환링: 조각이 회전하듯 제자리로 돌아와 시계 방향 한 바퀴가 완성된다.
-    'cycle-ring':{name:'ring-circuit',frames:i=>['rotate(-14deg) scale(.94)','rotate(2deg) scale(1.01)','rotate(0deg) scale(1)'],draw:true}
+    'cycle-ring':{name:'ring-circuit',frames:i=>['rotate(-14deg) scale(.94)','rotate(2deg) scale(1.01)','rotate(0deg) scale(1)'],draw:true},
+    // TASK-arch-kit: 생성기 산출 svg.dg 아키텍처 — 단계 그룹이 아래에서 자리 잡고
+    // 새로 드러난 선이 그려지며(draw) dash-flow 경로에 패킷 입자가 흐른다(design §4.11).
+    'arch-diagram':{name:'arch-trace',frames:i=>['translateY(28px) scale(.98)','translateY(0px) scale(1)'],draw:true,particles:true}
   };
   // Wipe a prior result in-place: the mask and its content counter-translate,
   // so the old words remain stationary as the new result is uncovered. Neither

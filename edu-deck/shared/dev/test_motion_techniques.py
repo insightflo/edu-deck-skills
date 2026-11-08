@@ -94,7 +94,7 @@ class AttributeContractTest(unittest.TestCase):
                 self.assertIn(name, FX_KINDS, 'check_deck FX_KINDS 미등록')
         # TASK-workflow-series 이후 실행 이름 41종(기존 30 + 신규 11) — 공유 기법 5종과 별도.
         names = set(re.findall(r"name:'([a-z-]+)'", MOTION))
-        self.assertEqual(len(names), 41,
+        self.assertEqual(len(names), 42,
                          f'실행 이름 {len(names)}종 — 41종 체계 변경 감지: {sorted(names)}')
 
     def test_no_forbidden_motion_in_snippets(self):
