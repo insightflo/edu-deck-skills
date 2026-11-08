@@ -1,0 +1,167 @@
+{
+  "title": "응용 3계층 구성 — WEB·WAS·DB와 세션·배치",
+  "eyebrow": "SI 유형 A2 · 응용 아키텍처 — 3계층",
+  "ariaLabel": "가상 예시 응용 3계층 구성도: 웹 서버 두 대가 온라인 WAS를 부르고, 온라인 WAS가 세션 클러스터와 DB에 붙으며, 배치 WAS가 DB와 파일 저장소를 일괄 처리한다",
+  "titleSvg": "응용 3계층 — 온라인/배치 계통 구분",
+  "notes": "P0 응용 아키텍처. 레이어드 패턴(rankdir=TB)의 SI 변형 — 층을 표현(WEB)/응용(WAS)/데이터(DB)로 잡고, 온라인 WAS와 배치 WAS를 같은 층에 나란히 두되 연결선 종류(실선 동기 vs 점선 보조)로 계통을 구분한다. 세션 클러스터는 응용층 내부 의존으로 표시. 1단계 층 띠, 2단계 노드, 3단계 의존선.",
+  "layout": {
+    "dir": "TB",
+    "nodesep": 30,
+    "ranksep": 8,
+    "chipAvoid": true
+  },
+  "nodes": [
+    {
+      "id": "web1",
+      "name": "WEB-1",
+      "icon": "i-window",
+      "fam": "paper",
+      "w": 148,
+      "h": 104
+    },
+    {
+      "id": "web2",
+      "name": "WEB-2",
+      "icon": "i-window",
+      "fam": "paper",
+      "w": 148,
+      "h": 104
+    },
+    {
+      "id": "l4",
+      "name": "L4/LB",
+      "icon": "i-shield",
+      "fam": "blue",
+      "w": 148,
+      "h": 104
+    },
+    {
+      "id": "was",
+      "name": "WAS-온라인",
+      "icon": "i-gear",
+      "fam": "blue",
+      "w": 148,
+      "h": 104
+    },
+    {
+      "id": "sess",
+      "name": "세션 클러스터",
+      "icon": "i-key",
+      "fam": "paper",
+      "w": 148,
+      "h": 104
+    },
+    {
+      "id": "batch",
+      "name": "WAS-배치",
+      "icon": "i-clock",
+      "fam": "orange",
+      "w": 148,
+      "h": 104
+    },
+    {
+      "id": "db",
+      "name": "DB-주",
+      "icon": "i-db",
+      "fam": "paper",
+      "w": 148,
+      "h": 104,
+      "state": "ok"
+    },
+    {
+      "id": "file",
+      "name": "파일 저장소",
+      "icon": "i-folder",
+      "fam": "paper",
+      "w": 148,
+      "h": 104
+    }
+  ],
+  "edges": [
+    {
+      "from": "l4",
+      "to": "web1",
+      "label": "분배",
+      "kind": "b"
+    },
+    {
+      "from": "l4",
+      "to": "web2",
+      "label": "분배",
+      "kind": "b"
+    },
+    {
+      "from": "web1",
+      "to": "was",
+      "label": "호출",
+      "kind": "b"
+    },
+    {
+      "from": "web2",
+      "to": "was",
+      "label": "호출",
+      "kind": "b"
+    },
+    {
+      "from": "was",
+      "to": "sess",
+      "label": "세션",
+      "kind": "g"
+    },
+    {
+      "from": "was",
+      "to": "db",
+      "label": "JDBC",
+      "kind": "b"
+    },
+    {
+      "from": "batch",
+      "to": "db",
+      "label": "배치",
+      "kind": "g"
+    },
+    {
+      "from": "batch",
+      "to": "file",
+      "label": "산출물",
+      "kind": "g"
+    }
+  ],
+  "zones": [
+    {
+      "id": "z-web",
+      "label": "표현(WEB)",
+      "kind": "member",
+      "members": [
+        "l4",
+        "web1",
+        "web2"
+      ]
+    },
+    {
+      "id": "z-app",
+      "label": "응용(WAS)",
+      "kind": "member",
+      "members": [
+        "was",
+        "sess",
+        "batch"
+      ]
+    },
+    {
+      "id": "z-data",
+      "label": "데이터(DB)",
+      "kind": "member",
+      "members": [
+        "db",
+        "file"
+      ]
+    }
+  ],
+  "steps": {
+    "zones": 1,
+    "nodes": 2,
+    "edges": 3
+  },
+  "small": "세션 클러스터와 배치 채널을 분리해 장애 격리·스케줄 독립을 확보한 3계층 구성"
+}

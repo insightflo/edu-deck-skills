@@ -1,0 +1,52 @@
+{
+  "title": "DMZ 논리 구성 — 2D 논리도",
+  "eyebrow": "SI 유형 C1 · 인프라 — DMZ 논리 2D",
+  "small": "읽는 법 — 면색 띠: 망 소속(외부·DMZ·내부) · 주황 점선: 신뢰 경계 · 선 라벨: 포트(연결 가능성만, 회선·케이블 없음)",
+  "ariaLabel": "DMZ 논리 구성도: 외부 사용자가 WAF와 DMZ 경계 방화벽을 거쳐 웹 서버 2대로 들어가고, 내부 경계 방화벽을 지나 WAS 2대와 주 DB에 닿는다. 선은 연결 가능성만 나타낸다",
+  "titleSvg": "DMZ 논리 — 3존 띠·신뢰 경계 2·포트 라벨",
+  "notes": "P0 인프라 논리도. 아이소메트릭 대비 실증: 9노드 전원 개별(대수 보존)·장비 형상이 아닌 아이콘+역할로 구분(방패=WAF·불꽃=FW). 외부·DMZ·내부 3개 면색 소속 띠와 사이 신뢰 경계 2개. DMZ 라벨은 labelPos:bottom으로 하단 — 상단 띠와 선 라벨 충돌 회피 사례. 선은 전부 연결 가능성(포트)이며 회선·케이블 종류는 표기하지 않는다. 1단계 존·경계, 2단계 장비, 3단계 연결.",
+  "layout": {
+    "dir": "LR",
+    "nodesep": 20,
+    "ranksep": 52,
+    "chipAvoid": true
+  },
+  "nodes": [
+    { "id": "u-ext", "name": "외부 사용자", "role": "인터넷",        "icon": "i-people", "shape": "circle", "fam": "blue",   "w": 112, "h": 112 },
+    { "id": "waf",   "name": "WAF",        "role": "웹방화벽",      "icon": "i-shield", "fam": "orange", "w": 124, "h": 104 },
+    { "id": "fw1",   "name": "FW-1",       "role": "DMZ 경계",      "icon": "i-fire",   "fam": "orange", "w": 124, "h": 104 },
+    { "id": "web1",  "name": "WEB-1",      "role": "정적·TLS 종단", "icon": "i-window", "fam": "paper",  "w": 124, "h": 104 },
+    { "id": "web2",  "name": "WEB-2",      "role": "정적·TLS 종단", "icon": "i-window", "fam": "paper",  "w": 124, "h": 104 },
+    { "id": "fw2",   "name": "FW-2",       "role": "내부 경계",     "icon": "i-fire",   "fam": "orange", "w": 124, "h": 104 },
+    { "id": "was1",  "name": "WAS-1",      "role": "업무 처리",     "icon": "i-gear",   "fam": "paper",  "w": 124, "h": 104 },
+    { "id": "was2",  "name": "WAS-2",      "role": "업무 처리",     "icon": "i-gear",   "fam": "paper",  "w": 124, "h": 104 },
+    { "id": "db1",   "name": "DB-주",      "role": "Oracle",        "icon": "i-db",     "fam": "paper",  "w": 124, "h": 104, "state": "ok" }
+  ],
+  "edges": [
+    { "from": "u-ext", "to": "waf",  "label": "443",  "kind": "b", "flow": true },
+    { "from": "waf",   "to": "fw1",  "label": "443",  "kind": "b" },
+    { "from": "fw1",   "to": "web1", "label": "443",  "kind": "b" },
+    { "from": "fw1",   "to": "web2", "label": "443",  "kind": "b" },
+    { "from": "web1",  "to": "fw2",  "label": "8080", "kind": "b" },
+    { "from": "web2",  "to": "fw2",  "label": "8080", "kind": "b" },
+    { "from": "fw2",   "to": "was1", "label": "8080", "kind": "b" },
+    { "from": "fw2",   "to": "was2", "label": "8080", "kind": "b" },
+    { "from": "was1",  "to": "db1",  "label": "1521", "kind": "b" },
+    { "from": "was2",  "to": "db1",  "label": "1521", "kind": "b" }
+  ],
+  "zones": [
+    { "id": "z-ext", "label": "외부", "kind": "member", "members": ["u-ext"] },
+    { "id": "z-dmz", "label": "DMZ",  "kind": "member", "labelPos": "bottom", "members": ["waf", "fw1", "web1", "web2"] },
+    { "id": "z-int", "label": "내부", "kind": "member", "members": ["fw2", "was1", "was2", "db1"] },
+    { "id": "b1", "label": "신뢰 경계", "between": ["z-ext", "z-dmz"] },
+    { "id": "b2", "label": "신뢰 경계", "between": ["z-dmz", "z-int"] }
+  ],
+  "legend": [
+    { "kind": "b", "label": "연결 가능성(포트)" }
+  ],
+  "steps": {
+    "zones": 1,
+    "nodes": 2,
+    "edges": 3
+  }
+}

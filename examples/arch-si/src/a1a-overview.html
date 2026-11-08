@@ -1,0 +1,97 @@
+<section class="slide" data-archetype="arch-diagram" style="gap:20px">
+  <div class="head"><p class="eyebrow">SI 유형 A1 · 종합시스템 — 개요(7노드)</p><h2 class="title">차세대 업무포털 구성 — 개요</h2></div>
+  <svg class="dg" viewBox="0 0 1664 508" role="img" aria-label="차세대 업무포털 개요 구성도: 사용자가 포털 웹을 거쳐 API 게이트웨이에 들어가 인증과 업무 API로 전달되고, 업무 API가 업무 DB와 외부기관에 연결된다. 호출과 응답이 서로 다른 선으로 구분된다">
+  <title>업무포털 개요 — 호출/응답 쌍·소속존·신뢰 경계</title>
+  <g data-step="1">
+    <rect class="k-paper" x="700" y="46" width="776" height="376" style="rx:12px;fill-opacity:0.55"/>
+    <text class="k-t-tag" x="716" y="80">내부망</text>
+  </g>
+  <g data-step="1">
+    <polyline points="678,36 678,432" fill="none" stroke="var(--accent)" stroke-width="3.5" stroke-dasharray="11 9"/>
+    <text class="k-t-tag" x="678" y="420" text-anchor="middle" style="fill:var(--accent)">신뢰 경계</text>
+  </g>
+  <g data-step="3">
+      <path class="k-ln-b dash-flow" d="M300 225 L356 225 Q368 225 380 225 L436 225" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="310.5" y="207" width="115" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="368" y="233" text-anchor="middle">HTTPS</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b dash-flow" d="M588 225 L644 225 Q656 225 668 225 L724 225" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="615.5" y="207" width="81" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="656" y="233" text-anchor="middle">443</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-g" d="M876 282.5 L934.4 326.8 Q944 334 956 334 L1012 334" marker-end="url(#ahg)"/>
+      <rect class="k-paper" x="905.1" y="310.8" width="64" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="937.1" y="336.8" text-anchor="middle">검증</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b dash-flow" d="M876 225 L932 225 Q944 225 955.1 220.5 L1012 197.1" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="906" y="180" width="81" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="946.5" y="206" text-anchor="middle">라우팅</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M1164 208.2 L1221.5 240.2 Q1232 246 1244 246 L1300 246" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="1178.7" y="225.6" width="98" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1227.7" y="251.6" text-anchor="middle">JDBC</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-g" d="M1164 123.8 L1221.5 91.8 Q1232 86 1244 86 L1320 86" marker-end="url(#ahg)"/>
+      <rect class="k-paper" x="1179.6" y="102" width="115" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1237.1" y="128" text-anchor="middle">IF-03</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-g" d="M1012 152.8 L955.8 143.1 Q944 141 933.6 147 L876 180.7" stroke-dasharray="8 8" marker-end="url(#ah-open)"/>
+      <rect class="k-paper" x="907.8" y="117.4" width="64" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="939.8" y="143.4" text-anchor="middle">응답</text>
+    </g>
+  <g data-step="2">
+    <circle class="k-blue" cx="244" cy="225" r="56"/>
+    <use href="#i-people" x="222" y="195" width="44" height="44" style="color:var(--blue)"/>
+    <text class="k-t-tag" x="244" y="259" text-anchor="middle" style="fill:var(--blue)">사용자</text>
+    <text class="k-t-tag" x="244" y="307" text-anchor="middle">직원·외부</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="436" y="161" width="152" height="128" style="rx:9px"/>
+    <use href="#i-window" x="488" y="175" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="512" y="257" text-anchor="middle">포털 WEB</text>
+    <text class="k-t-tag" x="512" y="285" text-anchor="middle">SSR · Node</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-blue" x="724" y="161" width="152" height="128" style="rx:9px"/>
+    <use href="#i-globe" x="776" y="175" width="48" height="48" style="color:var(--blue)"/>
+    <text class="t-l" x="800" y="257" text-anchor="middle">API GW</text>
+    <text class="k-t-tag" x="800" y="285" text-anchor="middle">라우팅·Kong</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="1012" y="270" width="152" height="128" style="rx:9px"/>
+    <use href="#i-key" x="1064" y="284" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="1088" y="366" text-anchor="middle">인증</text>
+    <text class="k-t-tag" x="1088" y="394" text-anchor="middle">SSO·권한</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="1012" y="102" width="152" height="128" style="rx:9px"/>
+    <use href="#i-gear" x="1064" y="116" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="1088" y="198" text-anchor="middle">업무 API</text>
+    <text class="k-t-tag" x="1088" y="226" text-anchor="middle">도메인·Spring</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="1300" y="182" width="152" height="128" style="rx:9px"/>
+    <use href="#i-db" x="1390" y="196" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="1376" y="278" text-anchor="middle">업무 DB</text>
+    <text class="k-t-tag" x="1376" y="306" text-anchor="middle">Oracle 19c</text>
+    <g><circle cx="1316" cy="198" r="9" style="fill:var(--blue)"/><text class="k-t-tag" x="1331" y="205">정상</text></g>
+    </g>
+  <g data-step="2">
+    <circle class="k-paper" cx="1376" cy="86" r="56"/>
+    <use href="#i-building" x="1354" y="56" width="44" height="44" style="color:var(--ink)"/>
+    <text class="k-t-tag" x="1376" y="120" text-anchor="middle" style="fill:var(--ink)">외부기관</text>
+    <text class="k-t-tag" x="1376" y="168" text-anchor="middle">연계</text>
+    </g>
+  <g><polyline class="k-ln-b" points="34,468 104,468"/><text class="k-t-tag" x="118" y="476">동기 호출</text>
+    <polyline class="k-ln-g" stroke-dasharray="8 8" points="298,468 368,468"/><text class="k-t-tag" x="382" y="476">응답</text>
+    <polyline class="k-ln-g" points="490,468 560,468"/><text class="k-t-tag" x="574" y="476">보조·연계</text></g>
+</svg>
+  <p class="small">읽는 법 — 면색 띠: 망 소속 · 주황 점선: 신뢰 경계 · 파란 실선: 동기 호출 · 회색 점선+빈 화살촉: 응답</p>
+  <aside class="notes">P0 종합시스템 개요 장. 신 문법 시연: 응답선 kind=r(점선+open 화살촉)이 라우팅 실선과 방향 쌍을 이루고, 내부망은 kind=member 면색 띠(소속), 왼쪽 주황 점선이 between 경계선(신뢰 경계)이다 — 소속과 신뢰가 분리됐다. 1단계 존·경계, 2단계 노드, 3단계 연결.</aside>
+</section>

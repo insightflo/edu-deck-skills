@@ -1,0 +1,168 @@
+{
+  "title": "내부·외부 연계 구성 — IF ID·프로토콜·주기",
+  "eyebrow": "SI 유형 A3 · 연계 아키텍처 — 허브 패턴",
+  "small": "읽는 법 — 실선: 동기 호출 · 점선+빈 화살촉: 응답 · 회색 보조: 비동기·배치 · 라벨: IF ID·프로토콜·주기",
+  "ariaLabel": "연계 구성도: 업무포털이 연계 허브를 통해 그룹웨어·ERP·전사DB와 붙고, 허브가 외부기관과 실시간 연계한다. 각 연결에 IF 번호와 프로토콜·주기가 표기된다",
+  "titleSvg": "연계 구성 — EAI 허브·IF 라벨·동기/비동기 구분",
+  "notes": "P0 연계 아키텍처. 허브(EAI) 매개 패턴으로 IF 번호·프로토콜·동기/비동기·주기를 라벨에 싣는다. IF-01·IF-03은 동기 호출+응답(b/r 방향 쌍), IF-02 파일 배치와 IF-04 JDBC 배치는 보조선(g). 외부기관은 외부 띠에 두고 내부망과의 사이에 신뢰 경계선을 넣는다. 1단계 존·경계, 2단계 시스템, 3단계 연계선.",
+  "layout": {
+    "dir": "LR",
+    "nodesep": 6,
+    "ranksep": 32,
+    "chipAvoid": true
+  },
+  "nodes": [
+    {
+      "id": "portal",
+      "name": "업무포털",
+      "role": "대내 서비스",
+      "icon": "i-window",
+      "fam": "blue",
+      "w": 148,
+      "h": 132
+    },
+    {
+      "id": "hub",
+      "name": "연계 허브",
+      "role": "EAI·변환",
+      "icon": "i-globe",
+      "fam": "blue",
+      "w": 148,
+      "h": 132
+    },
+    {
+      "id": "gw",
+      "name": "그룹웨어",
+      "role": "결재·메일",
+      "icon": "i-mail",
+      "fam": "paper",
+      "w": 148,
+      "h": 132
+    },
+    {
+      "id": "erp",
+      "name": "ERP",
+      "role": "회계·인사",
+      "icon": "i-calc",
+      "fam": "paper",
+      "w": 148,
+      "h": 132
+    },
+    {
+      "id": "legacy",
+      "name": "전사 DB",
+      "role": "공통 코드·마스터",
+      "icon": "i-db",
+      "fam": "paper",
+      "w": 148,
+      "h": 132
+    },
+    {
+      "id": "ext",
+      "name": "외부기관",
+      "role": "공공 연계",
+      "icon": "i-building",
+      "shape": "circle",
+      "fam": "paper",
+      "w": 112,
+      "h": 132
+    }
+  ],
+  "edges": [
+    {
+      "from": "portal",
+      "to": "hub",
+      "label": "IF-01 · REST·동기·상시",
+      "kind": "b",
+      "flow": true
+    },
+    {
+      "from": "hub",
+      "to": "gw",
+      "label": "IF-01 · REST·동기·상시",
+      "kind": "b"
+    },
+    {
+      "from": "gw",
+      "to": "hub",
+      "label": "IF-01 · 응답",
+      "kind": "r"
+    },
+    {
+      "from": "hub",
+      "to": "erp",
+      "label": "IF-02 · 파일·비동기·일 1회",
+      "kind": "g"
+    },
+    {
+      "from": "hub",
+      "to": "legacy",
+      "label": "IF-04 · JDBC·배치·시 1회",
+      "kind": "g"
+    },
+    {
+      "from": "hub",
+      "to": "ext",
+      "label": "IF-03 · HTTPS·동기·실시간",
+      "kind": "b",
+      "flow": true
+    },
+    {
+      "from": "ext",
+      "to": "hub",
+      "label": "IF-03 · 응답",
+      "kind": "r"
+    }
+  ],
+  "zones": [
+    {
+      "id": "z-int",
+      "label": "내부망",
+      "kind": "member",
+      "members": [
+        "portal",
+        "hub",
+        "gw",
+        "erp",
+        "legacy"
+      ],
+      "pad": {
+        "top": 40,
+        "bottom": 16,
+        "side": 24
+      }
+    },
+    {
+      "id": "z-ext",
+      "label": "외부",
+      "kind": "member",
+      "members": [
+        "ext"
+      ],
+      "pad": {
+        "top": 40,
+        "bottom": 16,
+        "side": 24
+      }
+    },
+    {
+      "id": "b-trust",
+      "label": "신뢰 경계",
+      "between": [
+        "z-int",
+        "z-ext"
+      ],
+      "pad": {
+        "top": 40,
+        "bottom": 16,
+        "side": 24
+      },
+      "labelAt": "top"
+    }
+  ],
+  "steps": {
+    "zones": 1,
+    "nodes": 2,
+    "edges": 3
+  }
+}

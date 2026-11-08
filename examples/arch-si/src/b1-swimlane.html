@@ -1,0 +1,147 @@
+<!-- 업무 절차(레인) · 자체 저작 문법 — BPMN 준수 아님
+     모델: examples/arch-si/models/b1-swimlane.json · 생성: node edu-deck/shared/scripts/arch_lanes.mjs --in examples/arch-si/models/b1-swimlane.json -o <이 파일>
+     손으로 고치지 않는다. 모델을 고치고 다시 생성한다. -->
+<section class="slide" data-archetype="arch-diagram" style="gap:18px">
+  <div class="head"><p class="eyebrow">SI 실무형 · B1 Swimlane (자체 저작 레인 문법 · BPMN 준수 아님)</p><h2 class="title">구매 승인 절차 — 신청부터 전표 반영까지</h2></div>
+  <svg class="dg" viewBox="0 0 1664 622" role="img" aria-label="구매 승인 업무 절차 레인 도식. 신청자가 신청서를 작성하고 승인부서가 품목과 예산을 검토한 뒤 5천만원 기준으로 분기한다. 팀장 또는 임원 승인을 거쳐 승인 판정이 나고, 승인되면 시스템이 전표를 반영해 종료된다. 반려되면 반려 통보 후 신청자가 보완해 다시 신청한다.">
+  <title>구매 승인 절차 — 신청부터 전표 반영까지</title>
+  <g data-step="0">
+    <rect class="k-solid-n" x="0" y="0" width="1664" height="42" style="rx:10px"/>
+    <text class="t-l k-t-w" x="16" y="34">구매 승인 프로세스</text>
+    <text class="k-t-tag k-t-w" x="1648" y="33" text-anchor="end">행위자 3 · 단계 15</text>
+    <rect class="k-gray" x="0" y="42" width="1664" height="178"/>
+    <rect class="k-solid-n" x="0" y="42" width="150" height="178"/>
+    <text class="k-t-tag k-t-w" transform="translate(30 131) rotate(-90)" text-anchor="middle">신청자</text>
+    <rect class="k-gray" x="0" y="220" width="1664" height="250"/>
+    <rect class="k-solid-n" x="0" y="220" width="150" height="250"/>
+    <text class="k-t-tag k-t-w" transform="translate(30 345) rotate(-90)" text-anchor="middle">승인부서</text>
+    <rect class="k-gray" x="0" y="470" width="1664" height="106"/>
+    <rect class="k-solid-n" x="0" y="470" width="150" height="106"/>
+    <text class="k-t-tag k-t-w" transform="translate(30 523) rotate(-90)" text-anchor="middle">시스템</text>
+  </g>
+    <g data-step="2">
+      <path class="k-ln-b" d="M277.8 102 L359.3 102" marker-end="url(#ah-b)"/>
+    </g>
+    <g data-step="3">
+      <path class="k-ln-b" d="M527.3 102 L523 102 Q518.8 102 518.8 106.3 L518.8 270 Q518.8 280 528.8 280 L544.8 280" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="528.8" y="173" width="68" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="562.8" y="201" text-anchor="middle">상신</text>
+    </g>
+    <g data-step="4">
+      <path class="k-ln-b" d="M712.8 280 L777.3 280" marker-end="url(#ah-b)"/>
+    </g>
+    <g data-step="4">
+      <path class="k-ln-b" d="M851.3 280 L879.8 280 Q889.8 280 889.8 290 L889.8 342 Q889.8 352 899.8 352 L915.8 352" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="821.3" y="198" width="137" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="889.8" y="226" text-anchor="middle">5천만 이하</text>
+    </g>
+    <g data-step="4">
+      <path class="k-ln-b" d="M814.3 308 L814.3 414 Q814.3 424 824.3 424 L915.8 424" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="745.8" y="376" width="137" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="814.3" y="404" text-anchor="middle">5천만 초과</text>
+    </g>
+    <g data-step="6">
+      <path class="k-ln-b" d="M1083.8 352 L1112.3 352 Q1122.3 352 1122.3 342 L1122.3 290 Q1122.3 280 1132.3 280 L1148.3 280" marker-end="url(#ah-b)"/>
+    </g>
+    <g data-step="6">
+      <path class="k-ln-b" d="M1083.8 424 L1175.3 424 Q1185.3 424 1185.3 414 L1185.3 308" marker-end="url(#ah-b)"/>
+    </g>
+    <g data-step="6">
+      <path class="k-ln-b" d="M1222.3 280 L1250.8 280 Q1260.8 280 1260.8 290 L1260.8 520 Q1260.8 530 1270.8 530 L1286.8 530" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="1270.8" y="387" width="68" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1304.8" y="415" text-anchor="middle">승인</text>
+    </g>
+    <g data-step="15">
+      <path class="k-ln-b" d="M1454.8 530 L1536.3 530" marker-end="url(#ah-b)"/>
+    </g>
+    <g data-step="6">
+      <path class="k-ln-b" d="M1222.3 280 L1250.8 280 Q1260.8 280 1260.8 290 L1260.8 342 Q1260.8 352 1270.8 352 L1286.8 352" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="1226.8" y="270" width="68" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1260.8" y="298" text-anchor="middle">반려</text>
+    </g>
+    <g data-step="8">
+      <path class="k-ln-b" d="M1454.8 352 L1450.5 352 Q1446.3 352 1446.3 347.8 L1446.3 184 Q1446.3 174 1456.3 174 L1472.3 174" marker-end="url(#ah-b)"/>
+    </g>
+    <g data-step="9">
+      <path class="k-ln-o" d="M1556.3 147 L1556.3 65 Q1556.3 55 1546.3 55 L453.3 55 Q443.3 55 443.3 65 L443.3 75" style="stroke-dasharray:14 10" marker-end="url(#ah-o)"/>
+      <rect class="k-paper" x="926.8" y="37" width="146" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="999.8" y="65" text-anchor="middle">반려·재신청</text>
+    </g>
+    <g data-step="1">
+      <circle class="k-paper" cx="257.8" cy="102" r="20"/>
+      <text class="k-t-tag" x="257.8" y="142" text-anchor="middle">신청</text>
+    </g>
+    <g data-step="2">
+      <rect class="k-paper" x="359.3" y="75" width="168" height="54" style="rx:10px"/>
+      <text class="t-l" x="443.3" y="98" text-anchor="middle">신청서 작성</text>
+      <text class="k-t-tag" x="443.3" y="122" text-anchor="middle">품목·수량</text>
+    </g>
+    <g data-step="3">
+      <rect class="k-paper" x="544.8" y="253" width="168" height="54" style="rx:10px"/>
+      <text class="t-l" x="628.8" y="276" text-anchor="middle">예산 검토</text>
+      <text class="k-t-tag" x="628.8" y="300" text-anchor="middle">품목·예산 확인</text>
+    </g>
+    <g data-step="4">
+      <polygon class="k-orange" points="814.3,252 851.3,280 814.3,308 777.3,280"/>
+      <rect class="k-paper" x="752.3" y="320" width="124" height="34" style="rx:9px"/>
+      <text class="k-t-tag" x="814.3" y="346" text-anchor="middle">금액 분기</text>
+    </g>
+    <g data-step="4">
+      <rect class="k-paper" x="915.8" y="325" width="168" height="54" style="rx:10px"/>
+      <text class="t-l" x="999.8" y="348" text-anchor="middle">팀장 승인</text>
+      <text class="k-t-tag" x="999.8" y="372" text-anchor="middle">5천만원 이하</text>
+    </g>
+    <g data-step="4">
+      <rect class="k-paper" x="915.8" y="397" width="168" height="54" style="rx:10px"/>
+      <text class="t-l" x="999.8" y="420" text-anchor="middle">임원 승인</text>
+      <text class="k-t-tag" x="999.8" y="444" text-anchor="middle">5천만원 초과</text>
+    </g>
+    <g data-step="6">
+      <polygon class="k-orange" points="1185.3,252 1222.3,280 1185.3,308 1148.3,280"/>
+      <rect class="k-paper" x="1123.3" y="320" width="124" height="34" style="rx:9px"/>
+      <text class="k-t-tag" x="1185.3" y="346" text-anchor="middle">승인 판정</text>
+    </g>
+    <g data-step="6">
+      <rect class="k-paper" x="1286.8" y="325" width="168" height="54" style="rx:10px"/>
+      <text class="t-l" x="1370.8" y="348" text-anchor="middle">반려 통보</text>
+      <text class="k-t-tag" x="1370.8" y="372" text-anchor="middle">사유 전달</text>
+    </g>
+    <g data-step="6">
+      <rect class="k-blue" x="1286.8" y="503" width="168" height="54" style="rx:10px"/>
+      <text class="t-l" x="1370.8" y="526" text-anchor="middle">전표 반영</text>
+      <text class="k-t-tag" x="1370.8" y="550" text-anchor="middle">시스템 작업</text>
+    </g>
+    <g data-step="15">
+      <circle class="k-paper" cx="1556.3" cy="530" r="20"/>
+      <circle cx="1556.3" cy="530" r="14" style="fill:none;stroke:var(--ink);stroke-width:4"/>
+      <text class="k-t-tag" x="1556.3" y="498" text-anchor="middle">종료</text>
+    </g>
+    <g data-step="8">
+      <rect class="k-paper" x="1472.3" y="147" width="168" height="54" style="rx:10px"/>
+      <text class="t-l" x="1556.3" y="170" text-anchor="middle">보완·재신청</text>
+      <text class="k-t-tag" x="1556.3" y="194" text-anchor="middle">재작성</text>
+    </g>
+    <g data-only="1"><circle class="k-ln-o" cx="257.8" cy="102" r="30" style="fill:none"/></g>
+    <g data-only="2"><rect class="k-ln-o" x="351.3" y="67" width="184" height="70" style="rx:16px;fill:none"/><circle class="k-solid-o" cx="525.3" cy="77" r="7"/></g>
+    <g data-only="3"><rect class="k-ln-o" x="536.8" y="245" width="184" height="70" style="rx:16px;fill:none"/><circle class="k-solid-o" cx="710.8" cy="255" r="7"/></g>
+    <g data-only="4"><polygon class="k-ln-o" points="814.3,236 862.3,280 814.3,324 766.3,280" style="fill:none"/><circle class="k-solid-o" cx="814.3" cy="240" r="7"/></g>
+    <g data-only="5"><rect class="k-ln-o" x="907.8" y="317" width="184" height="70" style="rx:16px;fill:none"/><circle class="k-solid-o" cx="1081.8" cy="327" r="7"/></g>
+    <g data-only="6"><polygon class="k-ln-o" points="1185.3,236 1233.3,280 1185.3,324 1137.3,280" style="fill:none"/><circle class="k-solid-o" cx="1185.3" cy="240" r="7"/></g>
+    <g data-only="7"><rect class="k-ln-o" x="1278.8" y="317" width="184" height="70" style="rx:16px;fill:none"/><circle class="k-solid-o" cx="1452.8" cy="327" r="7"/></g>
+    <g data-only="8"><rect class="k-ln-o" x="1464.3" y="139" width="184" height="70" style="rx:16px;fill:none"/><circle class="k-solid-o" cx="1638.3" cy="149" r="7"/></g>
+    <g data-only="9"><rect class="k-ln-o" x="351.3" y="67" width="184" height="70" style="rx:16px;fill:none"/><circle class="k-solid-o" cx="525.3" cy="77" r="7"/></g>
+    <g data-only="10"><rect class="k-ln-o" x="536.8" y="245" width="184" height="70" style="rx:16px;fill:none"/><circle class="k-solid-o" cx="710.8" cy="255" r="7"/></g>
+    <g data-only="11"><polygon class="k-ln-o" points="814.3,236 862.3,280 814.3,324 766.3,280" style="fill:none"/><circle class="k-solid-o" cx="814.3" cy="240" r="7"/></g>
+    <g data-only="12"><rect class="k-ln-o" x="907.8" y="317" width="184" height="70" style="rx:16px;fill:none"/><circle class="k-solid-o" cx="1081.8" cy="327" r="7"/></g>
+    <g data-only="13"><polygon class="k-ln-o" points="1185.3,236 1233.3,280 1185.3,324 1137.3,280" style="fill:none"/><circle class="k-solid-o" cx="1185.3" cy="240" r="7"/></g>
+    <g data-only="14"><rect class="k-ln-o" x="1278.8" y="495" width="184" height="70" style="rx:16px;fill:none"/><circle class="k-solid-o" cx="1452.8" cy="505" r="7"/></g>
+    <g data-only="15"><circle class="k-ln-o" cx="1556.3" cy="530" r="30" style="fill:none"/></g>
+    <g><polyline class="k-ln-b" points="20,600 92,600"/><text class="k-t-tag" x="106" y="608">순차</text>
+      <polyline class="k-ln-o" points="210,600 284,600" style="stroke-dasharray:14 10"/><text class="k-t-tag" x="298" y="608">반려·재작업(역방향)</text>
+      <polygon class="k-orange" points="600,587 615,600 600,613 585,600"/><text class="k-t-tag" x="627" y="608">판정</text>
+      <rect class="k-blue" x="716" y="586" width="34" height="28" style="rx:8px"/><text class="k-t-tag" x="762" y="608">시스템 작업</text>
+      <circle class="k-ln-o" cx="960" cy="600" r="15" style="fill:none"/><text class="k-t-tag" x="984" y="608">현재 토큰</text></g>
+  </svg>
+  <p class="small">읽는 법 — 가로 띠 = 행위자 · 원 = 시작/종료 · 마름모 = 판정 · 청색 = 시스템 작업 · 주황 링 = 그 단계의 토큰</p>
+  <aside class="notes">이 장은 자체 저작 레인 문법이다(BPMN 준수 아님). 1단계에 풀 헤더와 레인 3개가 서고 토큰이 시작 이벤트에서 출발한다. 2~4단계에 신청서 작성, 승인부서 검토, 5천만원 기준 분기가 차례로 켜지고, 분기에서는 두 갈래(팀장·임원 승인)가 함께 보인다. 구조는 전부 보이되 토큰은 한 갈래만 간다는 점이 일반 노드 문법과 다른 지점이다. 5~6단계에 팀장 승인과 승인 판정, 7~8단계에 반려 통보와 보완·재신청, 9단계에 재신청 접수로 같은 노드에 다시 들어온다. 10~14단계는 두 번째 패스로 재검토·재승인을 지나 시스템 전표 반영, 15단계에 종료와 함께 완성 그림이 된다.</aside>
+</section>

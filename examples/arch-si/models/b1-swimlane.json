@@ -1,0 +1,227 @@
+{
+  "view": "process",
+  "title": "구매 승인 절차 — 신청부터 전표 반영까지",
+  "eyebrow": "SI 실무형 · B1 Swimlane (자체 저작 레인 문법 · BPMN 준수 아님)",
+  "pool": "구매 승인 프로세스",
+  "ariaLabel": "구매 승인 업무 절차 레인 도식. 신청자가 신청서를 작성하고 승인부서가 품목과 예산을 검토한 뒤 5천만원 기준으로 분기한다. 팀장 또는 임원 승인을 거쳐 승인 판정이 나고, 승인되면 시스템이 전표를 반영해 종료된다. 반려되면 반려 통보 후 신청자가 보완해 다시 신청한다.",
+  "caption": "읽는 법 — 가로 띠 = 행위자 · 원 = 시작/종료 · 마름모 = 판정 · 청색 = 시스템 작업 · 주황 링 = 그 단계의 토큰",
+  "notes": "이 장은 자체 저작 레인 문법이다(BPMN 준수 아님). 1단계에 풀 헤더와 레인 3개가 서고 토큰이 시작 이벤트에서 출발한다. 2~4단계에 신청서 작성, 승인부서 검토, 5천만원 기준 분기가 차례로 켜지고, 분기에서는 두 갈래(팀장·임원 승인)가 함께 보인다. 구조는 전부 보이되 토큰은 한 갈래만 간다는 점이 일반 노드 문법과 다른 지점이다. 5~6단계에 팀장 승인과 승인 판정, 7~8단계에 반려 통보와 보완·재신청, 9단계에 재신청 접수로 같은 노드에 다시 들어온다. 10~14단계는 두 번째 패스로 재검토·재승인을 지나 시스템 전표 반영, 15단계에 종료와 함께 완성 그림이 된다.",
+  "lanes": [
+    {
+      "id": "emp",
+      "actor": "신청자",
+      "order": 0
+    },
+    {
+      "id": "appr",
+      "actor": "승인부서",
+      "order": 1
+    },
+    {
+      "id": "sys",
+      "actor": "시스템",
+      "order": 2
+    }
+  ],
+  "nodes": [
+    {
+      "id": "s1",
+      "type": "start",
+      "name": "신청",
+      "lane": "emp",
+      "col": 0
+    },
+    {
+      "id": "t1",
+      "type": "task",
+      "name": "신청서 작성",
+      "role": "품목·수량",
+      "lane": "emp",
+      "col": 1,
+      "row": 0
+    },
+    {
+      "id": "t2",
+      "type": "task",
+      "name": "예산 검토",
+      "role": "품목·예산 확인",
+      "lane": "appr",
+      "col": 2,
+      "row": 0
+    },
+    {
+      "id": "g1",
+      "type": "decision",
+      "name": "금액 분기",
+      "role": "5천만원 기준",
+      "lane": "appr",
+      "col": 3,
+      "row": 0,
+      "labelSide": "below"
+    },
+    {
+      "id": "t3",
+      "type": "task",
+      "name": "팀장 승인",
+      "role": "5천만원 이하",
+      "lane": "appr",
+      "col": 4,
+      "row": 1
+    },
+    {
+      "id": "t4",
+      "type": "task",
+      "name": "임원 승인",
+      "role": "5천만원 초과",
+      "lane": "appr",
+      "col": 4,
+      "row": 2
+    },
+    {
+      "id": "g2",
+      "type": "decision",
+      "name": "승인 판정",
+      "lane": "appr",
+      "col": 5,
+      "row": 0,
+      "labelSide": "below"
+    },
+    {
+      "id": "t6",
+      "type": "task",
+      "name": "반려 통보",
+      "role": "사유 전달",
+      "lane": "appr",
+      "col": 6,
+      "row": 1
+    },
+    {
+      "id": "t5",
+      "type": "system",
+      "name": "전표 반영",
+      "role": "시스템 작업",
+      "lane": "sys",
+      "col": 6,
+      "row": 0
+    },
+    {
+      "id": "e1",
+      "type": "end",
+      "name": "종료",
+      "lane": "sys",
+      "col": 7,
+      "row": 0
+    },
+    {
+      "id": "t7",
+      "type": "task",
+      "name": "보완·재신청",
+      "role": "재작성",
+      "lane": "emp",
+      "col": 7,
+      "row": 1
+    }
+  ],
+  "edges": [
+    {
+      "id": "e01",
+      "from": "s1",
+      "to": "t1",
+      "flow": "seq"
+    },
+    {
+      "id": "e02",
+      "from": "t1",
+      "to": "t2",
+      "flow": "seq",
+      "label": "상신"
+    },
+    {
+      "id": "e03",
+      "from": "t2",
+      "to": "g1",
+      "flow": "seq"
+    },
+    {
+      "id": "e04",
+      "from": "g1",
+      "to": "t3",
+      "flow": "seq",
+      "label": "5천만 이하",
+      "branch": "A",
+      "labelSide": "right"
+    },
+    {
+      "id": "e05",
+      "from": "g1",
+      "to": "t4",
+      "flow": "seq",
+      "label": "5천만 초과",
+      "branch": "B",
+      "labelSide": "above"
+    },
+    {
+      "id": "e06",
+      "from": "t3",
+      "to": "g2",
+      "flow": "seq"
+    },
+    {
+      "id": "e07",
+      "from": "t4",
+      "to": "g2",
+      "flow": "seq"
+    },
+    {
+      "id": "e08",
+      "from": "g2",
+      "to": "t5",
+      "flow": "seq",
+      "label": "승인",
+      "branch": "A"
+    },
+    {
+      "id": "e09",
+      "from": "t5",
+      "to": "e1",
+      "flow": "seq"
+    },
+    {
+      "id": "e10",
+      "from": "g2",
+      "to": "t6",
+      "flow": "seq",
+      "label": "반려",
+      "branch": "R"
+    },
+    {
+      "id": "e11",
+      "from": "t6",
+      "to": "t7",
+      "flow": "seq"
+    },
+    {
+      "id": "e12",
+      "from": "t7",
+      "to": "t1",
+      "flow": "loop",
+      "label": "반려·재신청"
+    }
+  ],
+  "options": {
+    "route": {
+      "e05": "fromBottom",
+      "e07": "toBottom",
+      "e12": "loop"
+    }
+  },
+  "scenario": {
+    "g1": [
+      "A"
+    ],
+    "g2": [
+      "R",
+      "A"
+    ]
+  }
+}

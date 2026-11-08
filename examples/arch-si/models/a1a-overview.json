@@ -1,0 +1,32 @@
+{
+  "title": "차세대 업무포털 구성 — 개요",
+  "eyebrow": "SI 유형 A1 · 종합시스템 — 개요(7노드)",
+  "small": "읽는 법 — 면색 띠: 망 소속 · 주황 점선: 신뢰 경계 · 파란 실선: 동기 호출 · 회색 점선+빈 화살촉: 응답",
+  "ariaLabel": "차세대 업무포털 개요 구성도: 사용자가 포털 웹을 거쳐 API 게이트웨이에 들어가 인증과 업무 API로 전달되고, 업무 API가 업무 DB와 외부기관에 연결된다. 호출과 응답이 서로 다른 선으로 구분된다",
+  "titleSvg": "업무포털 개요 — 호출/응답 쌍·소속존·신뢰 경계",
+  "notes": "P0 종합시스템 개요 장. 신 문법 시연: 응답선 kind=r(점선+open 화살촉)이 라우팅 실선과 방향 쌍을 이루고, 내부망은 kind=member 면색 띠(소속), 왼쪽 주황 점선이 between 경계선(신뢰 경계)이다 — 소속과 신뢰가 분리됐다. 1단계 존·경계, 2단계 노드, 3단계 연결.",
+  "layout": { "dir": "LR", "nodesep": 40, "ranksep": 96, "chipAvoid": true },
+  "nodes": [
+    { "id": "user",  "name": "사용자",   "role": "직원·외부",   "icon": "i-people", "shape": "circle", "fam": "blue",  "w": 112, "h": 112 },
+    { "id": "web",   "name": "포털 WEB", "role": "SSR · Node",  "icon": "i-window", "fam": "paper", "w": 152, "h": 128 },
+    { "id": "apigw", "name": "API GW",   "role": "라우팅·Kong", "icon": "i-globe",  "fam": "blue",  "w": 152, "h": 128 },
+    { "id": "auth",  "name": "인증",     "role": "SSO·권한",    "icon": "i-key",    "fam": "paper", "w": 152, "h": 128 },
+    { "id": "core",  "name": "업무 API", "role": "도메인·Spring","icon": "i-gear",   "fam": "paper", "w": 152, "h": 128 },
+    { "id": "db",    "name": "업무 DB",  "role": "Oracle 19c",  "icon": "i-db",     "fam": "paper", "w": 152, "h": 128, "state": "ok" },
+    { "id": "ext",   "name": "외부기관", "role": "연계",        "icon": "i-building","shape": "circle","fam": "paper","w": 112, "h": 112 }
+  ],
+  "edges": [
+    { "from": "user",  "to": "web",   "label": "HTTPS",  "kind": "b", "flow": true },
+    { "from": "web",   "to": "apigw", "label": "443",    "kind": "b", "flow": true },
+    { "from": "apigw", "to": "auth",  "label": "검증",   "kind": "g" },
+    { "from": "apigw", "to": "core",  "label": "라우팅", "kind": "b", "flow": true },
+    { "from": "core",  "to": "db",    "label": "JDBC",   "kind": "b" },
+    { "from": "core",  "to": "ext",   "label": "IF-03",  "kind": "g" },
+    { "from": "core",  "to": "apigw", "label": "응답",   "kind": "r" }
+  ],
+  "zones": [
+    { "id": "z-int", "label": "내부망", "kind": "member", "members": ["apigw", "auth", "core", "db"] },
+    { "id": "b-trust", "label": "신뢰 경계", "between": ["z-int"] }
+  ],
+  "steps": { "zones": 1, "nodes": 2, "edges": 3 }
+}

@@ -1,0 +1,134 @@
+<section class="slide" data-archetype="arch-diagram" style="gap:20px">
+  <div class="head"><p class="eyebrow">SI 유형 C1 · 인프라 — DMZ 논리 2D</p><h2 class="title">DMZ 논리 구성 — 2D 논리도</h2></div>
+  <svg class="dg" viewBox="0 0 1664 424" role="img" aria-label="DMZ 논리 구성도: 외부 사용자가 WAF와 DMZ 경계 방화벽을 거쳐 웹 서버 2대로 들어가고, 내부 경계 방화벽을 지나 WAS 2대와 주 DB에 닿는다. 선은 연결 가능성만 나타낸다">
+  <title>DMZ 논리 — 3존 띠·신뢰 경계 2·포트 라벨</title>
+  <g data-step="1">
+    <rect class="k-paper" x="104" y="88" width="160" height="226" style="rx:12px;fill-opacity:0.55"/>
+    <text class="k-t-tag" x="120" y="122">외부</text>
+  </g>
+  <g data-step="1">
+    <rect class="k-paper" x="308" y="30" width="604" height="308" style="rx:12px;fill-opacity:0.55"/>
+    <text class="k-t-tag" x="324" y="324">DMZ</text>
+  </g>
+  <g data-step="1">
+    <rect class="k-paper" x="956" y="30" width="604" height="308" style="rx:12px;fill-opacity:0.55"/>
+    <text class="k-t-tag" x="972" y="64">내부</text>
+  </g>
+  <g data-step="1">
+    <polyline points="286,20 286,348" fill="none" stroke="var(--accent)" stroke-width="3.5" stroke-dasharray="11 9"/>
+    <text class="k-t-tag" x="286" y="280" text-anchor="middle" style="fill:var(--accent)">신뢰 경계</text>
+  </g>
+  <g data-step="1">
+    <polyline points="934,20 934,348" fill="none" stroke="var(--accent)" stroke-width="3.5" stroke-dasharray="11 9"/>
+    <text class="k-t-tag" x="934" y="280" text-anchor="middle" style="fill:var(--accent)">신뢰 경계</text>
+  </g>
+  <g data-step="3">
+      <path class="k-ln-b dash-flow" d="M240 200 L274 200 Q286 200 298 200 L332 200" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="245.5" y="182" width="81" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="286" y="208" text-anchor="middle">443</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M456 200 L490 200 Q502 200 514 200 L548 200" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="461.5" y="182" width="81" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="502" y="208" text-anchor="middle">443</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M672 235.6 L707.6 256 Q718 262 730 262 L764 262" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="674.4" y="242.2" width="81" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="714.9" y="268.2" text-anchor="middle">443</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M672 164.4 L707.6 144 Q718 138 730 138 L764 138" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="674.4" y="121.8" width="81" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="714.9" y="147.8" text-anchor="middle">443</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M888 262 L922 262 Q934 262 944.4 256 L980 235.6" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="932.1" y="276.2" width="98" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="981.1" y="302.2" text-anchor="middle">8080</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M888 138 L922 138 Q934 138 944.4 144 L980 164.4" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="888.1" y="87.8" width="98" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="937.1" y="113.8" text-anchor="middle">8080</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M1104 235.6 L1139.6 256 Q1150 262 1162 262 L1196 262" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="1097.9" y="276.2" width="98" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1146.9" y="302.2" text-anchor="middle">8080</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M1104 164.4 L1139.6 144 Q1150 138 1162 138 L1196 138" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="1097.9" y="87.8" width="98" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1146.9" y="113.8" text-anchor="middle">8080</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M1320 262 L1354 262 Q1366 262 1376.4 256 L1412 235.6" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="1320.1" y="276.2" width="98" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1369.1" y="302.2" text-anchor="middle">1521</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M1320 138 L1354 138 Q1366 138 1376.4 144 L1412 164.4" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="1320.1" y="87.8" width="98" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1369.1" y="113.8" text-anchor="middle">1521</text>
+    </g>
+  <g data-step="2">
+    <circle class="k-blue" cx="184" cy="200" r="56"/>
+    <use href="#i-people" x="162" y="170" width="44" height="44" style="color:var(--blue)"/>
+    <text class="k-t-tag" x="184" y="234" text-anchor="middle" style="fill:var(--blue)">외부 사용자</text>
+    <text class="k-t-tag" x="184" y="282" text-anchor="middle">인터넷</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-orange" x="332" y="148" width="124" height="104" style="rx:9px"/>
+    <use href="#i-shield" x="370" y="162" width="48" height="48" style="color:var(--accent)"/>
+    <text class="t-l" x="394" y="244" text-anchor="middle">WAF</text>
+    <text class="k-t-tag" x="394" y="272" text-anchor="middle">웹방화벽</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-orange" x="548" y="148" width="124" height="104" style="rx:9px"/>
+    <use href="#i-fire" x="586" y="162" width="48" height="48" style="color:var(--accent)"/>
+    <text class="t-l" x="610" y="244" text-anchor="middle">FW-1</text>
+    <text class="k-t-tag" x="610" y="272" text-anchor="middle">DMZ 경계</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="764" y="210" width="124" height="104" style="rx:9px"/>
+    <use href="#i-window" x="802" y="224" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="826" y="306" text-anchor="middle">WEB-1</text>
+    <text class="k-t-tag" x="826" y="334" text-anchor="middle">정적·TLS 종단</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="764" y="86" width="124" height="104" style="rx:9px"/>
+    <use href="#i-window" x="802" y="100" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="826" y="182" text-anchor="middle">WEB-2</text>
+    <text class="k-t-tag" x="826" y="210" text-anchor="middle">정적·TLS 종단</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-orange" x="980" y="148" width="124" height="104" style="rx:9px"/>
+    <use href="#i-fire" x="1018" y="162" width="48" height="48" style="color:var(--accent)"/>
+    <text class="t-l" x="1042" y="244" text-anchor="middle">FW-2</text>
+    <text class="k-t-tag" x="1042" y="272" text-anchor="middle">내부 경계</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="1196" y="210" width="124" height="104" style="rx:9px"/>
+    <use href="#i-gear" x="1234" y="224" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="1258" y="306" text-anchor="middle">WAS-1</text>
+    <text class="k-t-tag" x="1258" y="334" text-anchor="middle">업무 처리</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="1196" y="86" width="124" height="104" style="rx:9px"/>
+    <use href="#i-gear" x="1234" y="100" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="1258" y="182" text-anchor="middle">WAS-2</text>
+    <text class="k-t-tag" x="1258" y="210" text-anchor="middle">업무 처리</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="1412" y="148" width="124" height="104" style="rx:9px"/>
+    <use href="#i-db" x="1474" y="162" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="1474" y="244" text-anchor="middle">DB-주</text>
+    <text class="k-t-tag" x="1474" y="272" text-anchor="middle">Oracle</text>
+    <g><circle cx="1428" cy="164" r="9" style="fill:var(--blue)"/><text class="k-t-tag" x="1443" y="171">정상</text></g>
+    </g>
+  <g><polyline class="k-ln-b" points="34,384 104,384"/><text class="k-t-tag" x="118" y="392">연결 가능성(포트)</text></g>
+</svg>
+  <p class="small">읽는 법 — 면색 띠: 망 소속(외부·DMZ·내부) · 주황 점선: 신뢰 경계 · 선 라벨: 포트(연결 가능성만, 회선·케이블 없음)</p>
+  <aside class="notes">P0 인프라 논리도. 아이소메트릭 대비 실증: 9노드 전원 개별(대수 보존)·장비 형상이 아닌 아이콘+역할로 구분(방패=WAF·불꽃=FW). 외부·DMZ·내부 3개 면색 소속 띠와 사이 신뢰 경계 2개. DMZ 라벨은 labelPos:bottom으로 하단 — 상단 띠와 선 라벨 충돌 회피 사례. 선은 전부 연결 가능성(포트)이며 회선·케이블 종류는 표기하지 않는다. 1단계 존·경계, 2단계 장비, 3단계 연결.</aside>
+</section>

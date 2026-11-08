@@ -1,0 +1,103 @@
+<section class="slide" data-archetype="arch-diagram" style="gap:20px">
+  <div class="head"><p class="eyebrow">SI 유형 A2 · 응용 아키텍처 — 3계층</p><h2 class="title">응용 3계층 구성 — WEB·WAS·DB와 세션·배치</h2></div>
+  <svg class="dg" viewBox="0 0 1664 726" role="img" aria-label="가상 예시 응용 3계층 구성도: 웹 서버 두 대가 온라인 WAS를 부르고, 온라인 WAS가 세션 클러스터와 DB에 붙으며, 배치 WAS가 DB와 파일 저장소를 일괄 처리한다">
+  <title>응용 3계층 — 온라인/배치 계통 구분</title>
+  <g data-step="1">
+    <rect class="k-paper" x="556" y="30" width="374" height="326" style="rx:12px;fill-opacity:0.55"/>
+    <text class="k-t-tag" x="572" y="64">표현(WEB)</text>
+  </g>
+  <g data-step="1">
+    <rect class="k-paper" x="556" y="314" width="463" height="326" style="rx:12px;fill-opacity:0.55"/>
+    <text class="k-t-tag" x="572" y="348">응용(WAS)</text>
+  </g>
+  <g data-step="1">
+    <rect class="k-paper" x="734" y="456" width="374" height="184" style="rx:12px;fill-opacity:0.55"/>
+    <text class="k-t-tag" x="750" y="490">데이터(DB)</text>
+  </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M677.8 190 L661.4 203.1 Q654 209 654 218.5 L654 228" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="582.5" y="187.4" width="64" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="614.5" y="213.4" text-anchor="middle">분배</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M808.2 190 L824.6 203.1 Q832 209 832 218.5 L832 228" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="839.5" y="187.4" width="64" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="871.5" y="213.4" text-anchor="middle">분배</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M654 332 L654 341.5 Q654 351 661.4 356.9 L677.8 370" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="450.5" y="336.6" width="64" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="482.5" y="362.6" text-anchor="middle">호출</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M832 332 L832 341.5 Q832 351 824.6 356.9 L808.2 370" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="927.5" y="268.6" width="64" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="959.5" y="294.6" text-anchor="middle">호출</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-g" d="M677.8 474 L661.4 487.1 Q654 493 654 502.5 L654 512" marker-end="url(#ahg)"/>
+      <rect class="k-paper" x="582.5" y="471.4" width="64" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="614.5" y="497.4" text-anchor="middle">세션</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M817 457.5 L880.2 487.8 Q891 493 883.3 502.2 L875.2 512" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="816.1" y="462.6" width="98" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="865.1" y="488.6" text-anchor="middle">JDBC</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-g" d="M847 457.5 L783.8 487.8 Q773 493 780.7 502.2 L788.8 512" marker-end="url(#ahg)"/>
+      <rect class="k-paper" x="590.9" y="428.6" width="64" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="622.9" y="454.6" text-anchor="middle">배치</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-g" d="M986.2 474 L1002.6 487.1 Q1010 493 1010 502.5 L1010 512" marker-end="url(#ahg)"/>
+      <rect class="k-paper" x="1141" y="471.4" width="81" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1181.5" y="497.4" text-anchor="middle">산출물</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="580" y="228" width="148" height="104" style="rx:9px"/>
+    <use href="#i-window" x="630" y="242" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="654" y="324" text-anchor="middle">WEB-1</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="758" y="228" width="148" height="104" style="rx:9px"/>
+    <use href="#i-window" x="808" y="242" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="832" y="324" text-anchor="middle">WEB-2</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-blue" x="669" y="86" width="148" height="104" style="rx:9px"/>
+    <use href="#i-shield" x="719" y="100" width="48" height="48" style="color:var(--blue)"/>
+    <text class="t-l" x="743" y="182" text-anchor="middle">L4/LB</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-blue" x="669" y="370" width="148" height="104" style="rx:9px"/>
+    <use href="#i-gear" x="719" y="384" width="48" height="48" style="color:var(--blue)"/>
+    <text class="t-l" x="743" y="466" text-anchor="middle">WAS-온라인</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="580" y="512" width="148" height="104" style="rx:9px"/>
+    <use href="#i-key" x="630" y="526" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="654" y="608" text-anchor="middle">세션 클러스터</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-orange" x="847" y="370" width="148" height="104" style="rx:9px"/>
+    <use href="#i-clock" x="897" y="384" width="48" height="48" style="color:var(--accent)"/>
+    <text class="t-l" x="921" y="466" text-anchor="middle">WAS-배치</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="758" y="512" width="148" height="104" style="rx:9px"/>
+    <use href="#i-db" x="844" y="526" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="832" y="608" text-anchor="middle">DB-주</text>
+    <g><circle cx="774" cy="528" r="9" style="fill:var(--blue)"/><text class="k-t-tag" x="789" y="535">정상</text></g>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="936" y="512" width="148" height="104" style="rx:9px"/>
+    <use href="#i-folder" x="986" y="526" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="1010" y="608" text-anchor="middle">파일 저장소</text>
+    </g>
+  <g><polyline class="k-ln-b" points="34,686 104,686"/><text class="k-t-tag" x="118" y="694">동기 호출</text>
+    <polyline class="k-ln-g" points="298,686 368,686"/><text class="k-t-tag" x="382" y="694">보조·연계</text></g>
+</svg>
+  <p class="small">세션 클러스터와 배치 채널을 분리해 장애 격리·스케줄 독립을 확보한 3계층 구성</p>
+  <aside class="notes">P0 응용 아키텍처. 레이어드 패턴(rankdir=TB)의 SI 변형 — 층을 표현(WEB)/응용(WAS)/데이터(DB)로 잡고, 온라인 WAS와 배치 WAS를 같은 층에 나란히 두되 연결선 종류(실선 동기 vs 점선 보조)로 계통을 구분한다. 세션 클러스터는 응용층 내부 의존으로 표시. 1단계 층 띠, 2단계 노드, 3단계 의존선.</aside>
+</section>

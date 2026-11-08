@@ -1,0 +1,94 @@
+<section class="slide" data-archetype="arch-diagram" style="gap:20px">
+  <div class="head"><p class="eyebrow">SI 유형 A3 · 연계 아키텍처 — 허브 패턴</p><h2 class="title">내부·외부 연계 구성 — IF ID·프로토콜·주기</h2></div>
+  <svg class="dg" viewBox="0 0 1664 718" role="img" aria-label="연계 구성도: 업무포털이 연계 허브를 통해 그룹웨어·ERP·전사DB와 붙고, 허브가 외부기관과 실시간 연계한다. 각 연결에 IF 번호와 프로토콜·주기가 표기된다">
+  <title>연계 구성 — EAI 허브·IF 라벨·동기/비동기 구분</title>
+  <g data-step="1">
+    <rect class="k-paper" x="514" y="168" width="636" height="464" style="rx:12px;fill-opacity:0.55"/>
+    <text class="k-t-tag" x="530" y="202">내부망</text>
+  </g>
+  <g data-step="1">
+    <rect class="k-paper" x="972" y="30" width="160" height="222" style="rx:12px;fill-opacity:0.55"/>
+    <text class="k-t-tag" x="988" y="64">외부</text>
+  </g>
+  <g data-step="1">
+    <polyline points="1061,20 1061,642" fill="none" stroke="var(--accent)" stroke-width="3.5" stroke-dasharray="11 9"/>
+    <text class="k-t-tag" x="1061" y="34" text-anchor="middle" style="fill:var(--accent)">신뢰 경계</text>
+  </g>
+  <g data-step="3">
+      <path class="k-ln-b dash-flow" d="M686 299 L710 299 Q722 299 734 299 L758 299" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="554" y="383" width="336" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="722" y="409" text-anchor="middle">IF-01 · REST·동기·상시</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b" d="M878.2 365 L935.1 446.2 Q942 456 953.1 451.5 L978 441.6" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="621.2" y="450.4" width="336" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="789.2" y="476.4" text-anchor="middle">IF-01 · REST·동기·상시</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-g" d="M978 382.4 L953.1 372.5 Q942 368 931.8 361.6 L906 345.4" stroke-dasharray="8 8" marker-end="url(#ah-open)"/>
+      <rect class="k-paper" x="840.4" y="375" width="200" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="940.4" y="401" text-anchor="middle">IF-01 · 응답</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-g" d="M860.9 365 L937.2 539 Q942 550 954 550 L978 550" marker-end="url(#ahg)"/>
+      <rect class="k-paper" x="600.2" y="490" width="353" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="776.7" y="516" text-anchor="middle">IF-02 · 파일·비동기·일 1회</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-g" d="M906 282.2 L930.3 276.7 Q942 274 954 274 L978 274" marker-end="url(#ahg)"/>
+      <rect class="k-paper" x="756.6" y="256.1" width="370" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="941.6" y="282.1" text-anchor="middle">IF-04 · JDBC·배치·시 1회</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-b dash-flow" d="M893 233 L933.9 188.8 Q942 180 953.1 175.5 L996 158.4" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="620.2" y="107.1" width="370" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="805.2" y="133.1" text-anchor="middle">IF-03 · HTTPS·동기·실시간</text>
+    </g>
+  <g data-step="3">
+      <path class="k-ln-g" d="M996 123.3 L953.7 113.7 Q942 111 935.9 121.4 L870.6 233" stroke-dasharray="8 8" marker-end="url(#ah-open)"/>
+      <rect class="k-paper" x="732.3" y="54.1" width="200" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="832.3" y="80.1" text-anchor="middle">IF-03 · 응답</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-blue" x="538" y="233" width="148" height="132" style="rx:9px"/>
+    <use href="#i-window" x="588" y="247" width="48" height="48" style="color:var(--blue)"/>
+    <text class="t-l" x="612" y="329" text-anchor="middle">업무포털</text>
+    <text class="k-t-tag" x="612" y="357" text-anchor="middle">대내 서비스</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-blue" x="758" y="233" width="148" height="132" style="rx:9px"/>
+    <use href="#i-globe" x="808" y="247" width="48" height="48" style="color:var(--blue)"/>
+    <text class="t-l" x="832" y="329" text-anchor="middle">연계 허브</text>
+    <text class="k-t-tag" x="832" y="357" text-anchor="middle">EAI·변환</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="978" y="346" width="148" height="132" style="rx:9px"/>
+    <use href="#i-mail" x="1028" y="360" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="1052" y="442" text-anchor="middle">그룹웨어</text>
+    <text class="k-t-tag" x="1052" y="470" text-anchor="middle">결재·메일</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="978" y="484" width="148" height="132" style="rx:9px"/>
+    <use href="#i-calc" x="1028" y="498" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="1052" y="580" text-anchor="middle">ERP</text>
+    <text class="k-t-tag" x="1052" y="608" text-anchor="middle">회계·인사</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-paper" x="978" y="208" width="148" height="132" style="rx:9px"/>
+    <use href="#i-db" x="1028" y="222" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="1052" y="304" text-anchor="middle">전사 DB</text>
+    <text class="k-t-tag" x="1052" y="332" text-anchor="middle">공통 코드·마스터</text>
+    </g>
+  <g data-step="2">
+    <circle class="k-paper" cx="1052" cy="136" r="56"/>
+    <use href="#i-building" x="1030" y="106" width="44" height="44" style="color:var(--ink)"/>
+    <text class="k-t-tag" x="1052" y="170" text-anchor="middle" style="fill:var(--ink)">외부기관</text>
+    <text class="k-t-tag" x="1052" y="228" text-anchor="middle">공공 연계</text>
+    </g>
+  <g><polyline class="k-ln-b" points="34,678 104,678"/><text class="k-t-tag" x="118" y="686">동기 호출</text>
+    <polyline class="k-ln-g" stroke-dasharray="8 8" points="298,678 368,678"/><text class="k-t-tag" x="382" y="686">응답</text>
+    <polyline class="k-ln-g" points="490,678 560,678"/><text class="k-t-tag" x="574" y="686">보조·연계</text></g>
+</svg>
+  <p class="small">읽는 법 — 실선: 동기 호출 · 점선+빈 화살촉: 응답 · 회색 보조: 비동기·배치 · 라벨: IF ID·프로토콜·주기</p>
+  <aside class="notes">P0 연계 아키텍처. 허브(EAI) 매개 패턴으로 IF 번호·프로토콜·동기/비동기·주기를 라벨에 싣는다. IF-01·IF-03은 동기 호출+응답(b/r 방향 쌍), IF-02 파일 배치와 IF-04 JDBC 배치는 보조선(g). 외부기관은 외부 띠에 두고 내부망과의 사이에 신뢰 경계선을 넣는다. 1단계 존·경계, 2단계 시스템, 3단계 연계선.</aside>
+</section>

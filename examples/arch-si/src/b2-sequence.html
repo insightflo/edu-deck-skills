@@ -1,0 +1,80 @@
+<!-- 호출 순서(시퀀스) · 자체 저작 문법 — UML 준수 주장 아님
+     모델: examples/arch-si/models/b2-sequence.json · 생성: node edu-deck/shared/scripts/arch_lanes.mjs --in examples/arch-si/models/b2-sequence.json -o <이 파일>
+     손으로 고치지 않는다. 모델을 고치고 다시 생성한다. -->
+<section class="slide" data-archetype="arch-diagram" style="gap:18px">
+  <div class="head"><p class="eyebrow">SI 실무형 · B2 Sequence (자체 저작 문법 · UML 준수 주장 아님)</p><h2 class="title">발주 승인 — 호출과 응답의 순서</h2></div>
+  <svg class="dg" viewBox="0 0 1664 722" role="img" aria-label="발주 승인 호출 순서 도식. 발주팀이 승인을 요청하면 구매승인이 ERP에 예산을 조회하고 잔액을 회신받아 승인을 통보한다. 이어 전표를 생성하고 번호를 받은 뒤 협력사에 발주서를 전송하고 접수 회신을 받는다.">
+  <title>발주 승인 — 호출과 응답의 순서</title>
+  <g data-step="0">
+    <rect class="k-solid-n" x="0" y="0" width="1664" height="58" style="rx:10px"/>
+    <text class="t-l k-t-w" x="16" y="38">발주 승인 호출 흐름</text>
+    <text class="k-t-tag k-t-w" x="1648" y="37" text-anchor="end">액터 4 · 메시지 8</text>
+    <rect class="k-paper" x="118" y="70" width="240" height="60" style="rx:10px"/>
+    <text class="t-l" x="238" y="98" text-anchor="middle">발주팀</text>
+    <text class="k-t-tag" x="238" y="124" text-anchor="middle">요청</text>
+    <polyline class="k-ln-g" points="238,136 238,696" style="stroke-dasharray:6 10"/>
+    <rect class="k-paper" x="514" y="70" width="240" height="60" style="rx:10px"/>
+    <text class="t-l" x="634" y="98" text-anchor="middle">구매승인</text>
+    <text class="k-t-tag" x="634" y="124" text-anchor="middle">판정</text>
+    <polyline class="k-ln-g" points="634,136 634,696" style="stroke-dasharray:6 10"/>
+    <rect class="k-paper" x="910" y="70" width="240" height="60" style="rx:10px"/>
+    <text class="t-l" x="1030" y="98" text-anchor="middle">ERP</text>
+    <text class="k-t-tag" x="1030" y="124" text-anchor="middle">전표</text>
+    <polyline class="k-ln-g" points="1030,136 1030,696" style="stroke-dasharray:6 10"/>
+    <rect class="k-paper" x="1306" y="70" width="240" height="60" style="rx:10px"/>
+    <text class="t-l" x="1426" y="98" text-anchor="middle">협력사</text>
+    <text class="k-t-tag" x="1426" y="124" text-anchor="middle">수주</text>
+    <polyline class="k-ln-g" points="1426,136 1426,696" style="stroke-dasharray:6 10"/>
+  </g>
+    <g data-step="1">
+      <path class="k-ln-b" d="M248 170 L624 170" marker-end="url(#ah-b)"/>
+      <text class="k-t-tag" x="436" y="158" text-anchor="middle">승인 요청</text>
+    </g>
+    <g data-step="2">
+      <path class="k-ln-b" d="M644 234 L1020 234" marker-end="url(#ah-b)"/>
+      <text class="k-t-tag" x="832" y="222" text-anchor="middle">예산 조회</text>
+    </g>
+    <g data-step="3">
+      <path class="k-ln-g" d="M1020 298 L644 298" style="stroke-dasharray:10 8" marker-end="url(#ah-open)"/>
+      <text class="k-t-tag" x="832" y="286" text-anchor="middle">잔액 회신</text>
+    </g>
+    <g data-step="4">
+      <path class="k-ln-g" d="M624 362 L248 362" style="stroke-dasharray:10 8" marker-end="url(#ah-open)"/>
+      <text class="k-t-tag" x="436" y="350" text-anchor="middle">승인 통보</text>
+    </g>
+    <g data-step="5">
+      <path class="k-ln-b" d="M644 426 L1020 426" marker-end="url(#ah-b)"/>
+      <text class="k-t-tag" x="832" y="414" text-anchor="middle">전표 생성</text>
+    </g>
+    <g data-step="6">
+      <path class="k-ln-g" d="M1020 490 L644 490" style="stroke-dasharray:10 8" marker-end="url(#ah-open)"/>
+      <text class="k-t-tag" x="832" y="478" text-anchor="middle">전표 번호</text>
+    </g>
+    <g data-step="7">
+      <path class="k-ln-b" d="M644 554 L1416 554" marker-end="url(#ah-b)"/>
+      <text class="k-t-tag" x="1030" y="542" text-anchor="middle">발주서 전송</text>
+    </g>
+    <g data-step="8">
+      <path class="k-ln-g" d="M1416 618 L644 618" style="stroke-dasharray:10 8" marker-end="url(#ah-open)"/>
+      <text class="k-t-tag" x="1030" y="606" text-anchor="middle">접수 회신</text>
+    </g>
+    <g data-step="1"><rect class="k-orange" x="230" y="154" width="16" height="224" style="rx:5px;opacity:.45"/></g>
+    <g data-step="1"><rect class="k-orange" x="626" y="154" width="16" height="480" style="rx:5px;opacity:.45"/></g>
+    <g data-step="2"><rect class="k-orange" x="1022" y="218" width="16" height="288" style="rx:5px;opacity:.45"/></g>
+    <g data-step="7"><rect class="k-orange" x="1418" y="538" width="16" height="96" style="rx:5px;opacity:.45"/></g>
+    <g data-only="1"><rect class="k-orange" x="14" y="156" width="10" height="28" style="rx:5px"/></g>
+    <g data-only="2"><rect class="k-orange" x="14" y="220" width="10" height="28" style="rx:5px"/></g>
+    <g data-only="3"><rect class="k-orange" x="14" y="284" width="10" height="28" style="rx:5px"/></g>
+    <g data-only="4"><rect class="k-orange" x="14" y="348" width="10" height="28" style="rx:5px"/></g>
+    <g data-only="5"><rect class="k-orange" x="14" y="412" width="10" height="28" style="rx:5px"/></g>
+    <g data-only="6"><rect class="k-orange" x="14" y="476" width="10" height="28" style="rx:5px"/></g>
+    <g data-only="7"><rect class="k-orange" x="14" y="540" width="10" height="28" style="rx:5px"/></g>
+    <g data-only="8"><rect class="k-orange" x="14" y="604" width="10" height="28" style="rx:5px"/></g>
+    <g><polyline class="k-ln-b" points="20,708 92,708"/><text class="k-t-tag" x="106" y="716">호출</text>
+      <polyline class="k-ln-g" points="210,708 284,708" style="stroke-dasharray:10 8"/><text class="k-t-tag" x="298" y="716">응답</text>
+      <rect class="k-orange" x="396" y="698" width="12" height="20" style="rx:4px;opacity:.45"/><text class="k-t-tag" x="418" y="716">활성 구간</text>
+      <rect class="k-orange" x="556" y="696" width="10" height="24" style="rx:5px"/><text class="k-t-tag" x="578" y="716">현재 메시지</text></g>
+  </svg>
+  <p class="small">읽는 법 — 세로 점선 = 생명선 · 실선 = 호출 · 점선 = 응답 · 주황 막대 = 활성 구간 · 1~8 = 메시지 순서</p>
+  <aside class="notes">이 장은 호출과 응답을 시간 순서로 보여준다. 1단계에 액터 네 명과 생명선이 서고, 2단계부터 메시지가 한 줄씩 켜진다. 실선은 호출, 점선은 응답이며 화살촉이 반대를 향한다. 주황 막대는 그 액터가 관여하기 시작한 단계에서 켜져 마지막 관여 단계까지 남는다 — 활성 구간이 겹치는 구간이 곧 동시에 처리 중인 구간이다. 각 단계의 굵은 테두리는 지금 설명 중인 메시지 한 줄을 가리킨다. 승인 판정은 구매승인 안에서 끝나고, 전표 생성과 발주서 전송만 바깥 시스템으로 나간다는 점을 본다.</aside>
+</section>
