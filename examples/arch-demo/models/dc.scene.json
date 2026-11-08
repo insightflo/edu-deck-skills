@@ -1,0 +1,145 @@
+{
+  "title": "아이소메트릭 데이터센터 — 사용자 요청이 서버·스토리지까지 가는 경로",
+  "aria": "아이소메트릭 데이터센터 구성도. 사용자가 로드밸런서를 거쳐 앱 서버 두 대에 들어가고, 코어 스위치를 거쳐 스토리지 두 대에 이어진다.",
+  "maxFlow": 2,
+  "nodes": [
+    {
+      "id": "user",
+      "name": "사용자",
+      "kind": "server1u",
+      "state": "ok",
+      "col": -2.4,
+      "row": 4.4,
+      "step": 1
+    },
+    {
+      "id": "lb",
+      "name": "LB 스위치",
+      "kind": "lb",
+      "state": "ok",
+      "col": 1,
+      "row": 1,
+      "step": 1
+    },
+    {
+      "id": "app1",
+      "name": "앱 서버 01",
+      "kind": "server2u",
+      "state": "ok",
+      "col": 0,
+      "row": 4,
+      "step": 2
+    },
+    {
+      "id": "app2",
+      "name": "앱 서버 02",
+      "kind": "server2u",
+      "state": "busy",
+      "col": 4,
+      "row": 0,
+      "step": 2
+    },
+    {
+      "id": "sw",
+      "name": "코어 스위치",
+      "kind": "switch",
+      "state": "ok",
+      "col": 3,
+      "row": 3,
+      "step": 3
+    },
+    {
+      "id": "store1",
+      "name": "스토리지 A",
+      "kind": "storage",
+      "state": "ok",
+      "col": 2,
+      "row": 6,
+      "step": 3
+    },
+    {
+      "id": "store2",
+      "name": "스토리지 B",
+      "kind": "storage",
+      "state": "standby",
+      "col": 6,
+      "row": 2,
+      "step": 3
+    }
+  ],
+  "edges": [
+    {
+      "from": "user",
+      "to": "lb",
+      "label": "HTTPS",
+      "kind": "main",
+      "direction": "forward",
+      "flow": true,
+      "step": 1
+    },
+    {
+      "from": "lb",
+      "to": "app1",
+      "kind": "main",
+      "direction": "forward",
+      "flow": true,
+      "step": 2
+    },
+    {
+      "from": "lb",
+      "to": "app2",
+      "kind": "main",
+      "direction": "forward",
+      "step": 2
+    },
+    {
+      "from": "app1",
+      "to": "sw",
+      "kind": "main",
+      "direction": "forward",
+      "step": 3
+    },
+    {
+      "from": "app2",
+      "to": "sw",
+      "kind": "main",
+      "direction": "forward",
+      "step": 3
+    },
+    {
+      "from": "sw",
+      "to": "store1",
+      "label": "iSCSI",
+      "kind": "main",
+      "direction": "both",
+      "step": 4
+    },
+    {
+      "from": "sw",
+      "to": "store2",
+      "kind": "sub",
+      "direction": "forward",
+      "step": 4
+    }
+  ],
+  "zones": [
+    {
+      "id": "dc",
+      "label": "DC-1 · 앱 클러스터",
+      "kind": "zone",
+      "uv": [
+        -1.55,
+        0.6,
+        1.55,
+        3.8
+      ]
+    }
+  ],
+  "slide": {
+    "file": "04-iso-dc.html",
+    "eyebrow": "아이소메트릭 · Deployment",
+    "title": "요청 한 건이 데이터센터 안에서 지나는 세 개의 층",
+    "caption": "가상 예시 · 사용자 → LB → 앱 서버 2대 → 코어 스위치 → 스토리지 2대",
+    "notes": "아이소메트릭 계열은 배치와 소유 관계를 한눈에 보여야 할 때 쓴다. 이 장은 네 단계로 쌓인다. 1단계에서 사용자와 LB 스위치가 바닥면 앞쪽에 서고, 2단계에서 앱 서버 두 대가 바닥면 안으로 들어온다. 3단계에 코어 스위치와 스토리지가 붙으면서 경로가 완성된다. 발표할 때는 \"왼쪽 위에서 오른쪽 아래로 내려가는 방향이 곧 요청이 흐르는 방향\"이라고 짚고, 앱 서버 02 의 주황 LED 는 처리 중, 스토리지 B 의 빈 원은 대기 상태라고 설명한다. 색만으로 구분하지 않도록 대기 상태에는 테두리 원 배지를 함께 붙였다."
+  }
+}

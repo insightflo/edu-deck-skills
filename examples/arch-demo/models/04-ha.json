@@ -1,0 +1,182 @@
+{
+  "title": "고가용성: Active–Standby 페일오버 6단계",
+  "eyebrow": "가상 예시 · 아키텍처 4/4 — High Availability",
+  "small": "읽는 법 — ①경계 ②노드 ③정상 경로 ④장애 발생(칩 교체) ⑤승격 경로 ⑥신주 승격 완료",
+  "ariaLabel": "가상 예시 고가용성 구성도: 활성 앱과 대기 앱이 로드밸런서 뒤에 있고, 헬스체크가 장애를 감지하면 대기 앱과 복제 DB로 승격된다",
+  "titleSvg": "HA 페일오버 — 가상 예시",
+  "notes": "가상 예시 시스템이다. 페일오버는 상태를 칠하는 게 아니라 칩을 갈아끼운다 — 4단계에서 활성 앱·주 DB의 정상 칩(data-until)이 사라지고 장애 칩(data-step)이 나타나며, 5단계에 승격 경로가 그려지고, 6단계에 대기 앱·복제 DB가 정상으로 전환된다. 정적 완결에서는 마지막 상태 칩만 남는다.",
+  "layout": {
+    "dir": "LR",
+    "nodesep": 56,
+    "ranksep": 100
+  },
+  "nodes": [
+    {
+      "id": "user",
+      "name": "사용자",
+      "role": "외부",
+      "icon": "i-people",
+      "shape": "circle",
+      "fam": "blue",
+      "w": 112,
+      "h": 112
+    },
+    {
+      "id": "lb",
+      "name": "LB",
+      "role": "트래픽 분배",
+      "icon": "i-gear",
+      "fam": "blue",
+      "w": 148,
+      "h": 128
+    },
+    {
+      "id": "mon",
+      "name": "Monitor",
+      "role": "헬스체크",
+      "icon": "i-heart",
+      "fam": "orange",
+      "w": 152,
+      "h": 128
+    },
+    {
+      "id": "appA",
+      "name": "App-A",
+      "role": "활성",
+      "icon": "i-window",
+      "fam": "blue",
+      "w": 152,
+      "h": 128,
+      "state": "ok"
+    },
+    {
+      "id": "appB",
+      "name": "App-B",
+      "role": "대기",
+      "icon": "i-window",
+      "w": 152,
+      "h": 128,
+      "state": "warn"
+    },
+    {
+      "id": "dbP",
+      "name": "DB-P",
+      "role": "주 저장",
+      "icon": "i-db",
+      "w": 148,
+      "h": 128,
+      "state": "ok"
+    },
+    {
+      "id": "dbR",
+      "name": "DB-R",
+      "role": "복제본",
+      "icon": "i-db",
+      "w": 148,
+      "h": 128,
+      "state": "warn"
+    }
+  ],
+  "edges": [
+    {
+      "from": "user",
+      "to": "lb",
+      "label": "HTTPS",
+      "kind": "b"
+    },
+    {
+      "from": "lb",
+      "to": "appA",
+      "label": "route",
+      "kind": "b"
+    },
+    {
+      "from": "appA",
+      "to": "dbP",
+      "label": "write",
+      "kind": "b"
+    },
+    {
+      "from": "dbP",
+      "to": "dbR",
+      "label": "복제",
+      "kind": "o",
+      "flow": true
+    },
+    {
+      "from": "mon",
+      "to": "appA",
+      "label": "health",
+      "kind": "g"
+    },
+    {
+      "from": "lb",
+      "to": "appB",
+      "label": "승격",
+      "kind": "o",
+      "step": 5
+    },
+    {
+      "from": "appB",
+      "to": "dbR",
+      "label": "승격",
+      "kind": "o",
+      "step": 5
+    },
+    {
+      "from": "mon",
+      "to": "appB",
+      "label": "health",
+      "kind": "g",
+      "step": 5
+    }
+  ],
+  "zones": [
+    {
+      "id": "dc",
+      "label": "주 사이트",
+      "members": [
+        "appA",
+        "appB",
+        "dbP",
+        "dbR"
+      ]
+    }
+  ],
+  "states": [
+    {
+      "node": "appA",
+      "at": 4,
+      "state": "down"
+    },
+    {
+      "node": "dbP",
+      "at": 4,
+      "state": "down"
+    },
+    {
+      "node": "appB",
+      "at": 5,
+      "state": "ok"
+    },
+    {
+      "node": "dbR",
+      "at": 6,
+      "state": "ok"
+    }
+  ],
+  "legend": [
+    {
+      "kind": "b",
+      "label": "정상 경로"
+    },
+    {
+      "kind": "o",
+      "label": "승격·복제"
+    },
+    {
+      "kind": "g",
+      "label": "헬스체크"
+    }
+  ]
+}

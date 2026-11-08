@@ -1,0 +1,117 @@
+{
+  "title": "하이브리드 클라우드 — 온프렘에서 클라우드로 건너가는 지점",
+  "aria": "하이브리드 클라우드 구성도. 온프렘 앱이 방화벽을 지나 VPN 으로 클라우드 게이트웨이에 닿고, 그 너머 오브젝트 저장소와 분석 워커로 이어진다. 신뢰 경계는 방화벽과 클라우드 게이트웨이 사이에 있다.",
+  "maxFlow": 2,
+  "nodes": [
+    {
+      "id": "app",
+      "name": "온프렘 앱",
+      "kind": "server2u",
+      "state": "ok",
+      "col": 0,
+      "row": 0,
+      "step": 1
+    },
+    {
+      "id": "fw",
+      "name": "방화벽",
+      "kind": "firewall",
+      "state": "ok",
+      "col": 1,
+      "row": 1,
+      "step": 1
+    },
+    {
+      "id": "cgw",
+      "name": "클라우드 GW",
+      "kind": "router",
+      "state": "ok",
+      "col": 2,
+      "row": 2,
+      "step": 2
+    },
+    {
+      "id": "obj",
+      "name": "오브젝트 저장소",
+      "kind": "storage",
+      "state": "ok",
+      "col": 4,
+      "row": 0,
+      "step": 3
+    },
+    {
+      "id": "worker",
+      "name": "분석 워커",
+      "kind": "server1u",
+      "state": "busy",
+      "col": 3,
+      "row": 3,
+      "step": 3
+    }
+  ],
+  "edges": [
+    {
+      "from": "app",
+      "to": "fw",
+      "kind": "main",
+      "direction": "forward",
+      "step": 1
+    },
+    {
+      "from": "fw",
+      "to": "cgw",
+      "label": "VPN",
+      "kind": "main",
+      "direction": "both",
+      "flow": true,
+      "step": 2
+    },
+    {
+      "from": "cgw",
+      "to": "obj",
+      "label": "S3",
+      "kind": "main",
+      "direction": "forward",
+      "flow": true,
+      "step": 3
+    },
+    {
+      "from": "cgw",
+      "to": "worker",
+      "kind": "sub",
+      "direction": "forward",
+      "step": 3
+    }
+  ],
+  "zones": [
+    {
+      "id": "onprem",
+      "label": "온프렘",
+      "kind": "zone",
+      "uv": [
+        -0.6,
+        -0.65,
+        0.6,
+        1.45
+      ]
+    },
+    {
+      "id": "trust",
+      "label": "신뢰 경계 · 클라우드",
+      "kind": "trust",
+      "uv": [
+        -0.6,
+        1.55,
+        1.6,
+        3.75
+      ]
+    }
+  ],
+  "slide": {
+    "file": "06-iso-hybrid.html",
+    "eyebrow": "아이소메트릭 · Context",
+    "title": "온프렘과 클라우드를 가르는 선은 방화벽 옆에 있다",
+    "caption": "가상 예시 · 신뢰 경계는 방화벽과 클라우드 게이트웨이 사이",
+    "notes": "하이브리드 구성에서 학습자가 가장 자주 틀리는 지점은 \"어디까지가 우리 통제 안인가\"다. 그래서 이 장은 신뢰 경계를 바닥면 자체로 그린다. 온프렘 바닥면과 클라우드 바닥면이 서로 다른 점선과 색을 쓰고, 그 사이에 방화벽 한 대만 놓았다. 1단계에서 온프렘 앱과 방화벽이 서고, 2단계에 VPN 선이 경계를 넘어 클라우드 게이트웨이에 닿는다. 3단계에서 저장소와 분석 워커가 붙는다. 질문으로 확인한다. \"VPN 선이 끊기면 어느 쪽 데이터가 남는가.\" 답은 온프렘 쪽이다."
+  }
+}

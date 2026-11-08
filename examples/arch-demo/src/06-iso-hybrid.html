@@ -1,20 +1,20 @@
 <!-- 온프렘과 클라우드를 가르는 선은 방화벽 옆에 있다
-     계열: arch-diagram(아이소메트릭) · 데이터: src/hybrid.scene.json · 그림: fig/iso-hybrid.svg
-     생성: python3 assemble.py (저장소 밖 조립기) — 손으로 고치지 않는다. -->
+     계열: arch-diagram(아이소메트릭) · 데이터: models/hybrid.scene.json · 그림: fig/06-iso-hybrid.svg
+     생성: python3 regen.py — 손으로 고치지 않는다. -->
 <section class="slide" data-archetype="arch-diagram" style="gap:20px">
   <div class="head"><p class="eyebrow">아이소메트릭 · Context</p><h2 class="title">온프렘과 클라우드를 가르는 선은 방화벽 옆에 있다</h2></div>
   <figure class="fig-slot">
-<svg class="dg" viewBox="0 0 1664 793" role="img" aria-label="하이브리드 클라우드 구성도. 온프렘 앱이 방화벽을 지나 VPN 으로 클라우드 게이트웨이에 닿고, 그 너머 오브젝트 저장소와 분석 워커로 이어진다. 신뢰 경계는 방화벽과 클라우드 게이트웨이 사이에 있다.">
+<svg class="dg" viewBox="0 0 1664 796" role="img" aria-label="하이브리드 클라우드 구성도. 온프렘 앱이 방화벽을 지나 VPN 으로 클라우드 게이트웨이에 닿고, 그 너머 오브젝트 저장소와 분석 워커로 이어진다. 신뢰 경계는 방화벽과 클라우드 게이트웨이 사이에 있다.">
 <title>하이브리드 클라우드 — 온프렘에서 클라우드로 건너가는 지점</title>
-<g transform="translate(560.5 182)">
+<g transform="translate(554 185)">
 <g data-arch-zone="onprem" data-zone-kind="zone">
 <polygon points="-283.2,-104 283.2,-104 283.2,232 -283.2,232" fill="var(--light)" fill-opacity=".9" stroke="var(--line)" stroke-width="2" stroke-dasharray="16 12" stroke-linejoin="round"/>
-<rect class="k-paper" x="-338.2" y="-156" width="110" height="36" style="rx:8px"/>
+<rect class="k-paper" x="-334.2" y="-157" width="102" height="36" style="rx:8px"/>
 <text class="t-l k-t-b" x="-283.2" y="-131" text-anchor="middle">온프렘</text>
 </g>
 <g data-arch-zone="trust" data-zone-kind="trust">
 <polygon points="-283.2,248 755.2,248 755.2,600 -283.2,600" fill="var(--light)" fill-opacity=".9" stroke="var(--accent)" stroke-width="2" stroke-dasharray="12 9" stroke-linejoin="round"/>
-<rect class="k-paper" x="612.2" y="196" width="286" height="36" style="rx:8px"/>
+<rect class="k-paper" x="620.2" y="195" width="270" height="36" style="rx:8px"/>
 <text class="t-l k-t-b" x="755.2" y="221" text-anchor="middle">신뢰 경계 · 클라우드</text>
 </g>
 <g data-step="1" data-arch-layer="edges"><path data-arch-edge="app--fw" class="k-ln-b" d="M 0 0 L 0 120" marker-end="url(#ah-b)"/></g>

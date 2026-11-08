@@ -1,0 +1,88 @@
+<svg class="dg" viewBox="0 0 1664 785" role="img" aria-label="아이소메트릭 데이터센터 구성도. 사용자가 로드밸런서를 거쳐 앱 서버 두 대에 들어가고, 코어 스위치를 거쳐 스토리지 두 대에 이어진다.">
+<title>아이소메트릭 데이터센터 — 사용자 요청이 서버·스토리지까지 가는 경로</title>
+<g transform="translate(993.6 -15)">
+<g data-arch-zone="dc" data-zone-kind="zone">
+<polygon points="-731.6,96 731.6,96 731.6,608 -731.6,608" fill="var(--light)" fill-opacity=".9" stroke="var(--line)" stroke-width="2" stroke-dasharray="16 12" stroke-linejoin="round"/>
+<rect class="k-paper" x="-856.7" y="43" width="250.2" height="36" style="rx:8px"/>
+<text class="t-l k-t-b" x="-731.6" y="69" text-anchor="middle">DC-1 · 앱 클러스터</text>
+</g>
+<g data-step="1" data-arch-layer="edges"><path data-arch-edge="user--lb" class="dash-flow k-ln-b" d="M -802.4 160 L -40 160" marker-end="url(#ah-b)"/><text class="t-q" x="-421.2" y="190" text-anchor="middle">HTTPS</text><path data-arch-edge="sw--store1" class="k-ln-b" d="M 0 480 L -236 480 L -438.9 617.6" marker-end="url(#ah-b)" marker-start="url(#ah-b)"/><text class="t-q" x="-349.8" y="538.6" text-anchor="middle">iSCSI</text><path data-arch-edge="sw--store2" class="k-ln-n" d="M 0 480 L 236 480 L 438.9 617.6" marker-end="url(#ah-b)"/></g>
+<g data-step="2" data-arch-layer="edges"><path data-arch-edge="lb--app1" class="dash-flow k-ln-b" d="M 0 160 L -236 160 L -438.9 297.6" marker-end="url(#ah-b)"/><path data-arch-edge="lb--app2" class="k-ln-b" d="M 0 160 L 236 160 L 438.9 297.6" marker-end="url(#ah-b)"/></g>
+<g data-step="3" data-arch-layer="edges"><path data-arch-edge="app1--sw" class="k-ln-b" d="M -472 320 L -236 320 L -33.1 457.6" marker-end="url(#ah-b)"/><path data-arch-edge="app2--sw" class="k-ln-b" d="M 472 320 L 236 320 L 33.1 457.6" marker-end="url(#ah-b)"/></g>
+<g data-step="1" data-arch-layer="nodes"><g data-arch-node="lb" data-kind="lb" data-state="ok">
+<ellipse cx="0" cy="222" rx="70" ry="18" fill="var(--ink)" fill-opacity=".12"/>
+<polygon points="-70,160 0,201 0,219 -70,178" fill="var(--blue)" fill-opacity=".82" stroke="var(--blue)" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="0,201 70,160 70,178 0,219" fill="var(--blue)" fill-opacity=".58" stroke="var(--blue)" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="0,119 70,160 0,201 -70,160" fill="var(--paper)" stroke="var(--blue)" stroke-width="2.6" stroke-dasharray="none" stroke-linejoin="round"/>
+<polygon points="0,119 70,160 0,201 -70,160" fill="var(--blue)" fill-opacity=".18" stroke="none"/>
+<g stroke="var(--paper)" stroke-opacity=".55" stroke-width="2.4" stroke-linecap="round" fill="none"><polyline points="12.6,199.7 12.6,206.9"/><polyline points="35,186.6 35,193.8"/><polyline points="57.4,173.5 57.4,180.7"/></g>
+<circle cx="8.4" cy="201.5" r="3.2" fill="var(--success)"/>
+<polyline points="0,160 -4.2,132.9" stroke="var(--blue)" stroke-width="2.4" stroke-linecap="round" fill="none"/><polyline points="0,160 -25.2,145.2" stroke="var(--blue)" stroke-width="2.4" stroke-linecap="round" fill="none"/><polyline points="0,160 -46.2,157.5" stroke="var(--blue)" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+<rect class="k-paper" x="-72.5" y="230" width="144.9" height="38" style="rx:9px"/>
+<text class="t-l" x="0" y="258" text-anchor="middle">LB 스위치</text>
+</g><g data-arch-node="user" data-kind="server1u" data-state="ok">
+<ellipse cx="-802.4" cy="216" rx="59" ry="14.5" fill="var(--ink)" fill-opacity=".12"/>
+<polygon points="-861.4,160 -802.4,193 -802.4,213 -861.4,180" fill="var(--blue)" fill-opacity=".82" stroke="var(--blue)" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="-802.4,193 -743.4,160 -743.4,180 -802.4,213" fill="var(--blue)" fill-opacity=".58" stroke="var(--blue)" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="-802.4,127 -743.4,160 -802.4,193 -861.4,160" fill="var(--paper)" stroke="var(--blue)" stroke-width="2.6" stroke-dasharray="none" stroke-linejoin="round"/>
+<polygon points="-802.4,127 -743.4,160 -802.4,193 -861.4,160" fill="var(--blue)" fill-opacity=".18" stroke="none"/>
+<g stroke="var(--paper)" stroke-opacity=".55" stroke-width="2.4" stroke-linecap="round" fill="none"><polyline points="-790.6,197.6 -751.7,176.2"/></g>
+<circle cx="-795.3" cy="195" r="3.2" fill="var(--success)"/>
+<rect class="k-paper" x="-856.4" y="224" width="108" height="38" style="rx:9px"/>
+<text class="t-l" x="-802.4" y="252" text-anchor="middle">사용자</text>
+</g></g>
+<g data-step="2" data-arch-layer="nodes"><g data-arch-node="app1" data-kind="server2u" data-state="ok">
+<ellipse cx="-472" cy="398" rx="59" ry="14.5" fill="var(--ink)" fill-opacity=".12"/>
+<polygon points="-531,320 -472,353 -472,395 -531,362" fill="var(--blue)" fill-opacity=".82" stroke="var(--blue)" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="-472,353 -413,320 -413,362 -472,395" fill="var(--blue)" fill-opacity=".58" stroke="var(--blue)" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="-472,287 -413,320 -472,353 -531,320" fill="var(--paper)" stroke="var(--blue)" stroke-width="2.6" stroke-dasharray="none" stroke-linejoin="round"/>
+<polygon points="-472,287 -413,320 -472,353 -531,320" fill="var(--blue)" fill-opacity=".18" stroke="none"/>
+<g stroke="var(--paper)" stroke-opacity=".55" stroke-width="2.4" stroke-linecap="round" fill="none"><polyline points="-460.2,358.1 -421.3,337.2"/><polyline points="-460.2,377 -421.3,356.1"/></g>
+<circle cx="-464.9" cy="361.6" r="3.2" fill="var(--success)"/>
+<rect class="k-paper" x="-548.4" y="406" width="152.7" height="38" style="rx:9px"/>
+<text class="t-l" x="-472" y="434" text-anchor="middle">앱 서버 01</text>
+</g><g data-arch-node="app2" data-kind="server2u" data-state="busy">
+<ellipse cx="472" cy="398" rx="59" ry="14.5" fill="var(--ink)" fill-opacity=".12"/>
+<polygon points="413,320 472,353 472,395 413,362" fill="var(--blue)" fill-opacity=".82" stroke="var(--blue)" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="472,353 531,320 531,362 472,395" fill="var(--blue)" fill-opacity=".58" stroke="var(--blue)" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="472,287 531,320 472,353 413,320" fill="var(--paper)" stroke="var(--blue)" stroke-width="2.6" stroke-dasharray="none" stroke-linejoin="round"/>
+<polygon points="472,287 531,320 472,353 413,320" fill="var(--blue)" fill-opacity=".18" stroke="none"/>
+<g stroke="var(--paper)" stroke-opacity=".55" stroke-width="2.4" stroke-linecap="round" fill="none"><polyline points="483.8,358.1 522.7,337.2"/><polyline points="483.8,377 522.7,356.1"/></g>
+<circle cx="479.1" cy="361.6" r="3.2" fill="var(--accent)"/>
+<rect class="k-paper" x="395.6" y="406" width="152.7" height="38" style="rx:9px"/>
+<text class="t-l" x="472" y="434" text-anchor="middle">앱 서버 02</text>
+</g></g>
+<g data-step="3" data-arch-layer="nodes"><g data-arch-node="sw" data-kind="switch" data-state="ok">
+<ellipse cx="0" cy="540" rx="75" ry="18.9" fill="var(--ink)" fill-opacity=".12"/>
+<polygon points="-75,480 0,523 0,537 -75,494" fill="var(--blue)" fill-opacity=".82" stroke="var(--blue)" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="0,523 75,480 75,494 0,537" fill="var(--blue)" fill-opacity=".58" stroke="var(--blue)" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="0,437 75,480 0,523 -75,480" fill="var(--paper)" stroke="var(--blue)" stroke-width="2.6" stroke-dasharray="none" stroke-linejoin="round"/>
+<polygon points="0,437 75,480 0,523 -75,480" fill="var(--blue)" fill-opacity=".18" stroke="none"/>
+<g stroke="var(--paper)" stroke-opacity=".55" stroke-width="2.4" stroke-linecap="round" fill="none"><polyline points="13.5,520 13.5,525.6"/><polyline points="17.9,517.5 17.9,523.1"/><polyline points="22.2,515 22.2,520.6"/><polyline points="26.6,512.5 26.6,518.1"/><polyline points="31,510 31,515.6"/><polyline points="35.3,507.5 35.3,513.1"/><polyline points="39.7,505 39.7,510.6"/><polyline points="44,502.5 44,508.1"/><polyline points="48.4,500 48.4,505.6"/><polyline points="52.8,497.5 52.8,503.1"/><polyline points="57.1,495 57.1,500.6"/><polyline points="61.5,492.5 61.5,498.1"/></g>
+<circle cx="9" cy="522" r="3.2" fill="var(--success)"/>
+<rect class="k-paper" x="-83.9" y="548" width="167.8" height="38" style="rx:9px"/>
+<text class="t-l" x="0" y="576" text-anchor="middle">코어 스위치</text>
+</g><g data-arch-node="store1" data-kind="storage" data-state="ok">
+<ellipse cx="-472" cy="725" rx="63" ry="15.8" fill="var(--ink)" fill-opacity=".12"/>
+<polygon points="-535,640 -472,676 -472,722 -535,686" fill="var(--blue)" fill-opacity=".82" stroke="var(--blue)" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="-472,676 -409,640 -409,686 -472,722" fill="var(--blue)" fill-opacity=".58" stroke="var(--blue)" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="-472,604 -409,640 -472,676 -535,640" fill="var(--paper)" stroke="var(--blue)" stroke-width="2.6" stroke-dasharray="none" stroke-linejoin="round"/>
+<polygon points="-472,604 -409,640 -472,676 -535,640" fill="var(--blue)" fill-opacity=".18" stroke="none"/>
+<g stroke="var(--paper)" stroke-opacity=".55" stroke-width="2.4" stroke-linecap="round" fill="none"><polyline points="-459.4,677.4 -417.8,654.5"/><polyline points="-459.4,691.2 -417.8,668.3"/><polyline points="-459.4,705 -417.8,682.1"/></g>
+<circle cx="-464.4" cy="685.5" r="3.2" fill="var(--success)"/>
+<rect class="k-paper" x="-550.2" y="733" width="156.4" height="38" style="rx:9px"/>
+<text class="t-l" x="-472" y="761" text-anchor="middle">스토리지 A</text>
+</g><g data-arch-node="store2" data-kind="storage" data-state="standby">
+<ellipse cx="472" cy="725" rx="63" ry="15.8" fill="var(--ink)" fill-opacity=".12"/>
+<polygon points="409,640 472,676 472,722 409,686" fill="var(--blue)" fill-opacity=".82" stroke="var(--blue)" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="472,676 535,640 535,686 472,722" fill="var(--blue)" fill-opacity=".58" stroke="var(--blue)" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="472,604 535,640 472,676 409,640" fill="var(--paper)" stroke="var(--blue)" stroke-width="2.6" stroke-dasharray="none" stroke-linejoin="round"/>
+<polygon points="472,604 535,640 472,676 409,640" fill="var(--blue)" fill-opacity=".18" stroke="none"/>
+<g stroke="var(--paper)" stroke-opacity=".55" stroke-width="2.4" stroke-linecap="round" fill="none"><polyline points="484.6,677.4 526.2,654.5"/><polyline points="484.6,691.2 526.2,668.3"/><polyline points="484.6,705 526.2,682.1"/></g>
+<circle cx="479.6" cy="685.5" r="3.2" fill="var(--muted)"/>
+<circle cx="507.3" cy="640" r="8.5" fill="var(--paper)" stroke="var(--muted)" stroke-width="3"/>
+<rect class="k-paper" x="393.8" y="733" width="156.4" height="38" style="rx:9px"/>
+<text class="t-l" x="472" y="761" text-anchor="middle">스토리지 B</text>
+</g></g>
+</g>
+</svg>

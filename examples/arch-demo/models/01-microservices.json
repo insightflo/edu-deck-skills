@@ -1,0 +1,228 @@
+{
+  "title": "마이크로서비스: 동기 호출과 이벤트가 공존하는 길",
+  "eyebrow": "가상 예시 · 아키텍처 1/4 — Microservices",
+  "small": "읽는 법 — 점선 틀: 책임 경계 · 파란 선: 동기 호출 · 주황 선: 이벤트(점=패킷 흐름) · 회색 선: 보조·회신",
+  "ariaLabel": "가상 예시 마이크로서비스 구성도: 클라이언트가 게이트웨이와 인증을 거쳐 앱과 검색에 닿고, 이벤트 버스를 통해 워커와 알림이 데이터 저장소에 쓴다",
+  "titleSvg": "마이크로서비스 — 가상 예시",
+  "notes": "가상 예시 시스템이다. 1단계에 책임 경계 세 칸(코어·비동기·데이터)이 뜨고, 2단계에 노드 11개가 켜지며, 3단계에 연결선 12개가 그려진다. 격자 상한(노드 14·행 3) 안에서는 억지로 눌러 담아야 했던 11노드 규모를 dagre가 랭크 배치로 풀어낸 장면이다. publish/consume 두 이벤트 경로에 패킷이 흐르고, app→db sql이 긴 우회선으로, gw↔auth 왕복이 두 줄로 갈라지는지 본다.",
+  "layout": {
+    "dir": "LR",
+    "nodesep": 26,
+    "ranksep": 76
+  },
+  "nodes": [
+    {
+      "id": "client",
+      "name": "Client",
+      "role": "외부 사용자",
+      "icon": "i-people",
+      "shape": "circle",
+      "fam": "blue",
+      "w": 112,
+      "h": 112
+    },
+    {
+      "id": "gw",
+      "name": "API GW",
+      "role": "인입·라우팅",
+      "icon": "i-globe",
+      "w": 152,
+      "h": 128
+    },
+    {
+      "id": "auth",
+      "name": "Auth",
+      "role": "인증 서비스",
+      "icon": "i-key",
+      "w": 152,
+      "h": 128
+    },
+    {
+      "id": "app",
+      "name": "App",
+      "role": "주문 로직",
+      "icon": "i-window",
+      "fam": "blue",
+      "w": 152,
+      "h": 128
+    },
+    {
+      "id": "search",
+      "name": "Search",
+      "role": "검색 서비스",
+      "icon": "i-search",
+      "w": 152,
+      "h": 128
+    },
+    {
+      "id": "bus",
+      "name": "Event Bus",
+      "role": "메시지 중개",
+      "icon": "i-bolt",
+      "fam": "orange",
+      "w": 160,
+      "h": 128
+    },
+    {
+      "id": "worker",
+      "name": "Worker",
+      "role": "비동기 처리",
+      "icon": "i-robot",
+      "w": 152,
+      "h": 128
+    },
+    {
+      "id": "notify",
+      "name": "Notify",
+      "role": "알림 발송",
+      "icon": "i-bell",
+      "w": 152,
+      "h": 128
+    },
+    {
+      "id": "db",
+      "name": "DB",
+      "role": "주문 저장",
+      "icon": "i-db",
+      "w": 148,
+      "h": 128
+    },
+    {
+      "id": "cache",
+      "name": "Cache",
+      "role": "읽기 캐시",
+      "icon": "i-db",
+      "w": 148,
+      "h": 128
+    },
+    {
+      "id": "ext",
+      "name": "외부 API",
+      "role": "검색 색인원",
+      "icon": "i-cloud",
+      "shape": "circle",
+      "fam": "paper",
+      "w": 112,
+      "h": 112
+    }
+  ],
+  "edges": [
+    {
+      "from": "client",
+      "to": "gw",
+      "label": "HTTPS",
+      "kind": "b"
+    },
+    {
+      "from": "gw",
+      "to": "auth",
+      "label": "verify",
+      "kind": "b"
+    },
+    {
+      "from": "auth",
+      "to": "gw",
+      "label": "token",
+      "kind": "g"
+    },
+    {
+      "from": "gw",
+      "to": "app",
+      "label": "route",
+      "kind": "b"
+    },
+    {
+      "from": "gw",
+      "to": "search",
+      "label": "query",
+      "kind": "b"
+    },
+    {
+      "from": "app",
+      "to": "bus",
+      "label": "publish",
+      "kind": "o",
+      "flow": true
+    },
+    {
+      "from": "bus",
+      "to": "worker",
+      "label": "consume",
+      "kind": "o",
+      "flow": true
+    },
+    {
+      "from": "bus",
+      "to": "notify",
+      "label": "fanout",
+      "kind": "o"
+    },
+    {
+      "from": "worker",
+      "to": "db",
+      "label": "write",
+      "kind": "b"
+    },
+    {
+      "from": "worker",
+      "to": "cache",
+      "label": "put",
+      "kind": "b"
+    },
+    {
+      "from": "app",
+      "to": "db",
+      "label": "sql",
+      "kind": "g"
+    },
+    {
+      "from": "search",
+      "to": "ext",
+      "label": "api",
+      "kind": "g"
+    }
+  ],
+  "zones": [
+    {
+      "id": "core",
+      "label": "코어 · 동기 호출",
+      "members": [
+        "gw",
+        "auth",
+        "app",
+        "search"
+      ]
+    },
+    {
+      "id": "async",
+      "label": "비동기 영역",
+      "members": [
+        "bus",
+        "worker",
+        "notify"
+      ]
+    },
+    {
+      "id": "data",
+      "label": "데이터",
+      "members": [
+        "db",
+        "cache"
+      ]
+    }
+  ],
+  "legend": [
+    {
+      "kind": "b",
+      "label": "동기 호출"
+    },
+    {
+      "kind": "o",
+      "label": "이벤트(패킷)"
+    },
+    {
+      "kind": "g",
+      "label": "보조·회신"
+    }
+  ]
+}

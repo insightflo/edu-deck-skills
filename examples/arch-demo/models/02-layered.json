@@ -1,0 +1,177 @@
+{
+  "title": "레이어드 아키텍처: 위층이 아래층만 부른다",
+  "eyebrow": "가상 예시 · 아키텍처 2/4 — Layered",
+  "small": "읽는 법 — 점선 띠: 층(표현→응용→데이터) · 선은 모두 위에서 아래로 · 공통 로깅은 횡단 관심사",
+  "ariaLabel": "가상 예시 레이어드 아키텍처: 표현층 웹·API·관리자가 응용층 주문·결제·도메인을 부르고, 응용층이 데이터층 DB·캐시를 부르며 로깅은 횡단 관심사로 둔다",
+  "titleSvg": "레이어드 아키텍처 — 가상 예시",
+  "notes": "가상 예시 시스템이다. 1단계에 층 경계 세 띠(표현·응용·데이터)가 뜨고, 2단계에 노드 9개가 켜지며, 3단계에 의존선 8개가 위→아래로 그려진다. dagre rankdir=TB가 랭크를 층으로 정렬한 결과 — 수평 띠 배치는 stack.js의 그룹 사각이 남기던 빈 면적 없이 층 리듬을 보여준다. 모든 화살표가 아래로만 향하는지(상향 호출 없음), 횡단 로깅이 데이터층 옆에 따로 서는지 본다.",
+  "layout": {
+    "dir": "TB",
+    "nodesep": 52,
+    "ranksep": 48
+  },
+  "nodes": [
+    {
+      "id": "web",
+      "name": "Web",
+      "role": "사용자 화면",
+      "icon": "i-window",
+      "w": 152,
+      "h": 128
+    },
+    {
+      "id": "api",
+      "name": "API",
+      "role": "공개 진입",
+      "icon": "i-globe",
+      "fam": "blue",
+      "w": 152,
+      "h": 128
+    },
+    {
+      "id": "admin",
+      "name": "Admin",
+      "role": "운영 콘솔",
+      "icon": "i-gear",
+      "w": 152,
+      "h": 128
+    },
+    {
+      "id": "ord",
+      "name": "OrderSvc",
+      "role": "주문 서비스",
+      "icon": "i-work",
+      "w": 152,
+      "h": 128
+    },
+    {
+      "id": "pay",
+      "name": "PaySvc",
+      "role": "결제 서비스",
+      "icon": "i-coin",
+      "w": 152,
+      "h": 128
+    },
+    {
+      "id": "dom",
+      "name": "Domain",
+      "role": "도메인 규칙",
+      "icon": "i-org",
+      "fam": "blue",
+      "w": 152,
+      "h": 128
+    },
+    {
+      "id": "db",
+      "name": "DB",
+      "role": "기본 저장",
+      "icon": "i-db",
+      "w": 148,
+      "h": 128
+    },
+    {
+      "id": "cache",
+      "name": "Cache",
+      "role": "조회 캐시",
+      "icon": "i-db",
+      "w": 148,
+      "h": 128
+    },
+    {
+      "id": "log",
+      "name": "Logging",
+      "role": "공통 관심사",
+      "icon": "i-list",
+      "w": 152,
+      "h": 128
+    }
+  ],
+  "edges": [
+    {
+      "from": "web",
+      "to": "ord",
+      "label": "호출",
+      "kind": "b"
+    },
+    {
+      "from": "api",
+      "to": "ord",
+      "label": "호출",
+      "kind": "b"
+    },
+    {
+      "from": "api",
+      "to": "pay",
+      "label": "호출",
+      "kind": "b"
+    },
+    {
+      "from": "admin",
+      "to": "dom",
+      "label": "관리",
+      "kind": "b"
+    },
+    {
+      "from": "ord",
+      "to": "db",
+      "label": "write",
+      "kind": "b"
+    },
+    {
+      "from": "pay",
+      "to": "db",
+      "label": "write",
+      "kind": "b"
+    },
+    {
+      "from": "dom",
+      "to": "cache",
+      "label": "read",
+      "kind": "g"
+    },
+    {
+      "from": "ord",
+      "to": "log",
+      "label": "기록",
+      "kind": "g"
+    }
+  ],
+  "zones": [
+    {
+      "id": "pres",
+      "label": "표현층",
+      "members": [
+        "web",
+        "api",
+        "admin"
+      ]
+    },
+    {
+      "id": "app",
+      "label": "응용층",
+      "members": [
+        "ord",
+        "pay",
+        "dom"
+      ]
+    },
+    {
+      "id": "data",
+      "label": "데이터층",
+      "members": [
+        "db",
+        "cache"
+      ]
+    }
+  ],
+  "legend": [
+    {
+      "kind": "b",
+      "label": "하향 호출"
+    },
+    {
+      "kind": "g",
+      "label": "보조(캐시·로그)"
+    }
+  ]
+}

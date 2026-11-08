@@ -1,0 +1,165 @@
+{
+  "title": "네트워크 토폴로지: 인입부터 DB까지의 물리 경로",
+  "eyebrow": "가상 예시 · 아키텍처 3/4 — Network Topology",
+  "small": "읽는 법 — 점선 틀: DMZ/내부망 · 파란 선: 트래픽 경로 · 회색 선: 데이터 접속 · 인입선 위 점: 패킷",
+  "ariaLabel": "가상 예시 네트워크 토폴로지: 인터넷 트래픽이 방화벽과 로드밸런서를 지나 이중 스위치와 웹 서버 두 대로 퍼지고 두 서버가 데이터베이스에 접속한다",
+  "titleSvg": "네트워크 토폴로지 — 가상 예시",
+  "notes": "가상 예시 시스템이다. 1단계에 DMZ·내부망 경계가 뜨고, 2단계에 장비 8개가 켜지며, 3단계에 경로가 그려진다. 인입선(inet→fw)에 패킷이 흐른다. rankdir=LR가 물리 계층을 좌→우로 정렬하고, 로드밸런서→이중 스위치→웹 서버 팬아웃이 대칭으로 펴지는지 본다. 이중화 구간이 겹치지 않고 두 줄로 나란히 가는 것이 포인트다.",
+  "layout": {
+    "dir": "LR",
+    "nodesep": 56,
+    "ranksep": 92
+  },
+  "nodes": [
+    {
+      "id": "inet",
+      "name": "Internet",
+      "role": "외부 망",
+      "icon": "i-globe",
+      "shape": "circle",
+      "fam": "paper",
+      "w": 112,
+      "h": 112
+    },
+    {
+      "id": "fw",
+      "name": "FW",
+      "role": "방화벽",
+      "icon": "i-shield",
+      "fam": "orange",
+      "w": 148,
+      "h": 128
+    },
+    {
+      "id": "lb",
+      "name": "LB",
+      "role": "부하 분산",
+      "icon": "i-gear",
+      "fam": "blue",
+      "w": 148,
+      "h": 128
+    },
+    {
+      "id": "swA",
+      "name": "SW-A",
+      "role": "코어 스위치",
+      "icon": "i-link",
+      "w": 148,
+      "h": 128
+    },
+    {
+      "id": "swB",
+      "name": "SW-B",
+      "role": "코어 스위치",
+      "icon": "i-link",
+      "w": 148,
+      "h": 128
+    },
+    {
+      "id": "web1",
+      "name": "Web-1",
+      "role": "웹 서버",
+      "icon": "i-window",
+      "w": 148,
+      "h": 128
+    },
+    {
+      "id": "web2",
+      "name": "Web-2",
+      "role": "웹 서버",
+      "icon": "i-window",
+      "w": 148,
+      "h": 128
+    },
+    {
+      "id": "db",
+      "name": "DB",
+      "role": "데이터 저장",
+      "icon": "i-db",
+      "w": 148,
+      "h": 128
+    }
+  ],
+  "edges": [
+    {
+      "from": "inet",
+      "to": "fw",
+      "label": "inbound",
+      "kind": "b",
+      "flow": true
+    },
+    {
+      "from": "fw",
+      "to": "lb",
+      "label": "443",
+      "kind": "b"
+    },
+    {
+      "from": "lb",
+      "to": "swA",
+      "label": "uplink",
+      "kind": "b"
+    },
+    {
+      "from": "lb",
+      "to": "swB",
+      "label": "uplink",
+      "kind": "b"
+    },
+    {
+      "from": "swA",
+      "to": "web1",
+      "label": "1G",
+      "kind": "b"
+    },
+    {
+      "from": "swB",
+      "to": "web2",
+      "label": "1G",
+      "kind": "b"
+    },
+    {
+      "from": "web1",
+      "to": "db",
+      "label": "sql",
+      "kind": "g"
+    },
+    {
+      "from": "web2",
+      "to": "db",
+      "label": "sql",
+      "kind": "g"
+    }
+  ],
+  "zones": [
+    {
+      "id": "dmz",
+      "label": "DMZ",
+      "members": [
+        "fw",
+        "lb"
+      ]
+    },
+    {
+      "id": "internal",
+      "label": "내부망",
+      "members": [
+        "swA",
+        "swB",
+        "web1",
+        "web2",
+        "db"
+      ]
+    }
+  ],
+  "legend": [
+    {
+      "kind": "b",
+      "label": "트래픽 경로"
+    },
+    {
+      "kind": "g",
+      "label": "데이터 접속"
+    }
+  ]
+}
