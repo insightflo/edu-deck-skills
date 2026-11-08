@@ -74,7 +74,8 @@ const errors = [];
 const warns = [];
 const fail = (m) => errors.push(m);
 const warn = (m) => warns.push(m);
-const VIEW = model.view === 'sequence' ? 'sequence' : 'process';
+const VIEW = ['sequence', 'compare'].includes(model.view) ? model.view : 'process';
+const CHANGES = ['keep', 'new', 'change', 'remove'];
 /* ── 3. 좌표 ─────────────────────────────────────────────────────── */
 const VBW = 1664;
 const C = {
@@ -89,7 +90,9 @@ const round = (v) => +(+v).toFixed(1);
 const textW = (s, px) => [...String(s)].reduce((w, ch) => w + (/[\u3000-\u9fff\uac00-\ud7af]/.test(ch) ? px : px * 0.56), 0);
 
 if (!model.title) fail('title 필수');
-if (VIEW === 'process') validateProcess(); else validateSequence();
+if (VIEW === 'process') validateProcess();
+else if (VIEW === 'sequence') validateSequence();
+else validateCompare();
 if (errors.length) { for (const e of errors) console.error(`FAIL: ${e}`); process.exit(1); }
 
 function validateProcess() {
@@ -157,6 +160,28 @@ function validateSequence() {
   }
 }
 
+function validateCompare() {
+  const rows = model.rows || [];
+  if (!rows.length) return fail('rows 필수(계층 띠)');
+  const ids = new Set();
+  for (const n of model.nodes || []) {
+    if (!n.id || !n.name) fail('compare node 는 id·name 필수');
+    if (ids.has(n.id)) fail(`중복 node id: ${n.id}`);
+    ids.add(n.id);
+    if (!CHANGES.includes(n.change || 'keep')) fail(`${n.id}: change 는 keep|new|change|remove`);
+    if (!rows[n.row ?? -1]) fail(`${n.id}: 알 수 없는 row ${n.row}`);
+    if ((n.col ?? -1) < 0) fail(`${n.id}: col 은 0 이상`);
+    if (textW(n.name, 26) > 236) warn(`${n.id}: 이름이 카드 폭을 넘을 수 있습니다(약 ${Math.round(textW(n.name, 26))}px)`);
+  }
+  let paths = 0;
+  for (const e of model.edges || []) {
+    if (!ids.has(e.from) || !ids.has(e.to)) fail(`${e.id}: 알 수 없는 끝점 ${e.from}→${e.to}`);
+    if (!CHANGES.includes(e.state || 'keep')) fail(`${e.id}: state 는 keep|new|remove(change 는 노드 전용)`);
+    paths++;
+  }
+  if (paths > 12) fail(`링크 ${paths}개 > 12(draw 예산)`);
+}
+
 /* ── 2. 토큰 시뮬레이션(process) ─────────────────────────────────── */
 /** 시작 → 이동마다 1단계. 게이트 진입 시 나가는 갈래 전체 공개, 실행은 scenario 대로 하나만. */
 function simulate() {
@@ -210,7 +235,7 @@ function simulate() {
 }
 
 /* ── 4. 방출 ─────────────────────────────────────────────────────── */
-const doc = VIEW === 'process' ? buildProcess() : buildSequence();
+const doc = VIEW === 'process' ? buildProcess() : VIEW === 'sequence' ? buildSequence() : buildCompare();
 const body = svgOnly ? doc.svg : doc.section;
 if (outPath) {
   if (checkOnly) {
@@ -270,6 +295,21 @@ function buildProcess() {
     const m = { left: [n.l, n.cy], right: [n.r, n.cy], top: [n.cx, n.t], bottom: [n.cx, n.b] }[side];
     return { x: round(m[0]), y: round(m[1]) };
   };
+  /**
+   * 대조 모드 전용 경로 — 카드 사이 '채널'(행 사이 여백)로만 꺾는다.
+   * [이유] 행이 3개뿐인 격자에서 기본 직교 경로를 쓰면 뒤쪽 열로 가는 선이 카드를 관통한다.
+   *   아래로 내려갈 때는 이 행 아래 채널, 위로 올라갈 때는 위 채널에서 가로로 이동한다.
+   */
+  const routeC = (e) => {
+    const a = N[e.from], b = N[e.to];
+    if (a.row === b.row) {
+      if (Math.abs(a.cx - b.cx) < 1) return [{ x: a.cx, y: a.t }, { x: b.cx, y: b.b }];
+      return [P(e.from, b.cx > a.cx ? 'right' : 'left'), P(e.to, b.cx > a.cx ? 'left' : 'right')];
+    }
+    if (Math.abs(a.cx - b.cx) < 1) return [P(e.from, b.row > a.row ? 'bottom' : 'top'), P(e.to, b.row > a.row ? 'top' : 'bottom')];
+    const y = b.row > a.row ? round(bandY(a.row) + ROW - 16) : round(bandY(a.row) + 16);
+    return [P(e.from, b.row > a.row ? 'bottom' : 'top'), { x: a.cx, y }, { x: b.cx, y }, P(e.to, b.row > a.row ? 'top' : 'bottom')];
+  };
   const opts = model.options || {};
   const routeOf = (e) => routeEdge(e, N, P, laneOf, opts);
   // 칩 배치 순서: 판정 라벨 → 흐름 라벨(모델 순서). 겹치면 자동으로 위/아래/좌/우를 옮긴다.
@@ -291,6 +331,8 @@ function buildProcess() {
       const a = labelAt(e, pts);
       if (a.side === 'on') { chips[e.id] = { x: round(a.x - w / 2), y: round(a.y - h / 2), w, h }; continue; }
       const c = placeChip(a.x, a.y, w, h, [a.side, 'above', 'below', 'right', 'left'], obstacles);
+      // 캔버스 위로 밀려 올라간 칩은 머리띠를 덮는다 — 아래로 내린다
+      if (c.y < C.poolH + 6) c.y = C.poolH + 6;
       chips[e.id] = { ...c, w, h };
       obstacles.push({ x0: c.x, x1: c.x + w, y0: c.y, y1: c.y + h });
     }
@@ -545,4 +587,149 @@ function buildSequence() {
     `</section>`,
   ].join('\n');
   return { svg: svg.join('\n'), section, steps, meta: { actors: actors.length, steps: msgs.length, paths: msgs.length, h: H } };
+}
+
+/* ── 4-C. compare(As-Is → To-Be) ─────────────────────────────────── */
+/**
+ * 변경 대조 모드. 좌표를 모델이 정하므로 두 상태의 같은 시스템이 **같은 자리**에 남는다
+ * (dagre 는 노드 집합이 바뀌면 좌표가 흔들려 "위치 아이덴티티"를 보장하지 못한다).
+ * 4상태: keep(유지) · new(신규) · change(변경) · remove(제거).
+ * 단계: 1 As-Is 전체 → 2 제거 소거(흐림+취소선) → 3 신규 등장 → 4 변경 강조.
+ */
+function buildCompare() {
+  const rows = model.rows;
+  const cols = Math.max(...model.nodes.map((n) => n.col)) + 1;
+  const colW = (VBW - C.laneHead - C.margin * 2) / cols;
+  const ROW = C.rowH + 56;   // 카드(56) + 채널 여백 — 칩이 행 사이에 들어갈 자리
+  const CW = Math.min(260, Math.round(colW - 80));
+  const colX = (c) => round(C.laneHead + C.margin + colW * (c + 0.5));
+  const pool = C.poolH;
+  const bandY = (i) => round(pool + i * ROW);
+  const H = pool + rows.length * ROW + 58;
+  const N = {};
+  for (const n of model.nodes) {
+    const cx = colX(n.col);
+    const cy = round(bandY(n.row) + ROW / 2);
+    N[n.id] = { ...n, cx, cy, l: round(cx - CW / 2), r: round(cx + CW / 2), t: round(cy - 28), b: round(cy + 28) };
+  }
+  const P = (id, side) => {
+    const n = N[id];
+    const m = { left: [n.l, n.cy], right: [n.r, n.cy], top: [n.cx, n.t], bottom: [n.cx, n.b] }[side];
+    return { x: round(m[0]), y: round(m[1]) };
+  };
+  /**
+   * 대조 모드 전용 경로 — 카드 사이 '채널'(행 사이 여백)로만 꺾는다.
+   * [이유] 행이 3개뿐인 격자에서 기본 직교 경로를 쓰면 뒤쪽 열로 가는 선이 카드를 관통한다.
+   *   아래로 내려갈 때는 이 행 아래 채널, 위로 올라갈 때는 위 채널에서 가로로 이동한다.
+   */
+  const routeC = (e) => {
+    const a = N[e.from], b = N[e.to];
+    if (a.row === b.row) {
+      if (Math.abs(a.cx - b.cx) < 1) return [{ x: a.cx, y: a.t }, { x: b.cx, y: b.b }];
+      return [P(e.from, b.cx > a.cx ? 'right' : 'left'), P(e.to, b.cx > a.cx ? 'left' : 'right')];
+    }
+    if (Math.abs(a.cx - b.cx) < 1) return [P(e.from, b.row > a.row ? 'bottom' : 'top'), P(e.to, b.row > a.row ? 'top' : 'bottom')];
+    const y = b.row > a.row ? round(bandY(a.row) + ROW - 16) : round(bandY(a.row) + 16);
+    return [P(e.from, b.row > a.row ? 'bottom' : 'top'), { x: a.cx, y }, { x: b.cx, y }, P(e.to, b.row > a.row ? 'top' : 'bottom')];
+  };
+  const chips = {};
+  {
+    const obstacles = Object.values(N).map((n) => ({ x0: n.l - 4, x1: n.r + 4, y0: n.t - 4, y1: n.b + 4 }));
+    obstacles.push({ x0: 0, x1: VBW, y0: 0, y1: pool });   // 머리띠도 장애물
+    for (const e of model.edges) {
+      if (!e.label) continue;
+      const pts = routeC(e);
+      const w = Math.round(textW(e.label, 22) + 24), h = 36;
+      const a = labelAt(e, pts);
+      const c = placeChip(a.x, a.y, w, h, ['below', 'above', 'right', 'left'], obstacles);
+      // 캔버스 위로 밀려 올라간 칩은 머리띠를 덮는다 — 아래로 내린다
+      if (c.y < pool + 6) c.y = pool + 6;
+      chips[e.id] = { ...c, w, h };
+      obstacles.push({ x0: c.x, x1: c.x + w, y0: c.y, y1: c.y + h });
+    }
+  }
+  const svg = [];
+  svg.push(`  <svg class="dg" viewBox="0 0 ${VBW} ${H}" role="img" aria-label="${esc(model.ariaLabel || model.title)}">`);
+  svg.push(`  <title>${esc(model.title)}</title>`);
+  svg.push(`  <g data-step="0">
+    <rect class="k-solid-n" x="0" y="0" width="${VBW}" height="${pool}" style="rx:10px"/>
+    <text class="t-l k-t-w" x="16" y="34">${esc(model.pool || model.title)}</text>
+    <text class="k-t-tag k-t-w" x="${VBW - 16}" y="33" text-anchor="end">4단계 · 유지 ${model.nodes.filter((n) => (n.change || 'keep') === 'keep').length} · 신규 ${model.nodes.filter((n) => n.change === 'new').length} · 변경 ${model.nodes.filter((n) => n.change === 'change').length} · 제거 ${model.nodes.filter((n) => n.change === 'remove').length}</text>`);
+  for (let i = 0; i < rows.length; i++) {
+    svg.push(`    <rect class="k-gray" x="0" y="${bandY(i)}" width="${VBW}" height="${ROW}"/>`);
+    svg.push(`    <rect class="k-solid-n" x="0" y="${bandY(i)}" width="${C.laneHead}" height="${ROW}"/>`);
+    svg.push(`    <text class="k-t-tag k-t-w" transform="translate(30 ${round(bandY(i) + ROW / 2)}) rotate(-90)" text-anchor="middle">${esc(rows[i].label)}</text>`);
+  }
+  svg.push(`  </g>`);
+  // 흐름 — 제거되는 선은 1단계까지만(2단계에서 소거), 신규 선은 3단계에 등장
+  for (const e of model.edges) {
+    const pts = routeC(e);
+    const st = e.state === 'remove' ? ' data-until="1"' : ` data-step="${e.state === 'new' ? 3 : 1}"`;
+    svg.push(`    <g${st}>`);
+    svg.push(`      <path class="k-ln-b" d="${pathD(pts)}" marker-end="url(#ah-b)"/>`);
+    if (e.label) {
+      const c = chips[e.id];
+      svg.push(`      <rect class="k-paper" x="${c.x}" y="${c.y}" width="${c.w}" height="${c.h}" style="rx:9px"/>`);
+      svg.push(`      <text class="k-t-tag" x="${round(c.x + c.w / 2)}" y="${round(c.y + c.h - 8)}" text-anchor="middle">${esc(e.label)}</text>`);
+    }
+    svg.push(`    </g>`);
+  }
+  // 노드 — 상태마다 등장/소거 묶음이 다르다
+  const card = (n, cls, label, role, extra = '') => {
+    const o = [`      <rect class="${cls}" x="${n.l}" y="${n.t}" width="${CW}" height="56" style="rx:10px${extra}"/>`];
+    // compare 카드는 글자만 — 아이콘을 왼쪽에 넣으면 정렬 때문에 쓸 수 있는 폭이 줄어 장문이 넘친다.
+    o.push(`      <text class="t-l" x="${n.cx}" y="${round(n.cy - 2)}" text-anchor="middle">${esc(label)}</text>`);
+    if (role) o.push(`      <text class="k-t-tag" x="${n.cx}" y="${round(n.cy + 22)}" text-anchor="middle">${esc(role)}</text>`);
+    return o;
+  };
+  // 배지: 카드 오른쪽 바깥(행 사이 여백) — 카드 위에 얹으면 위 카드와 붙어 보인다
+  const badge = (n, text, cls) => {
+    const w = Math.round(textW(text, 22) + 22);
+    return [`      <rect class="${cls}" x="${round(n.r + 10)}" y="${round(n.cy - 14)}" width="${w}" height="28" style="rx:8px"/>`,
+      `      <text class="k-t-tag" x="${round(n.r + 10 + w / 2)}" y="${round(n.cy + 6)}" text-anchor="middle">${esc(text)}</text>`];
+  };
+  for (const raw of model.nodes) {
+    const n = N[raw.id];
+    const ch = n.change || 'keep';
+    if (ch === 'keep') {
+      svg.push(`    <g data-step="1">`, ...card(n, 'k-paper', n.name, n.role), `    </g>`);
+    } else if (ch === 'new') {
+      svg.push(`    <g data-step="3">`, ...card(n, 'k-orange', n.name, n.role), ...badge(n, '신규', 'k-solid-o'), `    </g>`);
+    } else if (ch === 'change') {
+      svg.push(`    <g data-until="3">`, ...card(n, 'k-paper', n.was || n.name, n.wasRole || n.role), `    </g>`);
+      svg.push(`    <g data-step="4">`, ...card(n, 'k-blue', n.name, n.role), ...badge(n, '변경', 'k-solid-b'), `    </g>`);
+    } else {
+      svg.push(`    <g data-until="1">`, ...card(n, 'k-paper', n.name, n.role), `    </g>`);
+      // 제거: 흐린 카드 + 취소선(polyline — path 가 아니므로 draw 예산 밖)
+      svg.push(`    <g data-step="2" opacity="0.6">`, ...card(n, 'k-gray', n.name, n.role, ';stroke-dasharray:8 6'),
+        `      <polyline points="${round(n.l + 10)},${round(n.cy)} ${round(n.r - 10)},${round(n.cy)}" style="fill:none;stroke:var(--soft);stroke-width:4;stroke-linecap:round"/>`,
+        ...badge(n, '제거', 'k-gray'), `    </g>`);
+    }
+  }
+  // 범례 — 4상태 필수
+  const ly = round(H - 24);
+  let x = 20;
+  const items = [
+    ['k-paper', '유지', '그대로'],
+    ['k-orange', '신규', '주황 등장'],
+    ['k-blue', '변경', '청색 교체'],
+    ['k-gray', '제거', '흐림+취소선'],
+  ];
+  const parts = [];
+  for (const [cls, label, desc] of items) {
+    parts.push(`<rect class="${cls}" x="${x}" y="${ly - 14}" width="34" height="28" style="rx:8px"/><text class="k-t-tag" x="${x + 46}" y="${ly + 8}">${label}</text><text class="k-t-tag" x="${x + 46 + textW(label, 22) + 14}" y="${ly + 8}" opacity=".8">${desc}</text>`);
+    x += 46 + textW(label, 22) + 14 + textW(desc, 22) + 54;
+  }
+  svg.push(`    <g>${parts.join('')}</g>`);
+  svg.push(`  </svg>`);
+  const section = [
+    header('변경 대조(As-Is → To-Be) · 자체 저작 문법 — 위치는 모델이 고정한다'),
+    `<section class="slide" data-archetype="arch-diagram" style="gap:18px">`,
+    `  <div class="head"><p class="eyebrow">${esc(model.eyebrow || '')}</p><h2 class="title">${esc(model.title)}</h2></div>`,
+    ...svg,
+    `  <p class="small">${esc(model.caption || '')}</p>`,
+    `  <aside class="notes">${esc(model.notes || '')}</aside>`,
+    `</section>`,
+  ].join('\n');
+  return { svg: svg.join('\n'), section, meta: { lanes: rows.length, steps: 4, paths: model.edges.length, h: H } };
 }

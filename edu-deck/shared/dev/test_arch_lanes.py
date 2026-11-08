@@ -27,6 +27,7 @@ GEN = S / 'scripts' / 'arch_lanes.mjs'
 MODELS = ROOT / 'examples' / 'arch-si' / 'models'
 B1 = MODELS / 'b1-swimlane.json'
 B2 = MODELS / 'b2-sequence.json'
+D1 = MODELS / 'd1-astobe.json'
 NODE = shutil.which('node')
 
 
@@ -129,13 +130,13 @@ class ArchLanesTest(unittest.TestCase):
 
     # ── 엔진 의존 0 ─────────────────────────────────────────────────
     def test_only_engine_attributes(self):
-        for src in (B1, B2):
+        for src in (B1, B2, D1):
             out = self.tmp / (src.stem + '.html')
             code, log = run(src, out)
             self.assertEqual(code, 0, log)
             html = out.read_text(encoding='utf-8')
             attrs = set(re.findall(r'\bdata-[a-z-]+', html))
-            self.assertTrue(attrs <= {'data-archetype', 'data-step', 'data-only'}, f'{src.name}: 예상 밖 속성 {attrs}')
+            self.assertTrue(attrs <= {'data-archetype', 'data-step', 'data-only', 'data-until'}, f'{src.name}: 예상 밖 속성 {attrs}')
             for bad in ('<script', '<animate', '@keyframes', 'data-fx', 'requestAnimationFrame'):
                 self.assertNotIn(bad, html, f'{src.name}: {bad} 발견')
 
@@ -166,6 +167,39 @@ class ArchLanesTest(unittest.TestCase):
         self.assertEqual(html.count('data-step='), 8 + 1 + 4, 'data-step = 메시지 8 + 헤더·생명선 그룹 1 + 활성 막대 4')
         # 생명선은 polyline(장식) — path 가 아니다
         self.assertGreaterEqual(html.count('class="k-ln-g" points='), 4)
+
+    # ── 대조(compare) 모드 ─────────────────────────────────────────
+    def test_compare_deterministic(self):
+        a, b = self.tmp / 'd1a.html', self.tmp / 'd1b.html'
+        for f in (a, b):
+            code, log = run(D1, f)
+            self.assertEqual(code, 0, log)
+        self.assertEqual(a.read_bytes(), b.read_bytes(), 'd1: 두 실행 결과가 다르다')
+
+    def test_compare_four_states(self):
+        out = self.tmp / 'd1.html'
+        code, log = run(D1, out)
+        self.assertEqual(code, 0, log)
+        html = out.read_text(encoding='utf-8')
+        for word in ('유지', '신규', '변경', '제거'):
+            self.assertIn(f'>{word}</text>', html, f'범례에 {word} 없음')
+        # 제거 = 1단계까지 원형, 2단계부터 흐린 취소선 카드
+        self.assertIn('data-until="1"', html)
+        self.assertIn('>제거</text>', html)
+        # 변경 = 3단계까지 옛 모습, 4단계에 새 모습
+        self.assertIn('data-until="3"', html)
+        self.assertIn('>변경</text>', html)
+        # 위치 아이덴티티: 같은 시스템이 한 좌표에 두 번 그려지지 않는다(상태 교체는 data-until/step 쌍)
+        self.assertEqual(html.count('>단일 WAS</text>'), 1, '변경 전 모습은 한 번만')
+        self.assertEqual(html.count('>WAS-1</text>'), 1, '변경 후 모습은 한 번만')
+
+    def test_compare_rejects_unknown_state(self):
+        def bad(m):
+            m['nodes'][0]['change'] = 'maybe'
+        p = self._mutate(D1, bad, 'cmp.json')
+        code, log = run(p, self.tmp / 'cmp.html')
+        self.assertEqual(code, 1)
+        self.assertIn('change 는 keep|new|change|remove', log)
 
     def test_sequence_unknown_actor_rejected(self):
         def bad(m):
