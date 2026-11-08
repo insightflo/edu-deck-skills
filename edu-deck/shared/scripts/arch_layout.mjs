@@ -19,7 +19,8 @@
  *               fam:"paper|blue|orange", w, h, step? }]
  *   edges  : [{ from, to, label, kind:"b|o|g|r", flow?:bool, step?, aux?:bool }]
  *             kind b=동기(k-ln-b) o=이벤트(k-ln-o) g=보조(k-ln-g) r=응답(k-ln-g+점선+ah-open);
- *             flow→dash-flow 입자 · aux→data-step 없는 정적 보조선(draw 예산 밖, 항상 표시)
+ *             flow→dash-flow 입자 · aux→data-step 없는 정적 보조선(draw 예산·dagre 배치 밖,
+ *             두 노드 사이 직선 — 랭크 제약을 주고 싶지 않은 보조 경로에 사용)
  *   zones  : [{ id, label, members:[id…], kind:"member|trust", labelPos:"top|bottom",
  *               pad:{top,bottom,side}, step? }] member=k-paper 면색 띠(소속) ·
  *             trust·미지정=k-frame 점선(신뢰 경계) · pad는 존별 여백 덮어쓰기
@@ -99,14 +100,24 @@ const g = new dagre.graphlib.Graph({ multigraph: true });
 g.setGraph({ rankdir: L.dir || 'LR', nodesep: L.nodesep ?? 48, ranksep: L.ranksep ?? 96, marginx: 0, marginy: 0 });
 g.setDefaultEdgeLabel(() => ({}));
 for (const [id, d] of Object.entries(NODES)) g.setNode(id, { width: d.w, height: d.h });
-EDGES.forEach((e, i) => g.setEdge(e.a, e.b, { label: e.label, width: 40, height: 30, labelpos: 'c' }, `e${i}`));
+EDGES.forEach((e, i) => { if (!e.aux) g.setEdge(e.a, e.b, { label: e.label, width: 40, height: 30, labelpos: 'c' }, `e${i}`); });
 dagre.layout(g);
 
 const nodes = Object.fromEntries(Object.entries(NODES).map(([id, d]) => {
   const v = g.node(id);
   return [id, { cx: v.x, cy: v.y, ...d }];
 }));
-const edges = EDGES.map((e, i) => ({ ...e, pts: g.edge(e.a, e.b, `e${i}`).points.map((p) => ({ x: p.x, y: p.y })) }));
+// aux 엣지는 dagre에 넣지 않는다(레이아웃 비구동 정적 보조선) — 두 노드 상자 경계를 잇는 직선
+const clip = (to, n) => {
+  const dx = to.x - n.cx, dy = to.y - n.cy;
+  const t = Math.min(dx ? (n.w / 2) / Math.abs(dx) : 1e9, dy ? (n.h / 2) / Math.abs(dy) : 1e9);
+  return { x: n.cx + dx * t, y: n.cy + dy * t };
+};
+const edges = EDGES.map((e, i) => {
+  if (!e.aux) return { ...e, pts: g.edge(e.a, e.b, `e${i}`).points.map((p) => ({ x: p.x, y: p.y })) };
+  const fa = nodes[e.a], fb = nodes[e.b];
+  return { ...e, pts: [clip({ x: fb.cx, y: fb.cy }, fa), clip({ x: fa.cx, y: fa.cy }, fb)] };
+});
 
 /* ── 2. 정규화: 존 패딩 포함 전체 bbox → 1664 폭·여백 안 가운데 ── */
 const nRect = (n) => ({ x0: n.cx - n.w / 2, x1: n.cx + n.w / 2, y0: n.cy - n.h / 2, y1: n.cy + n.h / 2 + (n.shape === 'circle' ? 34 : 0) });
@@ -176,6 +187,9 @@ const overlaps = (r) => Object.values(nodes).some((n) => hit(r, nRect(n)))
       : { x0: z.r.x0, x1: z.r.x1, y0: z.r.y0, y1: z.r.y0 + 48 };
     return hit(r, b);
   }) || (L.chipAvoid && placedChips.some((b) => hit(r, b)));
+// 라벨 칩은 svg·범례 영역 안에 있어야 한다 — 정규화 좌표로 검사
+const legH = legendItems.length ? 56 : 0;
+const inBox = (r) => X(r.x0) >= 2 && X(r.x1) <= VBW - 2 && Y(r.y0) >= 2 && Y(r.y1) <= H - 2 - legH;
 const labelPos = (e, idx) => {
   const m = midPoint(e.pts), w = e.label.length * 17 + 30;
   const pair = edges.findIndex((q) => q.a === e.b && q.b === e.a);
@@ -183,10 +197,12 @@ const labelPos = (e, idx) => {
   for (const dy of [off, off - 34, off + 34, off - 68, off + 68, off - 102, off + 102]) {
     for (const dx of [0, -44, 44, -88, 88, -132, 132, -176, 176]) {
       const r = { x0: m.x + dx - w / 2, x1: m.x + dx + w / 2, y0: m.y - 18 + dy, y1: m.y + 18 + dy };
-      if (!overlaps(r)) { placedChips.push(r); return { x: m.x + dx, y: m.y + dy, w }; }
+      if (inBox(r) && !overlaps(r)) { placedChips.push(r); return { x: m.x + dx, y: m.y + dy, w }; }
     }
   }
-  return { x: m.x, y: m.y + off, w };
+  const ly = Math.min(Math.max(m.y + off, minY - PAD + 22), maxY + PAD - 22 - legH);
+  const lx = Math.min(Math.max(m.x, minX - PAD + w / 2 + 4), maxX + PAD - w / 2 - 4);
+  return { x: lx, y: ly, w };
 };
 
 /* ── 4. 방출 ── */
