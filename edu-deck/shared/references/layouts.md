@@ -219,6 +219,7 @@
 | 50 | heatmap-grid | 교차 강도 격자: 두 축이 만나는 칸의 색 농도로 밀도·강도 비교 — 요일×시간 참여·월×활동 학습량 | 단계 2 | 셀 .hm k-solid-b 명도 5단계(개념 비교 — 셀 수치 생략, 18px 미만 글자 금지), 범례 계단 필수. 마커 .hm. 시각 계열. 시그니처 grid-flare(신규). 변형: timeslot 5×6 · month 4×6 |
 | 51 | swimlane | 주체별 띠 인계: 역할 띠 위에 작업이 배치되고 띠를 넘어가는 인수인계 — 요청→처리→검수 | 단계 3 | 띠 번갈은 k-gray+주체 칸 k-solid-n, 작업 k-paper 카드, 인계 dash-flow+k-ln-o. 마커 .sl. 시각 계열. 시그니처 lane-slide(신규). 변형: process 3띠 S자 · roles 2띠 왕복 |
 | 52 | cycle-ring | 되돌아오는 순환: 단계 조각이 이어져 한 바퀴를 도는 고리 — 학습 주기·점검 루틴·피드백 회전 | 조각마다 1 | 고리 호 조각 k-blue 명도 단계, 중심 k-solid-n 원, 방향 dash-flow+시작 k-solid-o 도장. 마커 .cy. 시각 계열. 시그니처 ring-circuit(신규). 변형: ring 4조각 · spiral 성장 고리 |
+| 53 | arch-diagram | 아이소메트릭 3D 구성도: 장비 상자·영역 바닥면·연결선을 생성기(`scripts/iso_layout.mjs`)가 `svg.dg` 한 장으로 그린다 — 데이터센터·배포 위치·경계 | 단계 2~5 | **`data-archetype="arch-diagram"` 필수**(레시피 arch-trace 없으면 엔진이 아무것도 재생하지 않는다). `figure.fig-slot > svg.dg`, viewBox 폭 1664·높이 ≤840, 노드 ≤7·간선 ≤12·flow 링크 ≤3. 그림은 손으로 고치지 않고 시맨틱 JSON → 생성기로 다시 만든다. 링크 1개 = path 1개, 장식은 polygon/polyline 만. 시그니처 arch-trace(신규). 절차: references/architecture.md |
 
 ## 표지 직접 설계 계약
 
