@@ -1,0 +1,183 @@
+{
+  "title": "DR 구성 — 주·DR 전환과 비동기 복제",
+  "eyebrow": "SI 유형 C3 · 인프라 — 재해복구",
+  "small": "읽는 법 — 면색 띠: 센터(주·DR) · 주황 점선: 센터 경계 · 점선 스트림: 비동기 복제(이중화 전환과 다른 문법) · 상태 칩이 단계별 전환을 표시",
+  "ariaLabel": "DR 구성도: 사용자가 L4를 거쳐 주 센터의 WAS·DB를 쓰고, 주 DB에서 DR DB로 비동기 복제가 흐르며, 장애 시 DR 센터가 승격되는 과정을 단계로 보여준다",
+  "layout": {
+    "dir": "LR",
+    "ranksep": 80,
+    "nodesep": 34,
+    "chipAvoid": true
+  },
+  "steps": {
+    "zones": 1,
+    "nodes": 2,
+    "edges": 3
+  },
+  "nodes": [
+    {
+      "id": "user",
+      "name": "사용자",
+      "icon": "i-people",
+      "shape": "circle",
+      "w": 96,
+      "h": 96
+    },
+    {
+      "id": "lb",
+      "name": "L4/LB",
+      "icon": "i-globe",
+      "w": 148,
+      "h": 100,
+      "fam": "blue"
+    },
+    {
+      "id": "appA",
+      "name": "주 WAS",
+      "icon": "i-window",
+      "w": 148,
+      "h": 100,
+      "state": "ok"
+    },
+    {
+      "id": "appS",
+      "name": "DR WAS",
+      "icon": "i-window",
+      "w": 148,
+      "h": 100,
+      "state": "warn",
+      "fam": "orange"
+    },
+    {
+      "id": "dbP",
+      "name": "주 DB",
+      "icon": "i-db",
+      "w": 148,
+      "h": 100,
+      "state": "ok"
+    },
+    {
+      "id": "dbR",
+      "name": "DR DB",
+      "icon": "i-db",
+      "w": 148,
+      "h": 100,
+      "state": "warn",
+      "fam": "orange"
+    }
+  ],
+  "edges": [
+    {
+      "from": "user",
+      "to": "lb",
+      "label": "접속",
+      "kind": "b"
+    },
+    {
+      "from": "lb",
+      "to": "appA",
+      "label": "Active",
+      "kind": "b"
+    },
+    {
+      "from": "appA",
+      "to": "dbP",
+      "label": "R/W",
+      "kind": "b"
+    },
+    {
+      "from": "lb",
+      "to": "appS",
+      "label": "Standby 대기",
+      "kind": "g"
+    },
+    {
+      "from": "appS",
+      "to": "dbR",
+      "label": "승격 시 연결",
+      "kind": "g"
+    },
+    {
+      "from": "dbP",
+      "to": "dbR",
+      "label": "비동기 복제·목표 RPO 15분",
+      "kind": "g",
+      "flow": true,
+      "aux": true
+    }
+  ],
+  "zones": [
+    {
+      "id": "z-pri",
+      "label": "주 센터(Active)",
+      "members": [
+        "appA",
+        "dbP"
+      ],
+      "kind": "member",
+      "pad": {
+        "top": 24,
+        "bottom": 60,
+        "side": 24
+      },
+      "labelPos": "bottom"
+    },
+    {
+      "id": "z-dr",
+      "label": "DR 센터(Standby)",
+      "members": [
+        "appS",
+        "dbR"
+      ],
+      "kind": "member",
+      "pad": {
+        "top": 56,
+        "bottom": 20,
+        "side": 24
+      }
+    }
+  ],
+  "states": [
+    {
+      "node": "appA",
+      "at": 4,
+      "state": "down"
+    },
+    {
+      "node": "dbP",
+      "at": 4,
+      "state": "down"
+    },
+    {
+      "node": "appS",
+      "at": 5,
+      "state": "ok"
+    },
+    {
+      "node": "dbR",
+      "at": 6,
+      "state": "ok"
+    },
+    {
+      "node": "appA",
+      "at": 7,
+      "state": "warn"
+    },
+    {
+      "node": "dbP",
+      "at": 7,
+      "state": "warn"
+    },
+    {
+      "node": "appA",
+      "at": 8,
+      "state": "ok"
+    },
+    {
+      "node": "dbP",
+      "at": 8,
+      "state": "ok"
+    }
+  ],
+  "notes": "예시 덱 — '목표 RPO 15분'은 비동기 복제 설계 목표의 예시값이며 실측이 아닙니다. 단계: 1~3 정상(Active 경로 + 복제 스트림), 4 장애 감지(주 WAS·DB down), 5 전환(DR WAS 승격), 6 서비스 재개(DR DB 승격), 7 주 센터 복구(warn), 8 재전환 완료. 이중화(전환·승격)는 상태 칩으로, 복제(데이터 흐름)는 점선 스트림으로 구분했습니다."
+}

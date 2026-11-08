@@ -27,7 +27,11 @@ SLIDES = [
     ('a3-integration.html', 'a3-integration.json', 'arch'),
     ('b1-swimlane.html',    'b1-swimlane.json',    'lanes'),
     ('b2-sequence.html',    'b2-sequence.json',    'lanes'),
+    ('b3-batch.html',       'b3-batch.json',       'arch'),
     ('c1-dmz.html',         'c1-dmz.json',         'arch'),
+    ('c2-physical.html',    'c2-physical.json',    'arch'),
+    ('c3-dr.html',          'c3-dr.json',          'arch'),
+    ('d1-astobe.html',      'd1-astobe.json',      'lanes'),
 ]
 
 

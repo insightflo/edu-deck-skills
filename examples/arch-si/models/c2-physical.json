@@ -1,0 +1,219 @@
+{
+  "title": "물리 인프라 — 본사·센터 회선 토폴로지",
+  "eyebrow": "SI 유형 C2 · 인프라 — 물리 구성 2D (회선 종류 구분)",
+  "titleSvg": "물리 인프라 — 2사이트 · 회선 3종",
+  "small": "읽는 법 — 면색 띠: 사이트(본사·센터) · 주황 카드: 대외 경계 장비 · 실선: 전용회선 · 점선: 인터넷 VPN · 주황선: 백업 경로 · 라벨: 예시 스펙(구리/광)",
+  "ariaLabel": "물리 인프라 구성도. 인터넷에서 본사 방화벽으로 VPN이 들어오고, 본사 코어 스위치가 웹서버와 DB에 연결된다. 본사 코어와 센터 코어 사이에는 전용회선과 백업 VPN 두 경로가 있고, 센터 코어가 센터 WAS와 DB에 연결된다.",
+  "notes": "물리 구성도다. 논리도(C1)와 달리 포트가 아니라 구간(사이트-회선-장비)을 보여준다. 1단계에 두 사이트 띠와 대외 경계 장비가 서고, 2단계에 각 사이트의 코어·서버·DB가 켜지며, 3단계에 회선 3종(실선 전용회선·점선 인터넷 VPN·주황 백업 경로)이 그려진다. 라벨의 1G/10G·광/구리는 예시 스펙이며 실측값이 아니다. 회선은 모두 양방향이지만 화살촉은 복제·요청이 흐르는 방향을 표시한다.",
+  "layout": {
+    "dir": "LR",
+    "nodesep": 46,
+    "ranksep": 92,
+    "chipAvoid": true
+  },
+  "nodes": [
+    {
+      "id": "inet",
+      "name": "인터넷",
+      "role": "대외",
+      "icon": "i-cloud",
+      "shape": "circle",
+      "fam": "blue",
+      "w": 116,
+      "h": 116,
+      "step": 1
+    },
+    {
+      "id": "fw-hq",
+      "name": "FW-본사",
+      "role": "대외 경계",
+      "icon": "i-shield",
+      "fam": "orange",
+      "w": 132,
+      "h": 104,
+      "step": 1
+    },
+    {
+      "id": "core-hq",
+      "name": "코어-본사",
+      "role": "L3 스위치",
+      "icon": "i-gear",
+      "fam": "paper",
+      "w": 132,
+      "h": 104,
+      "step": 2
+    },
+    {
+      "id": "web-hq",
+      "name": "WAS-1",
+      "role": "WEB/WAS 업무",
+      "icon": "i-window",
+      "fam": "paper",
+      "w": 132,
+      "h": 104,
+      "step": 2
+    },
+    {
+      "id": "db-hq",
+      "name": "DB-본사",
+      "role": "주 DB",
+      "icon": "i-db",
+      "fam": "paper",
+      "w": 132,
+      "h": 104,
+      "step": 2
+    },
+    {
+      "id": "core-dr",
+      "name": "코어-센터",
+      "role": "L3 스위치",
+      "icon": "i-gear",
+      "fam": "paper",
+      "w": 132,
+      "h": 104,
+      "step": 2
+    },
+    {
+      "id": "fw-dr",
+      "name": "FW-센터",
+      "role": "대외 경계",
+      "icon": "i-shield",
+      "fam": "orange",
+      "w": 132,
+      "h": 104,
+      "step": 1
+    },
+    {
+      "id": "web-dr",
+      "name": "WAS-2",
+      "role": "WEB/WAS 대기",
+      "icon": "i-window",
+      "fam": "paper",
+      "w": 132,
+      "h": 104,
+      "step": 2
+    },
+    {
+      "id": "db-dr",
+      "name": "DB-센터",
+      "role": "복제 DB",
+      "icon": "i-db",
+      "fam": "paper",
+      "w": 132,
+      "h": 104,
+      "step": 2
+    }
+  ],
+  "edges": [
+    {
+      "id": "c1",
+      "from": "inet",
+      "to": "fw-hq",
+      "label": "VPN 100M",
+      "kind": "g",
+      "step": 3
+    },
+    {
+      "id": "c2",
+      "from": "fw-hq",
+      "to": "core-hq",
+      "label": "10G 광",
+      "kind": "b",
+      "step": 3
+    },
+    {
+      "id": "c3",
+      "from": "core-hq",
+      "to": "web-hq",
+      "label": "10G",
+      "kind": "b",
+      "step": 3
+    },
+    {
+      "id": "c4",
+      "from": "core-hq",
+      "to": "db-hq",
+      "label": "10G",
+      "kind": "b",
+      "step": 3
+    },
+    {
+      "id": "c5",
+      "from": "core-hq",
+      "to": "fw-dr",
+      "label": "전용 1G 광",
+      "kind": "b",
+      "step": 3
+    },
+    {
+      "id": "c6",
+      "from": "fw-hq",
+      "to": "fw-dr",
+      "label": "백업 VPN",
+      "kind": "o",
+      "step": 3
+    },
+    {
+      "id": "c7",
+      "from": "fw-dr",
+      "to": "core-dr",
+      "label": "10G 구리",
+      "kind": "b",
+      "step": 3
+    },
+    {
+      "id": "c8",
+      "from": "core-dr",
+      "to": "web-dr",
+      "label": "10G",
+      "kind": "b",
+      "step": 3
+    },
+    {
+      "id": "c9",
+      "from": "core-dr",
+      "to": "db-dr",
+      "label": "10G",
+      "kind": "b",
+      "step": 3
+    }
+  ],
+  "zones": [
+    {
+      "id": "z-hq",
+      "label": "본사",
+      "kind": "member",
+      "members": [
+        "fw-hq",
+        "core-hq",
+        "web-hq",
+        "db-hq"
+      ]
+    },
+    {
+      "id": "z-dr",
+      "label": "센터",
+      "kind": "member",
+      "members": [
+        "fw-dr",
+        "core-dr",
+        "web-dr",
+        "db-dr"
+      ]
+    }
+  ],
+  "legend": [
+    {
+      "kind": "b",
+      "label": "전용회선"
+    },
+    {
+      "kind": "g",
+      "label": "인터넷 VPN"
+    },
+    {
+      "kind": "o",
+      "label": "백업 경로"
+    }
+  ]
+}

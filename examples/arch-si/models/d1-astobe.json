@@ -1,0 +1,193 @@
+{
+  "view": "compare",
+  "title": "차세대 전환 — As-Is → To-Be",
+  "eyebrow": "SI 유형 D1 · 변경 대조 (자체 저작 문법 · 위치는 모델이 고정)",
+  "pool": "전환 대조표 — 같은 시스템은 같은 자리에 남는다",
+  "ariaLabel": "차세대 전환 대조. 채널 계층의 웹 서버 두 대는 유지되고 외부 EAI는 제거되며 모바일 앱이 신규로 들어온다. 업무 계층의 단일 WAS는 이중화 WAS-1로 변경되고 WAS-2가 신규, 야간 배치는 스케줄러로 변경된다. 데이터 계층의 주 DB는 유지, DB-부와 백업 볼트가 신규, 파일서버는 오브젝트 스토리지로 변경된다.",
+  "caption": "읽는 법 — 같은 자리 = 같은 시스템 · 주황 = 신규 · 청색 = 변경 후 모습 · 회색 취소선 = 제거(전환 후 없음) · 1~4단계 = 유지 → 제거 → 신규 → 변경",
+  "notes": "이 장은 구성 변화 대조다(업무 절차가 아니다 — 절차 화살표는 쓰지 않는다). 1단계에 As-Is 전체가 서고, 2단계에 제거되는 외부 EAI가 흐려지며 취소선이 그어진다. 3단계에 신규 시스템(모바일 앱·WAS-2·DB-부·백업 볼트·모니터링)이 주황으로 등장하고, 4단계에 변경 대상(단일 WAS→WAS-1·야간 배치→스케줄러·파일서버→오브젝트 스토리지)이 청색으로 교체된다. 위치는 모델이 열·행으로 고정하므로 전환 전후에 같은 시스템이 같은 자리에 남는다 — dagre 같은 자동 배치는 노드 집합이 바뀌면 좌표가 흔들려 이 성질을 보장하지 못한다.",
+  "rows": [
+    {
+      "id": "ch",
+      "label": "채널"
+    },
+    {
+      "id": "ap",
+      "label": "업무"
+    },
+    {
+      "id": "db",
+      "label": "데이터"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "web1",
+      "name": "WEB-1",
+      "role": "정적·TLS 종단",
+      "col": 0,
+      "row": 0,
+      "change": "keep",
+      "icon": "i-window"
+    },
+    {
+      "id": "web2",
+      "name": "WEB-2",
+      "role": "정적·TLS 종단",
+      "col": 1,
+      "row": 0,
+      "change": "keep",
+      "icon": "i-window"
+    },
+    {
+      "id": "eai",
+      "name": "외부 EAI",
+      "role": "레거시 연계",
+      "col": 2,
+      "row": 0,
+      "change": "remove",
+      "icon": "i-plug"
+    },
+    {
+      "id": "mobile",
+      "name": "모바일 앱",
+      "role": "신규 채널",
+      "col": 3,
+      "row": 0,
+      "change": "new",
+      "icon": "i-phone"
+    },
+    {
+      "id": "was",
+      "name": "WAS-1",
+      "role": "이중화 1/2",
+      "was": "단일 WAS",
+      "wasRole": "단일 구성",
+      "col": 0,
+      "row": 1,
+      "change": "change",
+      "icon": "i-gear"
+    },
+    {
+      "id": "was2",
+      "name": "WAS-2",
+      "role": "이중화 2/2",
+      "col": 1,
+      "row": 1,
+      "change": "new",
+      "icon": "i-gear"
+    },
+    {
+      "id": "batch",
+      "name": "스케줄러",
+      "role": "선후행 관리",
+      "was": "야간 배치",
+      "wasRole": "cron 스크립트",
+      "col": 2,
+      "row": 1,
+      "change": "change",
+      "icon": "i-clock"
+    },
+    {
+      "id": "mon",
+      "name": "모니터링",
+      "role": "APM·경보",
+      "col": 3,
+      "row": 1,
+      "change": "new",
+      "icon": "i-chart"
+    },
+    {
+      "id": "db1",
+      "name": "DB-주",
+      "role": "업무 데이터",
+      "col": 0,
+      "row": 2,
+      "change": "keep",
+      "icon": "i-db"
+    },
+    {
+      "id": "db2",
+      "name": "DB-부",
+      "role": "이중화",
+      "col": 1,
+      "row": 2,
+      "change": "new",
+      "icon": "i-db"
+    },
+    {
+      "id": "fs",
+      "name": "오브젝트 스토리지",
+      "role": "파일 저장",
+      "was": "파일서버",
+      "wasRole": "NFS 공유",
+      "col": 2,
+      "row": 2,
+      "change": "change",
+      "icon": "i-folder"
+    },
+    {
+      "id": "vault",
+      "name": "백업 볼트",
+      "role": "분리 보관",
+      "col": 3,
+      "row": 2,
+      "change": "new",
+      "icon": "i-lock"
+    }
+  ],
+  "edges": [
+    {
+      "id": "x1",
+      "from": "web1",
+      "to": "was",
+      "state": "keep"
+    },
+    {
+      "id": "x2",
+      "from": "web2",
+      "to": "was",
+      "state": "keep"
+    },
+    {
+      "id": "x3",
+      "from": "eai",
+      "to": "was",
+      "label": "전문",
+      "state": "remove"
+    },
+    {
+      "id": "x4",
+      "from": "mobile",
+      "to": "was2",
+      "label": "API",
+      "state": "new"
+    },
+    {
+      "id": "x5",
+      "from": "was",
+      "to": "db1",
+      "state": "keep"
+    },
+    {
+      "id": "x6",
+      "from": "was2",
+      "to": "db2",
+      "state": "new"
+    },
+    {
+      "id": "x7",
+      "from": "batch",
+      "to": "db1",
+      "label": "조회",
+      "state": "keep"
+    },
+    {
+      "id": "x8",
+      "from": "batch",
+      "to": "fs",
+      "label": "파일",
+      "state": "keep"
+    }
+  ]
+}
