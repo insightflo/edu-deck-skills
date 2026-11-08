@@ -12,16 +12,22 @@
  *
  * MODEL.json(semantic JSON — design §2.2 부분집합):
  *   title·eyebrow·small·notes·ariaLabel·titleSvg : 슬라이드 문자열
- *   layout : { dir:"LR|TB", nodesep, ranksep }      기본 LR 48/96
+ *   layout : { dir:"LR|TB", nodesep, ranksep, chipAvoid?:bool }
+ *             기본 LR 48/96 · chipAvoid:true면 라벨 칩끼리의 충돌도 회피(옵트인)
  *   steps  : { zones:1, nodes:2, edges:3 }          g[data-step] 단계 번호(기본값)
  *   nodes  : [{ id, name, role, icon:"i-*"|null, shape:"card|circle",
  *               fam:"paper|blue|orange", w, h, step? }]
- *   edges  : [{ from, to, label, kind:"b|o|g", flow?:bool, step? }]
- *             kind b=동기(k-ln-b) o=이벤트(k-ln-o) g=보조(k-ln-g); flow→dash-flow 입자
- *   zones  : [{ id, label, members:[id…], step? }] 점선 신뢰 경계(k-frame)
+ *   edges  : [{ from, to, label, kind:"b|o|g|r", flow?:bool, step?, aux?:bool }]
+ *             kind b=동기(k-ln-b) o=이벤트(k-ln-o) g=보조(k-ln-g) r=응답(k-ln-g+점선+ah-open);
+ *             flow→dash-flow 입자 · aux→data-step 없는 정적 보조선(draw 예산 밖, 항상 표시)
+ *   zones  : [{ id, label, members:[id…], kind:"member|trust", labelPos:"top|bottom",
+ *               pad:{top,bottom,side}, step? }] member=k-paper 면색 띠(소속) ·
+ *             trust·미지정=k-frame 점선(신뢰 경계) · pad는 존별 여백 덮어쓰기
+ *             between:[zoneA,zoneB?] 멤버 대신 두 존 사이의 경계선(점선 polyline+라벨)
  *   states : [{ node, at, state:"ok|warn|down" }]  상태 칩 교체 — 이전 칩 data-until=at-1,
  *             새 칩 data-step=at(failover 시나리오 §4.7). node.state는 초기 칩.
- *   legend : [{ kind:"b|o|g", label }]             선 어휘 범례 1줄
+ *   legend : [{ kind:"b|o|g|r", label }]           선 어휘 범례 1줄 — 생략하고 사용 kind가
+ *             2종 이상이면 자동 유도(기본 라벨 b:동기 호출 o:이벤트 g:보조·연계 r:응답)
  *
  * 산출: 슬라이드 <section class="slide" data-archetype="arch-diagram"> 단편(기본 stdout→파일)
  *   --svg-only : svg.dg 단편만 / --coords : 좌표·경로 JSON 별도 파일
@@ -34,7 +40,12 @@ import path from 'node:path';
 import dagre from './vendor/dagre.esm.js';
 
 const VBW = 1664, PAD = 30, ZP = { side: 24, top: 56, bottom: 24 };
-const KIND = { b: { mk: 'ah-b' }, o: { mk: 'ah-o' }, g: { mk: 'ahg' } };
+const KIND = {
+  b: { mk: 'ah-b', label: '동기 호출' },
+  o: { mk: 'ah-o', label: '이벤트' },
+  g: { mk: 'ahg', label: '보조·연계' },
+  r: { mk: 'ah-open', dash: '8 8', cls: 'g', label: '응답' },   // 응답선: 회색 점선 + open 화살촉
+};
 const ICON_COLOR = { paper: 'var(--ink)', blue: 'var(--blue)', orange: 'var(--accent)' };
 const FAM_CLASS = { paper: 'k-paper', blue: 'k-blue', orange: 'k-orange' };
 const STATE_ICON = { ok: ['정상', 'var(--blue)'], warn: ['주의', 'var(--accent)'], down: ['장애', 'var(--accent)'], degraded: ['저하', 'var(--accent)'] };
@@ -71,11 +82,17 @@ for (const n of model.nodes || []) {
 }
 const EDGES = (model.edges || []).map((e, i) => {
   if (!NODES[e.from] || !NODES[e.to]) fail(`edge ${i}: 알 수 없는 노드 ${e.from}→${e.to}`);
-  return { a: e.from, b: e.to, label: e.label || '', kind: e.kind || 'b', flow: !!e.flow, step: e.step };
+  if (!KIND[e.kind || 'b']) fail(`edge ${i}: 알 수 없는 kind ${e.kind}`);
+  return { a: e.from, b: e.to, label: e.label || '', kind: e.kind || 'b', flow: !!e.flow, step: e.step, aux: !!e.aux };
 });
 const ZONES = (model.zones || []).map((z) => ({ ...z }));
-for (const z of ZONES) for (const m of z.members) if (!NODES[m]) fail(`zone ${z.id}: 알 수 없는 노드 ${m}`);
-if (EDGES.length > 12) fail(`링크 ${EDGES.length}개 > 12(draw 예산) — 장을 나눌 것`);
+for (const z of ZONES) {
+  if (z.between) continue;                       // 경계선 존 — 멤버 없음
+  if (!z.members || !z.members.length) fail(`zone ${z.id}: members 또는 between 필요`);
+  for (const m of z.members) if (!NODES[m]) fail(`zone ${z.id}: 알 수 없는 노드 ${m}`);
+}
+const DRAW_EDGES = EDGES.filter((e) => !e.aux);
+if (DRAW_EDGES.length > 12) fail(`링크 ${DRAW_EDGES.length}개 > 12(draw 예산) — 장을 나눌 것(aux:true는 예산 밖)`);
 
 /* ── 1. dagre 배치 ── */
 const g = new dagre.graphlib.Graph({ multigraph: true });
@@ -94,17 +111,29 @@ const edges = EDGES.map((e, i) => ({ ...e, pts: g.edge(e.a, e.b, `e${i}`).points
 /* ── 2. 정규화: 존 패딩 포함 전체 bbox → 1664 폭·여백 안 가운데 ── */
 const nRect = (n) => ({ x0: n.cx - n.w / 2, x1: n.cx + n.w / 2, y0: n.cy - n.h / 2, y1: n.cy + n.h / 2 + (n.shape === 'circle' ? 34 : 0) });
 const zoneBox = (z) => {
+  const p = { ...ZP, ...(z.pad || {}) };
   const rs = z.members.map((m) => nRect(nodes[m]));
-  return { x0: Math.min(...rs.map((r) => r.x0)) - ZP.side, x1: Math.max(...rs.map((r) => r.x1)) + ZP.side,
-           y0: Math.min(...rs.map((r) => r.y0)) - ZP.top, y1: Math.max(...rs.map((r) => r.y1)) + ZP.bottom };
+  return { x0: Math.min(...rs.map((r) => r.x0)) - p.side, x1: Math.max(...rs.map((r) => r.x1)) + p.side,
+           y0: Math.min(...rs.map((r) => r.y0)) - p.top, y1: Math.max(...rs.map((r) => r.y1)) + p.bottom };
 };
-const zones = ZONES.map((z) => ({ ...z, r: zoneBox(z) }));
+const zoneRects = ZONES.filter((z) => !z.between);
+const bounds = ZONES.filter((z) => z.between);
+const zones = zoneRects.map((z) => ({ ...z, r: zoneBox(z) }));
+const zmap = Object.fromEntries(zones.map((z) => [z.id, z]));
+for (const b of bounds) {
+  for (const zid of b.between) if (zid && !zmap[zid]) fail(`boundary ${b.id || b.label}: 알 수 없는 존 ${zid}`);
+}
+// 범례: 명시 우선, 없고 사용 kind 2종↑이면 자동 유도
+const usedKinds = [...new Set(EDGES.map((e) => e.kind))];
+const legendItems = (model.legend && model.legend.length) ? model.legend
+  : usedKinds.length >= 2 ? ['b', 'r', 'o', 'g'].filter((k) => usedKinds.includes(k))
+      .map((k) => ({ kind: k, label: KIND[k].label })) : [];
 let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
 const eat = (x0, y0, x1, y1) => { minX = Math.min(minX, x0); minY = Math.min(minY, y0); maxX = Math.max(maxX, x1); maxY = Math.max(maxY, y1); };
 for (const n of Object.values(nodes)) { const r = nRect(n); eat(r.x0, r.y0, r.x1, r.y1); }
 for (const z of zones) eat(z.r.x0, z.r.y0, z.r.x1, z.r.y1);
 for (const e of edges) for (const p of e.pts) eat(p.x, p.y, p.x, p.y);
-const contentW = maxX - minX, H = maxY - minY + PAD * 2 + ((model.legend || []).length ? 56 : 0);
+const contentW = maxX - minX, H = maxY - minY + PAD * 2 + (legendItems.length ? 56 : 0);
 if (contentW + PAD * 2 > VBW) fail(`내용 폭 ${(contentW + PAD * 2).toFixed(0)} > ${VBW} — 노드·랭크를 줄이거나 장 분할`);
 const tx = (VBW - contentW) / 2 - minX, ty = PAD - minY;
 const X = (v) => +(v + tx).toFixed(1), Y = (v) => +(v + ty).toFixed(1);
@@ -135,14 +164,18 @@ function midPoint(pts) {
   }
   return pts[0];
 }
-const overlaps = (r) => Object.values(nodes).some((n) => {
-  const b = nRect(n);
-  return r.x0 < b.x1 && r.x1 > b.x0 && r.y0 < b.y1 && r.y1 > b.y0;
-}) || zones.some((z) => {
-  // 존 라벨 영역(상단 띠 48px)도 회피 — 칩이 존 이름 위에 올라가지 않게
-  const b = { x0: z.r.x0, x1: z.r.x1, y0: z.r.y0, y1: z.r.y0 + 48 };
-  return r.x0 < b.x1 && r.x1 > b.x0 && r.y0 < b.y1 && r.y1 > b.y0;
-});
+// 기배치 라벨 칩 bbox — 칩끼리의 상호 충돌도 회피. layout.chipAvoid:true 옵트인
+// (기존 모델은 칩 위치를 그대로 둬 출력 불변 — 칩 겹침이 있는 모델만 명시 적용)
+const placedChips = [];
+const hit = (r, b) => r.x0 < b.x1 && r.x1 > b.x0 && r.y0 < b.y1 && r.y1 > b.y0;
+const overlaps = (r) => Object.values(nodes).some((n) => hit(r, nRect(n)))
+  || zones.some((z) => {
+    // 존 라벨 영역(띠 48px, labelPos 방향)도 회피 — 칩이 존 이름 위에 올라가지 않게
+    const b = z.labelPos === 'bottom'
+      ? { x0: z.r.x0, x1: z.r.x1, y0: z.r.y1 - 48, y1: z.r.y1 }
+      : { x0: z.r.x0, x1: z.r.x1, y0: z.r.y0, y1: z.r.y0 + 48 };
+    return hit(r, b);
+  }) || (L.chipAvoid && placedChips.some((b) => hit(r, b)));
 const labelPos = (e, idx) => {
   const m = midPoint(e.pts), w = e.label.length * 17 + 30;
   const pair = edges.findIndex((q) => q.a === e.b && q.b === e.a);
@@ -150,17 +183,45 @@ const labelPos = (e, idx) => {
   for (const dy of [off, off - 34, off + 34, off - 68, off + 68, off - 102, off + 102]) {
     for (const dx of [0, -44, 44, -88, 88, -132, 132, -176, 176]) {
       const r = { x0: m.x + dx - w / 2, x1: m.x + dx + w / 2, y0: m.y - 18 + dy, y1: m.y + 18 + dy };
-      if (!overlaps(r)) return { x: m.x + dx, y: m.y + dy, w };
+      if (!overlaps(r)) { placedChips.push(r); return { x: m.x + dx, y: m.y + dy, w }; }
     }
   }
   return { x: m.x, y: m.y + off, w };
 };
 
 /* ── 4. 방출 ── */
-const zoneMarkup = (z) => `<g data-step="${z.step ?? STEP.zones}">
-    <rect class="k-frame" x="${X(z.r.x0)}" y="${Y(z.r.y0)}" width="${r2(z.r.x1 - z.r.x0)}" height="${r2(z.r.y1 - z.r.y0)}" style="rx:12px"/>
-    <text class="k-t-tag" x="${X(z.r.x0 + 16)}" y="${Y(z.r.y0 + 34)}">${esc(z.label)}</text>
+const zoneMarkup = (z) => {
+  // kind member=면색 소속 띠 · trust·미지정=점선 상자(신뢰 경계). labelPos로 라벨 방향 선택
+  const rect = z.kind === 'member'
+    ? `<rect class="k-paper" x="${X(z.r.x0)}" y="${Y(z.r.y0)}" width="${r2(z.r.x1 - z.r.x0)}" height="${r2(z.r.y1 - z.r.y0)}" style="rx:12px;fill-opacity:${z.opacity ?? .55}"/>`
+    : `<rect class="k-frame" x="${X(z.r.x0)}" y="${Y(z.r.y0)}" width="${r2(z.r.x1 - z.r.x0)}" height="${r2(z.r.y1 - z.r.y0)}" style="rx:12px"/>`;
+  const ly = z.labelPos === 'bottom' ? Y(z.r.y1 - 14) : Y(z.r.y0 + 34);
+  return `<g data-step="${z.step ?? STEP.zones}">
+    ${rect}
+    <text class="k-t-tag" x="${X(z.r.x0 + 16)}" y="${ly}">${esc(z.label)}</text>
   </g>`;
+};
+
+// 존 사이 경계선 — 점선 세로 polyline + 라벨(상하 클램프). between:[a]면 a의 바깥쪽
+// labelAt:'top'|'bottom'(기본 bottom) — 아래쪽이 노드 라벨과 겹칠 때 모델에서만 전환한다.
+const boundMarkup = (b) => {
+  const a = zmap[b.between[0]], c = b.between[1] ? zmap[b.between[1]] : null;
+  let x, y0, y1;
+  if (c) {
+    const [l, rr] = a.r.x0 < c.r.x0 ? [a.r, c.r] : [c.r, a.r];
+    x = (l.x1 + rr.x0) / 2;
+    y0 = Math.min(a.r.y0, c.r.y0) - 10; y1 = Math.max(a.r.y1, c.r.y1) + 10;
+  } else {
+    x = a.r.x0 - 22; y0 = a.r.y0 - 10; y1 = a.r.y1 + 10;
+  }
+  const ly = b.labelAt === 'top'
+    ? Math.min(Math.max(y0 - 8, PAD + 4), y1)   // 위쪽 — 경계선 상단 위(화면 상한 클램프)
+    : Math.min(Math.max(y1 + 18, y0 + 22), H - PAD - 4);   // 아래 라벨 y 클램프
+  return `<g data-step="${b.step ?? STEP.zones}">
+    <polyline points="${r2(X(x))},${r2(Y(y0))} ${r2(X(x))},${r2(Y(y1))}" fill="none" stroke="var(--accent)" stroke-width="3.5" stroke-dasharray="11 9"/>
+    <text class="k-t-tag" x="${r2(X(x))}" y="${r2(ly)}" text-anchor="middle" style="fill:var(--accent)">${esc(b.label || '신뢰 경계')}</text>
+  </g>`;
+};
 
 const stateChips = (id, n, x, y) => {
   // states[]: node.at 시점에 칩 교체 — 이전 칩 data-until=at-1, 새 칩 data-step=at
@@ -198,9 +259,10 @@ const nodeMarkup = (id, n) => {
 };
 
 const edgeMarkup = (e, idx) => {
-  const cls = `k-ln-${e.kind}${e.flow ? ' dash-flow' : ''}`;
-  const o = [`<g data-step="${e.step ?? STEP.edges}">`,
-    `  <path class="${cls}" d="${pathOf(e.pts, 12)}" marker-end="url(#${KIND[e.kind].mk})"/>`];
+  const k = KIND[e.kind], cls = `k-ln-${k.cls || e.kind}${e.flow ? ' dash-flow' : ''}`;
+  const dash = k.dash ? ` stroke-dasharray="${k.dash}"` : '';
+  const o = [e.aux ? '<g>' : `<g data-step="${e.step ?? STEP.edges}">`,
+    `  <path class="${cls}" d="${pathOf(e.pts, 12)}"${dash} marker-end="url(#${k.mk})"/>`];
   if (e.label) {
     const lp = labelPos(e, idx);
     o.push(`  <rect class="k-paper" x="${r2(X(lp.x - lp.w / 2))}" y="${r2(Y(lp.y - 18))}" width="${lp.w}" height="36" style="rx:9px"/>`);
@@ -214,7 +276,9 @@ const legendMarkup = (items) => {
   if (!items || !items.length) return '';
   let x = PAD + 4;
   return `<g>${items.map((it) => {
-    const seg = `<polyline class="k-ln-${it.kind}" points="${x},${r2(H - 40)} ${x + 70},${r2(H - 40)}"/><text class="k-t-tag" x="${x + 84}" y="${r2(H - 32)}">${esc(it.label)}</text>`;
+    const kk = KIND[it.kind] || { mk: 'ahg' };
+    const kd = kk.dash ? ` stroke-dasharray="${kk.dash}"` : '';
+    const seg = `<polyline class="k-ln-${kk.cls || it.kind}"${kd} points="${x},${r2(H - 40)} ${x + 70},${r2(H - 40)}"/><text class="k-t-tag" x="${x + 84}" y="${r2(H - 32)}">${esc(it.label)}</text>`;
     x += 84 + it.label.length * 24 + 60;
     return seg;
   }).join('\n    ')}</g>`;
@@ -222,10 +286,10 @@ const legendMarkup = (items) => {
 
 const svg = `<svg class="dg" viewBox="0 0 ${VBW} ${Math.ceil(H)}" role="img" aria-label="${esc(model.ariaLabel || model.title || '아키텍처 구성도')}">
   <title>${esc(model.titleSvg || model.title || '아키텍처 구성도')}</title>
-  ${zones.map(zoneMarkup).join('\n  ')}
+  ${zones.map(zoneMarkup).join('\n  ')}${bounds.length ? '\n  ' + bounds.map(boundMarkup).join('\n  ') : ''}
   ${edges.map(edgeMarkup).join('\n  ')}
   ${Object.entries(nodes).map(([id, n]) => nodeMarkup(id, n)).join('\n  ')}
-  ${legendMarkup(model.legend)}
+  ${legendMarkup(legendItems)}
 </svg>`;
 
 const slide = `<section class="slide" data-archetype="arch-diagram" style="gap:20px">
