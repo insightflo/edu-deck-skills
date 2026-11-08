@@ -81,7 +81,7 @@
 | 테마 | **8종** | 같은 덱 3장(표지·목차·내용) × 전 테마 매트릭스 + 같은 장면 비교 |
 | 모션 시그니처 | **실행 이름 42종 전체 + 공통 기법 8종**(data-fx) | 카드를 스크롤하면 실물이 그 자리에서 자동 재생(녹화물 없음) |
 | 표지 | 직접 설계 + 카탈로그 16종 | 아키타입 갤러리 |
-| 아키텍처 모션 키트 | **시맨틱 JSON → 도식 생성기 2종**(dagre 2D·입체 HW) + 모션 10종 레시피 | ▶ [6장면 데모 덱](https://insightflo.github.io/edu-deck-skills/examples/arch-demo/demo6.html) · 갤러리 '아키텍처' 절 |
+| 아키텍처 모션 키트 | **시맨틱 JSON → 도식 생성기 3종**(dagre 2D·입체 HW·레인/시퀀스+토큰 시뮬레이터) + SI 실무형 10유형 + 모션 10종 레시피 | ▶ [원형 6장면](https://insightflo.github.io/edu-deck-skills/examples/arch-demo/demo6.html) · [SI 10유형 11장](https://insightflo.github.io/edu-deck-skills/examples/arch-si/arch-si.html) · 갤러리 '아키텍처' 절 |
 
 이전 수동 제작 소개 영상(showreel mp4·GIF)은 [코드 재생 소개 쇼](docs/intro.html)로 교체했습니다 — `promo/make_intro.py`가 덱을 조립하고 쇼 런처를 주입해 생성합니다.
 
@@ -128,7 +128,7 @@ python3 scripts/check_deck.py --style <덱.html>   # 취향 상세
 edu-deck/          진입(라우터) 스킬 + 공통: 셸·모션 엔진·조각 41계열·아이콘·팩 8종·검사·조립 도구
 edu-deck-solo/     한 주제 한 덱 — brief → 조사 → outline → 저작 → 검사
 edu-deck-series/   여러 편 시리즈 + 목차 포털·진도·같은 편 복습
-examples/          실물 예시 4종(저작 과정 포함) + 아키텍처 모션 데모 6장면(arch-demo)
+examples/          실물 예시 4종(저작 과정 포함) + 아키텍처 모션 데모(arch-demo 6장면·arch-si SI 10유형 11장)
 docs/              소개 쇼(intro.html)·도식·자산 갤러리(실물 재생 315점)
 ```
 
