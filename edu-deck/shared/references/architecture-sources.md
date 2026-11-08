@@ -71,3 +71,27 @@
 | 2 | GCP 아이콘 사용 조건 | 미확인 — 기본 미사용 |
 | 3 | AntV 를 B방식(빌드 시 SVG 추출)으로 후처리할 비용 | 미실험 — `foreignObject`→`<text>` 변환에 텍스트 측정이 필요 |
 | 4 | 아이소 계열 라벨 밀도 상한 | 7노드까지 실측 확인, 8노드 이상은 미시험 |
+| 5 | `kind:"g"` 화살촉 | **해소(오판 정정)** — `ahg` 는 `assets/icons/base.svg` 에 정의돼 있고 빌드가 덱에 수집한다. extra.svg 에 없다고 화살촉이 빠지는 건 아니다 |
+| 6 | `aux` 선의 draw 예산 | **확인(정확히)** — 생성기는 비-aux만 계수(하드 실패), 단계 draw는 newly 그룹 내 경로만. 장 진입 직후 초기 draw는 '그 순간 보이는 경로' 최대 12개라 aux 가 포함될 수 있다 |
+| 7 | 병렬·포괄 게이트 | 미구현 — `arch_lanes` 토큰은 독점 게이트만. 스코프(자식 토큰) 개념 필요 |
+| 8 | compare 모드 열 상한 | 카드 폭(≤260) 때문에 4~5열. 그 이상은 장 분리 |
+| 9 | `data-lit` 의 클래식 덱 동작 | **확인** — 일반 `.lit` 규칙이 `pack-runtime.css`(팩 덱 전용)에만 있어 SVG에 아무것도 그리지 않는다. 활성 구간은 `data-step` 누적을 쓴다 |
+
+## 6. SI 확장 조사 (2026-11-08)
+
+Step 2~5b에서 SI 실무형 유형(A1·A2·A3·B1·B2·C1·C2·D1)을 붙이며 조사한 외부 부품이다.
+**도입한 것은 문법·어휘·상태기계뿐이고 런타임 번들은 0**이다. 조사 사본은 `/tmp/arch-src/<이름>`(저장소 밖, git 아님)에 두었고, 상세 보고서는 `/tmp/si-audit/`(archpi·devin)에 있다.
+
+| Repository | Revision | License | Reusable source | Reuse strategy | Compatibility | Dependencies | Proof | Decision |
+|---|---|---|---|---|---|---|---|---|
+| `jgraph/drawio-diagrams` | `cc78dc2e` (2026-10-23, clone `/tmp/arch-src/drawio-diagrams`) | **Apache-2.0**(repo 루트 LICENSE) | 9유형 `.drawio` XML의 문법: C4(계층 컨테이너+Legend) · UML Component(롤리팝/소켓) · Deployment(2단 중첩) · Sequence(block/open 화살촉·생명선·활성 막대) · Network(면색 경계·라벨 하단) · Rack(U 배수) · Cloud/Hybrid(AZ⊃subnet) · DFD(3기하) · Process(swimlane stackLayout·직교 82%) | **개념만** — 코드·에셋 복사 없음. 채택 9개는 `arch_layout`·`arch_lanes` 문법으로 환산 | ⭕ XML 서식 — 런타임 무관 | 0 | 9파일 deflate 디코딩 → mxCell 구조 분석(분담 A) | **부분 채택(문법)** — 커스텀 shape path·sketch 렌더는 기각 |
+| `bpmn-io/bpmn-js` | `e7b7435e` (18.31.1, 2026-10-21) | MIT **+ bpmn.io 워터마크 유지 조항**(`LICENSE:13-16`, "MUST NOT be removed or changed") | `lib/draw/BpmnRenderer.js` 도형 규칙(Pool 30px 구분선·Task rx10·Gateway polygon·Event circle 36·MessageFlow `10, 11` 점선) | **불채택(탑재)**. 워터마크가 도식 `<svg>` **바깥** HTML `<a>`라 SVG만 추출하면 라이선스 위반 → 규칙만 재작성 | ❌ path 19~159개·라벨 12px — draw 12·18px 계약과 충돌 | viewer UMD 186KB(gz 52KB)·CSS 32KB·`getBBox` 필요(브라우저) | viewer 186,117B · 단일 HTML 253,999B 오프라인 렌더 81요소 | **불채택** — 도형 규칙 참조만 |
+| `bpmn-io/bpmn-js-token-simulation` | `b1ce5a9b` (1.1.0, 2026-10-23) | **MIT, 워터마크 조항 없음** | `lib/simulator/` 3,544행 — Scope/ScopeTraits, behaviors 14종(배타·병렬·포괄·이벤트기반·경계·메시지·서브프로세스) | **선택 이식** — 30줄 상태기계로 재구현(`arch_lanes` 토큰 시뮬레이터). 코드 복사 없음 | ⭕ DOM 의존 0 | `ids`·`min-dash`·`ModelUtil`(재구현에는 불필요) | `grep -i multiInstance lib` 0건 · `grep document/getBBox` 0건 | **채택(핵심)** — 레인 실행의 원전 |
+| `bpmn-io/bpmn-js-examples` | `e6a99f5c` (2026-10-01) | MIT(README, LICENSE 파일 없음) | `theming/resources/kitchen-sink.bpmn` — Pool2·Lane2·Gateway5·Boundary·SubProcess·MI 마커를 한 파일에 | XML **형태** 참고만 | — | 없음 | `grep -l bpmn:laneSet` 26개 중 1개 | **채택(참조)** |
+| `mermaid-js/mermaid` | `a0fd6b8c` (v12.3.0, 2026-11-06) | MIT (`LICENSE`·`packages/mermaid/package.json`) | 4종 문법 정의(`flow.jison`·`sequenceDiagram.jison`·`stateDiagram.jison`·`architecture.langium`), step 엣지 개념, 테마 변수 이름 | **어휘만 참고**. 렌더러·CLI 불채택 | ❌ 조판 통제 없음: viewBox 비율 강제 불가(SI 3계층 426×787) · 노드 폭 152px 고정 · state 라벨 10px · sequence 글자 크기 5가지 설정 무효 | 참고 시 0. 렌더 시 Node 22+/Chrome, npx 441MB + Chrome 570MB | 4종 SVG 8개 실측 · flow/seq 2회 바이트 동일 · `htmlLabels:false`로 foreignObject 0 | **불채택(렌더러)** — 문법·어휘만 |
+| `eGovFramework/egovframe-common-components` | `e5c1347b` (R5.0.7, 2026-11-06) | **Apache-2.0**(LICENSE 201행, 부속 조항 없음) | `src/main/java/egovframework/com/**` 45개 패키지의 기능 분류·컴포넌트 명칭(공통·응용·인증/권한·데이터·연계·배치·운영/모니터링·시스템관리) | **용어만** — 코드 복사 없음. role 표시 라벨 후보로 사용 | 코드 무관 · 덱 계약 충돌 없음 | 0 | 패키지 열거 + 대표 컨트롤러 주석 25건 | **채택(어휘)** — "표준" 표기 금지(참조 구현이지 표준이 아니다) |
+
+**이 조사의 결론 3줄**
+1. 런타임 도식 라이브러리(bpmn-js·mermaid·AntV·G6/X6)는 **전부 불채택** — 계약(draw 12·18px·정적 완결·단일 HTML)과 정면 충돌한다.
+2. 가져온 것은 셋뿐이다: **도형 규칙**(bpmn-js), **토큰 상태기계**(token-simulation), **문법 어휘**(drawio·mermaid·egovframe).
+3. 오판 정정 1건: `ahg` 마커는 `base.svg` 에 있어 결함이 아니었다(§5-5). 남는 실제 결함은 병렬·포괄 게이트 미구현(§5-7)뿐이다.
