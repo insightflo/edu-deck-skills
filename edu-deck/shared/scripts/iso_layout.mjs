@@ -321,13 +321,15 @@ function zoneMarkup(zone, positions, bounds) {
   out.push(`<polygon points="${corners.map(pt).join(' ')}" fill="var(--light)" fill-opacity=".9" stroke="${trust ? 'var(--accent)' : 'var(--line)'}" stroke-width="2" stroke-dasharray="${trust ? '12 9' : '16 12'}" stroke-linejoin="round"/>`);
   if (zone.label) {
     // 라벨은 가장 위 꼭짓점 바깥 — 바닥면 위쪽에 아무것도 없으므로 겹치지 않는다.
+    // 글자는 t-l(26px): t-mile(22px)은 도식이 슬롯에 맞춰 축소될 때 실측 18px 하한을
+    // 깨므로 존 라벨은 26px 계열로 올리고 칩도 그 크기에 맞춘다.
     const top = corners.reduce((a, c) => (c.y < a.y ? c : a), corners[0]);
-    const tw = textPx(zone.label, 22) + 20;
+    const tw = textPx(zone.label, 26) + 24;
     const lx = top.x;
-    const ly = top.y - 34;
-    bounds.push({ x: lx - tw / 2, y: ly - 18 }, { x: lx + tw / 2, y: ly + 8 });
-    out.push(`<rect class="k-paper" x="${round(lx - tw / 2)}" y="${round(ly - 15)}" width="${round(tw)}" height="30" style="rx:8px"/>`);
-    out.push(`<text class="t-mile k-t-b" x="${round(lx)}" y="${round(ly + 7)}" text-anchor="middle">${esc(zone.label)}</text>`);
+    const ly = top.y - 36;
+    bounds.push({ x: lx - tw / 2, y: ly - 19 }, { x: lx + tw / 2, y: ly + 9 });
+    out.push(`<rect class="k-paper" x="${round(lx - tw / 2)}" y="${round(ly - 17)}" width="${round(tw)}" height="36" style="rx:8px"/>`);
+    out.push(`<text class="t-l k-t-b" x="${round(lx)}" y="${round(ly + 9)}" text-anchor="middle">${esc(zone.label)}</text>`);
   }
   out.push('</g>');
   return out.join('\n');
