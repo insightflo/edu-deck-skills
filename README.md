@@ -109,7 +109,7 @@ git clone https://github.com/insightflo/edu-deck-skills.git ~/.pi/agent/skills/e
 
 검사 통과는 기술 계약의 통과일 뿐 디자인 품질의 보장이 아닙니다. 시각 위계·가독성·메시지 전달은 캡처·축소판을 직접 보고 판단하고, 취향 경고만으로 좋은 디자인을 버리지 않습니다(`shared/references/authoring.md` 6절).
 
-저장소 회귀: 단위 테스트 384개(렌더 포함), 리소스팩 브라우저 64/64 조합, 대비 매트릭스 238셀.
+저장소 회귀: 단위 테스트 389개(렌더 포함), 리소스팩 브라우저 64/64 조합, 대비 매트릭스 238셀.
 
 완성 덱은 브라우저에서 `덱.html?sheet` 로 전 장을 한 화면에(전개된 완성 모습+번호표) 검수하고, `?shot=N` 으로 한 장만 떼어 캡처할 수 있습니다(저자 검수 뷰어 — 발표·인쇄 동작은 그대로).
 
@@ -127,7 +127,7 @@ python3 scripts/check_deck.py --style <덱.html>   # 취향 상세
 edu-deck/          진입(라우터) 스킬 + 공통: 셸·모션 엔진·조각 41계열·아이콘·팩 8종·검사·조립 도구
 edu-deck-solo/     한 주제 한 덱 — brief → 조사 → outline → 저작 → 검사
 edu-deck-series/   여러 편 시리즈 + 목차 포털·진도·같은 편 복습
-examples/          실물 예시 4종(저작 과정 포함)
+examples/          실물 예시 4종(저작 과정 포함) + 아키텍처 모션 데모 6장면(arch-demo)
 docs/              소개 쇼(intro.html)·도식·자산 갤러리(실물 재생 315점)
 ```
 

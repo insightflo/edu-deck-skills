@@ -19,6 +19,7 @@ python3 scripts/build_deck.py <덱폴더> && python3 scripts/check_deck.py <결�
 ## 현재 상태(2026-11-07)
 
 - **워크플로 도식 계열 11종 추가(42~52)**: sankey-flow·decision-tree·kanban-board·version-graph·event-fanout·route-tour·waterfall·mesh-network·heatmap-grid·swimlane·cycle-ring — 계열 52·변형 253·실행 이름 42(+기법 5)·모션 GIF 47. 원본 참고: `~/Projects/flowmotion-gallery`(AI Studio 앱 — 모션 개념·시나리오만 참고, 코드 복사 없음). 지시서 `shared/dev/TASK-workflow-series.md`.
+- **Architecture Motion Graphics Kit(2026-11-08)**: 시맨틱 JSON → 도식 생성기 2종(scripts/arch_layout.mjs — dagre 3.1.3 vendor·iso_layout.mjs — Networkify 기하 이식)·시그니처 arch-trace(42번째 실행 이름)·references/architecture.md 저작 가이드·architecture-sources.md 재사용 기록·examples/arch-demo 6장면(마이크로서비스·레이어드·토폴로지·아이소 DC·HA 페일오버 6단계·하이브리드 클라우드). Deerin+arch-pi(deepseek) 2워커.
 - **자산 흡수(2026-11-07 후반)**: klic-prd-motion → 공통 기법 3종(bar-grow·card-deal·blinds, TASK-fx-absorb)·concentric-radius-guide → DESIGN_TOKENS 중첩 반경 규칙. quiz-ab 기본 변형 넘침 수정(TASK-quiz-ab)·뷰어 더블클릭=장 내 끝까지 재생(TASK-dblclick-finish).
 - 클린룸 재작성 캠페인 완료(엔진·CSS·스니펫 28종·자습 계층; 커밋 1c2d281→aab1a7f).
 - 다양성 개편 완료: legacy 테마 9종(`assets/css/themes.css`, deck.json `theme`, 기본 classic 포함)·표지 변형 16종·arc 6종(기본 standard 포함)·`scripts/tone_router.py`, 팩 라우터 `scripts/pack_router.py`. 새 덱은 만들기 전에 팩/legacy 중 하나를 에이전트가 판단해 정한다(기본값 없음, 애매하면 사용자에게 한 번 묻는다. 규칙: `edu-deck/SKILL.md` "경로 결정"). 한 덱에 두 경로를 섞을 수 없다.
