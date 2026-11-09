@@ -1,6 +1,6 @@
 <section class="slide" data-archetype="arch-diagram" style="gap:20px">
   <div class="head"><p class="eyebrow">가상 예시 · 아키텍처 1/4 — Microservices</p><h2 class="title">마이크로서비스: 동기 호출과 이벤트가 공존하는 길</h2></div>
-  <svg class="dg" viewBox="0 0 1664 734" role="img" aria-label="가상 예시 마이크로서비스 구성도: 클라이언트가 게이트웨이와 인증을 거쳐 앱과 검색에 닿고, 이벤트 버스를 통해 워커와 알림이 데이터 저장소에 쓴다">
+  <svg class="dg" viewBox="0 0 1664 724" role="img" aria-label="가상 예시 마이크로서비스 구성도: 클라이언트가 게이트웨이와 인증을 거쳐 앱과 검색에 닿고, 이벤트 버스를 통해 워커와 알림이 데이터 저장소에 쓴다">
   <title>마이크로서비스 — 가상 예시</title>
   <g data-step="1">
     <rect class="k-frame" x="296" y="30" width="468" height="516" style="rx:12px"/>
@@ -11,138 +11,138 @@
     <text class="k-t-tag" x="848" y="295">비동기 영역</text>
   </g>
   <g data-step="1">
-    <rect class="k-frame" x="1376" y="157" width="196" height="491" style="rx:12px"/>
-    <text class="k-t-tag" x="1392" y="191">데이터</text>
+    <rect class="k-frame" x="1376" y="137" width="196" height="501" style="rx:12px"/>
+    <text class="k-t-tag" x="1392" y="171">데이터</text>
   </g>
   <g data-step="3">
-      <path class="k-ln-b" d="M204 279 L250 279 Q262 279 274 279 L320 279" marker-end="url(#ah-b)"/>
-      <rect class="k-paper" x="204.5" y="261" width="115" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="262" y="287" text-anchor="middle">HTTPS</text>
+      <path class="k-ln-b" d="M204 289 L250 289 Q262 289 274 289 L320 289" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="204.5" y="169" width="115" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="262" y="195" text-anchor="middle">HTTPS</text>
     </g>
   <g data-step="3">
-      <path class="k-ln-b" d="M472 235.3 L519.6 208 Q530 202 541.2 197.7 L588 179.5" marker-end="url(#ah-b)"/>
-      <rect class="k-paper" x="418" y="159.2" width="132" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="484" y="185.2" text-anchor="middle">verify</text>
+      <path class="k-ln-b" d="M472 245.3 L519.6 218 Q530 212 540.9 207 L588 185.2" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="286.7" y="168.7" width="132" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="352.7" y="194.7" text-anchor="middle">verify</text>
     </g>
   <g data-step="3">
-      <path class="k-ln-g" d="M588 135.8 L541.8 127.2 Q530 125 522.1 134.1 L451.7 215" marker-end="url(#ahg)"/>
-      <rect class="k-paper" x="452.7" y="155.7" width="115" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="510.2" y="181.7" text-anchor="middle">token</text>
+      <path class="k-ln-g" d="M588 141.5 L541.9 136.3 Q530 135 522.1 144.1 L451.7 225" marker-end="url(#ahg)"/>
+      <rect class="k-paper" x="364.5" y="166" width="115" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="422" y="192" text-anchor="middle">token</text>
     </g>
   <g data-step="3">
-      <path class="k-ln-b" d="M443.9 343 L522.8 448.4 Q530 458 542 458 L588 458" marker-end="url(#ah-b)"/>
-      <rect class="k-paper" x="446.8" y="405.7" width="115" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="504.3" y="431.7" text-anchor="middle">route</text>
+      <path class="k-ln-b" d="M446.7 353 L522.5 448.6 Q530 458 542 458 L588 458" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="448.9" y="410.2" width="115" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="506.4" y="436.2" text-anchor="middle">route</text>
     </g>
   <g data-step="3">
-      <path class="k-ln-b" d="M472 293.2 L518.2 301.8 Q530 304 542 304 L588 304" marker-end="url(#ah-b)"/>
-      <rect class="k-paper" x="472" y="285.9" width="115" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="529.5" y="311.9" text-anchor="middle">query</text>
+      <path class="k-ln-b" d="M472 297.5 L518.1 302.7 Q530 304 542 304 L588 304" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="296.3" y="388" width="115" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="353.8" y="414" text-anchor="middle">query</text>
     </g>
   <g data-step="3">
-      <path class="k-ln-o dash-flow" d="M740 472.2 L786.2 480.8 Q798 483 810 483 L856 483" marker-end="url(#ah-o)"/>
-      <rect class="k-paper" x="679" y="532.9" width="149" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="753.5" y="558.9" text-anchor="middle">publish</text>
+      <path class="k-ln-o dash-flow" d="M740 466.5 L786.1 471.7 Q798 473 810 473 L856 473" marker-end="url(#ah-o)"/>
+      <rect class="k-paper" x="723.3" y="557" width="149" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="797.8" y="583" text-anchor="middle">publish</text>
     </g>
   <g data-step="3">
-      <path class="k-ln-o dash-flow" d="M1016 513.1 L1062.8 530.8 Q1074 535 1086 535 L1132 535" marker-end="url(#ah-o)"/>
-      <rect class="k-paper" x="953.6" y="550.3" width="149" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="1028.1" y="576.3" text-anchor="middle">consume</text>
+      <path class="k-ln-o dash-flow" d="M1016 508.9 L1063.1 530.1 Q1074 535 1086 535 L1132 535" marker-end="url(#ah-o)"/>
+      <rect class="k-paper" x="953" y="549.9" width="149" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1027.5" y="575.9" text-anchor="middle">consume</text>
     </g>
   <g data-step="3">
-      <path class="k-ln-o" d="M1016 423.9 L1064.3 388.1 Q1074 381 1086 381 L1132 381" marker-end="url(#ah-o)"/>
-      <rect class="k-paper" x="1002.3" y="367.2" width="132" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="1068.3" y="393.2" text-anchor="middle">fanout</text>
+      <path class="k-ln-o" d="M1016 419.7 L1064 387.7 Q1074 381 1086 381 L1132 381" marker-end="url(#ah-o)"/>
+      <rect class="k-paper" x="1003.1" y="366.2" width="132" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1069.1" y="392.2" text-anchor="middle">fanout</text>
     </g>
   <g data-step="3">
-      <path class="k-ln-b" d="M1284 476.6 L1332.5 439.3 Q1342 432 1349.8 422.9 L1419.5 341" marker-end="url(#ah-b)"/>
-      <rect class="k-paper" x="1299.5" y="396.3" width="115" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="1357" y="422.3" text-anchor="middle">write</text>
+      <path class="k-ln-b" d="M1284 473.7 L1332.7 434.5 Q1342 427 1349.4 417.5 L1424.3 321" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="1302.8" y="385.4" width="115" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1360.3" y="411.4" text-anchor="middle">write</text>
     </g>
   <g data-step="3">
-      <path class="k-ln-b" d="M1284 549.2 L1330.2 557.8 Q1342 560 1354 560 L1400 560" marker-end="url(#ah-b)"/>
-      <rect class="k-paper" x="1301" y="541.9" width="81" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="1341.5" y="567.9" text-anchor="middle">put</text>
+      <path class="k-ln-b" d="M1284 543.5 L1330.1 548.7 Q1342 550 1354 550 L1400 550" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="1301.3" y="532" width="81" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1341.8" y="558" text-anchor="middle">put</text>
     </g>
   <g data-step="3">
-      <path class="k-ln-g" d="M703.7 394 L791.7 252.2 Q798 242 810 242 L924 242 Q936 242 948 242 L1062 242 Q1074 242 1086 242 L1196 242 Q1208 242 1220 242 L1330 242 Q1342 242 1353.6 245.1 L1400 257.4" marker-end="url(#ahg)"/>
-      <rect class="k-paper" x="970.1" y="224" width="81" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="1010.6" y="250" text-anchor="middle">sql</text>
+      <path class="k-ln-g" d="M703.7 394 L791.7 252.2 Q798 242 810 242 L924 242 Q936 242 948 242 L1062 242 Q1074 242 1086 242 L1196 242 Q1208 242 1220 242 L1330 242 Q1342 242 1353.9 243.4 L1400 248.6" marker-end="url(#ahg)"/>
+      <rect class="k-paper" x="1013.2" y="224" width="81" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1053.7" y="250" text-anchor="middle">sql</text>
     </g>
   <g data-step="3">
-      <path class="k-ln-g" d="M740 318.2 L786.2 326.8 Q798 329 810 329 L880 329" marker-end="url(#ahg)"/>
-      <rect class="k-paper" x="769" y="311" width="81" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="809.5" y="337" text-anchor="middle">api</text>
+      <path class="k-ln-g" d="M740 312.5 L786.1 317.7 Q798 319 810 319 L880 319" marker-end="url(#ahg)"/>
+      <rect class="k-paper" x="769.3" y="199" width="81" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="809.8" y="225" text-anchor="middle">api</text>
     </g>
   <g data-step="2">
-    <circle class="k-blue" cx="148" cy="279" r="56"/>
-    <use href="#i-people" x="126" y="249" width="44" height="44" style="color:var(--blue)"/>
-    <text class="k-t-tag" x="148" y="313" text-anchor="middle" style="fill:var(--blue)">Client</text>
-    <text class="k-t-tag" x="148" y="361" text-anchor="middle">외부 사용자</text>
+    <circle class="k-blue" cx="148" cy="289" r="56"/>
+    <use href="#i-people" x="126" y="259" width="44" height="44" style="color:var(--blue)"/>
+    <text class="k-t-tag" x="148" y="323" text-anchor="middle" style="fill:var(--blue)">Client</text>
+    <text class="k-t-tag" x="148" y="371" text-anchor="middle">외부 사용자</text>
     </g>
   <g data-step="2">
-    <rect class="k-paper" x="320" y="215" width="152" height="128" style="rx:9px"/>
-    <use href="#i-globe" x="372" y="229" width="48" height="48" style="color:var(--ink)"/>
-    <text class="t-l" x="396" y="311" text-anchor="middle">API GW</text>
-    <text class="k-t-tag" x="396" y="339" text-anchor="middle">인입·라우팅</text>
+    <rect class="k-paper" x="320" y="225" width="152" height="128" style="rx:9px"/>
+    <use href="#i-globe" x="372" y="241" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="396" y="313" text-anchor="middle">API GW</text>
+    <text class="k-t-tag" x="396" y="341" text-anchor="middle">인입·라우팅</text>
     </g>
   <g data-step="2">
     <rect class="k-paper" x="588" y="86" width="152" height="128" style="rx:9px"/>
-    <use href="#i-key" x="640" y="100" width="48" height="48" style="color:var(--ink)"/>
-    <text class="t-l" x="664" y="182" text-anchor="middle">Auth</text>
-    <text class="k-t-tag" x="664" y="210" text-anchor="middle">인증 서비스</text>
+    <use href="#i-key" x="640" y="102" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="664" y="174" text-anchor="middle">Auth</text>
+    <text class="k-t-tag" x="664" y="202" text-anchor="middle">인증 서비스</text>
     </g>
   <g data-step="2">
     <rect class="k-blue" x="588" y="394" width="152" height="128" style="rx:9px"/>
-    <use href="#i-window" x="640" y="408" width="48" height="48" style="color:var(--blue)"/>
-    <text class="t-l" x="664" y="490" text-anchor="middle">App</text>
-    <text class="k-t-tag" x="664" y="518" text-anchor="middle">주문 로직</text>
+    <use href="#i-window" x="640" y="410" width="48" height="48" style="color:var(--blue)"/>
+    <text class="t-l" x="664" y="482" text-anchor="middle">App</text>
+    <text class="k-t-tag" x="664" y="510" text-anchor="middle">주문 로직</text>
     </g>
   <g data-step="2">
     <rect class="k-paper" x="588" y="240" width="152" height="128" style="rx:9px"/>
-    <use href="#i-search" x="640" y="254" width="48" height="48" style="color:var(--ink)"/>
-    <text class="t-l" x="664" y="336" text-anchor="middle">Search</text>
-    <text class="k-t-tag" x="664" y="364" text-anchor="middle">검색 서비스</text>
+    <use href="#i-search" x="640" y="256" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="664" y="328" text-anchor="middle">Search</text>
+    <text class="k-t-tag" x="664" y="356" text-anchor="middle">검색 서비스</text>
     </g>
   <g data-step="2">
-    <rect class="k-orange" x="856" y="419" width="160" height="128" style="rx:9px"/>
-    <use href="#i-bolt" x="912" y="433" width="48" height="48" style="color:var(--accent)"/>
-    <text class="t-l" x="936" y="515" text-anchor="middle">Event Bus</text>
-    <text class="k-t-tag" x="936" y="543" text-anchor="middle">메시지 중개</text>
+    <rect class="k-orange" x="856" y="409" width="160" height="128" style="rx:9px"/>
+    <use href="#i-bolt" x="912" y="425" width="48" height="48" style="color:var(--accent)"/>
+    <text class="t-l" x="936" y="497" text-anchor="middle">Event Bus</text>
+    <text class="k-t-tag" x="936" y="525" text-anchor="middle">메시지 중개</text>
     </g>
   <g data-step="2">
     <rect class="k-paper" x="1132" y="471" width="152" height="128" style="rx:9px"/>
-    <use href="#i-robot" x="1184" y="485" width="48" height="48" style="color:var(--ink)"/>
-    <text class="t-l" x="1208" y="567" text-anchor="middle">Worker</text>
-    <text class="k-t-tag" x="1208" y="595" text-anchor="middle">비동기 처리</text>
+    <use href="#i-robot" x="1184" y="487" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="1208" y="559" text-anchor="middle">Worker</text>
+    <text class="k-t-tag" x="1208" y="587" text-anchor="middle">비동기 처리</text>
     </g>
   <g data-step="2">
     <rect class="k-paper" x="1132" y="317" width="152" height="128" style="rx:9px"/>
-    <use href="#i-bell" x="1184" y="331" width="48" height="48" style="color:var(--ink)"/>
-    <text class="t-l" x="1208" y="413" text-anchor="middle">Notify</text>
-    <text class="k-t-tag" x="1208" y="441" text-anchor="middle">알림 발송</text>
+    <use href="#i-bell" x="1184" y="333" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="1208" y="405" text-anchor="middle">Notify</text>
+    <text class="k-t-tag" x="1208" y="433" text-anchor="middle">알림 발송</text>
     </g>
   <g data-step="2">
-    <rect class="k-paper" x="1400" y="213" width="148" height="128" style="rx:9px"/>
-    <use href="#i-db" x="1450" y="227" width="48" height="48" style="color:var(--ink)"/>
-    <text class="t-l" x="1474" y="309" text-anchor="middle">DB</text>
-    <text class="k-t-tag" x="1474" y="337" text-anchor="middle">주문 저장</text>
+    <rect class="k-paper" x="1400" y="193" width="148" height="128" style="rx:9px"/>
+    <use href="#i-db" x="1450" y="209" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="1474" y="281" text-anchor="middle">DB</text>
+    <text class="k-t-tag" x="1474" y="309" text-anchor="middle">주문 저장</text>
     </g>
   <g data-step="2">
-    <rect class="k-paper" x="1400" y="496" width="148" height="128" style="rx:9px"/>
-    <use href="#i-db" x="1450" y="510" width="48" height="48" style="color:var(--ink)"/>
-    <text class="t-l" x="1474" y="592" text-anchor="middle">Cache</text>
-    <text class="k-t-tag" x="1474" y="620" text-anchor="middle">읽기 캐시</text>
+    <rect class="k-paper" x="1400" y="486" width="148" height="128" style="rx:9px"/>
+    <use href="#i-db" x="1450" y="502" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="1474" y="574" text-anchor="middle">Cache</text>
+    <text class="k-t-tag" x="1474" y="602" text-anchor="middle">읽기 캐시</text>
     </g>
   <g data-step="2">
-    <circle class="k-paper" cx="936" cy="329" r="56"/>
-    <use href="#i-cloud" x="914" y="299" width="44" height="44" style="color:var(--ink)"/>
-    <text class="k-t-tag" x="936" y="363" text-anchor="middle" style="fill:var(--ink)">외부 API</text>
-    <text class="k-t-tag" x="936" y="411" text-anchor="middle">검색 색인원</text>
+    <circle class="k-paper" cx="936" cy="319" r="56"/>
+    <use href="#i-cloud" x="914" y="289" width="44" height="44" style="color:var(--ink)"/>
+    <text class="k-t-tag" x="936" y="353" text-anchor="middle" style="fill:var(--ink)">외부 API</text>
+    <text class="k-t-tag" x="936" y="401" text-anchor="middle">검색 색인원</text>
     </g>
-  <g><polyline class="k-ln-b" points="34,694 104,694"/><text class="k-t-tag" x="118" y="702">동기 호출</text>
-    <polyline class="k-ln-o" points="298,694 368,694"/><text class="k-t-tag" x="382" y="702">이벤트(패킷)</text>
-    <polyline class="k-ln-g" points="610,694 680,694"/><text class="k-t-tag" x="694" y="702">보조·회신</text></g>
+  <g><polyline class="k-ln-b" points="34,684 104,684"/><text class="k-t-tag" x="118" y="692">동기 호출</text>
+    <polyline class="k-ln-o" points="298,684 368,684"/><text class="k-t-tag" x="382" y="692">이벤트(패킷)</text>
+    <polyline class="k-ln-g" points="610,684 680,684"/><text class="k-t-tag" x="694" y="692">보조·회신</text></g>
 </svg>
   <p class="small">읽는 법 — 점선 틀: 책임 경계 · 파란 선: 동기 호출 · 주황 선: 이벤트(점=패킷 흐름) · 회색 선: 보조·회신</p>
   <aside class="notes">가상 예시 시스템이다. 1단계에 책임 경계 세 칸(코어·비동기·데이터)이 뜨고, 2단계에 노드 11개가 켜지며, 3단계에 연결선 12개가 그려진다. 격자 상한(노드 14·행 3) 안에서는 억지로 눌러 담아야 했던 11노드 규모를 dagre가 랭크 배치로 풀어낸 장면이다. publish/consume 두 이벤트 경로에 패킷이 흐르고, app→db sql이 긴 우회선으로, gw↔auth 왕복이 두 줄로 갈라지는지 본다.</aside>

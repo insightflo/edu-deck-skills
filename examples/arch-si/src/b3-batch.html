@@ -1,85 +1,105 @@
-<section class="slide" data-archetype="arch-diagram" style="gap:20px">
-  <div class="head"><p class="eyebrow">SI 유형 B3 · 배치 아키텍처 — 선후행 DAG</p><h2 class="title">야간 배치 처리 — 오류 감지와 재처리 루프</h2></div>
-  <svg class="dg" viewBox="0 0 1664 464" role="img" aria-label="배치 처리 구성도: 스케줄러가 수집·검증·반영·통지 JOB을 순서대로 기동하고, 검증 실패는 오류 테이블을 거쳐 재처리 대기에서 검증으로 되돌아가는 루프">
-  <title>야간 배치 처리 — 오류 감지와 재처리 루프</title>
+<section class="slide" data-archetype="arch-diagram" style="gap:14px">
+  <div class="head"><p class="eyebrow">SI 유형 B3 · 배치 아키텍처 — 선후행 DAG</p><h2 class="title">야간 배치 — 검증 실패 격리와 재실행 루프</h2></div>
+  <div style="display:flex;gap:12px;align-items:center;flex:1;min-height:0">
+  <div style="flex:1;min-width:0">
+  <svg class="dg" viewBox="0 0 1664 506" role="img" aria-label="배치 처리 구성도: 스케줄러가 수집·검증·반영·통지 JOB을 순서대로 기동하고, 검증 실패는 오류 테이블을 거쳐 재처리 대기에서 검증으로 되돌아가는 루프">
+  <title>야간 배치 — 검증 실패 격리와 재실행 루프</title>
   <g data-step="1">
-    <rect class="k-paper" x="270" y="30" width="1124" height="347.5" style="rx:12px;fill-opacity:0.55"/>
-    <text class="k-t-tag" x="286" y="64">배치 처리 영역</text>
+    <rect class="k-paper" x="234" y="30" width="1196" height="389.5" style="rx:12px;fill-opacity:0.55"/>
+    <text class="k-t-tag" x="250" y="64">배치 처리 영역</text>
   </g>
   <g data-step="3">
-      <path class="k-ln-b" d="M442 179.5 L472 179.5 Q484 179.5 496 179.5 L526 179.5" marker-end="url(#ah-b)"/>
-      <rect class="k-paper" x="350" y="93.5" width="268" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="484" y="119.5" text-anchor="middle">J01·일 1회 02:00</text>
+      <path class="k-ln-b" d="M406 187.5 L445 187.5 Q457 187.5 469 187.5 L508 187.5" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="323" y="271.5" width="268" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="457" y="297.5" text-anchor="middle">J01·일 1회 02:00</text>
     </g>
   <g data-step="3">
-      <path class="k-ln-b" d="M674 179.5 L704 179.5 Q716 179.5 728 179.5 L758 179.5" marker-end="url(#ah-b)"/>
-      <rect class="k-paper" x="675.5" y="161.5" width="81" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="716" y="187.5" text-anchor="middle">J02</text>
+      <path class="k-ln-b" d="M656 187.5 L695 187.5 Q707 187.5 719 187.5 L758 187.5" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="666.5" y="169.5" width="81" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="707" y="195.5" text-anchor="middle">J02</text>
     </g>
   <g data-step="3">
-      <path class="k-ln-b" d="M878.8 229.5 L939.8 294.7 Q948 303.5 960 303.5 L990 303.5" marker-end="url(#ah-b)"/>
-      <rect class="k-paper" x="887.2" y="263.8" width="81" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="927.7" y="289.8" text-anchor="middle">J03</text>
+      <path class="k-ln-b" d="M878.1 243.5 L949.4 330.2 Q957 339.5 969 339.5 L1008 339.5" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="893.2" y="293.2" width="81" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="933.7" y="319.2" text-anchor="middle">J03</text>
     </g>
   <g data-step="3">
-      <path class="k-ln-b" d="M1138 303.5 L1168 303.5 Q1180 303.5 1192 303.5 L1222 303.5" marker-end="url(#ah-b)"/>
-      <rect class="k-paper" x="1139.5" y="285.5" width="81" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="1180" y="311.5" text-anchor="middle">J04</text>
+      <path class="k-ln-b" d="M1156 339.5 L1195 339.5 Q1207 339.5 1219 339.5 L1258 339.5" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="1166.5" y="321.5" width="81" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1207" y="347.5" text-anchor="middle">J04</text>
     </g>
   <g data-step="4">
-      <path class="k-ln-g" d="M906 179.5 L936 179.5 Q948 179.5 960 179.5 L990 179.5" stroke-dasharray="8 8" marker-end="url(#ah-open)"/>
-      <rect class="k-paper" x="890.5" y="93.5" width="115" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="948" y="119.5" text-anchor="middle">검증 실패</text>
+      <path class="k-ln-g" d="M906 187.5 L945 187.5 Q957 187.5 969 187.5 L1008 187.5" stroke-dasharray="8 8" marker-end="url(#ah-open)"/>
+      <rect class="k-paper" x="723.5" y="271.5" width="115" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="781" y="297.5" text-anchor="middle">검증 실패</text>
     </g>
   <g data-step="5">
-      <path class="k-ln-g" d="M1138 179.5 L1168 179.5 Q1180 179.5 1191.2 175.3 L1222 163.8" marker-end="url(#ahg)"/>
-      <rect class="k-paper" x="1142.3" y="195" width="166" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="1225.3" y="221" text-anchor="middle">재처리 큐 적재</text>
+      <path class="k-ln-g" d="M1156 187.5 L1195 187.5 Q1207 187.5 1218.3 183.4 L1258 168.9" marker-end="url(#ahg)"/>
+      <rect class="k-paper" x="1169.5" y="202.9" width="166" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1252.5" y="228.9" text-anchor="middle">재처리 큐 적재</text>
     </g>
   <g data-step="6">
-      <path class="k-ln-g" d="M1222 108.3 L1191.2 96.7 Q1180 92.5 1168 92.5 L1076 92.5 Q1064 92.5 1052 92.5 L960 92.5 Q948 92.5 938.4 99.7 L898.7 129.5" marker-end="url(#ahg)"/>
-      <rect class="k-paper" x="972.6" y="74.5" width="166" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="1055.6" y="100.5" text-anchor="middle">J02R 재실행</text>
+      <path class="k-ln-g" d="M1258 115.1 L1218.3 100.6 Q1207 96.5 1195 96.5 L1094 96.5 Q1082 96.5 1070 96.5 L969 96.5 Q957 96.5 947.3 103.6 L906 133.6" marker-end="url(#ahg)"/>
+      <rect class="k-paper" x="994.6" y="78.5" width="166" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1077.6" y="104.5" text-anchor="middle">J02R 재실행</text>
     </g>
   <g data-step="2">
-    <rect class="k-paper" x="294" y="129.5" width="148" height="100" style="rx:9px"/>
-    <use href="#i-clock" x="344" y="143.5" width="48" height="48" style="color:var(--ink)"/>
-    <text class="t-l" x="368" y="225.5" text-anchor="middle">배치 스케줄러</text>
+    <rect class="k-paper" x="258" y="131.5" width="148" height="112" style="rx:9px"/>
+    <use href="#i-clock" x="312" y="147.5" width="40" height="40" style="color:var(--ink)"/>
+    <text class="t-l" x="332" y="211.5" text-anchor="middle">배치 스케줄러</text>
     </g>
   <g data-step="2">
-    <rect class="k-blue" x="526" y="129.5" width="148" height="100" style="rx:9px"/>
-    <use href="#i-folder" x="576" y="143.5" width="48" height="48" style="color:var(--blue)"/>
-    <text class="t-l" x="600" y="225.5" text-anchor="middle">마스터 수집</text>
+    <rect class="k-blue" x="508" y="131.5" width="148" height="112" style="rx:9px"/>
+    <use href="#i-folder" x="562" y="147.5" width="40" height="40" style="color:var(--blue)"/>
+    <text class="t-l" x="582" y="211.5" text-anchor="middle">마스터 수집</text>
     </g>
   <g data-step="2">
-    <rect class="k-blue" x="758" y="129.5" width="148" height="100" style="rx:9px"/>
-    <use href="#i-doc-check" x="808" y="143.5" width="48" height="48" style="color:var(--blue)"/>
-    <text class="t-l" x="832" y="225.5" text-anchor="middle">검증</text>
+    <rect class="k-blue" x="758" y="131.5" width="148" height="112" style="rx:9px"/>
+    <use href="#i-doc-check" x="812" y="147.5" width="40" height="40" style="color:var(--blue)"/>
+    <text class="t-l" x="832" y="211.5" text-anchor="middle">검증</text>
     </g>
   <g data-step="2">
-    <rect class="k-blue" x="990" y="253.5" width="148" height="100" style="rx:9px"/>
-    <use href="#i-db" x="1040" y="267.5" width="48" height="48" style="color:var(--blue)"/>
-    <text class="t-l" x="1064" y="349.5" text-anchor="middle">전사DB 반영</text>
+    <rect class="k-blue" x="1008" y="283.5" width="148" height="112" style="rx:9px"/>
+    <use href="#i-db" x="1062" y="299.5" width="40" height="40" style="color:var(--blue)"/>
+    <text class="t-l" x="1082" y="363.5" text-anchor="middle">전사DB 반영</text>
     </g>
   <g data-step="2">
-    <rect class="k-paper" x="1222" y="253.5" width="148" height="100" style="rx:9px"/>
-    <use href="#i-mail" x="1272" y="267.5" width="48" height="48" style="color:var(--ink)"/>
-    <text class="t-l" x="1296" y="349.5" text-anchor="middle">통지</text>
+    <rect class="k-paper" x="1258" y="283.5" width="148" height="112" style="rx:9px"/>
+    <use href="#i-mail" x="1312" y="299.5" width="40" height="40" style="color:var(--ink)"/>
+    <text class="t-l" x="1332" y="363.5" text-anchor="middle">통지</text>
     </g>
   <g data-step="2">
-    <rect class="k-orange" x="990" y="129.5" width="148" height="100" style="rx:9px"/>
-    <use href="#i-warn" x="1040" y="143.5" width="48" height="48" style="color:var(--accent)"/>
-    <text class="t-l" x="1064" y="225.5" text-anchor="middle">오류 테이블</text>
+    <rect class="k-orange" x="1008" y="131.5" width="148" height="112" style="rx:9px"/>
+    <use href="#i-warn" x="1062" y="147.5" width="40" height="40" style="color:var(--accent)"/>
+    <text class="t-l" x="1082" y="211.5" text-anchor="middle">오류 테이블</text>
     </g>
   <g data-step="2">
-    <rect class="k-orange" x="1222" y="86" width="148" height="100" style="rx:9px"/>
-    <use href="#i-refresh" x="1272" y="100" width="48" height="48" style="color:var(--accent)"/>
-    <text class="t-l" x="1296" y="182" text-anchor="middle">재처리 대기</text>
+    <rect class="k-orange" x="1258" y="86" width="148" height="112" style="rx:9px"/>
+    <use href="#i-refresh" x="1312" y="102" width="40" height="40" style="color:var(--accent)"/>
+    <text class="t-l" x="1332" y="166" text-anchor="middle">재처리 대기</text>
     </g>
-  <g><polyline class="k-ln-b" points="34,423.5 104,423.5"/><text class="k-t-tag" x="118" y="431.5">동기 호출</text>
-    <polyline class="k-ln-g" stroke-dasharray="8 8" points="298,423.5 368,423.5"/><text class="k-t-tag" x="382" y="431.5">응답</text>
-    <polyline class="k-ln-g" points="490,423.5 560,423.5"/><text class="k-t-tag" x="574" y="431.5">보조·연계</text></g>
+  <g><polyline class="k-ln-b" points="34,465.5 104,465.5"/><text class="k-t-tag" x="118" y="473.5">정상 JOB 선후행</text>
+    <polyline class="k-ln-g" stroke-dasharray="8 8" points="418,465.5 488,465.5"/><text class="k-t-tag" x="502" y="473.5">오류 응답</text>
+    <polyline class="k-ln-g" points="682,465.5 752,465.5"/><text class="k-t-tag" x="766" y="473.5">재처리 경로</text>
+    <rect class="k-orange" x="970" y="453.5" width="36" height="26" style="rx:8px"/><text class="k-t-tag" x="1018" y="473.5">오류·재처리 격리</text></g>
 </svg>
-  <p class="small">읽는 법 — 파란 실선: 정상 JOB 선후행(J01~J04) · 회색 점선+빈 화살촉: 오류 응답 · 회색 보조: 재처리 경로 · 단계 4~6이 오류→재처리→재실행 재방문</p>
+  </div>
+  <div style="flex:0 0 260px;display:flex;flex-direction:column;gap:12px">
+    <p class="eyebrow" style="margin:0">인수인계 핵심 포인트</p>
+      <div style="border:2px solid var(--line);border-left:8px solid var(--blue);border-radius:12px;background:var(--paper);padding:12px 16px">
+        <p style="margin:0;font-size:24px;font-weight:800;color:var(--ink)">선후행 통제</p>
+        <p style="margin:6px 0 0;font-size:22px;line-height:1.4;color:var(--soft)">JOB 순서는 스케줄러 소관. 수동 실행은 이중 기동 위험.</p>
+      </div>
+      <div style="border:2px solid var(--line);border-left:8px solid var(--blue);border-radius:12px;background:var(--paper);padding:12px 16px">
+        <p style="margin:0;font-size:24px;font-weight:800;color:var(--ink)">실패 격리</p>
+        <p style="margin:6px 0 0;font-size:22px;line-height:1.4;color:var(--soft)">검증 실패 데이터는 오류 테이블로 빠져 흐름이 안 멈춘다.</p>
+      </div>
+      <div style="border:2px solid var(--line);border-left:8px solid var(--blue);border-radius:12px;background:var(--paper);padding:12px 16px">
+        <p style="margin:0;font-size:24px;font-weight:800;color:var(--ink)">재실행 창구</p>
+        <p style="margin:6px 0 0;font-size:22px;line-height:1.4;color:var(--soft)">재처리는 재처리 대기→J02R 경로만 허용된다.</p>
+      </div>
+  </div>
+</div>
+  <p class="small">인수인계 포인트 — JOB 순서는 스케줄러 소관이다. 수동 재실행은 J02R 경로로만 낸다.</p>
   <aside class="notes">예시 덱 — 주기 '일 1회 02:00'과 JOB 번호 J01~J04·J02R은 이 모델 안에서 정의한 예시값입니다. 정상 선후행(수집→검증→반영→통지)은 파란 실선, 검증 실패 응답은 점선+빈 화살촉, 재처리 경로는 회색 보조선입니다. 단계 4에서 오류가 감지되고 5·6에서 재처리 대기를 거쳐 검증 JOB으로 되돌아가는 재방문을 보여줍니다.</aside>
 </section>

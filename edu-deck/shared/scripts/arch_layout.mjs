@@ -12,8 +12,13 @@
  *
  * MODEL.json(semantic JSON — design §2.2 부분집합):
  *   title·eyebrow·small·notes·ariaLabel·titleSvg : 슬라이드 문자열
- *   layout : { dir:"LR|TB", nodesep, ranksep, chipAvoid?:bool }
+ *   layout : { dir:"LR|TB", nodesep, ranksep, edgesep?, chipAvoid?:bool }
  *             기본 LR 48/96 · chipAvoid:true면 라벨 칩끼리의 충돌도 회피(옵트인)
+ *             edgesep: 같은 노드 쌍의 병렬 간선(요청/응답) 벌어짐(px, 기본 0)
+ *   hints  : [{ from, to, minlen?, weight? }]  배치 전용 보이지 않는 간선 —
+ *             그리지도, draw 예산에도 들지 않는다. 존(Zone) 사각형에서 비멤버
+ *             노드(예: 외부기관)를 밀어내 한 존이 다른 망을 삼키는 위상 왜곡을
+ *             막을 때 쓴다(hint 로 랭크를 밀어 존 바깥에 둔다).
  *   steps  : { zones:1, nodes:2, edges:3 }          g[data-step] 단계 번호(기본값)
  *   nodes  : [{ id, name, role, icon:"i-*"|null, shape:"card|circle",
  *               fam:"paper|blue|orange", w, h, step? }]
@@ -25,10 +30,16 @@
  *               pad:{top,bottom,side}, step? }] member=k-paper 면색 띠(소속) ·
  *             trust·미지정=k-frame 점선(신뢰 경계) · pad는 존별 여백 덮어쓰기
  *             between:[zoneA,zoneB?] 멤버 대신 두 존 사이의 경계선(점선 polyline+라벨)
- *   states : [{ node, at, state:"ok|warn|down" }]  상태 칩 교체 — 이전 칩 data-until=at-1,
- *             새 칩 data-step=at(failover 시나리오 §4.7). node.state는 초기 칩.
- *   legend : [{ kind:"b|o|g|r", label }]           선 어휘 범례 1줄 — 생략하고 사용 kind가
- *             2종 이상이면 자동 유도(기본 라벨 b:동기 호출 o:이벤트 g:보조·연계 r:응답)
+ *   states : [{ node, at, state:"ok|warn|down", text? }]  상태 칩 교체 — 이전 칩
+ *             data-until=at-1, 새 칩 data-step=at(failover 시나리오 §4.7).
+ *             node.state는 초기 칩, node.stateText 는 초기 칩 문구 덮어쓰기.
+ *             text 는 칩 글자를 역할 문구(예 "Active·운영")로 구분할 때 쓴다.
+ *   legend : [{ kind:"b|o|g|r", label } | { fam:"blue|orange|paper|gray", label }]
+ *             선 어휘 범례 1줄 — 생략하고 사용 kind가 2종 이상이면 자동 유도
+ *             (기본 라벨 b:동기 호출 o:이벤트 g:보조·연계 r:응답).
+ *             fam 항목은 노드 색 의미(예 주황=경계 장비)를 선 범례 옆에 함께 찍는다.
+ *   handover : { title, points:[{t,d}] }  우측 인수인계 카드 열 — 있으면 도식 70% +
+ *             카드 30% 2단 구성. 도식이 작고 여백이 남는 장의 리듬 변주용.
  *
  * 산출: 슬라이드 <section class="slide" data-archetype="arch-diagram"> 단편(기본 stdout→파일)
  *   --svg-only : svg.dg 단편만 / --coords : 좌표·경로 JSON 별도 파일
@@ -97,10 +108,15 @@ if (DRAW_EDGES.length > 12) fail(`링크 ${DRAW_EDGES.length}개 > 12(draw 예�
 
 /* ── 1. dagre 배치 ── */
 const g = new dagre.graphlib.Graph({ multigraph: true });
-g.setGraph({ rankdir: L.dir || 'LR', nodesep: L.nodesep ?? 48, ranksep: L.ranksep ?? 96, marginx: 0, marginy: 0 });
+g.setGraph({ rankdir: L.dir || 'LR', nodesep: L.nodesep ?? 48, ranksep: L.ranksep ?? 96, edgesep: L.edgesep ?? 0, marginx: 0, marginy: 0 });
 g.setDefaultEdgeLabel(() => ({}));
 for (const [id, d] of Object.entries(NODES)) g.setNode(id, { width: d.w, height: d.h });
 EDGES.forEach((e, i) => { if (!e.aux) g.setEdge(e.a, e.b, { label: e.label, width: 40, height: 30, labelpos: 'c' }, `e${i}`); });
+// 배치 전용 힌트 간선 — 그리지 않고 예산에도 안 들린다(존 침범 방지용 랭크 pushed)
+for (const [i, h] of (model.hints || []).entries()) {
+  if (!NODES[h.from] || !NODES[h.to]) fail(`hints[${i}]: 알 수 없는 노드 ${h.from}→${h.to}`);
+  g.setEdge(h.from, h.to, { minlen: h.minlen ?? 1, weight: h.weight ?? 1 }, `h${i}`);
+}
 dagre.layout(g);
 
 const nodes = Object.fromEntries(Object.entries(NODES).map(([id, d]) => {
@@ -225,14 +241,29 @@ function midPoint(pts) {
 // (기존 모델은 칩 위치를 그대로 둬 출력 불변 — 칩 겹침이 있는 모델만 명시 적용)
 const placedChips = [];
 const hit = (r, b) => r.x0 < b.x1 && r.x1 > b.x0 && r.y0 < b.y1 && r.y1 > b.y0;
-const overlaps = (r) => Object.values(nodes).some((n) => hit(r, nRect(n)))
+const grow = (b, m) => ({ x0: b.x0 - m, x1: b.x1 + m, y0: b.y0 - m, y1: b.y1 + m });
+// 다른 엣지의 선분·화살촉도 칩 장애물로 본다(기본 동작 — 정확성 문제다).
+// 칩이 자기 선 위에 앉는 것은 종이 배경이 가려주므로 허용하고, 남의 선·화살촉과
+// 겹치면 우선순위 후보 순서대로 비껴 앉는다. 결정성: 후보 순서 고정.
+const SEG_M = 7, CAP_M = 15;                                 // 선분 여유 · 화살촉 영역
+const segBox = (p, q, m) => ({ x0: Math.min(p.x, q.x) - m, x1: Math.max(p.x, q.x) + m,
+                               y0: Math.min(p.y, q.y) - m, y1: Math.max(p.y, q.y) + m });
+const capBox = (p, m) => ({ x0: p.x - m, x1: p.x + m, y0: p.y - m, y1: p.y + m });
+const overlaps = (r, own) => Object.values(nodes).some((n) => hit(r, grow(nRect(n), 4)))
   || zones.some((z) => {
     // 존 라벨 영역(띠 48px, labelPos 방향)도 회피 — 칩이 존 이름 위에 올라가지 않게
     const b = z.labelPos === 'bottom'
       ? { x0: z.r.x0, x1: z.r.x1, y0: z.r.y1 - 48, y1: z.r.y1 }
       : { x0: z.r.x0, x1: z.r.x1, y0: z.r.y0, y1: z.r.y0 + 48 };
     return hit(r, b);
-  }) || (L.chipAvoid && placedChips.some((b) => hit(r, b)));
+  }) || edges.some((e, i) => i !== own && (
+    e.pts.some((p, k) => k > 0 && hit(r, segBox(e.pts[k - 1], p, SEG_M)))
+    || hit(r, capBox(e.pts[e.pts.length - 1], CAP_M))
+  ))
+  // 기본 규칙: 나중 칩이 먼저 칩의 글자 앵커(중심)를 덮으면 검사기가 그 칩을 상자로
+  // 읽어 “글자 넘침”이 된다 — 앵커 커버는 칩Avoid 옵션과 무관하게 항상 금지.
+  || placedChips.some((b) => hit(r, { x0: b.ax - 3, x1: b.ax + 3, y0: b.ay - 3, y1: b.ay + 3 }))
+  || (L.chipAvoid && placedChips.some((b) => hit(r, b)));
 // 라벨 칩은 svg·범례 영역 안에 있어야 한다 — 정규화 좌표로 검사
 const legH = legendItems.length ? 56 : 0;
 const inBox = (r) => X(r.x0) >= 2 && X(r.x1) <= VBW - 2 && Y(r.y0) >= 2 && Y(r.y1) <= H - 2 - legH;
@@ -243,12 +274,12 @@ const labelPos = (e, idx) => {
   for (const dy of [off, off - 34, off + 34, off - 68, off + 68, off - 102, off + 102]) {
     for (const dx of [0, -44, 44, -88, 88, -132, 132, -176, 176]) {
       const r = { x0: m.x + dx - w / 2, x1: m.x + dx + w / 2, y0: m.y - 18 + dy, y1: m.y + 18 + dy };
-      if (inBox(r) && !overlaps(r)) { placedChips.push(r); return { x: m.x + dx, y: m.y + dy, w }; }
+      if (inBox(r) && !overlaps(r, idx)) { placedChips.push({ ...r, ax: m.x + dx, ay: m.y + dy }); return { x: m.x + dx, y: m.y + dy, w }; }
     }
   }
   const ly = Math.min(Math.max(m.y + off, minY - PAD + 22), maxY + PAD - 22 - legH);
   const lx = Math.min(Math.max(m.x, minX - PAD + w / 2 + 4), maxX + PAD - w / 2 - 4);
-  placedChips.push({ x0: lx - w / 2, x1: lx + w / 2, y0: ly - 18, y1: ly + 18 });  // fallback 도 등록 — 다음 칩이 겹치지 않게
+  placedChips.push({ x0: lx - w / 2, x1: lx + w / 2, y0: ly - 18, y1: ly + 18, ax: lx, ay: ly });  // fallback 도 등록 — 다음 칩이 겹치지 않게
   return { x: lx, y: ly, w };
 };
 
@@ -267,6 +298,8 @@ const zoneMarkup = (z) => {
 
 // 존 사이 경계선 — 점선 세로 polyline + 라벨(상하 클램프). between:[a]면 a의 바깥쪽
 // labelAt:'top'|'bottom'(기본 bottom) — 아래쪽이 노드 라벨과 겹칠 때 모델에서만 전환한다.
+// 라벨이 선 구간 안에 들면 선을 라벨 위·아래로 쪼갠다 — 점선이 글자를 관통하면
+// '신뢰|경계' 처럼 읽히다 끊겨 보인다(크리틱 기술-1 근본 패치).
 const boundMarkup = (b) => {
   const a = zmap[b.between[0]], c = b.between[1] ? zmap[b.between[1]] : null;
   let x, y0, y1;
@@ -277,28 +310,32 @@ const boundMarkup = (b) => {
   } else {
     x = a.r.x0 - 22; y0 = a.r.y0 - 10; y1 = a.r.y1 + 10;
   }
-  // 라벨 y — bottom 은 정규화 좌표로 존 하단 밖에 둔다(클램프도 그래프 좌표 기준: 정규화 하한 H-legH-4 ⇔ 그래프 maxY+PAD-4).
-  // top 경로는 기존 그래프좌표 렌더를 그대로 유지한다(호환 — 조정된 슬라이드의 바이트 불변).
   const ly = b.labelAt === 'top'
-    ? Math.min(Math.max(y0 - 8, PAD + 4), y1)
+    ? Math.min(Math.max(y0 - 8, minY - PAD + 26), y1)
     : Math.min(Math.max(y1 + 18, y0 + 22), maxY + PAD - 4);
-  const lyOut = b.labelAt === 'top' ? r2(ly) : r2(Y(ly));
-  return `<g data-step="${b.step ?? STEP.zones}">
-    <polyline points="${r2(X(x))},${r2(Y(y0))} ${r2(X(x))},${r2(Y(y1))}" fill="none" stroke="var(--accent)" stroke-width="3.5" stroke-dasharray="11 9"/>
-    <text class="k-t-tag" x="${r2(X(x))}" y="${lyOut}" text-anchor="middle" style="fill:var(--accent)">${esc(b.label || '신뢰 경계')}</text>
+  const line = (ya, yb) => (yb - ya > 4)
+    ? `\n    <polyline points="${r2(X(x))},${r2(Y(ya))} ${r2(X(x))},${r2(Y(yb))}" fill="none" stroke="var(--accent)" stroke-width="3.5" stroke-dasharray="11 9"/>`
+    : '';
+  // 라벨 글자 밴드(±안전 여유)가 선 구간에 걸치면 선을 라벨 위·아래로 쪼갠다
+  const inSpan = ly > y0 - 12 && ly - 20 < y1 + 12;
+  const lines = inSpan ? line(y0, ly - 26) + line(ly + 22, y1) : line(y0, y1);
+  return `<g data-step="${b.step ?? STEP.zones}">${lines}
+    <text class="k-t-tag" x="${r2(X(x))}" y="${r2(Y(ly))}" text-anchor="middle" style="fill:var(--accent)">${esc(b.label || '신뢰 경계')}</text>
   </g>`;
 };
 
 const stateChips = (id, n, x, y) => {
   // states[]: node.at 시점에 칩 교체 — 이전 칩 data-until=at-1, 새 칩 data-step=at
+  // text/stateText 는 칩 문구를 역할(예 "Active·운영")로 구분하는 덮어쓰기다.
   const trans = (model.states || []).filter((s) => s.node === id).sort((p, q) => p.at - q.at);
   if (!n.state && !trans.length) return '';
-  const chain = [{ at: 0, state: n.state || 'ok' }, ...trans];
+  const chain = [{ at: 0, state: n.state || 'ok', text: n.stateText }, ...trans];
   return chain.map((c, i) => {
     const next = chain[i + 1];
     const vis = i === 0 ? (next ? ` data-until="${next.at - 1}"` : '') : ` data-step="${c.at}"${next ? ` data-until="${next.at - 1}"` : ''}`;
     const [txt, col] = STATE_ICON[c.state] || STATE_ICON.ok;
-    return `<g${vis}><circle cx="${x}" cy="${y}" r="9" style="fill:${col}"/><text class="k-t-tag" x="${x + 15}" y="${y + 7}">${txt}</text></g>`;
+    const label = c.text || txt;
+    return `<g${vis}><circle cx="${x}" cy="${y}" r="9" style="fill:${col}"/><text class="k-t-tag" x="${x + 15}" y="${y + 7}">${esc(label)}</text></g>`;
   }).join('\n    ');
 };
 
@@ -315,9 +352,14 @@ const nodeMarkup = (id, n) => {
     o.push(`<rect class="${FAM_CLASS[n.fam]}" x="${x}" y="${y}" width="${n.w}" height="${n.h}" style="rx:9px"/>`);
     // 상태 칩이 있으면 칩 좌상단·아이콘 우상단의 헤더 행으로 나눈다(겹침 방지)
     const hasState = n.state || (model.states || []).some((s) => s.node === id);
-    if (n.icon) o.push(`<use href="#${n.icon}" x="${r2(hasState ? x + n.w - 62 : x + n.w / 2 - 24)}" y="${y + 14}" width="48" height="48" style="color:${ICON_COLOR[n.fam]}"/>`);
-    o.push(`<text class="t-l" x="${r2(x + n.w / 2)}" y="${y + (n.icon ? 96 : 78)}" text-anchor="middle">${esc(n.name)}</text>`);
-    if (n.role) o.push(`<text class="k-t-tag" x="${r2(x + n.w / 2)}" y="${y + (n.icon ? 124 : 106)}" text-anchor="middle">${esc(n.role)}</text>`);
+    // 글자 세로 배치는 노드 높이에서 비롯한다 — h=100 처럼 낮은 상자에 96/124 고정
+    // 오프셋을 쓰면 글자가 밑단에 밀착하거나 상자 밖으로 빠진다(기술 결함의 근본 원인).
+    // 아이콘은 h<124 에서 40px 로 줄여 아이콘+이름+역할 3줄이 상자 안에 든다.
+    const iconS = !n.icon ? 0 : n.h >= 124 ? 48 : 40;
+    if (n.icon) o.push(`<use href="#${n.icon}" x="${r2(hasState ? x + n.w - 16 - iconS : x + n.w / 2 - iconS / 2)}" y="${y + 16}" width="${iconS}" height="${iconS}" style="color:${ICON_COLOR[n.fam]}"/>`);
+    const nameY = n.icon ? y + 16 + iconS + 24 : y + Math.round(n.h * 0.52);
+    o.push(`<text class="t-l" x="${r2(x + n.w / 2)}" y="${r2(nameY)}" text-anchor="middle">${esc(n.name)}</text>`);
+    if (n.role) o.push(`<text class="k-t-tag" x="${r2(x + n.w / 2)}" y="${r2(nameY + 28)}" text-anchor="middle">${esc(n.role)}</text>`);
     o.push(stateChips(id, n, x + 16, y + 16));
   }
   o.push('</g>');
@@ -342,6 +384,12 @@ const legendMarkup = (items) => {
   if (!items || !items.length) return '';
   let x = PAD + 4;
   return `<g>${items.map((it) => {
+    if (it.fam) {                                  // 노드 색 의미 스토치 — 선 범례 옆에 함께
+      const cls = FAM_CLASS[it.fam] || 'k-paper';
+      const seg = `<rect class="${cls}" x="${r2(x)}" y="${r2(H - 52)}" width="36" height="26" style="rx:8px"/><text class="k-t-tag" x="${x + 48}" y="${r2(H - 32)}">${esc(it.label)}</text>`;
+      x += 48 + it.label.length * 24 + 60;
+      return seg;
+    }
     const kk = KIND[it.kind] || { mk: 'ahg' };
     const kd = kk.dash ? ` stroke-dasharray="${kk.dash}"` : '';
     const seg = `<polyline class="k-ln-${kk.cls || it.kind}"${kd} points="${x},${r2(H - 40)} ${x + 70},${r2(H - 40)}"/><text class="k-t-tag" x="${x + 84}" y="${r2(H - 32)}">${esc(it.label)}</text>`;
@@ -358,9 +406,30 @@ const svg = `<svg class="dg" viewBox="0 0 ${VBW} ${Math.ceil(H)}" role="img" ari
   ${legendMarkup(legendItems)}
 </svg>`;
 
-const slide = `<section class="slide" data-archetype="arch-diagram" style="gap:20px">
-  <div class="head"><p class="eyebrow">${esc(model.eyebrow || '가상 예시 · 아키텍처')}</p><h2 class="title">${esc(model.title || '')}</h2></div>
+// 우측 인수인계 카드 열(선택) — 도식이 작아 여백이 남는 장의 리듬 변주.
+// 폭은 260px 로 고정: 도식 칸이 1392px 이상 확보돼야 svg 글자가 화면에서
+// 18px 하한(22px × 1392/1664 = 18.4px)을 지킨다. 인라인 스타일 + 토큰만 쓴다.
+const handoverMarkup = (hv) => {
+  if (!hv) return null;
+  const cards = (hv.points || []).map((p) => `      <div style="border:2px solid var(--line);border-left:8px solid var(--blue);border-radius:12px;background:var(--paper);padding:12px 16px">
+        <p style="margin:0;font-size:24px;font-weight:800;color:var(--ink)">${esc(p.t)}</p>
+        <p style="margin:6px 0 0;font-size:22px;line-height:1.4;color:var(--soft)">${esc(p.d)}</p>
+      </div>`).join('\n');
+  return `<div style="display:flex;gap:12px;align-items:center;flex:1;min-height:0">
+  <div style="flex:1;min-width:0">
   ${svg}
+  </div>
+  <div style="flex:0 0 260px;display:flex;flex-direction:column;gap:12px">
+    <p class="eyebrow" style="margin:0">${esc(hv.title)}</p>
+${cards}
+  </div>
+</div>`;
+};
+const duo = handoverMarkup(model.handover);
+
+const slide = `<section class="slide" data-archetype="arch-diagram" style="gap:${duo ? 14 : 20}px">
+  <div class="head"><p class="eyebrow">${esc(model.eyebrow || '가상 예시 · 아키텍처')}</p><h2 class="title">${esc(model.title || '')}</h2></div>
+  ${duo || svg}
   ${model.small ? `<p class="small">${esc(model.small)}</p>` : ''}
   <aside class="notes">${esc(model.notes || '')}</aside>
 </section>

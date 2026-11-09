@@ -1,134 +1,135 @@
 <section class="slide" data-archetype="arch-diagram" style="gap:20px">
-  <div class="head"><p class="eyebrow">SI 유형 C1 · 인프라 — DMZ 논리 2D</p><h2 class="title">DMZ 논리 구성 — 2D 논리도</h2></div>
-  <svg class="dg" viewBox="0 0 1664 648" role="img" aria-label="DMZ 논리 구성도: 외부 사용자가 WAF와 DMZ 경계 방화벽을 거쳐 웹 서버 2대로 들어가고, 내부 경계 방화벽을 지나 WAS 2대와 주 DB에 닿는다. 선은 연결 가능성만 나타낸다">
+  <div class="head"><p class="eyebrow">SI 유형 C1 · 인프라 — DMZ 논리 2D</p><h2 class="title">DMZ 이중 방화벽 — 443·8080·1521 3단 포트 격리</h2></div>
+  <svg class="dg" viewBox="0 0 1664 716" role="img" aria-label="DMZ 논리 구성도: 외부 사용자가 WAF와 DMZ 경계 방화벽을 거쳐 웹 서버 2대로 들어가고, 내부 경계 방화벽을 지나 WAS 2대와 주 DB에 닿는다. 선은 연결 가능성만 나타낸다">
   <title>DMZ 논리 — 3존 띠·신뢰 경계 2·포트 라벨</title>
   <g data-step="1">
-    <rect class="k-paper" x="56" y="30" width="184" height="532" style="rx:12px;fill-opacity:0.55"/>
-    <text class="k-t-tag" x="72" y="64">외부</text>
+    <rect class="k-paper" x="32" y="30" width="184" height="600" style="rx:12px;fill-opacity:0.55"/>
+    <text class="k-t-tag" x="48" y="64">외부</text>
   </g>
   <g data-step="1">
-    <rect class="k-paper" x="284" y="30" width="640" height="532" style="rx:12px;fill-opacity:0.55"/>
-    <text class="k-t-tag" x="300" y="548">DMZ</text>
+    <rect class="k-paper" x="268" y="51" width="656" height="562" style="rx:12px;fill-opacity:0.55"/>
+    <text class="k-t-tag" x="284" y="599">DMZ</text>
   </g>
   <g data-step="1">
-    <rect class="k-paper" x="968" y="30" width="640" height="532" style="rx:12px;fill-opacity:0.55"/>
-    <text class="k-t-tag" x="984" y="64">내부</text>
+    <rect class="k-paper" x="976" y="51" width="656" height="562" style="rx:12px;fill-opacity:0.55"/>
+    <text class="k-t-tag" x="992" y="85">내부</text>
   </g>
   <g data-step="1">
-    <polyline points="262,20 262,572" fill="none" stroke="var(--accent)" stroke-width="3.5" stroke-dasharray="11 9"/>
-    <text class="k-t-tag" x="262" y="34" text-anchor="middle" style="fill:var(--accent)">신뢰 경계</text>
+    <polyline points="242,48 242,640" fill="none" stroke="var(--accent)" stroke-width="3.5" stroke-dasharray="11 9"/>
+    <text class="k-t-tag" x="242" y="26" text-anchor="middle" style="fill:var(--accent)">신뢰 경계</text>
   </g>
   <g data-step="1">
-    <polyline points="946,20 946,572" fill="none" stroke="var(--accent)" stroke-width="3.5" stroke-dasharray="11 9"/>
-    <text class="k-t-tag" x="946" y="34" text-anchor="middle" style="fill:var(--accent)">신뢰 경계</text>
+    <polyline points="950,55 950,623" fill="none" stroke="var(--accent)" stroke-width="3.5" stroke-dasharray="11 9"/>
+    <text class="k-t-tag" x="950" y="33" text-anchor="middle" style="fill:var(--accent)">신뢰 경계</text>
   </g>
   <g data-step="3">
-      <path class="k-ln-b dash-flow" d="M216 302 L250 302 Q262 302 274 302 L308 302" marker-end="url(#ah-b)"/>
-      <rect class="k-paper" x="221.5" y="284" width="81" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="262" y="310" text-anchor="middle">443</text>
+      <path class="k-ln-b dash-flow" d="M192 338 L230 338 Q242 338 254 338 L292 338" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="201.5" y="320" width="81" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="242" y="346" text-anchor="middle">443</text>
     </g>
   <g data-step="3">
-      <path class="k-ln-b" d="M444 302 L478 302 Q490 302 502 302 L536 302" marker-end="url(#ah-b)"/>
-      <rect class="k-paper" x="449.5" y="284" width="81" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="490" y="310" text-anchor="middle">443</text>
+      <path class="k-ln-b" d="M428 338 L466 338 Q478 338 490 338 L528 338" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="437.5" y="320" width="81" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="478" y="346" text-anchor="middle">443</text>
     </g>
   <g data-step="3">
-      <path class="k-ln-b" d="M666.2 374 L710.2 424.9 Q718 434 730 434 L764 434" marker-end="url(#ah-b)"/>
-      <rect class="k-paper" x="666.6" y="403.4" width="81" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="707.1" y="429.4" text-anchor="middle">443</text>
+      <path class="k-ln-b" d="M653.8 410 L706.5 475.6 Q714 485 726 485 L764 485" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="659" y="449" width="81" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="699.5" y="475" text-anchor="middle">443</text>
     </g>
   <g data-step="3">
-      <path class="k-ln-b" d="M666.2 230 L710.2 179.1 Q718 170 730 170 L764 170" marker-end="url(#ah-b)"/>
-      <rect class="k-paper" x="666.6" y="164.6" width="81" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="707.1" y="190.6" text-anchor="middle">443</text>
+      <path class="k-ln-b" d="M653.8 266 L706.5 200.4 Q714 191 726 191 L764 191" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="659" y="191" width="81" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="699.5" y="217" text-anchor="middle">443</text>
     </g>
   <g data-step="3">
-      <path class="k-ln-b" d="M900 434 L934 434 Q946 434 953.8 424.9 L997.8 374" marker-end="url(#ah-b)"/>
-      <rect class="k-paper" x="907.9" y="403.4" width="98" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="956.9" y="429.4" text-anchor="middle">8080</text>
+      <path class="k-ln-b" d="M900 485 L938 485 Q950 485 957.5 475.6 L1010.2 410" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="915.5" y="449" width="98" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="964.5" y="475" text-anchor="middle">8080</text>
     </g>
   <g data-step="3">
-      <path class="k-ln-b" d="M900 170 L934 170 Q946 170 953.8 179.1 L997.8 230" marker-end="url(#ah-b)"/>
-      <rect class="k-paper" x="907.9" y="164.6" width="98" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="956.9" y="190.6" text-anchor="middle">8080</text>
+      <path class="k-ln-b" d="M900 191 L938 191 Q950 191 957.5 200.4 L1010.2 266" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="915.5" y="191" width="98" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="964.5" y="217" text-anchor="middle">8080</text>
     </g>
   <g data-step="3">
-      <path class="k-ln-b" d="M1122.2 374 L1166.2 424.9 Q1174 434 1186 434 L1220 434" marker-end="url(#ah-b)"/>
-      <rect class="k-paper" x="1114.1" y="403.4" width="98" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="1163.1" y="429.4" text-anchor="middle">8080</text>
+      <path class="k-ln-b" d="M1125.8 410 L1178.5 475.6 Q1186 485 1198 485 L1236 485" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="1122.5" y="449" width="98" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1171.5" y="475" text-anchor="middle">8080</text>
     </g>
   <g data-step="3">
-      <path class="k-ln-b" d="M1122.2 230 L1166.2 179.1 Q1174 170 1186 170 L1220 170" marker-end="url(#ah-b)"/>
-      <rect class="k-paper" x="1114.1" y="164.6" width="98" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="1163.1" y="190.6" text-anchor="middle">8080</text>
+      <path class="k-ln-b" d="M1125.8 266 L1178.5 200.4 Q1186 191 1198 191 L1236 191" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="1122.5" y="191" width="98" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1171.5" y="217" text-anchor="middle">8080</text>
     </g>
   <g data-step="3">
-      <path class="k-ln-b" d="M1356 434 L1390 434 Q1402 434 1409.8 424.9 L1453.8 374" marker-end="url(#ah-b)"/>
-      <rect class="k-paper" x="1363.9" y="403.4" width="98" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="1412.9" y="429.4" text-anchor="middle">1521</text>
+      <path class="k-ln-b" d="M1372 485 L1410 485 Q1422 485 1429.5 475.6 L1482.2 410" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="1387.5" y="449" width="98" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1436.5" y="475" text-anchor="middle">1521</text>
     </g>
   <g data-step="3">
-      <path class="k-ln-b" d="M1356 170 L1390 170 Q1402 170 1409.8 179.1 L1453.8 230" marker-end="url(#ah-b)"/>
-      <rect class="k-paper" x="1363.9" y="164.6" width="98" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="1412.9" y="190.6" text-anchor="middle">1521</text>
+      <path class="k-ln-b" d="M1372 191 L1410 191 Q1422 191 1429.5 200.4 L1482.2 266" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="1387.5" y="191" width="98" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1436.5" y="217" text-anchor="middle">1521</text>
     </g>
   <g data-step="2">
-    <circle class="k-blue" cx="148" cy="302" r="68"/>
-    <use href="#i-people" x="126" y="272" width="44" height="44" style="color:var(--blue)"/>
-    <text class="k-t-tag" x="148" y="336" text-anchor="middle" style="fill:var(--blue)">외부 사용자</text>
-    <text class="k-t-tag" x="148" y="396" text-anchor="middle">인터넷</text>
+    <circle class="k-blue" cx="124" cy="338" r="68"/>
+    <use href="#i-people" x="102" y="308" width="44" height="44" style="color:var(--blue)"/>
+    <text class="k-t-tag" x="124" y="372" text-anchor="middle" style="fill:var(--blue)">외부 사용자</text>
+    <text class="k-t-tag" x="124" y="432" text-anchor="middle">인터넷</text>
     </g>
   <g data-step="2">
-    <rect class="k-orange" x="308" y="230" width="136" height="144" style="rx:9px"/>
-    <use href="#i-shield" x="352" y="244" width="48" height="48" style="color:var(--accent)"/>
-    <text class="t-l" x="376" y="326" text-anchor="middle">WAF</text>
-    <text class="k-t-tag" x="376" y="354" text-anchor="middle">웹방화벽</text>
+    <rect class="k-orange" x="292" y="266" width="136" height="144" style="rx:9px"/>
+    <use href="#i-shield" x="336" y="282" width="48" height="48" style="color:var(--accent)"/>
+    <text class="t-l" x="360" y="354" text-anchor="middle">WAF</text>
+    <text class="k-t-tag" x="360" y="382" text-anchor="middle">웹방화벽</text>
     </g>
   <g data-step="2">
-    <rect class="k-orange" x="536" y="230" width="136" height="144" style="rx:9px"/>
-    <use href="#i-fire" x="580" y="244" width="48" height="48" style="color:var(--accent)"/>
-    <text class="t-l" x="604" y="326" text-anchor="middle">FW-1</text>
-    <text class="k-t-tag" x="604" y="354" text-anchor="middle">DMZ 경계</text>
+    <rect class="k-orange" x="528" y="266" width="136" height="144" style="rx:9px"/>
+    <use href="#i-fire" x="572" y="282" width="48" height="48" style="color:var(--accent)"/>
+    <text class="t-l" x="596" y="354" text-anchor="middle">FW-1</text>
+    <text class="k-t-tag" x="596" y="382" text-anchor="middle">DMZ 경계</text>
     </g>
   <g data-step="2">
-    <rect class="k-paper" x="764" y="362" width="136" height="144" style="rx:9px"/>
-    <use href="#i-window" x="808" y="376" width="48" height="48" style="color:var(--ink)"/>
-    <text class="t-l" x="832" y="458" text-anchor="middle">WEB-1</text>
-    <text class="k-t-tag" x="832" y="486" text-anchor="middle">정적·TLS 종단</text>
+    <rect class="k-paper" x="764" y="413" width="136" height="144" style="rx:9px"/>
+    <use href="#i-window" x="808" y="429" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="832" y="501" text-anchor="middle">WEB-1</text>
+    <text class="k-t-tag" x="832" y="529" text-anchor="middle">정적·TLS 종단</text>
     </g>
   <g data-step="2">
-    <rect class="k-paper" x="764" y="98" width="136" height="144" style="rx:9px"/>
-    <use href="#i-window" x="808" y="112" width="48" height="48" style="color:var(--ink)"/>
-    <text class="t-l" x="832" y="194" text-anchor="middle">WEB-2</text>
-    <text class="k-t-tag" x="832" y="222" text-anchor="middle">정적·TLS 종단</text>
+    <rect class="k-paper" x="764" y="119" width="136" height="144" style="rx:9px"/>
+    <use href="#i-window" x="808" y="135" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="832" y="207" text-anchor="middle">WEB-2</text>
+    <text class="k-t-tag" x="832" y="235" text-anchor="middle">정적·TLS 종단</text>
     </g>
   <g data-step="2">
-    <rect class="k-orange" x="992" y="230" width="136" height="144" style="rx:9px"/>
-    <use href="#i-fire" x="1036" y="244" width="48" height="48" style="color:var(--accent)"/>
-    <text class="t-l" x="1060" y="326" text-anchor="middle">FW-2</text>
-    <text class="k-t-tag" x="1060" y="354" text-anchor="middle">내부 경계</text>
+    <rect class="k-orange" x="1000" y="266" width="136" height="144" style="rx:9px"/>
+    <use href="#i-fire" x="1044" y="282" width="48" height="48" style="color:var(--accent)"/>
+    <text class="t-l" x="1068" y="354" text-anchor="middle">FW-2</text>
+    <text class="k-t-tag" x="1068" y="382" text-anchor="middle">내부 경계</text>
     </g>
   <g data-step="2">
-    <rect class="k-paper" x="1220" y="362" width="136" height="144" style="rx:9px"/>
-    <use href="#i-gear" x="1264" y="376" width="48" height="48" style="color:var(--ink)"/>
-    <text class="t-l" x="1288" y="458" text-anchor="middle">WAS-1</text>
-    <text class="k-t-tag" x="1288" y="486" text-anchor="middle">업무 처리</text>
+    <rect class="k-paper" x="1236" y="413" width="136" height="144" style="rx:9px"/>
+    <use href="#i-gear" x="1280" y="429" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="1304" y="501" text-anchor="middle">WAS-1</text>
+    <text class="k-t-tag" x="1304" y="529" text-anchor="middle">업무 처리</text>
     </g>
   <g data-step="2">
-    <rect class="k-paper" x="1220" y="98" width="136" height="144" style="rx:9px"/>
-    <use href="#i-gear" x="1264" y="112" width="48" height="48" style="color:var(--ink)"/>
-    <text class="t-l" x="1288" y="194" text-anchor="middle">WAS-2</text>
-    <text class="k-t-tag" x="1288" y="222" text-anchor="middle">업무 처리</text>
+    <rect class="k-paper" x="1236" y="119" width="136" height="144" style="rx:9px"/>
+    <use href="#i-gear" x="1280" y="135" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="1304" y="207" text-anchor="middle">WAS-2</text>
+    <text class="k-t-tag" x="1304" y="235" text-anchor="middle">업무 처리</text>
     </g>
   <g data-step="2">
-    <rect class="k-paper" x="1448" y="230" width="136" height="144" style="rx:9px"/>
-    <use href="#i-db" x="1522" y="244" width="48" height="48" style="color:var(--ink)"/>
-    <text class="t-l" x="1516" y="326" text-anchor="middle">DB-주</text>
-    <text class="k-t-tag" x="1516" y="354" text-anchor="middle">Oracle</text>
-    <g><circle cx="1464" cy="246" r="9" style="fill:var(--blue)"/><text class="k-t-tag" x="1479" y="253">정상</text></g>
+    <rect class="k-paper" x="1472" y="266" width="136" height="144" style="rx:9px"/>
+    <use href="#i-db" x="1544" y="282" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="1540" y="354" text-anchor="middle">DB-주</text>
+    <text class="k-t-tag" x="1540" y="382" text-anchor="middle">Oracle</text>
+    <g><circle cx="1488" cy="282" r="9" style="fill:var(--blue)"/><text class="k-t-tag" x="1503" y="289">정상</text></g>
     </g>
-  <g><polyline class="k-ln-b" points="34,608 104,608"/><text class="k-t-tag" x="118" y="616">연결 가능성(포트)</text></g>
+  <g><polyline class="k-ln-b" points="34,676 104,676"/><text class="k-t-tag" x="118" y="684">연결 가능성(포트)</text>
+    <rect class="k-orange" x="418" y="664" width="36" height="26" style="rx:8px"/><text class="k-t-tag" x="466" y="684">경계 보안 장비</text></g>
 </svg>
-  <p class="small">읽는 법 — 면색 띠: 망 소속(외부·DMZ·내부) · 주황 점선: 신뢰 경계 · 선 라벨: 포트(연결 가능성만, 회선·케이블 없음)</p>
-  <aside class="notes">P0 인프라 논리도. 아이소메트릭 대비 실증: 9노드 전원 개별(대수 보존)·장비 형상이 아닌 아이콘+역할로 구분(방패=WAF·불꽃=FW). 외부·DMZ·내부 3개 면색 소속 띠와 사이 신뢰 경계 2개. DMZ 라벨은 labelPos:bottom으로 하단 — 상단 띠와 선 라벨 충돌 회피 사례. 선은 전부 연결 가능성(포트)이며 회선·케이블 종류는 표기하지 않는다. 1단계 존·경계, 2단계 장비, 3단계 연결.</aside>
+  <p class="small">인수인계 포인트 — 개방 포트는 443·8080·1521 3구간뿐이다. 정책 변경도 이 기준으로 낸다.</p>
+  <aside class="notes">P0 인프라 논리도. 9노드 전원 개별(대수 보존)·장비 형상이 아닌 아이콘+역할로 구분(방패=WAF·불꽃=FW). 외부·DMZ·내부 3개 면색 소속 띠와 사이 신뢰 경계 2개. 선은 전부 연결 가능성(포트)이며 회선·케이블 종류는 표기하지 않는다. 1단계 존·경계, 2단계 장비, 3단계 연결.</aside>
 </section>

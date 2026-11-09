@@ -1,30 +1,172 @@
 {
-  "title": "야간 배치 처리 — 오류 감지와 재처리 루프",
+  "title": "야간 배치 — 검증 실패 격리와 재실행 루프",
   "eyebrow": "SI 유형 B3 · 배치 아키텍처 — 선후행 DAG",
-  "small": "읽는 법 — 파란 실선: 정상 JOB 선후행(J01~J04) · 회색 점선+빈 화살촉: 오류 응답 · 회색 보조: 재처리 경로 · 단계 4~6이 오류→재처리→재실행 재방문",
+  "small": "인수인계 포인트 — JOB 순서는 스케줄러 소관이다. 수동 재실행은 J02R 경로로만 낸다.",
   "ariaLabel": "배치 처리 구성도: 스케줄러가 수집·검증·반영·통지 JOB을 순서대로 기동하고, 검증 실패는 오류 테이블을 거쳐 재처리 대기에서 검증으로 되돌아가는 루프",
-  "layout": { "dir": "LR", "ranksep": 44, "nodesep": 24, "chipAvoid": true },
-  "steps": { "zones": 1, "nodes": 2, "edges": 3 },
+  "layout": {
+    "dir": "LR",
+    "ranksep": 62,
+    "nodesep": 40,
+    "chipAvoid": true
+  },
+  "steps": {
+    "zones": 1,
+    "nodes": 2,
+    "edges": 3
+  },
   "nodes": [
-    { "id": "sched",  "name": "배치 스케줄러", "icon": "i-clock",      "w": 148, "h": 100 },
-    { "id": "collect","name": "마스터 수집",   "icon": "i-folder",     "w": 148, "h": 100, "fam": "blue" },
-    { "id": "verify", "name": "검증",          "icon": "i-doc-check",  "w": 148, "h": 100, "fam": "blue" },
-    { "id": "apply",  "name": "전사DB 반영",   "icon": "i-db",         "w": 148, "h": 100, "fam": "blue" },
-    { "id": "notify", "name": "통지",          "icon": "i-mail",       "w": 148, "h": 100 },
-    { "id": "errtbl", "name": "오류 테이블",   "icon": "i-warn",       "w": 148, "h": 100, "fam": "orange" },
-    { "id": "retryq", "name": "재처리 대기",   "icon": "i-refresh",    "w": 148, "h": 100, "fam": "orange" }
+    {
+      "id": "sched",
+      "name": "배치 스케줄러",
+      "icon": "i-clock",
+      "w": 148,
+      "h": 112
+    },
+    {
+      "id": "collect",
+      "name": "마스터 수집",
+      "icon": "i-folder",
+      "w": 148,
+      "h": 112,
+      "fam": "blue"
+    },
+    {
+      "id": "verify",
+      "name": "검증",
+      "icon": "i-doc-check",
+      "w": 148,
+      "h": 112,
+      "fam": "blue"
+    },
+    {
+      "id": "apply",
+      "name": "전사DB 반영",
+      "icon": "i-db",
+      "w": 148,
+      "h": 112,
+      "fam": "blue"
+    },
+    {
+      "id": "notify",
+      "name": "통지",
+      "icon": "i-mail",
+      "w": 148,
+      "h": 112
+    },
+    {
+      "id": "errtbl",
+      "name": "오류 테이블",
+      "icon": "i-warn",
+      "w": 148,
+      "h": 112,
+      "fam": "orange"
+    },
+    {
+      "id": "retryq",
+      "name": "재처리 대기",
+      "icon": "i-refresh",
+      "w": 148,
+      "h": 112,
+      "fam": "orange"
+    }
   ],
   "edges": [
-    { "from": "sched",  "to": "collect", "label": "J01·일 1회 02:00", "kind": "b" },
-    { "from": "collect","to": "verify",  "label": "J02",              "kind": "b" },
-    { "from": "verify", "to": "apply",   "label": "J03",              "kind": "b" },
-    { "from": "apply",  "to": "notify",  "label": "J04",              "kind": "b" },
-    { "from": "verify", "to": "errtbl",  "label": "검증 실패",         "kind": "r", "step": 4 },
-    { "from": "errtbl", "to": "retryq",  "label": "재처리 큐 적재",    "kind": "g", "step": 5 },
-    { "from": "retryq", "to": "verify",  "label": "J02R 재실행",       "kind": "g", "step": 6 }
+    {
+      "from": "sched",
+      "to": "collect",
+      "label": "J01·일 1회 02:00",
+      "kind": "b"
+    },
+    {
+      "from": "collect",
+      "to": "verify",
+      "label": "J02",
+      "kind": "b"
+    },
+    {
+      "from": "verify",
+      "to": "apply",
+      "label": "J03",
+      "kind": "b"
+    },
+    {
+      "from": "apply",
+      "to": "notify",
+      "label": "J04",
+      "kind": "b"
+    },
+    {
+      "from": "verify",
+      "to": "errtbl",
+      "label": "검증 실패",
+      "kind": "r",
+      "step": 4
+    },
+    {
+      "from": "errtbl",
+      "to": "retryq",
+      "label": "재처리 큐 적재",
+      "kind": "g",
+      "step": 5
+    },
+    {
+      "from": "retryq",
+      "to": "verify",
+      "label": "J02R 재실행",
+      "kind": "g",
+      "step": 6
+    }
   ],
   "zones": [
-    { "id": "z-batch", "label": "배치 처리 영역", "members": ["sched","collect","verify","apply","notify","errtbl","retryq"], "kind": "member" }
+    {
+      "id": "z-batch",
+      "label": "배치 처리 영역",
+      "members": [
+        "sched",
+        "collect",
+        "verify",
+        "apply",
+        "notify",
+        "errtbl",
+        "retryq"
+      ],
+      "kind": "member"
+    }
   ],
+  "legend": [
+    {
+      "kind": "b",
+      "label": "정상 JOB 선후행"
+    },
+    {
+      "kind": "r",
+      "label": "오류 응답"
+    },
+    {
+      "kind": "g",
+      "label": "재처리 경로"
+    },
+    {
+      "fam": "orange",
+      "label": "오류·재처리 격리"
+    }
+  ],
+  "handover": {
+    "title": "인수인계 핵심 포인트",
+    "points": [
+      {
+        "t": "선후행 통제",
+        "d": "JOB 순서는 스케줄러 소관. 수동 실행은 이중 기동 위험."
+      },
+      {
+        "t": "실패 격리",
+        "d": "검증 실패 데이터는 오류 테이블로 빠져 흐름이 안 멈춘다."
+      },
+      {
+        "t": "재실행 창구",
+        "d": "재처리는 재처리 대기→J02R 경로만 허용된다."
+      }
+    ]
+  },
   "notes": "예시 덱 — 주기 '일 1회 02:00'과 JOB 번호 J01~J04·J02R은 이 모델 안에서 정의한 예시값입니다. 정상 선후행(수집→검증→반영→통지)은 파란 실선, 검증 실패 응답은 점선+빈 화살촉, 재처리 경로는 회색 보조선입니다. 단계 4에서 오류가 감지되고 5·6에서 재처리 대기를 거쳐 검증 JOB으로 되돌아가는 재방문을 보여줍니다."
 }

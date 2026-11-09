@@ -1,90 +1,109 @@
-<section class="slide" data-archetype="arch-diagram" style="gap:20px">
-  <div class="head"><p class="eyebrow">SI 유형 C3 · 인프라 — 재해복구</p><h2 class="title">DR 구성 — 주·DR 전환과 비동기 복제</h2></div>
-  <svg class="dg" viewBox="0 0 1664 466" role="img" aria-label="DR 구성도: 사용자가 L4를 거쳐 주 센터의 WAS·DB를 쓰고, 주 DB에서 DR DB로 비동기 복제가 흐르며, 장애 시 DR 센터가 승격되는 과정을 단계로 보여준다">
-  <title>DR 구성 — 주·DR 전환과 비동기 복제</title>
+<section class="slide" data-archetype="arch-diagram" style="gap:14px">
+  <div class="head"><p class="eyebrow">SI 유형 C3 · 인프라 — 재해복구</p><h2 class="title">DR 구성 — 비동기 복제와 장애 시 승격 전환</h2></div>
+  <div style="display:flex;gap:12px;align-items:center;flex:1;min-height:0">
+  <div style="flex:1;min-width:0">
+  <svg class="dg" viewBox="0 0 1664 528" role="img" aria-label="DR 구성도: 사용자가 L4를 거쳐 주 센터의 WAS·DB를 쓰고, 주 DB에서 DR DB로 비동기 복제가 흐르며, 장애 시 DR 센터가 승격되는 과정을 단계로 보여준다">
+  <title>DR 구성 — 비동기 복제와 장애 시 승격 전환</title>
   <g data-step="1">
-    <rect class="k-paper" x="830" y="196" width="464" height="184" style="rx:12px;fill-opacity:0.55"/>
-    <text class="k-t-tag" x="846" y="366">주 센터(Active)</text>
+    <rect class="k-paper" x="816" y="278" width="544" height="164" style="rx:12px;fill-opacity:0.55"/>
+    <text class="k-t-tag" x="832" y="428">주 센터(Active)</text>
   </g>
   <g data-step="1">
-    <rect class="k-paper" x="830" y="30" width="464" height="176" style="rx:12px;fill-opacity:0.55"/>
-    <text class="k-t-tag" x="846" y="64">DR 센터(Standby)</text>
+    <rect class="k-paper" x="816" y="30" width="544" height="160" style="rx:12px;fill-opacity:0.55"/>
+    <text class="k-t-tag" x="832" y="64">DR 센터(Standby)</text>
   </g>
   <g data-step="3">
-      <path class="k-ln-b" d="M466 203 L514 203 Q526 203 538 203 L586 203" marker-end="url(#ah-b)"/>
-      <rect class="k-paper" x="494" y="185" width="64" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="526" y="211" text-anchor="middle">접속</text>
+      <path class="k-ln-b" d="M400 236 L452 236 Q464 236 476 236 L528 236" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="432" y="218" width="64" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="464" y="244" text-anchor="middle">접속</text>
     </g>
   <g data-step="3">
-      <path class="k-ln-b" d="M734 240 L783.3 264.6 Q794 270 806 270 L854 270" marker-end="url(#ah-b)"/>
-      <rect class="k-paper" x="680.8" y="284.4" width="132" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="746.8" y="310.4" text-anchor="middle">Active</text>
+      <path class="k-ln-b" d="M691.6 292 L766.5 350.6 Q776 358 788 358 L840 358" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="693" y="326.7" width="132" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="759" y="352.7" text-anchor="middle">Active</text>
     </g>
   <g data-step="3">
-      <path class="k-ln-b" d="M1002 270 L1050 270 Q1062 270 1074 270 L1122 270" marker-end="url(#ah-b)"/>
-      <rect class="k-paper" x="1021.5" y="252" width="81" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="1062" y="278" text-anchor="middle">R/W</text>
+      <path class="k-ln-b" d="M1024 358 L1076 358 Q1088 358 1100 358 L1152 358" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="1047.5" y="340" width="81" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1088" y="366" text-anchor="middle">R/W</text>
     </g>
   <g data-step="3">
-      <path class="k-ln-g" d="M734 166 L783.3 141.4 Q794 136 806 136 L854 136" marker-end="url(#ahg)"/>
-      <rect class="k-paper" x="646.8" y="85.6" width="200" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="746.8" y="111.6" text-anchor="middle">Standby 대기</text>
+      <path class="k-ln-g" d="M691.6 180 L766.5 121.4 Q776 114 788 114 L840 114" marker-end="url(#ahg)"/>
+      <rect class="k-paper" x="615" y="109.3" width="200" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="715" y="135.3" text-anchor="middle">Standby 대기</text>
     </g>
   <g data-step="3">
-      <path class="k-ln-g" d="M1002 136 L1050 136 Q1062 136 1074 136 L1122 136" marker-end="url(#ahg)"/>
-      <rect class="k-paper" x="987.5" y="118" width="149" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="1062" y="144" text-anchor="middle">승격 시 연결</text>
+      <path class="k-ln-g" d="M1024 114 L1076 114 Q1088 114 1100 114 L1152 114" marker-end="url(#ahg)"/>
+      <rect class="k-paper" x="1013.5" y="198" width="149" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1088" y="224" text-anchor="middle">승격 시 연결</text>
     </g>
   <g>
-      <path class="k-ln-g dash-flow" d="M1196 220 L1196 186" marker-end="url(#ahg)"/>
-      <rect class="k-paper" x="1001" y="185" width="319" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="1160.5" y="211" text-anchor="middle">비동기 복제·목표 RPO 15분</text>
+      <path class="k-ln-g dash-flow" d="M1244 302 L1244 170" marker-end="url(#ahg)"/>
+      <rect class="k-paper" x="1198" y="218" width="268" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1332" y="244" text-anchor="middle">비동기 복제·RPO 15분</text>
     </g>
   <g data-step="2">
-    <circle class="k-paper" cx="418" cy="203" r="48"/>
-    <use href="#i-people" x="396" y="173" width="44" height="44" style="color:var(--ink)"/>
-    <text class="k-t-tag" x="418" y="237" text-anchor="middle" style="fill:var(--ink)">사용자</text>
+    <circle class="k-paper" cx="352" cy="236" r="48"/>
+    <use href="#i-people" x="330" y="206" width="44" height="44" style="color:var(--ink)"/>
+    <text class="k-t-tag" x="352" y="270" text-anchor="middle" style="fill:var(--ink)">사용자</text>
     </g>
   <g data-step="2">
-    <rect class="k-blue" x="586" y="153" width="148" height="100" style="rx:9px"/>
-    <use href="#i-globe" x="636" y="167" width="48" height="48" style="color:var(--blue)"/>
-    <text class="t-l" x="660" y="249" text-anchor="middle">L4/LB</text>
+    <rect class="k-blue" x="528" y="180" width="184" height="112" style="rx:9px"/>
+    <use href="#i-globe" x="600" y="196" width="40" height="40" style="color:var(--blue)"/>
+    <text class="t-l" x="620" y="260" text-anchor="middle">L4/LB</text>
     </g>
   <g data-step="2">
-    <rect class="k-paper" x="854" y="220" width="148" height="100" style="rx:9px"/>
-    <use href="#i-window" x="940" y="234" width="48" height="48" style="color:var(--ink)"/>
-    <text class="t-l" x="928" y="316" text-anchor="middle">주 WAS</text>
-    <g data-until="3"><circle cx="870" cy="236" r="9" style="fill:var(--blue)"/><text class="k-t-tag" x="885" y="243">정상</text></g>
-    <g data-step="4" data-until="6"><circle cx="870" cy="236" r="9" style="fill:var(--accent)"/><text class="k-t-tag" x="885" y="243">장애</text></g>
-    <g data-step="7" data-until="7"><circle cx="870" cy="236" r="9" style="fill:var(--accent)"/><text class="k-t-tag" x="885" y="243">주의</text></g>
-    <g data-step="8"><circle cx="870" cy="236" r="9" style="fill:var(--blue)"/><text class="k-t-tag" x="885" y="243">정상</text></g>
+    <rect class="k-paper" x="840" y="302" width="184" height="112" style="rx:9px"/>
+    <use href="#i-window" x="968" y="318" width="40" height="40" style="color:var(--ink)"/>
+    <text class="t-l" x="932" y="382" text-anchor="middle">주 WAS</text>
+    <g data-until="3"><circle cx="856" cy="318" r="9" style="fill:var(--blue)"/><text class="k-t-tag" x="871" y="325">Active·운영</text></g>
+    <g data-step="4" data-until="6"><circle cx="856" cy="318" r="9" style="fill:var(--accent)"/><text class="k-t-tag" x="871" y="325">장애 감지</text></g>
+    <g data-step="7" data-until="7"><circle cx="856" cy="318" r="9" style="fill:var(--accent)"/><text class="k-t-tag" x="871" y="325">복구 중</text></g>
+    <g data-step="8"><circle cx="856" cy="318" r="9" style="fill:var(--blue)"/><text class="k-t-tag" x="871" y="325">Active 복원</text></g>
     </g>
   <g data-step="2">
-    <rect class="k-orange" x="854" y="86" width="148" height="100" style="rx:9px"/>
-    <use href="#i-window" x="940" y="100" width="48" height="48" style="color:var(--accent)"/>
-    <text class="t-l" x="928" y="182" text-anchor="middle">DR WAS</text>
-    <g data-until="4"><circle cx="870" cy="102" r="9" style="fill:var(--accent)"/><text class="k-t-tag" x="885" y="109">주의</text></g>
-    <g data-step="5"><circle cx="870" cy="102" r="9" style="fill:var(--blue)"/><text class="k-t-tag" x="885" y="109">정상</text></g>
+    <rect class="k-orange" x="840" y="58" width="184" height="112" style="rx:9px"/>
+    <use href="#i-window" x="968" y="74" width="40" height="40" style="color:var(--accent)"/>
+    <text class="t-l" x="932" y="138" text-anchor="middle">DR WAS</text>
+    <g data-until="4"><circle cx="856" cy="74" r="9" style="fill:var(--accent)"/><text class="k-t-tag" x="871" y="81">Standby 대기</text></g>
+    <g data-step="5"><circle cx="856" cy="74" r="9" style="fill:var(--blue)"/><text class="k-t-tag" x="871" y="81">Active 승격</text></g>
     </g>
   <g data-step="2">
-    <rect class="k-paper" x="1122" y="220" width="148" height="100" style="rx:9px"/>
-    <use href="#i-db" x="1208" y="234" width="48" height="48" style="color:var(--ink)"/>
-    <text class="t-l" x="1196" y="316" text-anchor="middle">주 DB</text>
-    <g data-until="3"><circle cx="1138" cy="236" r="9" style="fill:var(--blue)"/><text class="k-t-tag" x="1153" y="243">정상</text></g>
-    <g data-step="4" data-until="6"><circle cx="1138" cy="236" r="9" style="fill:var(--accent)"/><text class="k-t-tag" x="1153" y="243">장애</text></g>
-    <g data-step="7" data-until="7"><circle cx="1138" cy="236" r="9" style="fill:var(--accent)"/><text class="k-t-tag" x="1153" y="243">주의</text></g>
-    <g data-step="8"><circle cx="1138" cy="236" r="9" style="fill:var(--blue)"/><text class="k-t-tag" x="1153" y="243">정상</text></g>
+    <rect class="k-paper" x="1152" y="302" width="184" height="112" style="rx:9px"/>
+    <use href="#i-db" x="1280" y="318" width="40" height="40" style="color:var(--ink)"/>
+    <text class="t-l" x="1244" y="382" text-anchor="middle">주 DB</text>
+    <g data-until="3"><circle cx="1168" cy="318" r="9" style="fill:var(--blue)"/><text class="k-t-tag" x="1183" y="325">Active·운영</text></g>
+    <g data-step="4" data-until="6"><circle cx="1168" cy="318" r="9" style="fill:var(--accent)"/><text class="k-t-tag" x="1183" y="325">장애 감지</text></g>
+    <g data-step="7" data-until="7"><circle cx="1168" cy="318" r="9" style="fill:var(--accent)"/><text class="k-t-tag" x="1183" y="325">복구 중</text></g>
+    <g data-step="8"><circle cx="1168" cy="318" r="9" style="fill:var(--blue)"/><text class="k-t-tag" x="1183" y="325">Active 복원</text></g>
     </g>
   <g data-step="2">
-    <rect class="k-orange" x="1122" y="86" width="148" height="100" style="rx:9px"/>
-    <use href="#i-db" x="1208" y="100" width="48" height="48" style="color:var(--accent)"/>
-    <text class="t-l" x="1196" y="182" text-anchor="middle">DR DB</text>
-    <g data-until="5"><circle cx="1138" cy="102" r="9" style="fill:var(--accent)"/><text class="k-t-tag" x="1153" y="109">주의</text></g>
-    <g data-step="6"><circle cx="1138" cy="102" r="9" style="fill:var(--blue)"/><text class="k-t-tag" x="1153" y="109">정상</text></g>
+    <rect class="k-orange" x="1152" y="58" width="184" height="112" style="rx:9px"/>
+    <use href="#i-db" x="1280" y="74" width="40" height="40" style="color:var(--accent)"/>
+    <text class="t-l" x="1244" y="138" text-anchor="middle">DR DB</text>
+    <g data-until="5"><circle cx="1168" cy="74" r="9" style="fill:var(--accent)"/><text class="k-t-tag" x="1183" y="81">Standby 복제</text></g>
+    <g data-step="6"><circle cx="1168" cy="74" r="9" style="fill:var(--blue)"/><text class="k-t-tag" x="1183" y="81">Active 승격</text></g>
     </g>
-  <g><polyline class="k-ln-b" points="34,426 104,426"/><text class="k-t-tag" x="118" y="434">동기 호출</text>
-    <polyline class="k-ln-g" points="298,426 368,426"/><text class="k-t-tag" x="382" y="434">보조·연계</text></g>
+  <g><polyline class="k-ln-b" points="34,488 104,488"/><text class="k-t-tag" x="118" y="496">동기 호출</text>
+    <polyline class="k-ln-g" points="298,488 368,488"/><text class="k-t-tag" x="382" y="496">보조·연계</text></g>
 </svg>
-  <p class="small">읽는 법 — 면색 띠: 센터(주·DR) · 주황 점선: 센터 경계 · 점선 스트림: 비동기 복제(이중화 전환과 다른 문법) · 상태 칩이 단계별 전환을 표시</p>
-  <aside class="notes">예시 덱 — '목표 RPO 15분'은 비동기 복제 설계 목표의 예시값이며 실측이 아닙니다. 단계: 1~3 정상(Active 경로 + 복제 스트림), 4 장애 감지(주 WAS·DB down), 5 전환(DR WAS 승격), 6 서비스 재개(DR DB 승격), 7 주 센터 복구(warn), 8 재전환 완료. 이중화(전환·승격)는 상태 칩으로, 복제(데이터 흐름)는 점선 스트림으로 구분했습니다.</aside>
+  </div>
+  <div style="flex:0 0 260px;display:flex;flex-direction:column;gap:12px">
+    <p class="eyebrow" style="margin:0">인수인계 핵심 포인트</p>
+      <div style="border:2px solid var(--line);border-left:8px solid var(--blue);border-radius:12px;background:var(--paper);padding:12px 16px">
+        <p style="margin:0;font-size:24px;font-weight:800;color:var(--ink)">평시 상태</p>
+        <p style="margin:6px 0 0;font-size:22px;line-height:1.4;color:var(--soft)">주 센터만 Active. DR은 쓰기 없이 복제만 받는 대기.</p>
+      </div>
+      <div style="border:2px solid var(--line);border-left:8px solid var(--blue);border-radius:12px;background:var(--paper);padding:12px 16px">
+        <p style="margin:0;font-size:24px;font-weight:800;color:var(--ink)">RPO 15분</p>
+        <p style="margin:6px 0 0;font-size:22px;line-height:1.4;color:var(--soft)">전환 시 최대 15분치 유실 허용 선언이다.</p>
+      </div>
+      <div style="border:2px solid var(--line);border-left:8px solid var(--blue);border-radius:12px;background:var(--paper);padding:12px 16px">
+        <p style="margin:0;font-size:24px;font-weight:800;color:var(--ink)">전환 순서</p>
+        <p style="margin:6px 0 0;font-size:22px;line-height:1.4;color:var(--soft)">L4 절체 → DR WAS 승격 → DR DB 승격 순서 고정.</p>
+      </div>
+  </div>
+</div>
+  <p class="small">인수인계 포인트 — 평시에는 주 센터만 Active이고 DR은 복제 대기다. 전환은 L4 절체 → DR WAS 승격 → DR DB 승격 순서로만 하며, RPO 15분은 최대 15분 데이터 손실 허용 선언이다.</p>
+  <aside class="notes">예시 덱 — '목표 RPO 15분'은 비동기 복제 설계 목표의 예시값이며 실측이 아닙니다. 단계: 1~3 정상(Active 경로 + 복제 스트림), 4 장애 감지(주 WAS·DB down), 5 전환(DR WAS 승격), 6 서비스 재개(DR DB 승격), 7 주 센터 복구(warn), 8 재전환 완료. 상태 칩 문구는 역할(Active·운영/Standby·대기/승격/복구 중)로 구분되고, 복제(데이터 흐름)는 점선 스트림으로 구분됩니다.</aside>
 </section>

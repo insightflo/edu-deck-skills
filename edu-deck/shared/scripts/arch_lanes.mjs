@@ -30,7 +30,7 @@
  * [계약] viewBox 폭 1664 · 글자는 t-l/k-t-* 클래스(26/22px) · 링크 1개 = path 1개(≤12) ·
  *   장식은 rect/polygon/polyline/circle 만(path·line 은 draw 예산을 먹는다) ·
  *   화살촉 marker-end · SMIL·script·CSS 애니메이션 0 · 색은 var(--…) 토큰만.
- *   BPMN 준수 구현이 아니다 — 이 덱의 k-* 어휘로 재작성한 자체 문법이며, 그렇게 표기한다.
+ *   이 덱의 k-* 어휘로 그린 실무형 레인·시퀀스 표기다.
  *
  * [재현성] 같은 입력 → 같은 바이트. 시간·난수·환경값·절대경로를 출력에 넣지 않는다.
  *   검증: `node arch_lanes.mjs --in a.json -o x.html` 두 번 실행 후 diff 0.
@@ -82,7 +82,7 @@ const CHANGES = ['keep', 'new', 'change', 'remove'];
 const VBW = 1664;
 const C = {
   margin: 15, laneHead: 150, poolH: 42, padT: 24, padB: 10, rowH: 72,
-  taskW: 168, taskH: 54, decW: 74, decH: 56, evtR: 20, legend: 46,
+  taskW: 168, taskH: 54, decW: 88, decH: 60, evtR: 20, legend: 46,
 };
 const boxW = (type) => (type === 'decision' ? C.decW : type === 'start' || type === 'end' ? C.evtR * 2 : C.taskW);
 
@@ -320,17 +320,20 @@ function buildProcess() {
   };
   const opts = model.options || {};
   const routeOf = (e) => routeEdge(e, N, P, laneOf, opts);
-  // 칩 배치 순서: 판정 라벨 → 흐름 라벨(모델 순서). 겹치면 자동으로 위/아래/좌/우를 옮긴다.
+  // 칩 배치 순서: 흐름 라벨(모델 순서). 겹치면 자동으로 위/아래/좌/우를 옮긴다.
+  // 판정(마름모) 이름은 알약이 아니라 마름모 위 잉크 글자로 찍는다 — 같은 흰색
+  // 알약이면 분기 조건(엣지 라벨)과 구분되지 않는다(크리틱 Major-4).
   const chips = {};
   {
     const obstacles = Object.values(N).map((n) => ({ x0: n.l - 4, x1: n.r + 4, y0: n.t - 4, y1: n.b + 4 }));
     for (const n of Object.values(N)) {
       if (n.type !== 'decision') continue;
-      const w = Math.round(textW(n.name, 22) + 24), h = 34;
-      const c = placeChip(n.cx, n.labelSide === 'above' ? n.cy - 30 : n.cy + 30, w, h,
-        n.labelSide === 'above' ? ['above', 'right', 'left', 'below'] : ['below', 'right', 'left', 'above'], obstacles);
-      chips[n.id] = { ...c, w, h };
-      obstacles.push({ x0: c.x, x1: c.x + w, y0: c.y, y1: c.y + h });
+      const nw = Math.round(textW(n.name, 22)) + 8;
+      obstacles.push({ x0: n.cx - nw / 2, x1: n.cx + nw / 2, y0: n.t - 36, y1: n.t - 8 });
+      if (n.role) {
+        const rw = Math.round(textW(n.role, 22)) + 8;
+        obstacles.push({ x0: n.cx - rw / 2, x1: n.cx + rw / 2, y0: n.b + 8, y1: n.b + 36 });
+      }
     }
     for (const e of model.edges) {
       if (!e.label) continue;
@@ -349,12 +352,12 @@ function buildProcess() {
   svg.push(`  <svg class="dg" viewBox="0 0 ${VBW} ${H}" role="img" aria-label="${esc(model.ariaLabel || model.title)}">`);
   svg.push(`  <title>${esc(model.title)}</title>`);
   svg.push(`  <g data-step="0">
-    <rect class="k-solid-n" x="0" y="0" width="${VBW}" height="${C.poolH}" style="rx:10px"/>
+    <rect class="k-solid-b" x="0" y="0" width="${VBW}" height="${C.poolH}" style="rx:10px"/>
     <text class="t-l k-t-w" x="16" y="34">${esc(model.pool || model.title)}</text>
     <text class="k-t-tag k-t-w" x="${VBW - 16}" y="33" text-anchor="end">행위자 ${lanes.length} · 단계 ${sim.steps.length}</text>`);
   for (const L of lanes) {
     svg.push(`    <rect class="k-gray" x="0" y="${round(L.y0)}" width="${VBW}" height="${round(L.h)}"/>`);
-    svg.push(`    <rect class="k-solid-n" x="0" y="${round(L.y0)}" width="${C.laneHead}" height="${round(L.h)}"/>`);
+    svg.push(`    <rect class="k-solid-b" x="0" y="${round(L.y0)}" width="${C.laneHead}" height="${round(L.h)}"/>`);
     svg.push(`    <text class="k-t-tag k-t-w" transform="translate(30 ${round(L.y0 + L.h / 2)}) rotate(-90)" text-anchor="middle">${esc(L.actor)}</text>`);
   }
   svg.push(`  </g>`);
@@ -382,9 +385,12 @@ function buildProcess() {
     svg.push(`    <g data-step="${st}">`);
     if (n.type === 'decision') {
       svg.push(`      <polygon class="k-orange" points="${n.cx},${n.t} ${n.r},${n.cy} ${n.cx},${n.b} ${n.l},${n.cy}"/>`);
-      const c = chips[n.id];
-      svg.push(`      <rect class="k-paper" x="${c.x}" y="${c.y}" width="${c.w}" height="${c.h}" style="rx:9px"/>`);
-      svg.push(`      <text class="k-t-tag" x="${round(c.x + c.w / 2)}" y="${round(c.y + c.h - 8)}" text-anchor="middle">${esc(n.name)}</text>`);
+      // 판정 기준명 — 알약이 아닌 잉크 글자(배경 마스크만). 분기 조건 칩과 시각 위계를
+      // 나눈다(크리틱 Major-4). 마스크는 글자가 레인 띠 경계 밖으로 걸치는 것도 막는다.
+      const nw = Math.round(textW(n.name, 22)) + 16;
+      svg.push(`      <rect x="${round(n.cx - nw / 2)}" y="${round(n.t - 40)}" width="${nw}" height="32" style="fill:var(--light);rx:8px"/>`);
+      svg.push(`      <text class="k-t-tag" x="${n.cx}" y="${round(n.t - 16)}" text-anchor="middle" style="fill:var(--ink)">${esc(n.name)}</text>`);
+      if (n.role) svg.push(`      <text class="k-t-tag" x="${n.cx}" y="${round(n.b + 30)}" text-anchor="middle">${esc(n.role)}</text>`);
     } else if (n.type === 'start' || n.type === 'end') {
       svg.push(`      <circle class="k-paper" cx="${n.cx}" cy="${n.cy}" r="${C.evtR}"/>`);
       if (n.type === 'end') svg.push(`      <circle cx="${n.cx}" cy="${n.cy}" r="${C.evtR - 6}" style="fill:none;stroke:var(--ink);stroke-width:4"/>`);
@@ -399,23 +405,25 @@ function buildProcess() {
     }
     svg.push(`    </g>`);
   }
-  // 현재 토큰 — data-only(그 단계에서만)
+  // 현재 토큰 — data-only(그 단계에서만). 마지막 단계가 종료 노드면 링을 생략한다 —
+  // 완결 화면에서 종료 기호 위 주황 링이 3중 과녁처럼 남는다(크리틱 Major-4).
   for (const s of sim.steps) {
     const n = N[s.at];
     if (!n) continue;
+    if (s.n === sim.steps.length && n.type === 'end') continue;
     const ring = n.type === 'decision'
-      ? `<polygon class="k-ln-o" points="${n.cx},${round(n.cy - 44)} ${round(n.cx + 48)},${n.cy} ${n.cx},${round(n.cy + 44)} ${round(n.cx - 48)},${n.cy}" style="fill:none"/>`
+      ? `<polygon class="k-ln-o" points="${n.cx},${round(n.cy - C.decH / 2 - 16)} ${round(n.cx + C.decW / 2 + 10)},${n.cy} ${n.cx},${round(n.cy + C.decH / 2 + 16)} ${round(n.cx - C.decW / 2 - 10)},${n.cy}" style="fill:none"/>`
       : n.type === 'start' || n.type === 'end'
         ? `<circle class="k-ln-o" cx="${n.cx}" cy="${n.cy}" r="${C.evtR + 10}" style="fill:none"/>`
         : `<rect class="k-ln-o" x="${round(n.cx - (n.w || C.taskW) / 2 - 8)}" y="${round(n.cy - C.taskH / 2 - 8)}" width="${(n.w || C.taskW) + 16}" height="${C.taskH + 16}" style="rx:16px;fill:none"/>`;
     const evt = n.type === 'start' || n.type === 'end';
-    const dot = evt ? '' : `<circle class="k-solid-o" cx="${round(n.cx + (n.type === 'decision' ? 0 : (n.w || C.taskW) / 2 - 2))}" cy="${round(n.cy - (n.type === 'decision' ? 40 : C.taskH / 2 - 2))}" r="7"/>`;
+    const dot = evt ? '' : `<circle class="k-solid-o" cx="${round(n.cx + (n.type === 'decision' ? 0 : (n.w || C.taskW) / 2 - 2))}" cy="${round(n.cy - (n.type === 'decision' ? C.decH / 2 - 4 : C.taskH / 2 - 2))}" r="7"/>`;
     svg.push(`    <g data-only="${s.n}">${ring}${dot}</g>`);
   }
   svg.push(legend(H).map((l) => `    ${l}`).join('\n'));
   svg.push(`  </svg>`);
   const section = [
-    header('업무 절차(레인) · 자체 저작 문법 — BPMN 준수 아님'),
+    header('업무 절차(레인) · arch_lanes 생성'),
     `<section class="slide" data-archetype="arch-diagram" style="gap:18px">`,
     `  <div class="head"><p class="eyebrow">${esc(model.eyebrow || '')}</p><h2 class="title">${esc(model.title)}</h2></div>`,
     ...svg,
@@ -538,7 +546,7 @@ function buildSequence() {
   const bottom = H - 26;
   // 헤더 + 생명선(점선 polyline — 장식이므로 draw 예산 밖)
   svg.push(`  <g data-step="0">
-    <rect class="k-solid-n" x="0" y="0" width="${VBW}" height="${headH - 18}" style="rx:10px"/>
+    <rect class="k-solid-b" x="0" y="0" width="${VBW}" height="${headH - 18}" style="rx:10px"/>
     <text class="t-l k-t-w" x="16" y="38">${esc(model.pool || model.title)}</text>
     <text class="k-t-tag k-t-w" x="${VBW - 16}" y="37" text-anchor="end">액터 ${actors.length} · 메시지 ${msgs.length}</text>`);
   for (const a of Object.values(A)) {
@@ -549,6 +557,8 @@ function buildSequence() {
   }
   svg.push(`  </g>`);
   // 메시지 — 1개 = path 1개. call 실선 / reply 점선(점선은 class+style, path 수는 그대로)
+  // 라벨은 종이 마스크 칩에 담는다 — 중간 생명선이 글자를 관통하지 않게 한다.
+  // 시작점 순번 배지(1~N)는 circle+text 장식 — draw 예산(path)을 쓰지 않는다.
   msgs.forEach((m, i) => {
     const step = i + 1;
     const y = headH + padT + i * rowH;
@@ -559,9 +569,14 @@ function buildSequence() {
     const style = reply ? ' style="stroke-dasharray:10 8"' : '';
     const mk = reply ? 'ah-open' : 'ah-b';
     const x1e = round(x1 + dir * 10), x2e = round(x2 - dir * 10);
+    const lw = round(textW(m.label, 22)) + 20;
+    const nb = round(x1 + dir * 36);
     svg.push(`    <g data-step="${step}">`);
     svg.push(`      <path class="${cls}" d="M${x1e} ${round(y)} L${x2e} ${round(y)}"${style} marker-end="url(#${mk})"/>`);
-    svg.push(`      <text class="k-t-tag" x="${round((x1 + x2) / 2)}" y="${round(y - 12)}" text-anchor="middle">${esc(m.label)}</text>`);
+    svg.push(`      <rect class="k-paper" x="${round((x1 + x2) / 2 - lw / 2)}" y="${round(y - 40)}" width="${lw}" height="32" style="rx:9px"/>`);
+    svg.push(`      <text class="k-t-tag" x="${round((x1 + x2) / 2)}" y="${round(y - 16)}" text-anchor="middle">${esc(m.label)}</text>`);
+    svg.push(`      <circle cx="${nb}" cy="${round(y)}" r="16" style="fill:var(--light);stroke:var(--line);stroke-width:2"/>`);
+    svg.push(`      <text class="k-t-tag" x="${nb}" y="${round(y + 8)}" text-anchor="middle">${i + 1}</text>`);
     svg.push(`    </g>`);
   });
   // 활성 막대 — 액터가 관여한 구간. data-step 으로 켜지고 마지막 단계까지 남는다.
@@ -572,7 +587,10 @@ function buildSequence() {
     svg.push(`    <g data-step="${s.from}"><rect class="k-orange" x="${round(x - 8)}" y="${round(y1 - 16)}" width="16" height="${round(y2 - y1 + 32)}" style="rx:5px;opacity:.45"/></g>`);
   }
   // 현재 메시지 표시 — 왼쪽 여백의 작은 표식만(그 단계에서만 보인다). 행 전체를 감싸면 화면이 무거워진다.
+  // 마지막 메시지의 표식은 생략한다 — 완결 상태(마지막 단계)에서 좌측 구석에 남는
+  // 유령 캡슐 아티팩트가 된다(크리틱 기술-3).
   msgs.forEach((m, i) => {
+    if (i === msgs.length - 1) return;
     const y = headH + padT + i * rowH;
     svg.push(`    <g data-only="${i + 1}"><rect class="k-orange" x="14" y="${round(y - 14)}" width="10" height="28" style="rx:5px"/>`
       + `</g>`);
@@ -586,7 +604,7 @@ function buildSequence() {
   svg.push(`  </svg>`);
   const steps = msgs.map((m, i) => ({ n: i + 1, at: m.from, via: m.id, nodes: [], edges: [m.id] }));
   const section = [
-    header('호출 순서(시퀀스) · 자체 저작 문법 — UML 준수 주장 아님'),
+    header('호출 순서(시퀀스) · arch_lanes 생성'),
     `<section class="slide" data-archetype="arch-diagram" style="gap:18px">`,
     `  <div class="head"><p class="eyebrow">${esc(model.eyebrow || '')}</p><h2 class="title">${esc(model.title)}</h2></div>`,
     ...svg,
@@ -607,7 +625,10 @@ function buildSequence() {
 function buildCompare() {
   const rows = model.rows;
   const cols = Math.max(...model.nodes.map((n) => n.col)) + 1;
-  const colW = (VBW - C.laneHead - C.margin * 2) / cols;
+  // 우측 여백 96 — 오른쪽 바깥 상태 배지(신규/변경/제거)가 표 외곽선·viewBox 를
+  // 뚫고 나가지 않도록 열 너비 계산에 미리 빼 둔다(크리틱 기술-7 근본 패치).
+  const RIGHT = 96;
+  const colW = (VBW - C.laneHead - C.margin - RIGHT) / cols;
   const ROW = C.rowH + 56;   // 카드(56) + 채널 여백 — 칩이 행 사이에 들어갈 자리
   const CW = Math.min(260, Math.round(colW - 80));
   const colX = (c) => round(C.laneHead + C.margin + colW * (c + 0.5));
@@ -660,12 +681,12 @@ function buildCompare() {
   svg.push(`  <svg class="dg" viewBox="0 0 ${VBW} ${H}" role="img" aria-label="${esc(model.ariaLabel || model.title)}">`);
   svg.push(`  <title>${esc(model.title)}</title>`);
   svg.push(`  <g data-step="0">
-    <rect class="k-solid-n" x="0" y="0" width="${VBW}" height="${pool}" style="rx:10px"/>
+    <rect class="k-solid-b" x="0" y="0" width="${VBW}" height="${pool}" style="rx:10px"/>
     <text class="t-l k-t-w" x="16" y="34">${esc(model.pool || model.title)}</text>
     <text class="k-t-tag k-t-w" x="${VBW - 16}" y="33" text-anchor="end">4단계 · 유지 ${model.nodes.filter((n) => (n.change || 'keep') === 'keep').length} · 신규 ${model.nodes.filter((n) => n.change === 'new').length} · 변경 ${model.nodes.filter((n) => n.change === 'change').length} · 제거 ${model.nodes.filter((n) => n.change === 'remove').length}</text>`);
   for (let i = 0; i < rows.length; i++) {
     svg.push(`    <rect class="k-gray" x="0" y="${bandY(i)}" width="${VBW}" height="${ROW}"/>`);
-    svg.push(`    <rect class="k-solid-n" x="0" y="${bandY(i)}" width="${C.laneHead}" height="${ROW}"/>`);
+    svg.push(`    <rect class="k-solid-b" x="0" y="${bandY(i)}" width="${C.laneHead}" height="${ROW}"/>`);
     svg.push(`    <text class="k-t-tag k-t-w" transform="translate(30 ${round(bandY(i) + ROW / 2)}) rotate(-90)" text-anchor="middle">${esc(rows[i].label)}</text>`);
   }
   svg.push(`  </g>`);
@@ -690,11 +711,14 @@ function buildCompare() {
     if (role) o.push(`      <text class="k-t-tag" x="${n.cx}" y="${round(n.cy + 22)}" text-anchor="middle">${esc(role)}</text>`);
     return o;
   };
-  // 배지: 카드 오른쪽 바깥(행 사이 여백) — 카드 위에 얹으면 위 카드와 붙어 보인다
+  // 배지: 카드 오른쪽 바깥(행 사이 여백) — 카드 위에 얹으면 위 카드와 붙어 보인다.
+  // 솔리드 배경(신규=주황 · 변경=청색) 위 글자는 종이색(k-t-w) — 어두운 바탕에
+  // 어두운 글자면 명도 대비 1.8:1 로 읽히지 않는다(크리틱 Blocker-1).
   const badge = (n, text, cls) => {
     const w = Math.round(textW(text, 22) + 22);
+    const dark = cls !== 'k-gray';
     return [`      <rect class="${cls}" x="${round(n.r + 10)}" y="${round(n.cy - 14)}" width="${w}" height="28" style="rx:8px"/>`,
-      `      <text class="k-t-tag" x="${round(n.r + 10 + w / 2)}" y="${round(n.cy + 6)}" text-anchor="middle">${esc(text)}</text>`];
+      `      <text class="k-t-tag${dark ? ' k-t-w' : ''}" x="${round(n.r + 10 + w / 2)}" y="${round(n.cy + 6)}" text-anchor="middle">${esc(text)}</text>`];
   };
   for (const raw of model.nodes) {
     const n = N[raw.id];

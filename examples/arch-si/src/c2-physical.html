@@ -1,118 +1,119 @@
 <section class="slide" data-archetype="arch-diagram" style="gap:20px">
-  <div class="head"><p class="eyebrow">SI 유형 C2 · 인프라 — 물리 구성 2D (회선 종류 구분)</p><h2 class="title">물리 인프라 — 본사·센터 회선 토폴로지</h2></div>
-  <svg class="dg" viewBox="0 0 1664 675" role="img" aria-label="물리 인프라 구성도. 인터넷에서 본사 방화벽으로 VPN이 들어오고, 본사 코어 스위치가 웹서버와 DB에 연결된다. 본사 코어와 센터 코어 사이에는 전용회선과 백업 VPN 두 경로가 있고, 센터 코어가 센터 WAS와 DB에 연결된다.">
+  <div class="head"><p class="eyebrow">SI 유형 C2 · 인프라 — 물리 구성 2D</p><h2 class="title">본사·센터 물리 회선 — 전용광 1G와 백업 VPN 이중화</h2></div>
+  <svg class="dg" viewBox="0 0 1664 631" role="img" aria-label="물리 인프라 구성도. 인터넷에서 본사 방화벽으로 VPN이 들어오고, 본사 코어 스위치가 웹서버와 DB에 연결된다. 본사 코어와 센터 코어 사이에는 전용회선과 백업 VPN 두 경로가 있고, 센터 코어가 센터 WAS와 DB에 연결된다.">
   <title>물리 인프라 — 2사이트 · 회선 3종</title>
   <g data-step="1">
-    <rect class="k-paper" x="326" y="180" width="708" height="409" style="rx:12px;fill-opacity:0.55"/>
-    <text class="k-t-tag" x="342" y="214">본사</text>
+    <rect class="k-paper" x="277" y="118" width="658" height="427" style="rx:12px;fill-opacity:0.55"/>
+    <text class="k-t-tag" x="293" y="152">본사</text>
   </g>
   <g data-step="1">
-    <rect class="k-paper" x="854" y="30" width="708" height="334" style="rx:12px;fill-opacity:0.55"/>
-    <text class="k-t-tag" x="870" y="64">센터</text>
+    <rect class="k-paper" x="939" y="30" width="658" height="368" style="rx:12px;fill-opacity:0.55"/>
+    <text class="k-t-tag" x="955" y="64">센터</text>
   </g>
   <g data-step="3">
-      <path class="k-ln-g" d="M218 288 L272 288 Q284 288 296 288 L350 288" marker-end="url(#ahg)"/>
-      <rect class="k-paper" x="157" y="168" width="166" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="240" y="194" text-anchor="middle">VPN 100M</text>
+      <path class="k-ln-g" d="M209 230 L243 230 Q255 230 267 230 L301 230" marker-end="url(#ahg)"/>
+      <rect class="k-paper" x="84" y="110" width="166" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="167" y="136" text-anchor="middle">VPN 100M</text>
     </g>
   <g data-step="3">
-      <path class="k-ln-b" d="M482 325.5 L537.6 357.1 Q548 363 560 363 L614 363" marker-end="url(#ah-b)"/>
-      <rect class="k-paper" x="486.2" y="342.6" width="115" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="543.7" y="368.6" text-anchor="middle">10G 광</text>
+      <path class="k-ln-b" d="M443 265.8 L478.3 283.6 Q489 289 501 289 L535 289" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="385" y="303.8" width="115" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="442.5" y="329.8" text-anchor="middle">10G 광</text>
     </g>
   <g data-step="3">
-      <path class="k-ln-b" d="M725.8 415 L804.1 504 Q812 513 824 513 L878 513" marker-end="url(#ah-b)"/>
-      <rect class="k-paper" x="750.2" y="470.8" width="81" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="790.7" y="496.8" text-anchor="middle">10G</text>
+      <path class="k-ln-b" d="M643.2 345 L716.4 455 Q723 465 735 465 L769 465" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="655.3" y="406.2" width="81" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="695.8" y="432.2" text-anchor="middle">10G</text>
     </g>
   <g data-step="3">
-      <path class="k-ln-b" d="M746 363 L800 363 Q812 363 824 363 L878 363" marker-end="url(#ah-b)"/>
-      <rect class="k-paper" x="771.5" y="345" width="81" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="812" y="371" text-anchor="middle">10G</text>
+      <path class="k-ln-b" d="M677 289 L711 289 Q723 289 735 289 L769 289" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="682.5" y="271" width="81" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="723" y="297" text-anchor="middle">10G</text>
     </g>
   <g data-step="3">
-      <path class="k-ln-b" d="M746 313 L802.4 270.2 Q812 263 823.2 258.7 L878 238" marker-end="url(#ah-b)"/>
-      <rect class="k-paper" x="688.6" y="248.7" width="149" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="763.1" y="274.7" text-anchor="middle">전용 1G 광</text>
+      <path class="k-ln-b" d="M669.6 233 L714 193.9 Q723 186 735 186 L828 186 Q840 186 852 186 L925 186 Q937 186 948.2 190.2 L963 195.8" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="733.8" y="66" width="149" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="808.3" y="92" text-anchor="middle">전용 1G 광</text>
     </g>
   <g data-step="3">
-      <path class="k-ln-o" d="M482 241.8 L538.2 202.4 Q548 195.5 560 195.5 L668 195.5 Q680 195.5 692 195.5 L800 195.5 Q812 195.5 823.9 197.1 L878 204.3" marker-end="url(#ah-o)"/>
-      <rect class="k-paper" x="607" y="143.5" width="132" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="673" y="169.5" text-anchor="middle">백업 VPN</text>
+      <path class="k-ln-o" d="M443 194.2 L478.3 176.4 Q489 171 501 171 L594 171 Q606 171 618 171 L711 171 Q723 171 735 171 L828 171 Q840 171 852 171 L925 171 Q937 171 947.6 176.6 L963 184.8" marker-end="url(#ah-o)"/>
+      <rect class="k-paper" x="504" y="187" width="132" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="570" y="213" text-anchor="middle">백업 VPN</text>
     </g>
   <g data-step="3">
-      <path class="k-ln-b" d="M1010 213 L1064 213 Q1076 213 1088 213 L1142 213" marker-end="url(#ah-b)"/>
-      <rect class="k-paper" x="1010" y="229" width="132" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="1076" y="255" text-anchor="middle">10G 구리</text>
+      <path class="k-ln-b" d="M1105 222.5 L1139 222.5 Q1151 222.5 1163 222.5 L1197 222.5" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="1085" y="102.5" width="132" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1151" y="128.5" text-anchor="middle">10G 구리</text>
     </g>
   <g data-step="3">
-      <path class="k-ln-b" d="M1274 175.5 L1329.6 143.9 Q1340 138 1352 138 L1406 138" marker-end="url(#ah-b)"/>
-      <rect class="k-paper" x="1295.2" y="122.4" width="81" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="1335.7" y="148.4" text-anchor="middle">10G</text>
+      <path class="k-ln-b" d="M1339 173.6 L1375.1 148.8 Q1385 142 1397 142 L1431 142" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="1340.4" y="92.8" width="81" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1380.9" y="118.8" text-anchor="middle">10G</text>
     </g>
   <g data-step="3">
-      <path class="k-ln-b" d="M1274 250.5 L1329.6 282.1 Q1340 288 1352 288 L1406 288" marker-end="url(#ah-b)"/>
-      <rect class="k-paper" x="1295.2" y="267.6" width="81" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="1335.7" y="293.6" text-anchor="middle">10G</text>
+      <path class="k-ln-b" d="M1336.6 278.5 L1375.7 310.4 Q1385 318 1397 318 L1431 318" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="1338.1" y="294.8" width="81" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1378.6" y="320.8" text-anchor="middle">10G</text>
     </g>
   <g data-step="1">
-    <circle class="k-blue" cx="160" cy="288" r="58"/>
-    <use href="#i-cloud" x="138" y="258" width="44" height="44" style="color:var(--blue)"/>
-    <text class="k-t-tag" x="160" y="322" text-anchor="middle" style="fill:var(--blue)">인터넷</text>
-    <text class="k-t-tag" x="160" y="372" text-anchor="middle">대외</text>
+    <circle class="k-blue" cx="138" cy="230" r="71"/>
+    <use href="#i-cloud" x="116" y="200" width="44" height="44" style="color:var(--blue)"/>
+    <text class="k-t-tag" x="138" y="264" text-anchor="middle" style="fill:var(--blue)">인터넷</text>
+    <text class="k-t-tag" x="138" y="314" text-anchor="middle">대외</text>
     </g>
   <g data-step="1">
-    <rect class="k-orange" x="350" y="236" width="132" height="104" style="rx:9px"/>
-    <use href="#i-shield" x="392" y="250" width="48" height="48" style="color:var(--accent)"/>
-    <text class="t-l" x="416" y="332" text-anchor="middle">FW-본사</text>
-    <text class="k-t-tag" x="416" y="360" text-anchor="middle">대외 경계</text>
+    <rect class="k-orange" x="301" y="174" width="142" height="112" style="rx:9px"/>
+    <use href="#i-shield" x="352" y="190" width="40" height="40" style="color:var(--accent)"/>
+    <text class="t-l" x="372" y="254" text-anchor="middle">FW-본사</text>
+    <text class="k-t-tag" x="372" y="282" text-anchor="middle">대외 경계</text>
     </g>
   <g data-step="2">
-    <rect class="k-paper" x="614" y="311" width="132" height="104" style="rx:9px"/>
-    <use href="#i-gear" x="656" y="325" width="48" height="48" style="color:var(--ink)"/>
-    <text class="t-l" x="680" y="407" text-anchor="middle">코어-본사</text>
-    <text class="k-t-tag" x="680" y="435" text-anchor="middle">L3 스위치</text>
+    <rect class="k-paper" x="535" y="233" width="142" height="112" style="rx:9px"/>
+    <use href="#i-gear" x="586" y="249" width="40" height="40" style="color:var(--ink)"/>
+    <text class="t-l" x="606" y="313" text-anchor="middle">코어-본사</text>
+    <text class="k-t-tag" x="606" y="341" text-anchor="middle">L3 스위치</text>
     </g>
   <g data-step="2">
-    <rect class="k-paper" x="878" y="461" width="132" height="104" style="rx:9px"/>
-    <use href="#i-window" x="920" y="475" width="48" height="48" style="color:var(--ink)"/>
-    <text class="t-l" x="944" y="557" text-anchor="middle">WAS-1</text>
-    <text class="k-t-tag" x="944" y="585" text-anchor="middle">WEB/WAS 업무</text>
+    <rect class="k-paper" x="769" y="409" width="142" height="112" style="rx:9px"/>
+    <use href="#i-window" x="820" y="425" width="40" height="40" style="color:var(--ink)"/>
+    <text class="t-l" x="840" y="489" text-anchor="middle">WAS-1</text>
+    <text class="k-t-tag" x="840" y="517" text-anchor="middle">업무용</text>
     </g>
   <g data-step="2">
-    <rect class="k-paper" x="878" y="311" width="132" height="104" style="rx:9px"/>
-    <use href="#i-db" x="920" y="325" width="48" height="48" style="color:var(--ink)"/>
-    <text class="t-l" x="944" y="407" text-anchor="middle">DB-본사</text>
-    <text class="k-t-tag" x="944" y="435" text-anchor="middle">주 DB</text>
-    </g>
-  <g data-step="2">
-    <rect class="k-paper" x="1142" y="161" width="132" height="104" style="rx:9px"/>
-    <use href="#i-gear" x="1184" y="175" width="48" height="48" style="color:var(--ink)"/>
-    <text class="t-l" x="1208" y="257" text-anchor="middle">코어-센터</text>
-    <text class="k-t-tag" x="1208" y="285" text-anchor="middle">L3 스위치</text>
+    <rect class="k-paper" x="769" y="233" width="142" height="112" style="rx:9px"/>
+    <use href="#i-db" x="820" y="249" width="40" height="40" style="color:var(--ink)"/>
+    <text class="t-l" x="840" y="313" text-anchor="middle">DB-본사</text>
+    <text class="k-t-tag" x="840" y="341" text-anchor="middle">주 DB</text>
     </g>
   <g data-step="1">
-    <rect class="k-orange" x="878" y="161" width="132" height="104" style="rx:9px"/>
-    <use href="#i-shield" x="920" y="175" width="48" height="48" style="color:var(--accent)"/>
-    <text class="t-l" x="944" y="257" text-anchor="middle">FW-센터</text>
-    <text class="k-t-tag" x="944" y="285" text-anchor="middle">대외 경계</text>
+    <rect class="k-orange" x="963" y="166.5" width="142" height="112" style="rx:9px"/>
+    <use href="#i-shield" x="1014" y="182.5" width="40" height="40" style="color:var(--accent)"/>
+    <text class="t-l" x="1034" y="246.5" text-anchor="middle">FW-센터</text>
+    <text class="k-t-tag" x="1034" y="274.5" text-anchor="middle">대외 경계</text>
     </g>
   <g data-step="2">
-    <rect class="k-paper" x="1406" y="86" width="132" height="104" style="rx:9px"/>
-    <use href="#i-window" x="1448" y="100" width="48" height="48" style="color:var(--ink)"/>
-    <text class="t-l" x="1472" y="182" text-anchor="middle">WAS-2</text>
-    <text class="k-t-tag" x="1472" y="210" text-anchor="middle">WEB/WAS 대기</text>
+    <rect class="k-paper" x="1197" y="166.5" width="142" height="112" style="rx:9px"/>
+    <use href="#i-gear" x="1248" y="182.5" width="40" height="40" style="color:var(--ink)"/>
+    <text class="t-l" x="1268" y="246.5" text-anchor="middle">코어-센터</text>
+    <text class="k-t-tag" x="1268" y="274.5" text-anchor="middle">L3 스위치</text>
     </g>
   <g data-step="2">
-    <rect class="k-paper" x="1406" y="236" width="132" height="104" style="rx:9px"/>
-    <use href="#i-db" x="1448" y="250" width="48" height="48" style="color:var(--ink)"/>
-    <text class="t-l" x="1472" y="332" text-anchor="middle">DB-센터</text>
-    <text class="k-t-tag" x="1472" y="360" text-anchor="middle">복제 DB</text>
+    <rect class="k-paper" x="1431" y="86" width="142" height="112" style="rx:9px"/>
+    <use href="#i-window" x="1482" y="102" width="40" height="40" style="color:var(--ink)"/>
+    <text class="t-l" x="1502" y="166" text-anchor="middle">WAS-2</text>
+    <text class="k-t-tag" x="1502" y="194" text-anchor="middle">대기용</text>
     </g>
-  <g><polyline class="k-ln-b" points="34,635 104,635"/><text class="k-t-tag" x="118" y="643">전용회선</text>
-    <polyline class="k-ln-g" points="274,635 344,635"/><text class="k-t-tag" x="358" y="643">인터넷 VPN</text>
-    <polyline class="k-ln-o" points="586,635 656,635"/><text class="k-t-tag" x="670" y="643">백업 경로</text></g>
+  <g data-step="2">
+    <rect class="k-paper" x="1431" y="262" width="142" height="112" style="rx:9px"/>
+    <use href="#i-db" x="1482" y="278" width="40" height="40" style="color:var(--ink)"/>
+    <text class="t-l" x="1502" y="342" text-anchor="middle">DB-센터</text>
+    <text class="k-t-tag" x="1502" y="370" text-anchor="middle">복제 DB</text>
+    </g>
+  <g><polyline class="k-ln-b" points="34,591 104,591"/><text class="k-t-tag" x="118" y="599">전용회선</text>
+    <polyline class="k-ln-g" points="274,591 344,591"/><text class="k-t-tag" x="358" y="599">인터넷 VPN</text>
+    <polyline class="k-ln-o" points="586,591 656,591"/><text class="k-t-tag" x="670" y="599">백업 경로</text>
+    <rect class="k-orange" x="850" y="579" width="36" height="26" style="rx:8px"/><text class="k-t-tag" x="898" y="599">대외 경계 장비</text></g>
 </svg>
-  <p class="small">읽는 법 — 면색 띠: 사이트(본사·센터) · 주황 카드: 대외 경계 장비 · 실선: 전용회선 · 점선: 인터넷 VPN · 주황선: 백업 경로 · 라벨: 예시 스펙(구리/광)</p>
-  <aside class="notes">물리 구성도다. 논리도(C1)와 달리 포트가 아니라 구간(사이트-회선-장비)을 보여준다. 1단계에 두 사이트 띠와 대외 경계 장비가 서고, 2단계에 각 사이트의 코어·서버·DB가 켜지며, 3단계에 회선 3종(실선 전용회선·점선 인터넷 VPN·주황 백업 경로)이 그려진다. 라벨의 1G/10G·광/구리는 예시 스펙이며 실측값이 아니다. 회선은 모두 양방향이지만 화살촉은 복제·요청이 흐르는 방향을 표시한다.</aside>
+  <p class="small">인수인계 포인트 — 두 사이트는 전용광(실선)과 백업 VPN(점선)으로 이중화된다. 전환 절차를 사전 숙지할 것.</p>
+  <aside class="notes">물리 구성도다. 논리도(C1)와 달리 포트가 아니라 구간(사이트-회선-장비)을 보여준다. 본사와 센터 두 사이트 존이 순차 랭크로 완전 분리된다(hint 간선 — 존 상자가 겹쳐 방화벽 소속이 모호해지는 위상 왜곡 방지). 1단계에 두 사이트 띠와 대외 경계 장비가 서고, 2단계에 각 사이트의 코어·서버·DB가 켜지며, 3단계에 회선 3종(실선 전용회선·점선 인터넷 VPN·주황 백업 경로)이 그려진다. 라벨의 1G/10G·광/구리는 예시 스펙이며 실측값이 아니다.</aside>
 </section>
