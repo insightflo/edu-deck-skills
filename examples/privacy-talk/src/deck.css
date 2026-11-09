@@ -1,0 +1,49 @@
+/* privacy-talk 덱 전용 보조 스타일.
+   공통 셸 계약(색 토큰·모형 창·단계 속성) 안에서 크리틱 반영용 클래스만 정의한다. */
+
+/* [기술-2] 참고 자료 링크의 도메인 어절 분절 방지 — 셸의 word-break:break-all 을 덮어쓴다.
+   링크 안 띄어쓰기에서만 줄바꿈되어 law.go.kr 같은 도메인이 통째로 옮겨진다. */
+.src-list a{word-break:keep-all}
+
+/* [Major-6] 확인 문제 O/X 판정 색 대비 — O 는 파랑(정답), X 는 경고색으로 차등을 둔다. */
+.ox.x{background:var(--danger)}
+
+/* [Major-1] s02 책상 대조 장 — 위험/안전 배지와 상황 미니 칩 */
+.pt-badge{align-self:flex-start;font-size:24px;font-weight:800;border-radius:999px;padding:6px 22px}
+.pt-badge.risk{color:var(--danger);border:2.5px solid var(--danger);background:color-mix(in srgb,var(--danger) 8%,var(--paper))}
+.pt-badge.safe{color:var(--success);border:2.5px solid var(--success);background:color-mix(in srgb,var(--success) 8%,var(--paper))}
+.pt-scene{flex:1;display:flex;align-items:center;justify-content:center;gap:10px;background:var(--light);border-radius:var(--r1);padding:12px 10px;font-size:21px;font-weight:700;color:var(--soft)}
+.pt-scene svg{width:36px;height:36px;flex:none}
+
+/* [Major-2] s04 고유식별정보 형태 예시 칩 */
+.pt-form{align-self:flex-start;font-size:22px;font-weight:700;color:var(--soft);border:2px dashed var(--line);border-radius:var(--r1);padding:6px 14px;letter-spacing:1px}
+
+/* [Blocker-3] s05 확인 문제 — 보기 카드 안 예시 줄 */
+.chk-o .opt-eg{display:block;margin-top:12px;font-size:22px;line-height:1.4;color:var(--soft);background:var(--light);border-radius:var(--r1);padding:10px 16px}
+
+/* [Major-3] s6 주의 태그 — 고유식별정보 포함 항목 표시 */
+.pt-warn-tag{display:inline-block;margin-top:8px;font-size:21px;font-weight:800;color:var(--danger);border:2px solid var(--danger);border-radius:999px;padding:2px 14px}
+
+/* [Blocker-1] s11 단체방 — 마스킹 명단 미리보기 카드 */
+.pt-mask{display:flex;flex-direction:column;gap:2px;background:var(--paper);border:1.5px solid var(--line);border-radius:10px;padding:8px 16px;margin-top:6px;min-width:340px}
+.pt-mrow{display:flex;justify-content:space-between;gap:16px;font-size:21px;color:var(--ink);line-height:1.55}
+
+/* [Major-4] s12 유출 대응 — 3단계 시간축 행동 도식 */
+.pt-stage{display:flex;gap:18px;align-items:center}
+.pt-when{flex:none;min-width:150px;text-align:center;font-size:23px;font-weight:800;color:var(--paper);border-radius:var(--r1);padding:10px 14px}
+.pt-when.now{background:var(--blue)}
+.pt-when.due{background:var(--accent)}
+.pt-what{flex:1;font-size:24px;line-height:1.45;color:var(--soft)}
+.pt-what b{display:block;font-size:26px;color:var(--ink)}
+
+/* [Major-4][Major-5] 대형 강조 수치 블록 — 수치는 같은 장 사실 칩과 대조된 값만 쓴다 */
+.pt-kpi{display:flex;flex-direction:column;gap:6px;border-radius:var(--r2);padding:16px 24px}
+.pt-kpi b{font-size:46px;font-weight:800;line-height:1.15}
+.pt-kpi p{font-size:23px;font-weight:600;color:var(--soft);line-height:1.35}
+.pt-kpi.info{background:var(--blue-soft);border:2px solid var(--blue)}
+.pt-kpi.info b{color:var(--blue-text)}
+.pt-kpi.warn{background:color-mix(in srgb,var(--danger) 10%,var(--paper));border:2px solid var(--danger)}
+.pt-kpi.warn b{color:var(--danger)}
+
+/* [Minor-3][Blocker-3] s16 내 자리 점검표 — 3열 카드형 실천 항목 */
+.pt-when-tag{display:inline-block;font-size:21px;font-weight:700;color:var(--blue-text);background:var(--blue-soft);border-radius:999px;padding:4px 16px}

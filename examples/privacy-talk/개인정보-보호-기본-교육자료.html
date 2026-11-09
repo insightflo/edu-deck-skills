@@ -1461,6 +1461,57 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 .screen-cite .sc-gist{font-size:26px;line-height:1.45;color:var(--soft)}
 .screen-cite .sc-gist b{color:var(--accent-text);font-weight:800}
 
+/* ---- deck.css ---- */
+/* privacy-talk 덱 전용 보조 스타일.
+   공통 셸 계약(색 토큰·모형 창·단계 속성) 안에서 크리틱 반영용 클래스만 정의한다. */
+
+/* [기술-2] 참고 자료 링크의 도메인 어절 분절 방지 — 셸의 word-break:break-all 을 덮어쓴다.
+   링크 안 띄어쓰기에서만 줄바꿈되어 law.go.kr 같은 도메인이 통째로 옮겨진다. */
+.src-list a{word-break:keep-all}
+
+/* [Major-6] 확인 문제 O/X 판정 색 대비 — O 는 파랑(정답), X 는 경고색으로 차등을 둔다. */
+.ox.x{background:var(--danger)}
+
+/* [Major-1] s02 책상 대조 장 — 위험/안전 배지와 상황 미니 칩 */
+.pt-badge{align-self:flex-start;font-size:24px;font-weight:800;border-radius:999px;padding:6px 22px}
+.pt-badge.risk{color:var(--danger);border:2.5px solid var(--danger);background:color-mix(in srgb,var(--danger) 8%,var(--paper))}
+.pt-badge.safe{color:var(--success);border:2.5px solid var(--success);background:color-mix(in srgb,var(--success) 8%,var(--paper))}
+.pt-scene{flex:1;display:flex;align-items:center;justify-content:center;gap:10px;background:var(--light);border-radius:var(--r1);padding:12px 10px;font-size:21px;font-weight:700;color:var(--soft)}
+.pt-scene svg{width:36px;height:36px;flex:none}
+
+/* [Major-2] s04 고유식별정보 형태 예시 칩 */
+.pt-form{align-self:flex-start;font-size:22px;font-weight:700;color:var(--soft);border:2px dashed var(--line);border-radius:var(--r1);padding:6px 14px;letter-spacing:1px}
+
+/* [Blocker-3] s05 확인 문제 — 보기 카드 안 예시 줄 */
+.chk-o .opt-eg{display:block;margin-top:12px;font-size:22px;line-height:1.4;color:var(--soft);background:var(--light);border-radius:var(--r1);padding:10px 16px}
+
+/* [Major-3] s6 주의 태그 — 고유식별정보 포함 항목 표시 */
+.pt-warn-tag{display:inline-block;margin-top:8px;font-size:21px;font-weight:800;color:var(--danger);border:2px solid var(--danger);border-radius:999px;padding:2px 14px}
+
+/* [Blocker-1] s11 단체방 — 마스킹 명단 미리보기 카드 */
+.pt-mask{display:flex;flex-direction:column;gap:2px;background:var(--paper);border:1.5px solid var(--line);border-radius:10px;padding:8px 16px;margin-top:6px;min-width:340px}
+.pt-mrow{display:flex;justify-content:space-between;gap:16px;font-size:21px;color:var(--ink);line-height:1.55}
+
+/* [Major-4] s12 유출 대응 — 3단계 시간축 행동 도식 */
+.pt-stage{display:flex;gap:18px;align-items:center}
+.pt-when{flex:none;min-width:150px;text-align:center;font-size:23px;font-weight:800;color:var(--paper);border-radius:var(--r1);padding:10px 14px}
+.pt-when.now{background:var(--blue)}
+.pt-when.due{background:var(--accent)}
+.pt-what{flex:1;font-size:24px;line-height:1.45;color:var(--soft)}
+.pt-what b{display:block;font-size:26px;color:var(--ink)}
+
+/* [Major-4][Major-5] 대형 강조 수치 블록 — 수치는 같은 장 사실 칩과 대조된 값만 쓴다 */
+.pt-kpi{display:flex;flex-direction:column;gap:6px;border-radius:var(--r2);padding:16px 24px}
+.pt-kpi b{font-size:46px;font-weight:800;line-height:1.15}
+.pt-kpi p{font-size:23px;font-weight:600;color:var(--soft);line-height:1.35}
+.pt-kpi.info{background:var(--blue-soft);border:2px solid var(--blue)}
+.pt-kpi.info b{color:var(--blue-text)}
+.pt-kpi.warn{background:color-mix(in srgb,var(--danger) 10%,var(--paper));border:2px solid var(--danger)}
+.pt-kpi.warn b{color:var(--danger)}
+
+/* [Minor-3][Blocker-3] s16 내 자리 점검표 — 3열 카드형 실천 항목 */
+.pt-when-tag{display:inline-block;font-size:21px;font-weight:700;color:var(--blue-text);background:var(--blue-soft);border-radius:999px;padding:4px 16px}
+
 </style>
 <meta name="edu-deck-arc" content="contrast">
 </head>
@@ -1571,8 +1622,8 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 <defs><radialGradient cx="50%" cy="38%" id="pt-core" r="70%"><stop offset="0" stop-color="var(--accent-light)"/><stop offset="1" stop-color="var(--accent)"/></radialGradient></defs>
 <path d="M360 150 L150 400" fill="none" stroke="var(--blue)" stroke-width="5" stroke-linecap="round"/>
 <path d="M360 150 L570 400" fill="none" stroke="var(--blue)" stroke-width="5" stroke-linecap="round"/>
-<path d="M150 500 L360 680" fill="none" stroke="var(--blue)" stroke-width="5" stroke-linecap="round" stroke-dasharray="3 14"/>
-<path d="M570 500 L360 680" fill="none" stroke="var(--blue)" stroke-width="5" stroke-linecap="round" stroke-dasharray="3 14"/>
+<path d="M150 500 L293 623" fill="none" stroke="var(--blue)" stroke-width="5" stroke-linecap="round" stroke-dasharray="3 14"/>
+<path d="M570 500 L427 623" fill="none" stroke="var(--blue)" stroke-width="5" stroke-linecap="round" stroke-dasharray="3 14"/>
 <circle cx="360" cy="150" r="100" fill="url(#pt-core)" stroke="var(--accent-light)" stroke-width="4"/>
 <text x="360" y="142" text-anchor="middle" style="font-size:42px;font-weight:800;fill:var(--paper)">보호</text>
 <text x="360" y="182" text-anchor="middle" style="font-size:24px;fill:var(--paper)">매일의 습관</text>
@@ -1582,8 +1633,9 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 <circle cx="570" cy="450" r="82" fill="var(--blue)" stroke="var(--muted)" stroke-width="3"/>
 <text x="570" y="438" text-anchor="middle" style="font-size:30px;font-weight:700;fill:var(--paper)">잠가 두기</text>
 <text x="570" y="474" text-anchor="middle" style="font-size:24px;fill:var(--paper)">보관</text>
-<circle cx="360" cy="680" r="70" fill="none" stroke="var(--accent-light)" stroke-width="4" stroke-dasharray="10 10"/>
-<text x="360" y="688" text-anchor="middle" style="font-size:28px;font-weight:700;fill:var(--accent-light)">다 쓰면 지우기</text>
+<circle cx="360" cy="680" r="82" fill="none" stroke="var(--accent-light)" stroke-width="4" stroke-dasharray="10 10"/>
+<text x="360" y="668" text-anchor="middle" style="font-size:30px;font-weight:700;fill:var(--accent-text)">다 쓰면</text>
+<text x="360" y="704" text-anchor="middle" style="font-size:24px;font-weight:600;fill:var(--soft)">지우기</text>
 </svg>
 <div class="cx-text" style="top:280px;width:1020px">
 <p class="cx-eyebrow">전 직원 기본 교육</p>
@@ -1602,28 +1654,38 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 <section class="slide" data-archetype="before-after" data-sec="40" style="gap:28px">
   <div class="head"><p class="eyebrow">같은 하루, 다른 습관</p><h2 class="title">어느 쪽 책상이 우리 팀인가요?</h2></div>
   <div class="row" style="flex:1;min-height:0;gap:32px">
-    <div class="col f1" style="border:2px dashed var(--line);border-radius:12px;padding:32px;gap:18px">
-      <p style="font-size:24px;font-weight:800;color:var(--soft)">흔한 책상</p>
+    <div class="col f1" style="border:2.5px dashed var(--danger);border-radius:var(--r3);padding:32px;gap:18px;background:color-mix(in srgb,var(--danger) 5%,var(--paper))">
+      <p class="pt-badge risk">유출 위험 책상</p>
       <h3 style="font-size:34px;margin:0">명단 출력물이 밤새 책상 위에</h3>
       <ul style="font-size:26px;line-height:1.75;margin:0;padding-left:28px">
         <li>자리 비울 때 화면은 열린 채로</li>
         <li>고객 명단이 개인 USB에 복사됨</li>
         <li>다 쓴 서류는 휴지통에 그대로</li>
       </ul>
+      <div class="row" style="margin-top:auto;gap:14px" aria-label="위험 책상의 모습 요약">
+        <div class="pt-scene"><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-window" width="100" height="100" style="color:var(--danger)"/></svg>열린 화면</div>
+        <div class="pt-scene"><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-plug" width="100" height="100" style="color:var(--danger)"/></svg>개인 USB</div>
+        <div class="pt-scene"><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-trash" width="100" height="100" style="color:var(--danger)"/></svg>일반 휴지통</div>
+      </div>
     </div>
     <div style="display:flex;align-items:center;font-size:44px;font-weight:900;color:var(--accent)">→</div>
-    <div class="col f1" style="border:2px solid var(--accent);border-radius:12px;padding:32px;gap:18px">
-      <p style="font-size:24px;font-weight:800;color:var(--accent)">바뀐 책상</p>
+    <div class="col f1" style="border:2.5px solid var(--accent);border-top:10px solid var(--accent);border-radius:var(--r3);padding:32px;gap:18px">
+      <p class="pt-badge safe">✓ 지켜진 책상</p>
       <h3 style="font-size:34px;margin:0">다 쓴 명단은 그 자리에서 파쇄</h3>
       <ul style="font-size:26px;line-height:1.75;margin:0;padding-left:28px">
         <li>자리 비울 때 화면 잠금 한 번</li>
         <li>명단은 승인된 저장소에만</li>
         <li>필요한 만큼만 출력, 다 쓰면 파쇄</li>
       </ul>
+      <div class="row" style="margin-top:auto;gap:14px" aria-label="지켜진 책상의 모습 요약">
+        <div class="pt-scene"><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-lock" width="100" height="100" style="color:var(--blue)"/></svg>잠긴 화면</div>
+        <div class="pt-scene"><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-folder" width="100" height="100" style="color:var(--blue)"/></svg>승인 저장소</div>
+        <div class="pt-scene"><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-cutoff" width="100" height="100" style="color:var(--success)"/></svg>즉시 파쇄</div>
+      </div>
     </div>
   </div>
   <p style="font-size:26px;color:var(--soft);margin:0" data-step="1">차이는 장비가 아니라 습관 세 개입니다 — 오늘 20분에 그 세 개를 가져갑니다.</p>
-  <aside class="notes">표지 다음에 일정표 대신 대비 장면을 먼저 보여줍니다. 왼쪽은 어디서나 본 책상입니다. 명단이 책상 위에 놓여 있고, 화면은 열린 채로 자리를 비우고, 다 쓴 서류가 그냥 버려집니다. 오른쪽은 똑같은 하루인데 습관만 다릅니다. 화면 잠금 한 번, 명단은 승인된 곳에만, 다 쓴 서류는 파쇄. 이 차이를 만드는 건 비싼 장비가 아니라 작은 습관입니다. 오늘 스무 분 동안 그 습관을 세 개로 압축해서 가져가실 겁니다.</aside>
+  <aside class="notes">표지 다음에 일정표 대신 대비 장면을 먼저 보여줍니다. 왼쪽은 어디서나 본 책상입니다. 명단이 책상 위에 놓여 있고, 화면은 열린 채로 자리를 비우고, 다 쓴 서류가 그냥 버려집니다. 빨간 점선 카드의 세 장면 — 열린 화면, 개인 USB, 일반 휴지통이 그대로 위험을 말해 줍니다. 오른쪽은 똑같은 하루인데 습관만 다릅니다. 화면 잠금 한 번, 명단은 승인된 곳에만, 다 쓴 서류는 파쇄. 이 차이를 만드는 건 비싼 장비가 아니라 작은 습관입니다. 오늘 스무 분 동안 그 습관을 세 개로 압축해서 가져가실 겁니다.</aside>
 </section>
 
 <!-- ==== 03-개인정보-정의.html ==== -->
@@ -1659,28 +1721,29 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
   <div class="head"><p class="eyebrow">1. 무엇인가 · 고유식별정보</p><h2 class="title">주민번호·여권번호는 특별 취급 대상입니다</h2></div>
   <div class="col" style="flex:1;min-height:0;gap:32px">
     <div class="row" style="flex:1;min-height:0">
-      <div class="card trait f1" data-step="1"><div class="col" style="gap:8px"><h3 style="font-size:38px">주민번호</h3><p class="body">주민등록번호. 사람 하나에 하나만 붙는 번호입니다.</p><p data-src="F02" class="fact">찾기쉬운 생활법령정보: 주민·여권·운전면허·외국인등록번호</p></div><svg viewBox="0 0 100 100" class="ticon" aria-hidden="true"><use href="#i-id-card" width="100" height="100" style="color:var(--blue)"/></svg></div>
-      <div class="card trait f1" data-step="2"><div class="col" style="gap:8px"><h3 style="font-size:38px">여권번호</h3><p class="body">여권 번호. 출입국 기록과 묶여 개인을 지목합니다.</p></div><svg viewBox="0 0 100 100" class="ticon" aria-hidden="true"><use href="#i-globe" width="100" height="100" style="color:var(--blue)"/></svg></div>
+      <div class="card trait f1" data-step="1"><div class="col" style="gap:8px"><h3 style="font-size:38px">주민번호</h3><p class="body">주민등록번호. 사람 하나에 하나만 붙는 번호입니다.</p><span class="pt-form">000000-*******</span></div><svg viewBox="0 0 100 100" class="ticon" aria-hidden="true"><use href="#i-id-card" width="100" height="100" style="color:var(--blue)"/></svg></div>
+      <div class="card trait f1" data-step="2"><div class="col" style="gap:8px"><h3 style="font-size:38px">여권번호</h3><p class="body">여권 번호. 출입국 기록과 묶여 개인을 지목합니다.</p><span class="pt-form">M1234****</span></div><svg viewBox="0 0 100 100" class="ticon" aria-hidden="true"><use href="#i-globe" width="100" height="100" style="color:var(--blue)"/></svg></div>
     </div>
     <div class="row" style="flex:1;min-height:0">
-      <div class="card trait f1" data-step="3"><div class="col" style="gap:8px"><h3 style="font-size:38px">운전면허</h3><p class="body">운전면허의 면허번호. 면허증 사본에도 그대로 담깁니다.</p></div><svg viewBox="0 0 100 100" class="ticon" aria-hidden="true"><use href="#i-car" width="100" height="100" style="color:var(--accent-text)"/></svg></div>
-      <div class="card trait f1" data-step="4"><div class="col" style="gap:8px"><h3 style="font-size:38px">외국인등록</h3><p class="body">외국인등록번호. 외국인 동료 자료에도 같은 규칙이 적용됩니다.</p></div><svg viewBox="0 0 100 100" class="ticon" aria-hidden="true"><use href="#i-people" width="100" height="100" style="color:var(--accent-text)"/></svg></div>
+      <div class="card trait f1" data-step="3"><div class="col" style="gap:8px"><h3 style="font-size:38px">운전면허</h3><p class="body">운전면허의 면허번호. 면허증 사본에도 그대로 담깁니다.</p><span class="pt-form">**-******-**</span></div><svg viewBox="0 0 100 100" class="ticon" aria-hidden="true"><use href="#i-car" width="100" height="100" style="color:var(--accent-text)"/></svg></div>
+      <div class="card trait f1" data-step="4"><div class="col" style="gap:8px"><h3 style="font-size:38px">외국인등록</h3><p class="body">외국인등록번호. 외국인 동료 자료에도 같은 규칙이 적용됩니다.</p><span class="pt-form">000000-*******</span></div><svg viewBox="0 0 100 100" class="ticon" aria-hidden="true"><use href="#i-people" width="100" height="100" style="color:var(--accent-text)"/></svg></div>
     </div>
+    <p class="fact" data-src="F02">찾기쉬운 생활법령정보: 주민·여권·운전면허·외국인등록번호</p>
   </div>
   <aside class="notes">이 네 개의 번호는 법이 따로 이름 붙인 고유식별정보입니다. 주민등록번호, 여권번호, 운전면허의 면허번호, 외국인등록번호. 공통점은 사람 하나에 딱 하나만 붙어서, 이 번호만 있으면 다른 정보가 없어도 사람을 지목할 수 있다는 것입니다. 그래서 앞 장의 결합 이야기가 이 번호들에서는 아예 시작부터 성립합니다. 현장에서 자주 생기는 일은 서류 스캔본에 주민번호가 그대로 남아 있는 경우입니다. 여권 사본을 받아 두는 업무도 마찬가지고요. 외국인 동료가 있는 팀은 외국인등록번호도 같은 규칙으로 다뤄야 합니다. 반대로 사원번호나 회원번호는 회사가 정한 번호라 여기에 포함되지 않습니다. 이 구분을 바로 확인해 보겠습니다.</aside>
 </section>
 
 <!-- ==== 05-확인문제.html ==== -->
 <section class="slide" data-archetype="check" data-variant="기본" data-sec="50" style="gap:32px">
-  <div class="head"><p class="eyebrow">확인 문제 1 / 1</p><h2 class="title">어느 쪽이 고유식별정보일까요?</h2></div>
-  <div class="chk" data-review="unique-id">
+  <div class="head"><p class="eyebrow">확인 문제 1 / 2</p><h2 class="title">어느 쪽이 고유식별정보일까요?</h2></div>
+  <div class="chk" data-review="unique-id" style="flex:1;display:flex;flex-direction:column">
     <p class="chk-q"><span class="chk-n">1</span>고객 명단에서 특별 취급해야 할 고유식별정보는 무엇인가요?</p>
-    <div class="chk-opts">
-      <button class="chk-o">고객에게 붙인 4자리 회원번호</button><button class="chk-o" data-ok>고객의 주민등록번호</button>
+    <div class="chk-opts" style="flex:1;grid-template-rows:1fr">
+      <button class="chk-o" style="display:flex;flex-direction:column;justify-content:center;gap:18px;padding:32px 36px"><span style="font-size:32px;font-weight:700">고객에게 붙인 4자리 회원번호</span><span class="opt-eg">예시 — 회원번호 0034 (가상 예시)</span></button><button class="chk-o" data-ok style="display:flex;flex-direction:column;justify-content:center;gap:18px;padding:32px 36px"><span style="font-size:32px;font-weight:700">고객의 주민등록번호</span><span class="opt-eg">예시 — 주민등록번호 880101-******* (가상 예시)</span></button>
     </div>
     <p class="chk-why">주민등록번호는 법이 정한 고유식별정보입니다. 회원번호는 회사가 정한 번호라 여기에 해당하지 않습니다.</p>
   </div>
-  <aside class="notes">여기서 청중에게 먼저 물어보고 두 보기 중 하나를 직접 누르게 하세요. 화면을 직접 볼 수 없는 자리라면 손 들게 묻는 것도 좋습니다. 정답은 주민등록번호입니다. 고유식별정보는 법이 정한 네 가지, 주민등록번호·여권번호·운전면허번호·외국인등록번호만 해당하고, 회사가 만든 회원번호나 사원번호는 포함되지 않습니다. 헷갈린 분을 위해 말씀드리면, 기준은 '누가 번호를 만들었는가'가 아니라 '사람마다 하나뿐인 번호를 법이 정했는가'입니다. 회원번호가 아무리 잘 관리되어야 할 정보라도 법이 말하는 고유식별정보 취급 규칙은 따르지 않아도 됩니다. 그래도 개인정보이므로 기본 규칙은 그대로 지켜야 합니다. 바로 이어서 일상 어디에 이런 정보가 있는지 보겠습니다.</aside>
+  <aside class="notes">여기서 청중에게 먼저 물어보고 두 보기 카드 중 하나를 직접 누르게 하세요. 화면을 직접 볼 수 없는 자리라면 손 들게 묻는 것도 좋습니다. 정답은 주민등록번호입니다. 고유식별정보는 법이 정한 네 가지, 주민등록번호·여권번호·운전면허번호·외국인등록번호만 해당하고, 회사가 만든 회원번호나 사원번호는 포함되지 않습니다. 헷갈린 분을 위해 말씀드리면, 기준은 '누가 번호를 만들었는가'가 아니라 '사람마다 하나뿐인 번호를 법이 정했는가'입니다. 회원번호가 아무리 잘 관리되어야 할 정보라도 법이 말하는 고유식별정보 취급 규칙은 따르지 않아도 됩니다. 그래도 개인정보이므로 기본 규칙은 그대로 지켜야 합니다. 바로 이어서 일상 어디에 이런 정보가 있는지 보겠습니다.</aside>
 </section>
 
 <!-- ==== 06-일상의-개인정보.html ==== -->
@@ -1688,10 +1751,10 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
   <div class="head"><p class="eyebrow">1. 무엇인가</p><h2 class="title">개인정보는 이미 서랍과 파일 속에 있습니다</h2></div>
   <div class="skg">
     <div class="sk-card" data-step="1"><div><p class="sk-name">고객 명단 <span>표</span></p><p class="sk-d">이름과 연락처가 줄로 늘어선 가장 흔한 형태입니다.</p></div><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-list" width="100" height="100" style="color:var(--blue)"/></svg></div>
-    <div class="sk-card" data-step="1"><div><p class="sk-name">급여 자료 <span>대장</span></p><p class="sk-d">계좌와 주민번호가 한 장에 모여 있는 문서입니다.</p></div><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-sheet" width="100" height="100" style="color:var(--danger)"/></svg></div>
-    <div class="sk-card" data-step="1"><div><p class="sk-name">사진·영상 <span>기록</span></p><p class="sk-d">얼굴이 찍히는 순간 영상도 개인정보가 됩니다.</p></div><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-camera" width="100" height="100" style="color:var(--accent)"/></svg></div>
-    <div class="sk-card" data-step="2"><div><p class="sk-name">계약서 <span>서류</span></p><p class="sk-d">서명과 연락처, 신분증 사본이 남는 문서입니다.</p></div><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-file" width="100" height="100" style="color:var(--blue)"/></svg></div>
-    <div class="sk-card" data-step="2"><div><p class="sk-name">메일·단체방 <span>대화</span></p><p class="sk-d">번호와 신분증 사진이 오가는 대화창입니다.</p></div><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-chat" width="100" height="100" style="color:var(--accent)"/></svg></div>
+    <div class="sk-card" data-step="1"><div><p class="sk-name">급여 자료 <span>대장</span></p><p class="sk-d">계좌와 주민번호가 한 장에 모여 있는 문서입니다.</p><span class="pt-warn-tag">주민번호 포함</span></div><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-sheet" width="100" height="100" style="color:var(--blue)"/></svg></div>
+    <div class="sk-card" data-step="1"><div><p class="sk-name">사진·영상 <span>기록</span></p><p class="sk-d">얼굴이 찍히는 순간 영상도 개인정보가 됩니다.</p></div><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-camera" width="100" height="100" style="color:var(--blue)"/></svg></div>
+    <div class="sk-card" data-step="2"><div><p class="sk-name">계약서 <span>서류</span></p><p class="sk-d">서명과 연락처, 신분증 사본이 남는 문서입니다.</p><span class="pt-warn-tag">신분증 사본 포함</span></div><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-file" width="100" height="100" style="color:var(--blue)"/></svg></div>
+    <div class="sk-card" data-step="2"><div><p class="sk-name">메일·단체방 <span>대화</span></p><p class="sk-d">번호와 신분증 사진이 오가는 대화창입니다.</p><span class="pt-warn-tag">번호·신분증 포함</span></div><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-chat" width="100" height="100" style="color:var(--blue)"/></svg></div>
     <div class="sk-card sk-own" data-step="3"><div><p class="sk-name">우리 팀의 개인정보</p><p class="sk-d">빈칸에 우리 업무에서 다루는 개인정보 한 가지를 적어 보세요.</p></div><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-pencil" width="100" height="100" style="color:var(--accent)"/></svg></div>
   </div>
   <div class="callout" data-step="3" style="font-size:28px;padding:24px 32px"><b>일하는 곳마다</b> 개인정보가 이미 내 자리에 있습니다.</div>
@@ -1702,11 +1765,11 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 <section class="slide" data-archetype="compare-table" data-sec="75" style="gap:24px">
   <div class="head"><p class="eyebrow">2. 무슨 규칙</p><h2 class="title">법은 최소한만 모으고 다 쓰면 지우라고 정합니다</h2></div>
   <table class="cmp">
-    <thead><tr><th></th><th><span class="cmp-h">법의 원칙<svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-scale" width="100" height="100" style="color:var(--blue)"/></svg></span></th><th><span class="cmp-h">사무실에서는<svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-person" width="100" height="100" style="color:var(--accent)"/></svg></span></th></tr></thead>
+    <thead><tr><th></th><th><span class="cmp-h">법의 원칙</span></th><th><span class="cmp-h">사무실에서는</span></th></tr></thead>
     <tbody>
-      <tr data-step="1"><td>수집</td><td>최소한만 수집</td><td>목적에 꼭 필요한 칸만 채우고 묻지 않습니다</td></tr>
-      <tr data-step="2"><td>이용</td><td>밝힌 목적 안에서만</td><td>받은 이유로만 쓰고 다른 용도로 돌리지 않습니다</td></tr>
-      <tr data-step="3"><td>파기</td><td>불필요해지면 지체 없이 파기</td><td>기한이 지나거나 쓸 일이 끝나면 바로 지웁니다</td></tr>
+      <tr data-step="1"><td><b>① 수집</b></td><td>최소한만 수집</td><td>목적에 꼭 필요한 칸만 채우고 묻지 않습니다</td></tr>
+      <tr data-step="2"><td><b>② 이용</b></td><td>밝힌 목적 안에서만</td><td>받은 이유로만 쓰고 다른 용도로 돌리지 않습니다</td></tr>
+      <tr data-step="3"><td><b>③ 파기</b></td><td>불필요해지면 지체 없이 파기</td><td>기한이 지나거나 쓸 일이 끝나면 바로 지웁니다</td></tr>
     </tbody>
   </table>
   <div class="col" style="gap:8px">
@@ -1719,7 +1782,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 <!-- ==== 08-세-마디.html ==== -->
 <section class="slide orange center" data-archetype="statement" data-variant="orange" data-sec="30" style="gap:48px">
   <p class="eyebrow" style="font-size:30px">3. 어떻게 하나</p>
-  <h2 class="big">최소한만 모으고<br>잠가 두고, <em class="t2">지웁니다</em></h2>
+  <h2 class="big">최소한만 모으고<br>잠가 두고, <em class="t2" style="background:var(--paper);color:var(--ink);padding:0 20px;border-radius:14px">지웁니다</em></h2>
   <p style="font-size:42px;font-weight:500">세 마디면 오늘 배움의 전부입니다</p>
   <p style="font-size:28px;font-weight:700;border:2px solid var(--paper);border-radius:var(--r3);padding:16px 32px;align-self:flex-start">모을 때 최소한으로 · 쓰는 동안 잠가 두고 · 다 쓰면 바로 지우기</p>
   <aside class="notes">앞서 본 법의 세 원칙을 우리 말로 바꾸면 이 세 마디가 됩니다. 최소한만 모으고, 잠가 두고, 지웁니다. 이 문장을 오늘의 틀로 삼아 나머지 시간을 진행합니다. 여기서 청중에게 이 세 마디를 한 번 따라 읽게 하세요. 강의실 분위기가 살아나고 기억에도 남습니다. 이 세 마디가 구체적으로 어떤 습관 네 개가 되는지 바로 다음 장에서 보겠습니다.</aside>
@@ -1729,10 +1792,10 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 <section class="slide" data-archetype="build-up" data-sec="85" style="gap:32px">
   <div class="head"><p class="eyebrow">3. 어떻게 하나</p><h2 class="title">습관 네 개가 유출의 대부분을 막습니다</h2></div>
   <div class="row" style="gap:20px">
-    <div class="pb" data-lit="1"><div class="col"><b style="font-size:30px">잠그기</b><span>화면 잠금</span></div><b>잠금</b></div>
-    <div class="pb" data-lit="2"><div class="col"><b style="font-size:30px">가리기</b><span>번호 가림</span></div><b>마스킹</b></div>
-    <div class="pb" data-lit="3"><div class="col"><b style="font-size:30px">암호</b><span>암호로 전송</span></div><b>압축</b></div>
-    <div class="pb" data-lit="4"><div class="col"><b style="font-size:30px">지우기</b><span>즉시 파기</span></div><b>삭제</b></div>
+    <div class="pb" data-lit="1"><span class="mk">1</span><div class="col" style="gap:2px"><b style="font-size:28px">화면 잠그기</b><span>자리 비울 때</span></div></div>
+    <div class="pb" data-lit="2"><span class="mk">2</span><div class="col" style="gap:2px"><b style="font-size:28px">번호 가리기</b><span>010-****-****</span></div></div>
+    <div class="pb" data-lit="3"><span class="mk">3</span><div class="col" style="gap:2px"><b style="font-size:28px">암호 걸기</b><span>압축 파일에 암호</span></div></div>
+    <div class="pb" data-lit="4"><span class="mk">4</span><div class="col" style="gap:2px"><b style="font-size:28px">다 쓰면 지우기</b><span>즉시 파기</span></div></div>
   </div>
   <div class="row" style="flex:1;min-height:0;gap:24px">
     <div class="col f1" style="gap:16px">
@@ -1742,17 +1805,17 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
           <p class="doc-title">명단 상태</p>
           <div class="doc-meta"><span>마케팅팀</span><span>2026. 11. 5</span><span>가상 예시</span></div>
           <p data-only="0">아무나 열 수 있는 상태입니다. 연락처가 그대로 보입니다.</p>
-          <p data-only="1">화면 잠금 — 자리를 비울 때 잠갔습니다.</p>
-          <p data-only="2">번호 가림 — 010-****-****로 정리했습니다.</p>
-          <p data-only="3">암호 전송 — 압축 파일에 암호를 걸었습니다.</p>
-          <p data-only="4">파기 완료 — 기한이 지나 복사본을 지웠습니다.</p>
+          <p data-only="1">① 화면 잠금 — 자리를 비울 때 잠갔습니다.</p>
+          <p data-only="2">② 번호 가림 — 010-****-****로 정리했습니다.</p>
+          <p data-only="3">③ 암호 전송 — 압축 파일에 암호를 걸었습니다.</p>
+          <p data-only="4">④ 파기 완료 — 기한이 지나 복사본을 지웠습니다.</p>
         </div></div>
       </div>
       <p class="verdict" data-only="0">명단이 그대로 놓여 있습니다</p>
-      <p class="verdict" data-only="1">화면은 잠겼습니다</p>
-      <p class="verdict" data-only="2">번호도 가려졌습니다</p>
-      <p class="verdict" data-only="3">전송도 안전합니다</p>
-      <p class="verdict" data-only="4">안전합니다</p>
+      <p class="verdict" data-only="1">① 화면은 잠겼습니다</p>
+      <p class="verdict" data-only="2">② 번호도 가려졌습니다</p>
+      <p class="verdict" data-only="3">③ 전송도 안전합니다</p>
+      <p class="verdict" data-only="4" style="border:2.5px solid var(--success);color:var(--success);border-radius:999px;padding:8px 24px">✓ 네 습관 적용 완료</p>
       <p class="fact" data-src="F09">법제처 「개인정보 보호법 시행령」(2026): 내부관리계획·접근권한·암호화</p>
     </div>
     <div class="win f1">
@@ -1764,7 +1827,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
           <p><b>받는 사람</b>팀장님</p>
         </div>
         <div class="mail-b">
-          <p>명단을 받았습니다.<span class="add" data-add="1"> 자리를 비울 땐 화면을 잠갔습니다.</span><span class="add" data-add="2"> 연락처는 가려 정리했습니다.</span><span class="add" data-add="3"> 파일은 암호를 걸어 보냈습니다.</span><span class="add" data-add="4"> 쓰고 난 복사본은 지웠습니다.</span></p>
+          <p>명단을 받았습니다.<span class="add" data-add="1">① 자리를 비울 땐 화면을 잠갔습니다.</span><span class="add" data-add="2">② 연락처는 가려 정리했습니다.</span><span class="add" data-add="3">③ 파일은 암호를 걸어 보냈습니다.</span><span class="add" data-add="4">④ 쓰고 난 복사본은 지웠습니다.</span></p>
         </div>
       </div></div>
     </div>
@@ -1775,8 +1838,8 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 <!-- ==== 10-메일-예시.html ==== -->
 <section class="slide" data-archetype="worked-example" data-variant="mail-points" data-sec="80">
   <div class="head"><p class="eyebrow">3. 어떻게 하나 · 예시 1</p><h2 class="title">명단은 암호를 걸어 다른 길로 보냅니다</h2></div>
-  <div class="row" style="flex:1;min-height:0;gap:48px">
-    <div class="win f3" data-step="1" style="align-self:flex-start">
+  <div class="row" style="flex:1;min-height:0;gap:24px">
+    <div class="win" data-step="1" style="flex:1.55;min-width:0">
       <div class="win-bar"><i></i><i></i><i></i><span class="wt">메일 · 가상 예시</span></div>
       <div class="win-body"><div class="mail">
         <div class="mail-h">
@@ -1792,10 +1855,23 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
         </div>
       </div></div>
     </div>
-    <div class="card f2" data-step="3" style="padding:40px 48px;gap:16px;align-self:flex-start"><p class="label">포인트</p>
-      <ul class="list"><li>명단은 암호를 걸어 압축합니다</li><li>암호는 다른 연락 수단으로 보냅니다</li><li>받는 사람 주소를 다시 확인합니다</li></ul></div>
+    <div class="col" style="flex:none;width:150px;align-self:center;gap:28px" aria-label="두 갈래 분리 배지">
+      <div class="col" style="gap:4px;align-items:center"><p style="font-size:25px;font-weight:800;color:var(--ink)">명단 파일</p><p style="font-size:28px;font-weight:800;color:var(--blue)">← 메일로</p></div>
+      <div class="col" style="gap:4px;align-items:center"><p style="font-size:28px;font-weight:800;color:var(--accent-text)">문자로 →</p><p style="font-size:25px;font-weight:800;color:var(--ink)">암호만</p></div>
+    </div>
+    <div class="win" data-step="2" style="flex:none;width:390px;align-self:center">
+      <div class="win-bar"><i></i><i></i><i></i><span class="wt">문자 · 가상 예시</span></div>
+      <div class="win-body"><div class="msgr">
+        <div class="mg"><span class="who">발신 010-1234-5678 · 김민준</span><p>[Web발신]<br>명단 파일 비밀번호는 8492# 입니다.</p></div>
+      </div></div>
+    </div>
+    <div class="card" data-step="3" style="flex:1;min-width:0;padding:40px 40px;gap:20px">
+      <p class="label">포인트</p>
+      <ul class="list" style="font-size:29px"><li>명단은 암호를 걸어 압축합니다</li><li>암호는 다른 연락 수단으로 보냅니다</li><li>받는 사람 주소를 다시 확인합니다</li></ul>
+      <p style="margin-top:auto;font-size:26px;font-weight:800;color:var(--blue-text);background:var(--blue-soft);border-radius:var(--r2);padding:16px 20px;line-height:1.4">파일은 메일로, 암호는 문자로 — 길을 나눠 보냅니다</p>
+    </div>
   </div>
-  <aside class="notes">실무에서 가장 흔한 장면, 메일로 명단 보내기입니다. 화면의 이름과 상황은 모두 가상 예시입니다. →를 누르면 고친 문장이 노랗게 켜집니다. 잘못된 방식은 엑셀 파일을 그대로 첨부해 버리는 것. 옳은 방식은 파일에 암호를 걸어 압축하고, 그 암호는 메일이 아니라 문자나 전화 같은 다른 연락 수단으로 알려주는 것입니다. 메일이 잘못 전달돼도 암호가 없으면 열리지 않으니 1차 방어가 됩니다. 여기서 강조할 포인트 하나 더. 받는 사람 주소창은 자동완성 때문에 오타가 나기 쉽습니다. 이름이 비슷한 사람이 회사에 있을 때 특히 조심해야 합니다. 첨부 전에 받는 사람을 소리 내어 확인하는 습관을 권하세요. 참고로 개인정보보호위원회의 안전성 확보조치 기준 안내서가 이런 사무실 처리를 구체적으로 안내하니 담당 부서에 문의해 보시라고 안내합니다. 다음은 단체방입니다.</aside>
+  <aside class="notes">실무에서 가장 흔한 장면, 메일로 명단 보내기입니다. 화면의 이름과 상황은 모두 가상 예시입니다. 왼쪽 메일에는 암호를 건 압축 파일만 첨부돼 있고, 정작 암호는 오른쪽 문자 창처럼 다른 길로 보냅니다. 잘못된 방식은 엑셀 파일을 그대로 첨부해 버리는 것. 옳은 방식은 파일에 암호를 걸어 압축하고, 암호는 메일이 아니라 문자나 전화로 알려주는 것입니다. 메일이 잘못 전달돼도 암호가 없으면 열리지 않으니 1차 방어가 됩니다. 포인트 하나 더. 받는 사람 주소창은 자동완성 때문에 오타가 나기 쉬우니 첨부 전에 소리 내어 확인하는 습관을 권하세요. 참고로 개인정보보호위원회의 안전성 확보조치 기준 안내서가 이런 사무실 처리를 구체적으로 안내하니 담당 부서에 문의해 보라고 안내합니다. 다음은 단체방입니다.</aside>
 </section>
 
 <!-- ==== 11-단체방-예시.html ==== -->
@@ -1807,13 +1883,14 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
       <div class="win-body"><div class="msgr">
         <div class="mg"><span class="who">팀장</span><p>이벤트 당첨자 안내는 언제쯤 가능할까요?</p></div>
         <div class="mg"><span class="who">동료</span><p>당첨자 명단 공유해 주세요!</p></div>
-        <div class="mg me" data-step="2"><p>이름만 가린 명단 올렸습니다. 전화는 뒷자리만 남겼어요.</p><span class="tm">14:05</span></div>
+        <div class="mg me" data-step="2"><p>명단 마스킹본 올렸습니다. 번호는 뒷자리만 남겼어요.</p><div class="pt-mask" role="img" aria-label="번호가 가려진 명단 미리보기 — 가상 예시"><div class="pt-mrow"><span>홍*동</span><span>010-****-5678</span></div><div class="pt-mrow"><span>이*연</span><span>010-****-9012</span></div><div class="pt-mrow"><span>박*민</span><span>010-****-3456</span></div></div><span class="filechip" aria-hidden="false"><svg class="ico" aria-hidden="true" style="width:26px;height:26px"><use href="#i-sheet"/></svg>당첨자명단_마스킹본.xlsx</span><span class="tm">14:05</span></div>
       </div></div>
     </div>
-    <div class="card f2" data-step="3" style="padding:40px 48px;gap:16px;align-self:flex-start"><p class="label">포인트</p>
-      <ul class="list"><li>번호 전체를 방에 올리지 않습니다</li><li>올려야 하는지 먼저 묻고 줄입니다</li><li>일이 끝나면 올린 파일을 지웁니다</li></ul></div>
+    <div class="card f2" data-step="3" style="padding:40px 48px;gap:16px;align-self:stretch"><p class="label">포인트</p>
+      <ul class="list"><li>번호 전체를 방에 올리지 않습니다</li><li>올려야 하는지 먼저 묻고 줄입니다</li><li>일이 끝나면 올린 파일을 지웁니다</li></ul>
+      <p style="margin-top:auto;font-size:26px;font-weight:800;color:var(--blue-text);background:var(--blue-soft);border-radius:var(--r2);padding:16px 20px;line-height:1.4">올리는 족족 가려진 모습이 증거로 남습니다</p></div>
   </div>
-  <aside class="notes">단체방은 편하지만 구성원이 바뀌어도 대화가 남는 곳입니다. 프로젝트가 끝나도 방은 살아 있고, 나중에 들어오는 사람이 과거 파일을 열 수 있습니다. 화면의 대화는 가상 예시입니다. →를 누르면 올바른 답장이 나타납니다. 동료가 명단을 달라고 할 때, 필요 없이 전체 번호를 올리는 것부터가 위험의 시작입니다. 먼저 "누가, 무엇 때문에 필요한가"를 물어보고, 필요하면 이름은 가리고 전화는 뒷자리만 남깁니다. 원본이 꼭 필요한 사람에게만 개인 메시지로 보내면 방에는 흔적이 남지 않습니다. 그리고 일이 끝난 뒤에는 방에 올린 파일을 지웁니다. 청중에게 이렇게 정리하세요. 단체방은 사물함이 아니라 게시판입니다. 다음 장부터는 사고가 났을 때의 이야기입니다.</aside>
+  <aside class="notes">단체방은 편하지만 구성원이 바뀌어도 대화가 남는 곳입니다. 프로젝트가 끝나도 방은 살아 있고, 나중에 들어오는 사람이 과거 파일을 열 수 있습니다. 화면의 대화는 가상 예시입니다. →를 누르면 올바른 답장이 나타나는데, 이번에는 말 대신 증거가 함께 올라옵니다. 말풍선 아래 미리보기에서 이름과 번호가 가려진 모습, 첨부 파일 이름의 '마스킹본'을 확인하세요. 동료가 명단을 달라고 할 때, 필요 없이 전체 번호를 올리는 것부터가 위험의 시작입니다. 먼저 "누가, 무엇 때문에 필요한가"를 물어보고, 필요하면 이름은 가리고 전화는 뒷자리만 남깁니다. 원본이 꼭 필요한 사람에게만 개인 메시지로 보내면 방에는 흔적이 남지 않습니다. 그리고 일이 끝나면 방에 올린 파일을 지웁니다. 청중에게 이렇게 정리하세요. 단체방은 사물함이 아니라 게시판입니다. 다음 장부터는 사고가 났을 때의 이야기입니다.</aside>
 </section>
 
 <!-- ==== 12-유출-대응.html ==== -->
@@ -1831,15 +1908,17 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
       <p class="verdict" data-only="1" style="color:var(--blue)">빨리 알릴수록 피해가 작아집니다</p>
       <p class="fact" data-src="F05,F06">법제처 「개인정보 보호법 시행령」(2026): 통지·신고 모두 72시간 이내</p>
     </div>
-    <div class="card" style="width:560px;flex:none;padding:32px 32px;gap:16px;border:2px solid var(--blue)">
-      <ul class="list" style="font-size:28px;line-height:1.7">
-        <li>전파 멈추기: 회수와 삭제를 먼저 합니다</li>
-        <li>보고: 우리 담당 부서에 즉시 알립니다</li>
-        <li>통지: 해당되는 분에게 72시간 이내</li>
-        <li>신고: 위원회 또는 KISA에 72시간 이내</li>
-        <li>상담 전화: 국번 없이 118</li>
-      </ul>
-      <div style="display:flex;align-items:center;gap:16px;margin-top:auto"><p class="label" style="color:var(--blue)">유출 대응의 다섯 줄</p><svg viewBox="0 0 100 100" style="width:56px;height:56px;margin-left:auto"><use href="#i-doc-check" width="100" height="100" style="color:var(--blue)"/></svg></div>
+    <div class="card" style="width:600px;flex:none;padding:32px 36px;gap:20px;border:2px solid var(--blue);display:flex;flex-direction:column">
+      <p class="label" style="color:var(--blue)">유출 대응의 순서</p>
+      <div class="col" style="gap:16px">
+        <div class="pt-stage"><span class="pt-when now">즉시</span><p class="pt-what"><b>전파 멈추기</b>회수와 삭제를 먼저 합니다</p></div>
+        <div class="pt-stage"><span class="pt-when now">즉시</span><p class="pt-what"><b>사내 보고</b>우리 담당 부서에 알립니다</p></div>
+        <div class="pt-stage"><span class="pt-when due">72시간 이내</span><p class="pt-what"><b>통지 · 신고</b>정보주체 통지, 위원회 또는 KISA 신고</p></div>
+      </div>
+      <div class="row" style="gap:16px;margin-top:auto">
+        <div class="pt-kpi info" style="flex:1"><b>72시간</b><p>통지 · 신고 기한</p></div>
+        <div class="pt-kpi info" style="flex:1"><b>118</b><p>상담 전화 · 국번 없이</p></div>
+      </div>
       <p class="fact" data-src="F10">KISA 개인정보침해신고센터: 국번 없이 118</p>
     </div>
   </div>
@@ -1853,15 +1932,16 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 <div class="card f1" data-step="1" style="border-top:2px solid var(--blue);padding:32px 48px;gap:16px">
 <p class="label" style="color:var(--blue)">회사에</p>
 <div style="display:flex;align-items:center;gap:28px"><h3 style="font-size:56px;font-weight:800">과징금</h3><svg aria-hidden="true" style="width:88px;height:88px;flex:none;margin-left:auto" viewBox="0 0 100 100"><use height="100" href="#i-building" style="color:var(--blue)" width="100"></use></svg></div>
-<p class="body">매출 규모에 비례해 부과됩니다.</p>
-<ul class="list"><li>불법 처리·유출 등이 대상입니다</li><li>전체 매출액의 3%를 넘지 않습니다</li><li>반복되면 10%까지 올라갑니다</li></ul>
+<div class="pt-kpi info"><b>매출액의 3%</b><p>초과하지 않습니다 · 반복되면 10%까지</p></div>
+<p class="body">불법 처리·유출 등이 대상이며, 매출 규모에 비례해 부과됩니다.</p>
 <p class="fact" data-src="F07">법제처 「개인정보 보호법」(2026): 전체 매출액의 100분의 3 이하</p>
 </div>
 <div class="card f1" data-step="2" style="border-top:2px solid var(--accent);padding:32px 48px;gap:16px">
 <p class="label">사람에게</p>
 <div style="display:flex;align-items:center;gap:28px"><h3 style="font-size:56px;font-weight:800">형사처벌</h3><svg aria-hidden="true" style="width:88px;height:88px;flex:none;margin-left:auto" viewBox="0 0 100 100"><use height="100" href="#i-scale" style="color:var(--accent)" width="100"></use></svg></div>
+<div class="pt-kpi warn"><b>5년 이하 징역</b><p>또는 5천만원 이하의 벌금입니다</p></div>
 <p class="body">업무상 알게 된 정보가 새어 나가면:</p>
-<ul class="list"><li>5년 이하의 징역 또는</li><li>5천만원 이하의 벌금입니다</li><li>부정한 취득은 3년 이하입니다</li></ul>
+<ul class="list"><li>부정한 취득은 3년 이하입니다</li></ul>
 <p class="fact" data-src="F08">법제처 「개인정보 보호법」(2026): 5년 이하의 징역 또는 5천만원 이하의 벌금</p>
 </div>
 </div>
@@ -1871,7 +1951,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 
 <!-- ==== 14-착각-퀴즈.html ==== -->
 <section class="slide" data-archetype="quiz-ox" data-sec="85" style="gap:40px">
-  <div class="head"><p class="qtag" style="align-self:flex-start">퀴즈 1</p><h2 class="title">이 네 문장, 맞나요?</h2></div>
+  <div class="head"><p class="eyebrow">확인 문제 2 / 2</p><h2 class="title">이 네 문장, 맞나요?</h2></div>
   <div class="col" style="gap:24px">
     <div class="qrow"><p class="qn">1</p><div class="col f1" style="gap:6px"><p class="qt">자리 비울 때 화면 잠금은 나의 의무입니다</p><p class="why" data-step="1">접근 권한 관리에 해당합니다</p></div><span class="ox o" data-step="1">O</span></div>
     <div class="qrow"><p class="qn">2</p><div class="col f1" style="gap:6px"><p class="qt">번호 몇 개 새어 나가는 건 큰일이 아닙니다</p><p class="why" data-step="2">고유식별정보는 한 건도 특별합니다</p></div><span class="ox x" data-step="2">X</span></div>
@@ -1894,17 +1974,26 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 
 <!-- ==== 16-이번-주-실천.html ==== -->
 <section class="slide" data-archetype="checklist" data-sec="50" style="gap:32px">
-  <div class="head"><p class="eyebrow">실천</p><h2 class="title">이번 주에 할 세 가지</h2></div>
-  <div class="row" style="gap:32px">
-    <div class="col f1" style="gap:16px">
-      <div class="todo" data-step="1"><div class="col" style="gap:4px"><h4>잠그기</h4><p>점심시간 전에 화면 잠금 단축키를 확인해 둡니다.</p></div><span class="tbox"></span></div>
-      <div class="todo" data-step="2"><div class="col" style="gap:4px"><h4>가리기</h4><p>자주 쓰는 명단의 연락처를 가린 버전을 하나 만들어 둡니다.</p></div><span class="tbox"></span></div>
+  <div class="head"><p class="eyebrow">실천 · 자가 점검</p><h2 class="title">이번 주에 끝내는 세 가지 점검</h2></div>
+  <div class="row" style="flex:1;min-height:0;gap:28px">
+    <div class="todo" data-step="1" style="flex:1;flex-direction:column;align-items:flex-start;gap:14px">
+      <div class="row" style="width:100%;gap:14px"><span class="mk">1</span><h4>화면 잠그기</h4><span class="tbox" style="margin-left:auto"></span></div>
+      <p style="font-size:26px;color:var(--soft);line-height:1.5;margin:0">점심시간 전에 화면 잠금 단축키를 확인해 둡니다.</p>
+      <p class="pt-when-tag">오늘 점심시간 전</p>
     </div>
-    <div class="col f1" style="gap:16px">
-      <div class="todo" data-step="3"><div class="col" style="gap:4px"><h4>지우기</h4><p>내 폴더에서 기한이 지난 개인정보 파일을 찾아 지웁니다.</p></div><span class="tbox"></span></div>
+    <div class="todo" data-step="2" style="flex:1;flex-direction:column;align-items:flex-start;gap:14px">
+      <div class="row" style="width:100%;gap:14px"><span class="mk">2</span><h4>가리기</h4><span class="tbox" style="margin-left:auto"></span></div>
+      <p style="font-size:26px;color:var(--soft);line-height:1.5;margin:0">자주 쓰는 명단의 연락처를 가린 버전을 하나 만들어 둡니다.</p>
+      <p class="pt-when-tag">30분이면 충분합니다</p>
+    </div>
+    <div class="todo" data-step="3" style="flex:1;flex-direction:column;align-items:flex-start;gap:14px">
+      <div class="row" style="width:100%;gap:14px"><span class="mk">3</span><h4>지우기</h4><span class="tbox" style="margin-left:auto"></span></div>
+      <p style="font-size:26px;color:var(--soft);line-height:1.5;margin:0">내 폴더에서 기한이 지난 개인정보 파일을 찾아 지웁니다.</p>
+      <p class="pt-when-tag">파일명 '명단'·'대장'부터</p>
     </div>
   </div>
-  <aside class="notes">교육이 끝나고 나면 결심이 흐려집니다. 그래서 이번 주에 할 일 세 가지로 남깁니다. 항목을 누르면 체크가 됩니다. 첫째, 화면 잠금 단축키 확인. 오늘 점심시간 전에 한 번만 해 보면 됩니다. 둘째, 자주 쓰는 명단의 가린 버전 만들기. 30분이면 충분하고 앞으로 몇 달을 편하게 합니다. 셋째, 내 폴더에서 기한 지난 파일 지우기. 파일명에 '명단', '대장', '연락처'가 들어간 것부터 찾아보세요. 세 가지를 다 한 팀은 다음 주 팀 회의에서 짧게 공유하면 좋습니다. 시간이 모자라면 이 장을 슬쩍 지나치고 자료로 나눠 주어도 됩니다. 마지막으로 근거 자료를 보여 드리고 마무리하겠습니다.</aside>
+  <div class="callout" data-step="4"><b>다음 주 팀 회의</b>에서 세 가지 완료를 짧게 공유합니다.</div>
+  <aside class="notes">교육이 끝나고 나면 결심이 흐려집니다. 그래서 앞장의 세 원칙과 겹치지 않게, 이번 주 내 자리에서 끝낼 점검표로 남깁니다. 항목을 누르면 체크가 됩니다. 첫째, 화면 잠금 단축키 확인. 오늘 점심시간 전에 한 번만 해 보면 됩니다. 둘째, 자주 쓰는 명단의 가린 버전 만들기. 30분이면 충분하고 앞으로 몇 달을 편하게 합니다. 셋째, 내 폴더에서 기한 지난 파일 지우기. 파일명에 '명단', '대장', '연락처'가 들어간 것부터 찾아보세요. 세 가지를 다 한 팀은 다음 주 팀 회의에서 짧게 공유하면 좋습니다. 시간이 모자라면 이 장을 슬쩍 지나치고 자료로 나눠 주어도 됩니다. 마지막으로 근거 자료를 보여 드리고 마무리하겠습니다.</aside>
 </section>
 
 <!-- ==== 17-참고-자료.html ==== -->
