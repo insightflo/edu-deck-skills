@@ -90,8 +90,8 @@ def main():
                 if a != b:
                     diff += 1
                     print(f"DIFF {name}: 현재 {len(a)}B vs 재생성 {len(b)}B")
-            print(f"--check: {len(SLIDES) - diff}/6 동일, diff={diff}")
-        return
+            print(f"--check: {len(SLIDES) - diff}/{len(SLIDES)} 동일, diff={diff}")
+            raise SystemExit(1 if diff else 0)
     build(HERE)
     r = subprocess.run([sys.executable, str(BUILD), str(HERE)],
                        capture_output=True, text=True)
