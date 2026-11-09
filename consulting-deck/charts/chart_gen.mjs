@@ -429,7 +429,7 @@ function buildWaterfall() {
 
   const svg = svgOpen(H, slide.ariaLabel || `${chart.type} — ${chart.question}`);
   svg.push(unitTag);
-  svg.push(`    <path d="M60,${BASE_Y} L1500,${BASE_Y}" class="k-ln-n"/>`);
+  svg.push(`    <path d="M60,${BASE_Y} L1500,${BASE_Y}" fill="none" stroke="var(--line)" stroke-width="2.5" stroke-linecap="round"/>`);
   data.forEach((d, i) => {
     const k = kindOf(d, i);
     const prevCum = i === 0 ? 0 : cums[i - 1];
@@ -519,12 +519,12 @@ function buildRanked() {
   const H = yy + 56;
   const svg = svgOpen(H, slide.ariaLabel || `${chart.type} — ${chart.question}`);
   svg.push(unitTag);
-  svg.push(`    <line x1="${AXIS_X}" y1="56" x2="${AXIS_X}" y2="${H - 44}" stroke="var(--soft)" stroke-width="3"/>`);
-  svg.push(`    <line x1="${AXIS_X}" y1="${H - 44}" x2="1500" y2="${H - 44}" stroke="var(--soft)" stroke-width="3"/>`);
+  svg.push(`    <line x1="${AXIS_X}" y1="56" x2="${AXIS_X}" y2="${H - 44}" stroke="var(--grid)" stroke-width="2.5"/>`);
+  svg.push(`    <line x1="${AXIS_X}" y1="${H - 44}" x2="1500" y2="${H - 44}" stroke="var(--grid)" stroke-width="2.5"/>`);
   rows.forEach((d, i) => {
     const { w, inline, below } = plans[i];
     const y = ys[i], cy = y + BAR_H / 2 + 8;
-    const fill = highlights.includes(d.label) ? 'var(--accent)' : 'var(--blue)';
+    const fill = highlights.includes(d.label) ? 'var(--accent)' : 'var(--track)';
     svg.push(`    <g data-step="${i + 1}">`);
     svg.push(`      <text x="${AXIS_X - 20}" y="${cy}" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">${esc(d.label)}</text>`);
     svg.push(`      <rect x="${AXIS_X}" y="${y}" width="${r2(w)}" height="${BAR_H}" rx="8" fill="${fill}" ${growL}/>`);
@@ -559,8 +559,8 @@ function buildDiverging() {
   const H = yy + 48;
   const svg = svgOpen(H, slide.ariaLabel || `${chart.type} — ${chart.question}`);
   svg.push(unitTag);
-  svg.push(`    <line x1="${ZERO - HALF}" y1="${H - 40}" x2="${ZERO + HALF}" y2="${H - 40}" stroke="var(--soft)" stroke-width="3"/>`);
-  svg.push(`    <line x1="${ZERO}" y1="56" x2="${ZERO}" y2="${H - 40}" stroke="var(--ink)" stroke-width="3"/>`);
+  svg.push(`    <line x1="${ZERO - HALF}" y1="${H - 40}" x2="${ZERO + HALF}" y2="${H - 40}" stroke="var(--line)" stroke-width="2.5"/>`);
+  svg.push(`    <line x1="${ZERO}" y1="56" x2="${ZERO}" y2="${H - 40}" stroke="var(--soft)" stroke-width="2.5"/>`);
   svg.push(`    <line x1="${ZERO - HALF}" y1="56" x2="${ZERO - HALF}" y2="${H - 40}" stroke="var(--line)" stroke-width="2" stroke-dasharray="6 8"/>`);
   svg.push(`    <line x1="${ZERO + HALF}" y1="56" x2="${ZERO + HALF}" y2="${H - 40}" stroke="var(--line)" stroke-width="2" stroke-dasharray="6 8"/>`);
   svg.push(`    <text x="${ZERO - HALF}" y="${H - 12}" text-anchor="middle" font-size="22" fill="var(--soft)">−${esc(fmt(maxA))}</text>`);
@@ -570,7 +570,7 @@ function buildDiverging() {
     const { w, neg, vx, valStr, inNeg, inline, below } = plans[i];
     const y = ys[i], cy = y + BAR_H / 2 + 8;
     const x = neg ? ZERO - w : ZERO;
-    const fill = neg ? 'var(--accent)' : 'var(--blue)';
+    const fill = neg ? 'var(--accent)' : 'var(--track)';
     const grow = neg ? growR : growL;
     const anchor = inNeg ? 'start' : neg ? 'end' : 'start';
     const ring = highlights.includes(d.label) ? ` stroke="var(--ink)" stroke-width="3"` : '';
@@ -611,10 +611,12 @@ function buildStacked() {
   /* 세그먼트 색 — 이름 첫 등장 순으로 파랑 농도 순환(sequential), highlight=초점, oneoff=회색 */
   const segOrder = [];
   data.forEach((d) => d.segments.forEach((g) => { if (!segOrder.includes(g.name)) segOrder.push(g.name); }));
-  const OP = ['.95', '.62', '.40', '.22'];
+  /* 세그먼트 색 — ztd 참조: 초점=accent, 나머지는 회색 램프 + 종이색 분리선(stroke)으로
+     서로를 가른다. 이름 순서로 램프를 순환한다. */
+  const RAMP = ['var(--track-strong)', 'var(--track)', 'var(--muted)', 'var(--light)'];
   const segFill = (g) => g.oneoff ? 'fill="var(--muted)" stroke="var(--soft)" stroke-width="2"'
-    : highlights.includes(g.name) ? 'fill="var(--accent)"'
-    : `fill="var(--blue)" opacity="${OP[segOrder.indexOf(g.name) % 4]}"`;
+    : highlights.includes(g.name) ? 'fill="var(--accent)" stroke="var(--paper)" stroke-width="2.5"'
+    : `fill="${RAMP[segOrder.indexOf(g.name) % 4]}" stroke="var(--paper)" stroke-width="2.5"`;
   const totalOf = (d) => d.total != null ? d.total : d.segments.reduce((a, g) => a + g.value, 0);
   const maxT = Math.max(...data.map(totalOf), 1e-9);
   const sc = PLOT / maxT;
@@ -672,7 +674,7 @@ function buildLine() {
   hi += pad; if (lo < 0) lo -= pad;
   const X = (i) => L + (n > 1 ? (R - L) * i / (n - 1) : (R - L) / 2);
   const Y = (v) => BASE_Y - (v - lo) / (hi - lo) * PLOT;
-  const SCOL = ['var(--blue)', 'var(--muted)', 'var(--ink)', 'var(--soft)'];
+  const SCOL = ['var(--ink)', 'var(--track-strong)', 'var(--soft)', 'var(--muted)'];
   const svg = svgOpen(H, slide.ariaLabel || `${chart.type} — ${chart.question}`);
   svg.push(unitTag);
   /* 눈금 — 보기 좋은 값(1·2·2.5·5×10^k) 간격으로 — 중간값 눈금(11.9 같은)을 없앤다 */
@@ -687,16 +689,16 @@ function buildLine() {
   if (tN > t0 && (tN - t0) / stepV <= 8)
     for (let v = t0; v <= tN + 1e-9; v += stepV) {
       const y = r2(Y(v));
-      svg.push(`    <path d="M${L},${y} L${R},${y}" stroke="var(--soft)" stroke-width="2" stroke-dasharray="2 8"/>`);
+      svg.push(`    <path d="M${L},${y} L${R},${y}" stroke="var(--grid)" stroke-width="2.5"/>`);
       svg.push(`    <text x="${L - 14}" y="${y + 7}" font-size="20" fill="var(--soft)" text-anchor="end">${esc(fmt(Math.round(v * 10) / 10))}</text>`);
     }
   else
     for (let i = 0; i <= 4; i++) {
       const v = lo + (hi - lo) * i / 4, y = r2(Y(v));
-      svg.push(`    <path d="M${L},${y} L${R},${y}" stroke="var(--soft)" stroke-width="2" stroke-dasharray="2 8"/>`);
+      svg.push(`    <path d="M${L},${y} L${R},${y}" stroke="var(--grid)" stroke-width="2.5"/>`);
       svg.push(`    <text x="${L - 14}" y="${y + 7}" font-size="20" fill="var(--soft)" text-anchor="end">${esc(fmt(Math.round(v * 10) / 10))}</text>`);
     }
-  svg.push(`    <path d="M${L},${BASE_Y} L${R},${BASE_Y}" class="k-ln-n"/>`);
+  svg.push(`    <path d="M${L},${BASE_Y} L${R},${BASE_Y}" fill="none" stroke="var(--line)" stroke-width="2.5"/>`);
   /* x 라벨 — 슬롯보다 길면 −38° 회전 */
   const slot = n > 1 ? (R - L) / (n - 1) : R - L;
   const rot = data.some((d) => tw(d.label, 22) > slot - 14);
@@ -752,7 +754,7 @@ function buildScatter() {
   const maxS = Math.max(...sizes, 0);
   const svg = svgOpen(H, slide.ariaLabel || `${chart.type} — ${chart.question}`);
   svg.push(unitTag);
-  svg.push(`    <path d="M${L},${TOP} L${L},${BOT} L${R},${BOT}" class="k-ln-n"/>`);
+  svg.push(`    <path d="M${L},${TOP} L${L},${BOT} L${R},${BOT}" fill="none" stroke="var(--line)" stroke-width="2.5"/>`);
   svg.push(`    <text x="${L}" y="${BOT + 34}" font-size="20" fill="var(--soft)" text-anchor="middle">${esc(fmt(Math.round(x0 * 10) / 10))}</text>`);
   svg.push(`    <text x="${R}" y="${BOT + 34}" font-size="20" fill="var(--soft)" text-anchor="middle">${esc(fmt(Math.round(x1 * 10) / 10))}</text>`);
   svg.push(`    <text x="${L - 14}" y="${TOP + 4}" font-size="20" fill="var(--soft)" text-anchor="end">${esc(fmt(Math.round(y1 * 10) / 10))}</text>`);
@@ -774,7 +776,7 @@ function buildScatter() {
     const r = d.size ? Math.max(6, Math.sqrt(d.size / maxS) * 22) : 9;
     const hot = highlights.includes(d.label) || d.highlight;
     svg.push(`    <g data-step="${st}">`);
-    svg.push(`      <circle cx="${r2(px)}" cy="${r2(py)}" r="${r2(r)}" fill="${hot ? 'var(--accent)' : 'var(--blue)'}" opacity="${hot ? '.95' : '.72'}"/>`);
+    svg.push(`      <circle cx="${r2(px)}" cy="${r2(py)}" r="${r2(r)}" fill="${hot ? 'var(--accent)' : 'var(--track-strong)'}" opacity="${hot ? '.95' : '.72'}"/>`);
     if (d.label) {
       const { lx, ly, anchor } = labelXY(d, px, py, r);
       svg.push(`      <text x="${r2(lx)}" y="${r2(ly)}" font-size="20" font-weight="${hot ? 800 : 600}" fill="var(--ink)" text-anchor="${anchor}">${esc(d.label)}</text>`);
@@ -783,7 +785,7 @@ function buildScatter() {
     svg.push(`    </g>`);
   };
   svg.push(`    <g data-step="1">`);
-  data.forEach((d) => { if (!d.label) { const px = X(d.x), py = Y(d.y); const r = d.size ? Math.max(6, Math.sqrt(d.size / maxS) * 22) : 9; svg.push(`      <circle cx="${r2(px)}" cy="${r2(py)}" r="${r2(r)}" fill="var(--blue)" opacity=".72"/>`); } });
+  data.forEach((d) => { if (!d.label) { const px = X(d.x), py = Y(d.y); const r = d.size ? Math.max(6, Math.sqrt(d.size / maxS) * 22) : 9; svg.push(`      <circle cx="${r2(px)}" cy="${r2(py)}" r="${r2(r)}" fill="var(--track-strong)" opacity=".72"/>`); } });
   svg.push(`    </g>`);
   data.forEach((d) => { if (d.label) emit(d, step++); });
   return section(svg, { bars: data.length, steps: step - 1 });
@@ -825,6 +827,8 @@ function buildHeatmap() {
       }
       const v = vmap.get(key);
       const pct = Math.round(12 + 80 * ((v - vmin) / (vmax - vmin)));
+      /* 단일 색조 히트맵(ztd 참조): 강조 열/행=accent, 본 셀=슬레이트 blue —
+         재조정 팔레트의 blue 는 회청색이라 강조와 자연 분리된다 */
       const color = hot(r, c) ? 'var(--accent)' : 'var(--blue)';
       svg.push(`      <rect x="${x}" y="${yv}" width="${w}" height="${h}" rx="4" style="fill:color-mix(in srgb, ${color} ${pct}%, transparent)"/>`);
       if (cw >= 64 && rh >= 34)
@@ -839,7 +843,7 @@ function buildHeatmap() {
   });
   /* 농도 범례 — min→max 단일 hue */
   svg.push(`    <text x="${gridX}" y="${r2(gridY + gridH + 40)}" font-size="18" fill="var(--soft)">${esc(fmt(vmin))}</text>`);
-  svg.push(`    <rect x="${r2(gridX + 60)}" y="${r2(gridY + gridH + 28)}" width="140" height="14" rx="3" style="fill:color-mix(in srgb, var(--blue) 45%, transparent)"/>`);
+  svg.push(`    <rect x="${r2(gridX + 60)}" y="${r2(gridY + gridH + 28)}" width="140" height="14" rx="3" style="fill:color-mix(in srgb, var(--accent) 45%, transparent)"/>`);
   svg.push(`    <text x="${r2(gridX + 214)}" y="${r2(gridY + gridH + 40)}" font-size="18" fill="var(--soft)">${esc(fmt(vmax))}</text>`);
   return section(svg, { bars: rl.length, steps: rl.length });
 }
@@ -913,7 +917,7 @@ function buildMatrix() {
   pts.forEach((p) => {
     const { px, py, hot, d } = p;
     svg.push(`    <g data-step="${p.i + 2}">`);
-    svg.push(`      <circle cx="${r2(px)}" cy="${r2(py)}" r="${hot ? 13 : 10}" fill="${hot ? 'var(--accent)' : 'var(--blue)'}" opacity="${hot ? '.95' : '.78'}"/>`);
+    svg.push(`      <circle cx="${r2(px)}" cy="${r2(py)}" r="${hot ? 13 : 10}" fill="${hot ? 'var(--accent)' : 'var(--track-strong)'}" opacity="${hot ? '.95' : '.78'}"/>`);
     svg.push(`      <text x="${r2(p.lx)}" y="${r2(p.ly)}" font-size="20" font-weight="${hot ? 800 : 600}" fill="var(--ink)" text-anchor="${p.right ? 'start' : 'end'}">${esc(d.label)}</text>`);
     if (p.annTop != null)
       annBy(d.label).forEach((a) => emitAnn(svg, a, Math.max(PX0 + 80, Math.min(px, PX1 - 80)), p.annTop, p.ly + 8, ANN_W));
@@ -937,7 +941,7 @@ function buildTornado() {
   const svg = svgOpen(H, slide.ariaLabel || `${chart.type} — ${chart.question}`);
   svg.push(unitTag);
   svg.push(`    <line x1="${ZERO - HALF}" y1="${H - 56}" x2="${ZERO + HALF}" y2="${H - 56}" stroke="var(--soft)" stroke-width="3"/>`);
-  svg.push(`    <line x1="${ZERO}" y1="64" x2="${ZERO}" y2="${H - 56}" stroke="var(--ink)" stroke-width="3"/>`);
+  svg.push(`    <line x1="${ZERO}" y1="64" x2="${ZERO}" y2="${H - 56}" stroke="var(--soft)" stroke-width="2.5"/>`);
   svg.push(`    <line x1="${ZERO - HALF}" y1="64" x2="${ZERO - HALF}" y2="${H - 56}" stroke="var(--line)" stroke-width="2" stroke-dasharray="6 8"/>`);
   svg.push(`    <line x1="${ZERO + HALF}" y1="64" x2="${ZERO + HALF}" y2="${H - 56}" stroke="var(--line)" stroke-width="2" stroke-dasharray="6 8"/>`);
   svg.push(`    <text x="${ZERO - HALF}" y="${H - 24}" text-anchor="middle" font-size="22" fill="var(--soft)">−${esc(fmt(maxA))}</text>`);
@@ -951,7 +955,7 @@ function buildTornado() {
     svg.push(`    <g data-step="${i + 1}">`);
     svg.push(`      <text x="${LABEL_X}" y="${cy}" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">${esc(d.label)}</text>`);
     svg.push(`      <rect x="${r2(ZERO - wl)}" y="${y}" width="${r2(wl)}" height="${BAR_H}" rx="6" fill="var(--accent)" ${growR}/>`);
-    svg.push(`      <rect x="${ZERO}" y="${y}" width="${r2(wh)}" height="${BAR_H}" rx="6" fill="var(--blue)" ${growL}/>`);
+    svg.push(`      <rect x="${ZERO}" y="${y}" width="${r2(wh)}" height="${BAR_H}" rx="6" fill="var(--track)" ${growL}/>`);
     svg.push(`      <text x="${r2(inLow ? ZERO - wl + 16 : ZERO - wl - 14)}" y="${cy}" font-size="24" font-weight="800" fill="${inLow ? 'var(--paper)' : 'var(--ink)'}" text-anchor="${inLow ? 'start' : 'end'}">${esc(lowStr)}</text>`);
     svg.push(`      <text x="${r2(ZERO + wh + 14)}" y="${cy}" font-size="24" font-weight="800" fill="var(--ink)">${esc(fmtDelta(d.high))}</text>`);
     let ay = cy + 46;
@@ -1020,7 +1024,7 @@ function buildSankey() {
       inOff.set(f.to, (inOff.get(f.to) || 0) + w);
       const x0 = s.x + NODE_W, x1 = t.x, cx = (x0 + x1) / 2;
       const hot = highlights.includes(idmap.get(f.to).label) || highlights.includes(idmap.get(f.from).label);
-      svg.push(`      <path d="M${r2(x0)},${r2(sy)} C${r2(cx)},${r2(sy)} ${r2(cx)},${r2(ty)} ${r2(x1)},${r2(ty)} L${r2(x1)},${r2(ty + w)} C${r2(cx)},${r2(ty + w)} ${r2(cx)},${r2(sy + w)} ${r2(x0)},${r2(sy + w)} Z" fill="${hot ? 'var(--accent)' : 'var(--blue)'}" opacity="${hot ? '.7' : '.45'}"/>`);
+      svg.push(`      <path d="M${r2(x0)},${r2(sy)} C${r2(cx)},${r2(sy)} ${r2(cx)},${r2(ty)} ${r2(x1)},${r2(ty)} L${r2(x1)},${r2(ty + w)} C${r2(cx)},${r2(ty + w)} ${r2(cx)},${r2(sy + w)} ${r2(x0)},${r2(sy + w)} Z" fill="${hot ? 'var(--accent)' : 'var(--track-strong)'}" opacity="${hot ? '.7' : '.45'}"/>`);
     });
     svg.push(`    </g>`);
   });
@@ -1073,7 +1077,7 @@ function buildPareto() {
     const h = d.value * sc, y = BASE_Y - h;
     const hot = highlights.includes(d.label);
     svg.push(`    <g data-step="${i + 1}">`);
-    svg.push(`      <rect x="${r2(x)}" y="${r2(y)}" width="${barW}" height="${r2(h)}" rx="6" fill="${hot ? 'var(--accent)' : 'var(--blue)'}" opacity="${hot ? '.95' : '.82'}" ${growB}/>`);
+    svg.push(`      <rect x="${r2(x)}" y="${r2(y)}" width="${barW}" height="${r2(h)}" rx="6" fill="${hot ? 'var(--accent)' : 'var(--track)'}" opacity="${hot ? '.95' : '.82'}" ${growB}/>`);
     svg.push(`      <text x="${r2(cx)}" y="${r2(y - 12)}" font-size="22" font-weight="800" fill="var(--ink)" text-anchor="middle">${esc(fmt(d.value))}</text>`);
     const cy2 = cumY(cumpct);
     if (prev) svg.push(`      <path d="M${r2(prev.x)},${r2(prev.y)} L${r2(cx)},${r2(cy2)}" fill="none" stroke="var(--accent)" stroke-width="4"/>`);

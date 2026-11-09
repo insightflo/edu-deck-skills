@@ -392,7 +392,10 @@ class ConsultChartTest(unittest.TestCase):
         self.assertIn('data-variant="stacked"', html)
         self.assertIn('fill="var(--muted)"', html, 'oneoff 세그먼트 회색 없음')
         self.assertIn('var(--accent)', html, 'highlight 세그먼트 없음')
-        self.assertGreaterEqual(html.count('opacity="'), 3, '농도 순환 세그먼트 부족')
+        # ztd 참조 재설계(2026-11-09): 농도(opacity) 순환 → 회색 트랙 램프 + 종이색 분리선
+        self.assertGreaterEqual(html.count('stroke="var(--paper)" stroke-width="2.5"'), 3,
+                                '세그먼트 분리선(종이색 stroke) 부족')
+        self.assertIn('var(--track)', html, '비초점 세그먼트 트랙 램프 없음')
 
     # ── line ────────────────────────────────────────────────────────
     def test_line_series_len_mismatch_rejected(self):

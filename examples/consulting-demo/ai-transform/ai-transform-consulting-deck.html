@@ -1471,41 +1471,52 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
    규칙: 15색 역할 토큰만 방향별로 다르다. hex 는 토큰 정의부(1절)에만 — 구조·밀도 규칙엔 var() 만.
    accent(초점)는 판단·권고 1종, blue(근거)는 데이터 계열 — 두 계열이 섞이면 안 된다(§4). */
 
-/* ── 1. 토큰 정의부 — 방향별 15색 역할 세트 ───────────────────────── */
+/* ── 1. 토큰 정의부 — 방향별 색 역할 세트 ───────────────────────────
+   2026-11-09 재조정 — ztd-charts(MIT, github.com/Junhan2/ztd-charts) 예제 대시보드의
+   디자인 값 참조(코드 복사 없음): 단일 선명 액센트 + 비초점 트랙 그레이(뒤로 물러남) ·
+   가는 실선 그리드(--grid) · 청람 기운 잉크. 신규 토큰: --grid(그리드 헤어라인) ·
+   --track(비초점 데이터) · --track-strong(제2계열·점). blue 는 데이터 색에서
+   텍스트 보조·히트맵 본색조 역할로 이동했다. */
 .slide.consult{
-  --ink:#1c2b38;            /* 짙은 청남색 잉크 */
-  --paper:#fcfcfa;          /* 밝은 종이 */
-  --light:#eff1ee;          /* 차분한 밝은 면 */
-  --soft:#4a5a66;           /* 설명 글 */
-  --line:#8a97a2;           /* 경계 */
-  --accent:#123f63;         /* 초점색 1종 — 강조·추천은 이것만 (blue보다 짙고 채도 높게 분리) */
-  --accent-text:#0e3452;
-  --accent-light:#c2d6e6;
-  --blue:#5c7fa3;           /* 근거·일반 데이터 계열 — accent와 명확히 구분되는 스틸블루 */
-  --blue-text:#4a6a8c;
-  --blue-soft:#ecf1f6;
-  --success:#1e6b4b;
-  --danger:#a23a2e;
-  --muted:#c9d2d9;
-  --chip:#e8ebee;
+  --ink:#14171b;            /* ztd deep — 청람 기운 짙은 잉크 */
+  --paper:#ffffff;          /* 순백 카드 */
+  --light:#eef1f4;          /* 차분한 밝은 면 */
+  --soft:#5d6570;           /* 설명 글 */
+  --line:#b3b9c2;           /* 경계 — 가늘고 옅게 */
+  --grid:#e6e9ed;           /* 그리드 헤어라인(실선) */
+  --accent:#0b76c4;         /* 초점색 1종 — 강조·추천은 이것만 */
+  --accent-text:#085a9e;
+  --accent-light:#cfe6f8;
+  --blue:#667790;           /* 보조 텍스트·히트맵 본셀 색조(회청) */
+  --blue-text:#52627a;
+  --blue-soft:#eef1f4;
+  --track:#d5dae0;          /* 비초점 데이터(막대·양수 측) */
+  --track-strong:#9aa3ae;   /* 제2계열·점·샌키 밴드 */
+  --success:#0f7a3d;
+  --danger:#b3422e;
+  --muted:#d5dae0;
+  --chip:#e6e9ed;
 }
 .slide.consult-dense{        /* analytical — 더 짙은 잉크, 뉴트럴 톤, 동일 역할 분리 */
   --ink:#16222c; --paper:#fbfbfa; --light:#eaedee; --soft:#3d4c56; --line:#76858f;
+  --grid:#dfe3e8; --track:#d3d9df; --track-strong:#8f99a4;
   --accent:#0d3b66; --accent-text:#0a2f52; --accent-light:#b8d0e2;
   --blue:#66809c; --blue-text:#527090; --blue-soft:#e7edf3;
   --success:#1b6244; --danger:#96382c; --muted:#bfc9cf; --chip:#e0e5e8;
 }
 .slide.consult-editorial{    /* editorial — 따뜻한 종이·잉크, 버건디 초점으로 대비 */
   --ink:#201b14; --paper:#faf7f1; --light:#f0ebe0; --soft:#55493b; --line:#96897a;
+  --grid:#e8e2d6; --track:#ddd4c4; --track-strong:#a89a83;
   --accent:#7a1f2e; --accent-text:#611825; --accent-light:#e3c6cb;
   --blue:#5d789a; --blue-text:#4a6280; --blue-soft:#ece7db;
   --success:#2c6b45; --danger:#a03528; --muted:#d0c8b8; --chip:#eae3d5;
 }
-.slide.consult-tech{         /* tech — 라인·레인 토큰을 accent 계열로 편향(구조·연결 강조) */
-  --ink:#131f2b; --paper:#fafbfc; --light:#e9eef4; --soft:#3c4d61; --line:#5570b0;
-  --accent:#0f4fd8; --accent-text:#0a3cac; --accent-light:#c4d5f8;
-  --blue:#5b7ea8; --blue-text:#44678f; --blue-soft:#e6edf8;
-  --success:#0f7a54; --danger:#a63d2f; --muted:#c2cddd; --chip:#dfe7f3;
+.slide.consult-tech{         /* tech — ztd brand 블루(#0b8fd8)를 초점으로, 그리드·트랙은 중립 공유 */
+  --ink:#14171b; --paper:#fafbfc; --light:#eef1f4; --soft:#4c5763; --line:#aab4c0;
+  --grid:#e6e9ed; --track:#d5dae0; --track-strong:#9aa3ae;
+  --accent:#0b8fd8; --accent-text:#0a6eb0; --accent-light:#cfe8fa;
+  --blue:#5b6f8f; --blue-text:#46597a; --blue-soft:#eef2f7;
+  --success:#0f7a54; --danger:#b3422e; --muted:#cdd6de; --chip:#e3e8ee;
 }
 
 /* ── 2. 공통 구조 — 4방향이 같은 선택자·값을 공유 (Executive 기본) ── */
@@ -1554,6 +1565,12 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 /* 출처 블록: 모든 분석 장 하단 고정 — 신뢰=디자인 */
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-src{display:flex;justify-content:space-between;gap:var(--s4);border-top:1px solid var(--line);padding-top:var(--s2);margin-top:auto;font-size:20px;color:var(--soft)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-src .s-syn{font-weight:800;color:var(--danger);white-space:nowrap}
+
+
+/* ── 2-b. 차트 톤 스코프 오버라이드(ztd 참조) — 공용 k-* 는 건드리지 않고 컨설팅 장 안에서만 ──
+   워터폴 일반 증감 막대(k-solid-b)는 비초점 → 트랙 그레이. 강조(highlight)는 chart_gen 이
+   fill=var(--accent) 인라인으로 직접 칠한다. */
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .wf .k-solid-b{fill:var(--track)}
 
 /* ── 3. 방향별 밀도·크기 오버라이드 ─────────────────────────────── */
 /* Analytical Dense — 근거 밀도↑, 본문·주석 축소 계열 최소 18px 유지, 표 행 높이↓, c-note/c-src 2열 허용 */
@@ -1926,26 +1943,26 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
   <svg class="dg" viewBox="0 0 1560 582" role="img" aria-label="CEO 응답 5개 지표: 계속 투자 의사 90%, 2028년까지 산업 재정의 전망 90%, 투자 수익 낙관 80%, CEO 확신 62%, C실무 밖 비기술 임원 확신 48%">
     <title>CEO는 이미 AI에 걸었다 — 계속 투자 90%·낙관 80%, 확신은 현장에서 48%로 옅어진다</title>
     <text class="k-t-tag" x="60" y="42">(단위: %)</text>
-    <line x1="320" y1="56" x2="320" y2="538" stroke="var(--soft)" stroke-width="3"/>
-    <line x1="320" y1="538" x2="1500" y2="538" stroke="var(--soft)" stroke-width="3"/>
+    <line x1="320" y1="56" x2="320" y2="538" stroke="var(--grid)" stroke-width="2.5"/>
+    <line x1="320" y1="538" x2="1500" y2="538" stroke="var(--grid)" stroke-width="2.5"/>
     <g data-step="1">
       <text x="300" y="106" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">2028 재정의 전망</text>
-      <rect x="320" y="70" width="1100" height="56" rx="8" fill="var(--blue)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
+      <rect x="320" y="70" width="1100" height="56" rx="8" fill="var(--track)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
       <text x="1436" y="106" font-size="28" font-weight="800" fill="var(--ink)">90</text>
     </g>
     <g data-step="2">
       <text x="300" y="188" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">계속 투자 의사</text>
-      <rect x="320" y="152" width="1100" height="56" rx="8" fill="var(--blue)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
+      <rect x="320" y="152" width="1100" height="56" rx="8" fill="var(--track)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
       <text x="1436" y="188" font-size="28" font-weight="800" fill="var(--ink)">90</text>
     </g>
     <g data-step="3">
       <text x="300" y="270" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">투자 수익 낙관</text>
-      <rect x="320" y="234" width="977.78" height="56" rx="8" fill="var(--blue)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
+      <rect x="320" y="234" width="977.78" height="56" rx="8" fill="var(--track)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
       <text x="1313.78" y="270" font-size="28" font-weight="800" fill="var(--ink)">80</text>
     </g>
     <g data-step="4">
       <text x="300" y="352" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">CEO 확신</text>
-      <rect x="320" y="316" width="757.78" height="56" rx="8" fill="var(--blue)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
+      <rect x="320" y="316" width="757.78" height="56" rx="8" fill="var(--track)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
       <text x="1093.78" y="352" font-size="28" font-weight="800" fill="var(--ink)">62</text>
     </g>
     <g data-step="5">
@@ -1972,13 +1989,13 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
   <svg class="dg" viewBox="0 0 1560 580" role="img" aria-label="8개 분기 활용률: 우리는 12.0에서 14.0퍼센트로 완만한 상승, 선도군은 31.0에서 45.0퍼센트로 급상승 — 격차 배수 2.6배에서 3.2배">
     <title>활용 격차는 8개 분기에 2.6배에서 3.2배로 벌어졌다 — 우리 14.0%, 선도군 45.0%</title>
     <text class="k-t-tag" x="60" y="42">(단위: %)</text>
-    <path d="M150,470 L1500,470" stroke="var(--soft)" stroke-width="2" stroke-dasharray="2 8"/>
+    <path d="M150,470 L1500,470" stroke="var(--grid)" stroke-width="2.5"/>
     <text x="136" y="477" font-size="20" fill="var(--soft)" text-anchor="end">0</text>
-    <path d="M150,327.44 L1500,327.44" stroke="var(--soft)" stroke-width="2" stroke-dasharray="2 8"/>
+    <path d="M150,327.44 L1500,327.44" stroke="var(--grid)" stroke-width="2.5"/>
     <text x="136" y="334.44" font-size="20" fill="var(--soft)" text-anchor="end">20</text>
-    <path d="M150,184.88 L1500,184.88" stroke="var(--soft)" stroke-width="2" stroke-dasharray="2 8"/>
+    <path d="M150,184.88 L1500,184.88" stroke="var(--grid)" stroke-width="2.5"/>
     <text x="136" y="191.88" font-size="20" fill="var(--soft)" text-anchor="end">40</text>
-    <path d="M150,470 L1500,470" class="k-ln-n"/>
+    <path d="M150,470 L1500,470" fill="none" stroke="var(--line)" stroke-width="2.5"/>
     <text x="150" y="508" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="middle">24Q3</text>
     <text x="342.86" y="508" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="middle">24Q4</text>
     <text x="535.71" y="508" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="middle">25Q1</text>
@@ -1989,7 +2006,7 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
     <text x="1500" y="508" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="middle">26Q2</text>
     <path d="M1123,30 L1151,30" stroke="var(--accent)" stroke-width="5"/>
     <text x="1159" y="37" font-size="20" font-weight="600" fill="var(--ink)">선도군(상위 15%)</text>
-    <path d="M1349,30 L1377,30" stroke="var(--muted)" stroke-width="5"/>
+    <path d="M1349,30 L1377,30" stroke="var(--track-strong)" stroke-width="5"/>
     <text x="1385" y="37" font-size="20" font-weight="600" fill="var(--ink)">우리 그룹</text>
     <g data-step="1">
       <path d="M150,249.04 L342.86,236.21 L535.71,224.09 L728.57,210.55 L921.43,197.71 L1114.29,180.61 L1307.14,163.5 L1500,149.25 L1500,470 L150,470 Z" fill="var(--accent)" opacity=".14"/>
@@ -2005,15 +2022,15 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
       <text x="1514" y="157.25" font-size="24" font-weight="800" fill="var(--ink)">45</text>
     </g>
     <g data-step="2">
-      <path d="M150,384.47 L342.86,381.61 L535.71,383.04 L728.57,376.62 L921.43,377.34 L1114.29,373.06 L1307.14,371.64 L1500,370.21" fill="none" stroke="var(--muted)" stroke-width="4" stroke-linejoin="round"/>
-      <circle cx="150" cy="384.47" r="5.5" fill="var(--muted)"/>
-      <circle cx="342.86" cy="381.61" r="5.5" fill="var(--muted)"/>
-      <circle cx="535.71" cy="383.04" r="5.5" fill="var(--muted)"/>
-      <circle cx="728.57" cy="376.62" r="5.5" fill="var(--muted)"/>
-      <circle cx="921.43" cy="377.34" r="5.5" fill="var(--muted)"/>
-      <circle cx="1114.29" cy="373.06" r="5.5" fill="var(--muted)"/>
-      <circle cx="1307.14" cy="371.64" r="5.5" fill="var(--muted)"/>
-      <circle cx="1500" cy="370.21" r="5.5" fill="var(--muted)"/>
+      <path d="M150,384.47 L342.86,381.61 L535.71,383.04 L728.57,376.62 L921.43,377.34 L1114.29,373.06 L1307.14,371.64 L1500,370.21" fill="none" stroke="var(--track-strong)" stroke-width="4" stroke-linejoin="round"/>
+      <circle cx="150" cy="384.47" r="5.5" fill="var(--track-strong)"/>
+      <circle cx="342.86" cy="381.61" r="5.5" fill="var(--track-strong)"/>
+      <circle cx="535.71" cy="383.04" r="5.5" fill="var(--track-strong)"/>
+      <circle cx="728.57" cy="376.62" r="5.5" fill="var(--track-strong)"/>
+      <circle cx="921.43" cy="377.34" r="5.5" fill="var(--track-strong)"/>
+      <circle cx="1114.29" cy="373.06" r="5.5" fill="var(--track-strong)"/>
+      <circle cx="1307.14" cy="371.64" r="5.5" fill="var(--track-strong)"/>
+      <circle cx="1500" cy="370.21" r="5.5" fill="var(--track-strong)"/>
       <text x="1514" y="378.21" font-size="24" font-weight="800" fill="var(--ink)">14</text>
     </g>
       <text x="1151" y="544" font-size="24" font-weight="800" class="k-t-o" text-anchor="middle">「핵심」 격차 31.0%p (8분기 전 19.0%p) — 45.0/14.0 = </text>
@@ -2114,7 +2131,7 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
       <text x="1125" y="490" font-size="20" font-weight="600" class="k-t-tag" text-anchor="middle">「참고」 문서자동(연 26억) —</text>
       <text x="1125" y="514" font-size="20" font-weight="600" class="k-t-tag" text-anchor="middle"> 백오피스 편중, 즉시 착수</text>
     <text x="250" y="466" font-size="18" fill="var(--soft)">22</text>
-    <rect x="310" y="454" width="140" height="14" rx="3" style="fill:color-mix(in srgb, var(--blue) 45%, transparent)"/>
+    <rect x="310" y="454" width="140" height="14" rx="3" style="fill:color-mix(in srgb, var(--accent) 45%, transparent)"/>
     <text x="464" y="466" font-size="18" fill="var(--soft)">92</text>
   </svg>
   <p class="c-note" data-step="5"><b>방법론·한계</b> — 강도 = 원천 가치액의 사업부 배분 지수 · 원천별 연환산 추정(운영 전환 완료 기준)</p>
@@ -2160,33 +2177,33 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
       <text x="1358" y="245.4" font-size="20" font-weight="800" fill="var(--ink)" text-anchor="end">계약·관세 문서</text>
     </g>
     <g data-step="5">
-      <circle cx="948" cy="115.2" r="10" fill="var(--blue)" opacity=".78"/>
+      <circle cx="948" cy="115.2" r="10" fill="var(--track-strong)" opacity=".78"/>
       <text x="970" y="122.2" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="start">운임·경로</text>
       <path d="M948,130.2 L948,354.2" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
       <text x="948" y="378.2" font-size="20" font-weight="600" class="k-t-tag" text-anchor="middle">「참고」 가치 최대 — 데이터 준비 후 2단계</text>
     </g>
     <g data-step="6">
-      <circle cx="1044" cy="220.8" r="10" fill="var(--blue)" opacity=".78"/>
+      <circle cx="1044" cy="220.8" r="10" fill="var(--track-strong)" opacity=".78"/>
       <text x="1066" y="255.8" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="start">창고 지시</text>
     </g>
     <g data-step="7">
-      <circle cx="1116" cy="273.6" r="10" fill="var(--blue)" opacity=".78"/>
+      <circle cx="1116" cy="273.6" r="10" fill="var(--track-strong)" opacity=".78"/>
       <text x="1138" y="308.6" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="start">이상탐지</text>
     </g>
     <g data-step="8">
-      <circle cx="1164" cy="326.4" r="10" fill="var(--blue)" opacity=".78"/>
+      <circle cx="1164" cy="326.4" r="10" fill="var(--track-strong)" opacity=".78"/>
       <text x="1186" y="361.4" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="start">코드 보조</text>
     </g>
     <g data-step="9">
-      <circle cx="1356" cy="361.6" r="10" fill="var(--blue)" opacity=".78"/>
+      <circle cx="1356" cy="361.6" r="10" fill="var(--track-strong)" opacity=".78"/>
       <text x="1334" y="452.6" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="end">HR 어시스트</text>
     </g>
     <g data-step="10">
-      <circle cx="1404" cy="396.8" r="10" fill="var(--blue)" opacity=".78"/>
+      <circle cx="1404" cy="396.8" r="10" fill="var(--track-strong)" opacity=".78"/>
       <text x="1382" y="403.8" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="end">회의록·보고</text>
     </g>
     <g data-step="11">
-      <circle cx="516" cy="150.4" r="10" fill="var(--blue)" opacity=".78"/>
+      <circle cx="516" cy="150.4" r="10" fill="var(--track-strong)" opacity=".78"/>
       <text x="538" y="157.4" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="start">자율주행 트럭</text>
     </g>
   </svg>
@@ -2416,7 +2433,7 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
     <title>가치 140억의 최대 변수는 현장 채택률(±42억)이다 — 완화책 3개를 프로그램에 박는다</title>
     <text class="k-t-tag" x="60" y="42">(단위: 억 원)</text>
     <line x1="270" y1="522" x2="1390" y2="522" stroke="var(--soft)" stroke-width="3"/>
-    <line x1="830" y1="64" x2="830" y2="522" stroke="var(--ink)" stroke-width="3"/>
+    <line x1="830" y1="64" x2="830" y2="522" stroke="var(--soft)" stroke-width="2.5"/>
     <line x1="270" y1="64" x2="270" y2="522" stroke="var(--line)" stroke-width="2" stroke-dasharray="6 8"/>
     <line x1="1390" y1="64" x2="1390" y2="522" stroke="var(--line)" stroke-width="2" stroke-dasharray="6 8"/>
     <text x="270" y="554" text-anchor="middle" font-size="22" fill="var(--soft)">−42</text>
@@ -2425,7 +2442,7 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
     <g data-step="1">
       <text x="246" y="98" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">현장 채택률</text>
       <rect x="270" y="64" width="560" height="52" rx="6" fill="var(--accent)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:right center"/>
-      <rect x="830" y="64" width="560" height="52" rx="6" fill="var(--blue)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
+      <rect x="830" y="64" width="560" height="52" rx="6" fill="var(--track)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
       <text x="286" y="98" font-size="24" font-weight="800" fill="var(--paper)" text-anchor="start">−42</text>
       <text x="1404" y="98" font-size="24" font-weight="800" fill="var(--ink)">+42</text>
       <path d="M830,106 L830,116" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
@@ -2434,28 +2451,28 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
     <g data-step="2">
       <text x="246" y="220" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">데이터 품질·연계</text>
       <rect x="416.67" y="186" width="413.33" height="52" rx="6" fill="var(--accent)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:right center"/>
-      <rect x="830" y="186" width="413.33" height="52" rx="6" fill="var(--blue)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
+      <rect x="830" y="186" width="413.33" height="52" rx="6" fill="var(--track)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
       <text x="402.67" y="220" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="end">−31</text>
       <text x="1257.33" y="220" font-size="24" font-weight="800" fill="var(--ink)">+31</text>
     </g>
     <g data-step="3">
       <text x="246" y="304" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">인력 전환 속도</text>
       <rect x="510" y="270" width="320" height="52" rx="6" fill="var(--accent)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:right center"/>
-      <rect x="830" y="270" width="320" height="52" rx="6" fill="var(--blue)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
+      <rect x="830" y="270" width="320" height="52" rx="6" fill="var(--track)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
       <text x="496" y="304" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="end">−24</text>
       <text x="1164" y="304" font-size="24" font-weight="800" fill="var(--ink)">+24</text>
     </g>
     <g data-step="4">
       <text x="246" y="388" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">모델 성능·안정성</text>
       <rect x="590" y="354" width="240" height="52" rx="6" fill="var(--accent)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:right center"/>
-      <rect x="830" y="354" width="240" height="52" rx="6" fill="var(--blue)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
+      <rect x="830" y="354" width="240" height="52" rx="6" fill="var(--track)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
       <text x="576" y="388" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="end">−18</text>
       <text x="1084" y="388" font-size="24" font-weight="800" fill="var(--ink)">+18</text>
     </g>
     <g data-step="5">
       <text x="246" y="472" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">규제·보안 대응</text>
       <rect x="710" y="438" width="120" height="52" rx="6" fill="var(--accent)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:right center"/>
-      <rect x="830" y="438" width="120" height="52" rx="6" fill="var(--blue)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
+      <rect x="830" y="438" width="120" height="52" rx="6" fill="var(--track)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
       <text x="696" y="472" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="end">−9</text>
       <text x="964" y="472" font-size="24" font-weight="800" fill="var(--ink)">+9</text>
     </g>

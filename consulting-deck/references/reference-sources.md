@@ -53,3 +53,12 @@ McKinsey MGI 2025 in Charts: playwright→Akamai 403 · curl→연결 차단 · 
 - 쓸 수 없는 것: 문장 단위 이식, 로고·브랜드 자산, 페이지 레이아웃·차트의 모방 복제, 보호 템플릿. "비슷하게" 만들지 않는다 — 패턴은 우리 문법(토큰·조각·생성기)으로 재작성한다.
 - 외부 수치를 화면에 쓰면 evidence.json 원장에 locator까지 남긴다(evidence.md §2). 원문 값·우리 계산·우리 해석을 한 덩어리로 섞지 않는다.
 - 새 오픈소스·외부 자산을 이 스킬에 더하려면: 라이선스 확인(licenses/) → 개념 재작성 또는 조건부 복사 판정 → 이 문서에 내역 추가. 확인 전 것은 가져오지 않는다(저장소 공통 규칙).
+
+## ztd-charts (2026-11-09 추가 — 디자인 값 참조)
+
+- **대상**: https://charts.ztd.app/docs/examples/ · github.com/Junhan2/ztd-charts (MIT)
+- **반영**: 예제 대시보드의 디자인 값을 실측해 컨설팅 차트 톤에 반영 — 단일 선명 액센트(#0b8fd8 계열) +
+  비초점 트랙 그레이(#d5dae0/#9aa3ae) · 가는 실선 그리드(#e6e9ed) · 청람 잉크(#14171b) ·
+  스택 세그먼트 종이색 분리선. `assets/consult.css` 신규 토큰(--grid·--track·--track-strong)과
+  `charts/chart_gen.mjs` 비초점 fill/축선 두께로 구현.
+- **경계**: 코드·컴포넌트 복사 없음(값·개념만). 분석 자료: /tmp/ztd/(캡처·토큰 덤프 — 세션 한시).
