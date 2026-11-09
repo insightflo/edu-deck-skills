@@ -15,6 +15,7 @@
 [출력] 없음(단정문).
 """
 import json
+import re
 import subprocess
 import tempfile
 import unittest
@@ -128,6 +129,120 @@ class AuxTest(unittest.TestCase):
         svg = gen(m(edges=edges))                      # 13개여도 aux 는 예산 밖 → 통과
         aux_seg = svg.split('보조')[0].rsplit('<g', 1)[1]
         self.assertNotIn('data-step', aux_seg.split('>', 1)[0])
+
+
+SI_MODELS = S.parents[1] / 'examples' / 'arch-si' / 'models'
+
+
+def gen_with_coords(model_path):
+    """실제 모델 파일로 생성기 실행 — (svg, coords dict)."""
+    out = Path(tempfile.mkdtemp(prefix='edudeck-si-')) / 'out.html'
+    cpath = out.with_suffix('.coords.json')
+    r = subprocess.run(['node', str(GEN), str(model_path), '-o', str(out),
+                        '--coords', str(cpath), '--quiet'],
+                       capture_output=True, text=True)
+    if r.returncode != 0:
+        raise AssertionError(f'생성 실패: {r.stderr.strip() or r.stdout.strip()}')
+    return out.read_text(encoding='utf-8'), json.loads(cpath.read_text(encoding='utf-8'))
+
+
+def seg_rect(p, q, r):
+    """선분 p→q 가 사각형 r 과 교차하면 True(내부 포함 또는 변 교차)."""
+    def inside(v):
+        return r['x0'] < v['x'] < r['x1'] and r['y0'] < v['y'] < r['y1']
+    if inside(p) or inside(q):
+        return True
+    def ccw(a, b, c):
+        return (b['x'] - a['x']) * (c['y'] - a['y']) - (b['y'] - a['y']) * (c['x'] - a['x'])
+    def crosses(a, b, c, d):
+        return ccw(a, b, c) * ccw(a, b, d) < 0 and ccw(c, d, a) * ccw(c, d, b) < 0
+    cs = [{'x': r['x0'], 'y': r['y0']}, {'x': r['x1'], 'y': r['y0']},
+          {'x': r['x1'], 'y': r['y1']}, {'x': r['x0'], 'y': r['y1']}]
+    return any(crosses(p, q, cs[i], cs[(i + 1) % 4]) for i in range(4))
+
+
+class AuxRouteTest(unittest.TestCase):
+    """aux 보조선 직교 우회 — 전 구간이 노드 사각형과 무교차여야 한다."""
+
+    def _aux_pts(self, name):
+        mp = SI_MODELS / f'{name}.json'
+        if not mp.exists():
+            self.skipTest(f'{name} 모델 없음')
+        model = json.loads(mp.read_text(encoding='utf-8'))
+        auxs = [(e['from'], e['to']) for e in model['edges'] if e.get('aux')]
+        if not auxs:
+            self.skipTest(f'{name}: aux 엣지 없음')
+        _, coords = gen_with_coords(mp)
+        return model, coords, auxs
+
+    def test_aux_segments_clear_node_rects(self):
+        for name in ('a1b-detail', 'c3-dr'):
+            _, coords, auxs = self._aux_pts(name)
+            rects = {nid: {'x0': nn['x'] - nn['w'] / 2, 'x1': nn['x'] + nn['w'] / 2,
+                           'y0': nn['y'] - nn['h'] / 2, 'y1': nn['y'] + nn['h'] / 2}
+                     for nid, nn in coords['nodes'].items()}
+            for a, b in auxs:
+                pts = next(e['pts'] for e in coords['edges'] if e['a'] == a and e['b'] == b)
+                for i in range(1, len(pts)):
+                    for nid, r in rects.items():
+                        if nid in (a, b):
+                            continue
+                        self.assertFalse(
+                            seg_rect(pts[i - 1], pts[i], r),
+                            f'{name}: aux {a}->{b} 세그먼트 {i}이 노드 {nid} 와 교차')
+
+    def test_aux_models_deterministic(self):
+        for name in ('a1b-detail', 'c3-dr'):
+            mp = SI_MODELS / f'{name}.json'
+            if not mp.exists():
+                self.skipTest(f'{name} 모델 없음')
+            a = gen_with_coords(mp)[0]
+            b = gen_with_coords(mp)[0]
+            self.assertEqual(a, b, f'{name}: 두 실행 결과가 다르다')
+
+
+class BoundaryLabelTest(unittest.TestCase):
+    """경계 라벨 기본값(bottom) — 정규화 좌표로 존 사각형 하단 밖에 놓여야 한다."""
+
+    def test_bottom_label_below_zone(self):
+        mp = SI_MODELS / 'a1a-overview.json'
+        if not mp.exists():
+            self.skipTest('a1a 모델 없음')
+        svg, coords = gen_with_coords(mp)
+        model = json.loads(mp.read_text(encoding='utf-8'))
+        bounds = [z for z in model['zones'] if z.get('between')]
+        if not bounds:
+            self.skipTest('a1a: 경계 존 없음')
+        # 경계 라벨(신뢰 경계)의 정규화 y 추출
+        label = bounds[0].get('label', '신뢰 경계')
+        m2 = re.search(r'<text[^>]*y="([\d.]+)"[^>]*>' + re.escape(label) + r'</text>', svg)
+        self.assertIsNotNone(m2, f'경계 라벨 "{label}" 텍스트를 찾지 못했다')
+        y_label = float(m2.group(1))
+        # 단일 존 경계(between:[z]) — 라벨은 존 하단(y1) 밖에 있어야 한다
+        zid = bounds[0]['between'][0]
+        zr = next(z['r'] for z in coords['zones'] if z['id'] == zid)
+        self.assertGreater(y_label, zr['y1'],
+                           f'경계 라벨 y={y_label} 가 존 하단 {zr["y1"]} 안에 있다(정규화 미적용 버그 회귀)')
+
+
+class FallbackChipTest(unittest.TestCase):
+    """labelPos fallback 도 placedChips 등록 — 이후 칩이 fallback 칩과 겹치면 안 된다."""
+
+    def test_chips_pairwise_disjoint_on_fallback_models(self):
+        # fallback 이 실제 발생하는 chipAvoid 모델(a1b:1, c3:2)의 라벨 칩 무겹침 회귀 가드.
+        # (b3-batch 는 HEAD 시점부터 칩 겹침 1건이 선재 — 별도 과제라 여기선 제외)
+        import itertools
+        for name in ('a1b-detail', 'c3-dr'):
+            mp = SI_MODELS / f'{name}.json'
+            if not mp.exists():
+                self.skipTest(f'{name} 모델 없음')
+            svg, _ = gen_with_coords(mp)
+            chips = [tuple(map(float, g)) for g in
+                     re.findall(r'<rect class="k-paper" x="([\d.]+)" y="([\d.]+)" width="([\d.]+)" height="36"', svg)]
+            def ov(a, b):
+                return a[0] < b[0] + b[2] and a[0] + a[2] > b[0] and a[1] < b[1] + 36 and a[1] + 36 > b[1]
+            bad = [(a, b) for a, b in itertools.combinations(chips, 2) if ov(a, b)]
+            self.assertFalse(bad, f'{name}: 라벨 칩 겹침 {len(bad)}건')
 
 
 class ChipAvoidTest(unittest.TestCase):

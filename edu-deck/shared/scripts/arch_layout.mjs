@@ -107,20 +107,66 @@ const nodes = Object.fromEntries(Object.entries(NODES).map(([id, d]) => {
   const v = g.node(id);
   return [id, { cx: v.x, cy: v.y, ...d }];
 }));
-// aux 엣지는 dagre에 넣지 않는다(레이아웃 비구동 정적 보조선) — 두 노드 상자 경계를 잇는 직선
+const nRect = (n) => ({ x0: n.cx - n.w / 2, x1: n.cx + n.w / 2, y0: n.cy - n.h / 2, y1: n.cy + n.h / 2 + (n.shape === 'circle' ? 34 : 0) });
+// aux 엣지는 dagre에 넣지 않는다(레이아웃 비구동 정적 보조선) — 두 노드 상자 경계를 잇되,
+// 직선이 다른 노드 사각형과 교차하면 직교(elbow) 채널로 우회한다.
+// 결정성: 우회 후보는 고정 순서로 평가하고 첫 번째 무교차 후보를 택한다(시간·난수 없음).
 const clip = (to, n) => {
   const dx = to.x - n.cx, dy = to.y - n.cy;
   const t = Math.min(dx ? (n.w / 2) / Math.abs(dx) : 1e9, dy ? (n.h / 2) / Math.abs(dy) : 1e9);
   return { x: n.cx + dx * t, y: n.cy + dy * t };
 };
+const AUX_M = 10;                                        // 우회 시 노드와의 최소 이격
+const auxSegRect = (p, q, r) => {
+  const inside = (v) => v.x > r.x0 && v.x < r.x1 && v.y > r.y0 && v.y < r.y1;
+  if (inside(p) || inside(q)) return true;
+  const ccw = (a, b, c) => (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
+  const crosses = (a, b, c, d) => ccw(a, b, c) * ccw(a, b, d) < 0 && ccw(c, d, a) * ccw(c, d, b) < 0;
+  const c = [{ x: r.x0, y: r.y0 }, { x: r.x1, y: r.y0 }, { x: r.x1, y: r.y1 }, { x: r.x0, y: r.y1 }];
+  return c.some((v, i) => crosses(p, q, v, c[(i + 1) % 4]));
+};
+const auxClear = (pts, skip) => {
+  const rs = Object.keys(nodes).filter((id) => !skip.has(id)).map((id) => {
+    const r = nRect(nodes[id]);
+    return { x0: r.x0 - AUX_M, y0: r.y0 - AUX_M, x1: r.x1 + AUX_M, y1: r.y1 + AUX_M };
+  });
+  for (let i = 1; i < pts.length; i++)
+    for (const r of rs) if (auxSegRect(pts[i - 1], pts[i], r)) return false;
+  return true;
+};
+const auxRoute = (ea, eb) => {
+  const fa = nodes[ea], fb = nodes[eb], skip = new Set([ea, eb]);
+  const straight = [clip({ x: fb.cx, y: fb.cy }, fa), clip({ x: fa.cx, y: fa.cy }, fb)];
+  if (auxClear(straight, skip)) return straight;
+  const blockers = Object.keys(nodes).filter((id) => !skip.has(id)).map((id) => nRect(nodes[id]));
+  if (!blockers.length) return straight;
+  // 차선 후보 — 각 블로커 사각형 바깥 변에서 만드는 직교 통로(안쪽 틈 + 바깥쪽 모두 포함).
+  // 정렬된 좌표를 고정 순서로 순회하므로 결정적이다.
+  const lanesX = [...new Set(blockers.flatMap((r) => [r.x0 - AUX_M - 4, r.x1 + AUX_M + 4]))].sort((p, q) => p - q);
+  const lanesY = [...new Set(blockers.flatMap((r) => [r.y0 - AUX_M - 4, r.y1 + AUX_M + 4]))].sort((p, q) => p - q);
+  const degenerate = (c) => c.some((v) => [fa, fb].some((n) => Math.abs(v.x - n.cx) < 0.5 && Math.abs(v.y - n.cy) < 0.5));
+  const tryC = (c) => {
+    if (degenerate(c)) return null;
+    const pts = [clip(c[0], fa), ...c, clip(c[c.length - 1], fb)];
+    return auxClear(pts, skip) ? pts : null;
+  };
+  // 단순 → 복합 순: L자 → V-H-V·H-V-H → 갭 차선을 쓰는 5점 훅
+  const cands = [
+    [[{ x: fb.cx, y: fa.cy }], [{ x: fa.cx, y: fb.cy }]],
+    lanesX.map((x) => [{ x, y: fa.cy }, { x, y: fb.cy }]),
+    lanesY.map((y) => [{ x: fa.cx, y }, { x: fb.cx, y }]),
+    lanesX.flatMap((x) => lanesY.map((y) => [{ x, y: fa.cy }, { x, y }, { x: fb.cx, y }])),
+    lanesY.flatMap((y) => lanesX.map((x) => [{ x: fa.cx, y }, { x, y }, { x, y: fb.cy }])),
+  ];
+  for (const group of cands) for (const c of group) { const p = tryC(c); if (p) return p; }
+  return straight;                                             // 최종 폴백 — 직선 유지
+};
 const edges = EDGES.map((e, i) => {
   if (!e.aux) return { ...e, pts: g.edge(e.a, e.b, `e${i}`).points.map((p) => ({ x: p.x, y: p.y })) };
-  const fa = nodes[e.a], fb = nodes[e.b];
-  return { ...e, pts: [clip({ x: fb.cx, y: fb.cy }, fa), clip({ x: fa.cx, y: fa.cy }, fb)] };
+  return { ...e, pts: auxRoute(e.a, e.b) };
 });
 
 /* ── 2. 정규화: 존 패딩 포함 전체 bbox → 1664 폭·여백 안 가운데 ── */
-const nRect = (n) => ({ x0: n.cx - n.w / 2, x1: n.cx + n.w / 2, y0: n.cy - n.h / 2, y1: n.cy + n.h / 2 + (n.shape === 'circle' ? 34 : 0) });
 const zoneBox = (z) => {
   const p = { ...ZP, ...(z.pad || {}) };
   const rs = z.members.map((m) => nRect(nodes[m]));
@@ -202,6 +248,7 @@ const labelPos = (e, idx) => {
   }
   const ly = Math.min(Math.max(m.y + off, minY - PAD + 22), maxY + PAD - 22 - legH);
   const lx = Math.min(Math.max(m.x, minX - PAD + w / 2 + 4), maxX + PAD - w / 2 - 4);
+  placedChips.push({ x0: lx - w / 2, x1: lx + w / 2, y0: ly - 18, y1: ly + 18 });  // fallback 도 등록 — 다음 칩이 겹치지 않게
   return { x: lx, y: ly, w };
 };
 
@@ -230,12 +277,15 @@ const boundMarkup = (b) => {
   } else {
     x = a.r.x0 - 22; y0 = a.r.y0 - 10; y1 = a.r.y1 + 10;
   }
+  // 라벨 y — bottom 은 정규화 좌표로 존 하단 밖에 둔다(클램프도 그래프 좌표 기준: 정규화 하한 H-legH-4 ⇔ 그래프 maxY+PAD-4).
+  // top 경로는 기존 그래프좌표 렌더를 그대로 유지한다(호환 — 조정된 슬라이드의 바이트 불변).
   const ly = b.labelAt === 'top'
-    ? Math.min(Math.max(y0 - 8, PAD + 4), y1)   // 위쪽 — 경계선 상단 위(화면 상한 클램프)
-    : Math.min(Math.max(y1 + 18, y0 + 22), H - PAD - 4);   // 아래 라벨 y 클램프
+    ? Math.min(Math.max(y0 - 8, PAD + 4), y1)
+    : Math.min(Math.max(y1 + 18, y0 + 22), maxY + PAD - 4);
+  const lyOut = b.labelAt === 'top' ? r2(ly) : r2(Y(ly));
   return `<g data-step="${b.step ?? STEP.zones}">
     <polyline points="${r2(X(x))},${r2(Y(y0))} ${r2(X(x))},${r2(Y(y1))}" fill="none" stroke="var(--accent)" stroke-width="3.5" stroke-dasharray="11 9"/>
-    <text class="k-t-tag" x="${r2(X(x))}" y="${r2(ly)}" text-anchor="middle" style="fill:var(--accent)">${esc(b.label || '신뢰 경계')}</text>
+    <text class="k-t-tag" x="${r2(X(x))}" y="${lyOut}" text-anchor="middle" style="fill:var(--accent)">${esc(b.label || '신뢰 경계')}</text>
   </g>`;
 };
 
