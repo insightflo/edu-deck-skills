@@ -67,5 +67,5 @@ McKinsey MGI 2025 in Charts: playwright→Akamai 403 · curl→연결 차단 · 
 
 - **Impeccable** (pbakaus/impeccable, Apache-2.0) — critique/bolder/typeset/layout/polish 디자인 어휘·리뷰와 기술검사 분리 원칙 → references/design-review.md §2·§3.
 - **designer-skills/design-review** (julianoczkowski/designer-skills, Apache-2.0) — 실제 화면 캡처 필수 절차(코드만 읽고 평가 금지) → §1 절차·§4 호출 계약.
-- **better-web-ui** (aladicf — 로컬 설치 스킬, critique·hierarchy·data-viz) — 세분화 진단 렌즈 → 7관점 표.
+- **better-web-ui** (aladicf — 로컬 설치 스킬, critique·hierarchy·data-viz) — 세분화 진단 렌즈 → 공통 9항목 표(초기 7관점을 일반화).
 - 코드 복사 없음. 웹 UI용 원칙을 슬라이드·발표 위계용으로 재작성했다.

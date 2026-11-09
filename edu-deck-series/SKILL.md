@@ -71,11 +71,13 @@ python3 <series>/scripts/check_series.py <작업 폴더>/<결과 파일> --sheet
 - 허브 유형을 바꿨으면 그 유형으로도 1회 빌드해 check_series 를 돌린다(허브 3종 모두 같은 검사기를 쓴다).
 - 최종 포털을 공통 반응형 계약의 6개 화면 조건에서 검사한다. 허브 3종, 편 열기·복귀·진도, 노트·퀴즈·회전·인쇄를 확인하고 실제 기기·다른 브라우저 미검증을 구분한다.
 - WARN 은 읽고 판단한다. 편마다 "어떤 도식이 어디에 들어가는지"를 저작 때 정해 두고, 축소판·목차 화면 PNG(`--sheets`)을 직접 본다(solo 6단계와 같은 육안 기준). check_series·check_deck 통과는 디자인 승인이 아니다 — 배치 판단은 축소판을 직접 보고 내린다.
+- **심미 크리틱**: 편마다 solo 6단계 기준 크리틱(`<base>/references/design-critique.md`)을 마친 뒤, 시리즈 전체(포털 표지·목록 카드·편 간 난이도 리듬)를 같은 9항목으로 1회 더 본다. Blocker 는 필수 수정, Major 는 개선 또는 수용 사유 기록.
 - `외국어 문장`·글자 크기 경고는 `<base>/references/expression.md` 1·4절 기준으로 고친다.
 
 ### 5. 보고
 - 결과 파일 경로, 편 수·총 장 수, 편 구성(라벨·제목·장 수 한 줄씩), 허브 유형과 고른 이유. 팩 편은 디자인·주흐름·보조활동·선택 이유와 성과 확인 활동을 함께 보고한다.
 - 검사 결과: 편별 check_deck RESULT 줄 + check_series RESULT 줄 그대로. 못 돌린 검사는 이유와 함께.
+- 심미 크리틱 결과: 편별 + 시리즈 전체 Blocker/Major/Minor 건수와 처리(수정 완료·수용 사유), 전후 비교 캡처 경로.
 - 말투 교정 결과: 편별로 바뀐 줄 수·보류 줄·실행 못 한 교정 스킬.
 - 확인 필요 목록: solo 보고 기준 + 시리즈 고유(편 나누기·허브 유형에 대한 사용자 확인 여부).
 - 여는 법: 목차에서 편 카드를 눌러 열기 · 목차에서 숫자키로 편 열기 · Esc 또는 오른쪽 위 `목차` 로 복귀 · 편 안 조작은 solo 와 같음(→ 단계, S 자습, P 인쇄, G 용어집, 확인 문제) · 주소 `#` 목차, `#2-5` = 2번째 편 5장 · 진도·확인 문제 결과는 이 브라우저에 저장, 목차의 `기록 지우기`(두 번 누름)로 삭제.
@@ -103,3 +105,4 @@ python3 <series>/scripts/check_series.py <작업 폴더>/<결과 파일> --sheet
 | `<series>/scripts/build_series.py` · `check_series.py` | 조립 · 시리즈 검사 (`--help`) |
 | `<base>/scripts/build_deck.py` · `check_deck.py` · `verify_sources.py` · `env_check.py` · `extract_copy.py` | 편 단위 조립 · 검사 · 출처 검사 · 환경 확인 · 말투 교정용 글 추출/되돌리기 |
 | `<base>/references/copyedit.md` | 편 단위 말투 교정(solo 5.5) 순서·되돌리기 규칙·내장 체크리스트 |
+| `<base>/references/design-critique.md` | 4단계: 공통 심미 크리틱 — 편 단위 + 시리즈 전체(포털·편 간 리듬) 독립 검수·캡처 도구 |

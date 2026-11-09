@@ -11,3 +11,4 @@ edu-deck/shared/dev/TASK-*.md
 # 덱 결과물(스킬 폴더 밖에서 만들어지지만, 혹시 들어온 경우)
 outputs/
 qa/
+workspace/
