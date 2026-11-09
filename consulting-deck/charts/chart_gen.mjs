@@ -415,9 +415,11 @@ function buildWaterfall() {
   /* base 막대 최소 가시 폭 — 생략 하한이 base 바로 밑까지 오르면 base 가 몇 px 로 찌그러든다
      (agy 치명-6). (base−brk)/(maxV−brk) ≥ 22% 가 되도록 brk 상한을 준다. */
   if (brk > 0) {
-    const cap = (data[0].value - 0.22 * maxV) / 0.78;
-    if (Number.isFinite(cap) && brk > cap) {
-      if (typeof expl === 'number') warn(`axisBreak ${expl} 은 base 가시 폭(≥22%) 때문에 ${Math.max(0, cap)} 로 줄인다`);
+    const endV = cums[cums.length - 1];
+    const minBar = Math.min(data[0].value, endV);
+    const cap = (minBar - 0.2 * maxV) / 0.8;
+    if (Number.isFinite(cap) && cap > 0 && brk > cap) {
+      if (typeof expl === 'number') warn(`axisBreak ${expl} 은 base/total 가시 폭(≥20%) 때문에 ${r2(cap)} 로 줄인다`);
       brk = Math.max(0, cap);
     }
   }
@@ -463,7 +465,7 @@ function buildWaterfall() {
     svg.push(`      <rect x="${r2(x)}" y="${r2(y)}" width="${barW}" height="${r2(Math.max(h, 2))}" ${fillAttr}/>`);
     if (brk > 0 && k !== 'delta')
       svg.push(`      <path d="M${r2(x + 16)},${BASE_Y + 8} L${r2(x + 30)},${BASE_Y - 16} M${r2(x + 32)},${BASE_Y + 8} L${r2(x + 46)},${BASE_Y - 16}" fill="none" stroke="var(--line)" stroke-width="3" class="axis-brk"/>`);
-    const tCls = k === 'delta' ? (d.value >= 0 ? 'k-t-b' : 'k-t-o') : '';
+    const tCls = k === 'delta' && highlights.includes(d.label) ? 'k-t-o' : '';
     svg.push(`      <text x="${r2(cx)}" y="${r2(y - 24)}" font-size="26" font-weight="800" ${tCls ? `class="${tCls}"` : 'fill="var(--ink)"'} text-anchor="middle"${isLast ? ' data-count' : ''}>${esc(val)}</text>`);
     svg.push(`      <text x="${r2(cx)}" y="${NAME_Y}" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">${esc(d.label)}</text>`);
     /* 주석 — 막대 아래 빈 공간에 점선 리더로 연결. 컬럼 폭(barW+CONN/2) 이내, 최대 2줄.
@@ -519,8 +521,8 @@ function buildRanked() {
   const H = yy + 56;
   const svg = svgOpen(H, slide.ariaLabel || `${chart.type} — ${chart.question}`);
   svg.push(unitTag);
-  svg.push(`    <line x1="${AXIS_X}" y1="56" x2="${AXIS_X}" y2="${H - 44}" stroke="var(--grid)" stroke-width="2.5"/>`);
-  svg.push(`    <line x1="${AXIS_X}" y1="${H - 44}" x2="1500" y2="${H - 44}" stroke="var(--grid)" stroke-width="2.5"/>`);
+  svg.push(`    <line x1="${AXIS_X}" y1="56" x2="${AXIS_X}" y2="${H - 44}" stroke="var(--line)" stroke-width="2.5"/>`);
+  svg.push(`    <line x1="${AXIS_X}" y1="${H - 44}" x2="1500" y2="${H - 44}" stroke="var(--line)" stroke-width="2.5"/>`);
   rows.forEach((d, i) => {
     const { w, inline, below } = plans[i];
     const y = ys[i], cy = y + BAR_H / 2 + 8;
@@ -570,7 +572,7 @@ function buildDiverging() {
     const { w, neg, vx, valStr, inNeg, inline, below } = plans[i];
     const y = ys[i], cy = y + BAR_H / 2 + 8;
     const x = neg ? ZERO - w : ZERO;
-    const fill = neg ? 'var(--accent)' : 'var(--track)';
+    const fill = highlights.includes(d.label) ? 'var(--accent)' : (neg ? 'var(--track-strong)' : 'var(--track)');
     const grow = neg ? growR : growL;
     const anchor = inNeg ? 'start' : neg ? 'end' : 'start';
     const ring = highlights.includes(d.label) ? ` stroke="var(--ink)" stroke-width="3"` : '';
@@ -613,7 +615,7 @@ function buildStacked() {
   data.forEach((d) => d.segments.forEach((g) => { if (!segOrder.includes(g.name)) segOrder.push(g.name); }));
   /* 세그먼트 색 — ztd 참조: 초점=accent, 나머지는 회색 램프 + 종이색 분리선(stroke)으로
      서로를 가른다. 이름 순서로 램프를 순환한다. */
-  const RAMP = ['var(--track-strong)', 'var(--track)', 'var(--muted)', 'var(--light)'];
+  const RAMP = ['var(--track-strong)', 'var(--track)', 'var(--muted)', 'var(--line)'];
   const segFill = (g) => g.oneoff ? 'fill="var(--muted)" stroke="var(--soft)" stroke-width="2"'
     : highlights.includes(g.name) ? 'fill="var(--accent)" stroke="var(--paper)" stroke-width="2.5"'
     : `fill="${RAMP[segOrder.indexOf(g.name) % 4]}" stroke="var(--paper)" stroke-width="2.5"`;
@@ -643,8 +645,9 @@ function buildStacked() {
     svg.push(`    <g data-step="${i + 1}">`);
     d.segments.forEach((g) => {
       const h = g.value * sc, y = BASE_Y - (acc + g.value) * sc;
+      const labWhite = highlights.includes(g.name);
       svg.push(`      <rect x="${r2(x)}" y="${r2(y)}" width="${barW}" height="${r2(Math.max(h, 1))}" ${segFill(g)}/>`);
-      if (h >= 22) svg.push(`      <text x="${r2(cx)}" y="${r2(y + h / 2 + 6)}" font-size="18" font-weight="700" class="k-t-w" text-anchor="middle">${esc(fmt(g.value))}</text>`);
+      if (h >= 22) svg.push(`      <text x="${r2(cx)}" y="${r2(y + h / 2 + 6)}" font-size="18" font-weight="700" ${labWhite ? 'class="k-t-w"' : 'fill="var(--ink)"'} text-anchor="middle">${esc(fmt(g.value))}</text>`);
       acc += g.value;
     });
     svg.push(`      <text x="${r2(cx)}" y="${r2(BASE_Y - total * sc - 18)}" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">${esc(fmt(total))}</text>`);
@@ -822,7 +825,7 @@ function buildHeatmap() {
       const key = `${r},${c}`;
       const x = r2(gridX + c * cw), yv = r2(y + 2), w = r2(cw - 4), h = r2(rh - 4);
       if (!vmap.has(key)) {
-        svg.push(`      <rect x="${x}" y="${yv}" width="${w}" height="${h}" fill="none" stroke="var(--soft)" stroke-width="2"/>`);
+        svg.push(`      <rect x="${x}" y="${yv}" width="${w}" height="${h}" fill="none" stroke="var(--soft)" stroke-width="2" stroke-dasharray="6 6"/>`);
         return;
       }
       const v = vmap.get(key);
@@ -839,7 +842,7 @@ function buildHeatmap() {
     svg.push(`    </g>`);
   });
   cl.forEach((nm, c) => {
-    annBy(nm).forEach((a) => emitAnn(svg, a, r2(gridX + c * cw + cw / 2), gridY + gridH + 64, gridY + gridH + 8, cw + 40));
+    annBy(nm).forEach((a) => emitAnn(svg, a, r2(gridX + c * cw + cw / 2), gridY + gridH + 64, gridY + gridH + 8, 900));
   });
   /* 농도 범례 — min→max 단일 hue */
   svg.push(`    <text x="${gridX}" y="${r2(gridY + gridH + 40)}" font-size="18" fill="var(--soft)">${esc(fmt(vmin))}</text>`);
@@ -950,12 +953,13 @@ function buildTornado() {
   rows.forEach((d, i) => {
     const y = TOP + rows.slice(0, i).reduce((a2, _r, j) => a2 + ROW + rowExtra[j], 0), cy = y + BAR_H / 2 + 8;
     const wl = Math.abs(d.low) / maxA * HALF, wh = Math.abs(d.high) / maxA * HALF;
+    const rowHot = highlights.includes(d.label);
     /* 최대 음수 막대의 값 라벨이 항목명(LABEL_X)과 겹치면 막대 안쪽(밝은 글자)로 뺀다(agy 치명-2) */
     const lowStr = fmtDelta(d.low), inLow = ZERO - wl - 14 - tw(lowStr, 24) < LABEL_X + 14;
     svg.push(`    <g data-step="${i + 1}">`);
     svg.push(`      <text x="${LABEL_X}" y="${cy}" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">${esc(d.label)}</text>`);
-    svg.push(`      <rect x="${r2(ZERO - wl)}" y="${y}" width="${r2(wl)}" height="${BAR_H}" rx="6" fill="var(--accent)" ${growR}/>`);
-    svg.push(`      <rect x="${ZERO}" y="${y}" width="${r2(wh)}" height="${BAR_H}" rx="6" fill="var(--track)" ${growL}/>`);
+    svg.push(`      <rect x="${r2(ZERO - wl)}" y="${y}" width="${r2(wl)}" height="${BAR_H}" rx="6" fill="${rowHot ? 'var(--accent)' : 'var(--track-strong)'}" ${growR}/>`);
+    svg.push(`      <rect x="${ZERO}" y="${y}" width="${r2(wh)}" height="${BAR_H}" rx="6" fill="${rowHot ? 'var(--accent)' : 'var(--track)'}" ${growL}/>`);
     svg.push(`      <text x="${r2(inLow ? ZERO - wl + 16 : ZERO - wl - 14)}" y="${cy}" font-size="24" font-weight="800" fill="${inLow ? 'var(--paper)' : 'var(--ink)'}" text-anchor="${inLow ? 'start' : 'end'}">${esc(lowStr)}</text>`);
     svg.push(`      <text x="${r2(ZERO + wh + 14)}" y="${cy}" font-size="24" font-weight="800" fill="var(--ink)">${esc(fmtDelta(d.high))}</text>`);
     let ay = cy + 46;
