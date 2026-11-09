@@ -209,6 +209,39 @@ class ArchLanesTest(unittest.TestCase):
         self.assertEqual(code, 1)
         self.assertIn('알 수 없는 액터', log)
 
+    # ── 시나리오 키 계약 ────────────────────────────────────────────
+    def test_scenario_bad_branch_key_rejected(self):
+        # 게이트 g1 의 나가는 갈래는 A|B 뿐 — 'X' 는 조용한 대체 없이 명시 오류
+        def bad(m):
+            m['scenario']['g1'] = ['X']
+        p = self._mutate(B1, bad, 'sckey.json')
+        code, log = run(p, self.tmp / 'sckey.html')
+        self.assertEqual(code, 1)
+        self.assertIn('g1', log)
+        self.assertIn('X', log)
+        self.assertIn('branch', log)
+
+    def test_scenario_key_exhaustion_rejected(self):
+        # g2 는 반려 루프로 두 번 방문 — 키 하나면 두 번째 방문에서 소진
+        def bad(m):
+            m['scenario']['g2'] = ['R']
+        p = self._mutate(B1, bad, 'scex.json')
+        code, log = run(p, self.tmp / 'scex.html')
+        self.assertEqual(code, 1)
+        self.assertIn('분기키 소진', log)
+        self.assertIn('g2', log)
+
+    def test_scenario_cycle_rejected(self):
+        # 반려만 계속 고르는 시나리오 — end 에 도달하지 못하고 40회 상한에 걸린다
+        # (g1 도 매 순환마다 재방문되므로 키를 충분히 줘 소진 오류가 먼저 나지 않게 한다)
+        def bad(m):
+            m['scenario']['g1'] = ['A'] * 30
+            m['scenario']['g2'] = ['R'] * 30
+        p = self._mutate(B1, bad, 'sccyc.json')
+        code, log = run(p, self.tmp / 'sccyc.html')
+        self.assertEqual(code, 1)
+        self.assertIn('end 노드에 도달하지 못했다', log)
+
 
 if __name__ == '__main__':
     unittest.main()

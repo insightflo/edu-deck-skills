@@ -74,6 +74,8 @@ const errors = [];
 const warns = [];
 const fail = (m) => errors.push(m);
 const warn = (m) => warns.push(m);
+// 시뮬레이션 단(검증 통과 뒤)의 오류 — fail 에 싣고 즉시 종료한다
+const die = (m) => { fail(m); for (const e of errors) console.error(`FAIL: ${e}`); process.exit(1); };
 const VIEW = ['sequence', 'compare'].includes(model.view) ? model.view : 'process';
 const CHANGES = ['keep', 'new', 'change', 'remove'];
 /* ── 3. 좌표 ─────────────────────────────────────────────────────── */
@@ -193,14 +195,19 @@ function simulate() {
   const route = [];
   const queue = {}; // 게이트별 분기키 소비 대기열
   let cur = start;
+  let ended = false;
   for (let i = 1; i <= 40; i++) {
     const o = outs(cur.id);
-    if (!o.length || cur.type === 'end') break;
+    if (!o.length || cur.type === 'end') { ended = true; break; }
     let pick = o[0];
     if (cur.type === 'decision') {
       const q = queue[cur.id] || (queue[cur.id] = [...(model.scenario?.[cur.id] || [])]);
       const key = q.shift();
-      pick = o.find((e) => e.branch === key) || o[0];
+      if (key === undefined)
+        die(`분기키 소진 — 게이트 ${cur.id} 재방문인데 scenario 대기열이 비었다: scenario 에는 게이트 방문 순서대로 키를 전부 나열해야 한다`);
+      pick = o.find((e) => e.branch === key);
+      if (!pick)
+        die(`분기키 오류 — 게이트 ${cur.id}: scenario 키 '${key}'가 나가는 branch [${o.map((e) => e.branch).join(', ')}] 어느 것과도 일치하지 않는다`);
     }
     const nxt = byId[pick.to];
     const step = i + 1;
@@ -214,8 +221,9 @@ function simulate() {
       }
     }
     cur = nxt;
-    if (cur.type === 'end') break;
+    if (cur.type === 'end') { ended = true; break; }
   }
+  if (!ended) die(`시뮬레이션 미종료 — 40회 이동 안에 end 노드에 도달하지 못했다(순환 시나리오 의심)`);
   // 구조 마감: 실행되지 않은 갈래의 다음 흐름도 출발 노드가 보이는 단계에 공개
   for (const e of model.edges) if (edgeStep[e.id] === undefined) edgeStep[e.id] = nodeStep[e.from] ?? 2;
   // 양 끝점이 보이기 전에는 흐름도 보이지 않는다(끝점 없는 화살표 방지)
