@@ -1,0 +1,33 @@
+{
+  "slide": {
+    "eyebrow": "억 원 · FY25→FY26",
+    "title": "IT 운영비는 네 개 절감 레버로 890억까지 낮출 수 있다",
+    "notes": "시작 FY25 운영비 1,240억에서 출발해 → 누를 때마다 절감 레버가 하나씩 매달린다. 클라우드 최적화 −140, 라이선스 재계약 −110, 외주 단가 재협상 −60, 툴 통합 −40으로 최종 890억. 라이선스 재계약이 단일 최대 레버이며 재협상 일정이 병목이라는 점을 강조하고, 다음 장의 실행 로드맵으로 연결한다.",
+    "ariaLabel": "IT 운영비 폭포수 도식: 1,240억에서 네 가지 절감 항목을 거쳐 890억에 이르는 다리"
+  },
+  "chart": {
+    "type": "waterfall",
+    "question": "FY26 목표 운영비 890억까지 어떤 레버가 얼마나 기여하는가",
+    "measure": { "unit": "억 원", "period": "FY25→FY26" },
+    "data": [
+      { "label": "FY25 운영비", "value": 1240, "kind": "base" },
+      { "label": "클라우드 최적화", "value": -140, "kind": "delta" },
+      { "label": "라이선스 재계약", "value": -110, "kind": "delta" },
+      { "label": "외주 단가 조정", "value": -60, "kind": "delta", "oneoff": true },
+      { "label": "툴 통합", "value": -40, "kind": "delta" },
+      { "label": "FY26 목표", "value": 890, "kind": "total" }
+    ],
+    "highlight": ["라이선스 재계약"],
+    "annotations": [
+      { "label": "단일 최대 레버 — 재협상 일정이 병목", "on": "라이선스 재계약", "kind": "main" },
+      { "label": "RI 전환 포함 추정", "on": "클라우드 최적화", "kind": "sub" }
+    ],
+    "calc": { "expectTotal": 890 }
+  },
+  "source": {
+    "text": "재무팀 FY25 IT 비용 결산·경영기획 절감 시나리오(예시 모델)",
+    "asOf": "2026-09-30",
+    "note": "절감액은 계약 갱신 시점에 따라 ±10% 변동 가능",
+    "synthetic": true
+  }
+}
