@@ -1,0 +1,54 @@
+<!-- consulting chart — stacked-bar
+     모델: charts/03-cost-structure.json · 생성: node consulting-deck/charts/chart_gen.mjs --in charts/03-cost-structure.json -o <이 파일>
+     질문: 1,240억은 무엇으로 이루어져 있고, 비중은 어떻게 변했나
+     손으로 고치지 않는다. 모델을 고치고 다시 생성한다. -->
+<section class="slide consult" data-archetype="chart-bar" data-variant="stacked" style="gap:18px">
+  <div class="head"><p class="eyebrow">연간 IT 비용 구성 · FY22 vs FY25</p><h2 class="title">인프라·라이선스가 비용의 69%를 차지한다 — 3년간 그 비중은 더 커졌다</h2></div>
+  <svg class="dg" viewBox="0 0 1560 590" role="img" aria-label="FY22 892억과 FY25 1,240억의 구성 비교 — 인프라 480, 라이선스 380, 인건·외주 260, 운영·기타 120억">
+    <title>인프라·라이선스가 비용의 69%를 차지한다 — 3년간 그 비중은 더 커졌다</title>
+    <text class="k-t-tag" x="60" y="42">(단위: 억원)</text>
+    <rect x="970" y="24" width="16" height="14" rx="3" fill="var(--blue)" opacity=".95"/>
+    <text x="992" y="37" font-size="20" font-weight="600" fill="var(--ink)">인프라</text>
+    <rect x="1082" y="24" width="16" height="14" rx="3" fill="var(--accent)"/>
+    <text x="1104" y="37" font-size="20" font-weight="600" fill="var(--ink)">라이선스</text>
+    <rect x="1214" y="24" width="16" height="14" rx="3" fill="var(--blue)" opacity=".40"/>
+    <text x="1236" y="37" font-size="20" font-weight="600" fill="var(--ink)">인건·외주</text>
+    <rect x="1357" y="24" width="16" height="14" rx="3" fill="var(--blue)" opacity=".22"/>
+    <text x="1379" y="37" font-size="20" font-weight="600" fill="var(--ink)">운영·기타</text>
+    <path d="M60,470 L1500,470" class="k-ln-n"/>
+    <g data-step="1">
+      <rect x="495" y="374.03" width="240" height="95.97" fill="var(--blue)" opacity=".95"/>
+      <text x="615" y="428.02" font-size="18" font-weight="700" class="k-t-w" text-anchor="middle">340</text>
+      <rect x="495" y="302.9" width="240" height="71.13" fill="var(--accent)"/>
+      <text x="615" y="344.47" font-size="18" font-weight="700" class="k-t-w" text-anchor="middle">252</text>
+      <rect x="495" y="243.06" width="240" height="59.84" fill="var(--blue)" opacity=".40"/>
+      <text x="615" y="278.98" font-size="18" font-weight="700" class="k-t-w" text-anchor="middle">212</text>
+      <rect x="495" y="218.23" width="240" height="24.84" fill="var(--blue)" opacity=".22"/>
+      <text x="615" y="200.23" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">892</text>
+      <text x="615" y="516" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">FY22</text>
+    </g>
+    <g data-step="2">
+      <rect x="825" y="334.52" width="240" height="135.48" fill="var(--blue)" opacity=".95"/>
+      <text x="945" y="408.26" font-size="18" font-weight="700" class="k-t-w" text-anchor="middle">480</text>
+      <rect x="825" y="227.26" width="240" height="107.26" fill="var(--accent)"/>
+      <text x="945" y="286.89" font-size="18" font-weight="700" class="k-t-w" text-anchor="middle">380</text>
+      <rect x="825" y="153.87" width="240" height="73.39" fill="var(--blue)" opacity=".40"/>
+      <text x="945" y="196.56" font-size="18" font-weight="700" class="k-t-w" text-anchor="middle">260</text>
+      <rect x="825" y="120" width="240" height="33.87" fill="var(--blue)" opacity=".22"/>
+      <text x="945" y="142.94" font-size="18" font-weight="700" class="k-t-w" text-anchor="middle">120</text>
+      <text x="945" y="102" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">1,240</text>
+      <text x="945" y="516" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">FY25</text>
+      <path d="M945,524 L945,522" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
+      <text x="945" y="550" font-size="24" font-weight="800" class="k-t-o" text-anchor="middle">「핵심」 인프라+라이선스</text>
+      <text x="945" y="574" font-size="24" font-weight="800" class="k-t-o" text-anchor="middle"> 860억 = 69%</text>
+    </g>
+      <path d="M615,524 L615,526" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
+      <text x="615" y="550" font-size="20" font-weight="600" class="k-t-tag" text-anchor="middle">「참고」 4개 항목 모두 증가</text>
+  </svg>
+  <p class="c-note" data-step="2"><b>방법론·한계</b> — 구성 분류: 자산·계약 기준 원가 배부, 일회성 프로젝트는 운영·기타에 포함</p>
+  <div class="c-src" data-step="2">
+    <p>Source: consulting-deck 예시 — 가상 시나리오 · 기준 2026-11</p>
+    <p class="s-syn">가상 데이터</p>
+  </div>
+  <aside class="notes">FY25 총 1,240억의 구성: 인프라 480, 라이선스 380, 인건·외주 260, 운영·기타 120. 인프라+라이선스 860억으로 69%. FY22(총 892억)과 비교하면 인프라+라이선스 비중이 66%에서 69%로 오히려 커졌다 — 증가가 구조 깊은 곳(계약·장비)에서 났다는 뜻이고, 그래서 절감도 구조 접근이 필요하다는 것이 이 덱의 출발점. 질문 대비: '그래서 어디를 어떻게 바꾼다는 건가' → 06 절감 기회 장에서 답한다.</aside>
+</section>

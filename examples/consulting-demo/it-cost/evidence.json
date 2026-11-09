@@ -1,0 +1,187 @@
+{
+  "sources": [
+    {
+      "source_id": "S01",
+      "kind": "synthetic",
+      "title": "가상 데모 데이터 — 중견 제조사 IT 비용 시나리오",
+      "publisher": "consulting-deck 예시",
+      "locator": "examples/consulting-demo/it-cost/evidence.json",
+      "published": "2026-11-10",
+      "asOf": "2026-11-10",
+      "accessed": "2026-11-10",
+      "freshness": "current"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "C01",
+      "slide": "cost-structure",
+      "statement": "FY25 연간 IT 비용은 1,240억 원이며 인프라·라이선스가 69%를 차지한다",
+      "value": "FY25 1,240억 (인프라 480 + 라이선스 380 + 인건·외주 260 + 운영·기타 120) · FY22 892억 (340 + 252 + 212 + 88)",
+      "source_id": "S01",
+      "original": "FY22 340+252+212+88=892 · FY25 480+380+260+120=1,240 · 인프라+라이선스 비중 66%→69%",
+      "method": "구성 합계 및 비중 (340+252)/892=66% · (480+380)/1240=69%",
+      "kind": "synthetic",
+      "assumptions": [
+        "중견 제조사 가상 시나리오"
+      ],
+      "contrary": [],
+      "uncertainty": ""
+    },
+    {
+      "claim_id": "C02",
+      "slide": "cost-growth",
+      "statement": "IT 비용은 3년간 연 11.6% 증가했으며 라이선스 단가와 클라우드 중복이 절반이상을 주도했다",
+      "value": "CAGR 11.6% (FY22 892 → FY25 1,240억)",
+      "source_id": "S01",
+      "original": "892 → 1,240",
+      "method": "(1240/892)^(1/3)−1 = 11.6%",
+      "kind": "synthetic",
+      "assumptions": [],
+      "contrary": [],
+      "uncertainty": ""
+    },
+    {
+      "claim_id": "C03",
+      "slide": "cost-growth",
+      "statement": "FY22→FY25 증가분 +348억 중 라이선스 +148·클라우드 중복 +96·레거시 유지 +74·인력 +58·물가 +40, 통합 절감 −68",
+      "value": "892+148+96+74+58+40−68 = 1,240",
+      "source_id": "S01",
+      "original": "waterfall expectTotal 1,240",
+      "method": "시작+증감 = 최종",
+      "kind": "synthetic",
+      "assumptions": [],
+      "contrary": [],
+      "uncertainty": ""
+    },
+    {
+      "claim_id": "C04",
+      "slide": "benchmark",
+      "statement": "IT 비용의 매출 비율은 4.1%로 비교 5사 중 두 번째로 높다 — 그룹 중위(3.9%)보다 높고, 전환 선례 D사(4.5%)와 같은 원인 구조다",
+      "value": "4.1% (그룹 중위 3.9% · 최저 C사 3.4% · 최고 D사 4.5%)",
+      "source_id": "S01",
+      "original": "ranked 5사: 3.4·3.6·3.9·4.1(우리)·4.5",
+      "method": "매출 대비 IT 운영비 비율, 5사 모두 매출 8천억~1조 2천억 대역 보정",
+      "kind": "synthetic",
+      "assumptions": [
+        "동종 중견 제조 5사 가상 비교"
+      ],
+      "contrary": [],
+      "uncertainty": ""
+    },
+    {
+      "claim_id": "C05",
+      "slide": "savings",
+      "statement": "구조 전환으로 FY27 IT 비용을 870억까지 줄일 수 있다 — 약 30%(연 370억) 절감",
+      "value": "1,240 → 870억 (−29.8%)",
+      "source_id": "S01",
+      "original": "1,240−142−118−86−54+30 = 870",
+      "method": "라이선스 정비 142·FinOps 118·레거시 전환 86·외주 재협상 54·전환 투자 +30",
+      "kind": "synthetic",
+      "assumptions": [
+        "전환 투자 30억은 FY26 1회성"
+      ],
+      "contrary": [],
+      "uncertainty": "실행 속도에 따라 ±15%"
+    },
+    {
+      "claim_id": "C06",
+      "slide": "asis-tobe",
+      "statement": "항목별로는 인프라 −45%·라이선스 −37%·운영 −22%·인건비 −8% 줄고 보안·컴플라이언스는 +15% 늘린다",
+      "value": "FY25→FY27 증감률",
+      "source_id": "S01",
+      "original": "−45·−37·−22·−8·+15%",
+      "method": "FY27 목표 예산의 항목별 대비",
+      "kind": "synthetic",
+      "assumptions": [],
+      "contrary": [],
+      "uncertainty": ""
+    },
+    {
+      "claim_id": "C07",
+      "slide": "impact-decision",
+      "statement": "3년 누적 절감 720억, FY27 매출 비 2.9%, 전환 투자 회수 14개월",
+      "value": "720억 · 2.9% · 14개월",
+      "source_id": "S01",
+      "original": "FY26 210 + FY27 280 + FY28 230 = 720억",
+      "method": "단계적 실현 가정",
+      "kind": "synthetic",
+      "assumptions": [
+        "FY26 하반기부터 효과 인식"
+      ],
+      "contrary": [],
+      "uncertainty": ""
+    },
+    {
+      "claim_id": "C08",
+      "slide": "problem",
+      "statement": "현 추세 유지 시 FY28 IT 비용은 약 1,720억에 이른다",
+      "value": "약 1,720억 (전망)",
+      "source_id": "S01",
+      "original": "1,240 × 1.116³",
+      "method": "CAGR 11.6% 3년 지속 가정",
+      "kind": "synthetic",
+      "assumptions": [
+        "증가 요인 그대로 지속"
+      ],
+      "contrary": [],
+      "uncertainty": "전망치"
+    },
+    {
+      "claim_id": "C09",
+      "slide": "roadmap",
+      "statement": "단계별 절감 실현(연 환산) FY26 210억 → FY27 280억 → FY28 230억, 3년 누적 720억",
+      "value": "FY26 210 + FY27 280 + FY28 230 = 720억 · 워크스트림별(연): 라이선스 재계약 142 · FinOps 48 · 클라우드 이관 70 · 레거시 폐기 86 · 외주 재협상 54 · 운영 자동화 22억 · 보안 +15% 투자",
+      "source_id": "S01",
+      "original": "06 절감 다리 370억/년의 시간축·워크스트림 배분 (142+48+70+86+54+22=422억 환산 전 단계 합)",
+      "method": "단계 종료 시점 절감액 재검증 게이트 · 전환 투자 30억 FY26 1회성",
+      "kind": "synthetic",
+      "assumptions": [
+        "전환 투자 30억 FY26 집행"
+      ],
+      "contrary": [],
+      "uncertainty": "이관 지연 시 2단계 70억 이연"
+    },
+    {
+      "claim_id": "C10",
+      "slide": "exec-summary",
+      "statement": "Exec Summary 종합: 3년 39% 증가·원인 90% 구조·FY27 연 370억(30%) 절감·누적 720억·회수 14개월",
+      "value": "39% · 90% · 370억 · 720억 · 14개월",
+      "source_id": "S01",
+      "original": "C01~C07·C09 종합",
+      "method": "본문 주장과 1:1 대응(제목 연쇄)",
+      "kind": "synthetic",
+      "assumptions": [],
+      "contrary": [],
+      "uncertainty": ""
+    },
+    {
+      "claim_id": "C11",
+      "slide": "options",
+      "statement": "대안별 연 절감 — ① 통제·압축 60억(5%) · ② 부분 최적화 150억(12%) · ③ 구조 전환 370억(30%, 추천)",
+      "value": "60 · 150 · 370억/년",
+      "source_id": "S01",
+      "original": "시나리오 분석",
+      "method": "5기준(절감·지속·리스크·회수·여력) 비교",
+      "kind": "synthetic",
+      "assumptions": [
+        "현 인력·계약 조건 유지"
+      ],
+      "contrary": [],
+      "uncertainty": ""
+    },
+    {
+      "claim_id": "C12",
+      "slide": "cover",
+      "statement": "표지 결정 요청: 절감 프로그램·전환 투자 30억·거버넌스 위원회 승인 — 연 370억(30%) 목표",
+      "value": "30억 투자 · 370억/년",
+      "source_id": "S01",
+      "original": "C05·C09 대응",
+      "method": "표지=마지막 장 결정 요청과 동일 문장",
+      "kind": "synthetic",
+      "assumptions": [],
+      "contrary": [],
+      "uncertainty": ""
+    }
+  ]
+}
