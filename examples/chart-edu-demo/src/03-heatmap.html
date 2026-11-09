@@ -1,0 +1,78 @@
+<!-- consulting chart — heatmap
+     모델: charts/03-heatmap.json · 생성: node consulting-deck/charts/chart_gen.mjs --in charts/03-heatmap.json -o <이 파일>
+     질문: 어느 부서가 어느 요일에 시스템을 가장 많이 쓰는가
+     손으로 고치지 않는다. 모델을 고치고 다시 생성한다. -->
+<section class="slide consult" data-archetype="heatmap-grid" data-variant="matrix" style="gap:18px">
+  <div class="head"><p class="eyebrow">차트 읽기 ② — 히트맵(격자 농도)</p><h2 class="title">히트맵은 짙은 칸부터 읽는다 — 화·목이 뜨겁고 금은 식는다</h2></div>
+  <svg class="dg" viewBox="0 0 1560 456" role="img" aria-label="히트맵: 부서(영업·물류·개발·지원)별 요일(월~금) 시스템 사용률. 화·목이 높고 금요일이 낮다">
+    <title>히트맵은 짙은 칸부터 읽는다 — 화·목이 뜨겁고 금은 식는다</title>
+    <text class="k-t-tag" x="60" y="42">(단위: %)</text>
+    <text x="375" y="80" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">월</text>
+    <text x="625" y="80" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">화</text>
+    <text x="875" y="80" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">수</text>
+    <text x="1125" y="80" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">목</text>
+    <text x="1375" y="80" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">금</text>
+    <g data-step="1">
+      <text x="234" y="136" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">영업</text>
+      <rect x="250" y="98" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 32%, transparent)"/>
+      <text x="375" y="136" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">45</text>
+      <rect x="500" y="98" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 65%, transparent)"/>
+      <text x="625" y="136" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">70</text>
+      <rect x="750" y="98" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 52%, transparent)"/>
+      <text x="875" y="136" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">60</text>
+      <rect x="1000" y="98" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--accent) 72%, transparent)"/>
+      <text x="1125" y="136" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">75</text>
+      <rect x="1250" y="98" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 25%, transparent)"/>
+      <text x="1375" y="136" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">40</text>
+    </g>
+    <g data-step="2">
+      <text x="234" y="202" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">물류</text>
+      <rect x="250" y="164" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 45%, transparent)"/>
+      <text x="375" y="202" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">55</text>
+      <rect x="500" y="164" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 79%, transparent)"/>
+      <text x="625" y="202" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">80</text>
+      <rect x="750" y="164" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 59%, transparent)"/>
+      <text x="875" y="202" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">65</text>
+      <rect x="1000" y="164" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--accent) 85%, transparent)"/>
+      <text x="1125" y="202" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">85</text>
+      <rect x="1250" y="164" width="246" height="62" fill="none" stroke="var(--soft)" stroke-width="2"/>
+    </g>
+    <g data-step="3">
+      <text x="234" y="268" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">개발</text>
+      <rect x="250" y="230" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 65%, transparent)"/>
+      <text x="375" y="268" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">70</text>
+      <rect x="500" y="230" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 92%, transparent)"/>
+      <text x="625" y="268" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">90</text>
+      <rect x="750" y="230" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 85%, transparent)"/>
+      <text x="875" y="268" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">85</text>
+      <rect x="1000" y="230" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--accent) 89%, transparent)"/>
+      <text x="1125" y="268" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">88</text>
+      <rect x="1250" y="230" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 52%, transparent)"/>
+      <text x="1375" y="268" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">60</text>
+    </g>
+    <g data-step="4">
+      <text x="234" y="334" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">지원</text>
+      <rect x="250" y="296" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 12%, transparent)"/>
+      <text x="375" y="334" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">30</text>
+      <rect x="500" y="296" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 39%, transparent)"/>
+      <text x="625" y="334" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">50</text>
+      <rect x="750" y="296" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 25%, transparent)"/>
+      <text x="875" y="334" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">40</text>
+      <rect x="1000" y="296" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--accent) 45%, transparent)"/>
+      <text x="1125" y="334" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">55</text>
+      <rect x="1250" y="296" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 19%, transparent)"/>
+      <text x="1375" y="334" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">35</text>
+    </g>
+      <path d="M1125,368 L1125,396" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
+      <text x="1125" y="424" font-size="24" font-weight="800" class="k-t-o" text-anchor="middle">「핵심」 짙은 열부터 </text>
+      <text x="1125" y="448" font-size="24" font-weight="800" class="k-t-o" text-anchor="middle">읽는다 — 화·목 집중 요…</text>
+    <text x="250" y="400" font-size="18" fill="var(--soft)">30</text>
+    <rect x="310" y="388" width="140" height="14" rx="3" style="fill:color-mix(in srgb, var(--blue) 45%, transparent)"/>
+    <text x="464" y="400" font-size="18" fill="var(--soft)">90</text>
+  </svg>
+  <div class="c-src" data-step="4">
+    <p>Source: 교육용 가상 데이터 · 기준 2025년(가상)</p>
+    <p class="s-syn">가상 데이터</p>
+  </div>
+  <aside class="notes">읽는 법도 세 칸이다. ① 축부터: 행은 부서, 열은 요일 — 칸 하나가 '부서×요일 사용률'이다. ② 색 농도가 값이다: 단일 색 계열로만 진해지니 짙은 칸(목요일 열, 개발 행)부터 본다. 강조 열인 목요일이 accent 색으로 도드라진다. ③ 빈 칸(금 오후 물류)은 점선 빈 격자 — 데이터가 없다는 뜻이지 0이 아니다. → 누를 때마다 부서 행이 한 줄씩 공개된다. 다음 장 퀴즈에서 두 차트를 섞어 묻는다.</aside>
+</section>

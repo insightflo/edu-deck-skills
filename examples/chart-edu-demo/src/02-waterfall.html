@@ -1,0 +1,60 @@
+<!-- consulting chart — waterfall
+     모델: charts/02-waterfall.json · 생성: node consulting-deck/charts/chart_gen.mjs --in charts/02-waterfall.json -o <이 파일>
+     질문: 마케팅비는 어떻게 120억에서 95억으로 줄었는가
+     손으로 고치지 않는다. 모델을 고치고 다시 생성한다. -->
+<section class="slide consult" data-archetype="waterfall" data-variant="bridge" style="gap:18px">
+  <div class="head"><p class="eyebrow">차트 읽기 ① — 워터폴(증감 다리)</p><h2 class="title">워터폴은 시작값에 증감을 쌓아 끝값에 닿는 다리다</h2></div>
+  <svg class="dg" viewBox="0 0 1560 580" role="img" aria-label="워터폴: 마케팅비가 2024년 120억에서 광고 재계약 −12, 채널 통폐합 −9, 신규 캠페인 +8, 일회성 이벤트 −12를 거쳐 2025년 95억이 되는 경로">
+    <title>워터폴은 시작값에 증감을 쌓아 끝값에 닿는 다리다</title>
+    <text class="k-t-tag" x="60" y="42">(단위: 억 원)</text>
+    <path d="M60,460 L1500,460" class="k-ln-n"/>
+    <g class="wf" data-step="1">
+      <rect x="90" y="100" width="180" height="360" class="k-solid-n"/>
+      <path d="M106,468 L120,444 M122,468 L136,444" fill="none" stroke="var(--line)" stroke-width="3" class="axis-brk"/>
+      <text x="180" y="76" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">120</text>
+      <text x="180" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">2024 마케팅비</text>
+    </g>
+    <g class="wf" data-step="2">
+      <path d="M270,100 L330,100" class="k-ln-g"/>
+      <rect x="330" y="100" width="180" height="166.15" class="k-solid-b"/>
+      <text x="420" y="76" font-size="26" font-weight="800" class="k-t-o" text-anchor="middle">−12</text>
+      <text x="420" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">광고 재계약</text>
+    </g>
+    <g class="wf" data-step="3">
+      <path d="M510,266.15 L570,266.15" class="k-ln-g"/>
+      <rect x="570" y="266.15" width="180" height="124.62" class="k-solid-b"/>
+      <text x="660" y="242.15" font-size="26" font-weight="800" class="k-t-o" text-anchor="middle">−9</text>
+      <text x="660" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">채널 통폐합</text>
+    </g>
+    <g class="wf" data-step="4">
+      <path d="M750,390.77 L810,390.77" class="k-ln-g"/>
+      <rect x="810" y="280" width="180" height="110.77" fill="var(--accent)"/>
+      <text x="900" y="256" font-size="26" font-weight="800" class="k-t-b" text-anchor="middle">+8</text>
+      <text x="900" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">신규 캠페인</text>
+      <path d="M900,394.77 L900,396.77" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
+      <text x="900" y="424.77" font-size="24" font-weight="800" class="k-t-o" text-anchor="middle">「핵심」 감소 속 </text>
+      <text x="900" y="448.77" font-size="24" font-weight="800" class="k-t-o" text-anchor="middle">증가도 본다</text>
+    </g>
+    <g class="wf" data-step="5">
+      <path d="M990,280 L1050,280" class="k-ln-g"/>
+      <rect x="1050" y="280" width="180" height="166.15" fill="var(--muted)" stroke="var(--soft)" stroke-width="3"/>
+      <text x="1140" y="256" font-size="26" font-weight="800" class="k-t-o" text-anchor="middle">−12</text>
+      <text x="1140" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">일회성 이벤트</text>
+      <path d="M1140,516 L1140,518" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
+      <text x="1140" y="542" font-size="20" font-weight="600" class="k-t-tag" text-anchor="middle">「참고」 회색=일회성, </text>
+      <text x="1140" y="566" font-size="20" font-weight="600" class="k-t-tag" text-anchor="middle">따로 읽는다</text>
+    </g>
+    <g class="wf" data-step="6">
+      <path d="M1230,446.15 L1290,446.15" class="k-ln-g"/>
+      <rect x="1290" y="446.15" width="180" height="13.85" class="k-solid-n"/>
+      <path d="M1306,468 L1320,444 M1322,468 L1336,444" fill="none" stroke="var(--line)" stroke-width="3" class="axis-brk"/>
+      <text x="1380" y="422.15" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle" data-count>95</text>
+      <text x="1380" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">2025 마케팅비</text>
+    </g>
+  </svg>
+  <div class="c-src" data-step="6">
+    <p>Source: 교육용 가상 데이터 · 기준 2025년(가상)</p>
+    <p class="s-syn">가상 데이터</p>
+  </div>
+  <aside class="notes">읽는 법 세 칸을 짚는다. ① 기둥 두 개(기준 120·목표 95)는 바닥에서 올라오는 전량 막대 — 다리의 두 교각이다. ② 사이의 부유 막대는 증감분: 내려가는 막대(절감)가 대부분이지만 신규 캠페인 +8은 올라가는 막대 — 감소 다리에도 증가가 숨어 있다는 것을 강조한다. ③ 회색 '일회성 이벤트'는 oneoff — 구조적 절감과 일회성을 나눠 읽어야 내년 전망이 안 틀린다. → 누를 때마다 증감이 순서대로 쌓인다. 다음 장에서 같은 원리로 히트맵을 읽는다.</aside>
+</section>

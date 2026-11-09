@@ -1,0 +1,24 @@
+<!-- 확인 문제 — 워터폴·히트맵 해석 .chk 2개. 틀리면 1단계 장(data-key="read-steps")으로 돌아간다. -->
+<section class="slide" data-archetype="check" style="gap:30px">
+  <div class="head"><p class="eyebrow">확인 문제 · 배운 대로 읽기</p><h2 class="title">이 차트의 부호를 읽을 수 있나요?</h2></div>
+  <div class="row" style="gap:32px;flex:1;min-height:0">
+    <div class="chk col f1" data-review="read-steps" style="display:flex;flex-direction:column;gap:18px">
+      <p class="chk-q"><span class="chk-n">1</span>워터폴에서 바닥에 닿지 않고 '뜬' 막대는 무엇인가요?</p>
+      <div class="chk-opts" style="display:flex;flex-direction:column;gap:12px">
+        <button class="chk-o">그 항목까지의 누적 합계</button>
+        <button class="chk-o" data-ok>그 항목 하나의 증감분</button>
+        <button class="chk-o">전년 대비 변화율</button>
+      </div>
+      <p class="chk-why">뜬 막대는 그 항목의 증감분입니다 — 시작값 위에 차곡차곡 쌓여 마지막 기둥(전량)에 닿습니다. 누적은 막대의 '높이 위치'이지 막대의 '높이'가 아닙니다.</p>
+    </div>
+    <div class="chk col f1" data-review="read-steps" style="display:flex;flex-direction:column;gap:18px">
+      <p class="chk-q"><span class="chk-n">2</span>히트맵의 점선 빈 칸은 무엇을 뜻하나요?</p>
+      <div class="chk-opts" style="display:flex;flex-direction:column;gap:12px">
+        <button class="chk-o">값이 0이다</button>
+        <button class="chk-o" data-ok>데이터가 없다(결측)</button>
+      </div>
+      <p class="chk-why">점선 빈 칸은 결측입니다 — 0과 다릅니다. 0이면 가장 옅은 색의 칸으로 그려지고, 빈 칸은 '측정이 없다'는 뜻이니 해석에 넣지 않습니다.</p>
+    </div>
+  </div>
+  <aside class="notes">보기를 청중에게 먼저 물어본 뒤 누르게 한다. ① 뜬 막대=증감분 — "누적"이 헷갈리는 포인트, 막대 높이와 위치를 구분하게 한다. ② 점선 빈 칸=결측 — 0과 혼동하면 집계가 틀어진다. 틀리면 '읽기 원리' 장(축→값→해석)으로 돌아간다. 모두 맞으면 체크리스트로 정리한다.</aside>
+</section>
