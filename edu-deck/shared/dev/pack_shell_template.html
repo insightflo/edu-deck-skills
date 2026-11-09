@@ -152,7 +152,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 <div id="stage"><!--ICONS--><!--SLIDES--></div>
 <div id="progress" aria-hidden="true"></div><div id="dots" aria-hidden="true"></div>
 <div id="counter" aria-live="polite"></div>
-<div id="help">→ 다음 · ← 이전 · F 전체화면 · N 발표자 노트 · S 자습 · P 인쇄 · G 용어집 · A 자동 발표 · E 편집</div>
+<div id="help">→ 다음 · ← 이전 · F 전체화면 · N 발표자 노트 · S 자습 · P 인쇄 · G 끝까지 재생 · M 자동 완주(장 진입 시) · D 용어집 · A 자동 발표 · E 편집</div>
 <div id="notes"><div class="h">발표자 노트 (N으로 닫기)</div><div id="notesText"></div></div>
 <script>/*MOTION_JS*/</script>
 <script>
@@ -241,6 +241,9 @@ try{
       memoBody.textContent=memo?memo.textContent:'';
       if(location.hash!=='#'+(pos+1)) history.replaceState(null,'','#'+(pos+1));
       document.dispatchEvent(new CustomEvent('deckslide',{detail:pos}));
+      /* 자동 완주(M): instant 아님 = 사용자 넘김·첫 로드 — 도착한 장의 남은 단계를 순차 재생한다.
+         deckGo·검사기(instant)는 영향 없고, toEnd 진입(←로 돌아가기)은 이미 끝 단계라 무동작 */
+      if(motionAuto&&!instant) finishSteps();
     }
     /* 이미 켜진 장이 있을 때만 전환 연출을 태운다 — 첫 표시는 즉시 그린다 */
     if(window.eduMotion&&!instant&&deckEl.querySelector('.slide.active')) window.eduMotion.navigate(commit,deckEl.dataset.dir);
@@ -275,6 +278,8 @@ try{
     else if(k==='End'){ jumpTo(pages.length-1,false); }
     else if(k==='f'||k==='F'||k==='ㄹ'){ bigScreen(); }
     else if(k==='n'||k==='N'||k==='ㅜ'){ swapMemo(); }
+    else if(k==='g'||k==='G'||k==='ㅎ'){ e.preventDefault(); motionFinishKey(); }
+    else if(k==='m'||k==='M'||k==='ㅡ'){ e.preventDefault(); motionModeSet(!motionAuto); }
   });
   var CLICK_GUARD='a,button,.todo,.chk,.code,.tabs,.faq,.pin-shot,.pin-list,.st-panel,.st-modal,.st-print,.expl,.dsheet';
   document.addEventListener('click',function(e){
@@ -309,6 +314,25 @@ try{
       if(mark<topMark(pages[pos])) finishTimer=setTimeout(tick,gap);
     };
     finishTimer=setTimeout(tick,gap);
+  }
+  /* ---- 모션 재생 방식(M 토글): 장이 바뀔 때 자동 완주 ↔ 입력마다 한 단계 ----
+     G 키는 dblclick 과 같은 finishSteps 를 부른다(마우스 없이 남은 단계 순차 재생).
+     방식은 localStorage 'edeck-motion-auto' 에 남겨 다음 열람에서도 유지한다.
+     자동 완주는 instant 아님(사용자 넘김·첫 로드)에서만 — deckGo·검사기는 영향 없다. */
+  var MODE_KEY='edeck-motion-auto';
+  var motionAuto=false;
+  try{ motionAuto=localStorage.getItem(MODE_KEY)==='1'; }catch(eM){}
+  function motionGuard(){
+    return !rootEl.classList.contains('ed-compact')&&!document.body.classList.contains('in-hub');
+  }
+  function motionFinishKey(){ if(motionGuard()) finishSteps(); }
+  function motionModeSet(on){
+    if(!motionGuard()) return;
+    motionAuto=on;
+    try{ localStorage.setItem(MODE_KEY,on?'1':'0'); }catch(eM){}
+    if(window.edToast) window.edToast(on?'모션 자동 완주 켬 — 장이 바뀌면 그 장의 끝까지 재생합니다 (M 끄기)'
+                                        :'모션 자동 완주 끔 — 클릭·키마다 한 단계씩 재생합니다 (M 켜기)');
+    if(on) finishSteps(); else cancelFinish();
   }
   document.addEventListener('dblclick',function(e){
     if(rootEl.classList.contains('ed-compact')) return;

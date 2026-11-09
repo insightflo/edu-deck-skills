@@ -1,6 +1,6 @@
 /*
   자습 레이어(클린룸 재작성): 자습 모드(S 키), 인쇄(P 키 — 한 장 요약·발표 대본),
-  용어집(G 키), 확인 문제(.chk) 채점과 복습 안내.
+  용어집(D 키), 확인 문제(.chk) 채점과 복습 안내.
   [하는 일] 발표용 덱을 혼자 보는 사람이 장마다 발표자 노트를 읽고, 한 장 요약과
     발표 대본을 A4로 인쇄하고, 용어를 찾고, 확인 문제를 풀 수 있게 한다.
   [안 하는 일] 덱 원고(슬라이드 마크업)를 고치지 않는다. aside.notes,
@@ -122,7 +122,7 @@
   var pPrev=mkBtn('st-pbtn st-prev','← 이전'), pNext=mkBtn('st-pbtn st-next st-main','다음 →');
   var pTerms=mkBtn('st-pbtn st-tool','용어집'), pPrint=mkBtn('st-pbtn st-tool','인쇄');
   var pFold=mkBtn('st-pbtn st-fold',''), pOff=mkBtn('st-pbtn st-off','자습 끄기');
-  pTerms.title='용어집 (G)'; pPrint.title='인쇄 (P)'; pOff.title='자습 모드 끄기 (S)';
+  pTerms.title='용어집 (D)'; pPrint.title='인쇄 (P)'; pOff.title='자습 모드 끄기 (S)';
   var pGap=mk('span','st-sp');
   [pTag,pPos,pHint,pGap,pPrev,pNext,pTerms,pPrint,pFold,pOff].forEach(function(x){ pBar.appendChild(x); });
   var pText=mk('div','st-pb'); pText.setAttribute('aria-live','polite'); pText.tabIndex=0;
@@ -182,7 +182,7 @@
     document.body.classList.toggle('st-self',selfOn);
     document.body.classList.toggle('st-fold',folded);
     paintPanel(); fitStage();
-    if(!quiet) toast(selfOn?'자습 모드를 켰습니다. 장마다 설명이 아래에 나옵니다. (S 끄기 · G 용어집 · P 인쇄)':'자습 모드를 껐습니다. (S로 다시 켜기)');
+    if(!quiet) toast(selfOn?'자습 모드를 켰습니다. 장마다 설명이 아래에 나옵니다. (S 끄기 · D 용어집 · P 인쇄)':'자습 모드를 껐습니다. (S로 다시 켜기)');
   }
   function setFold(f){ folded=!!f; store(KEY_FOLD,folded?'1':'0'); document.body.classList.toggle('st-fold',folded); paintPanel(); fitStage(); }
   function fakeKey(key){ document.dispatchEvent(new KeyboardEvent('keydown',{key:key,bubbles:true,cancelable:true})); }
@@ -321,7 +321,7 @@
   pkX.addEventListener('click',hideLayer);
 
   /* =========================================================
-     3. 용어집(G): glossary 데이터로 만든다. slide 키 또는 본문 찾기로 그 장으로 간다
+     3. 용어집(D): glossary 데이터로 만든다. slide 키 또는 본문 찾기로 그 장으로 간다
      ========================================================= */
   var gloss=mk('div','st-modal st-gloss'); gloss.id='st-gloss';
   gloss.setAttribute('role','dialog'); gloss.setAttribute('aria-modal','true'); gloss.setAttribute('aria-label','용어집');
@@ -474,7 +474,7 @@
       if(atHub()){ toast('목차 화면에서는 자습 모드를 쓰지 않습니다. 편을 열면 장마다 설명이 붙습니다.'); }
       else setSelf(!selfOn);
     }
-    else if(k==='g'||k==='G'||k==='ㅎ'){ e.preventDefault(); openGlossary(); }
+    else if(k==='d'||k==='D'||k==='ㅇ'){ e.preventDefault(); openGlossary(); }
     else if(k==='p'||k==='P'||k==='ㅔ'){ e.preventDefault(); openPicker(); }
   },true);
   /* 클릭: 레이어 배경을 누르면 닫기만 하고 장은 넘기지 않는다 */
