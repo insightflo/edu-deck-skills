@@ -1,94 +1,94 @@
 <section class="slide" data-archetype="arch-diagram" style="gap:20px">
   <div class="head"><p class="eyebrow">SI 유형 A3 · 연계 아키텍처 — 허브 패턴</p><h2 class="title">내부·외부 연계 구성 — IF ID·프로토콜·주기</h2></div>
-  <svg class="dg" viewBox="0 0 1664 694" role="img" aria-label="연계 구성도: 업무포털이 연계 허브를 통해 그룹웨어·ERP·전사DB와 붙고, 허브가 외부기관과 실시간 연계한다. 각 연결에 IF 번호와 프로토콜·주기가 표기된다">
+  <svg class="dg" viewBox="0 0 1664 730" role="img" aria-label="연계 구성도: 업무포털이 연계 허브를 통해 그룹웨어·ERP·전사DB와 붙고, 허브가 외부기관과 실시간 연계한다. 각 연결에 IF 번호와 프로토콜·주기가 표기된다">
   <title>연계 구성 — EAI 허브·IF 라벨·동기/비동기 구분</title>
   <g data-step="1">
-    <rect class="k-paper" x="542" y="30" width="892" height="544" style="rx:12px;fill-opacity:0.55"/>
-    <text class="k-t-tag" x="558" y="64">내부망</text>
+    <rect class="k-paper" x="494" y="30" width="1024" height="568" style="rx:12px;fill-opacity:0.55"/>
+    <text class="k-t-tag" x="510" y="64">내부망</text>
   </g>
   <g data-step="1">
-    <rect class="k-paper" x="230" y="398" width="160" height="210" style="rx:12px;fill-opacity:0.55"/>
-    <text class="k-t-tag" x="246" y="432">외부</text>
+    <rect class="k-paper" x="146" y="432" width="168" height="212" style="rx:12px;fill-opacity:0.55"/>
+    <text class="k-t-tag" x="162" y="630">외부</text>
   </g>
   <g data-step="1">
-    <polyline points="466,20 466,618" fill="none" stroke="var(--accent)" stroke-width="3.5" stroke-dasharray="11 9"/>
-    <text class="k-t-tag" x="466" y="34" text-anchor="middle" style="fill:var(--accent)">신뢰 경계</text>
+    <polyline points="404,20 404,654" fill="none" stroke="var(--accent)" stroke-width="3.5" stroke-dasharray="11 9"/>
+    <text class="k-t-tag" x="404" y="34" text-anchor="middle" style="fill:var(--accent)">신뢰 경계</text>
   </g>
   <g data-step="3">
-      <path class="k-ln-b dash-flow" d="M670 192 L670 206 Q670 218 670 230 L670 244" marker-end="url(#ah-b)"/>
-      <rect class="k-paper" x="502" y="200" width="336" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="670" y="226" text-anchor="middle">IF-01 · REST·동기·상시</text>
+      <path class="k-ln-b dash-flow" d="M636 198 L636 215 Q636 227 636 239 L636 256" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="510.5" y="209" width="251" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="636" y="235" text-anchor="middle">IF-01·REST·상시</text>
     </g>
   <g data-step="3">
-      <path class="k-ln-b" d="M744 324.7 L1120.2 399.7 Q1132 402 1121.9 408.5 L1062 446.7" marker-end="url(#ah-b)"/>
-      <rect class="k-paper" x="810.7" y="327.5" width="336" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="978.7" y="353.5" text-anchor="middle">IF-01 · REST·동기·상시</text>
+      <path class="k-ln-b" d="M716 336.1 L1164.2 414.9 Q1176 417 1165.5 422.9 L1086 467.3" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="871.3" y="341.5" width="251" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="996.8" y="367.5" text-anchor="middle">IF-01·REST·상시</text>
     </g>
   <g data-step="3">
-      <path class="k-ln-g" d="M914 446.7 L854.1 408.5 Q844 402 833.4 396.4 L744 349.1" stroke-dasharray="8 8" marker-end="url(#ah-open)"/>
-      <rect class="k-paper" x="774.7" y="369" width="200" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="874.7" y="395" text-anchor="middle">IF-01 · 응답</text>
+      <path class="k-ln-g" d="M926 467.3 L846.5 422.9 Q836 417 825.2 411.9 L716 360" stroke-dasharray="8 8" marker-end="url(#ah-open)"/>
+      <rect class="k-paper" x="739.6" y="418.6" width="166" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="822.6" y="444.6" text-anchor="middle">IF-01·응답</text>
     </g>
-  <g data-step="3">
-      <path class="k-ln-g" d="M744 320.2 L1324.1 400.4 Q1336 402 1336 414 L1336 428" marker-end="url(#ahg)"/>
-      <rect class="k-paper" x="1008.4" y="378.9" width="353" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="1184.9" y="404.9" text-anchor="middle">IF-02 · 파일·비동기·일 1회</text>
+  <g data-step="4">
+      <path class="k-ln-g" d="M716 331.9 L1394.1 415.5 Q1406 417 1406 429 L1406 446" marker-end="url(#ahg)"/>
+      <rect class="k-paper" x="1125.9" y="358.2" width="251" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1251.4" y="384.2" text-anchor="middle">IF-02·파일·일 1회</text>
     </g>
-  <g data-step="3">
-      <path class="k-ln-g" d="M648.5 376 L643.7 390.6 Q640 402 640 414 L640 428" marker-end="url(#ahg)"/>
-      <rect class="k-paper" x="455.2" y="383.4" width="370" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="640.2" y="409.4" text-anchor="middle">IF-04 · JDBC·배치·시 1회</text>
+  <g data-step="4">
+      <path class="k-ln-g" d="M615.2 388 L609.6 405.6 Q606 417 606 429 L606 446" marker-end="url(#ahg)"/>
+      <rect class="k-paper" x="419.7" y="398.3" width="285" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="562.2" y="424.3" text-anchor="middle">IF-04·JDBC·시 1회</text>
     </g>
-  <g data-step="3">
-      <path class="k-ln-b dash-flow" d="M596 340.3 L456.1 397.5 Q445 402 435.1 408.8 L366 455.8" marker-end="url(#ah-b)"/>
-      <rect class="k-paper" x="203.3" y="345.2" width="370" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="388.3" y="371.2" text-anchor="middle">IF-03 · HTTPS·동기·실시간</text>
+  <g data-step="5">
+      <path class="k-ln-b dash-flow" d="M556 352.6 L399.2 412.7 Q388 417 377.7 423.2 L286 478.3" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="229.9" y="362.1" width="285" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="372.4" y="388.1" text-anchor="middle">IF-03·HTTPS·실시간</text>
     </g>
-  <g data-step="3">
-      <path class="k-ln-g" d="M288.5 428 L283.7 413.4 Q280 402 291.7 399.2 L596 327.5" stroke-dasharray="8 8" marker-end="url(#ah-open)"/>
-      <rect class="k-paper" x="324.7" y="307.9" width="200" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="424.7" y="333.9" text-anchor="middle">IF-03 · 응답</text>
-    </g>
-  <g data-step="2">
-    <rect class="k-blue" x="596" y="60" width="148" height="132" style="rx:9px"/>
-    <use href="#i-window" x="646" y="74" width="48" height="48" style="color:var(--blue)"/>
-    <text class="t-l" x="670" y="156" text-anchor="middle">업무포털</text>
-    <text class="k-t-tag" x="670" y="184" text-anchor="middle">대내 서비스</text>
+  <g data-step="5">
+      <path class="k-ln-g" d="M212.3 456 L203.6 428.4 Q200 417 211.7 414.4 L556 339.4" stroke-dasharray="8 8" marker-end="url(#ah-open)"/>
+      <rect class="k-paper" x="275" y="322.6" width="166" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="358" y="348.6" text-anchor="middle">IF-03·응답</text>
     </g>
   <g data-step="2">
-    <rect class="k-blue" x="596" y="244" width="148" height="132" style="rx:9px"/>
-    <use href="#i-globe" x="646" y="258" width="48" height="48" style="color:var(--blue)"/>
-    <text class="t-l" x="670" y="340" text-anchor="middle">연계 허브</text>
-    <text class="k-t-tag" x="670" y="368" text-anchor="middle">EAI·변환</text>
+    <rect class="k-blue" x="556" y="66" width="160" height="132" style="rx:9px"/>
+    <use href="#i-window" x="612" y="80" width="48" height="48" style="color:var(--blue)"/>
+    <text class="t-l" x="636" y="162" text-anchor="middle">업무포털</text>
+    <text class="k-t-tag" x="636" y="190" text-anchor="middle">대내 서비스</text>
     </g>
   <g data-step="2">
-    <rect class="k-paper" x="914" y="428" width="148" height="132" style="rx:9px"/>
-    <use href="#i-mail" x="964" y="442" width="48" height="48" style="color:var(--ink)"/>
-    <text class="t-l" x="988" y="524" text-anchor="middle">그룹웨어</text>
-    <text class="k-t-tag" x="988" y="552" text-anchor="middle">결재·메일</text>
+    <rect class="k-blue" x="556" y="256" width="160" height="132" style="rx:9px"/>
+    <use href="#i-globe" x="612" y="270" width="48" height="48" style="color:var(--blue)"/>
+    <text class="t-l" x="636" y="352" text-anchor="middle">연계 허브</text>
+    <text class="k-t-tag" x="636" y="380" text-anchor="middle">EAI·변환</text>
     </g>
   <g data-step="2">
-    <rect class="k-paper" x="1262" y="428" width="148" height="132" style="rx:9px"/>
-    <use href="#i-calc" x="1312" y="442" width="48" height="48" style="color:var(--ink)"/>
-    <text class="t-l" x="1336" y="524" text-anchor="middle">ERP</text>
-    <text class="k-t-tag" x="1336" y="552" text-anchor="middle">회계·인사</text>
+    <rect class="k-paper" x="926" y="446" width="160" height="132" style="rx:9px"/>
+    <use href="#i-mail" x="982" y="460" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="1006" y="542" text-anchor="middle">그룹웨어</text>
+    <text class="k-t-tag" x="1006" y="570" text-anchor="middle">결재·메일</text>
     </g>
   <g data-step="2">
-    <rect class="k-paper" x="566" y="428" width="148" height="132" style="rx:9px"/>
-    <use href="#i-db" x="616" y="442" width="48" height="48" style="color:var(--ink)"/>
-    <text class="t-l" x="640" y="524" text-anchor="middle">전사 DB</text>
-    <text class="k-t-tag" x="640" y="552" text-anchor="middle">공통 코드·마스터</text>
+    <rect class="k-paper" x="1326" y="446" width="160" height="132" style="rx:9px"/>
+    <use href="#i-calc" x="1382" y="460" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="1406" y="542" text-anchor="middle">ERP</text>
+    <text class="k-t-tag" x="1406" y="570" text-anchor="middle">회계·인사</text>
     </g>
   <g data-step="2">
-    <circle class="k-paper" cx="310" cy="494" r="56"/>
-    <use href="#i-building" x="288" y="464" width="44" height="44" style="color:var(--ink)"/>
-    <text class="k-t-tag" x="310" y="528" text-anchor="middle" style="fill:var(--ink)">외부기관</text>
-    <text class="k-t-tag" x="310" y="586" text-anchor="middle">공공 연계</text>
+    <rect class="k-paper" x="526" y="446" width="160" height="132" style="rx:9px"/>
+    <use href="#i-db" x="582" y="460" width="48" height="48" style="color:var(--ink)"/>
+    <text class="t-l" x="606" y="542" text-anchor="middle">전사 DB</text>
+    <text class="k-t-tag" x="606" y="570" text-anchor="middle">공통 코드·마스터</text>
     </g>
-  <g><polyline class="k-ln-b" points="34,654 104,654"/><text class="k-t-tag" x="118" y="662">동기 호출</text>
-    <polyline class="k-ln-g" stroke-dasharray="8 8" points="298,654 368,654"/><text class="k-t-tag" x="382" y="662">응답</text>
-    <polyline class="k-ln-g" points="490,654 560,654"/><text class="k-t-tag" x="574" y="662">보조·연계</text></g>
+  <g data-step="2">
+    <circle class="k-orange" cx="230" cy="512" r="56"/>
+    <use href="#i-building" x="208" y="482" width="44" height="44" style="color:var(--accent)"/>
+    <text class="k-t-tag" x="230" y="546" text-anchor="middle" style="fill:var(--accent)">외부기관</text>
+    <text class="k-t-tag" x="230" y="594" text-anchor="middle">공공 연계</text>
+    </g>
+  <g><polyline class="k-ln-b" points="34,690 104,690"/><text class="k-t-tag" x="118" y="698">동기 호출</text>
+    <polyline class="k-ln-g" stroke-dasharray="8 8" points="298,690 368,690"/><text class="k-t-tag" x="382" y="698">응답</text>
+    <polyline class="k-ln-g" points="490,690 560,690"/><text class="k-t-tag" x="574" y="698">보조·연계</text></g>
 </svg>
   <p class="small">읽는 법 — 실선: 동기 호출 · 점선+빈 화살촉: 응답 · 회색 보조: 비동기·배치 · 라벨: IF ID·프로토콜·주기</p>
-  <aside class="notes">P0 연계 아키텍처. 허브(EAI) 매개 패턴으로 IF 번호·프로토콜·동기/비동기·주기를 라벨에 싣는다. IF-01·IF-03은 동기 호출+응답(b/r 방향 쌍), IF-02 파일 배치와 IF-04 JDBC 배치는 보조선(g). 외부기관은 외부 띠에 두고 내부망과의 사이에 신뢰 경계선을 넣는다. 1단계 존·경계, 2단계 시스템, 3단계 연계선.</aside>
+  <aside class="notes">P0 연계 아키텍처. 허브(EAI) 매개 패턴으로 IF 번호·프로토콜·주기를 일관된 3토큰 라벨에 싣고 동기/비동기는 선 종류로 구분한다. 1단계 존·경계, 2단계 시스템(온라인 허브=청색, 내부 기간계=기본, 대외 기관=주황), 3단계 IF-01 대내 동기 호출·응답, 4단계 IF-02·IF-04 내부 배치 연계, 5단계 IF-03 대외 실시간 연계.</aside>
 </section>

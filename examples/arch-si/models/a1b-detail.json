@@ -1,14 +1,14 @@
 {
   "title": "차세대 업무포털 구성 — 상세(13노드)",
   "eyebrow": "SI 유형 A1 · 종합시스템 — 상세 분리 장",
-  "small": "읽는 법 — 핵심 경로가 단계로 그려지고(draw 12), aux 정적 보조선은 처음부터 표시 · 주황: 이벤트 · 회색 점선: 보조·응답",
+  "small": "읽는 법 — 3단계 동기·조회 경로 → 4단계 이벤트·외부 연계 순차 조명 · aux 정적 보조선은 항시 표시",
   "ariaLabel": "업무포털 상세 구성도: 게이트웨이 아래 주문·결제·정산·검색 서비스가 데이터·메시지큐·워커와 연결되고 외부기관 연계가 붙는다. 모니터링 헬스체크와 마감 이벤트는 정적 보조선이다",
   "titleSvg": "업무포털 상세 — aux 정적 보조선 포함",
-  "notes": "개요↔상세 2단 분리의 상세 장. draw 예산(path 12) 안에 핵심 요청 경로를 넣고, 헬스체크·마감 이벤트 3엣지는 aux:true 정적 보조선으로 예산 밖에서 그린다 — 시제품에서 잘렸던 보조 의미가 aux로 복원됐다. 내부망은 면색 소속 띠, 왼쪽 점선이 신뢰 경계. 1단계 존·경계, 2단계 노드, 3단계 핵심 경로 draw.",
+  "notes": "개요↔상세 2단 분리의 상세 장. draw 예산(path 12) 안에 핵심 요청 경로를 넣고, 헬스체크·마감 이벤트 3엣지는 aux:true 정적 보조선으로 예산 밖에서 직교 우회로 그린다. 1단계 존·경계, 2단계 13노드, 3단계 동기 호출·조회(HTTPS·443·검증·라우팅·JDBC·색인), 4단계 비동기 이벤트·외부 연계(결제이벤트·구독·적재·IF-03) 순차 조명.",
   "layout": {
     "dir": "LR",
-    "nodesep": 44,
-    "ranksep": 46,
+    "nodesep": 50,
+    "ranksep": 62,
     "chipAvoid": true
   },
   "nodes": [
@@ -18,80 +18,80 @@
       "icon": "i-people",
       "shape": "circle",
       "fam": "blue",
-      "w": 112,
-      "h": 100
+      "w": 100,
+      "h": 108
     },
     {
       "id": "web",
       "name": "포털 WEB",
       "icon": "i-window",
       "fam": "paper",
-      "w": 128,
-      "h": 100
+      "w": 130,
+      "h": 108
     },
     {
       "id": "apigw",
       "name": "API GW",
       "icon": "i-globe",
       "fam": "blue",
-      "w": 128,
-      "h": 100
+      "w": 112,
+      "h": 108
     },
     {
       "id": "auth",
       "name": "인증",
       "icon": "i-key",
       "fam": "paper",
-      "w": 128,
-      "h": 100
+      "w": 142,
+      "h": 108
     },
     {
       "id": "order",
       "name": "주문 API",
       "icon": "i-clipboard",
       "fam": "paper",
-      "w": 128,
-      "h": 100
+      "w": 112,
+      "h": 108
     },
     {
       "id": "pay",
       "name": "결제 API",
       "icon": "i-coin",
       "fam": "paper",
-      "w": 128,
-      "h": 100
+      "w": 108,
+      "h": 108
     },
     {
       "id": "acct",
       "name": "정산 API",
       "icon": "i-calc",
       "fam": "paper",
-      "w": 128,
-      "h": 100
+      "w": 130,
+      "h": 108
     },
     {
       "id": "search",
       "name": "검색",
       "icon": "i-search",
       "fam": "paper",
-      "w": 128,
-      "h": 100
+      "w": 108,
+      "h": 108
     },
     {
       "id": "mq",
       "name": "메시지큐",
       "icon": "i-bolt",
       "fam": "orange",
-      "w": 128,
-      "h": 100
+      "w": 108,
+      "h": 108
     },
     {
       "id": "worker",
       "name": "워커",
       "icon": "i-robot",
       "fam": "paper",
-      "w": 128,
-      "h": 100
+      "w": 104,
+      "h": 108
     },
     {
       "id": "db",
@@ -99,7 +99,7 @@
       "icon": "i-db",
       "fam": "paper",
       "w": 128,
-      "h": 100,
+      "h": 108,
       "state": "ok"
     },
     {
@@ -108,16 +108,16 @@
       "icon": "i-building",
       "shape": "circle",
       "fam": "paper",
-      "w": 112,
-      "h": 100
+      "w": 106,
+      "h": 118
     },
     {
       "id": "monitor",
       "name": "모니터링",
       "icon": "i-heart",
       "fam": "orange",
-      "w": 128,
-      "h": 100
+      "w": 130,
+      "h": 108
     }
   ],
   "edges": [
@@ -126,76 +126,88 @@
       "to": "web",
       "label": "HTTPS",
       "kind": "b",
-      "flow": true
+      "flow": true,
+      "step": 3
     },
     {
       "from": "web",
       "to": "apigw",
       "label": "443",
       "kind": "b",
-      "flow": true
+      "flow": true,
+      "step": 3
     },
     {
       "from": "apigw",
       "to": "order",
       "label": "라우팅",
-      "kind": "b"
+      "kind": "b",
+      "step": 3
     },
     {
       "from": "apigw",
       "to": "pay",
       "label": "라우팅",
-      "kind": "b"
+      "kind": "b",
+      "step": 3
     },
     {
       "from": "order",
       "to": "db",
       "label": "JDBC",
-      "kind": "b"
+      "kind": "b",
+      "step": 3
     },
     {
       "from": "pay",
       "to": "db",
       "label": "JDBC",
-      "kind": "b"
+      "kind": "b",
+      "step": 3
     },
     {
       "from": "pay",
       "to": "mq",
       "label": "결제이벤트",
       "kind": "o",
-      "flow": true
+      "flow": true,
+      "step": 4
     },
     {
       "from": "mq",
       "to": "worker",
-      "label": "consume",
+      "label": "구독",
       "kind": "o",
-      "flow": true
+      "flow": true,
+      "step": 4
     },
     {
       "from": "order",
       "to": "search",
       "label": "색인",
-      "kind": "g"
+      "kind": "g",
+      "step": 3
     },
     {
       "from": "apigw",
       "to": "auth",
       "label": "검증",
-      "kind": "g"
+      "kind": "g",
+      "step": 3
     },
     {
       "from": "worker",
       "to": "db",
       "label": "적재",
-      "kind": "b"
+      "kind": "b",
+      "step": 4
     },
     {
       "from": "acct",
       "to": "ext",
       "label": "IF-03",
-      "kind": "g"
+      "kind": "g",
+      "step": 4
     },
     {
       "from": "monitor",
@@ -224,6 +236,11 @@
       "id": "z-int",
       "label": "내부망",
       "kind": "member",
+      "pad": {
+        "top": 66,
+        "bottom": 28,
+        "side": 18
+      },
       "members": [
         "apigw",
         "auth",
@@ -239,6 +256,7 @@
     {
       "id": "b-trust",
       "label": "신뢰 경계",
+      "labelAt": "top",
       "between": [
         "z-int"
       ]
