@@ -316,14 +316,30 @@ const fmtDelta = (v) => (v > 0 ? '+' + fmt(v) : fmt(v));
 const annBy = (on) => anns.filter((a) => a.on === on);
 /* 추정 글자 폭 — 전각(CJK·괄호)은 fs, 그 외는 0.55fs 로 근사한다(결정적·폰트 무의존) */
 const tw = (s, fs) => [...String(s)].reduce((w, c) => w + (c.charCodeAt(0) > 0x2e7f ? fs : fs * 0.55), 0);
-/* 주석 한 건을 최대 2줄로 접는다 — 넘치면 둘째 줄 끝을 '…' 로 자른다 */
+/* 주석 한 건을 최대 2줄로 접는다 — 어절(공백) 우선 병합, 한 어절이 maxW 를 넘으면 그것만 글자 단위로 쪼갠다.
+   숫자·단위가 행갈이로 분단(“202/4재계약”형) 되는 것을 막는다(agy 리뷰 치명-4). 둘째 줄까지 넘치면 끝에 '…' 로 자른다. */
 const wrapLines = (s, maxW, fs) => {
   const lines = []; let cur = '';
-  for (const ch of String(s)) {
-    if (cur && tw(cur + ch, fs) > maxW) { lines.push(cur); cur = ch; } else cur += ch;
+  const split = (w) => {              // 한 토큰을 maxW 안에서 글자 단위로
+    let piece = '';
+    for (const ch of w) {
+      if (piece && tw(piece + ch, fs) > maxW) { lines.push(piece); piece = ch; } else piece += ch;
+    }
+    return piece;
+  };
+  for (const w of String(s).split(/(\s+)/)) {
+    if (!w) continue;
+    if (!cur) { cur = split(w); continue; }
+    if (tw(cur + w, fs) > maxW) { lines.push(cur); cur = split(w); }
+    else cur += w;
   }
   if (cur) lines.push(cur);
-  return lines.length > 2 ? [lines[0], lines[1].slice(0, -1) + '…'] : lines;
+  if (lines.length > 2) {
+    let rest = lines.slice(1).join('');
+    while (rest && tw(rest + '…', fs) > maxW) rest = [...rest].slice(0, -1).join('');
+    return [lines[0], rest + '…'];
+  }
+  return lines;
 };
 const annText = (a) => `「${a.kind === 'main' ? '핵심' : '참고'}」 ${a.label}`;
 const annFont = (a) => (a.kind === 'main' ? 24 : 20);
@@ -396,6 +412,15 @@ function buildWaterfall() {
     if (auto >= minCum) auto -= p;
     brk = Math.max(0, Math.min(Math.max(auto, maxV - minDelta * 20), minCum - 1));
   }
+  /* base 막대 최소 가시 폭 — 생략 하한이 base 바로 밑까지 오르면 base 가 몇 px 로 찌그러든다
+     (agy 치명-6). (base−brk)/(maxV−brk) ≥ 22% 가 되도록 brk 상한을 준다. */
+  if (brk > 0) {
+    const cap = (data[0].value - 0.22 * maxV) / 0.78;
+    if (Number.isFinite(cap) && brk > cap) {
+      if (typeof expl === 'number') warn(`axisBreak ${expl} 은 base 가시 폭(≥22%) 때문에 ${Math.max(0, cap)} 로 줄인다`);
+      brk = Math.max(0, cap);
+    }
+  }
   const sc = PLOT / Math.max(maxV - brk, 1e-9);
   const U = (v) => (v - brk) * sc;
   const barW = Math.min(200, Math.floor((VBW - 180 - (n - 1) * CONN) / n));
@@ -445,7 +470,7 @@ function buildWaterfall() {
        부유 막대 밑 공간이 부족하면 항목 라벨 아래로 내린다(복수 주석은 아래로 누적). */
     let annCursor = 0;
     annBy(d.label).forEach((a) => {
-      const fs = annFont(a), maxW = barW + CONN / 2;
+      const fs = annFont(a), maxW = barW + CONN;
       const lines = wrapLines(annText(a), maxW, fs);
       const need = lines.length * 24 + 16;
       const inGap = k === 'delta' && barBottom + annCursor + need <= NAME_Y - 8;
@@ -477,7 +502,7 @@ function annPlan(d, valStr, valX, dir, labelX) {
       wrapLines(txt, 1100, fs).forEach((line) => below.push({ line, fs, main: a.kind === 'main' }));
     }
   }
-  return { inline, below, extra: below.length ? below.length * 26 + 8 : 0 };
+  return { inline, below, extra: below.length ? below.length * 26 + 20 : 0 };
 }
 
 /* ── 3-B. ranked-bar-h ───────────────────────────────────────────── */
@@ -508,7 +533,7 @@ function buildRanked() {
       svg.push(`      <text x="${r2(t.x)}" y="${cy}" font-size="${t.fs}" font-weight="${t.a.kind === 'main' ? 800 : 600}" class="${t.a.kind === 'main' ? 'k-t-o' : 'k-t-tag'}" text-anchor="${t.anchor}">${esc(t.txt)}</text>`);
     });
     below.forEach((t, li) => {
-      svg.push(`      <text x="${AXIS_X}" y="${r2(cy + 36 + li * 26)}" font-size="${t.fs}" font-weight="${t.main ? 800 : 600}" class="${t.main ? 'k-t-o' : 'k-t-tag'}" text-anchor="start">${esc(t.line)}</text>`);
+      svg.push(`      <text x="${AXIS_X}" y="${r2(cy + 44 + li * 26)}" font-size="${t.fs}" font-weight="${t.main ? 800 : 600}" class="${t.main ? 'k-t-o' : 'k-t-tag'}" text-anchor="start">${esc(t.line)}</text>`);
     });
     svg.push(`    </g>`);
   });
@@ -517,18 +542,21 @@ function buildRanked() {
 
 /* ── 3-C. diverging-bar ──────────────────────────────────────────── */
 function buildDiverging() {
-  const ROW = 82, BAR_H = 56, ZERO = 800, TOP = 70, HALF = 460;
+  const ROW = 82, BAR_H = 56, ZERO = 800, TOP = 56, HALF = 460;
   const LABEL_X = ZERO - HALF - 20;
   const maxA = Math.max(...data.map((d) => Math.abs(d.value)), 1e-9);
   const plans = data.map((d) => {
     const w = Math.max((Math.abs(d.value) / maxA) * HALF, 4);
     const neg = d.value < 0;
+    const valStr = fmtDelta(d.value);
     const vx = neg ? ZERO - w - 16 : ZERO + w + 16;
-    return { w, neg, vx, ...annPlan(d, fmtDelta(d.value), vx, neg ? -1 : 1, LABEL_X) };
+    /* 최대 음수 막대의 값 라벨이 항목명(LABEL_X)과 겹치면 막대 안쪽(밝은 글자)로 뺀다(agy 치명-2) */
+    const inNeg = neg && vx - tw(valStr, 28) < LABEL_X + 14;
+    return { w, neg, vx, valStr, inNeg, ...annPlan(d, valStr, vx, neg ? -1 : 1, LABEL_X) };
   });
   const ys = []; let yy = TOP;
   plans.forEach((p) => { ys.push(yy); yy += ROW + p.extra; });
-  const H = yy + 60;
+  const H = yy + 48;
   const svg = svgOpen(H, slide.ariaLabel || `${chart.type} — ${chart.question}`);
   svg.push(unitTag);
   svg.push(`    <line x1="${ZERO - HALF}" y1="${H - 40}" x2="${ZERO + HALF}" y2="${H - 40}" stroke="var(--soft)" stroke-width="3"/>`);
@@ -539,22 +567,22 @@ function buildDiverging() {
   svg.push(`    <text x="${ZERO}" y="${H - 12}" text-anchor="middle" font-size="22" fill="var(--soft)">0</text>`);
   svg.push(`    <text x="${ZERO + HALF}" y="${H - 12}" text-anchor="middle" font-size="22" fill="var(--soft)">+${esc(fmt(maxA))}</text>`);
   data.forEach((d, i) => {
-    const { w, neg, vx, inline, below } = plans[i];
+    const { w, neg, vx, valStr, inNeg, inline, below } = plans[i];
     const y = ys[i], cy = y + BAR_H / 2 + 8;
     const x = neg ? ZERO - w : ZERO;
     const fill = neg ? 'var(--accent)' : 'var(--blue)';
     const grow = neg ? growR : growL;
-    const anchor = neg ? 'end' : 'start';
+    const anchor = inNeg ? 'start' : neg ? 'end' : 'start';
     const ring = highlights.includes(d.label) ? ` stroke="var(--ink)" stroke-width="3"` : '';
     svg.push(`    <g data-step="${i + 1}">`);
     svg.push(`      <text x="${LABEL_X}" y="${cy}" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">${esc(d.label)}</text>`);
     svg.push(`      <rect x="${r2(x)}" y="${y}" width="${r2(w)}" height="${BAR_H}" rx="8" fill="${fill}"${ring} ${grow}/>`);
-    svg.push(`      <text x="${r2(vx)}" y="${cy}" font-size="28" font-weight="800" fill="var(--ink)" text-anchor="${anchor}">${esc(fmtDelta(d.value))}</text>`);
+    svg.push(`      <text x="${r2(inNeg ? ZERO - w + 16 : vx)}" y="${cy}" font-size="28" font-weight="800" fill="${inNeg ? 'var(--paper)' : 'var(--ink)'}" text-anchor="${anchor}">${esc(valStr)}</text>`);
     inline.forEach((t) => {
       svg.push(`      <text x="${r2(t.x)}" y="${cy}" font-size="${t.fs}" font-weight="${t.a.kind === 'main' ? 800 : 600}" class="${t.a.kind === 'main' ? 'k-t-o' : 'k-t-tag'}" text-anchor="${t.anchor}">${esc(t.txt)}</text>`);
     });
     below.forEach((t, li) => {
-      svg.push(`      <text x="${r2(x)}" y="${r2(cy + 36 + li * 26)}" font-size="${t.fs}" font-weight="${t.main ? 800 : 600}" class="${t.main ? 'k-t-o' : 'k-t-tag'}" text-anchor="start">${esc(t.line)}</text>`);
+      svg.push(`      <text x="${r2(x)}" y="${r2(cy + 44 + li * 26)}" font-size="${t.fs}" font-weight="${t.main ? 800 : 600}" class="${t.main ? 'k-t-o' : 'k-t-tag'}" text-anchor="start">${esc(t.line)}</text>`);
     });
     svg.push(`    </g>`);
   });
@@ -614,7 +642,7 @@ function buildStacked() {
     d.segments.forEach((g) => {
       const h = g.value * sc, y = BASE_Y - (acc + g.value) * sc;
       svg.push(`      <rect x="${r2(x)}" y="${r2(y)}" width="${barW}" height="${r2(Math.max(h, 1))}" ${segFill(g)}/>`);
-      if (h >= 30) svg.push(`      <text x="${r2(cx)}" y="${r2(y + h / 2 + 6)}" font-size="18" font-weight="700" class="k-t-w" text-anchor="middle">${esc(fmt(g.value))}</text>`);
+      if (h >= 22) svg.push(`      <text x="${r2(cx)}" y="${r2(y + h / 2 + 6)}" font-size="18" font-weight="700" class="k-t-w" text-anchor="middle">${esc(fmt(g.value))}</text>`);
       acc += g.value;
     });
     svg.push(`      <text x="${r2(cx)}" y="${r2(BASE_Y - total * sc - 18)}" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">${esc(fmt(total))}</text>`);
@@ -647,12 +675,27 @@ function buildLine() {
   const SCOL = ['var(--blue)', 'var(--muted)', 'var(--ink)', 'var(--soft)'];
   const svg = svgOpen(H, slide.ariaLabel || `${chart.type} — ${chart.question}`);
   svg.push(unitTag);
-  /* 눈금 — 5등분 수평 보조선 + 좌측 값 */
-  for (let i = 0; i <= 4; i++) {
-    const v = lo + (hi - lo) * i / 4, y = r2(Y(v));
-    svg.push(`    <path d="M${L},${y} L${R},${y}" stroke="var(--soft)" stroke-width="2" stroke-dasharray="2 8"/>`);
-    svg.push(`    <text x="${L - 14}" y="${y + 7}" font-size="20" fill="var(--soft)" text-anchor="end">${esc(fmt(Math.round(v * 10) / 10))}</text>`);
-  }
+  /* 눈금 — 보기 좋은 값(1·2·2.5·5×10^k) 간격으로 — 중간값 눈금(11.9 같은)을 없앤다 */
+  const niceStep = (raw) => {
+    const e = 10 ** Math.floor(Math.log10(raw));
+    for (const m of [1, 2, 2.5, 5, 10]) if (m * e >= raw) return m * e;
+    return 10 * e;
+  };
+  const stepV = niceStep((hi - lo) / 4);
+  const t0 = Math.ceil(lo / stepV) * stepV;
+  const tN = Math.floor(hi / stepV) * stepV;
+  if (tN > t0 && (tN - t0) / stepV <= 8)
+    for (let v = t0; v <= tN + 1e-9; v += stepV) {
+      const y = r2(Y(v));
+      svg.push(`    <path d="M${L},${y} L${R},${y}" stroke="var(--soft)" stroke-width="2" stroke-dasharray="2 8"/>`);
+      svg.push(`    <text x="${L - 14}" y="${y + 7}" font-size="20" fill="var(--soft)" text-anchor="end">${esc(fmt(Math.round(v * 10) / 10))}</text>`);
+    }
+  else
+    for (let i = 0; i <= 4; i++) {
+      const v = lo + (hi - lo) * i / 4, y = r2(Y(v));
+      svg.push(`    <path d="M${L},${y} L${R},${y}" stroke="var(--soft)" stroke-width="2" stroke-dasharray="2 8"/>`);
+      svg.push(`    <text x="${L - 14}" y="${y + 7}" font-size="20" fill="var(--soft)" text-anchor="end">${esc(fmt(Math.round(v * 10) / 10))}</text>`);
+    }
   svg.push(`    <path d="M${L},${BASE_Y} L${R},${BASE_Y}" class="k-ln-n"/>`);
   /* x 라벨 — 슬롯보다 길면 −38° 회전 */
   const slot = n > 1 ? (R - L) / (n - 1) : R - L;
@@ -821,22 +864,59 @@ function buildMatrix() {
     [quad.sw, PX0 + 22, PY1 - 18, 'start'], [quad.se, PX1 - 22, PY1 - 18, 'end'],
   ];
   q.forEach(([t, x, y, a]) => { if (t) svg.push(`      <text x="${x}" y="${y}" font-size="21" font-weight="700" class="k-t-tag" text-anchor="${a}">${esc(t)}</text>`); });
-  svg.push(`      <text x="${PX1}" y="${PY1 + 46}" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">${esc(ax.label)} →</text>`);
-  svg.push(`      <text x="${PX0}" y="${PY0 - 20}" font-size="22" font-weight="700" fill="var(--ink)">↑ ${esc(ay2.label)}</text>`);
+  /* 축 라벨 — 모델 라벨에 이미 화살표가 있으면 중복 부착하지 않는다(agy 치명-1) */
+  const stripArrow = (t) => String(t).replace(/[\s]*[→↔↘←↓↑]+\s*$/u, '').trim();
+  svg.push(`      <text x="${PX1}" y="${PY1 + 46}" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">${esc(stripArrow(ax.label) || ax.label)} →</text>`);
+  svg.push(`      <text x="${PX0}" y="${PY0 - 20}" font-size="22" font-weight="700" fill="var(--ink)">↑ ${esc(stripArrow(ay2.label) || ay2.label)}</text>`);
   svg.push(`    </g>`);
-  const placed = [];
-  data.forEach((d, i) => {
+  /* 점 먼저 계산 → 라벨 레인 배치(다른 점의 원도 피한다) → 주석은 라벨 바로 아래 레인(agy 치명-1) */
+  const pts = data.map((d, i) => {
     const px = clamp(X(d.x), PX0 + 14, PX1 - 14), py = clamp(Y(d.y), PY0 + 14, PY1 - 14);
     if (px !== X(d.x) || py !== Y(d.y)) warn(`'${d.label}' 축 범위 밖 — 경계로 이동`);
-    const hot = highlights.includes(d.label) || d.highlight;
-    const right = px < PX1 - 240;
-    let lx = right ? px + 20 : px - 20, ly = py + 7;
-    while (placed.some((qq) => Math.abs(qq.ly - ly) < 26)) ly += 30;
-    placed.push({ ly });
-    svg.push(`    <g data-step="${i + 2}">`);
+    return { d, i, px, py, hot: highlights.includes(d.label) || d.highlight };
+  });
+  const ANN_W = 560;
+  const placed = [];
+  pts.forEach((p) => {
+    const right = p.px < PX1 - 260;
+    p.right = right;
+    p.lw = tw(p.d.label, 20) + 4;
+    p.lx = right ? p.px + 22 : p.px - 22;
+    p.lcx = right ? p.lx + p.lw / 2 : p.lx - p.lw / 2;   /* anchor=end 라벨은 lx 에서 왼쪽으로 뻗는다 */
+    let ly = p.py + 7;
+    /* 레인 충돌 — 기존 라벨/주석 레인(세로 26px·가로 근접) 또는 다른 점의 원(±14px) */
+    const laneHit = () =>
+      placed.some((q) => Math.abs(q.ly - ly) < 26 && Math.abs(q.cx - p.lcx) < q.hw + p.lw / 2) ||
+      pts.some((q2) => q2 !== p && Math.abs(q2.py - ly + 7) < 24 && q2.px > p.lx - p.lw - 16 && q2.px < p.lx + p.lw + 16);
+    while (laneHit() && ly < PY1 + 4) ly += 28;
+    placed.push({ ly, cx: p.lcx, hw: p.lw / 2 });
+    p.ly = ly;
+    /* 주석 줄 — 이 점의 라벨 아래에 이어서 배치하고 레인에 등록한다(나중 점이 피한다) */
+    const anns2 = annBy(p.d.label);
+    if (!anns2.length) { p.annTop = null; return; }
+    let ay = ly + 32, first = null;
+    const annHit = (w2) =>
+      placed.some((q) => Math.abs(q.ly - ay) < 26 && Math.abs(q.cx - p.px) < q.hw + w2 / 2) ||
+      pts.some((q2) => q2 !== p && Math.abs(q2.py - ay + 6) < 26 && Math.abs(q2.px - p.px) < w2 / 2 + 16);
+    anns2.forEach((an) => {
+      const fs2 = annFont(an);
+      wrapLines(annText(an), ANN_W, fs2).forEach((l) => {
+        const w2 = tw(l, fs2);
+        while (annHit(w2) && ay < PY1 - 4) ay += 28;
+        if (first == null) first = ay;
+        placed.push({ ly: ay, cx: p.px, hw: Math.max(w2 / 2, 80) });
+        ay += 26;
+      });
+    });
+    p.annTop = Math.min(first, PY1 - 8);
+  });
+  pts.forEach((p) => {
+    const { px, py, hot, d } = p;
+    svg.push(`    <g data-step="${p.i + 2}">`);
     svg.push(`      <circle cx="${r2(px)}" cy="${r2(py)}" r="${hot ? 13 : 10}" fill="${hot ? 'var(--accent)' : 'var(--blue)'}" opacity="${hot ? '.95' : '.78'}"/>`);
-    svg.push(`      <text x="${r2(lx)}" y="${r2(ly)}" font-size="20" font-weight="${hot ? 800 : 600}" fill="var(--ink)" text-anchor="${right ? 'start' : 'end'}">${esc(d.label)}</text>`);
-    annBy(d.label).forEach((a) => emitAnn(svg, a, Math.max(PX0 + 80, Math.min(px, PX1 - 80)), Math.min(py + 44, PY1 - 12), py + 16, 480));
+    svg.push(`      <text x="${r2(p.lx)}" y="${r2(p.ly)}" font-size="20" font-weight="${hot ? 800 : 600}" fill="var(--ink)" text-anchor="${p.right ? 'start' : 'end'}">${esc(d.label)}</text>`);
+    if (p.annTop != null)
+      annBy(d.label).forEach((a) => emitAnn(svg, a, Math.max(PX0 + 80, Math.min(px, PX1 - 80)), p.annTop, p.ly + 8, ANN_W));
     svg.push(`    </g>`);
   });
   return section(svg, { bars: data.length, steps: data.length + 1 });
@@ -845,10 +925,15 @@ function buildMatrix() {
 /* ── 3-I. tornado — 민감도(대칭축 가로 발산 쌍) ────────────────────── */
 function buildTornado() {
   const rows = [...data].sort((a, b) => (b.high - b.low) - (a.high - a.low) || String(a.label).localeCompare(String(b.label)));
-  const ROW = 84, BAR_H = 52, TOP = 80;
+  const ROW = 84, BAR_H = 52, TOP = 64;
   const ZERO = 830, HALF = 560, LABEL_X = ZERO - HALF - 24;
   const maxA = Math.max(...rows.flatMap((d) => [Math.abs(d.low), Math.abs(d.high)]), 1e-9);
-  const H = TOP + rows.length * ROW + 84;
+  /* 행별 주석 줄 수만큼 행 높이를 늘린다 — 2줄 주석이 다음 행 막대와 겹치는 것을 막는다(agy 치명-2/3) */
+  const rowExtra = rows.map((d) => {
+    const lines = annBy(d.label).reduce((a2, an) => a2 + wrapLines(annText(an), 900, annFont(an)).length, 0);
+    return lines ? lines * 24 + 14 : 0;
+  });
+  const H = TOP + rows.reduce((a2, _d, i) => a2 + ROW + rowExtra[i], 0) + 56;
   const svg = svgOpen(H, slide.ariaLabel || `${chart.type} — ${chart.question}`);
   svg.push(unitTag);
   svg.push(`    <line x1="${ZERO - HALF}" y1="${H - 56}" x2="${ZERO + HALF}" y2="${H - 56}" stroke="var(--soft)" stroke-width="3"/>`);
@@ -859,15 +944,17 @@ function buildTornado() {
   svg.push(`    <text x="${ZERO}" y="${H - 24}" text-anchor="middle" font-size="22" fill="var(--soft)">0</text>`);
   svg.push(`    <text x="${ZERO + HALF}" y="${H - 24}" text-anchor="middle" font-size="22" fill="var(--soft)">+${esc(fmt(maxA))}</text>`);
   rows.forEach((d, i) => {
-    const y = TOP + i * ROW, cy = y + BAR_H / 2 + 8;
+    const y = TOP + rows.slice(0, i).reduce((a2, _r, j) => a2 + ROW + rowExtra[j], 0), cy = y + BAR_H / 2 + 8;
     const wl = Math.abs(d.low) / maxA * HALF, wh = Math.abs(d.high) / maxA * HALF;
+    /* 최대 음수 막대의 값 라벨이 항목명(LABEL_X)과 겹치면 막대 안쪽(밝은 글자)로 뺀다(agy 치명-2) */
+    const lowStr = fmtDelta(d.low), inLow = ZERO - wl - 14 - tw(lowStr, 24) < LABEL_X + 14;
     svg.push(`    <g data-step="${i + 1}">`);
     svg.push(`      <text x="${LABEL_X}" y="${cy}" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">${esc(d.label)}</text>`);
     svg.push(`      <rect x="${r2(ZERO - wl)}" y="${y}" width="${r2(wl)}" height="${BAR_H}" rx="6" fill="var(--accent)" ${growR}/>`);
     svg.push(`      <rect x="${ZERO}" y="${y}" width="${r2(wh)}" height="${BAR_H}" rx="6" fill="var(--blue)" ${growL}/>`);
-    svg.push(`      <text x="${r2(ZERO - wl - 14)}" y="${cy}" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="end">${esc(fmtDelta(d.low))}</text>`);
+    svg.push(`      <text x="${r2(inLow ? ZERO - wl + 16 : ZERO - wl - 14)}" y="${cy}" font-size="24" font-weight="800" fill="${inLow ? 'var(--paper)' : 'var(--ink)'}" text-anchor="${inLow ? 'start' : 'end'}">${esc(lowStr)}</text>`);
     svg.push(`      <text x="${r2(ZERO + wh + 14)}" y="${cy}" font-size="24" font-weight="800" fill="var(--ink)">${esc(fmtDelta(d.high))}</text>`);
-    let ay = cy + 40;
+    let ay = cy + 46;
     annBy(d.label).forEach((a) => { emitAnn(svg, a, ZERO, ay, cy + 8, 900); ay += 56; });
     svg.push(`    </g>`);
   });
