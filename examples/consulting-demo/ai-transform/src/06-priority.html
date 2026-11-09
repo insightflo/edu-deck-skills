@@ -1,0 +1,71 @@
+<!-- consulting chart — matrix-2x2
+     모델: charts/06-priority.json · 생성: node consulting-deck/charts/chart_gen.mjs --in charts/06-priority.json -o <이 파일>
+     질문: 어떤 유스케이스에 먼저 투자하고 어느 것은 기다려야 하는가
+     손으로 고치지 않는다. 모델을 고치고 다시 생성한다. -->
+<section class="slide consult consult-tech" data-archetype="quadrant" data-variant="matrix-2x2" style="gap:18px">
+  <div class="head"><p class="eyebrow">투자 우선순위 · 유스케이스 포트폴리오 — 실현성 × 가치</p><h2 class="title">10개 유스케이스 중 즉시 승인 3개는 우상단(높은 가치×높은 실현성)에 있다</h2></div>
+  <svg class="dg" viewBox="0 0 1560 620" role="img" aria-label="유스케이스 10개의 실현성과 가치 2축: 즉시 승인 3개(수요예측 8.2, 8.8·고객응대 8.6, 7.2·계약·관세 문서 9.0, 6.4)는 우상단, 운임·경로 5.4, 9.2는 준비 후 착수, 자율주행 트럭 1.8, 8.4는 보류">
+    <title>10개 유스케이스 중 즉시 승인 3개는 우상단(높은 가치×높은 실현성)에 있다</title>
+    <text class="k-t-tag" x="60" y="42">(단위: 지수(0~10))</text>
+    <g data-step="1">
+      <rect x="300" y="80" width="1200" height="440" fill="none" stroke="var(--line)" stroke-width="3"/>
+      <path d="M900,80 L900,520 M300,300 L1500,300" stroke="var(--soft)" stroke-width="2" stroke-dasharray="8 8"/>
+      <text x="322" y="114" font-size="21" font-weight="700" class="k-t-tag" text-anchor="start">준비 후 착수</text>
+      <text x="1478" y="114" font-size="21" font-weight="700" class="k-t-tag" text-anchor="end">즉시 승인</text>
+      <text x="322" y="502" font-size="21" font-weight="700" class="k-t-tag" text-anchor="start">보류·관측</text>
+      <text x="1478" y="502" font-size="21" font-weight="700" class="k-t-tag" text-anchor="end">손쉬운 시범</text>
+      <text x="1500" y="566" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">실현 용이성 →</text>
+      <text x="300" y="60" font-size="22" font-weight="700" fill="var(--ink)">↑ 가치</text>
+    </g>
+    <g data-step="2">
+      <circle cx="1284" cy="132.8" r="13" fill="var(--accent)" opacity=".95"/>
+      <text x="1262" y="139.8" font-size="20" font-weight="800" fill="var(--ink)" text-anchor="end">수요예측 에이전트</text>
+      <path d="M1249.4,147.8 L1249.4,143.8" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
+      <text x="1249.4" y="171.8" font-size="24" font-weight="800" class="k-t-o" text-anchor="middle">「핵심」 우상단 3건 = 첫 90일 착수 분량</text>
+    </g>
+    <g data-step="3">
+      <circle cx="1332" cy="203.2" r="13" fill="var(--accent)" opacity=".95"/>
+      <text x="1310" y="210.2" font-size="20" font-weight="800" fill="var(--ink)" text-anchor="end">고객응대 어시스트</text>
+    </g>
+    <g data-step="4">
+      <circle cx="1380" cy="238.4" r="13" fill="var(--accent)" opacity=".95"/>
+      <text x="1358" y="245.4" font-size="20" font-weight="800" fill="var(--ink)" text-anchor="end">계약·관세 문서</text>
+    </g>
+    <g data-step="5">
+      <circle cx="948" cy="115.2" r="10" fill="var(--blue)" opacity=".78"/>
+      <text x="970" y="122.2" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="start">운임·경로</text>
+      <path d="M948,130.2 L948,354.2" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
+      <text x="948" y="378.2" font-size="20" font-weight="600" class="k-t-tag" text-anchor="middle">「참고」 가치 최대 — 데이터 준비 후 2단계</text>
+    </g>
+    <g data-step="6">
+      <circle cx="1044" cy="220.8" r="10" fill="var(--blue)" opacity=".78"/>
+      <text x="1066" y="255.8" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="start">창고 지시</text>
+    </g>
+    <g data-step="7">
+      <circle cx="1116" cy="273.6" r="10" fill="var(--blue)" opacity=".78"/>
+      <text x="1138" y="308.6" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="start">이상탐지</text>
+    </g>
+    <g data-step="8">
+      <circle cx="1164" cy="326.4" r="10" fill="var(--blue)" opacity=".78"/>
+      <text x="1186" y="361.4" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="start">코드 보조</text>
+    </g>
+    <g data-step="9">
+      <circle cx="1356" cy="361.6" r="10" fill="var(--blue)" opacity=".78"/>
+      <text x="1334" y="452.6" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="end">HR 어시스트</text>
+    </g>
+    <g data-step="10">
+      <circle cx="1404" cy="396.8" r="10" fill="var(--blue)" opacity=".78"/>
+      <text x="1382" y="403.8" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="end">회의록·보고</text>
+    </g>
+    <g data-step="11">
+      <circle cx="516" cy="150.4" r="10" fill="var(--blue)" opacity=".78"/>
+      <text x="538" y="157.4" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="start">자율주행 트럭</text>
+    </g>
+  </svg>
+  <p class="c-note" data-step="11"><b>방법론·한계</b> — 평가 기준 5개 각 2점 만점 합산(0~10) · 평가자 구성에 따라 ±1.0</p>
+  <div class="c-src" data-step="11">
+    <p>Source: consulting-deck 예시 — 가상 시나리오 · 기준 FY26 평가 기준</p>
+    <p class="s-syn">가상 데이터</p>
+  </div>
+  <aside class="notes">평가 기준 5개(데이터 준비·변경 관리·규제·가치 규모·속도)를 2점 만점 합산해 두 축(0~10)으로 벌렸다. 우상단 즉시 승인 3개 — 수요예측 에이전트(8.2, 8.8)·고객응대 어시스트(8.6, 7.2)·계약·관세 문서(9.0, 6.4)가 첫 90일 착수 분량이자 FY27 가치 140억의 절반 이상을 담는다. 좌상단 운임·경로(5.4, 9.2)는 가치가 최대지만 데이터 준비가 선행된다(준비 후 착수). 자율주행 트럭(1.8, 8.4)은 규제·기술 성숙 미충족으로 보류. 발표 포인트: '우상단 3개로 신뢰를 만들고, 그 매출로 좌상단 빅벳을 준비한다'.</aside>
+</section>

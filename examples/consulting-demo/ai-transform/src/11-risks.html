@@ -1,0 +1,61 @@
+<!-- consulting chart — tornado
+     모델: charts/11-risks.json · 생성: node consulting-deck/charts/chart_gen.mjs --in charts/11-risks.json -o <이 파일>
+     질문: 140억 가치 실현에 가장 큰 영향을 주는 변수는 무엇인가
+     손으로 고치지 않는다. 모델을 고치고 다시 생성한다. -->
+<section class="slide consult consult-tech" data-archetype="chart-bar" data-variant="tornado" style="gap:18px">
+  <div class="head"><p class="eyebrow">위험과 권고 · 가치 140억의 민감도</p><h2 class="title">가치 140억의 최대 변수는 현장 채택률(±42억)이다 — 완화책 3개를 프로그램에 박는다</h2></div>
+  <svg class="dg" viewBox="0 0 1560 578" role="img" aria-label="연 140억 기준 민감도: 현장 채택률 ±42억, 데이터 품질 ±31억, 인력 전환 속도 ±24억, 모델 성능 ±18억, 규제·보안 ±9억">
+    <title>가치 140억의 최대 변수는 현장 채택률(±42억)이다 — 완화책 3개를 프로그램에 박는다</title>
+    <text class="k-t-tag" x="60" y="42">(단위: 억 원)</text>
+    <line x1="270" y1="522" x2="1390" y2="522" stroke="var(--soft)" stroke-width="3"/>
+    <line x1="830" y1="64" x2="830" y2="522" stroke="var(--ink)" stroke-width="3"/>
+    <line x1="270" y1="64" x2="270" y2="522" stroke="var(--line)" stroke-width="2" stroke-dasharray="6 8"/>
+    <line x1="1390" y1="64" x2="1390" y2="522" stroke="var(--line)" stroke-width="2" stroke-dasharray="6 8"/>
+    <text x="270" y="554" text-anchor="middle" font-size="22" fill="var(--soft)">−42</text>
+    <text x="830" y="554" text-anchor="middle" font-size="22" fill="var(--soft)">0</text>
+    <text x="1390" y="554" text-anchor="middle" font-size="22" fill="var(--soft)">+42</text>
+    <g data-step="1">
+      <text x="246" y="98" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">현장 채택률</text>
+      <rect x="270" y="64" width="560" height="52" rx="6" fill="var(--accent)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:right center"/>
+      <rect x="830" y="64" width="560" height="52" rx="6" fill="var(--blue)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
+      <text x="286" y="98" font-size="24" font-weight="800" fill="var(--paper)" text-anchor="start">−42</text>
+      <text x="1404" y="98" font-size="24" font-weight="800" fill="var(--ink)">+42</text>
+      <path d="M830,106 L830,116" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
+      <text x="830" y="144" font-size="24" font-weight="800" class="k-t-o" text-anchor="middle">「핵심」 채택률 60% 미달 시 연 42억 소실 — 90일 게이트 조건</text>
+    </g>
+    <g data-step="2">
+      <text x="246" y="220" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">데이터 품질·연계</text>
+      <rect x="416.67" y="186" width="413.33" height="52" rx="6" fill="var(--accent)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:right center"/>
+      <rect x="830" y="186" width="413.33" height="52" rx="6" fill="var(--blue)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
+      <text x="402.67" y="220" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="end">−31</text>
+      <text x="1257.33" y="220" font-size="24" font-weight="800" fill="var(--ink)">+31</text>
+    </g>
+    <g data-step="3">
+      <text x="246" y="304" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">인력 전환 속도</text>
+      <rect x="510" y="270" width="320" height="52" rx="6" fill="var(--accent)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:right center"/>
+      <rect x="830" y="270" width="320" height="52" rx="6" fill="var(--blue)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
+      <text x="496" y="304" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="end">−24</text>
+      <text x="1164" y="304" font-size="24" font-weight="800" fill="var(--ink)">+24</text>
+    </g>
+    <g data-step="4">
+      <text x="246" y="388" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">모델 성능·안정성</text>
+      <rect x="590" y="354" width="240" height="52" rx="6" fill="var(--accent)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:right center"/>
+      <rect x="830" y="354" width="240" height="52" rx="6" fill="var(--blue)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
+      <text x="576" y="388" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="end">−18</text>
+      <text x="1084" y="388" font-size="24" font-weight="800" fill="var(--ink)">+18</text>
+    </g>
+    <g data-step="5">
+      <text x="246" y="472" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">규제·보안 대응</text>
+      <rect x="710" y="438" width="120" height="52" rx="6" fill="var(--accent)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:right center"/>
+      <rect x="830" y="438" width="120" height="52" rx="6" fill="var(--blue)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
+      <text x="696" y="472" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="end">−9</text>
+      <text x="964" y="472" font-size="24" font-weight="800" fill="var(--ink)">+9</text>
+    </g>
+  </svg>
+  <p class="c-note" data-step="5"><b>방법론·한계</b> — 개별 변수 ±10% 변동의 1차 민감도 · 동시 최악 아님(변수 독립 가정)</p>
+  <div class="c-src" data-step="5">
+    <p>Source: consulting-deck 예시 — 가상 시나리오(민감도) · 시장 우려 인용: BCG AI Radar 2026 · 기준 FY27 연환산 기준</p>
+    <p class="s-syn">가상 데이터</p>
+  </div>
+  <aside class="notes">기준 연 140억 대비 개별 변수 ±10% 변동의 가치 영향(동시 최악 아님, 변수 독립 가정). 현장 채택률 ±42억이 최대 — 04장 확신 등고선(62→48%)과 같은 방향. 시장 우려도 같다: 응답자 절반 이상이 데이터 프라이버시·사이버 보안, 41%는 통제 부족을 우려(BCG AI Radar 2026). 완화책 3개 — ① 채택률 60%를 90일 게이트 조건으로(현장 반장 인센티브 연동) ② 데이터 품질 원천별 SLA 계약화·분기 진단 ③ CFO 공동 분기 가치 리뷰로 140억 경로 대비 실측 보고. 발표 포인트: '위험 목록이 아니라 게이트에 내장된 완화책이다'.</aside>
+</section>

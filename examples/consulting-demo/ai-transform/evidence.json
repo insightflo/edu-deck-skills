@@ -1,0 +1,271 @@
+{
+  "sources": [
+    {
+      "source_id": "S01",
+      "kind": "synthetic",
+      "title": "가상 데모 데이터 — 중견 물류그룹 AI 전환 시나리오",
+      "publisher": "consulting-deck 예시",
+      "locator": "examples/consulting-demo/ai-transform/evidence.json",
+      "published": "2026-11-10",
+      "asOf": "2026-11-10",
+      "accessed": "2026-11-10",
+      "freshness": "current"
+    },
+    {
+      "source_id": "S02",
+      "kind": "fact",
+      "title": "BCG AI Radar 2026 — As AI Investments Surge, CEOs Take the Lead",
+      "publisher": "Boston Consulting Group",
+      "locator": "https://www.bcg.com/publications/2026/as-ai-investments-surge-ceos-take-the-lead",
+      "published": "2026-01-15",
+      "asOf": "2026-01-15",
+      "accessed": "2026-11-10",
+      "freshness": "current"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "C01",
+      "slide": "cover",
+      "statement": "표지 결정 요청: 18개월 전환 프로그램·투자 60억·CEO 직속 AI 전환실 — FY27 연 140억 가치 목표",
+      "value": "18개월 · 60억 · 140억 · 시벽 12건 · 활용 14% · 90일 착수 패키지",
+      "source_id": "S01",
+      "original": "투자 60억 = FY26 35 + FY27 25 · 가치 140억 = 32+34+30+26+18",
+      "method": "표지=마지막 장 결정 요청과 동일 문장",
+      "kind": "synthetic",
+      "assumptions": [
+        "중견 물류그룹 가상 시나리오"
+      ],
+      "contrary": [],
+      "uncertainty": ""
+    },
+    {
+      "claim_id": "C02",
+      "slide": "problem",
+      "statement": "우리는 AI 시벽 12건에 머물러 운영 반영은 2건, 전사 활용률 14.0%(8분기 전 12.0%), AI 지출은 매출의 0.4%(36억/매출 9,000억)다",
+      "value": "시벽 12건 · 운영 2건 · 활용률 14.0% · AI 지출 0.4% (36억 / 9,000억) · 권고: 18개월 · 투자 60억(FY26 35 + FY27 25) · FY27 연 140억 · 3년 누적 330억 · 목표 활용률 45%(선도군과 동일 기준)",
+      "source_id": "S01",
+      "original": "활용률 8분기 추이 12.0→14.0 · AI 지출 36억 / 매출 9,000억",
+      "method": "활용률 = AI 도구 주 1회 이상 사용자 비중(전 직원 분기 설문) · 지출 비중 36/9000=0.4%",
+      "kind": "synthetic",
+      "assumptions": [
+        "중견 물류그룹 가상 시나리오"
+      ],
+      "contrary": [],
+      "uncertainty": ""
+    },
+    {
+      "claim_id": "C03",
+      "slide": "problem",
+      "statement": "기업 AI 지출은 2026년 두 배로 늘어 매출의 0.8%에서 약 1.7%가 된다 — 기술·금융은 약 2%, 산업·부동산은 1% 미만 (설문 2,400명·CEO 640명·16개 시장)",
+      "value": "0.8% → 1.7% (2배) · 기술·금융 2% · 산업·부동산 1% 미만 · 2,400 · 640 · 16",
+      "source_id": "S02",
+      "original": "double their spending on AI in 2026, from 0.8% to about 1.7% of revenues · tech companies and financial institutions both planning to spend about 2% · industrial companies and real estate firms less than 1% · Nearly 2,400 executives, including 640 CEOs, from 16 markets",
+      "method": "BCG AI Radar 2026 전년 대비 지출 계획 비교",
+      "kind": "fact",
+      "assumptions": [],
+      "contrary": [],
+      "uncertainty": ""
+    },
+    {
+      "claim_id": "C04",
+      "slide": "exec-summary",
+      "statement": "Exec Summary 종합: 시벽 12건·활용 14.0%·격차 3.2배 — FY27 연 140억 가치, 투자 60억, 회수 약 9개월, 3년 누적 330억",
+      "value": "140억 = 32 + 34 + 30 + 26 + 18 · 330억 = 30 + 140 + 160 · 격차 3.2배(우리 14.0% vs 선도 45.0%, 8분기 전 2.6배) · 시벽 12건 · AI 지출 0.4%(36억) · 90일 착수 패키지",
+      "source_id": "S01",
+      "original": "C02·C07·C09·C12 종합 · FY26 인식 30 + FY27 140 + FY28 160 = 330억",
+      "method": "본문 주장과 1:1 대응(제목 연쇄) · 회수: 투자 60억 vs 인식 FY26 30 + FY27 1분기 35 = 65억 통과(약 9개월, 분기 균등 가정 140/4=35)",
+      "kind": "synthetic",
+      "assumptions": [
+        "FY26 하반기부터 가치 인식"
+      ],
+      "contrary": [],
+      "uncertainty": "채택률에 따라 ±30%"
+    },
+    {
+      "claim_id": "C05",
+      "slide": "adoption",
+      "statement": "CEO 5명 중 4명(80%)은 AI 투자 ROI를 1년 전보다 낙관하고, 90% 이상은 내년 보답이 없어도 현 수준 이상 투자를 계속하며, 약 90%는 2028년까지 AI가 산업 성공 기준을 재정의한다고 본다",
+      "value": "80% · 90% · 90%",
+      "source_id": "S02",
+      "original": "Four out of five CEOs are more optimistic about the ROI · More than 90% plan to continue investing at current or higher levels · About 90% of CEOs believe that by 2028, AI will redefine what success looks like",
+      "method": "BCG AI Radar 2026 CEO 응답 비율 · 설계 규모: 응답 2,400명(CEO 640)·16개 시장",
+      "kind": "fact",
+      "assumptions": [],
+      "contrary": [],
+      "uncertainty": ""
+    },
+    {
+      "claim_id": "C06",
+      "slide": "adoption",
+      "statement": "확신은 꼭대기에서 현장으로 갈수록 옅어진다 — CEO 62%에서 C실무 밖 비기술 임원은 48%",
+      "value": "62% → 48%",
+      "source_id": "S02",
+      "original": "dropping from 62% for CEOs to 48% for non-tech executives outside the C-suite",
+      "method": "BCG AI Radar 2026 직급별 확신 응답 비교",
+      "kind": "fact",
+      "assumptions": [],
+      "contrary": [],
+      "uncertainty": ""
+    },
+    {
+      "claim_id": "C07",
+      "slide": "gap",
+      "statement": "AI 활용률은 8개 분기에 우리 12.0→14.0%, 선도군 31.0→45.0% — 격차는 19.0%p에서 31.0%p로, 2.6배에서 3.2배로 벌어졌다",
+      "value": "우리 12.0·12.4·12.2·13.1·13.0·13.6·13.8·14.0 · 선도군 31.0·32.8·34.5·36.4·38.2·40.6·43.0·45.0 · 격차 19.0%p→31.0%p · 2.6배→3.2배",
+      "source_id": "S01",
+      "original": "8개 분기(24Q3~26Q2) 전사 활용률 패널 · 배수 31.0/12.0=2.6 · 45.0/14.0=3.2",
+      "method": "활용률 = AI 도구 주 1회 이상 사용자 비중 · 선도군 = 상위 15% 벤치마크 패널(가상)",
+      "kind": "synthetic",
+      "assumptions": [
+        "선도군 벤치마크는 가상 패널"
+      ],
+      "contrary": [],
+      "uncertainty": "패널 구성에 따라 ±5%p"
+    },
+    {
+      "claim_id": "C08",
+      "slide": "gap",
+      "statement": "시장은 3유형으로 갈린다 — Followers 15%·Pragmatists 70%·Trailblazers 15%. Trailblazer는 직원 4분의 3을 재교육했고 Pragmatist CEO는 주 7시간을 AI에 쓴다",
+      "value": "15% · 70% · 15% · 4분의 3 · 주 7시간",
+      "source_id": "S02",
+      "original": "Three broad groupings of CEOs: Followers about 15% · Pragmatists 70% · Trailblazers 15% · upskilled nearly three quarters of their employees · spending seven hours a week",
+      "method": "BCG AI Radar 2026 CEO 세그먼트 분류",
+      "kind": "fact",
+      "assumptions": [],
+      "contrary": [],
+      "uncertainty": ""
+    },
+    {
+      "claim_id": "C09",
+      "slide": "value",
+      "statement": "FY27 연 140억 가치는 5개 원천의 합이다 — 수요예측·재고 32 + 운임·경로 34 + 고객응대 30 + 문서·백오피스 26 + 이상탐지·리스크 18. 3년 누적 330억 = FY26 30 + FY27 140 + FY28 160",
+      "value": "140억 = 32 + 34 + 30 + 26 + 18 · 330억 = 30 + 140 + 160",
+      "source_id": "S01",
+      "original": "원천별 연환산 추정 · FY26 하반기 인식 30억(연환산 60억 진입)",
+      "method": "원천별 = 도메인 베이스(인력·물량) × 단위 개선폭(벤치마크 하한 적용) · 기준 FY25 사업부 베이스",
+      "kind": "synthetic",
+      "assumptions": [
+        "운영 전환 완료 시점 기준 연환산"
+      ],
+      "contrary": [],
+      "uncertainty": "원천별 ±25%"
+    },
+    {
+      "claim_id": "C10",
+      "slide": "value",
+      "statement": "사업부×가치원천 잠재 강도(0~100) — 가치는 택배·운송·창고의 운영·수요 블록(92·88·84·81·78·74)에 몰리고 문서 자동화는 백오피스(92)에 몰린다",
+      "value": "실측 24종: 92 78 66 34 41 / 74 88 38 26 47 / 81 84 22 44 53 / 63 51 58 62 36 / 28 24 54 92 31 — 상위 강도 92·88·84·81·78은 운영·수요 블록에 몰림",
+      "source_id": "S01",
+      "original": "히트맵 5×5 셀값(행 택배·운송·창고·국제·백오피스 × 열 수요예측·운영최적·고객응대·문서자동·이상탐지)",
+      "method": "강도 = 원천 가치액을 사업부 베이스로 배분한 지수(최대 셀 100 기준 환산)",
+      "kind": "synthetic",
+      "assumptions": [
+        "사업부 베이스 비중은 FY25 실적 가상치"
+      ],
+      "contrary": [],
+      "uncertainty": ""
+    },
+    {
+      "claim_id": "C11",
+      "slide": "priority",
+      "statement": "10개 유스케이스를 실현성×가치로 놓으면 즉시 승인 3개는 우상단에 있다 — 수요예측(8.2, 8.8)·고객응대(8.6, 7.2)·계약·관세 문서(9.0, 6.4)",
+      "value": "좌표(x=실현성, y=가치): 수요예측 8.2,8.8 · 고객응대 8.6,7.2 · 계약·관세 9.0,6.4 · 운임·경로 5.4,9.2 · 창고 지시 6.2,6.8 · 이상탐지 6.8,5.6 · 코드 보조 7.2,4.4 · HR 어시스트 8.8,3.6 · 회의록·보고 9.2,2.8 · 자율주행 트럭 1.8,8.4",
+      "source_id": "S01",
+      "original": "실현성 = 데이터 준비·변경 관리 부담 역산 지수 · 가치 = 연 가치 환산 지수",
+      "method": "10개 유스케이스 2축 평가(0~10) — 평가 기준 5개 각 2점 만점 합산 · 우상단 3건 = 첫 90일 착수 분량, FY27 가치 140억의 절반 이상 · 평가 기준 FY26",
+      "kind": "synthetic",
+      "assumptions": [
+        "자율주행 트럭은 규제·기술 성숙 전제 미충족으로 보류 사분면"
+      ],
+      "contrary": [],
+      "uncertainty": "평가자 구성에 따라 ±1.0"
+    },
+    {
+      "claim_id": "C12",
+      "slide": "options",
+      "statement": "대안 비교 — ① 시벽 확대: 투자 15억·FY27 연 30억 ② 플랫폼 우선: 40억·연 75억 ③ 전사 전환(추천): 60억·연 140억·회수 약 9개월",
+      "value": "15억/30억 · 40억/75억 · 60억/140억 · 회수 9개월 · 투자 60억 = FY26 35 + FY27 25 · 채택률 ±42억은 게이트로 완화 · 90일 성과 기준 · 누적 330억 경로는 ③만 달성",
+      "source_id": "S01",
+      "original": "① 시벽 12건 연장 성격 · ② 데이터·플랫폼 선투자 · ③ 플랫폼+운영 모델 동시 전환",
+      "method": "5기준(가치·역량 변화·회수·위험·실행 속도) 비교 · 회수 = 투자 60억 / 분기 인식 35억(140/4) 대비 FY26 30억 반영 약 9개월",
+      "kind": "synthetic",
+      "assumptions": [
+        "③은 08·09장 운영 모델·아키텍처 전제"
+      ],
+      "contrary": [],
+      "uncertainty": ""
+    },
+    {
+      "claim_id": "C13",
+      "slide": "tom",
+      "statement": "목표 운영 모델은 4개 레일이다 — 리더십·거버넌스(CIO→CEO 직속 위원회), 인재·조직(선별 재교육→전 직원 3단계), 프로세스(부서별 실험→4도메인 표준), 데이터·기술(부서 사일로→3원천 허브)",
+      "value": "레일 4종 · 재교육 3단계 · 도메인 4개 · 데이터 원천 3종",
+      "source_id": "S01",
+      "original": "As-Is/To-By 레일별 대조",
+      "method": "운영 모델 4구성(리더십·인재·프로세스·데이터) 프레임 적용 · 연결 지표: 시벽 12건 파편 해소 · 채택률 ±42억·목표 60% 완화 · 시장 41% 통제 우려 대응 · CFO 공동 분기 리뷰가 140억 경로를 추적",
+      "kind": "synthetic",
+      "assumptions": [],
+      "contrary": [],
+      "uncertainty": ""
+    },
+    {
+      "claim_id": "C14",
+      "slide": "architecture",
+      "statement": "대상 아키텍처는 3계층 12개 자산이다 — 경험 채널(현장 앱·고객 포털·상담 챗봇·경영 리포트) / AI 플랫폼(오케스트라·LLM 게이트웨이·평가 게이트·MLOps) / 데이터 기반(데이터 허브·특징 저장소·문서 코퍼스·이벤트 버스)",
+      "value": "3계층 · 노드 12개 · 게이트 2개(평가·보안) · 시벽 12건의 각자 도구 대체 · 90일 착수 첫 단계(데이터 허브 1차)",
+      "source_id": "S01",
+      "original": "현행 시벽 12건이 각자 도구를 쓰는 것과 달리, 모든 워크로드가 같은 게이트를 지나는 단일 플랫폼",
+      "method": "3계층 참조 아키텍처(경험·AI·데이터) + 공통 게이트 적용",
+      "kind": "synthetic",
+      "assumptions": [
+        "벤더·모델 특정 없음(계층 구조만 확정)"
+      ],
+      "contrary": [],
+      "uncertainty": ""
+    },
+    {
+      "claim_id": "C15",
+      "slide": "roadmap",
+      "statement": "90일 3단계 — ① 0–30일 진단·거버넌스 ② 31–60일 기반(데이터 허브 1차·게이트 구축·재교육 120명) ③ 61–90일 운영 전환(에이전트 2건·어시스트 100석) — FY26 하반기 인식 30억·연환산 60억 경로",
+      "value": "90일 · 120명 · 100석 · 2건 · 30억 · 60억 · 구간 0–30/31–60/61–90일",
+      "source_id": "S01",
+      "original": "3단계 게이트: 종료 시점 채택률·데이터 SLA·가치 baseline 점검",
+      "method": "90일 착수 패키지 — 이후 12개월 운영 전환으로 연환산 60억 진입",
+      "kind": "synthetic",
+      "assumptions": [
+        "승인 즉시 착수"
+      ],
+      "contrary": [],
+      "uncertainty": "데이터 진단 결과에 따라 2단계 2주 이동"
+    },
+    {
+      "claim_id": "C16",
+      "slide": "risks",
+      "statement": "연 140억의 민감도 — 현장 채택률 ±42억·데이터 품질 ±31억·인력 전환 속도 ±24억·모델 성능 ±18억·규제·보안 ±9억. 채택률 목표 60%를 게이트 조건으로 둔다",
+      "value": "±42 · ±31 · ±24 · ±18 · ±9억 (기준 140억·FY27 연환산) · 채택률 60% · 90일 게이트 조건 · 확신 등고선 62→48%와 같은 방향",
+      "source_id": "S01",
+      "original": "개별 변수 ±10% 변동 시 가치 영향(동시 최악 아님)",
+      "method": "원천별 가치(C09)에 변수 탄성도를 곱한 1차 민감도",
+      "kind": "synthetic",
+      "assumptions": [
+        "변수 독립 가정"
+      ],
+      "contrary": [],
+      "uncertainty": "동시 발생 시 비선형 결합"
+    },
+    {
+      "claim_id": "C17",
+      "slide": "risks",
+      "statement": "시장 우려도 같은 방향이다 — 응답자 절반 이상이 데이터 프라이버시·사이버 보안을, 41%는 통제 부족·이해 부족을 우려한다",
+      "value": "절반 이상 · 41%",
+      "source_id": "S02",
+      "original": "More than half of respondents continue to have data privacy and cybersecurity concerns · 41% of respondents worry about the lack of control or understanding of AI decisions",
+      "method": "BCG AI Radar 2026 리스크 응답",
+      "kind": "fact",
+      "assumptions": [],
+      "contrary": [],
+      "uncertainty": ""
+    }
+  ]
+}
