@@ -1,0 +1,40 @@
+{
+  "slide": {
+    "title": "예산의 3분의 2가 코어 개발과 고객 성공으로 흐른다",
+    "notes": "매출·정부사업·투자금이 예산 풀에 모여 세 갈래로 배분된다. 코어 개발이 최대 사용처.",
+    "eyebrow": "억 원 · FY26"
+  },
+  "chart": {
+    "type": "sankey",
+    "question": "자금이 어디서 들어와 어디로 배분되는가?",
+    "measure": { "unit": "억 원", "period": "FY26" },
+    "data": {
+      "nodes": [
+        { "id": "rev", "label": "매출" },
+        { "id": "gov", "label": "정부사업" },
+        { "id": "inv", "label": "투자금" },
+        { "id": "pool", "label": "예산 풀" },
+        { "id": "dev", "label": "코어 개발" },
+        { "id": "cs", "label": "고객 성공" },
+        { "id": "opex", "label": "운영비" }
+      ],
+      "flows": [
+        { "from": "rev", "to": "pool", "value": 620 },
+        { "from": "gov", "to": "pool", "value": 180 },
+        { "from": "inv", "to": "pool", "value": 300 },
+        { "from": "pool", "to": "dev", "value": 480 },
+        { "from": "pool", "to": "cs", "value": 260 },
+        { "from": "pool", "to": "opex", "value": 360 }
+      ]
+    },
+    "highlight": ["코어 개발"],
+    "annotations": [
+      { "label": "개발 배정 44% — 전략 집중 확인", "on": "코어 개발", "kind": "main" }
+    ]
+  },
+  "source": {
+    "text": "FY26 예산 편성안(예시 모델)",
+    "asOf": "2026-11-10",
+    "synthetic": true
+  }
+}

@@ -28,6 +28,15 @@ EX = ROOT / 'consulting-deck' / 'charts' / 'examples'
 WF = EX / 'wf-it-cost.json'
 RB = EX / 'rb-ai-gap.json'
 DB = EX / 'db-cost-yoy.json'
+ST = EX / 'st-cost-mix.json'
+LN = EX / 'ln-margin-trend.json'
+SC = EX / 'sc-practice.json'
+HM = EX / 'hm-usage.json'
+MX = EX / 'mx-portfolio.json'
+TN = EX / 'tn-sensitivity.json'
+SK = EX / 'sk-budget.json'
+PA = EX / 'pa-defect.json'
+P3A = [ST, LN, SC, HM, MX, TN, SK, PA]
 NODE = shutil.which('node')
 
 
@@ -348,6 +357,168 @@ class ConsultChartTest(unittest.TestCase):
             for y in others:
                 self.assertNotAlmostEqual(ay, y, delta=10,
                                           msg=f'주석 y={ay} 가 다른 항목 라벨 y={y} 와 겹침')
+
+    # ── Phase 3a: 8타입 공통 계약 ───────────────────────────────────
+    def test_p3a_eight_types_deterministic(self):
+        for src in P3A:
+            o1, o2 = self.tmp / (src.stem + 'a.html'), self.tmp / (src.stem + 'b.html')
+            code, log = run(src, o1)
+            self.assertEqual(code, 0, f'{src.name}: {log}')
+            code, log = run(src, o2)
+            self.assertEqual(code, 0, f'{src.name}: {log}')
+            self.assertEqual(o1.read_bytes(), o2.read_bytes(), f'{src.name}: 비결정적 출력')
+            html = o1.read_text(encoding='utf-8')
+            for bad in ('<script', '<animate', '@keyframes', 'requestAnimationFrame'):
+                self.assertNotIn(bad, html, f'{src.name}: {bad}')
+            self.assertIn('data-step=', html, f'{src.name}: data-step 없음')
+            self.assertIn('class="c-src"', html, f'{src.name}: 출처 블록 없음')
+            self.assertIn('(단위:', html, f'{src.name}: 단위 표기 없음')
+            self.assertIsNone(re.search(r'#[0-9a-fA-F]{3,8}\b', html), f'{src.name}: hex 색')
+
+    # ── stacked-bar ─────────────────────────────────────────────────
+    def test_stacked_total_mismatch_rejected(self):
+        def bad(m):
+            m['chart']['data'][0]['total'] = 999
+        p = self._mutate(ST, bad, 'st-bad.json')
+        code, log = run(p, self.tmp / 'st-bad.html')
+        self.assertEqual(code, 1)
+        self.assertIn('세그먼트 합', log)
+
+    def test_stacked_structure(self):
+        out = self.tmp / 'st-ok.html'
+        code, log = run(ST, out)
+        self.assertEqual(code, 0, log)
+        html = out.read_text(encoding='utf-8')
+        self.assertIn('data-variant="stacked"', html)
+        self.assertIn('fill="var(--muted)"', html, 'oneoff 세그먼트 회색 없음')
+        self.assertIn('var(--accent)', html, 'highlight 세그먼트 없음')
+        self.assertGreaterEqual(html.count('opacity="'), 3, '농도 순환 세그먼트 부족')
+
+    # ── line ────────────────────────────────────────────────────────
+    def test_line_series_len_mismatch_rejected(self):
+        def bad(m):
+            m['chart']['series'][0]['points'] = [1, 2, 3]
+        p = self._mutate(LN, bad, 'ln-bad.json')
+        code, log = run(p, self.tmp / 'ln-bad.html')
+        self.assertEqual(code, 1)
+        self.assertIn('points 수', log)
+
+    def test_line_structure(self):
+        out = self.tmp / 'ln-ok.html'
+        code, log = run(LN, out)
+        self.assertEqual(code, 0, log)
+        html = out.read_text(encoding='utf-8')
+        self.assertIn('data-variant="line"', html)
+        self.assertIn('opacity=".14"', html, 'fill 계열 면적 없음')
+        self.assertIn('stroke="var(--accent)"', html, 'highlight 계열 초점색 없음')
+
+    # ── scatter ─────────────────────────────────────────────────────
+    def test_scatter_axis_label_required(self):
+        def bad(m):
+            del m['chart']['measure']['x']
+        p = self._mutate(SC, bad, 'sc-bad.json')
+        code, log = run(p, self.tmp / 'sc-bad.html')
+        self.assertEqual(code, 1)
+        self.assertIn('measure.x', log)
+
+    def test_scatter_structure(self):
+        out = self.tmp / 'sc-ok.html'
+        code, log = run(SC, out)
+        self.assertEqual(code, 0, log)
+        html = out.read_text(encoding='utf-8')
+        self.assertIn('data-variant="scatter"', html)
+        self.assertGreaterEqual(html.count('<circle'), 9, '점 수 부족')
+
+    # ── heatmap ─────────────────────────────────────────────────────
+    def test_heatmap_bad_cell_ref_rejected(self):
+        def bad(m):
+            m['chart']['data']['cells'][0]['r'] = 9
+        p = self._mutate(HM, bad, 'hm-bad.json')
+        code, log = run(p, self.tmp / 'hm-bad.html')
+        self.assertEqual(code, 1)
+        self.assertIn('r,c 참조 불가', log)
+
+    def test_heatmap_structure(self):
+        out = self.tmp / 'hm-ok.html'
+        code, log = run(HM, out)
+        self.assertEqual(code, 0, log)
+        html = out.read_text(encoding='utf-8')
+        self.assertIn('data-variant="matrix"', html)
+        self.assertIn('color-mix', html, 'color-mix 농도 없음')
+        self.assertIn('var(--accent)', html, 'highlight 행/열 초점 없음')
+
+    # ── matrix-2x2 ──────────────────────────────────────────────────
+    def test_matrix_axes_required(self):
+        def bad(m):
+            del m['chart']['axes']
+        p = self._mutate(MX, bad, 'mx-bad.json')
+        code, log = run(p, self.tmp / 'mx-bad.html')
+        self.assertEqual(code, 1)
+        self.assertIn('chart.axes', log)
+
+    def test_matrix_structure(self):
+        out = self.tmp / 'mx-ok.html'
+        code, log = run(MX, out)
+        self.assertEqual(code, 0, log)
+        html = out.read_text(encoding='utf-8')
+        self.assertIn('data-variant="matrix-2x2"', html)
+        self.assertIn('집중 육성', html, '사분면 라벨 없음')
+
+    # ── tornado ─────────────────────────────────────────────────────
+    def test_tornado_low_ge_high_rejected(self):
+        def bad(m):
+            m['chart']['data'][0]['low'] = 300
+        p = self._mutate(TN, bad, 'tn-bad.json')
+        code, log = run(p, self.tmp / 'tn-bad.html')
+        self.assertEqual(code, 1)
+        self.assertIn('low', log)
+
+    def test_tornado_sorted_by_range(self):
+        out = self.tmp / 'tn-ok.html'
+        code, log = run(TN, out)
+        self.assertEqual(code, 0, log)
+        html = out.read_text(encoding='utf-8')
+        first = html.find('판매 단가')
+        second = html.find('판매 물량')
+        self.assertTrue(0 < first < second, '범위 내림차순 정렬 아님')
+        self.assertIn('−210', html)
+
+    # ── sankey ──────────────────────────────────────────────────────
+    def test_sankey_bad_flow_ref_rejected(self):
+        def bad(m):
+            m['chart']['data']['flows'][0]['to'] = 'nowhere'
+        p = self._mutate(SK, bad, 'sk-bad.json')
+        code, log = run(p, self.tmp / 'sk-bad.html')
+        self.assertEqual(code, 1)
+        self.assertIn("nodes 에 없는 id", log)
+
+    def test_sankey_structure(self):
+        out = self.tmp / 'sk-ok.html'
+        code, log = run(SK, out)
+        self.assertEqual(code, 0, log)
+        html = out.read_text(encoding='utf-8')
+        self.assertIn('data-variant="data"', html)
+        self.assertGreaterEqual(html.count(' Z" fill='), 6, '흐름 밴드 부족')
+        self.assertIn('class="k-solid-n"', html, '중간 노드 남색 없음')
+
+    # ── pareto ──────────────────────────────────────────────────────
+    def test_pareto_ratio_sum_rejected(self):
+        def bad(m):
+            m['chart']['measure']['unit'] = '%'
+        p = self._mutate(PA, bad, 'pa-bad.json')
+        code, log = run(p, self.tmp / 'pa-bad.html')
+        self.assertEqual(code, 1)
+        self.assertIn('비율 모드', log)
+
+    def test_pareto_structure(self):
+        out = self.tmp / 'pa-ok.html'
+        code, log = run(PA, out)
+        self.assertEqual(code, 0, log)
+        html = out.read_text(encoding='utf-8')
+        self.assertIn('data-variant="pareto"', html)
+        self.assertIn('100%', html, '누적 100% 라벨 없음')
+        self.assertIn('80%', html, '80% 임계선 라벨 없음')
+        self.assertIn('transform-origin:center bottom', html)
 
     # ── slide.class ─────────────────────────────────────────────────
     def test_slide_class(self):

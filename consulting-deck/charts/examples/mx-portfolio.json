@@ -1,0 +1,35 @@
+{
+  "slide": {
+    "title": "성장 여력과 수익성의 교차에서 집중 육성 3개가 보인다",
+    "notes": "우상단 사분면(고성장·고수익)의 P1·P2·P3에 투자를 집중하고 좌하단은 철수 검토.",
+    "eyebrow": "지수 · 사업 포트폴리오"
+  },
+  "chart": {
+    "type": "matrix-2x2",
+    "question": "어떤 사업에 투자를 집중하고 어디서 줄여야 하는가?",
+    "measure": { "unit": "지수", "period": "FY25", "x": "시장 성장률", "y": "상대 수익성" },
+    "axes": {
+      "x": { "min": 0, "max": 10, "label": "시장 성장률" },
+      "y": { "min": 0, "max": 10, "label": "상대 수익성" }
+    },
+    "quadrants": { "ne": "집중 육성", "nw": "수익 개선", "se": "구조 조정", "sw": "철수·축소" },
+    "data": [
+      { "label": "P1 클라우드", "x": 8.2, "y": 7.8, "highlight": true },
+      { "label": "P2 AI분석", "x": 7.4, "y": 6.9, "highlight": true },
+      { "label": "P3 보안", "x": 6.8, "y": 7.4, "highlight": true },
+      { "label": "P4 레거시유지", "x": 2.1, "y": 6.2 },
+      { "label": "P5 교육사업", "x": 4.4, "y": 7.1 },
+      { "label": "P6 하드웨어", "x": 2.8, "y": 2.4 },
+      { "label": "P7 임대", "x": 6.1, "y": 2.8 },
+      { "label": "P8 SI기존", "x": 3.9, "y": 4.6 }
+    ],
+    "annotations": [
+      { "label": "3개 사업에 증액 투자의 70% 배정", "on": "P2 AI분석", "kind": "main" }
+    ]
+  },
+  "source": {
+    "text": "사업 포트폴리오 평가 프레임 적용(예시 모델)",
+    "asOf": "2026-11-10",
+    "synthetic": true
+  }
+}

@@ -30,15 +30,19 @@ consulting-deck/charts/chart_gen.mjs --in MODEL.json -o src/NN-이름.html
 
 | 키 | 필수 | 규칙 |
 |---|---|---|
-| `type` | ● | `waterfall` · `ranked-bar-h` · `diverging-bar` |
+| `type` | ● | `waterfall` · `ranked-bar-h` · `diverging-bar` · `stacked-bar` · `line` · `scatter` · `heatmap` · `matrix-2x2` · `tornado` · `sankey` · `pareto` |
 | `question` | ● | 이 차트가 답하는 분석 질문 — 조각 주석과 aria 폴백에 남는다 |
 | `measure.unit` | ● | 값의 단위(%, 억 원, 명 …) — 막대 라벨엔 붙이지 않고 eyebrow·SVG 좌상단 `(단위: …)`에 표시 |
 | `measure.period` | | 기간(FY25, 2026 상반기 …) |
+| `measure.x` · `measure.y` | scatter · matrix-2x2 ● | 축 라벨 — 없으면 FAIL(좌표 차트는 축이 없으면 읽을 수 없다) |
 | `measure.axisBreak` | waterfall | 숫자 — 축 생략 하한값. `0 < axisBreak < 최소누적`이면 그 값으로 생략 구간을 정하고, 범위 밖이면 WARN 후 자동 규칙으로 돌아간다. 생략 활성 시 증감 막대는 18px 가시 하한을 적용한다(상단 누적 위치는 실값 유지, 라벨은 실측치) |
-| `data[]` | ● | `{ label, value, kind?, oneoff? }` — label 은 유일·비어있으면 안 됨, value 는 유한 숫자, `oneoff:true`는 delta 전용(아래) |
-| `highlight[]` | | 강조할 label — data 에 없는 label 은 FAIL |
+| `data` | ● | 행 배열(대부분 타입) 또는 객체 — heatmap `{rows,cols,cells}` · sankey `{nodes,flows}` (아래 타입별 표) |
+| `series[]` | line ● | `[{name, points:[v…], fill?}]` — points 수 = data 수, 계열 최대 4, `fill:true`는 면적 변형 |
+| `axes` | matrix-2x2 ● | `{x:{min,max,label}, y:{min,max,label}}` — 사분면 축 범위 |
+| `quadrants` | matrix-2x2 | `{nw,ne,sw,se}` — 사분면 라벨 4귀퉁이 |
+| `highlight[]` | | 강조할 label — data 에 없는 label 은 FAIL(타입별 참조 대상은 아래 표) |
 | `annotations[]` | | `{ label, on, kind:"main"|"sub" }` — **main 최대 1 · sub 최대 2** 초과 FAIL, `on` 은 실존 label |
-| `calc.expectTotal` | waterfall ● | 시작(base)+증감(delta) 합계의 주장값 — 불일치 시 FAIL |
+| `calc.expectTotal` | waterfall · pareto | waterfall: 시작+증감 합계 주장값 — 불일치 FAIL · pareto: 명시 총합 |
 
 ### data[].kind (waterfall 만 의미 있음)
 
@@ -60,13 +64,25 @@ waterfall의 시작 막대가 최대값의 60% 이상이면 증감 막대가 너
 - 스케일: 생략 하한 `brk`부터 최대값까지를 플롯 높이에 선형 대응 → **증감 막대 최소 18px** 보장. total이 brk 아래면 기준선 아래 스텁으로 표시.
 - 표기: base·total 막대 하단에 사선 2개(`stroke="var(--line)"`)의 표준 축 생략 마크. **수치 라벨은 실제 값 그대로**(압축 스케일 반영 안 함).
 
-### 타입별 데이터 수·추가 규칙
+### 타입별 데이터 수·형태·추가 규칙
 
-| type | data 수 | 추가 규칙 |
-|---|---|---|
-| `waterfall` | 3~8 | `calc.expectTotal` 필수. `base.value + Σdelta.value ≠ expectTotal` → FAIL · 마지막 `total.value ≠ 누적` → FAIL · 누적<0 → WARN |
-| `ranked-bar-h` | 3~10 | `value < 0` → FAIL(음수 순위는 diverging-bar). 출력은 value 내림차순·label 오름차순 정렬 |
-| `diverging-bar` | 3~9 | 부호가 한쪽뿐이면 WARN(0축 발산 무의미 — ranked-bar-h 권고). 입력 순서 유지 |
+| type | 수·형태 | 추가 규칙 | 주석·강조 `on` |
+|---|---|---|---|
+| `waterfall` | 3~8 `{label,value,kind?,oneoff?}` | `calc.expectTotal` 필수. `base.value + Σdelta ≠ expectTotal` → FAIL · 마지막 total ≠ 누적 → FAIL · 누적<0 → WARN | 항목 label |
+| `ranked-bar-h` | 3~10 `{label,value}` | `value < 0` → FAIL(음수 순위는 diverging-bar). 출력은 value 내림차순·label 오름차순 | 항목 label |
+| `diverging-bar` | 3~9 `{label,value}` | 부호가 한쪽뿐이면 WARN — 입력 순서 유지 | 항목 label |
+| `stacked-bar` | 2~6 `{label,segments:[{name,value,oneoff?}],total?}` | 세그먼트 ≤6·이름 ≤6종·양수만. `total` 명시 시 `Σsegments ≠ total` → FAIL. 세그먼트 색은 이름별 파랑 농도 순환(sequential) | 막대 label · 세그먼트 name |
+| `line` | x 3~12 `{label}` + `series` | 계열 1~4 · points 수 ≠ x 수 → FAIL. x 라벨은 슬롯 초과 시 −38° 회전 | x label · series name |
+| `scatter` | 4~30 `{x,y,label?,size?}` | `measure.x·y` 필수 · `size>0`(버블 반경 √비례). 무명 점은 step1 배경 | 점 label |
+| `heatmap` | `data:{rows,cols,cells:[{r,c,v}]}` | 행·열 각 2~8 · cells 4~64 · r,c 중복/범위 밖 → FAIL · 빠진 셀은 빈 칸(점선 테두리). 색은 `color-mix(var(--blue) pct)` 단일 hue | 행·열 label |
+| `matrix-2x2` | 4~12 `{label,x,y,highlight?}` | `axes` 필수 · 범위 밖 점은 경계로 이동+WARN | 점 label |
+| `tornado` | 3~8 `{label,low,high,base?}` | `low ≥ high` → FAIL · 대칭축 ±max(|low|,|high|) · 출력은 범위(high−low) 내림차순 | 항목 label |
+| `sankey` | `data:{nodes:[{id,label?}],flows:[{from,to,value}]}` | 노드 3~12 · flows 2~18 · from/to 미존재·자기순환·순환 그래프·value≤0 → FAIL. 열은 최장 경로 깊이, 밴드 두께=값 비례 | 노드 label |
+| `pareto` | 4~10 `{label,value}` | `value ≤ 0` → FAIL · 단위 `%`면 합계≈100(비율 모드) · `calc.expectTotal` 있으면 합계 검증 | 항목 label |
+
+**contribution/decomposition 차트는 별도 타입이 아니다** — waterfall의 `kind` 구성으로 표현한다
+(base→delta→delta… 로 매출→비용→이익 분해). 구성 요소의 마지막을 `total`로 두면
+`expectTotal` 검증이 그대로 적용된다.
 
 ## source
 
@@ -79,7 +95,7 @@ waterfall의 시작 막대가 최대값의 60% 이상이면 증감 막대가 너
 
 ## 출력 계약
 
-- `<section class="slide[ class추가]" data-archetype="waterfall|chart-bar" data-variant="bridge|ranked|diverging">`
+- `<section class="slide[ class추가]" data-archetype="waterfall|chart-bar|chart-line|heatmap-grid|quadrant|sankey-flow" data-variant="…">` — 타입→archetype·variant 는 생성기의 TYPES 표가 원본이다.
   + `div.head(eyebrow+h2.title)` + `svg.dg(viewBox 1560×H)` + 출처 블록 `div.c-src` + `aside.notes`.
 - SVG 좌상단에 `(단위: «unit»)` 표기(k-t-tag). 색은 `var(--…)` 토큰만(hex 0).
   막대 색: waterfall — base·total `var(--ink)` · delta `var(--blue)` · highlight `var(--accent)` · oneoff `var(--muted)`+`var(--soft)` 테두리.

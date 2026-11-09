@@ -1,0 +1,39 @@
+{
+  "slide": {
+    "title": "비용 구조가 사업부마다 다르다 — 인건비 비중이 수익성을 가른다",
+    "notes": "A는 인건비형, B는 외주형, C는 인프라형 — 절감 레버가 사업부별로 달라야 한다.",
+    "eyebrow": "억 원 · FY25"
+  },
+  "chart": {
+    "type": "stacked-bar",
+    "question": "사업부별 비용 구성은 어떻게 다른가?",
+    "measure": { "unit": "억 원", "period": "FY25" },
+    "data": [
+      { "label": "A사업부", "segments": [
+        { "name": "인건비", "value": 420 },
+        { "name": "외주비", "value": 180 },
+        { "name": "인프라", "value": 120 }
+      ], "total": 720 },
+      { "label": "B사업부", "segments": [
+        { "name": "인건비", "value": 210 },
+        { "name": "외주비", "value": 390 },
+        { "name": "인프라", "value": 90 }
+      ], "total": 690 },
+      { "label": "C사업부", "segments": [
+        { "name": "인건비", "value": 150 },
+        { "name": "외주비", "value": 110 },
+        { "name": "인프라", "value": 320, "oneoff": true }
+      ], "total": 580 }
+    ],
+    "highlight": ["인건비"],
+    "annotations": [
+      { "label": "인프라는 데이터센터 일회성 이전비", "on": "C사업부", "kind": "sub" }
+    ]
+  },
+  "source": {
+    "text": "관리회계 사업부별 비용 집계(예시 모델)",
+    "asOf": "2026-11-10",
+    "note": "공통비 배부 기준은 부서별 인원 가중",
+    "synthetic": true
+  }
+}

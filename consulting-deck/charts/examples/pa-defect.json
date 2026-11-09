@@ -1,0 +1,29 @@
+{
+  "slide": {
+    "title": "불량의 80%는 상위 3개 원인에서 나온다 — 그 3개만 잡으면 된다",
+    "notes": "파레토 원리 그대로 — 소재·조립·검수 3개 원인이 누적 82%를 차지한다.",
+    "eyebrow": "건 · 2026-10"
+  },
+  "chart": {
+    "type": "pareto",
+    "question": "불량 원인 중 어디에 자원을 집중해야 하는가?",
+    "measure": { "unit": "건", "period": "2026-10" },
+    "data": [
+      { "label": "소재 불량", "value": 148 },
+      { "label": "조립 오차", "value": 96 },
+      { "label": "검수 누락", "value": 71 },
+      { "label": "포장 손상", "value": 34 },
+      { "label": "운송 파손", "value": 21 },
+      { "label": "기타", "value": 12 }
+    ],
+    "highlight": ["소재 불량"],
+    "annotations": [
+      { "label": "상위 3개 = 82% — 집중 개선 대상", "on": "검수 누락", "kind": "main" }
+    ]
+  },
+  "source": {
+    "text": "품질 관리 불량 원인 코드 집계(예시 모델)",
+    "asOf": "2026-10-31",
+    "synthetic": true
+  }
+}

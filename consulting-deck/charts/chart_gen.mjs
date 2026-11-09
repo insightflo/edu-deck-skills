@@ -39,7 +39,7 @@ const argv = process.argv.slice(2);
 const arg = (k, d = null) => { const i = argv.indexOf(k); return i >= 0 ? argv[i + 1] : d; };
 const has = (k) => argv.includes(k);
 if (!argv.length || has('--help') || has('-h')) {
-  console.log(`chart_gen.mjs — 컨설팅 차트 생성기(waterfall · ranked-bar-h · diverging-bar)
+  console.log(`chart_gen.mjs — 컨설팅 차트 생성기(11종: waterfall · ranked-bar-h · diverging-bar · stacked-bar · line · scatter · heatmap · matrix-2x2 · tornado · sankey · pareto)
 usage: node chart_gen.mjs --in MODEL.json [-o SLIDE.html] [--svg-only] [--check] [--quiet]
   --in       차트 의미 모델(스키마: consulting-deck/charts/schema.md)
   -o         슬라이드 단편 출력(기본 stdout)
@@ -66,10 +66,20 @@ const warn = (m) => warns.push(m);
 const die = (m) => { fail(m); for (const e of errors) console.error(`FAIL: ${e}`); process.exit(1); };
 
 const TYPES = {
-  'waterfall':     { min: 3, max: 8,  archetype: 'waterfall', variant: 'bridge' },
-  'ranked-bar-h':  { min: 3, max: 10, archetype: 'chart-bar', variant: 'ranked' },
-  'diverging-bar': { min: 3, max: 9,  archetype: 'chart-bar', variant: 'diverging' },
+  'waterfall':     { min: 3, max: 8,  archetype: 'waterfall',    variant: 'bridge' },
+  'ranked-bar-h':  { min: 3, max: 10, archetype: 'chart-bar',    variant: 'ranked' },
+  'diverging-bar': { min: 3, max: 9,  archetype: 'chart-bar',    variant: 'diverging' },
+  'stacked-bar':   { min: 2, max: 6,  archetype: 'chart-bar',    variant: 'stacked' },
+  'line':          { min: 3, max: 12, archetype: 'chart-line',   variant: 'line' },
+  'scatter':       { min: 4, max: 30, archetype: 'chart-line',   variant: 'scatter' },
+  'heatmap':       { min: 4, max: 64, archetype: 'heatmap-grid', variant: 'matrix' },
+  'matrix-2x2':    { min: 4, max: 12, archetype: 'quadrant',     variant: 'matrix-2x2' },
+  'tornado':       { min: 3, max: 8,  archetype: 'chart-bar',    variant: 'tornado' },
+  'sankey':        { min: 2, max: 18, archetype: 'sankey-flow',  variant: 'data' },
+  'pareto':        { min: 4, max: 10, archetype: 'chart-bar',    variant: 'pareto' },
 };
+/* data 가 {rows,cols,cells}·{nodes,flows} 객체인 타입 — 그 외는 행 배열 */
+const OBJ_DATA = new Set(['heatmap', 'sankey']);
 const WF_KINDS = ['base', 'delta', 'total'];
 const ANN_KINDS = ['main', 'sub'];
 
@@ -84,7 +94,6 @@ if (!slide.title) fail('slide.title 누락 — 주장형 제목은 필수다');
 if (!type) fail(`chart.type 은 ${Object.keys(TYPES).join('|')} 중 하나여야 한다: '${chart.type}'`);
 if (!chart.question) fail('chart.question 누락 — 이 차트가 답하는 분석 질문을 적어야 한다');
 if (!(chart.measure || {}).unit) fail('chart.measure.unit 누락 — 단위(%, 억 원, 명…)는 필수다');
-if (!Array.isArray(chart.data)) fail('chart.data 는 배열이어야 한다');
 if (!source || !source.text) fail('source.text 누락 — 출처 없는 수치는 쓸 수 없다');
 if (source && typeof source.synthetic !== 'boolean') fail('source.synthetic 은 true/false 명시 필수 — 가상 데이터는 반드시 표기한다');
 if (source && !source.asOf) warn('source.asOf(기준일) 없음 — 출처 블록에 기준일이 빠진다');
@@ -92,19 +101,157 @@ if (!slide.notes) warn('slide.notes 없음 — 발표 노트를 권장한다');
 
 if ((chart.measure || {}).axisBreak != null && (typeof chart.measure.axisBreak !== 'number' || !Number.isFinite(chart.measure.axisBreak)))
   fail('chart.measure.axisBreak 은 숫자여야 한다 — 축 생략 구간의 하한값');
-const data = Array.isArray(chart.data) ? chart.data : [];
-if (type) {
-  if (data.length < type.min || data.length > type.max)
-    fail(`${chart.type} 데이터 수 ${data.length}개 — ${type.min}~${type.max}개 범위를 벗어났다`);
-}
+if (!Array.isArray(chart.data) && !OBJ_DATA.has(chart.type)) fail('chart.data 는 배열이어야 한다');
+const data = OBJ_DATA.has(chart.type)
+  ? (chart.data && typeof chart.data === 'object' && !Array.isArray(chart.data) ? chart.data : null)
+  : (Array.isArray(chart.data) ? chart.data : []);
+if (OBJ_DATA.has(chart.type) && !data) fail('chart.data 는 {rows,cols,cells}|{nodes,flows} 객체여야 한다');
+
 const labels = new Set();
-data.forEach((d, i) => {
-  if (!d || typeof d.label !== 'string' || !d.label) fail(`data[${i}].label 누락`);
-  if (labels.has(d.label)) fail(`data[${i}].label '${d.label}' 중복 — 주석·강조 참조가 모호해진다`);
+/* label 등록 — 중복이면 FAIL(주석·강조 참조가 모호해지므로) */
+const lab = (d, i, tag = 'data') => {
+  if (!d || typeof d.label !== 'string' || !d.label) { fail(`${tag}[${i}].label 누락`); return; }
+  if (labels.has(d.label)) fail(`${tag}[${i}].label '${d.label}' 중복 — 주석·강조 참조가 모호해진다`);
   labels.add(d.label);
-  if (typeof d.value !== 'number' || !Number.isFinite(d.value)) fail(`data[${i}].value 는 유한 숫자여야 한다: '${d.value}'`);
-  if (d.kind != null && !WF_KINDS.includes(d.kind)) fail(`data[${i}].kind '${d.kind}' — ${WF_KINDS.join('|')} 만 허용`);
-});
+};
+const num = (v, w) => { if (typeof v !== 'number' || !Number.isFinite(v)) fail(`${w} 는 유한 숫자여야 한다: '${v}'`); };
+
+if (type && data) {
+  if (!OBJ_DATA.has(chart.type) && (data.length < type.min || data.length > type.max))
+    fail(`${chart.type} 데이터 수 ${data.length}개 — ${type.min}~${type.max}개 범위를 벗어났다`);
+  switch (chart.type) {
+    case 'stacked-bar': {
+      const segNames = new Set();
+      data.forEach((d, i) => {
+        lab(d, i);
+        if (!Array.isArray(d.segments) || !d.segments.length) fail(`data[${i}].segments — 최소 1개 필요`);
+        else {
+          if (d.segments.length > 6) fail(`data[${i}].segments ${d.segments.length}개 — 최대 6개`);
+          let sum = 0;
+          d.segments.forEach((g, j) => {
+            if (!g || typeof g.name !== 'string' || !g.name) fail(`data[${i}].segments[${j}].name 누락`);
+            else { segNames.add(g.name); labels.add(g.name); }
+            if (g) { num(g.value, `data[${i}].segments[${j}].value`); if (typeof g.value === 'number' && g.value < 0) fail(`data[${i}].segments[${j}] 음수 — 적층은 양수만`); sum += g.value || 0; }
+          });
+          if (d.total != null && Math.abs(sum - d.total) > 1e-6) fail(`data[${i}] '${d.label}' 세그먼트 합 ${Math.round(sum * 100) / 100} ≠ 명시 total ${d.total}`);
+        }
+      });
+      if (segNames.size > 6) fail(`세그먼트 이름 ${segNames.size}종 — 최대 6종`);
+      break;
+    }
+    case 'line': {
+      const series = chart.series;
+      if (!Array.isArray(series) || !series.length) fail('line 은 chart.series 배열이 필요하다 — [{name,points:[v…],fill?}]');
+      else {
+        if (series.length > 4) fail(`line 계열 ${series.length}개 — 최대 4개`);
+        series.forEach((s, i) => {
+          if (!s || typeof s.name !== 'string' || !s.name) fail(`series[${i}].name 누락`);
+          else labels.add(s.name);
+          if (!Array.isArray(s.points) || s.points.length !== data.length) fail(`series[${i}].points 수 ${Array.isArray(s.points) ? s.points.length : 0} — x 개수 ${data.length} 와 달라야 한다`);
+          else s.points.forEach((v, j) => num(v, `series[${i}].points[${j}]`));
+        });
+      }
+      data.forEach((d, i) => lab(d, i));
+      break;
+    }
+    case 'scatter':
+    case 'matrix-2x2': {
+      data.forEach((d, i) => {
+        /* scatter 는 무명 점을 허용한다(배경 점) — 라벨이 있으면 등록·중복 검사 */
+        if (chart.type === 'scatter' && (d.label == null || d.label === '')) { /* 무명 점 */ }
+        else lab(d, i);
+        num(d.x, `data[${i}].x`); num(d.y, `data[${i}].y`);
+        if (d.size != null && (typeof d.size !== 'number' || d.size <= 0)) fail(`data[${i}].size 는 양수여야 한다`);
+      });
+      if (!(chart.measure || {}).x || !(chart.measure || {}).y)
+        fail(`${chart.type} 는 measure.x·measure.y 축 라벨이 필수다`);
+      if (chart.type === 'matrix-2x2' && !(chart.axes && chart.axes.x && chart.axes.y))
+        fail('matrix-2x2 는 chart.axes = {x:{min,max,label},y:{…}} 가 필요하다');
+      break;
+    }
+    case 'tornado':
+      data.forEach((d, i) => {
+        lab(d, i);
+        num(d.low, `data[${i}].low`); num(d.high, `data[${i}].high`);
+        if (typeof d.low === 'number' && typeof d.high === 'number' && d.low >= d.high)
+          fail(`data[${i}] '${d.label}' low ${d.low} ≥ high ${d.high} — 민감도 쌍은 low < high 여야 한다`);
+      });
+      break;
+    case 'heatmap': {
+      const rows = data.rows || [], cols = data.cols || [], cells = data.cells || [];
+      const rl = rows.map((r) => (typeof r === 'string' ? r : r && r.label));
+      const cl = cols.map((c) => (typeof c === 'string' ? c : c && c.label));
+      rl.forEach((x, i) => lab({ label: x }, i, 'rows'));
+      cl.forEach((x, i) => lab({ label: x }, i, 'cols'));
+      if (rl.length < 2 || rl.length > 8 || cl.length < 2 || cl.length > 8)
+        fail(`heatmap 격자 ${rl.length}×${cl.length} — 행·열 각 2~8`);
+      if (cells.length < type.min || cells.length > type.max)
+        fail(`heatmap cells ${cells.length}개 — ${type.min}~${type.max}`);
+      const seen = new Set();
+      cells.forEach((c, i) => {
+        const ri = typeof c.r === 'string' ? rl.indexOf(c.r) : c.r;
+        const ci = typeof c.c === 'string' ? cl.indexOf(c.c) : c.c;
+        if (ri < 0 || ri >= rl.length || ci < 0 || ci >= cl.length) fail(`cells[${i}] r,c 참조 불가 — 행·열 인덱스/라벨이 아니다`);
+        else { const k = `${ri},${ci}`; if (seen.has(k)) fail(`cells[${i}] (${c.r},${c.c}) 중복`); seen.add(k); }
+        num(c.v, `cells[${i}].v`);
+      });
+      break;
+    }
+    case 'sankey': {
+      const nodes = data.nodes || [], flows = data.flows || [];
+      const ids = new Set();
+      nodes.forEach((n, i) => {
+        if (!n || typeof n.id !== 'string' || !n.id) { fail(`nodes[${i}].id 누락`); return; }
+        if (ids.has(n.id)) fail(`nodes[${i}].id '${n.id}' 중복`);
+        ids.add(n.id);
+        lab({ label: n.label || n.id }, i, 'nodes');
+      });
+      if (nodes.length < 3 || nodes.length > 12) fail(`sankey 노드 ${nodes.length}개 — 3~12`);
+      if (flows.length < type.min || flows.length > type.max) fail(`sankey flows ${flows.length}개 — ${type.min}~${type.max}`);
+      const adj = new Map();
+      flows.forEach((f, i) => {
+        if (!ids.has(f.from)) fail(`flows[${i}].from '${f.from}' — nodes 에 없는 id`);
+        if (!ids.has(f.to)) fail(`flows[${i}].to '${f.to}' — nodes 에 없는 id`);
+        if (f.from === f.to) fail(`flows[${i}] '${f.from}' 자기 순환`);
+        if (typeof f.value !== 'number' || !(f.value > 0)) fail(`flows[${i}].value 는 양수여야 한다: '${f.value}'`);
+        if (ids.has(f.from) && ids.has(f.to)) (adj.get(f.from) || adj.set(f.from, []).get(f.from)).push(f.to);
+      });
+      /* DAG 검증 — 순환이 있으면 열 배치가 발산하므로 FAIL */
+      const state = new Map();
+      const cyc = (u, path) => {
+        if (state.get(u) === 1) { fail(`sankey 순환 발견: ${[...path, u].join('→')}`); return true; }
+        if (state.get(u) === 2) return false;
+        state.set(u, 1);
+        for (const v of adj.get(u) || []) if (cyc(v, [...path, u])) return true;
+        state.set(u, 2);
+        return false;
+      };
+      for (const u of ids) if (!errors.length && cyc(u, [])) break;
+      break;
+    }
+    case 'pareto':
+      data.forEach((d, i) => {
+        lab(d, i);
+        num(d.value, `data[${i}].value`);
+        if (typeof d.value === 'number' && d.value <= 0) fail(`pareto data[${i}] '${d.label}' 값 ${d.value} — 양수만(누적 곡선 불가)`);
+      });
+      if ((chart.measure || {}).unit === '%') {
+        const s = data.reduce((a, d) => a + (d.value || 0), 0);
+        if (Math.abs(s - 100) > 0.5) fail(`pareto 비율 모드(단위 %) — 합계 ${Math.round(s * 100) / 100} ≠ 100`);
+      }
+      if (chart.calc && chart.calc.expectTotal != null) {
+        const s = data.reduce((a, d) => a + (d.value || 0), 0);
+        if (Math.abs(s - chart.calc.expectTotal) > 1e-6) fail(`pareto 합계 ${Math.round(s * 100) / 100} ≠ calc.expectTotal ${chart.calc.expectTotal}`);
+      }
+      break;
+    default:
+      data.forEach((d, i) => {
+        lab(d, i);
+        num(d.value, `data[${i}].value`);
+        if (d.kind != null && !WF_KINDS.includes(d.kind)) fail(`data[${i}].kind '${d.kind}' — ${WF_KINDS.join('|')} 만 허용`);
+      });
+  }
+}
 
 /* highlight — data 에 없는 label 참조는 오타다 */
 const highlights = chart.highlight || [];
@@ -222,6 +369,7 @@ function header() {
 /* 발산·순위 막대의 성장 기준점 — transform-box:fill-box 로 막대 자체 상자 기준 */
 const growL = `data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"`;
 const growR = `data-fx="bar-grow" style="transform-box:fill-box;transform-origin:right center"`;
+const growB = `data-fx="bar-grow" style="transform-box:fill-box;transform-origin:center bottom"`;
 
 /* ── 3-A. waterfall ──────────────────────────────────────────────── */
 function buildWaterfall() {
@@ -413,9 +561,458 @@ function buildDiverging() {
   return section(svg, { bars: data.length, steps: data.length });
 }
 
+/* 공통 주석 방출 — 대상 아래 (x,topY) 에 「핵심」/「참고」 를 최대 2줄로 두고
+   leadY0 가 있으면 점선 리더로 잇는다(가로막대 계열은 annPlan 이 처리). */
+function emitAnn(svg, a, x, topY, leadY0, maxW = 560) {
+  const fs = annFont(a);
+  const lines = wrapLines(annText(a), maxW, fs);
+  /* 가장 넓은 줄 기준으로 중심을 클램프 — 캔버스 밖으로 새지 않게 */
+  const widest = Math.max(...lines.map((l) => tw(l, fs)), 40);
+  x = Math.max(70 + widest / 2, Math.min(x, 1490 - widest / 2));
+  if (leadY0 != null)
+    svg.push(`      <path d="M${r2(x)},${r2(leadY0)} L${r2(x)},${r2(topY - fs - 4)}" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>`);
+  lines.forEach((line, li) => {
+    svg.push(`      <text x="${r2(x)}" y="${r2(topY + li * 24)}" font-size="${fs}" font-weight="${a.kind === 'main' ? 800 : 600}" class="${a.kind === 'main' ? 'k-t-o' : 'k-t-tag'}" text-anchor="middle">${esc(line)}</text>`);
+  });
+}
+
+/* ── 3-D. stacked-bar — 막대당 구성 비교(세로 적층) ────────────────── */
+function buildStacked() {
+  const n = data.length;
+  const BASE_Y = 470, PLOT = 350, NAME_Y = 516, H = 590;
+  /* 세그먼트 색 — 이름 첫 등장 순으로 파랑 농도 순환(sequential), highlight=초점, oneoff=회색 */
+  const segOrder = [];
+  data.forEach((d) => d.segments.forEach((g) => { if (!segOrder.includes(g.name)) segOrder.push(g.name); }));
+  const OP = ['.95', '.62', '.40', '.22'];
+  const segFill = (g) => g.oneoff ? 'fill="var(--muted)" stroke="var(--soft)" stroke-width="2"'
+    : highlights.includes(g.name) ? 'fill="var(--accent)"'
+    : `fill="var(--blue)" opacity="${OP[segOrder.indexOf(g.name) % 4]}"`;
+  const totalOf = (d) => d.total != null ? d.total : d.segments.reduce((a, g) => a + g.value, 0);
+  const maxT = Math.max(...data.map(totalOf), 1e-9);
+  const sc = PLOT / maxT;
+  const barW = Math.min(240, Math.floor((VBW - 160 - (n - 1) * 90) / n));
+  const span = n * barW + (n - 1) * 90;
+  const left = (VBW - span) / 2;
+  const svg = svgOpen(H, slide.ariaLabel || `${chart.type} — ${chart.question}`);
+  svg.push(unitTag);
+  /* 범례 — 세그먼트 이름 칩(우상단, 첫 등장 순) */
+  let lw = 0;
+  const chips = segOrder.map((nm) => { const w = tw(nm, 20) + 52; lw += w; return { nm, w }; });
+  let lx = 1500 - lw;
+  chips.forEach(({ nm, w }) => {
+    const g = data.flatMap((d) => d.segments).find((s) => s.name === nm);
+    svg.push(`    <rect x="${r2(lx)}" y="24" width="16" height="14" rx="3" ${segFill(g || { name: nm })}/>`);
+    svg.push(`    <text x="${r2(lx + 22)}" y="37" font-size="20" font-weight="600" fill="var(--ink)">${esc(nm)}</text>`);
+    lx += w;
+  });
+  svg.push(`    <path d="M60,${BASE_Y} L1500,${BASE_Y}" class="k-ln-n"/>`);
+  data.forEach((d, i) => {
+    const x = left + i * (barW + 90), cx = x + barW / 2;
+    const total = totalOf(d);
+    let acc = 0;
+    svg.push(`    <g data-step="${i + 1}">`);
+    d.segments.forEach((g) => {
+      const h = g.value * sc, y = BASE_Y - (acc + g.value) * sc;
+      svg.push(`      <rect x="${r2(x)}" y="${r2(y)}" width="${barW}" height="${r2(Math.max(h, 1))}" ${segFill(g)}/>`);
+      if (h >= 30) svg.push(`      <text x="${r2(cx)}" y="${r2(y + h / 2 + 6)}" font-size="18" font-weight="700" class="k-t-w" text-anchor="middle">${esc(fmt(g.value))}</text>`);
+      acc += g.value;
+    });
+    svg.push(`      <text x="${r2(cx)}" y="${r2(BASE_Y - total * sc - 18)}" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">${esc(fmt(total))}</text>`);
+    svg.push(`      <text x="${r2(cx)}" y="${NAME_Y}" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">${esc(d.label)}</text>`);
+    let ay = NAME_Y + 34;
+    annBy(d.label).forEach((a) => { emitAnn(svg, a, cx, ay, NAME_Y + 8, barW + 60); ay += 56; });
+    svg.push(`    </g>`);
+  });
+  /* 세그먼트 이름에 걸린 주석 — 첫 등장 막대에 단다 */
+  segOrder.forEach((nm) => {
+    const ai = data.findIndex((d) => d.segments.some((g) => g.name === nm));
+    if (ai < 0) return;
+    const cx = left + ai * (barW + 90) + barW / 2;
+    annBy(nm).forEach((a) => emitAnn(svg, a, cx, NAME_Y + 34 + 0, NAME_Y + 8, barW + 60));
+  });
+  return section(svg, { bars: n, steps: n });
+}
+
+/* ── 3-E. line — 시계열 추이(계열 ≤4, fill 면적 변형) ──────────────── */
+function buildLine() {
+  const series = chart.series;
+  const n = data.length;
+  const L = 150, R = 1500, TOP = 96, BASE_Y = 470, PLOT = 340, H = 580;
+  const allV = series.flatMap((s) => s.points);
+  let lo = Math.min(0, ...allV), hi = Math.max(...allV, 1e-9);
+  const pad = (hi - lo) * 0.06 || 1;
+  hi += pad; if (lo < 0) lo -= pad;
+  const X = (i) => L + (n > 1 ? (R - L) * i / (n - 1) : (R - L) / 2);
+  const Y = (v) => BASE_Y - (v - lo) / (hi - lo) * PLOT;
+  const SCOL = ['var(--blue)', 'var(--muted)', 'var(--ink)', 'var(--soft)'];
+  const svg = svgOpen(H, slide.ariaLabel || `${chart.type} — ${chart.question}`);
+  svg.push(unitTag);
+  /* 눈금 — 5등분 수평 보조선 + 좌측 값 */
+  for (let i = 0; i <= 4; i++) {
+    const v = lo + (hi - lo) * i / 4, y = r2(Y(v));
+    svg.push(`    <path d="M${L},${y} L${R},${y}" stroke="var(--soft)" stroke-width="2" stroke-dasharray="2 8"/>`);
+    svg.push(`    <text x="${L - 14}" y="${y + 7}" font-size="20" fill="var(--soft)" text-anchor="end">${esc(fmt(Math.round(v * 10) / 10))}</text>`);
+  }
+  svg.push(`    <path d="M${L},${BASE_Y} L${R},${BASE_Y}" class="k-ln-n"/>`);
+  /* x 라벨 — 슬롯보다 길면 −38° 회전 */
+  const slot = n > 1 ? (R - L) / (n - 1) : R - L;
+  const rot = data.some((d) => tw(d.label, 22) > slot - 14);
+  data.forEach((d, i) => {
+    const x = r2(X(i));
+    svg.push(rot
+      ? `    <text x="${x}" y="${BASE_Y + 34}" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="end" transform="rotate(-38 ${x} ${BASE_Y + 34})">${esc(d.label)}</text>`
+      : `    <text x="${x}" y="${BASE_Y + 38}" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="middle">${esc(d.label)}</text>`);
+  });
+  /* 계열 범례(우상단) */
+  let lw = 0;
+  const chips = series.map((s) => { const w = tw(s.name, 20) + 60; lw += w; return { s, w }; });
+  let lx = R - lw;
+  chips.forEach(({ s, w }, si) => {
+    const col = highlights.includes(s.name) ? 'var(--accent)' : SCOL[si % 4];
+    svg.push(`    <path d="M${r2(lx)},30 L${r2(lx + 28)},30" stroke="${col}" stroke-width="5"/>`);
+    svg.push(`    <text x="${r2(lx + 36)}" y="37" font-size="20" font-weight="600" fill="var(--ink)">${esc(s.name)}</text>`);
+    lx += w;
+  });
+  series.forEach((s, si) => {
+    const col = highlights.includes(s.name) ? 'var(--accent)' : SCOL[si % 4];
+    const pts = s.points.map((v, i) => `${r2(X(i))},${r2(Y(v))}`);
+    svg.push(`    <g data-step="${si + 1}">`);
+    if (s.fill)
+      svg.push(`      <path d="M${pts.join(' L')} L${r2(X(n - 1))},${BASE_Y} L${r2(X(0))},${BASE_Y} Z" fill="${col}" opacity=".14"/>`);
+    svg.push(`      <path d="M${pts.join(' L')}" fill="none" stroke="${col}" stroke-width="4" stroke-linejoin="round"/>`);
+    s.points.forEach((v, i) => {
+      svg.push(`      <circle cx="${r2(X(i))}" cy="${r2(Y(v))}" r="5.5" fill="${col}"/>`);
+    });
+    const lx2 = X(n - 1), ly2 = Y(s.points[n - 1]);
+    svg.push(`      <text x="${r2(lx2 + 14)}" y="${r2(ly2 + 8)}" font-size="24" font-weight="800" fill="var(--ink)">${esc(fmt(s.points[n - 1]))}</text>`);
+    annBy(s.name).forEach((a) => emitAnn(svg, a, Math.min(lx2 - 40, 1200), TOP + 10, ly2 - 10, 620));
+    svg.push(`    </g>`);
+  });
+  /* x 라벨에 걸린 주석 — 해당 눈금 아래 */
+  data.forEach((d, i) => {
+    let ay = BASE_Y + (rot ? 96 : 74);
+    annBy(d.label).forEach((a) => { emitAnn(svg, a, Math.max(160, Math.min(X(i), 1400)), ay, null, 700); ay += 56; });
+  });
+  return section(svg, { bars: series.length, steps: series.length });
+}
+
+/* ── 3-F. scatter — 상관·분포(버블 겸용) ─────────────────────────── */
+function buildScatter() {
+  const L = 170, R = 1500, TOP = 90, BOT = 460, H = 580;
+  const xs = data.map((d) => d.x), ys = data.map((d) => d.y);
+  const padR = (a, b) => { const p = (b - a) * 0.08 || Math.abs(a) * 0.08 || 1; return [a - p, b + p]; };
+  const [x0, x1] = padR(Math.min(...xs), Math.max(...xs));
+  const [y0, y1] = padR(Math.min(...ys), Math.max(...ys));
+  const X = (v) => L + (v - x0) / (x1 - x0) * (R - L);
+  const Y = (v) => BOT - (v - y0) / (y1 - y0) * (BOT - TOP);
+  const sizes = data.map((d) => d.size || 0);
+  const maxS = Math.max(...sizes, 0);
+  const svg = svgOpen(H, slide.ariaLabel || `${chart.type} — ${chart.question}`);
+  svg.push(unitTag);
+  svg.push(`    <path d="M${L},${TOP} L${L},${BOT} L${R},${BOT}" class="k-ln-n"/>`);
+  svg.push(`    <text x="${L}" y="${BOT + 34}" font-size="20" fill="var(--soft)" text-anchor="middle">${esc(fmt(Math.round(x0 * 10) / 10))}</text>`);
+  svg.push(`    <text x="${R}" y="${BOT + 34}" font-size="20" fill="var(--soft)" text-anchor="middle">${esc(fmt(Math.round(x1 * 10) / 10))}</text>`);
+  svg.push(`    <text x="${L - 14}" y="${TOP + 4}" font-size="20" fill="var(--soft)" text-anchor="end">${esc(fmt(Math.round(y1 * 10) / 10))}</text>`);
+  svg.push(`    <text x="${L - 14}" y="${BOT + 4}" font-size="20" fill="var(--soft)" text-anchor="end">${esc(fmt(Math.round(y0 * 10) / 10))}</text>`);
+  svg.push(`    <text x="${(L + R) / 2}" y="${BOT + 78}" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">${esc(chart.measure.x)}</text>`);
+  svg.push(`    <text x="${L}" y="${TOP - 24}" font-size="22" font-weight="700" fill="var(--ink)">${esc(chart.measure.y)}</text>`);
+  /* 라벨 겹침 회피 — 같은 y 띠에 겹치면 아래로 30씩 내린다 */
+  const placed = [];
+  const labelXY = (d, px, py, r) => {
+    const right = px < R - 220;
+    let lx = right ? px + r + 12 : px - r - 12, ly = py + 7;
+    while (placed.some((q) => Math.abs(q.ly - ly) < 26 && (right ? lx < q.lx + q.w && lx + q.w > q.lx - q.w : lx > q.lx - q.w))) ly += 30;
+    placed.push({ lx, ly, w: tw(d.label, 20) });
+    return { lx, ly, anchor: right ? 'start' : 'end' };
+  };
+  let step = 2;
+  const emit = (d, st) => {
+    const px = X(d.x), py = Y(d.y);
+    const r = d.size ? Math.max(6, Math.sqrt(d.size / maxS) * 22) : 9;
+    const hot = highlights.includes(d.label) || d.highlight;
+    svg.push(`    <g data-step="${st}">`);
+    svg.push(`      <circle cx="${r2(px)}" cy="${r2(py)}" r="${r2(r)}" fill="${hot ? 'var(--accent)' : 'var(--blue)'}" opacity="${hot ? '.95' : '.72'}"/>`);
+    if (d.label) {
+      const { lx, ly, anchor } = labelXY(d, px, py, r);
+      svg.push(`      <text x="${r2(lx)}" y="${r2(ly)}" font-size="20" font-weight="${hot ? 800 : 600}" fill="var(--ink)" text-anchor="${anchor}">${esc(d.label)}</text>`);
+    }
+    annBy(d.label).forEach((a) => emitAnn(svg, a, Math.max(200, Math.min(px, 1400)), Math.min(py + r + 40, H - 30), py + r + 6, 560));
+    svg.push(`    </g>`);
+  };
+  svg.push(`    <g data-step="1">`);
+  data.forEach((d) => { if (!d.label) { const px = X(d.x), py = Y(d.y); const r = d.size ? Math.max(6, Math.sqrt(d.size / maxS) * 22) : 9; svg.push(`      <circle cx="${r2(px)}" cy="${r2(py)}" r="${r2(r)}" fill="var(--blue)" opacity=".72"/>`); } });
+  svg.push(`    </g>`);
+  data.forEach((d) => { if (d.label) emit(d, step++); });
+  return section(svg, { bars: data.length, steps: step - 1 });
+}
+
+/* ── 3-G. heatmap — 행×열 밀도(단일 hue 농도) ─────────────────────── */
+function buildHeatmap() {
+  const rl = data.rows.map((r) => (typeof r === 'string' ? r : r.label));
+  const cl = data.cols.map((c) => (typeof c === 'string' ? c : c.label));
+  const gridX = 250, gridY = 96;
+  const cw = (1500 - gridX) / cl.length;
+  const rh = Math.min(66, 380 / rl.length);
+  const gridH = rh * rl.length;
+  const H = gridY + gridH + 96;
+  const vmap = new Map();
+  data.cells.forEach((c) => {
+    const ri = typeof c.r === 'string' ? rl.indexOf(c.r) : c.r;
+    const ci = typeof c.c === 'string' ? cl.indexOf(c.c) : c.c;
+    vmap.set(`${ri},${ci}`, c.v);
+  });
+  const vs = [...vmap.values()];
+  const vmin = Math.min(...vs), vmax = Math.max(...vs, vmin + 1e-9);
+  const hot = (r, c) => highlights.includes(rl[r]) || highlights.includes(cl[c]);
+  const svg = svgOpen(H, slide.ariaLabel || `${chart.type} — ${chart.question}`);
+  svg.push(unitTag);
+  cl.forEach((nm, c) => {
+    svg.push(`    <text x="${r2(gridX + c * cw + cw / 2)}" y="${gridY - 16}" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">${esc(nm)}</text>`);
+  });
+  rl.forEach((nm, r) => {
+    const y = gridY + r * rh;
+    svg.push(`    <g data-step="${r + 1}">`);
+    svg.push(`      <text x="${gridX - 16}" y="${r2(y + rh / 2 + 7)}" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">${esc(nm)}</text>`);
+    cl.forEach((cnm, c) => {
+      const key = `${r},${c}`;
+      const x = r2(gridX + c * cw), yv = r2(y + 2), w = r2(cw - 4), h = r2(rh - 4);
+      if (!vmap.has(key)) {
+        svg.push(`      <rect x="${x}" y="${yv}" width="${w}" height="${h}" fill="none" stroke="var(--soft)" stroke-width="2"/>`);
+        return;
+      }
+      const v = vmap.get(key);
+      const pct = Math.round(12 + 80 * ((v - vmin) / (vmax - vmin)));
+      const color = hot(r, c) ? 'var(--accent)' : 'var(--blue)';
+      svg.push(`      <rect x="${x}" y="${yv}" width="${w}" height="${h}" rx="4" style="fill:color-mix(in srgb, ${color} ${pct}%, transparent)"/>`);
+      if (cw >= 64 && rh >= 34)
+        svg.push(`      <text x="${r2(gridX + c * cw + cw / 2)}" y="${r2(y + rh / 2 + 7)}" font-size="20" font-weight="700" ${pct > 55 ? 'class="k-t-w"' : 'fill="var(--ink)"'} text-anchor="middle">${esc(fmt(v))}</text>`);
+    });
+    let ay = gridY + gridH + 64;
+    annBy(nm).forEach((a) => { emitAnn(svg, a, gridX + (1500 - gridX) / 2, ay, null, 900); ay += 30; });
+    svg.push(`    </g>`);
+  });
+  cl.forEach((nm, c) => {
+    annBy(nm).forEach((a) => emitAnn(svg, a, r2(gridX + c * cw + cw / 2), gridY + gridH + 64, gridY + gridH + 8, cw + 40));
+  });
+  /* 농도 범례 — min→max 단일 hue */
+  svg.push(`    <text x="${gridX}" y="${r2(gridY + gridH + 40)}" font-size="18" fill="var(--soft)">${esc(fmt(vmin))}</text>`);
+  svg.push(`    <rect x="${r2(gridX + 60)}" y="${r2(gridY + gridH + 28)}" width="140" height="14" rx="3" style="fill:color-mix(in srgb, var(--blue) 45%, transparent)"/>`);
+  svg.push(`    <text x="${r2(gridX + 214)}" y="${r2(gridY + gridH + 40)}" font-size="18" fill="var(--soft)">${esc(fmt(vmax))}</text>`);
+  return section(svg, { bars: rl.length, steps: rl.length });
+}
+
+/* ── 3-H. matrix-2x2 — 전략 사분면 ───────────────────────────────── */
+function buildMatrix() {
+  const ax = chart.axes.x, ay2 = chart.axes.y;
+  const PX0 = 300, PX1 = 1500, PY0 = 80, PY1 = 520, H = 620;
+  const X = (v) => PX0 + (v - ax.min) / Math.max(ax.max - ax.min, 1e-9) * (PX1 - PX0);
+  const Y = (v) => PY1 - (v - ay2.min) / Math.max(ay2.max - ay2.min, 1e-9) * (PY1 - PY0);
+  const midX = X((ax.min + ax.max) / 2), midY = Y((ay2.min + ay2.max) / 2);
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const quad = chart.quadrants || {};
+  const svg = svgOpen(H, slide.ariaLabel || `${chart.type} — ${chart.question}`);
+  svg.push(unitTag);
+  svg.push(`    <g data-step="1">`);
+  svg.push(`      <rect x="${PX0}" y="${PY0}" width="${PX1 - PX0}" height="${PY1 - PY0}" fill="none" stroke="var(--line)" stroke-width="3"/>`);
+  svg.push(`      <path d="M${r2(midX)},${PY0} L${r2(midX)},${PY1} M${PX0},${r2(midY)} L${PX1},${r2(midY)}" stroke="var(--soft)" stroke-width="2" stroke-dasharray="8 8"/>`);
+  /* 사분면 라벨 — 네 귀퉁이 안쪽 */
+  const q = [
+    [quad.nw, PX0 + 22, PY0 + 34, 'start'], [quad.ne, PX1 - 22, PY0 + 34, 'end'],
+    [quad.sw, PX0 + 22, PY1 - 18, 'start'], [quad.se, PX1 - 22, PY1 - 18, 'end'],
+  ];
+  q.forEach(([t, x, y, a]) => { if (t) svg.push(`      <text x="${x}" y="${y}" font-size="21" font-weight="700" class="k-t-tag" text-anchor="${a}">${esc(t)}</text>`); });
+  svg.push(`      <text x="${PX1}" y="${PY1 + 46}" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">${esc(ax.label)} →</text>`);
+  svg.push(`      <text x="${PX0}" y="${PY0 - 20}" font-size="22" font-weight="700" fill="var(--ink)">↑ ${esc(ay2.label)}</text>`);
+  svg.push(`    </g>`);
+  const placed = [];
+  data.forEach((d, i) => {
+    const px = clamp(X(d.x), PX0 + 14, PX1 - 14), py = clamp(Y(d.y), PY0 + 14, PY1 - 14);
+    if (px !== X(d.x) || py !== Y(d.y)) warn(`'${d.label}' 축 범위 밖 — 경계로 이동`);
+    const hot = highlights.includes(d.label) || d.highlight;
+    const right = px < PX1 - 240;
+    let lx = right ? px + 20 : px - 20, ly = py + 7;
+    while (placed.some((qq) => Math.abs(qq.ly - ly) < 26)) ly += 30;
+    placed.push({ ly });
+    svg.push(`    <g data-step="${i + 2}">`);
+    svg.push(`      <circle cx="${r2(px)}" cy="${r2(py)}" r="${hot ? 13 : 10}" fill="${hot ? 'var(--accent)' : 'var(--blue)'}" opacity="${hot ? '.95' : '.78'}"/>`);
+    svg.push(`      <text x="${r2(lx)}" y="${r2(ly)}" font-size="20" font-weight="${hot ? 800 : 600}" fill="var(--ink)" text-anchor="${right ? 'start' : 'end'}">${esc(d.label)}</text>`);
+    annBy(d.label).forEach((a) => emitAnn(svg, a, Math.max(PX0 + 80, Math.min(px, PX1 - 80)), Math.min(py + 44, PY1 - 12), py + 16, 480));
+    svg.push(`    </g>`);
+  });
+  return section(svg, { bars: data.length, steps: data.length + 1 });
+}
+
+/* ── 3-I. tornado — 민감도(대칭축 가로 발산 쌍) ────────────────────── */
+function buildTornado() {
+  const rows = [...data].sort((a, b) => (b.high - b.low) - (a.high - a.low) || String(a.label).localeCompare(String(b.label)));
+  const ROW = 84, BAR_H = 52, TOP = 80;
+  const ZERO = 830, HALF = 560, LABEL_X = ZERO - HALF - 24;
+  const maxA = Math.max(...rows.flatMap((d) => [Math.abs(d.low), Math.abs(d.high)]), 1e-9);
+  const H = TOP + rows.length * ROW + 84;
+  const svg = svgOpen(H, slide.ariaLabel || `${chart.type} — ${chart.question}`);
+  svg.push(unitTag);
+  svg.push(`    <line x1="${ZERO - HALF}" y1="${H - 56}" x2="${ZERO + HALF}" y2="${H - 56}" stroke="var(--soft)" stroke-width="3"/>`);
+  svg.push(`    <line x1="${ZERO}" y1="64" x2="${ZERO}" y2="${H - 56}" stroke="var(--ink)" stroke-width="3"/>`);
+  svg.push(`    <line x1="${ZERO - HALF}" y1="64" x2="${ZERO - HALF}" y2="${H - 56}" stroke="var(--line)" stroke-width="2" stroke-dasharray="6 8"/>`);
+  svg.push(`    <line x1="${ZERO + HALF}" y1="64" x2="${ZERO + HALF}" y2="${H - 56}" stroke="var(--line)" stroke-width="2" stroke-dasharray="6 8"/>`);
+  svg.push(`    <text x="${ZERO - HALF}" y="${H - 24}" text-anchor="middle" font-size="22" fill="var(--soft)">−${esc(fmt(maxA))}</text>`);
+  svg.push(`    <text x="${ZERO}" y="${H - 24}" text-anchor="middle" font-size="22" fill="var(--soft)">0</text>`);
+  svg.push(`    <text x="${ZERO + HALF}" y="${H - 24}" text-anchor="middle" font-size="22" fill="var(--soft)">+${esc(fmt(maxA))}</text>`);
+  rows.forEach((d, i) => {
+    const y = TOP + i * ROW, cy = y + BAR_H / 2 + 8;
+    const wl = Math.abs(d.low) / maxA * HALF, wh = Math.abs(d.high) / maxA * HALF;
+    svg.push(`    <g data-step="${i + 1}">`);
+    svg.push(`      <text x="${LABEL_X}" y="${cy}" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">${esc(d.label)}</text>`);
+    svg.push(`      <rect x="${r2(ZERO - wl)}" y="${y}" width="${r2(wl)}" height="${BAR_H}" rx="6" fill="var(--accent)" ${growR}/>`);
+    svg.push(`      <rect x="${ZERO}" y="${y}" width="${r2(wh)}" height="${BAR_H}" rx="6" fill="var(--blue)" ${growL}/>`);
+    svg.push(`      <text x="${r2(ZERO - wl - 14)}" y="${cy}" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="end">${esc(fmtDelta(d.low))}</text>`);
+    svg.push(`      <text x="${r2(ZERO + wh + 14)}" y="${cy}" font-size="24" font-weight="800" fill="var(--ink)">${esc(fmtDelta(d.high))}</text>`);
+    let ay = cy + 40;
+    annBy(d.label).forEach((a) => { emitAnn(svg, a, ZERO, ay, cy + 8, 900); ay += 56; });
+    svg.push(`    </g>`);
+  });
+  return section(svg, { bars: rows.length, steps: rows.length });
+}
+
+/* ── 3-J. sankey — 흐름(데이터 구동, 42-sankey-flow 시각 언어) ─────── */
+function buildSankey() {
+  const nodes = data.nodes, flows = data.flows;
+  const idmap = new Map(nodes.map((n) => [n.id, n]));
+  const tin = new Map(), tout = new Map(), adj = new Map();
+  flows.forEach((f) => {
+    tin.set(f.to, (tin.get(f.to) || 0) + f.value);
+    tout.set(f.from, (tout.get(f.from) || 0) + f.value);
+    (adj.get(f.from) || adj.set(f.from, []).get(f.from)).push(f.to);
+  });
+  const thr = (id) => Math.max(tin.get(id) || 0, tout.get(id) || 0);
+  /* 열 배정 — 최장 경로 깊이(위상 정렬) */
+  const depth = new Map();
+  const indeg = new Map(nodes.map((n) => [n.id, tin.has(n.id) ? (data.flows.filter((f) => f.to === n.id).length) : 0]));
+  const queue = nodes.filter((n) => !tin.has(n.id)).map((n) => n.id);
+  queue.forEach((id) => depth.set(id, 0));
+  const seen = new Set(queue);
+  while (queue.length) {
+    const u = queue.shift();
+    for (const v of adj.get(u) || []) {
+      depth.set(v, Math.max(depth.get(v) || 0, depth.get(u) + 1));
+      if (!seen.has(v)) { seen.add(v); queue.push(v); }
+    }
+  }
+  const cols = Math.max(...depth.values(), 0) + 1;
+  const colNodes = Array.from({ length: cols }, () => []);
+  nodes.forEach((n) => colNodes[depth.get(n.id) || 0].push(n));
+  const NODE_W = 170, TOP = 90, PLOT_H = 380;
+  const colTotal = colNodes.map((cn) => cn.reduce((a, n) => a + thr(n.id), 0));
+  const sc = PLOT_H / Math.max(...colTotal, 1e-9);
+  const colX = (c) => cols > 1 ? 60 + c * (VBW - 120 - NODE_W) / (cols - 1) : (VBW - NODE_W) / 2;
+  /* 노드 y — 열 안에서 균등 간격 쌓기 */
+  const pos = new Map();
+  colNodes.forEach((cn, c) => {
+    const hs = cn.map((n) => Math.max(thr(n.id) * sc, 26));
+    const gap = cn.length > 1 ? Math.max(18, (PLOT_H - hs.reduce((a, b) => a + b, 0)) / (cn.length - 1)) : 0;
+    let y = TOP + (cn.length > 1 ? 0 : (PLOT_H - hs[0]) / 2);
+    cn.forEach((n, i) => { pos.set(n.id, { x: colX(c), y, h: hs[i], c }); y += hs[i] + gap; });
+  });
+  const H = TOP + PLOT_H + 110;
+  const svg = svgOpen(H, slide.ariaLabel || `${chart.type} — ${chart.question}`);
+  svg.push(unitTag);
+  const roleCls = (c) => c === 0 ? 'k-solid-b' : c === cols - 1 ? 'k-solid-o' : 'k-solid-n';
+  /* 흐름 밴드 — 소스 노드 오른쪽 → 대상 왼쪽, 두께 = 값×스케일 */
+  const inOff = new Map(), outOff = new Map();
+  const flowStep = new Map();
+  flows.forEach((f, i) => flowStep.set(i, Math.max(depth.get(f.from) + 1, depth.get(f.to))));
+  [...Array(cols).keys()].forEach((c) => {
+    const stepFlows = flows.map((f, i) => [f, i]).filter(([, i]) => flowStep.get(i) === c + 1 || (cols === 1 && c === 0));
+    if (!stepFlows.length) return;
+    svg.push(`    <g data-step="${c + 1}">`);
+    stepFlows.forEach(([f]) => {
+      const s = pos.get(f.from), t = pos.get(f.to);
+      const w = Math.max(f.value * sc, 3);
+      const sy = s.y + (outOff.get(f.from) || 0), ty = t.y + (inOff.get(f.to) || 0);
+      outOff.set(f.from, (outOff.get(f.from) || 0) + w);
+      inOff.set(f.to, (inOff.get(f.to) || 0) + w);
+      const x0 = s.x + NODE_W, x1 = t.x, cx = (x0 + x1) / 2;
+      const hot = highlights.includes(idmap.get(f.to).label) || highlights.includes(idmap.get(f.from).label);
+      svg.push(`      <path d="M${r2(x0)},${r2(sy)} C${r2(cx)},${r2(sy)} ${r2(cx)},${r2(ty)} ${r2(x1)},${r2(ty)} L${r2(x1)},${r2(ty + w)} C${r2(cx)},${r2(ty + w)} ${r2(cx)},${r2(sy + w)} ${r2(x0)},${r2(sy + w)} Z" fill="${hot ? 'var(--accent)' : 'var(--blue)'}" opacity="${hot ? '.7' : '.45'}"/>`);
+    });
+    svg.push(`    </g>`);
+  });
+  /* 노드 — 열별 단계에 라벨·값 */
+  colNodes.forEach((cn, c) => {
+    svg.push(`    <g data-step="${c + 1}">`);
+    cn.forEach((n) => {
+      const p = pos.get(n.id);
+      const cls = roleCls(c);
+      svg.push(`      <rect x="${p.x}" y="${r2(p.y)}" width="${NODE_W}" height="${r2(p.h)}" class="${cls}"/>`);
+      const label = n.label || n.id;
+      const inner = tw(label, 22) <= NODE_W - 20;
+      svg.push(inner
+        ? `      <text x="${p.x + NODE_W / 2}" y="${r2(p.y + p.h / 2 + 7)}" font-size="22" font-weight="700" class="k-t-w" text-anchor="middle">${esc(label)}</text>`
+        : `      <text x="${p.x + NODE_W / 2}" y="${r2(p.y - 10)}" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">${esc(label)}</text>`);
+      svg.push(`      <text x="${p.x + NODE_W / 2}" y="${r2(p.y + p.h + 30)}" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">${esc(fmt(thr(n.id)))}</text>`);
+      annBy(label).forEach((a) => emitAnn(svg, a, p.x + NODE_W / 2, TOP + PLOT_H + 76, p.y + p.h + 34, 420));
+    });
+    svg.push(`    </g>`);
+  });
+  return section(svg, { bars: nodes.length, steps: cols });
+}
+
+/* ── 3-K. pareto — 누적 곡선 + 내림차 막대 ────────────────────────── */
+function buildPareto() {
+  const rows = [...data].sort((a, b) => b.value - a.value || String(a.label).localeCompare(String(b.label)));
+  const n = rows.length;
+  const BASE_Y = 460, PLOT = 340, NAME_Y = 506, H = 590;
+  const sum = rows.reduce((a, d) => a + d.value, 0) || 1e-9;
+  const maxV = rows[0].value;
+  const sc = PLOT / maxV;
+  const barW = Math.min(170, Math.floor((VBW - 200 - (n - 1) * 46) / n));
+  const span = n * barW + (n - 1) * 46;
+  const left = (VBW - span) / 2;
+  const svg = svgOpen(H, slide.ariaLabel || `${chart.type} — ${chart.question}`);
+  svg.push(unitTag);
+  svg.push(`    <path d="M60,${BASE_Y} L1500,${BASE_Y}" class="k-ln-n"/>`);
+  /* 80% 임계선 + 우측 % 축 */
+  const cumY = (p) => BASE_Y - (p / 100) * PLOT;
+  svg.push(`    <path d="M60,${r2(cumY(80))} L1500,${r2(cumY(80))}" class="k-ln-g"/>`);
+  svg.push(`    <text x="1500" y="${r2(cumY(80)) - 10}" font-size="18" class="k-t-o" text-anchor="end" font-weight="700">80%</text>`);
+  [0, 50, 100].forEach((p) => {
+    svg.push(`    <text x="1520" y="${r2(cumY(p)) + 7}" font-size="18" fill="var(--soft)">${p}%</text>`);
+  });
+  let acc = 0, prev = null;
+  rows.forEach((d, i) => {
+    acc += d.value;
+    const cumpct = acc / sum * 100;
+    const x = left + i * (barW + 46), cx = x + barW / 2;
+    const h = d.value * sc, y = BASE_Y - h;
+    const hot = highlights.includes(d.label);
+    svg.push(`    <g data-step="${i + 1}">`);
+    svg.push(`      <rect x="${r2(x)}" y="${r2(y)}" width="${barW}" height="${r2(h)}" rx="6" fill="${hot ? 'var(--accent)' : 'var(--blue)'}" opacity="${hot ? '.95' : '.82'}" ${growB}/>`);
+    svg.push(`      <text x="${r2(cx)}" y="${r2(y - 12)}" font-size="22" font-weight="800" fill="var(--ink)" text-anchor="middle">${esc(fmt(d.value))}</text>`);
+    const cy2 = cumY(cumpct);
+    if (prev) svg.push(`      <path d="M${r2(prev.x)},${r2(prev.y)} L${r2(cx)},${r2(cy2)}" fill="none" stroke="var(--accent)" stroke-width="4"/>`);
+    svg.push(`      <circle cx="${r2(cx)}" cy="${r2(cy2)}" r="6" fill="var(--accent)"/>`);
+    svg.push(`      <text x="${r2(cx)}" y="${r2(cy2 - 14)}" font-size="18" font-weight="700" class="k-t-o" text-anchor="middle">${Math.round(cumpct)}%</text>`);
+    const slot = barW + 46;
+    if (tw(d.label, 22) > slot - 10)
+      svg.push(`      <text x="${r2(cx)}" y="${NAME_Y}" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="end" transform="rotate(-38 ${r2(cx)} ${NAME_Y})">${esc(d.label)}</text>`);
+    else
+      svg.push(`      <text x="${r2(cx)}" y="${NAME_Y}" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">${esc(d.label)}</text>`);
+    let ay = NAME_Y + 40;
+    annBy(d.label).forEach((a) => { emitAnn(svg, a, cx, ay, NAME_Y + 10, barW + 40); ay += 56; });
+    svg.push(`    </g>`);
+    prev = { x: cx, y: cy2 };
+  });
+  return section(svg, { bars: n, steps: n });
+}
+
 /* ── 4. 방출 ─────────────────────────────────────────────────────── */
-const doc = chart.type === 'waterfall' ? buildWaterfall()
-          : chart.type === 'ranked-bar-h' ? buildRanked() : buildDiverging();
+const BUILD = {
+  'waterfall': buildWaterfall, 'ranked-bar-h': buildRanked, 'diverging-bar': buildDiverging,
+  'stacked-bar': buildStacked, 'line': buildLine, 'scatter': buildScatter,
+  'heatmap': buildHeatmap, 'matrix-2x2': buildMatrix, 'tornado': buildTornado,
+  'sankey': buildSankey, 'pareto': buildPareto,
+};
+const doc = BUILD[chart.type]();
 const body = svgOnly ? doc.svg : doc.section;
 if (outPath) {
   if (checkOnly) {

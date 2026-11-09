@@ -1,0 +1,28 @@
+{
+  "slide": {
+    "title": "이익 민감도는 단가와 물량이 지배한다 — 환율 리스크는 중간 수준",
+    "notes": "기준 영업이익 890억 대비 각 변수의 ±10% 변동 영향. 단가가 가장 크고 다음이 물량.",
+    "eyebrow": "억 원 · 민감도"
+  },
+  "chart": {
+    "type": "tornado",
+    "question": "영업이익에 가장 큰 영향을 주는 변수는 무엇인가?",
+    "measure": { "unit": "억 원", "period": "FY26 계획" },
+    "data": [
+      { "label": "판매 단가", "low": -210, "high": 210 },
+      { "label": "판매 물량", "low": -165, "high": 165 },
+      { "label": "환율", "low": -120, "high": 120 },
+      { "label": "인건비", "low": -85, "high": 85 },
+      { "label": "물류비", "low": -45, "high": 45 }
+    ],
+    "highlight": ["판매 단가"],
+    "annotations": [
+      { "label": "단가 1% = 이익 21억 — 가격 정책 최우선", "on": "판매 단가", "kind": "main" }
+    ]
+  },
+  "source": {
+    "text": "FY26 사업계획 민감도 분석(예시 모델)",
+    "asOf": "2026-11-10",
+    "synthetic": true
+  }
+}
