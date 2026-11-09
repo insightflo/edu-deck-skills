@@ -99,6 +99,33 @@ if (source && typeof source.synthetic !== 'boolean') fail('source.synthetic 은 
 if (source && !source.asOf) warn('source.asOf(기준일) 없음 — 출처 블록에 기준일이 빠진다');
 if (!slide.notes) warn('slide.notes 없음 — 발표 노트를 권장한다');
 
+/* P2 옵션 — 캔버스 폭·다리/브래킷·목표 사분면·사이드카 칼럼 */
+if (chart.canvas != null && !['full', 'sidecar'].includes(chart.canvas))
+  fail(`chart.canvas '${chart.canvas}' — full|sidecar 만 허용`);
+if (chart.bridge != null && chart.bridge !== 'total' && chart.bridge !== 'segment')
+  fail(`chart.bridge '${chart.bridge}' — total|segment 만 허용`);
+if (chart.bridge != null && chart.type !== 'stacked-bar')
+  warn('chart.bridge 는 stacked-bar 전용 — 무시된다');
+if (chart.bridgeSegments != null && !Array.isArray(chart.bridgeSegments))
+  fail('chart.bridgeSegments 는 세그먼트 name 배열이어야 한다');
+if (chart.targetQuadrant != null && !['tr', 'tl', 'br', 'bl'].includes(chart.targetQuadrant))
+  fail(`chart.targetQuadrant '${chart.targetQuadrant}' — tr|tl|br|bl 만 허용`);
+if (chart.targetQuadrant != null && chart.type !== 'matrix-2x2')
+  warn('chart.targetQuadrant 는 matrix-2x2 전용 — 무시된다');
+const sidecar = chart.sidecar;
+if (sidecar != null) {
+  if (typeof sidecar !== 'object' || Array.isArray(sidecar)) fail('chart.sidecar 는 {k,v,unit?,h?,bullets[]} 객체여야 한다');
+  else {
+    if (sidecar.v == null || sidecar.v === '') fail('chart.sidecar.v(헤드라인 수치) 누락');
+    if (!Array.isArray(sidecar.bullets) || !sidecar.bullets.length || sidecar.bullets.length > 3)
+      fail('chart.sidecar.bullets 는 1~3개 문자열 배열');
+    else sidecar.bullets.forEach((b, i) => { if (typeof b !== 'string' || !b.trim()) fail(`chart.sidecar.bullets[${i}] 빈 문자열`); });
+    if (chart.canvas !== 'sidecar') warn('chart.sidecar 는 chart.canvas:"sidecar" 와 함께 쓴다 — 캔버스가 좁아지지 않으면 패널이 어색하다');
+  }
+}
+if (chart.canvas === 'sidecar' && !sidecar)
+  warn('canvas:"sidecar" 인데 chart.sidecar 가 없다 — 우측 칼럼 없이 좁은 캔버스만 그린다');
+
 if ((chart.measure || {}).axisBreak != null && (typeof chart.measure.axisBreak !== 'number' || !Number.isFinite(chart.measure.axisBreak)))
   fail('chart.measure.axisBreak 은 숫자여야 한다 — 축 생략 구간의 하한값');
 if (!Array.isArray(chart.data) && !OBJ_DATA.has(chart.type)) fail('chart.data 는 배열이어야 한다');
@@ -137,6 +164,8 @@ if (type && data) {
         }
       });
       if (segNames.size > 6) fail(`세그먼트 이름 ${segNames.size}종 — 최대 6종`);
+      if (Array.isArray(chart.bridgeSegments))
+        chart.bridgeSegments.forEach((nm) => { if (!segNames.has(nm)) fail(`bridgeSegments '${nm}' — 세그먼트에 없는 name`); });
       break;
     }
     case 'line': {
@@ -303,8 +332,12 @@ if (type && chart.type === 'diverging-bar' && data.length) {
 if (errors.length) { for (const e of errors) console.error(`FAIL: ${e}`); process.exit(1); }
 
 /* ── 2. 공통 도우미 ──────────────────────────────────────────────── */
-const VBW = 1560;
+/* 캔버스 폭 — 기본 1560(전폭). canvas:"sidecar" 는 68% 차트 칼럼용 1040 */
+const VBW = chart.canvas === 'sidecar' ? 1040 : 1560;
+const R_EDGE = VBW - 60;
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+/* 사이드카 문구용 — 모델의 <b>…</b> 강조만 되살리고 그 외 마크업은 계속 이스케이프한다 */
+const escRich = (s) => esc(s).replace(/&lt;(\/?b)&gt;/g, '<$1>');
 const r2 = (v) => Math.round(v * 100) / 100;
 const fmt = (v) => {
   const [i, f] = String(v).split('.');
@@ -341,7 +374,16 @@ const wrapLines = (s, maxW, fs) => {
   }
   return lines;
 };
-const annText = (a) => `「${a.kind === 'main' ? '핵심' : '참고'}」 ${a.label}`;
+/* 주석 캡슐 배지 — 「핵심」/「참고」 텍스트 표식 대신 채움 캡슐(rounded rect+흰 글자).
+   main=accent(초점), sub=track-strong(비초점) — 종이 톤 위에서도 종별이 읽힌다.
+   배지 폭은 폭 계산에 ANN_PAD 로 예약한다. */
+const BADGE_W = 64, BADGE_H = 26, ANN_PAD = 72;
+const badgeFill = (a) => a.kind === 'main' ? 'var(--accent)' : 'var(--track-strong)';
+const badgeTxt = (a) => (a.kind === 'main' ? '핵심' : '참고');
+const emitBadge = (svg, x, yBase, a) => {
+  svg.push(`<rect x="${r2(x)}" y="${r2(yBase - 19)}" width="${BADGE_W}" height="${BADGE_H}" rx="${BADGE_H / 2}" fill="${badgeFill(a)}"/>`);
+  svg.push(`<text x="${r2(x + BADGE_W / 2)}" y="${r2(yBase + 1)}" font-size="18" font-weight="800" class="k-t-w" text-anchor="middle">${badgeTxt(a)}</text>`);
+};
 const annFont = (a) => (a.kind === 'main' ? 24 : 20);
 const eyebrow = slide.eyebrow || `${chart.measure.unit} · ${chart.measure.period || ''}`.replace(/ · $/, '');
 const unitTag = `    <text class="k-t-tag" x="60" y="42">(단위: ${esc(chart.measure.unit)})</text>`;
@@ -363,12 +405,31 @@ function section(svg, meta) {
     ...(source.synthetic ? ['    <p class="s-syn">가상 데이터</p>'] : []),
     `  </div>`,
   ];
+  /* 사이드카 — 차트 68% + 시사점 칼럼 32%(상단 3px accent 룰·헤드라인 수치·불릿 ≤3).
+     c-sidecar 계열 클래스는 덱 src css 가 정의한다. */
+  const bodyBlock = sidecar
+    ? [
+      `  <div class="c-sidecar">`,
+      `    <div class="c-sidecar-main">`,
+      ...svg,
+      `    </svg>`,
+      `    </div>`,
+      `    <aside class="c-sidecar-panel" data-step="${last}">`,
+      `      <p class="sc-k">${esc(sidecar.k || 'SO WHAT')}</p>`,
+      `      <p class="sc-v">${esc(sidecar.v)}${sidecar.unit ? `<small>${esc(sidecar.unit)}</small>` : ''}</p>`,
+      ...(sidecar.h ? [`      <p class="sc-h">${escRich(sidecar.h)}</p>`] : []),
+      `      <ul>`,
+      ...(sidecar.bullets || []).map((b) => `        <li>${escRich(b)}</li>`),
+      `      </ul>`,
+      `    </aside>`,
+      `  </div>`,
+    ]
+    : [...svg, `  </svg>`];
   const h = [
     header(),
     `<section class="slide${extraCls ? ' ' + extraCls : ''}" data-archetype="${type.archetype}" data-variant="${type.variant}" style="gap:18px">`,
     `  <div class="head"><p class="eyebrow">${esc(eyebrow)}</p><h2 class="title">${esc(slide.title)}</h2></div>`,
-    ...svg,
-    `  </svg>`,
+    ...bodyBlock,
     ...srcBlock,
     `  <aside class="notes">${esc(slide.notes || '')}</aside>`,
     `</section>`,
@@ -431,7 +492,7 @@ function buildWaterfall() {
 
   const svg = svgOpen(H, slide.ariaLabel || `${chart.type} — ${chart.question}`);
   svg.push(unitTag);
-  svg.push(`    <path d="M60,${BASE_Y} L1500,${BASE_Y}" fill="none" stroke="var(--line)" stroke-width="2.5" stroke-linecap="round"/>`);
+  svg.push(`    <path d="M60,${BASE_Y} L${R_EDGE},${BASE_Y}" fill="none" stroke="var(--line)" stroke-width="2.5" stroke-linecap="round"/>`);
   data.forEach((d, i) => {
     const k = kindOf(d, i);
     const prevCum = i === 0 ? 0 : cums[i - 1];
@@ -473,14 +534,17 @@ function buildWaterfall() {
     let annCursor = 0;
     annBy(d.label).forEach((a) => {
       const fs = annFont(a), maxW = barW + CONN;
-      const lines = wrapLines(annText(a), maxW, fs);
+      const lines = wrapLines(a.label, maxW - ANN_PAD, fs);
       const need = lines.length * 24 + 16;
       const inGap = k === 'delta' && barBottom + annCursor + need <= NAME_Y - 8;
       const ly0 = inGap ? barBottom + annCursor + 10 + fs : NAME_Y + 14 + annCursor + fs;
       const leadFrom = inGap ? barBottom + annCursor + 4 : NAME_Y + 8;
+      const widest = Math.max(...lines.map((l) => tw(l, fs)), 40) + ANN_PAD;
+      const x0 = Math.max(60, Math.min(cx - widest / 2, R_EDGE - widest - 10));
       svg.push(`      <path d="M${r2(cx)},${r2(leadFrom)} L${r2(cx)},${r2(ly0 - fs - 4)}" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>`);
+      emitBadge(svg, x0, ly0, a);
       lines.forEach((line, li) => {
-        svg.push(`      <text x="${r2(cx)}" y="${r2(ly0 + li * 24)}" font-size="${fs}" font-weight="${a.kind === 'main' ? 800 : 600}" class="${a.kind === 'main' ? 'k-t-o' : 'k-t-tag'}" text-anchor="middle">${esc(line)}</text>`);
+        svg.push(`      <text x="${r2(x0 + ANN_PAD)}" y="${r2(ly0 + li * 24)}" font-size="${fs}" font-weight="${a.kind === 'main' ? 800 : 600}" class="${a.kind === 'main' ? 'k-t-o' : 'k-t-tag'}" text-anchor="start">${esc(line)}</text>`);
       });
       annCursor += need;
     });
@@ -491,17 +555,20 @@ function buildWaterfall() {
 
 /* 주석 계획 — 수치 뒤 인라인으로 들어가면 인라인(같은 y), 아니면 항목 이름 아래에
    행 높이를 가산해 둔다(둘 중 겹침이 없는 쪽 — 하-1). */
-function annPlan(d, valStr, valX, dir, labelX) {
+function annPlan(d, valStr, valX, dir, labelX, belowX) {
   const inline = [], below = [];
   let cursor = valX + dir * (tw(valStr, 28) + 24);
+  /* 아래줄 주석은 belowX+ANN_PAD 에서 시작해 R_EDGE 안에서 접는다(사이드카 1040폭 대응) */
+  const belowW = Math.max(320, R_EDGE - belowX - ANN_PAD);
   for (const a of annBy(d.label)) {
-    const fs = annFont(a), txt = annText(a), w = tw(txt, fs);
-    const fits = dir > 0 ? cursor + w <= 1500 : cursor - w >= 60;
+    const fs = annFont(a), w = tw(a.label, fs) + ANN_PAD;
+    const fits = dir > 0 ? cursor + w <= R_EDGE : cursor - w >= 60;
     if (fits && !below.length) {
-      inline.push({ a, txt, fs, x: cursor, anchor: dir > 0 ? 'start' : 'end' });
+      /* 인라인 — 블록 왼쪽 가장자리를 기억한다(음수 방향이면 cursor-w) */
+      inline.push({ a, fs, x: dir > 0 ? cursor : cursor - w });
       cursor += dir * (w + 24);
     } else {
-      wrapLines(txt, 1100, fs).forEach((line) => below.push({ line, fs, main: a.kind === 'main' }));
+      wrapLines(a.label, belowW, fs).forEach((line, li) => below.push({ line, fs, main: a.kind === 'main', badge: li === 0 ? a : null }));
     }
   }
   return { inline, below, extra: below.length ? below.length * 26 + 20 : 0 };
@@ -509,12 +576,12 @@ function annPlan(d, valStr, valX, dir, labelX) {
 
 /* ── 3-B. ranked-bar-h ───────────────────────────────────────────── */
 function buildRanked() {
-  const ROW = 82, BAR_H = 56, AXIS_X = 320, TOP = 70, MAX_W = 1100;
+  const ROW = 82, BAR_H = 56, AXIS_X = 320, TOP = 70, MAX_W = Math.min(1100, R_EDGE - AXIS_X - 80);
   const rows = [...data].sort((a, b) => b.value - a.value || String(a.label).localeCompare(String(b.label)));
   const maxV = Math.max(...rows.map((d) => d.value), 1e-9);
   const plans = rows.map((d) => {
     const w = Math.max((d.value / maxV) * MAX_W, 4);
-    return { w, ...annPlan(d, fmt(d.value), AXIS_X + w + 16, 1, AXIS_X - 20) };
+    return { w, ...annPlan(d, fmt(d.value), AXIS_X + w + 16, 1, AXIS_X - 20, AXIS_X) };
   });
   const ys = []; let yy = TOP;
   plans.forEach((p) => { ys.push(yy); yy += ROW + p.extra; });
@@ -522,7 +589,7 @@ function buildRanked() {
   const svg = svgOpen(H, slide.ariaLabel || `${chart.type} — ${chart.question}`);
   svg.push(unitTag);
   svg.push(`    <line x1="${AXIS_X}" y1="56" x2="${AXIS_X}" y2="${H - 44}" stroke="var(--line)" stroke-width="2.5"/>`);
-  svg.push(`    <line x1="${AXIS_X}" y1="${H - 44}" x2="1500" y2="${H - 44}" stroke="var(--line)" stroke-width="2.5"/>`);
+  svg.push(`    <line x1="${AXIS_X}" y1="${H - 44}" x2="${R_EDGE}" y2="${H - 44}" stroke="var(--line)" stroke-width="2.5"/>`);
   rows.forEach((d, i) => {
     const { w, inline, below } = plans[i];
     const y = ys[i], cy = y + BAR_H / 2 + 8;
@@ -532,10 +599,12 @@ function buildRanked() {
     svg.push(`      <rect x="${AXIS_X}" y="${y}" width="${r2(w)}" height="${BAR_H}" rx="8" fill="${fill}" ${growL}/>`);
     svg.push(`      <text x="${r2(AXIS_X + w + 16)}" y="${cy}" font-size="28" font-weight="800" fill="var(--ink)">${esc(fmt(d.value))}</text>`);
     inline.forEach((t) => {
-      svg.push(`      <text x="${r2(t.x)}" y="${cy}" font-size="${t.fs}" font-weight="${t.a.kind === 'main' ? 800 : 600}" class="${t.a.kind === 'main' ? 'k-t-o' : 'k-t-tag'}" text-anchor="${t.anchor}">${esc(t.txt)}</text>`);
+      emitBadge(svg, r2(t.x), cy, t.a);
+      svg.push(`      <text x="${r2(t.x + ANN_PAD)}" y="${cy}" font-size="${t.fs}" font-weight="${t.a.kind === 'main' ? 800 : 600}" class="${t.a.kind === 'main' ? 'k-t-o' : 'k-t-tag'}" text-anchor="start">${esc(t.a.label)}</text>`);
     });
     below.forEach((t, li) => {
-      svg.push(`      <text x="${AXIS_X}" y="${r2(cy + 44 + li * 26)}" font-size="${t.fs}" font-weight="${t.main ? 800 : 600}" class="${t.main ? 'k-t-o' : 'k-t-tag'}" text-anchor="start">${esc(t.line)}</text>`);
+      if (t.badge) emitBadge(svg, AXIS_X, cy + 44 + li * 26, t.badge);
+      svg.push(`      <text x="${AXIS_X + ANN_PAD}" y="${r2(cy + 44 + li * 26)}" font-size="${t.fs}" font-weight="${t.main ? 800 : 600}" class="${t.main ? 'k-t-o' : 'k-t-tag'}" text-anchor="start">${esc(t.line)}</text>`);
     });
     svg.push(`    </g>`);
   });
@@ -544,7 +613,7 @@ function buildRanked() {
 
 /* ── 3-C. diverging-bar ──────────────────────────────────────────── */
 function buildDiverging() {
-  const ROW = 82, BAR_H = 56, ZERO = 800, TOP = 56, HALF = 460;
+  const ROW = 82, BAR_H = 56, ZERO = Math.round(VBW / 2) + 20, TOP = 56, HALF = Math.min(460, R_EDGE - ZERO - 60);
   const LABEL_X = ZERO - HALF - 20;
   const maxA = Math.max(...data.map((d) => Math.abs(d.value)), 1e-9);
   const plans = data.map((d) => {
@@ -554,7 +623,7 @@ function buildDiverging() {
     const vx = neg ? ZERO - w - 16 : ZERO + w + 16;
     /* 최대 음수 막대의 값 라벨이 항목명(LABEL_X)과 겹치면 막대 안쪽(밝은 글자)로 뺀다(agy 치명-2) */
     const inNeg = neg && vx - tw(valStr, 28) < LABEL_X + 14;
-    return { w, neg, vx, valStr, inNeg, ...annPlan(d, valStr, vx, neg ? -1 : 1, LABEL_X) };
+    return { w, neg, vx, valStr, inNeg, ...annPlan(d, valStr, vx, neg ? -1 : 1, LABEL_X, neg ? ZERO - w : ZERO) };
   });
   const ys = []; let yy = TOP;
   plans.forEach((p) => { ys.push(yy); yy += ROW + p.extra; });
@@ -581,29 +650,35 @@ function buildDiverging() {
     svg.push(`      <rect x="${r2(x)}" y="${y}" width="${r2(w)}" height="${BAR_H}" rx="8" fill="${fill}"${ring} ${grow}/>`);
     svg.push(`      <text x="${r2(inNeg ? ZERO - w + 16 : vx)}" y="${cy}" font-size="28" font-weight="800" fill="${inNeg ? 'var(--paper)' : 'var(--ink)'}" text-anchor="${anchor}">${esc(valStr)}</text>`);
     inline.forEach((t) => {
-      svg.push(`      <text x="${r2(t.x)}" y="${cy}" font-size="${t.fs}" font-weight="${t.a.kind === 'main' ? 800 : 600}" class="${t.a.kind === 'main' ? 'k-t-o' : 'k-t-tag'}" text-anchor="${t.anchor}">${esc(t.txt)}</text>`);
+      emitBadge(svg, r2(t.x), cy, t.a);
+      svg.push(`      <text x="${r2(t.x + ANN_PAD)}" y="${cy}" font-size="${t.fs}" font-weight="${t.a.kind === 'main' ? 800 : 600}" class="${t.a.kind === 'main' ? 'k-t-o' : 'k-t-tag'}" text-anchor="start">${esc(t.a.label)}</text>`);
     });
     below.forEach((t, li) => {
-      svg.push(`      <text x="${r2(x)}" y="${r2(cy + 44 + li * 26)}" font-size="${t.fs}" font-weight="${t.main ? 800 : 600}" class="${t.main ? 'k-t-o' : 'k-t-tag'}" text-anchor="start">${esc(t.line)}</text>`);
+      if (t.badge) emitBadge(svg, x, cy + 44 + li * 26, t.badge);
+      svg.push(`      <text x="${r2(x + ANN_PAD)}" y="${r2(cy + 44 + li * 26)}" font-size="${t.fs}" font-weight="${t.main ? 800 : 600}" class="${t.main ? 'k-t-o' : 'k-t-tag'}" text-anchor="start">${esc(t.line)}</text>`);
     });
     svg.push(`    </g>`);
   });
   return section(svg, { bars: data.length, steps: data.length });
 }
 
-/* 공통 주석 방출 — 대상 아래 (x,topY) 에 「핵심」/「참고」 를 최대 2줄로 두고
-   leadY0 가 있으면 점선 리더로 잇는다(가로막대 계열은 annPlan 이 처리). */
+/* 공통 주석 방출 — 대상 아래 (x,topY) 에 캡슐 배지+라벨을 최대 2줄로 두고
+   leadY0 가 있으면 점선 리더로 잇는다(가로막대 계열은 annPlan 이 처리).
+   소비한 세로 높이(px)를 돌려준다 — 레인을 쌓는 호출자(heatmap)가 쓴다. */
 function emitAnn(svg, a, x, topY, leadY0, maxW = 560) {
   const fs = annFont(a);
-  const lines = wrapLines(annText(a), maxW, fs);
-  /* 가장 넓은 줄 기준으로 중심을 클램프 — 캔버스 밖으로 새지 않게 */
-  const widest = Math.max(...lines.map((l) => tw(l, fs)), 40);
-  x = Math.max(70 + widest / 2, Math.min(x, 1490 - widest / 2));
+  const lines = wrapLines(a.label, maxW - ANN_PAD, fs);
+  /* 가장 넓은 줄+배지 폭 기준으로 중심을 클램프 — 캔버스 밖으로 새지 않게 */
+  const widest = Math.max(...lines.map((l) => tw(l, fs)), 40) + ANN_PAD;
+  x = Math.max(70 + widest / 2, Math.min(x, R_EDGE - 10 - widest / 2));
   if (leadY0 != null)
     svg.push(`      <path d="M${r2(x)},${r2(leadY0)} L${r2(x)},${r2(topY - fs - 4)}" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>`);
+  const x0 = r2(x - widest / 2);
+  emitBadge(svg, x0, topY, a);
   lines.forEach((line, li) => {
-    svg.push(`      <text x="${r2(x)}" y="${r2(topY + li * 24)}" font-size="${fs}" font-weight="${a.kind === 'main' ? 800 : 600}" class="${a.kind === 'main' ? 'k-t-o' : 'k-t-tag'}" text-anchor="middle">${esc(line)}</text>`);
+    svg.push(`      <text x="${r2(x0 + ANN_PAD)}" y="${r2(topY + li * 24)}" font-size="${fs}" font-weight="${a.kind === 'main' ? 800 : 600}" class="${a.kind === 'main' ? 'k-t-o' : 'k-t-tag'}" text-anchor="start">${esc(line)}</text>`);
   });
+  return lines.length * 24 + 8;
 }
 
 /* ── 3-D. stacked-bar — 막대당 구성 비교(세로 적층) ────────────────── */
@@ -616,28 +691,33 @@ function buildStacked() {
   /* 세그먼트 색 — ztd 참조: 초점=accent, 나머지는 회색 램프 + 종이색 분리선(stroke)으로
      서로를 가른다. 이름 순서로 램프를 순환한다. */
   const RAMP = ['var(--track-strong)', 'var(--track)', 'var(--muted)', 'var(--line)'];
+  const segColor = (g) => g.oneoff ? 'var(--muted)'
+    : highlights.includes(g.name) ? 'var(--accent)'
+    : RAMP[segOrder.indexOf(g.name) % 4];
   const segFill = (g) => g.oneoff ? 'fill="var(--muted)" stroke="var(--soft)" stroke-width="2"'
-    : highlights.includes(g.name) ? 'fill="var(--accent)" stroke="var(--paper)" stroke-width="2.5"'
-    : `fill="${RAMP[segOrder.indexOf(g.name) % 4]}" stroke="var(--paper)" stroke-width="2.5"`;
+    : `fill="${segColor(g)}" stroke="var(--paper)" stroke-width="2.5"`;
   const totalOf = (d) => d.total != null ? d.total : d.segments.reduce((a, g) => a + g.value, 0);
   const maxT = Math.max(...data.map(totalOf), 1e-9);
   const sc = PLOT / maxT;
   const barW = Math.min(240, Math.floor((VBW - 160 - (n - 1) * 90) / n));
   const span = n * barW + (n - 1) * 90;
-  const left = (VBW - span) / 2;
+  /* 세그먼트 브래킷은 끝 막대 우측에 라벨 자리가 필요하다 — 막대 묶음을 왼쪽으로 밀어 둔다 */
+  let left = (VBW - span) / 2;
+  if (chart.bridge === 'segment') left = Math.max(60, (VBW - span - 340) / 2);
   const svg = svgOpen(H, slide.ariaLabel || `${chart.type} — ${chart.question}`);
   svg.push(unitTag);
-  /* 범례 — 세그먼트 이름 칩(우상단, 첫 등장 순) */
+  /* 범례 — 세그먼트 이름 칩(우상단, 첫 등장 순).
+     칩 스와치는 막대 분리선(--paper)이 아니라 --line 테두리 — 배경 온도에 묻히지 않는다 */
   let lw = 0;
   const chips = segOrder.map((nm) => { const w = tw(nm, 20) + 52; lw += w; return { nm, w }; });
-  let lx = 1500 - lw;
+  let lx = R_EDGE - lw;
   chips.forEach(({ nm, w }) => {
     const g = data.flatMap((d) => d.segments).find((s) => s.name === nm);
-    svg.push(`    <rect x="${r2(lx)}" y="24" width="16" height="14" rx="3" ${segFill(g || { name: nm })}/>`);
+    svg.push(`    <rect x="${r2(lx)}" y="24" width="16" height="14" rx="3" fill="${segColor(g || { name: nm })}" stroke="var(--line)" stroke-width="1.5"/>`);
     svg.push(`    <text x="${r2(lx + 22)}" y="37" font-size="20" font-weight="600" fill="var(--ink)">${esc(nm)}</text>`);
     lx += w;
   });
-  svg.push(`    <path d="M60,${BASE_Y} L1500,${BASE_Y}" class="k-ln-n"/>`);
+  svg.push(`    <path d="M60,${BASE_Y} L${R_EDGE},${BASE_Y}" class="k-ln-n"/>`);
   data.forEach((d, i) => {
     const x = left + i * (barW + 90), cx = x + barW / 2;
     const total = totalOf(d);
@@ -663,6 +743,47 @@ function buildStacked() {
     const cx = left + ai * (barW + 90) + barW / 2;
     annBy(nm).forEach((a) => emitAnn(svg, a, cx, NAME_Y + 34 + 0, NAME_Y + 8, barW + 60));
   });
+  /* 총량 다리 — 첫·끝 막대 꼭대기를 점선으로 잇고 증감률 캡슐(+39%)과 절대 증감을 단다.
+     끝 막대 단계와 함께 공개해 '마지막 펀치'가 되도록 한다. */
+  if (chart.bridge === 'total' && n >= 2) {
+    const t0 = totalOf(data[0]), tN = totalOf(data[n - 1]);
+    const xA = left + barW, xB = left + (n - 1) * (barW + 90);
+    const yA = BASE_Y - t0 * sc, yB = BASE_Y - tN * sc;
+    const by = Math.min(yA, yB) - 44;
+    const pct = t0 ? Math.round((tN - t0) / t0 * 100) : 0;
+    const cxm = (xA + xB) / 2;
+    const cap = `${fmtDelta(pct)}%`;
+    const capW = Math.max(tw(cap, 21) + 32, 72);
+    svg.push(`    <g data-step="${n}">`);
+    svg.push(`      <path d="M${r2(xA)},${r2(yA)} L${r2(xA)},${r2(by)} L${r2(xB)},${r2(by)} L${r2(xB)},${r2(yB)}" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="6 7"/>`);
+    svg.push(`      <rect x="${r2(cxm - capW / 2)}" y="${r2(by - 15)}" width="${r2(capW)}" height="30" rx="15" fill="var(--accent)"/>`);
+    svg.push(`      <text x="${r2(cxm)}" y="${r2(by + 7)}" font-size="21" font-weight="800" class="k-t-w" text-anchor="middle">${esc(cap)}</text>`);
+    svg.push(`      <text x="${r2(cxm)}" y="${r2(by + 40)}" font-size="18" font-weight="700" class="k-t-o" text-anchor="middle">${esc(`${fmtDelta(tN - t0)}${chart.measure.unit}`)}</text>`);
+    svg.push(`    </g>`);
+  }
+  /* 강조 세그먼트 브래킷 — 끝 막대의 묶음 세그먼트를 '}' 로 감싸고 합계·비중을 단다 */
+  if (chart.bridge === 'segment') {
+    const last = data[n - 1];
+    const names = Array.isArray(chart.bridgeSegments) && chart.bridgeSegments.length ? chart.bridgeSegments : highlights;
+    let acc = 0, yTop = null, yBot = null, segSum = 0;
+    last.segments.forEach((g) => {
+      const gy = BASE_Y - (acc + g.value) * sc;
+      if (names.includes(g.name)) {
+        if (yTop == null) yTop = gy;
+        yBot = BASE_Y - acc * sc;
+        segSum += g.value;
+      }
+      acc += g.value;
+    });
+    if (yTop != null) {
+      const x0 = left + (n - 1) * (barW + 90) + barW, my = (yTop + yBot) / 2;
+      const pct = Math.round(segSum / Math.max(totalOf(last), 1e-9) * 100);
+      svg.push(`    <g data-step="${n}">`);
+      svg.push(`      <path d="M${r2(x0 + 8)},${r2(yTop)} C${r2(x0 + 28)},${r2(yTop)} ${r2(x0 + 28)},${r2(my - 20)} ${r2(x0 + 28)},${r2(my - 8)} C${r2(x0 + 28)},${r2(my)} ${r2(x0 + 38)},${r2(my)} ${r2(x0 + 46)},${r2(my)} C${r2(x0 + 38)},${r2(my)} ${r2(x0 + 28)},${r2(my)} ${r2(x0 + 28)},${r2(my + 8)} C${r2(x0 + 28)},${r2(my + 20)} ${r2(x0 + 28)},${r2(yBot)} ${r2(x0 + 8)},${r2(yBot)}" fill="none" stroke="var(--accent)" stroke-width="3"/>`);
+      svg.push(`      <text x="${r2(x0 + 54)}" y="${r2(my + 7)}" font-size="24" font-weight="800" class="k-t-o">${esc(`${fmt(segSum)}${chart.measure.unit} (${pct}%)`)}</text>`);
+      svg.push(`    </g>`);
+    } else warn(`bridge:"segment" — 끝 막대에 대상 세그먼트(${names.join('|')})가 없다`);
+  }
   return section(svg, { bars: n, steps: n });
 }
 
@@ -670,7 +791,7 @@ function buildStacked() {
 function buildLine() {
   const series = chart.series;
   const n = data.length;
-  const L = 150, R = 1500, TOP = 96, BASE_Y = 470, PLOT = 340, H = 580;
+  const L = 150, R = R_EDGE, TOP = 96, BASE_Y = 470, PLOT = 340, H = 580;
   const allV = series.flatMap((s) => s.points);
   let lo = Math.min(0, ...allV), hi = Math.max(...allV, 1e-9);
   const pad = (hi - lo) * 0.06 || 1;
@@ -733,20 +854,20 @@ function buildLine() {
     });
     const lx2 = X(n - 1), ly2 = Y(s.points[n - 1]);
     svg.push(`      <text x="${r2(lx2 + 14)}" y="${r2(ly2 + 8)}" font-size="24" font-weight="800" fill="var(--ink)">${esc(fmt(s.points[n - 1]))}</text>`);
-    annBy(s.name).forEach((a) => emitAnn(svg, a, Math.min(lx2 - 40, 1200), TOP + 10, ly2 - 10, 620));
+    annBy(s.name).forEach((a) => emitAnn(svg, a, Math.min(lx2 - 40, R_EDGE - 300), TOP + 10, ly2 - 10, 620));
     svg.push(`    </g>`);
   });
   /* x 라벨에 걸린 주석 — 해당 눈금 아래 */
   data.forEach((d, i) => {
     let ay = BASE_Y + (rot ? 96 : 74);
-    annBy(d.label).forEach((a) => { emitAnn(svg, a, Math.max(160, Math.min(X(i), 1400)), ay, null, 700); ay += 56; });
+    annBy(d.label).forEach((a) => { emitAnn(svg, a, Math.max(160, Math.min(X(i), R_EDGE - 100)), ay, null, 700); ay += 56; });
   });
   return section(svg, { bars: series.length, steps: series.length });
 }
 
 /* ── 3-F. scatter — 상관·분포(버블 겸용) ─────────────────────────── */
 function buildScatter() {
-  const L = 170, R = 1500, TOP = 90, BOT = 460, H = 580;
+  const L = 170, R = R_EDGE, TOP = 90, BOT = 460, H = 580;
   const xs = data.map((d) => d.x), ys = data.map((d) => d.y);
   const padR = (a, b) => { const p = (b - a) * 0.08 || Math.abs(a) * 0.08 || 1; return [a - p, b + p]; };
   const [x0, x1] = padR(Math.min(...xs), Math.max(...xs));
@@ -784,7 +905,7 @@ function buildScatter() {
       const { lx, ly, anchor } = labelXY(d, px, py, r);
       svg.push(`      <text x="${r2(lx)}" y="${r2(ly)}" font-size="20" font-weight="${hot ? 800 : 600}" fill="var(--ink)" text-anchor="${anchor}">${esc(d.label)}</text>`);
     }
-    annBy(d.label).forEach((a) => emitAnn(svg, a, Math.max(200, Math.min(px, 1400)), Math.min(py + r + 40, H - 30), py + r + 6, 560));
+    annBy(d.label).forEach((a) => emitAnn(svg, a, Math.max(200, Math.min(px, R_EDGE - 100)), Math.min(py + r + 40, H - 30), py + r + 6, 560));
     svg.push(`    </g>`);
   };
   svg.push(`    <g data-step="1">`);
@@ -799,10 +920,17 @@ function buildHeatmap() {
   const rl = data.rows.map((r) => (typeof r === 'string' ? r : r.label));
   const cl = data.cols.map((c) => (typeof c === 'string' ? c : c.label));
   const gridX = 250, gridY = 96;
-  const cw = (1500 - gridX) / cl.length;
+  const cw = (R_EDGE - gridX) / cl.length;
   const rh = Math.min(66, 380 / rl.length);
   const gridH = rh * rl.length;
-  const H = gridY + gridH + 96;
+  /* 주석 레인 높이 사전 계산 — H 결정에 반영. 열 주석은 열 폭(cw) 안으로 접는다. */
+  const colAnnW = Math.max(cw - 24, 140);
+  const rowAnnW = Math.min(900, R_EDGE - gridX - 80);
+  const laneH = (a, w) => wrapLines(a.label, w - ANN_PAD, annFont(a)).length * 24 + 26;
+  let totalAnnH = 0;
+  rl.forEach((nm) => annBy(nm).forEach((a) => { totalAnnH += laneH(a, rowAnnW); }));
+  cl.forEach((nm) => annBy(nm).forEach((a) => { totalAnnH += laneH(a, colAnnW); }));
+  const H = gridY + gridH + 96 + totalAnnH;
   const vmap = new Map();
   data.cells.forEach((c) => {
     const ri = typeof c.r === 'string' ? rl.indexOf(c.r) : c.r;
@@ -817,6 +945,9 @@ function buildHeatmap() {
   cl.forEach((nm, c) => {
     svg.push(`    <text x="${r2(gridX + c * cw + cw / 2)}" y="${gridY - 16}" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">${esc(nm)}</text>`);
   });
+  /* 주석 레인 커서 — 행·열 주석을 격자 아래로 한 줄씩 순차 누적한다.
+     같은 y 단계에 두 블록이 나란히 서지 않으므로 수평 충돌(≥60px 여백 요건)이 원천 제거된다. */
+  let annLane = gridY + gridH + 64;
   rl.forEach((nm, r) => {
     const y = gridY + r * rh;
     svg.push(`    <g data-step="${r + 1}">`);
@@ -837,24 +968,32 @@ function buildHeatmap() {
       if (cw >= 64 && rh >= 34)
         svg.push(`      <text x="${r2(gridX + c * cw + cw / 2)}" y="${r2(y + rh / 2 + 7)}" font-size="20" font-weight="700" ${pct > 55 ? 'class="k-t-w"' : 'fill="var(--ink)"'} text-anchor="middle">${esc(fmt(v))}</text>`);
     });
-    let ay = gridY + gridH + 64;
-    annBy(nm).forEach((a) => { emitAnn(svg, a, gridX + (1500 - gridX) / 2, ay, null, 900); ay += 30; });
+    /* 행 주석 — 자기 행 단계 안에서, 그리드 중앙 정렬 레인 */
+    annBy(nm).forEach((a) => {
+      annLane += emitAnn(svg, a, gridX + (R_EDGE - gridX) / 2, annLane, null, rowAnnW) + 18;
+    });
     svg.push(`    </g>`);
   });
+  /* 열 주석 — 해당 열 중심에서 열 폭(colAnnW)으로 접어 같은 단계 충돌을 막고,
+     격자 하단에서 리더로 연결한다 */
   cl.forEach((nm, c) => {
-    annBy(nm).forEach((a) => emitAnn(svg, a, r2(gridX + c * cw + cw / 2), gridY + gridH + 64, gridY + gridH + 8, 900));
+    annBy(nm).forEach((a) => {
+      annLane += emitAnn(svg, a, r2(gridX + c * cw + cw / 2), annLane, gridY + gridH + 8, colAnnW) + 18;
+    });
   });
-  /* 농도 범례 — min→max 단일 hue */
-  svg.push(`    <text x="${gridX}" y="${r2(gridY + gridH + 40)}" font-size="18" fill="var(--soft)">${esc(fmt(vmin))}</text>`);
-  svg.push(`    <rect x="${r2(gridX + 60)}" y="${r2(gridY + gridH + 28)}" width="140" height="14" rx="3" style="fill:color-mix(in srgb, var(--accent) 45%, transparent)"/>`);
-  svg.push(`    <text x="${r2(gridX + 214)}" y="${r2(gridY + gridH + 40)}" font-size="18" fill="var(--soft)">${esc(fmt(vmax))}</text>`);
+  /* 농도 범례 — min→max 단일 hue 그라디언트(주석 레인 아래) */
+  const legY = totalAnnH ? annLane + 16 : gridY + gridH + 40;
+  svg.push(`    <defs><linearGradient id="hm-grad" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="var(--blue)" stop-opacity=".14"/><stop offset="1" stop-color="var(--blue)" stop-opacity=".92"/></linearGradient></defs>`);
+  svg.push(`    <text x="${gridX}" y="${r2(legY + 12)}" font-size="18" fill="var(--soft)">${esc(fmt(vmin))}</text>`);
+  svg.push(`    <rect x="${r2(gridX + 60)}" y="${r2(legY)}" width="140" height="14" rx="3" fill="url(#hm-grad)"/>`);
+  svg.push(`    <text x="${r2(gridX + 214)}" y="${r2(legY + 12)}" font-size="18" fill="var(--soft)">${esc(fmt(vmax))}</text>`);
   return section(svg, { bars: rl.length, steps: rl.length });
 }
 
 /* ── 3-H. matrix-2x2 — 전략 사분면 ───────────────────────────────── */
 function buildMatrix() {
   const ax = chart.axes.x, ay2 = chart.axes.y;
-  const PX0 = 300, PX1 = 1500, PY0 = 80, PY1 = 520, H = 620;
+  const PX0 = 300, PX1 = R_EDGE, PY0 = 80, PY1 = 520, H = 620;
   const X = (v) => PX0 + (v - ax.min) / Math.max(ax.max - ax.min, 1e-9) * (PX1 - PX0);
   const Y = (v) => PY1 - (v - ay2.min) / Math.max(ay2.max - ay2.min, 1e-9) * (PY1 - PY0);
   const midX = X((ax.min + ax.max) / 2), midY = Y((ay2.min + ay2.max) / 2);
@@ -863,14 +1002,25 @@ function buildMatrix() {
   const svg = svgOpen(H, slide.ariaLabel || `${chart.type} — ${chart.question}`);
   svg.push(unitTag);
   svg.push(`    <g data-step="1">`);
+  /* 목표 사분면 — 옅은 초점색 틴트 + 라벨 강조(리더는 아래 점 방출에서) */
+  const tq = chart.targetQuadrant ? { tr: 'ne', tl: 'nw', br: 'se', bl: 'sw' }[chart.targetQuadrant] : null;
+  if (tq) {
+    const qx = tq === 'nw' ? PX0 : midX, qy = (tq === 'nw' || tq === 'ne') ? PY0 : midY;
+    /* 틴트는 rect 가 아니라 path 로 — 검사기가 보이는 rect 를 '상자'로 인식해 가장자리 라벨을 넘침으로 잡는 것을 피한다 */
+    svg.push(`      <path d="M${r2(qx)},${r2(qy)} h${r2(PX1 - midX)} v${r2(PY1 - midY)} h${r2(midX - PX1)} Z" style="fill:color-mix(in srgb, var(--accent) 7%, transparent)"/>`);
+  }
   svg.push(`      <rect x="${PX0}" y="${PY0}" width="${PX1 - PX0}" height="${PY1 - PY0}" fill="none" stroke="var(--line)" stroke-width="3"/>`);
   svg.push(`      <path d="M${r2(midX)},${PY0} L${r2(midX)},${PY1} M${PX0},${r2(midY)} L${PX1},${r2(midY)}" stroke="var(--soft)" stroke-width="2" stroke-dasharray="8 8"/>`);
-  /* 사분면 라벨 — 네 귀퉁이 안쪽 */
+  /* 사분면 라벨 — 네 귀퉁이 안쪽. 목표 사분면은 초점색·굵게 */
   const q = [
-    [quad.nw, PX0 + 22, PY0 + 34, 'start'], [quad.ne, PX1 - 22, PY0 + 34, 'end'],
-    [quad.sw, PX0 + 22, PY1 - 18, 'start'], [quad.se, PX1 - 22, PY1 - 18, 'end'],
+    ['nw', quad.nw, PX0 + 22, PY0 + 34, 'start'], ['ne', quad.ne, PX1 - 22, PY0 + 34, 'end'],
+    ['sw', quad.sw, PX0 + 22, PY1 - 18, 'start'], ['se', quad.se, PX1 - 22, PY1 - 18, 'end'],
   ];
-  q.forEach(([t, x, y, a]) => { if (t) svg.push(`      <text x="${x}" y="${y}" font-size="21" font-weight="700" class="k-t-tag" text-anchor="${a}">${esc(t)}</text>`); });
+  q.forEach(([k, t, x, y, a]) => {
+    if (!t) return;
+    const isT = tq === k;
+    svg.push(`      <text x="${x}" y="${y}" font-size="21" font-weight="${isT ? 800 : 700}" class="${isT ? 'k-t-o' : 'k-t-tag'}" text-anchor="${a}">${esc(t)}</text>`);
+  });
   /* 축 라벨 — 모델 라벨에 이미 화살표가 있으면 중복 부착하지 않는다(agy 치명-1) */
   const stripArrow = (t) => String(t).replace(/[\s]*[→↔↘←↓↑]+\s*$/u, '').trim();
   svg.push(`      <text x="${PX1}" y="${PY1 + 46}" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">${esc(stripArrow(ax.label) || ax.label)} →</text>`);
@@ -907,7 +1057,7 @@ function buildMatrix() {
       pts.some((q2) => q2 !== p && Math.abs(q2.py - ay + 6) < 26 && Math.abs(q2.px - p.px) < w2 / 2 + 16);
     anns2.forEach((an) => {
       const fs2 = annFont(an);
-      wrapLines(annText(an), ANN_W, fs2).forEach((l) => {
+      wrapLines(an.label, ANN_W - ANN_PAD, fs2).forEach((l) => {
         const w2 = tw(l, fs2);
         while (annHit(w2) && ay < PY1 - 4) ay += 28;
         if (first == null) first = ay;
@@ -917,27 +1067,35 @@ function buildMatrix() {
     });
     p.annTop = Math.min(first, PY1 - 8);
   });
-  pts.forEach((p) => {
+  /* 모션 압축 — step1 축/사분면, step2 비초점 점 일괄, step3 초점 점+주석 일괄 */
+  const emitPoint = (p) => {
     const { px, py, hot, d } = p;
-    svg.push(`    <g data-step="${p.i + 2}">`);
     svg.push(`      <circle cx="${r2(px)}" cy="${r2(py)}" r="${hot ? 13 : 10}" fill="${hot ? 'var(--accent)' : 'var(--track-strong)'}" opacity="${hot ? '.95' : '.78'}"/>`);
+    /* 라벨이 한 레인 이상 밀려났으면 점→라벨 리더선을 긋는다 */
+    if (p.ly - p.py > 26)
+      svg.push(`      <path d="M${r2(px)},${r2(py + 12)} L${r2(p.lcx)},${r2(p.ly - 16)}" fill="none" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="3 4"/>`);
     svg.push(`      <text x="${r2(p.lx)}" y="${r2(p.ly)}" font-size="20" font-weight="${hot ? 800 : 600}" fill="var(--ink)" text-anchor="${p.right ? 'start' : 'end'}">${esc(d.label)}</text>`);
     if (p.annTop != null)
       annBy(d.label).forEach((a) => emitAnn(svg, a, Math.max(PX0 + 80, Math.min(px, PX1 - 80)), p.annTop, p.ly + 8, ANN_W));
-    svg.push(`    </g>`);
-  });
-  return section(svg, { bars: data.length, steps: data.length + 1 });
+  };
+  svg.push(`    <g data-step="2">`);
+  pts.filter((p) => !p.hot).forEach(emitPoint);
+  svg.push(`    </g>`);
+  svg.push(`    <g data-step="3">`);
+  pts.filter((p) => p.hot).forEach(emitPoint);
+  svg.push(`    </g>`);
+  return section(svg, { bars: data.length, steps: 3 });
 }
 
 /* ── 3-I. tornado — 민감도(대칭축 가로 발산 쌍) ────────────────────── */
 function buildTornado() {
   const rows = [...data].sort((a, b) => (b.high - b.low) - (a.high - a.low) || String(a.label).localeCompare(String(b.label)));
   const ROW = 84, BAR_H = 52, TOP = 64;
-  const ZERO = 830, HALF = 560, LABEL_X = ZERO - HALF - 24;
+  const ZERO = Math.round(VBW / 2) + 50, HALF = Math.min(560, R_EDGE - ZERO - 60), LABEL_X = ZERO - HALF - 24;
   const maxA = Math.max(...rows.flatMap((d) => [Math.abs(d.low), Math.abs(d.high)]), 1e-9);
   /* 행별 주석 줄 수만큼 행 높이를 늘린다 — 2줄 주석이 다음 행 막대와 겹치는 것을 막는다(agy 치명-2/3) */
   const rowExtra = rows.map((d) => {
-    const lines = annBy(d.label).reduce((a2, an) => a2 + wrapLines(annText(an), 900, annFont(an)).length, 0);
+    const lines = annBy(d.label).reduce((a2, an) => a2 + wrapLines(an.label, 900 - ANN_PAD, annFont(an)).length, 0);
     return lines ? lines * 24 + 14 : 0;
   });
   const H = TOP + rows.reduce((a2, _d, i) => a2 + ROW + rowExtra[i], 0) + 56;
@@ -1065,13 +1223,13 @@ function buildPareto() {
   const left = (VBW - span) / 2;
   const svg = svgOpen(H, slide.ariaLabel || `${chart.type} — ${chart.question}`);
   svg.push(unitTag);
-  svg.push(`    <path d="M60,${BASE_Y} L1500,${BASE_Y}" class="k-ln-n"/>`);
+  svg.push(`    <path d="M60,${BASE_Y} L${R_EDGE},${BASE_Y}" class="k-ln-n"/>`);
   /* 80% 임계선 + 우측 % 축 */
   const cumY = (p) => BASE_Y - (p / 100) * PLOT;
-  svg.push(`    <path d="M60,${r2(cumY(80))} L1500,${r2(cumY(80))}" class="k-ln-g"/>`);
-  svg.push(`    <text x="1500" y="${r2(cumY(80)) - 10}" font-size="18" class="k-t-o" text-anchor="end" font-weight="700">80%</text>`);
+  svg.push(`    <path d="M60,${r2(cumY(80))} L${R_EDGE},${r2(cumY(80))}" class="k-ln-g"/>`);
+  svg.push(`    <text x="${R_EDGE}" y="${r2(cumY(80)) - 10}" font-size="18" class="k-t-o" text-anchor="end" font-weight="700">80%</text>`);
   [0, 50, 100].forEach((p) => {
-    svg.push(`    <text x="1520" y="${r2(cumY(p)) + 7}" font-size="18" fill="var(--soft)">${p}%</text>`);
+    svg.push(`    <text x="${R_EDGE + 20}" y="${r2(cumY(p)) + 7}" font-size="18" fill="var(--soft)">${p}%</text>`);
   });
   let acc = 0, prev = null;
   rows.forEach((d, i) => {

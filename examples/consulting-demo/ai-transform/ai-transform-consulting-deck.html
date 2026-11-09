@@ -1464,38 +1464,38 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 /* ---- consult.css ---- */
 /* consulting-deck 로컬 테마 — 시각 방향 4종 토큰 세트 (references/consulting-design.md §1·§7)
    사용: 덱 작업 폴더 src/ 에 복사하고 장 section 을 .slide.consult* 로 스코프한다.
-   - .consult           Executive Minimal  (기본 — PoC 승격본, agy 리뷰 통과 값 그대로)
+   - .consult           Boardroom Sharp    (따뜻한 종이·직각·에디토리얼 대형 수치 — 재무·이사회 보고)
    - .consult-dense     Analytical Dense   (근거 밀도↑: 크기 축소 계열 최소 18px, 표 행 높이↓, c-note/c-src 2열 허용)
    - .consult-editorial Strategy Editorial (제목·수치 대형화, 여백 확대)
-   - .consult-tech      Tech Transformation (라인·레인 토큰 accent 편향, Architecture Kit 결합 친화)
-   규칙: 15색 역할 토큰만 방향별로 다르다. hex 는 토큰 정의부(1절)에만 — 구조·밀도 규칙엔 var() 만.
-   accent(초점)는 판단·권고 1종, blue(근거)는 데이터 계열 — 두 계열이 섞이면 안 된다(§4). */
+   - .consult-tech      Tech Analytical    (차가운 헤어라인·tabular+모노 숫자 — 기술 전환·아키텍처)
+   규칙: 15색 역할 토큰 + 구조 토큰(--c-num-font·반경)만 방향별로 다르다. hex 는 토큰 정의부(1절)에만 —
+   구조·밀도 규칙엔 var() 만. accent(초점)는 판단·권고 1종, blue(근거)는 데이터 계열 — 두 계열이 섞이면 안 된다(§4).
+   P2 재조정: 면 채움 카드 제거(헤어라인·컬럼·여백 구조) · 신규 프리미티브 c-rule-rows·c-sidecar ·
+   .consult(따뜻함)와 .consult-tech(차가움)의 정체 분리 — 색뿐 아니라 반경·숫자 서체도 다르다. */
 
-/* ── 1. 토큰 정의부 — 방향별 색 역할 세트 ───────────────────────────
-   2026-11-09 재조정 — ztd-charts(MIT, github.com/Junhan2/ztd-charts) 예제 대시보드의
-   디자인 값 참조(코드 복사 없음): 단일 선명 액센트 + 비초점 트랙 그레이(뒤로 물러남) ·
-   가는 실선 그리드(--grid) · 청람 기운 잉크. 신규 토큰: --grid(그리드 헤어라인) ·
-   --track(비초점 데이터) · --track-strong(제2계열·점). blue 는 데이터 색에서
-   텍스트 보조·히트맵 본색조 역할로 이동했다. */
+/* ── 1. 토큰 정의부 — 방향별 색 역할·구조 토큰 세트 ─────────────────
+   --c-num-font: 수치·태그 서체(Executive=에디토리얼 세리프 숫자, Tech=UI 모노+tabular) */
 .slide.consult{
-  --ink:#14171b;            /* ztd deep — 청람 기운 짙은 잉크 */
-  --paper:#ffffff;          /* 순백 카드 */
-  --light:#eef1f4;          /* 차분한 밝은 면 */
-  --soft:#5d6570;           /* 설명 글 */
-  --line:#b3b9c2;           /* 경계 — 가늘고 옅게 */
-  --grid:#e6e9ed;           /* 그리드 헤어라인(실선) */
-  --accent:#0b76c4;         /* 초점색 1종 — 강조·추천은 이것만 */
-  --accent-text:#085a9e;
-  --accent-light:#cfe6f8;
-  --blue:#667790;           /* 보조 텍스트·히트맵 본셀 색조(회청) */
-  --blue-text:#52627a;
-  --blue-soft:#eef1f4;
-  --track:#d5dae0;          /* 비초점 데이터(막대·양수 측) */
-  --track-strong:#9aa3ae;   /* 제2계열·점·샌키 밴드 */
+  --ink:#111822;            /* 딥 네이비/차콜 — 지면 잉크 */
+  --paper:#fffdf9;          /* 웜 화이트 */
+  --light:#f8f7f4;          /* 따뜻한 종이 톤 배경 */
+  --soft:#4a5563;           /* 설명 글 */
+  --line:#9aa3ae;           /* 헤어라인 — 1px 룰의 주재료 */
+  --grid:#e8e4dc;           /* 그리드 헤어라인(실선) — 종이 톤에 맞춘 웜 그레이 */
+  --accent:#085a9e;         /* 클래식 코발트 — 강조·추천은 이것만 */
+  --accent-text:#07487e;
+  --accent-light:#d4e4f4;
+  --blue:#4a6183;           /* 보조 텍스트·히트맵 본셀 색조(회청) */
+  --blue-text:#3d5271;
+  --blue-soft:#eceef2;
+  --track:#d9dee4;          /* 비초점 데이터(막대·양수 측) */
+  --track-strong:#8f99a6;   /* 제2계열·점·샌키 밴드 */
   --success:#0f7a3d;
   --danger:#b3422e;
   --muted:#d5dae0;
-  --chip:#e6e9ed;
+  --chip:#e9e6de;
+  --r1:2px; --r2:4px;       /* 직각에 가까운 반경 — 보드룸 날카로움 */
+  --c-num-font:Georgia,'Times New Roman',serif;  /* 에디토리얼 재무 숫자 */
 }
 .slide.consult-dense{        /* analytical — 더 짙은 잉크, 뉴트럴 톤, 동일 역할 분리 */
   --ink:#16222c; --paper:#fbfbfa; --light:#eaedee; --soft:#3d4c56; --line:#76858f;
@@ -1503,6 +1503,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
   --accent:#0d3b66; --accent-text:#0a2f52; --accent-light:#b8d0e2;
   --blue:#66809c; --blue-text:#527090; --blue-soft:#e7edf3;
   --success:#1b6244; --danger:#96382c; --muted:#bfc9cf; --chip:#e0e5e8;
+  --c-num-font:inherit;
 }
 .slide.consult-editorial{    /* editorial — 따뜻한 종이·잉크, 버건디 초점으로 대비 */
   --ink:#201b14; --paper:#faf7f1; --light:#f0ebe0; --soft:#55493b; --line:#96897a;
@@ -1510,40 +1511,81 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
   --accent:#7a1f2e; --accent-text:#611825; --accent-light:#e3c6cb;
   --blue:#5d789a; --blue-text:#4a6280; --blue-soft:#ece7db;
   --success:#2c6b45; --danger:#a03528; --muted:#d0c8b8; --chip:#eae3d5;
+  --c-num-font:inherit;
 }
-.slide.consult-tech{         /* tech — ztd brand 블루(#0b8fd8)를 초점으로, 그리드·트랙은 중립 공유 */
-  --ink:#14171b; --paper:#fafbfc; --light:#eef1f4; --soft:#4c5763; --line:#aab4c0;
+.slide.consult-tech{         /* tech — 차가운 헤어라인·다크 슬레이트 잉크·cyan 초점, 숫자는 모노+tabular */
+  --ink:#0f172a; --paper:#fafbfc; --light:#eef1f4; --soft:#4c5763; --line:#aab4c0;
   --grid:#e6e9ed; --track:#d5dae0; --track-strong:#9aa3ae;
   --accent:#0b8fd8; --accent-text:#0a6eb0; --accent-light:#cfe8fa;
   --blue:#5b6f8f; --blue-text:#46597a; --blue-soft:#eef2f7;
   --success:#0f7a54; --danger:#b3422e; --muted:#cdd6de; --chip:#e3e8ee;
+  --r1:3px; --r2:6px;
+  --c-num-font:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
 }
 
 /* ── 2. 공통 구조 — 4방향이 같은 선택자·값을 공유 (Executive 기본) ── */
 /* 주장형 제목 — 한 문장 결론이 2줄로 균형 있게 (외톨이 단어 방지) */
-.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .title{font-size:54px;line-height:1.22;font-weight:800;letter-spacing:-.5px;text-wrap:balance;word-break:keep-all}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .title{font-size:54px;line-height:1.22;font-weight:800;word-break:keep-all}
+/* kinetic 시그니처는 제목을 글자별 inline-block(.ed-letter)으로 쪼갠다 — 그러면 모든 글자 경계가
+   분절점이 되어 keep-all 이 무력하다(어절 한가운데 절단). inline 으로 두면 일반 텍스트처럼
+   keep-all 규칙대로 끊기고, kinetic 의 정착 상태는 원래 기법 없는 장과 동일하다. */
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .ed-letter{display:inline}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .eyebrow{letter-spacing:2px;font-size:24px}
 
-/* At-a-Glance 3불릿(사실→단서→전망): 펌 오프닝 공식 — 상단 보더로 카드 식별성 부여 */
+/* At-a-Glance 3불릿(사실→단서→전망): 펌 오프닝 공식 — 면 채움 카드 대신 상단 잉크 룰 에디토리얼 컬럼.
+   강조 변형(.hlt)은 3px accent 룰 — 면은 어디에도 칠하지 않는다 */
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-glance{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s4)}
-.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-glance>div{background:var(--light);border-radius:var(--r2);border-top:4px solid var(--blue);padding:var(--s3) var(--s4);display:flex;flex-direction:column;gap:var(--s2)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-glance>div{border-top:2px solid var(--ink);padding:var(--s3) 0 0;display:flex;flex-direction:column;gap:var(--s2)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-glance>div.hlt{border-top:3px solid var(--accent);padding-top:calc(var(--s3) - 1px)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-glance>div.hlt .g-k{color:var(--accent-text)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-glance .g-k{font-size:22px;font-weight:800;color:var(--blue-text);letter-spacing:2px}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-glance p{font-size:26px;line-height:1.42;font-weight:600}
 
-/* 핵심 수치 카드: 숫자+단위+기준 — 강조 카드는 초점색+살짝 찬 면 */
+/* 룰 행 목록(Executive Summary·이니셔티브·권고 리스트): 고정폭 레이블 열 + 본문 열,
+   행마다 1px --line 상단 헤어라인 — 면 채움 없이 그리드 리듬만으로 구조를 만든다 */
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows{display:flex;flex-direction:column}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr{display:grid;grid-template-columns:220px 1fr;gap:var(--s4);padding:var(--s3) 0;border-top:1px solid var(--line)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr:last-child{border-bottom:1px solid var(--line)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr-k{font-size:21px;font-weight:800;letter-spacing:1.5px;color:var(--blue-text);line-height:1.4}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr-v{font-size:27px;line-height:1.45;font-weight:700}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr-d{font-size:21px;line-height:1.45;color:var(--soft);margin-top:6px}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr ul{margin:8px 0 0;padding-left:20px;display:grid;gap:6px}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr li{font-size:21px;line-height:1.4;color:var(--soft)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr li b{color:var(--ink)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr.hot{border-top:2px solid var(--accent)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr.hot .rr-k{color:var(--accent-text)}
+
+/* 사이드카 — 차트 68% + 시사점 칼럼 32%: 상단 3px accent 룰·헤드라인 수치·불릿 2~3개.
+   차트 장은 '증거+시사점' 짝으로 둔다(consulting-layouts.md §3·§6) */
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar{display:grid;grid-template-columns:68fr 32fr;gap:var(--s4);flex:1;min-height:0}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .c-sidecar-main{min-width:0;display:flex;flex-direction:column}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .c-sidecar-main .dg{width:100%;height:auto}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .c-sidecar-panel{border-top:3px solid var(--accent);padding-top:var(--s3);display:flex;flex-direction:column;gap:var(--s3)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .sc-k{font-size:21px;font-weight:800;letter-spacing:2.5px;color:var(--accent-text)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .sc-v{font-size:64px;font-weight:800;line-height:1;color:var(--ink);font-family:var(--c-num-font);font-variant-numeric:tabular-nums}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .sc-v small{font-size:26px;font-weight:700;margin-left:4px}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .sc-h{font-size:26px;font-weight:800;line-height:1.35}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar ul{margin:0;padding:0;list-style:none}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar li{font-size:23px;line-height:1.45;font-weight:600;padding:var(--s2) 0;border-top:1px solid var(--line)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar li b{color:var(--accent-text)}
+
+/* 핵심 수치 카드: 숫자+단위+기준 — 강조 카드는 초점색+살짝 찬 면. 숫자는 방향별 서체 토큰 */
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s4)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-metric{border-top:4px solid var(--line);padding-top:var(--s2);display:flex;flex-direction:column;gap:var(--s1)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-metric.hlt{border-top-color:var(--accent);background:color-mix(in srgb,var(--accent) 5%,var(--paper));border-radius:var(--r1);padding:var(--s2) var(--s3) var(--s3)}
-.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-metric .m-v{font-size:84px;font-weight:800;line-height:1;color:var(--ink);font-variant-numeric:tabular-nums}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-metric .m-v{font-size:84px;font-weight:800;line-height:1;color:var(--ink);font-family:var(--c-num-font);font-variant-numeric:tabular-nums}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-metric.hlt .m-v{color:var(--accent)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-metric .m-v small{font-size:34px;font-weight:700;margin-left:6px}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-metric .m-l{font-size:26px;font-weight:700;color:var(--soft)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-metric .m-b{font-size:21px;color:var(--soft)}
+/* Executive(Boardroom Sharp) — 핵심 재무 수치는 에디토리얼 대형 스케일 */
+.slide.consult .c-metric .m-v{font-size:96px}
+.slide.consult .c-metric .m-v small{font-size:38px}
 
-/* So What / Now What 스트립 */
+/* So What / Now What 스트립 — 면 채움 없이 좌측 룰만으로 구분(Now What=초점 룰) */
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sonw{display:grid;grid-template-columns:1fr 1fr;gap:var(--s4)}
-.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sonw>div{border-left:6px solid var(--blue);background:var(--blue-soft);border-radius:var(--r1);padding:var(--s3) var(--s4)}
-.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sonw .nw{border-left-color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,var(--paper))}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sonw>div{border-left:3px solid var(--blue);padding:var(--s2) 0 var(--s2) var(--s3)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sonw .nw{border-left-color:var(--accent)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sonw .s-k{font-size:22px;font-weight:800;letter-spacing:2px;color:var(--blue-text);margin-bottom:var(--s1)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sonw .nw .s-k{color:var(--accent-text)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sonw p{font-size:27px;line-height:1.45;font-weight:600}
@@ -1554,16 +1596,16 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-table thead th{font-size:21px;font-weight:800;color:var(--soft);letter-spacing:1px;border-bottom:3px solid var(--line)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-table td:first-child{font-weight:800;font-size:27px;white-space:nowrap}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-table .rec{background:color-mix(in srgb,var(--accent) 7%,var(--paper));box-shadow:inset 0 0 0 3px var(--accent)}
-.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-tag{display:inline-block;font-size:19px;font-weight:800;color:var(--paper);background:var(--accent);border-radius:var(--r1);padding:4px 14px;margin-left:12px;letter-spacing:2px;vertical-align:.14em;white-space:nowrap}
-.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-note{font-size:22px;color:var(--soft);line-height:1.4}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-tag{display:inline-block;font-size:19px;font-weight:800;color:var(--paper);background:var(--accent);border-radius:var(--r1);padding:4px 14px;margin-left:12px;letter-spacing:2px;vertical-align:.14em;white-space:nowrap;font-family:var(--c-num-font)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-note{font-size:18px;color:var(--soft);line-height:1.4}
 
-/* 권고 명령형 마감 */
+/* 권고 명령형 마감 — 덱 전체에서 다크 필은 이 블록 계열에만 허용한다(면 채움 절제 규칙) */
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-do{display:flex;gap:var(--s3);align-items:flex-start;background:var(--ink);color:var(--paper);border-radius:var(--r2);padding:var(--s3) var(--s4)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-do .d-k{font-size:22px;font-weight:800;letter-spacing:2px;color:var(--accent-light);white-space:nowrap;padding-top:6px}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-do p{font-size:28px;line-height:1.5;font-weight:700}
 
-/* 출처 블록: 모든 분석 장 하단 고정 — 신뢰=디자인 */
-.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-src{display:flex;justify-content:space-between;gap:var(--s4);border-top:1px solid var(--line);padding-top:var(--s2);margin-top:auto;font-size:20px;color:var(--soft)}
+/* 출처 블록: 모든 분석 장 하단 고정 — 신뢰=디자인 (fine print 는 작고 옅게) */
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-src{display:flex;justify-content:space-between;gap:var(--s4);border-top:1px solid var(--line);padding-top:var(--s2);margin-top:auto;font-size:18px;color:var(--soft)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-src .s-syn{font-weight:800;color:var(--danger);white-space:nowrap}
 
 
@@ -1582,6 +1624,14 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 .slide.consult-dense .c-metric .m-v small{font-size:27px}
 .slide.consult-dense .c-metric .m-l{font-size:22px}
 .slide.consult-dense .c-metric .m-b{font-size:18px}
+.slide.consult-dense .c-rule-rows .rr{grid-template-columns:170px 1fr}
+.slide.consult-dense .c-rule-rows .rr-k{font-size:18px}
+.slide.consult-dense .c-rule-rows .rr-v{font-size:23px}
+.slide.consult-dense .c-rule-rows .rr-d,.slide.consult-dense .c-rule-rows .rr li{font-size:18px}
+.slide.consult-dense .c-sidecar .sc-v{font-size:52px}
+.slide.consult-dense .c-sidecar .sc-h{font-size:22px}
+.slide.consult-dense .c-sidecar li{font-size:19px}
+.slide.consult-dense .c-sidecar .sc-k{font-size:18px}
 .slide.consult-dense .c-sonw .s-k{font-size:19px}
 .slide.consult-dense .c-sonw p{font-size:23px;line-height:1.4}
 .slide.consult-dense .c-table{font-size:22px}
@@ -1589,7 +1639,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 .slide.consult-dense .c-table thead th{font-size:18px}
 .slide.consult-dense .c-table td:first-child{font-size:23px}
 .slide.consult-dense .c-tag{font-size:18px}
-.slide.consult-dense .c-note{font-size:19px;columns:2 auto;column-gap:var(--s4)}
+.slide.consult-dense .c-note{font-size:18px;columns:2 auto;column-gap:var(--s4)}
 .slide.consult-dense .c-do .d-k{font-size:19px}
 .slide.consult-dense .c-do p{font-size:24px}
 .slide.consult-dense .c-src{display:grid;grid-template-columns:1fr auto;font-size:18px}
@@ -1603,17 +1653,28 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 .slide.consult-editorial .c-metric .m-v small{font-size:40px}
 .slide.consult-editorial .c-metric .m-l{font-size:30px}
 .slide.consult-editorial .c-metric .m-b{font-size:24px}
+.slide.consult-editorial .c-rule-rows .rr{grid-template-columns:260px 1fr;gap:var(--s5)}
+.slide.consult-editorial .c-rule-rows .rr-k{font-size:24px}
+.slide.consult-editorial .c-rule-rows .rr-v{font-size:32px}
+.slide.consult-editorial .c-rule-rows .rr-d,.slide.consult-editorial .c-rule-rows .rr li{font-size:24px}
+.slide.consult-editorial .c-sidecar .sc-v{font-size:78px}
+.slide.consult-editorial .c-sidecar .sc-h{font-size:30px}
+.slide.consult-editorial .c-sidecar li{font-size:26px}
+.slide.consult-editorial .c-sidecar .sc-k{font-size:24px}
 .slide.consult-editorial .c-sonw .s-k{font-size:24px}
 .slide.consult-editorial .c-sonw p{font-size:32px;line-height:1.5}
 .slide.consult-editorial .c-table{font-size:27px}
 .slide.consult-editorial .c-table th,.slide.consult-editorial .c-table td{padding:24px 26px}
-.slide.consult-editorial .c-note{font-size:24px}
+.slide.consult-editorial .c-note{font-size:20px}
 .slide.consult-editorial .c-do p{font-size:32px}
-.slide.consult-editorial .c-src{font-size:22px}
+.slide.consult-editorial .c-src{font-size:19px}
 
-/* Tech Transformation — 크기는 Executive 계열, 표 눈금·구분선도 accent 편향(토큰 경로) */
+/* Tech Transformation — 크기는 Executive 계열, 표 눈금·구분선도 accent 편향(토큰 경로),
+   숫자·태그·값은 --c-num-font 모노 + tabular-numeric 정렬 */
 .slide.consult-tech .c-table thead th{border-bottom-color:var(--accent)}
 .slide.consult-tech .c-metric{border-top-color:var(--line)}
+.slide.consult-tech .c-metric .m-v{font-family:var(--c-num-font)}
+.slide.consult-tech .c-sidecar .sc-v{font-family:var(--c-num-font)}
 
 /* ---- local.css ---- */
 /* 데모 A(ai-transform) 로컬 확장 — 표지·SCQA·TOM 레일·로드맵·스택 도식 감싸개.
@@ -1630,40 +1691,40 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 .c-cover-ask .a-k{font-size:22px;font-weight:800;letter-spacing:2px;color:var(--accent-text)}
 .c-cover-ask p{font-size:28px;font-weight:700;line-height:1.4}
 
-/* SCQA 2×2 */
-.c-scqa{display:grid;grid-template-columns:1fr 1fr;gap:var(--s3)}
-.c-scqa>div{border-radius:var(--r2);padding:var(--s4);min-height:236px}
-.c-scqa .sq-s{background:var(--light)}
-.c-scqa .sq-c{background:color-mix(in srgb,var(--danger) 6%,var(--paper));border-top:4px solid var(--danger)}
-.c-scqa .sq-q{background:color-mix(in srgb,var(--accent) 7%,var(--paper));border-top:4px solid var(--accent)}
-.c-scqa .sq-a{background:var(--ink);color:var(--paper)}
-.c-scqa .s-k{font-size:23px;font-weight:800;letter-spacing:2px;color:var(--blue-text);margin-bottom:var(--s2)}
+/* SCQA — 면 채움 카드 대신 상단 룰 4열(마지막 ANSWER 만 다크 면 — 덱의 유일한 절대 초점) */
+.c-scqa{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s3)}
+.c-scqa>div{border-top:2px solid var(--ink);padding:var(--s3) var(--s3) var(--s3) 0;min-height:0}
+.c-scqa .sq-c{border-top-color:var(--danger)}
+.c-scqa .sq-q{border-top-color:var(--accent)}
+.c-scqa .sq-a{background:var(--ink);color:var(--paper);border-top-color:var(--ink);border-radius:var(--r1);padding:var(--s3)}
+.c-scqa .s-k{font-size:21px;font-weight:800;letter-spacing:2px;color:var(--blue-text);margin-bottom:var(--s2)}
 .c-scqa .sq-a .s-k{color:var(--accent-light)}
-.c-scqa p.v{font-size:28px;line-height:1.45;font-weight:700}
-.c-scqa p.d{font-size:22px;color:var(--soft);margin-top:var(--s1);line-height:1.4}
+.c-scqa p.v{font-size:26px;line-height:1.45;font-weight:700}
+.c-scqa p.d{font-size:21px;color:var(--soft);margin-top:var(--s1);line-height:1.4}
 .c-scqa .sq-a p.d{color:var(--muted)}
 
-/* TOM 4레일 — As-Is→To-Be 세로 카드 */
+/* TOM 4레일 — As-Is→To-Be 헤어라인 레일(리드 레일만 accent 룰) */
 .c-tom{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s3)}
-.c-tom>div{background:var(--paper);border:1px solid var(--muted);border-top:5px solid var(--blue);border-radius:var(--r2);padding:var(--s3);display:flex;flex-direction:column;gap:var(--s2)}
-.c-tom>div.t-lead{border-top-color:var(--accent);background:color-mix(in srgb,var(--accent) 5%,var(--paper))}
+.c-tom>div{border-top:3px solid var(--line);padding:var(--s3) var(--s3) var(--s3) 0;display:flex;flex-direction:column;gap:var(--s2)}
+.c-tom>div.t-lead{border-top-color:var(--accent)}
 .c-tom .t-k{font-size:23px;font-weight:800;letter-spacing:1px}
-.c-tom .t-asis{font-size:19px;color:var(--soft);border:1px dashed var(--muted);border-radius:var(--r1);padding:8px 12px}
+.c-tom .t-lead .t-k{color:var(--accent-text)}
+.c-tom .t-asis{font-size:19px;color:var(--soft);border-top:1px dashed var(--muted);padding:10px 0 0}
 .c-tom .t-tobe{font-size:24px;font-weight:800;line-height:1.4}
 .c-tom ul{margin:0;padding-left:22px;display:grid;gap:8px}
 .c-tom li{font-size:21px;line-height:1.4;color:var(--soft)}
 .c-tom li b{color:var(--ink)}
 
-/* 90일 로드맵 그리드(데모 B c-road 계약 동일) */
-.c-road{display:grid;grid-template-columns:200px repeat(3,1fr);gap:14px;font-size:22px}
-.c-road>div{border-radius:var(--r1);padding:16px 18px;line-height:1.4}
-.c-road .rh{font-weight:800;color:var(--paper);background:var(--blue)}
+/* 90일 로드맵 — 단계 헤더 솔리드(착수 시점 지시) + 셀은 헤어라인 행 */
+.c-road{display:grid;grid-template-columns:200px repeat(3,1fr);gap:0 14px;font-size:22px}
+.c-road>div{padding:16px 18px;line-height:1.4}
+.c-road .rh{font-weight:800;color:var(--paper);background:var(--blue);border-radius:var(--r1)}
 .c-road .rh.a{background:var(--accent)}
-.c-road .rl{font-weight:800;color:var(--blue-text);background:var(--light);display:flex;align-items:center}
-.c-road .rc{background:var(--paper);border:1px solid var(--muted)}
+.c-road .rl{font-weight:800;color:var(--blue-text);display:flex;align-items:center;border-top:1px solid var(--line)}
+.c-road .rc{border-top:1px solid var(--line)}
 .c-road .rc b{display:block;font-size:23px;margin-bottom:4px;color:var(--ink)}
 .c-road .rc .r-v{color:var(--accent-text);font-weight:800}
-.c-road-note{font-size:22px;color:var(--soft);margin-top:var(--s2)}
+.c-road-note{font-size:20px;color:var(--soft);margin-top:var(--s2)}
 
 /* 구성도·업무 흐름(data-c="stack") 공통 어휘 — 덱·팩·장 배치 조각 어디서나 같은 클래스다.
    노드를 행·열 격자에 놓고 assets/kit/stack.js 가 SVG 로 그린다. 색은 슬라이드 토큰을 따른다.
@@ -1935,43 +1996,60 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
 
 <!-- ==== 03-adoption.html ==== -->
 <!-- consulting chart — ranked-bar-h
-     모델: charts/03-adoption.json · 생성: node consulting-deck/charts/chart_gen.mjs --in charts/03-adoption.json -o <이 파일>
+     모델: examples/consulting-demo/ai-transform/charts/03-adoption.json · 생성: node consulting-deck/charts/chart_gen.mjs --in examples/consulting-demo/ai-transform/charts/03-adoption.json -o <이 파일>
      질문: 시장의 AI 확신은 어느 수준이며, 조직 어디에서 꺾이는가
      손으로 고치지 않는다. 모델을 고치고 다시 생성한다. -->
 <section class="slide consult consult-tech" data-archetype="chart-bar" data-variant="ranked" style="gap:18px">
   <div class="head"><p class="eyebrow">AI 도입 현황 · 시장 신호 — BCG AI Radar 2026</p><h2 class="title">CEO는 이미 AI에 걸었다 — 계속 투자 90%·낙관 80%, 확신은 현장에서 48%로 옅어진다</h2></div>
-  <svg class="dg" viewBox="0 0 1560 582" role="img" aria-label="CEO 응답 5개 지표: 계속 투자 의사 90%, 2028년까지 산업 재정의 전망 90%, 투자 수익 낙관 80%, CEO 확신 62%, C실무 밖 비기술 임원 확신 48%">
+  <div class="c-sidecar">
+    <div class="c-sidecar-main">
+  <svg class="dg" viewBox="0 0 1040 608" role="img" aria-label="CEO 응답 5개 지표: 계속 투자 의사 90%, 2028년까지 산업 재정의 전망 90%, 투자 수익 낙관 80%, CEO 확신 62%, C실무 밖 비기술 임원 확신 48%">
     <title>CEO는 이미 AI에 걸었다 — 계속 투자 90%·낙관 80%, 확신은 현장에서 48%로 옅어진다</title>
     <text class="k-t-tag" x="60" y="42">(단위: %)</text>
-    <line x1="320" y1="56" x2="320" y2="538" stroke="var(--line)" stroke-width="2.5"/>
-    <line x1="320" y1="538" x2="1500" y2="538" stroke="var(--line)" stroke-width="2.5"/>
+    <line x1="320" y1="56" x2="320" y2="564" stroke="var(--line)" stroke-width="2.5"/>
+    <line x1="320" y1="564" x2="980" y2="564" stroke="var(--line)" stroke-width="2.5"/>
     <g data-step="1">
       <text x="300" y="106" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">2028 재정의 전망</text>
-      <rect x="320" y="70" width="1100" height="56" rx="8" fill="var(--track)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
-      <text x="1436" y="106" font-size="28" font-weight="800" fill="var(--ink)">90</text>
+      <rect x="320" y="70" width="580" height="56" rx="8" fill="var(--track)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
+      <text x="916" y="106" font-size="28" font-weight="800" fill="var(--ink)">90</text>
     </g>
     <g data-step="2">
       <text x="300" y="188" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">계속 투자 의사</text>
-      <rect x="320" y="152" width="1100" height="56" rx="8" fill="var(--track)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
-      <text x="1436" y="188" font-size="28" font-weight="800" fill="var(--ink)">90</text>
+      <rect x="320" y="152" width="580" height="56" rx="8" fill="var(--track)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
+      <text x="916" y="188" font-size="28" font-weight="800" fill="var(--ink)">90</text>
     </g>
     <g data-step="3">
       <text x="300" y="270" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">투자 수익 낙관</text>
-      <rect x="320" y="234" width="977.78" height="56" rx="8" fill="var(--track)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
-      <text x="1313.78" y="270" font-size="28" font-weight="800" fill="var(--ink)">80</text>
+      <rect x="320" y="234" width="515.56" height="56" rx="8" fill="var(--track)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
+      <text x="851.56" y="270" font-size="28" font-weight="800" fill="var(--ink)">80</text>
     </g>
     <g data-step="4">
       <text x="300" y="352" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">CEO 확신</text>
-      <rect x="320" y="316" width="757.78" height="56" rx="8" fill="var(--track)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
-      <text x="1093.78" y="352" font-size="28" font-weight="800" fill="var(--ink)">62</text>
+      <rect x="320" y="316" width="399.56" height="56" rx="8" fill="var(--track)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
+      <text x="735.56" y="352" font-size="28" font-weight="800" fill="var(--ink)">62</text>
     </g>
     <g data-step="5">
       <text x="300" y="434" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">현장 확신(비C실무)</text>
-      <rect x="320" y="398" width="586.67" height="56" rx="8" fill="var(--accent)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
-      <text x="922.67" y="434" font-size="28" font-weight="800" fill="var(--ink)">48</text>
-      <text x="320" y="478" font-size="24" font-weight="800" class="k-t-o" text-anchor="start">「핵심」 구석실에서 멀어질수록 확신은 62→48% — 전환의 진짜 과제는 현장 확신을 만드는 것</text>
+      <rect x="320" y="398" width="309.33" height="56" rx="8" fill="var(--accent)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
+      <text x="645.33" y="434" font-size="28" font-weight="800" fill="var(--ink)">48</text>
+<rect x="320" y="459" width="64" height="26" rx="13" fill="var(--accent)"/>
+<text x="352" y="479" font-size="18" font-weight="800" class="k-t-w" text-anchor="middle">핵심</text>
+      <text x="392" y="478" font-size="24" font-weight="800" class="k-t-o" text-anchor="start">구석실에서 멀어질수록 확신은 62→48% — 전환의 </text>
+      <text x="392" y="504" font-size="24" font-weight="800" class="k-t-o" text-anchor="start">진짜 과제는 현장 확신을 만드는 것</text>
     </g>
-  </svg>
+    </svg>
+    </div>
+    <aside class="c-sidecar-panel" data-step="5">
+      <p class="sc-k">SO WHAT</p>
+      <p class="sc-v">48<small>%</small></p>
+      <p class="sc-h">현장 확신 — CEO 확신 62%보다 14%p 낮다</p>
+      <ul>
+        <li>구석실에서 멀어질수록 확신이 옅어진다 — 62→48%</li>
+        <li>전환의 진짜 과제는 <b>현장 확신</b>을 만드는 것</li>
+        <li>90일 착수 패키지에 채택률 게이트를 둔다(로드맵 장)</li>
+      </ul>
+    </aside>
+  </div>
   <p class="c-note" data-step="5"><b>방법론·한계</b> — 계속 투자 의사는 90% 초과(최솟값 표기) · 현장 확신 = C실무 밖 비기술 임원</p>
   <div class="c-src" data-step="5">
     <p>Source: BCG AI Radar 2026 — As AI Investments Surge, CEOs Take the Lead (bcg.com) · 설문 2,400명(CEO 640)·16개 시장 · 기준 2026-01-15 발행</p>
@@ -1981,61 +2059,77 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
 
 <!-- ==== 04-gap.html ==== -->
 <!-- consulting chart — line
-     모델: charts/04-gap.json · 생성: node consulting-deck/charts/chart_gen.mjs --in charts/04-gap.json -o <이 파일>
+     모델: examples/consulting-demo/ai-transform/charts/04-gap.json · 생성: node consulting-deck/charts/chart_gen.mjs --in examples/consulting-demo/ai-transform/charts/04-gap.json -o <이 파일>
      질문: 우리와 선도군의 AI 활용 격차는 어떤 속도로 벌어지는가
      손으로 고치지 않는다. 모델을 고치고 다시 생성한다. -->
 <section class="slide consult consult-tech" data-archetype="chart-line" data-variant="line" style="gap:18px">
   <div class="head"><p class="eyebrow">성과 격차 · 전사 AI 활용률 — 8개 분기 추이</p><h2 class="title">활용 격차는 8개 분기에 2.6배에서 3.2배로 벌어졌다 — 우리 14.0%, 선도군 45.0%</h2></div>
-  <svg class="dg" viewBox="0 0 1560 580" role="img" aria-label="8개 분기 활용률: 우리는 12.0에서 14.0퍼센트로 완만한 상승, 선도군은 31.0에서 45.0퍼센트로 급상승 — 격차 배수 2.6배에서 3.2배">
+  <div class="c-sidecar">
+    <div class="c-sidecar-main">
+  <svg class="dg" viewBox="0 0 1040 580" role="img" aria-label="8개 분기 활용률: 우리는 12.0에서 14.0퍼센트로 완만한 상승, 선도군은 31.0에서 45.0퍼센트로 급상승 — 격차 배수 2.6배에서 3.2배">
     <title>활용 격차는 8개 분기에 2.6배에서 3.2배로 벌어졌다 — 우리 14.0%, 선도군 45.0%</title>
     <text class="k-t-tag" x="60" y="42">(단위: %)</text>
-    <path d="M150,470 L1500,470" stroke="var(--grid)" stroke-width="2.5"/>
+    <path d="M150,470 L980,470" stroke="var(--grid)" stroke-width="2.5"/>
     <text x="136" y="477" font-size="20" fill="var(--soft)" text-anchor="end">0</text>
-    <path d="M150,327.44 L1500,327.44" stroke="var(--grid)" stroke-width="2.5"/>
+    <path d="M150,327.44 L980,327.44" stroke="var(--grid)" stroke-width="2.5"/>
     <text x="136" y="334.44" font-size="20" fill="var(--soft)" text-anchor="end">20</text>
-    <path d="M150,184.88 L1500,184.88" stroke="var(--grid)" stroke-width="2.5"/>
+    <path d="M150,184.88 L980,184.88" stroke="var(--grid)" stroke-width="2.5"/>
     <text x="136" y="191.88" font-size="20" fill="var(--soft)" text-anchor="end">40</text>
-    <path d="M150,470 L1500,470" fill="none" stroke="var(--line)" stroke-width="2.5"/>
+    <path d="M150,470 L980,470" fill="none" stroke="var(--line)" stroke-width="2.5"/>
     <text x="150" y="508" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="middle">24Q3</text>
-    <text x="342.86" y="508" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="middle">24Q4</text>
-    <text x="535.71" y="508" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="middle">25Q1</text>
-    <text x="728.57" y="508" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="middle">25Q2</text>
-    <text x="921.43" y="508" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="middle">25Q3</text>
-    <text x="1114.29" y="508" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="middle">25Q4</text>
-    <text x="1307.14" y="508" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="middle">26Q1</text>
-    <text x="1500" y="508" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="middle">26Q2</text>
-    <path d="M1123,30 L1151,30" stroke="var(--accent)" stroke-width="5"/>
-    <text x="1159" y="37" font-size="20" font-weight="600" fill="var(--ink)">선도군(상위 15%)</text>
-    <path d="M1349,30 L1377,30" stroke="var(--track-strong)" stroke-width="5"/>
-    <text x="1385" y="37" font-size="20" font-weight="600" fill="var(--ink)">우리 그룹</text>
+    <text x="268.57" y="508" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="middle">24Q4</text>
+    <text x="387.14" y="508" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="middle">25Q1</text>
+    <text x="505.71" y="508" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="middle">25Q2</text>
+    <text x="624.29" y="508" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="middle">25Q3</text>
+    <text x="742.86" y="508" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="middle">25Q4</text>
+    <text x="861.43" y="508" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="middle">26Q1</text>
+    <text x="980" y="508" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="middle">26Q2</text>
+    <path d="M603,30 L631,30" stroke="var(--accent)" stroke-width="5"/>
+    <text x="639" y="37" font-size="20" font-weight="600" fill="var(--ink)">선도군(상위 15%)</text>
+    <path d="M829,30 L857,30" stroke="var(--track-strong)" stroke-width="5"/>
+    <text x="865" y="37" font-size="20" font-weight="600" fill="var(--ink)">우리 그룹</text>
     <g data-step="1">
-      <path d="M150,249.04 L342.86,236.21 L535.71,224.09 L728.57,210.55 L921.43,197.71 L1114.29,180.61 L1307.14,163.5 L1500,149.25 L1500,470 L150,470 Z" fill="var(--accent)" opacity=".14"/>
-      <path d="M150,249.04 L342.86,236.21 L535.71,224.09 L728.57,210.55 L921.43,197.71 L1114.29,180.61 L1307.14,163.5 L1500,149.25" fill="none" stroke="var(--accent)" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M150,249.04 L268.57,236.21 L387.14,224.09 L505.71,210.55 L624.29,197.71 L742.86,180.61 L861.43,163.5 L980,149.25 L980,470 L150,470 Z" fill="var(--accent)" opacity=".14"/>
+      <path d="M150,249.04 L268.57,236.21 L387.14,224.09 L505.71,210.55 L624.29,197.71 L742.86,180.61 L861.43,163.5 L980,149.25" fill="none" stroke="var(--accent)" stroke-width="4" stroke-linejoin="round"/>
       <circle cx="150" cy="249.04" r="5.5" fill="var(--accent)"/>
-      <circle cx="342.86" cy="236.21" r="5.5" fill="var(--accent)"/>
-      <circle cx="535.71" cy="224.09" r="5.5" fill="var(--accent)"/>
-      <circle cx="728.57" cy="210.55" r="5.5" fill="var(--accent)"/>
-      <circle cx="921.43" cy="197.71" r="5.5" fill="var(--accent)"/>
-      <circle cx="1114.29" cy="180.61" r="5.5" fill="var(--accent)"/>
-      <circle cx="1307.14" cy="163.5" r="5.5" fill="var(--accent)"/>
-      <circle cx="1500" cy="149.25" r="5.5" fill="var(--accent)"/>
-      <text x="1514" y="157.25" font-size="24" font-weight="800" fill="var(--ink)">45</text>
+      <circle cx="268.57" cy="236.21" r="5.5" fill="var(--accent)"/>
+      <circle cx="387.14" cy="224.09" r="5.5" fill="var(--accent)"/>
+      <circle cx="505.71" cy="210.55" r="5.5" fill="var(--accent)"/>
+      <circle cx="624.29" cy="197.71" r="5.5" fill="var(--accent)"/>
+      <circle cx="742.86" cy="180.61" r="5.5" fill="var(--accent)"/>
+      <circle cx="861.43" cy="163.5" r="5.5" fill="var(--accent)"/>
+      <circle cx="980" cy="149.25" r="5.5" fill="var(--accent)"/>
+      <text x="994" y="157.25" font-size="24" font-weight="800" fill="var(--ink)">45</text>
     </g>
     <g data-step="2">
-      <path d="M150,384.47 L342.86,381.61 L535.71,383.04 L728.57,376.62 L921.43,377.34 L1114.29,373.06 L1307.14,371.64 L1500,370.21" fill="none" stroke="var(--track-strong)" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M150,384.47 L268.57,381.61 L387.14,383.04 L505.71,376.62 L624.29,377.34 L742.86,373.06 L861.43,371.64 L980,370.21" fill="none" stroke="var(--track-strong)" stroke-width="4" stroke-linejoin="round"/>
       <circle cx="150" cy="384.47" r="5.5" fill="var(--track-strong)"/>
-      <circle cx="342.86" cy="381.61" r="5.5" fill="var(--track-strong)"/>
-      <circle cx="535.71" cy="383.04" r="5.5" fill="var(--track-strong)"/>
-      <circle cx="728.57" cy="376.62" r="5.5" fill="var(--track-strong)"/>
-      <circle cx="921.43" cy="377.34" r="5.5" fill="var(--track-strong)"/>
-      <circle cx="1114.29" cy="373.06" r="5.5" fill="var(--track-strong)"/>
-      <circle cx="1307.14" cy="371.64" r="5.5" fill="var(--track-strong)"/>
-      <circle cx="1500" cy="370.21" r="5.5" fill="var(--track-strong)"/>
-      <text x="1514" y="378.21" font-size="24" font-weight="800" fill="var(--ink)">14</text>
+      <circle cx="268.57" cy="381.61" r="5.5" fill="var(--track-strong)"/>
+      <circle cx="387.14" cy="383.04" r="5.5" fill="var(--track-strong)"/>
+      <circle cx="505.71" cy="376.62" r="5.5" fill="var(--track-strong)"/>
+      <circle cx="624.29" cy="377.34" r="5.5" fill="var(--track-strong)"/>
+      <circle cx="742.86" cy="373.06" r="5.5" fill="var(--track-strong)"/>
+      <circle cx="861.43" cy="371.64" r="5.5" fill="var(--track-strong)"/>
+      <circle cx="980" cy="370.21" r="5.5" fill="var(--track-strong)"/>
+      <text x="994" y="378.21" font-size="24" font-weight="800" fill="var(--ink)">14</text>
     </g>
-      <text x="1151" y="544" font-size="24" font-weight="800" class="k-t-o" text-anchor="middle">「핵심」 격차 31.0%p (8분기 전 19.0%p) — 45.0/14.0 = </text>
-      <text x="1151" y="568" font-size="24" font-weight="800" class="k-t-o" text-anchor="middle">3.2배</text>
-  </svg>
+<rect x="329.2" y="525" width="64" height="26" rx="13" fill="var(--accent)"/>
+<text x="361.2" y="545" font-size="18" font-weight="800" class="k-t-w" text-anchor="middle">핵심</text>
+      <text x="401.2" y="544" font-size="24" font-weight="800" class="k-t-o" text-anchor="start">격차 31.0%p (8분기 전 19.0%p) — 45.0/14.0 = </text>
+      <text x="401.2" y="568" font-size="24" font-weight="800" class="k-t-o" text-anchor="start">3.2배</text>
+    </svg>
+    </div>
+    <aside class="c-sidecar-panel" data-step="2">
+      <p class="sc-k">SO WHAT</p>
+      <p class="sc-v">3.2<small>배</small></p>
+      <p class="sc-h">활용 격차 — 8개 분기 전 2.6배에서 확대</p>
+      <ul>
+        <li>우리 14.0% vs 선도군 45.0% — 격차 <b>31.0%p</b></li>
+        <li>8분기 전 격차는 19.0%p — 방치하면 더 벌어진다</li>
+        <li>격차의 원인은 기술이 아니라 운영 방식이다</li>
+      </ul>
+    </aside>
+  </div>
   <p class="c-note" data-step="2"><b>방법론·한계</b> — 선도군 = 상위 15% 벤치마크 패널(가상) · Trailblazers 직원 재교육 4분의 3(BCG)</p>
   <div class="c-src" data-step="2">
     <p>Source: consulting-deck 예시 — 가상 시나리오(전사 패널·선도군 벤치마크) · 세그먼트 구분은 BCG AI Radar 2026 · 기준 26Q2 패널 기준</p>
@@ -2046,92 +2140,113 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
 
 <!-- ==== 05-value.html ==== -->
 <!-- consulting chart — heatmap
-     모델: charts/05-value.json · 생성: node consulting-deck/charts/chart_gen.mjs --in charts/05-value.json -o <이 파일>
+     모델: examples/consulting-demo/ai-transform/charts/05-value.json · 생성: node consulting-deck/charts/chart_gen.mjs --in examples/consulting-demo/ai-transform/charts/05-value.json -o <이 파일>
      질문: 가치 원천별 잠재는 사업부 어디에 몰리는가
      손으로 고치지 않는다. 모델을 고치고 다시 생성한다. -->
 <section class="slide consult consult-tech" data-archetype="heatmap-grid" data-variant="matrix" style="gap:18px">
   <div class="head"><p class="eyebrow">가치 기회 · 사업부×가치원천 잠재 강도</p><h2 class="title">가치는 운임·수요·응대 3개 클러스터에 몰린다 — 연 140억의 원천을 수량화했다</h2></div>
-  <svg class="dg" viewBox="0 0 1560 522" role="img" aria-label="사업부 5개와 가치원천 5개의 잠재 강도: 운영최적 열이 택배 78·운송 88·창고 84로 가장 짙고, 문서자동은 백오피스 92에 몰린다">
+  <div class="c-sidecar">
+    <div class="c-sidecar-main">
+  <svg class="dg" viewBox="0 0 1040 670" role="img" aria-label="사업부 5개와 가치원천 5개의 잠재 강도: 운영최적 열이 택배 78·운송 88·창고 84로 가장 짙고, 문서자동은 백오피스 92에 몰린다">
     <title>가치는 운임·수요·응대 3개 클러스터에 몰린다 — 연 140억의 원천을 수량화했다</title>
     <text class="k-t-tag" x="60" y="42">(단위: 강도 지수(0~100))</text>
-    <text x="375" y="80" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">수요예측</text>
-    <text x="625" y="80" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">운영최적</text>
-    <text x="875" y="80" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">고객응대</text>
-    <text x="1125" y="80" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">문서자동</text>
-    <text x="1375" y="80" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">이상탐지</text>
+    <text x="323" y="80" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">수요예측</text>
+    <text x="469" y="80" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">운영최적</text>
+    <text x="615" y="80" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">고객응대</text>
+    <text x="761" y="80" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">문서자동</text>
+    <text x="907" y="80" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">이상탐지</text>
     <g data-step="1">
       <text x="234" y="136" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">택배</text>
-      <rect x="250" y="98" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 92%, transparent)"/>
-      <text x="375" y="136" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">92</text>
-      <rect x="500" y="98" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--accent) 76%, transparent)"/>
-      <text x="625" y="136" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">78</text>
-      <rect x="750" y="98" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 62%, transparent)"/>
-      <text x="875" y="136" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">66</text>
-      <rect x="1000" y="98" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 26%, transparent)"/>
-      <text x="1125" y="136" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">34</text>
-      <rect x="1250" y="98" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 34%, transparent)"/>
-      <text x="1375" y="136" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">41</text>
+      <rect x="250" y="98" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 92%, transparent)"/>
+      <text x="323" y="136" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">92</text>
+      <rect x="396" y="98" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--accent) 76%, transparent)"/>
+      <text x="469" y="136" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">78</text>
+      <rect x="542" y="98" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 62%, transparent)"/>
+      <text x="615" y="136" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">66</text>
+      <rect x="688" y="98" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 26%, transparent)"/>
+      <text x="761" y="136" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">34</text>
+      <rect x="834" y="98" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 34%, transparent)"/>
+      <text x="907" y="136" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">41</text>
     </g>
     <g data-step="2">
       <text x="234" y="202" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">운송</text>
-      <rect x="250" y="164" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 71%, transparent)"/>
-      <text x="375" y="202" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">74</text>
-      <rect x="500" y="164" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--accent) 87%, transparent)"/>
-      <text x="625" y="202" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">88</text>
-      <rect x="750" y="164" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 30%, transparent)"/>
-      <text x="875" y="202" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">38</text>
-      <rect x="1000" y="164" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 17%, transparent)"/>
-      <text x="1125" y="202" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">26</text>
-      <rect x="1250" y="164" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 41%, transparent)"/>
-      <text x="1375" y="202" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">47</text>
+      <rect x="250" y="164" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 71%, transparent)"/>
+      <text x="323" y="202" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">74</text>
+      <rect x="396" y="164" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--accent) 87%, transparent)"/>
+      <text x="469" y="202" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">88</text>
+      <rect x="542" y="164" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 30%, transparent)"/>
+      <text x="615" y="202" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">38</text>
+      <rect x="688" y="164" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 17%, transparent)"/>
+      <text x="761" y="202" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">26</text>
+      <rect x="834" y="164" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 41%, transparent)"/>
+      <text x="907" y="202" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">47</text>
     </g>
     <g data-step="3">
       <text x="234" y="268" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">창고</text>
-      <rect x="250" y="230" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 79%, transparent)"/>
-      <text x="375" y="268" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">81</text>
-      <rect x="500" y="230" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--accent) 83%, transparent)"/>
-      <text x="625" y="268" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">84</text>
-      <rect x="750" y="230" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 12%, transparent)"/>
-      <text x="875" y="268" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">22</text>
-      <rect x="1000" y="230" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 37%, transparent)"/>
-      <text x="1125" y="268" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">44</text>
-      <rect x="1250" y="230" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 47%, transparent)"/>
-      <text x="1375" y="268" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">53</text>
+      <rect x="250" y="230" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 79%, transparent)"/>
+      <text x="323" y="268" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">81</text>
+      <rect x="396" y="230" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--accent) 83%, transparent)"/>
+      <text x="469" y="268" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">84</text>
+      <rect x="542" y="230" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 12%, transparent)"/>
+      <text x="615" y="268" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">22</text>
+      <rect x="688" y="230" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 37%, transparent)"/>
+      <text x="761" y="268" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">44</text>
+      <rect x="834" y="230" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 47%, transparent)"/>
+      <text x="907" y="268" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">53</text>
     </g>
     <g data-step="4">
       <text x="234" y="334" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">국제물류</text>
-      <rect x="250" y="296" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 59%, transparent)"/>
-      <text x="375" y="334" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">63</text>
-      <rect x="500" y="296" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--accent) 45%, transparent)"/>
-      <text x="625" y="334" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">51</text>
-      <rect x="750" y="296" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 53%, transparent)"/>
-      <text x="875" y="334" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">58</text>
-      <rect x="1000" y="296" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 58%, transparent)"/>
-      <text x="1125" y="334" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">62</text>
-      <rect x="1250" y="296" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 28%, transparent)"/>
-      <text x="1375" y="334" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">36</text>
+      <rect x="250" y="296" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 59%, transparent)"/>
+      <text x="323" y="334" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">63</text>
+      <rect x="396" y="296" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--accent) 45%, transparent)"/>
+      <text x="469" y="334" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">51</text>
+      <rect x="542" y="296" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 53%, transparent)"/>
+      <text x="615" y="334" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">58</text>
+      <rect x="688" y="296" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 58%, transparent)"/>
+      <text x="761" y="334" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">62</text>
+      <rect x="834" y="296" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 28%, transparent)"/>
+      <text x="907" y="334" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">36</text>
     </g>
     <g data-step="5">
       <text x="234" y="400" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">백오피스</text>
-      <rect x="250" y="362" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 19%, transparent)"/>
-      <text x="375" y="400" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">28</text>
-      <rect x="500" y="362" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--accent) 14%, transparent)"/>
-      <text x="625" y="400" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">24</text>
-      <rect x="750" y="362" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 49%, transparent)"/>
-      <text x="875" y="400" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">54</text>
-      <rect x="1000" y="362" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 92%, transparent)"/>
-      <text x="1125" y="400" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">92</text>
-      <rect x="1250" y="362" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 22%, transparent)"/>
-      <text x="1375" y="400" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">31</text>
+      <rect x="250" y="362" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 19%, transparent)"/>
+      <text x="323" y="400" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">28</text>
+      <rect x="396" y="362" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--accent) 14%, transparent)"/>
+      <text x="469" y="400" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">24</text>
+      <rect x="542" y="362" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 49%, transparent)"/>
+      <text x="615" y="400" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">54</text>
+      <rect x="688" y="362" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 92%, transparent)"/>
+      <text x="761" y="400" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">92</text>
+      <rect x="834" y="362" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 22%, transparent)"/>
+      <text x="907" y="400" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">31</text>
     </g>
-      <path d="M625,434 L625,462" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
-      <text x="625" y="490" font-size="24" font-weight="800" class="k-t-o" text-anchor="middle">「핵심」 운임·경로(연 34억) — 데이터 준비가 선행 과제</text>
-      <path d="M1125,434 L1125,466" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
-      <text x="1125" y="490" font-size="20" font-weight="600" class="k-t-tag" text-anchor="middle">「참고」 문서자동(연 26억) — 백오피스 편중, 즉시 착수</text>
-    <text x="250" y="466" font-size="18" fill="var(--soft)">22</text>
-    <rect x="310" y="454" width="140" height="14" rx="3" style="fill:color-mix(in srgb, var(--accent) 45%, transparent)"/>
-    <text x="464" y="466" font-size="18" fill="var(--soft)">92</text>
-  </svg>
+      <path d="M469,434 L469,462" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
+<rect x="402.4" y="471" width="64" height="26" rx="13" fill="var(--accent)"/>
+<text x="434.4" y="491" font-size="18" font-weight="800" class="k-t-w" text-anchor="middle">핵심</text>
+      <text x="474.4" y="490" font-size="24" font-weight="800" class="k-t-o" text-anchor="start">운임·</text>
+      <text x="474.4" y="514" font-size="24" font-weight="800" class="k-t-o" text-anchor="start">경로…</text>
+      <path d="M761,434 L761,540" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
+<rect x="694" y="545" width="64" height="26" rx="13" fill="var(--track-strong)"/>
+<text x="726" y="565" font-size="18" font-weight="800" class="k-t-w" text-anchor="middle">참고</text>
+      <text x="766" y="564" font-size="20" font-weight="600" class="k-t-tag" text-anchor="start">문서자</text>
+      <text x="766" y="588" font-size="20" font-weight="600" class="k-t-tag" text-anchor="start">동(연…</text>
+    <defs><linearGradient id="hm-grad" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="var(--blue)" stop-opacity=".14"/><stop offset="1" stop-color="var(--blue)" stop-opacity=".92"/></linearGradient></defs>
+    <text x="250" y="666" font-size="18" fill="var(--soft)">22</text>
+    <rect x="310" y="654" width="140" height="14" rx="3" fill="url(#hm-grad)"/>
+    <text x="464" y="666" font-size="18" fill="var(--soft)">92</text>
+    </svg>
+    </div>
+    <aside class="c-sidecar-panel" data-step="5">
+      <p class="sc-k">SO WHAT</p>
+      <p class="sc-v">140<small>억</small></p>
+      <p class="sc-h">연 가치 목표 — 3개 클러스터에 집중</p>
+      <ul>
+        <li>운임·수요·응대 3개 클러스터가 가치의 대부분</li>
+        <li>운임·경로 34억은 <b>데이터 준비가 선행 과제</b></li>
+        <li>문서자동 26억은 백오피스 편중 — 즉시 착수</li>
+      </ul>
+    </aside>
+  </div>
   <p class="c-note" data-step="5"><b>방법론·한계</b> — 강도 = 원천 가치액의 사업부 배분 지수 · 원천별 연환산 추정(운영 전환 완료 기준)</p>
   <div class="c-src" data-step="5">
     <p>Source: consulting-deck 예시 — 가상 시나리오 · 기준 FY25 사업부 베이스 기준</p>
@@ -2142,71 +2257,78 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
 
 <!-- ==== 06-priority.html ==== -->
 <!-- consulting chart — matrix-2x2
-     모델: charts/06-priority.json · 생성: node consulting-deck/charts/chart_gen.mjs --in charts/06-priority.json -o <이 파일>
+     모델: examples/consulting-demo/ai-transform/charts/06-priority.json · 생성: node consulting-deck/charts/chart_gen.mjs --in examples/consulting-demo/ai-transform/charts/06-priority.json -o <이 파일>
      질문: 어떤 유스케이스에 먼저 투자하고 어느 것은 기다려야 하는가
      손으로 고치지 않는다. 모델을 고치고 다시 생성한다. -->
 <section class="slide consult consult-tech" data-archetype="quadrant" data-variant="matrix-2x2" style="gap:18px">
   <div class="head"><p class="eyebrow">투자 우선순위 · 유스케이스 포트폴리오 — 실현성 × 가치</p><h2 class="title">10개 유스케이스 중 즉시 승인 3개는 우상단(높은 가치×높은 실현성)에 있다</h2></div>
-  <svg class="dg" viewBox="0 0 1560 620" role="img" aria-label="유스케이스 10개의 실현성과 가치 2축: 즉시 승인 3개(수요예측 8.2, 8.8·고객응대 8.6, 7.2·계약·관세 문서 9.0, 6.4)는 우상단, 운임·경로 5.4, 9.2는 준비 후 착수, 자율주행 트럭 1.8, 8.4는 보류">
+  <div class="c-sidecar">
+    <div class="c-sidecar-main">
+  <svg class="dg" viewBox="0 0 1040 620" role="img" aria-label="유스케이스 10개의 실현성과 가치 2축: 즉시 승인 3개(수요예측 8.2, 8.8·고객응대 8.6, 7.2·계약·관세 문서 9.0, 6.4)는 우상단, 운임·경로 5.4, 9.2는 준비 후 착수, 자율주행 트럭 1.8, 8.4는 보류">
     <title>10개 유스케이스 중 즉시 승인 3개는 우상단(높은 가치×높은 실현성)에 있다</title>
     <text class="k-t-tag" x="60" y="42">(단위: 지수(0~10))</text>
     <g data-step="1">
-      <rect x="300" y="80" width="1200" height="440" fill="none" stroke="var(--line)" stroke-width="3"/>
-      <path d="M900,80 L900,520 M300,300 L1500,300" stroke="var(--soft)" stroke-width="2" stroke-dasharray="8 8"/>
+      <path d="M640,80 h340 v220 h-340 Z" style="fill:color-mix(in srgb, var(--accent) 7%, transparent)"/>
+      <rect x="300" y="80" width="680" height="440" fill="none" stroke="var(--line)" stroke-width="3"/>
+      <path d="M640,80 L640,520 M300,300 L980,300" stroke="var(--soft)" stroke-width="2" stroke-dasharray="8 8"/>
       <text x="322" y="114" font-size="21" font-weight="700" class="k-t-tag" text-anchor="start">준비 후 착수</text>
-      <text x="1478" y="114" font-size="21" font-weight="700" class="k-t-tag" text-anchor="end">즉시 승인</text>
+      <text x="958" y="114" font-size="21" font-weight="800" class="k-t-o" text-anchor="end">즉시 승인</text>
       <text x="322" y="502" font-size="21" font-weight="700" class="k-t-tag" text-anchor="start">보류·관측</text>
-      <text x="1478" y="502" font-size="21" font-weight="700" class="k-t-tag" text-anchor="end">손쉬운 시범</text>
-      <text x="1500" y="566" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">실현 용이성 →</text>
+      <text x="958" y="502" font-size="21" font-weight="700" class="k-t-tag" text-anchor="end">손쉬운 시범</text>
+      <text x="980" y="566" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">실현 용이성 →</text>
       <text x="300" y="60" font-size="22" font-weight="700" fill="var(--ink)">↑ 가치</text>
     </g>
     <g data-step="2">
-      <circle cx="1284" cy="132.8" r="13" fill="var(--accent)" opacity=".95"/>
-      <text x="1262" y="139.8" font-size="20" font-weight="800" fill="var(--ink)" text-anchor="end">수요예측 에이전트</text>
-      <path d="M1249.4,147.8 L1249.4,143.8" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
-      <text x="1249.4" y="171.8" font-size="24" font-weight="800" class="k-t-o" text-anchor="middle">「핵심」 우상단 3건 = 첫 90일 착수 분량</text>
+      <circle cx="667.2" cy="115.2" r="10" fill="var(--track-strong)" opacity=".78"/>
+      <text x="689.2" y="122.2" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="start">운임·경로</text>
+      <path d="M667.2,130.2 L667.2,354.2" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
+<rect x="467.2" y="359.2" width="64" height="26" rx="13" fill="var(--track-strong)"/>
+<text x="499.2" y="379.2" font-size="18" font-weight="800" class="k-t-w" text-anchor="middle">참고</text>
+      <text x="539.2" y="378.2" font-size="20" font-weight="600" class="k-t-tag" text-anchor="start">가치 최대 — 데이터 준비 후 2단계</text>
+      <circle cx="721.6" cy="220.8" r="10" fill="var(--track-strong)" opacity=".78"/>
+      <text x="699.6" y="227.8" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="end">창고 지시</text>
+      <circle cx="762.4" cy="273.6" r="10" fill="var(--track-strong)" opacity=".78"/>
+      <text x="740.4" y="280.6" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="end">이상탐지</text>
+      <circle cx="789.6" cy="326.4" r="10" fill="var(--track-strong)" opacity=".78"/>
+      <text x="767.6" y="333.4" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="end">코드 보조</text>
+      <circle cx="898.4" cy="361.6" r="10" fill="var(--track-strong)" opacity=".78"/>
+      <path d="M898.4,373.6 L817.9,520.6" fill="none" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="3 4"/>
+      <text x="876.4" y="536.6" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="end">HR 어시스트</text>
+      <circle cx="925.6" cy="396.8" r="10" fill="var(--track-strong)" opacity=".78"/>
+      <path d="M925.6,408.8 L846.1,527.8" fill="none" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="3 4"/>
+      <text x="903.6" y="543.8" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="end">회의록·보고</text>
+      <circle cx="422.4" cy="150.4" r="10" fill="var(--track-strong)" opacity=".78"/>
+      <text x="444.4" y="157.4" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="start">자율주행 트럭</text>
     </g>
     <g data-step="3">
-      <circle cx="1332" cy="203.2" r="13" fill="var(--accent)" opacity=".95"/>
-      <text x="1310" y="210.2" font-size="20" font-weight="800" fill="var(--ink)" text-anchor="end">고객응대 어시스트</text>
+      <circle cx="857.6" cy="132.8" r="13" fill="var(--accent)" opacity=".95"/>
+      <path d="M857.6,144.8 L748.1,151.8" fill="none" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="3 4"/>
+      <text x="835.6" y="167.8" font-size="20" font-weight="800" fill="var(--ink)" text-anchor="end">수요예측 에이전트</text>
+      <path d="M748,175.8 L748,423.8" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
+<rect x="526" y="432.8" width="64" height="26" rx="13" fill="var(--accent)"/>
+<text x="558" y="452.8" font-size="18" font-weight="800" class="k-t-w" text-anchor="middle">핵심</text>
+      <text x="598" y="451.8" font-size="24" font-weight="800" class="k-t-o" text-anchor="start">우상단 3건 = 첫 90일 착수 분량</text>
+      <circle cx="884.8" cy="203.2" r="13" fill="var(--accent)" opacity=".95"/>
+      <path d="M884.8,215.2 L775.3,474.2" fill="none" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="3 4"/>
+      <text x="862.8" y="490.2" font-size="20" font-weight="800" fill="var(--ink)" text-anchor="end">고객응대 어시스트</text>
+      <circle cx="912" cy="238.4" r="13" fill="var(--accent)" opacity=".95"/>
+      <text x="890" y="245.4" font-size="20" font-weight="800" fill="var(--ink)" text-anchor="end">계약·관세 문서</text>
     </g>
-    <g data-step="4">
-      <circle cx="1380" cy="238.4" r="13" fill="var(--accent)" opacity=".95"/>
-      <text x="1358" y="245.4" font-size="20" font-weight="800" fill="var(--ink)" text-anchor="end">계약·관세 문서</text>
-    </g>
-    <g data-step="5">
-      <circle cx="948" cy="115.2" r="10" fill="var(--track-strong)" opacity=".78"/>
-      <text x="970" y="122.2" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="start">운임·경로</text>
-      <path d="M948,130.2 L948,354.2" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
-      <text x="948" y="378.2" font-size="20" font-weight="600" class="k-t-tag" text-anchor="middle">「참고」 가치 최대 — 데이터 준비 후 2단계</text>
-    </g>
-    <g data-step="6">
-      <circle cx="1044" cy="220.8" r="10" fill="var(--track-strong)" opacity=".78"/>
-      <text x="1066" y="255.8" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="start">창고 지시</text>
-    </g>
-    <g data-step="7">
-      <circle cx="1116" cy="273.6" r="10" fill="var(--track-strong)" opacity=".78"/>
-      <text x="1138" y="308.6" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="start">이상탐지</text>
-    </g>
-    <g data-step="8">
-      <circle cx="1164" cy="326.4" r="10" fill="var(--track-strong)" opacity=".78"/>
-      <text x="1186" y="361.4" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="start">코드 보조</text>
-    </g>
-    <g data-step="9">
-      <circle cx="1356" cy="361.6" r="10" fill="var(--track-strong)" opacity=".78"/>
-      <text x="1334" y="452.6" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="end">HR 어시스트</text>
-    </g>
-    <g data-step="10">
-      <circle cx="1404" cy="396.8" r="10" fill="var(--track-strong)" opacity=".78"/>
-      <text x="1382" y="403.8" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="end">회의록·보고</text>
-    </g>
-    <g data-step="11">
-      <circle cx="516" cy="150.4" r="10" fill="var(--track-strong)" opacity=".78"/>
-      <text x="538" y="157.4" font-size="20" font-weight="600" fill="var(--ink)" text-anchor="start">자율주행 트럭</text>
-    </g>
-  </svg>
-  <p class="c-note" data-step="11"><b>방법론·한계</b> — 평가 기준 5개 각 2점 만점 합산(0~10) · 평가자 구성에 따라 ±1.0</p>
-  <div class="c-src" data-step="11">
+    </svg>
+    </div>
+    <aside class="c-sidecar-panel" data-step="3">
+      <p class="sc-k">SO WHAT</p>
+      <p class="sc-v">3<small>개</small></p>
+      <p class="sc-h">즉시 승인 — 첫 90일 착수 분량</p>
+      <ul>
+        <li>수요예측·고객응대·계약 문서가 FY27 가치 140억의 <b>절반 이상</b>을 담는다</li>
+        <li>좌상단 빅벳은 데이터 준비 후 2단계로</li>
+        <li>자율주행 트럭은 규제·성숙 미충족으로 보류</li>
+      </ul>
+    </aside>
+  </div>
+  <p class="c-note" data-step="3"><b>방법론·한계</b> — 평가 기준 5개 각 2점 만점 합산(0~10) · 평가자 구성에 따라 ±1.0</p>
+  <div class="c-src" data-step="3">
     <p>Source: consulting-deck 예시 — 가상 시나리오 · 기준 FY26 평가 기준</p>
     <p class="s-syn">가상 데이터</p>
   </div>
@@ -2389,7 +2511,7 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
 <section class="slide consult-tech" style="gap:26px">
   <div class="head">
     <p class="eyebrow">실행 로드맵 · 착수 90일 · 3단계 × 3트랙</p>
-    <h2 class="title">90일 안에 첫 운영 전환 2건과 데이터 기반 1차를 끝낸다 — 6개월 뒤 연환산 60억 경로</h2>
+    <h2 class="title">90일 안에 첫 운영 전환 2건과 데이터 기반 1&#8288;차를 끝낸다 — 6개월 뒤 연환산 60억 경로</h2>
   </div>
   <div class="c-road">
     <div class="rh a" style="text-align:center">단계 →</div>
@@ -2422,7 +2544,7 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
 
 <!-- ==== 11-risks.html ==== -->
 <!-- consulting chart — tornado
-     모델: charts/11-risks.json · 생성: node consulting-deck/charts/chart_gen.mjs --in charts/11-risks.json -o <이 파일>
+     모델: examples/consulting-demo/ai-transform/charts/11-risks.json · 생성: node consulting-deck/charts/chart_gen.mjs --in examples/consulting-demo/ai-transform/charts/11-risks.json -o <이 파일>
      질문: 140억 가치 실현에 가장 큰 영향을 주는 변수는 무엇인가
      손으로 고치지 않는다. 모델을 고치고 다시 생성한다. -->
 <section class="slide consult consult-tech" data-archetype="chart-bar" data-variant="tornado" style="gap:18px">
@@ -2444,7 +2566,9 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
       <text x="286" y="98" font-size="24" font-weight="800" fill="var(--paper)" text-anchor="start">−42</text>
       <text x="1404" y="98" font-size="24" font-weight="800" fill="var(--ink)">+42</text>
       <path d="M830,106 L830,116" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
-      <text x="830" y="144" font-size="24" font-weight="800" class="k-t-o" text-anchor="middle">「핵심」 채택률 60% 미달 시 연 42억 소실 — 90일 게이트 조건</text>
+<rect x="483.2" y="125" width="64" height="26" rx="13" fill="var(--accent)"/>
+<text x="515.2" y="145" font-size="18" font-weight="800" class="k-t-w" text-anchor="middle">핵심</text>
+      <text x="555.2" y="144" font-size="24" font-weight="800" class="k-t-o" text-anchor="start">채택률 60% 미달 시 연 42억 소실 — 90일 게이트 조건</text>
     </g>
     <g data-step="2">
       <text x="246" y="220" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">데이터 품질·연계</text>

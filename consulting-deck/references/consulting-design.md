@@ -13,6 +13,7 @@
 | **Tech Transformation** | IT 전환·아키텍처 프로그램 | 기술 아키텍처–비즈니스 영향–로드맵의 연결 강조, Architecture Kit 결합 | 구조·추진력 |
 
 - 방향은 brief에서 정하고 덱 전체에 하나만 쓴다. 방향마다 consult.css 변형(토큰만 다른)으로 구현한다 — 장 배치를 방향이 바꾸게 하지 않는다.
+- 조형 분리는 색뿐 아니라 토큰으로 둔다 — `--c-radius`(Executive~0·Tech 헤어라인 활용)와 `--c-num-font`(Executive=에디토리얼 세리프 수치, Tech=ui-monospace+tabular-nums)가 방향마다 다른 값을 갖는다(consult.css 1절).
 - 애매하면 Executive Minimal로 시작하고 내용 밀도가 방향을 바꿀 만큼 heavy해지면(증거 장 비중 60%+) Analytical Dense로 간다. 전환은 덱 전체를 다시 본다.
 
 ## 2. 밀도 — 발표자가 있나, 혼자 읽나
@@ -66,7 +67,7 @@
 ## 7. consult.css — 덱 로컬 테마
 
 - 테마는 **덱 작업 폴더의 src/*.css**로 만든다. `consulting-deck/assets/consult.css`(4방향 토큰 세트)을 복사해 쓰고, `.slide.consult` 스코프 안에서 값을 조정한다. **공유 파일(edu-deck/shared/)은 수정하지 않는다** — 기존 교육 덱 무영향 원칙.
-- consult.css가 제공하는 역할 클래스: `c-glance`(At-a-Glance 3불릿) · `c-metrics`(핵심 수치 띠) · `c-sonw`(So What/Now What) · `c-table`(평가표, `rec` 행 강조) · `c-do`(권고 블록) · `c-note`·`c-src`(방법론·출처) · `s-syn`(가상 데이터 표기). chart_gen 조각이 방출하는 클래스는 덱 CSS가 반드시 정의한다(schema.md 출력 계약).
+- consult.css가 제공하는 역할 클래스: `c-glance`(At-a-Glance 3불릿, 상단 잉크 룰 칼럼형) · `c-metrics`(핵심 수치 띠) · `c-sonw`(So What/Now What) · `c-table`(평가표, `rec` 행 강조) · `c-do`(권고 블록) · `c-rule-rows`(헤어라인 행 목록 — 라벨 칼럼+본문 칼럼, 카드 그리드 대안) · `c-sidecar`(차트 68%+시사점 칼럼 32% — chart_gen `canvas:"sidecar"` 출력) · `c-note`·`c-src`(방법론·출처) · `s-syn`(가상 데이터 표기). chart_gen 조각이 방출하는 클래스는 덱 CSS가 반드시 정의한다(schema.md 출력 계약).
 - 방향 전환은 토큰 값(색·그림자·반경)만 바꾼다 — 레이아웃·클래스 구조는 그대로. legacy 테마 9종과 섞지 않는다.
 
 ---

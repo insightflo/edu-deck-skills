@@ -1,37 +1,37 @@
 /* consulting-deck 로컬 테마 — 시각 방향 4종 토큰 세트 (references/consulting-design.md §1·§7)
    사용: 덱 작업 폴더 src/ 에 복사하고 장 section 을 .slide.consult* 로 스코프한다.
-   - .consult           Executive Minimal  (기본 — PoC 승격본, agy 리뷰 통과 값 그대로)
+   - .consult           Boardroom Sharp    (따뜻한 종이·직각·에디토리얼 대형 수치 — 재무·이사회 보고)
    - .consult-dense     Analytical Dense   (근거 밀도↑: 크기 축소 계열 최소 18px, 표 행 높이↓, c-note/c-src 2열 허용)
    - .consult-editorial Strategy Editorial (제목·수치 대형화, 여백 확대)
-   - .consult-tech      Tech Transformation (라인·레인 토큰 accent 편향, Architecture Kit 결합 친화)
-   규칙: 15색 역할 토큰만 방향별로 다르다. hex 는 토큰 정의부(1절)에만 — 구조·밀도 규칙엔 var() 만.
-   accent(초점)는 판단·권고 1종, blue(근거)는 데이터 계열 — 두 계열이 섞이면 안 된다(§4). */
+   - .consult-tech      Tech Analytical    (차가운 헤어라인·tabular+모노 숫자 — 기술 전환·아키텍처)
+   규칙: 15색 역할 토큰 + 구조 토큰(--c-num-font·반경)만 방향별로 다르다. hex 는 토큰 정의부(1절)에만 —
+   구조·밀도 규칙엔 var() 만. accent(초점)는 판단·권고 1종, blue(근거)는 데이터 계열 — 두 계열이 섞이면 안 된다(§4).
+   P2 재조정: 면 채움 카드 제거(헤어라인·컬럼·여백 구조) · 신규 프리미티브 c-rule-rows·c-sidecar ·
+   .consult(따뜻함)와 .consult-tech(차가움)의 정체 분리 — 색뿐 아니라 반경·숫자 서체도 다르다. */
 
-/* ── 1. 토큰 정의부 — 방향별 색 역할 세트 ───────────────────────────
-   2026-11-09 재조정 — ztd-charts(MIT, github.com/Junhan2/ztd-charts) 예제 대시보드의
-   디자인 값 참조(코드 복사 없음): 단일 선명 액센트 + 비초점 트랙 그레이(뒤로 물러남) ·
-   가는 실선 그리드(--grid) · 청람 기운 잉크. 신규 토큰: --grid(그리드 헤어라인) ·
-   --track(비초점 데이터) · --track-strong(제2계열·점). blue 는 데이터 색에서
-   텍스트 보조·히트맵 본색조 역할로 이동했다. */
+/* ── 1. 토큰 정의부 — 방향별 색 역할·구조 토큰 세트 ─────────────────
+   --c-num-font: 수치·태그 서체(Executive=에디토리얼 세리프 숫자, Tech=UI 모노+tabular) */
 .slide.consult{
-  --ink:#14171b;            /* ztd deep — 청람 기운 짙은 잉크 */
-  --paper:#ffffff;          /* 순백 카드 */
-  --light:#eef1f4;          /* 차분한 밝은 면 */
-  --soft:#5d6570;           /* 설명 글 */
-  --line:#b3b9c2;           /* 경계 — 가늘고 옅게 */
-  --grid:#e6e9ed;           /* 그리드 헤어라인(실선) */
-  --accent:#0b76c4;         /* 초점색 1종 — 강조·추천은 이것만 */
-  --accent-text:#085a9e;
-  --accent-light:#cfe6f8;
-  --blue:#667790;           /* 보조 텍스트·히트맵 본셀 색조(회청) */
-  --blue-text:#52627a;
-  --blue-soft:#eef1f4;
-  --track:#d5dae0;          /* 비초점 데이터(막대·양수 측) */
-  --track-strong:#9aa3ae;   /* 제2계열·점·샌키 밴드 */
+  --ink:#111822;            /* 딥 네이비/차콜 — 지면 잉크 */
+  --paper:#fffdf9;          /* 웜 화이트 */
+  --light:#f8f7f4;          /* 따뜻한 종이 톤 배경 */
+  --soft:#4a5563;           /* 설명 글 */
+  --line:#9aa3ae;           /* 헤어라인 — 1px 룰의 주재료 */
+  --grid:#e8e4dc;           /* 그리드 헤어라인(실선) — 종이 톤에 맞춘 웜 그레이 */
+  --accent:#085a9e;         /* 클래식 코발트 — 강조·추천은 이것만 */
+  --accent-text:#07487e;
+  --accent-light:#d4e4f4;
+  --blue:#4a6183;           /* 보조 텍스트·히트맵 본셀 색조(회청) */
+  --blue-text:#3d5271;
+  --blue-soft:#eceef2;
+  --track:#d9dee4;          /* 비초점 데이터(막대·양수 측) */
+  --track-strong:#8f99a6;   /* 제2계열·점·샌키 밴드 */
   --success:#0f7a3d;
   --danger:#b3422e;
   --muted:#d5dae0;
-  --chip:#e6e9ed;
+  --chip:#e9e6de;
+  --r1:2px; --r2:4px;       /* 직각에 가까운 반경 — 보드룸 날카로움 */
+  --c-num-font:Georgia,'Times New Roman',serif;  /* 에디토리얼 재무 숫자 */
 }
 .slide.consult-dense{        /* analytical — 더 짙은 잉크, 뉴트럴 톤, 동일 역할 분리 */
   --ink:#16222c; --paper:#fbfbfa; --light:#eaedee; --soft:#3d4c56; --line:#76858f;
@@ -39,6 +39,7 @@
   --accent:#0d3b66; --accent-text:#0a2f52; --accent-light:#b8d0e2;
   --blue:#66809c; --blue-text:#527090; --blue-soft:#e7edf3;
   --success:#1b6244; --danger:#96382c; --muted:#bfc9cf; --chip:#e0e5e8;
+  --c-num-font:inherit;
 }
 .slide.consult-editorial{    /* editorial — 따뜻한 종이·잉크, 버건디 초점으로 대비 */
   --ink:#201b14; --paper:#faf7f1; --light:#f0ebe0; --soft:#55493b; --line:#96897a;
@@ -46,40 +47,81 @@
   --accent:#7a1f2e; --accent-text:#611825; --accent-light:#e3c6cb;
   --blue:#5d789a; --blue-text:#4a6280; --blue-soft:#ece7db;
   --success:#2c6b45; --danger:#a03528; --muted:#d0c8b8; --chip:#eae3d5;
+  --c-num-font:inherit;
 }
-.slide.consult-tech{         /* tech — ztd brand 블루(#0b8fd8)를 초점으로, 그리드·트랙은 중립 공유 */
-  --ink:#14171b; --paper:#fafbfc; --light:#eef1f4; --soft:#4c5763; --line:#aab4c0;
+.slide.consult-tech{         /* tech — 차가운 헤어라인·다크 슬레이트 잉크·cyan 초점, 숫자는 모노+tabular */
+  --ink:#0f172a; --paper:#fafbfc; --light:#eef1f4; --soft:#4c5763; --line:#aab4c0;
   --grid:#e6e9ed; --track:#d5dae0; --track-strong:#9aa3ae;
   --accent:#0b8fd8; --accent-text:#0a6eb0; --accent-light:#cfe8fa;
   --blue:#5b6f8f; --blue-text:#46597a; --blue-soft:#eef2f7;
   --success:#0f7a54; --danger:#b3422e; --muted:#cdd6de; --chip:#e3e8ee;
+  --r1:3px; --r2:6px;
+  --c-num-font:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
 }
 
 /* ── 2. 공통 구조 — 4방향이 같은 선택자·값을 공유 (Executive 기본) ── */
 /* 주장형 제목 — 한 문장 결론이 2줄로 균형 있게 (외톨이 단어 방지) */
-.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .title{font-size:54px;line-height:1.22;font-weight:800;letter-spacing:-.5px;text-wrap:balance;word-break:keep-all}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .title{font-size:54px;line-height:1.22;font-weight:800;word-break:keep-all}
+/* kinetic 시그니처는 제목을 글자별 inline-block(.ed-letter)으로 쪼갠다 — 그러면 모든 글자 경계가
+   분절점이 되어 keep-all 이 무력하다(어절 한가운데 절단). inline 으로 두면 일반 텍스트처럼
+   keep-all 규칙대로 끊기고, kinetic 의 정착 상태는 원래 기법 없는 장과 동일하다. */
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .ed-letter{display:inline}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .eyebrow{letter-spacing:2px;font-size:24px}
 
-/* At-a-Glance 3불릿(사실→단서→전망): 펌 오프닝 공식 — 상단 보더로 카드 식별성 부여 */
+/* At-a-Glance 3불릿(사실→단서→전망): 펌 오프닝 공식 — 면 채움 카드 대신 상단 잉크 룰 에디토리얼 컬럼.
+   강조 변형(.hlt)은 3px accent 룰 — 면은 어디에도 칠하지 않는다 */
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-glance{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s4)}
-.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-glance>div{background:var(--light);border-radius:var(--r2);border-top:4px solid var(--blue);padding:var(--s3) var(--s4);display:flex;flex-direction:column;gap:var(--s2)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-glance>div{border-top:2px solid var(--ink);padding:var(--s3) 0 0;display:flex;flex-direction:column;gap:var(--s2)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-glance>div.hlt{border-top:3px solid var(--accent);padding-top:calc(var(--s3) - 1px)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-glance>div.hlt .g-k{color:var(--accent-text)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-glance .g-k{font-size:22px;font-weight:800;color:var(--blue-text);letter-spacing:2px}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-glance p{font-size:26px;line-height:1.42;font-weight:600}
 
-/* 핵심 수치 카드: 숫자+단위+기준 — 강조 카드는 초점색+살짝 찬 면 */
+/* 룰 행 목록(Executive Summary·이니셔티브·권고 리스트): 고정폭 레이블 열 + 본문 열,
+   행마다 1px --line 상단 헤어라인 — 면 채움 없이 그리드 리듬만으로 구조를 만든다 */
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows{display:flex;flex-direction:column}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr{display:grid;grid-template-columns:220px 1fr;gap:var(--s4);padding:var(--s3) 0;border-top:1px solid var(--line)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr:last-child{border-bottom:1px solid var(--line)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr-k{font-size:21px;font-weight:800;letter-spacing:1.5px;color:var(--blue-text);line-height:1.4}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr-v{font-size:27px;line-height:1.45;font-weight:700}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr-d{font-size:21px;line-height:1.45;color:var(--soft);margin-top:6px}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr ul{margin:8px 0 0;padding-left:20px;display:grid;gap:6px}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr li{font-size:21px;line-height:1.4;color:var(--soft)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr li b{color:var(--ink)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr.hot{border-top:2px solid var(--accent)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr.hot .rr-k{color:var(--accent-text)}
+
+/* 사이드카 — 차트 68% + 시사점 칼럼 32%: 상단 3px accent 룰·헤드라인 수치·불릿 2~3개.
+   차트 장은 '증거+시사점' 짝으로 둔다(consulting-layouts.md §3·§6) */
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar{display:grid;grid-template-columns:68fr 32fr;gap:var(--s4);flex:1;min-height:0}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .c-sidecar-main{min-width:0;display:flex;flex-direction:column}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .c-sidecar-main .dg{width:100%;height:auto}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .c-sidecar-panel{border-top:3px solid var(--accent);padding-top:var(--s3);display:flex;flex-direction:column;gap:var(--s3)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .sc-k{font-size:21px;font-weight:800;letter-spacing:2.5px;color:var(--accent-text)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .sc-v{font-size:64px;font-weight:800;line-height:1;color:var(--ink);font-family:var(--c-num-font);font-variant-numeric:tabular-nums}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .sc-v small{font-size:26px;font-weight:700;margin-left:4px}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .sc-h{font-size:26px;font-weight:800;line-height:1.35}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar ul{margin:0;padding:0;list-style:none}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar li{font-size:23px;line-height:1.45;font-weight:600;padding:var(--s2) 0;border-top:1px solid var(--line)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar li b{color:var(--accent-text)}
+
+/* 핵심 수치 카드: 숫자+단위+기준 — 강조 카드는 초점색+살짝 찬 면. 숫자는 방향별 서체 토큰 */
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s4)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-metric{border-top:4px solid var(--line);padding-top:var(--s2);display:flex;flex-direction:column;gap:var(--s1)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-metric.hlt{border-top-color:var(--accent);background:color-mix(in srgb,var(--accent) 5%,var(--paper));border-radius:var(--r1);padding:var(--s2) var(--s3) var(--s3)}
-.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-metric .m-v{font-size:84px;font-weight:800;line-height:1;color:var(--ink);font-variant-numeric:tabular-nums}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-metric .m-v{font-size:84px;font-weight:800;line-height:1;color:var(--ink);font-family:var(--c-num-font);font-variant-numeric:tabular-nums}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-metric.hlt .m-v{color:var(--accent)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-metric .m-v small{font-size:34px;font-weight:700;margin-left:6px}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-metric .m-l{font-size:26px;font-weight:700;color:var(--soft)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-metric .m-b{font-size:21px;color:var(--soft)}
+/* Executive(Boardroom Sharp) — 핵심 재무 수치는 에디토리얼 대형 스케일 */
+.slide.consult .c-metric .m-v{font-size:96px}
+.slide.consult .c-metric .m-v small{font-size:38px}
 
-/* So What / Now What 스트립 */
+/* So What / Now What 스트립 — 면 채움 없이 좌측 룰만으로 구분(Now What=초점 룰) */
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sonw{display:grid;grid-template-columns:1fr 1fr;gap:var(--s4)}
-.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sonw>div{border-left:6px solid var(--blue);background:var(--blue-soft);border-radius:var(--r1);padding:var(--s3) var(--s4)}
-.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sonw .nw{border-left-color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,var(--paper))}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sonw>div{border-left:3px solid var(--blue);padding:var(--s2) 0 var(--s2) var(--s3)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sonw .nw{border-left-color:var(--accent)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sonw .s-k{font-size:22px;font-weight:800;letter-spacing:2px;color:var(--blue-text);margin-bottom:var(--s1)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sonw .nw .s-k{color:var(--accent-text)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sonw p{font-size:27px;line-height:1.45;font-weight:600}
@@ -90,16 +132,16 @@
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-table thead th{font-size:21px;font-weight:800;color:var(--soft);letter-spacing:1px;border-bottom:3px solid var(--line)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-table td:first-child{font-weight:800;font-size:27px;white-space:nowrap}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-table .rec{background:color-mix(in srgb,var(--accent) 7%,var(--paper));box-shadow:inset 0 0 0 3px var(--accent)}
-.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-tag{display:inline-block;font-size:19px;font-weight:800;color:var(--paper);background:var(--accent);border-radius:var(--r1);padding:4px 14px;margin-left:12px;letter-spacing:2px;vertical-align:.14em;white-space:nowrap}
-.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-note{font-size:22px;color:var(--soft);line-height:1.4}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-tag{display:inline-block;font-size:19px;font-weight:800;color:var(--paper);background:var(--accent);border-radius:var(--r1);padding:4px 14px;margin-left:12px;letter-spacing:2px;vertical-align:.14em;white-space:nowrap;font-family:var(--c-num-font)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-note{font-size:18px;color:var(--soft);line-height:1.4}
 
-/* 권고 명령형 마감 */
+/* 권고 명령형 마감 — 덱 전체에서 다크 필은 이 블록 계열에만 허용한다(면 채움 절제 규칙) */
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-do{display:flex;gap:var(--s3);align-items:flex-start;background:var(--ink);color:var(--paper);border-radius:var(--r2);padding:var(--s3) var(--s4)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-do .d-k{font-size:22px;font-weight:800;letter-spacing:2px;color:var(--accent-light);white-space:nowrap;padding-top:6px}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-do p{font-size:28px;line-height:1.5;font-weight:700}
 
-/* 출처 블록: 모든 분석 장 하단 고정 — 신뢰=디자인 */
-.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-src{display:flex;justify-content:space-between;gap:var(--s4);border-top:1px solid var(--line);padding-top:var(--s2);margin-top:auto;font-size:20px;color:var(--soft)}
+/* 출처 블록: 모든 분석 장 하단 고정 — 신뢰=디자인 (fine print 는 작고 옅게) */
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-src{display:flex;justify-content:space-between;gap:var(--s4);border-top:1px solid var(--line);padding-top:var(--s2);margin-top:auto;font-size:18px;color:var(--soft)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-src .s-syn{font-weight:800;color:var(--danger);white-space:nowrap}
 
 
@@ -118,6 +160,14 @@
 .slide.consult-dense .c-metric .m-v small{font-size:27px}
 .slide.consult-dense .c-metric .m-l{font-size:22px}
 .slide.consult-dense .c-metric .m-b{font-size:18px}
+.slide.consult-dense .c-rule-rows .rr{grid-template-columns:170px 1fr}
+.slide.consult-dense .c-rule-rows .rr-k{font-size:18px}
+.slide.consult-dense .c-rule-rows .rr-v{font-size:23px}
+.slide.consult-dense .c-rule-rows .rr-d,.slide.consult-dense .c-rule-rows .rr li{font-size:18px}
+.slide.consult-dense .c-sidecar .sc-v{font-size:52px}
+.slide.consult-dense .c-sidecar .sc-h{font-size:22px}
+.slide.consult-dense .c-sidecar li{font-size:19px}
+.slide.consult-dense .c-sidecar .sc-k{font-size:18px}
 .slide.consult-dense .c-sonw .s-k{font-size:19px}
 .slide.consult-dense .c-sonw p{font-size:23px;line-height:1.4}
 .slide.consult-dense .c-table{font-size:22px}
@@ -125,7 +175,7 @@
 .slide.consult-dense .c-table thead th{font-size:18px}
 .slide.consult-dense .c-table td:first-child{font-size:23px}
 .slide.consult-dense .c-tag{font-size:18px}
-.slide.consult-dense .c-note{font-size:19px;columns:2 auto;column-gap:var(--s4)}
+.slide.consult-dense .c-note{font-size:18px;columns:2 auto;column-gap:var(--s4)}
 .slide.consult-dense .c-do .d-k{font-size:19px}
 .slide.consult-dense .c-do p{font-size:24px}
 .slide.consult-dense .c-src{display:grid;grid-template-columns:1fr auto;font-size:18px}
@@ -139,14 +189,30 @@
 .slide.consult-editorial .c-metric .m-v small{font-size:40px}
 .slide.consult-editorial .c-metric .m-l{font-size:30px}
 .slide.consult-editorial .c-metric .m-b{font-size:24px}
+.slide.consult-editorial .c-rule-rows .rr{grid-template-columns:260px 1fr;gap:var(--s5)}
+.slide.consult-editorial .c-rule-rows .rr-k{font-size:24px}
+.slide.consult-editorial .c-rule-rows .rr-v{font-size:32px}
+.slide.consult-editorial .c-rule-rows .rr-d,.slide.consult-editorial .c-rule-rows .rr li{font-size:24px}
+.slide.consult-editorial .c-sidecar .sc-v{font-size:78px}
+.slide.consult-editorial .c-sidecar .sc-h{font-size:30px}
+.slide.consult-editorial .c-sidecar li{font-size:26px}
+.slide.consult-editorial .c-sidecar .sc-k{font-size:24px}
 .slide.consult-editorial .c-sonw .s-k{font-size:24px}
 .slide.consult-editorial .c-sonw p{font-size:32px;line-height:1.5}
 .slide.consult-editorial .c-table{font-size:27px}
 .slide.consult-editorial .c-table th,.slide.consult-editorial .c-table td{padding:24px 26px}
-.slide.consult-editorial .c-note{font-size:24px}
+.slide.consult-editorial .c-note{font-size:20px}
 .slide.consult-editorial .c-do p{font-size:32px}
-.slide.consult-editorial .c-src{font-size:22px}
+.slide.consult-editorial .c-src{font-size:19px}
 
-/* Tech Transformation — 크기는 Executive 계열, 표 눈금·구분선도 accent 편향(토큰 경로) */
+/* Tech Transformation — 크기는 Executive 계열, 표 눈금·구분선도 accent 편향(토큰 경로),
+   숫자·태그·값은 --c-num-font 모노 + tabular-numeric 정렬 */
 .slide.consult-tech .c-table thead th{border-bottom-color:var(--accent)}
 .slide.consult-tech .c-metric{border-top-color:var(--line)}
+.slide.consult-tech .c-metric .m-v{font-family:var(--c-num-font)}
+.slide.consult-tech .c-sidecar .sc-v{font-family:var(--c-num-font)}
+
+/* ── 데모 로컬 — 차트 장 배경 온도 통일 ──
+   이 덱의 비차트 장은 공유 셸 기본 --light(#f5f2ea, 웜 크림)인데 컨설팅 테마의
+   --light(회청)가 차트 장만 차갑게 만들었다. 덱 기본값으로 되돌린다(권고-5). */
+.slide.consult{--light:#f5f2ea}

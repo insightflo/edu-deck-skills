@@ -14,7 +14,7 @@
 | # | 유형 | 목적 | 수용량 | 만드는 법 |
 |---|---|---|---|---|
 | 1 | Executive Cover | 과제·결정·기한을 문에 새긴다 | 주장 1 + 메타 2~3줄 | 표지 변형(`<base>/references/layouts.md`) — 은유 장치는 하나까지만 |
-| 2 | Executive Summary | 통치 사상+인사이트 3~5+권고 2~4, 결론 요약 | 불릿 3~5, 수치 1~3 | c-glance(At-a-Glance 3불릿)·c-metrics. 본문 완성 뒤 마지막 제작(storyline.md §9) |
+| 2 | Executive Summary | 통치 사상+인사이트 3~5+권고 2~4, 결론 요약 | 불릿 3~5, 수치 1~3 | c-glance(At-a-Glance 3불릿)·c-metrics·c-rule-rows. 본문 완성 뒤 마지막 제작(storyline.md §9) |
 
 ## 2. 문제 정의·분해
 
@@ -31,9 +31,11 @@
 | 6 | Performance Dashboard | 핵심 지표의 현재 상태를 한눈에 | 지표 3~6 | c-metrics + 필요 시 소형 차트. 지표마다 기준·기간 표기 |
 | 7 | Trend & Growth Drivers | 추이와 그 이유를 함께 | 계열 1~4 | line/area 차트(chart_gen) + 원인 주석(main1·sub2) |
 | 8 | Comparison/Benchmark | 우리와 기준(경쟁·업계) 비교 | 항목 3~10 | ranked-bar-h·diverging-bar·표(c-table, rec 행 강조) |
-| 9 | 2×2 Matrix | 두 축 위에서 선택지를 재배치한다 | 점 4~12 + 사분면 라벨 4 | matrix-2x2(chart_gen). 축 라벨·한계선 필수 |
+| 9 | 2×2 Matrix | 두 축 위에서 선택지를 재배치한다 | 점 4~12 + 사분면 라벨 4 | matrix-2x2(chart_gen, targetQuadrant로 목표 사분면 틴트). 축 라벨·한계선 필수 |
 | 10 | Competitive Positioning | 경쟁 구도·우리의 자리 | 경쟁자 3~8 | matrix-2x2 또는 scatter. 점 라벨 겹침 주의 |
 | 11 | Value Driver/Waterfall | 값의 이동(증감·브리지)을 분해한다 | 드라이버 3~8 | waterfall(chart_gen, expectTotal 필수). contribution 분해도 이 유형 |
+| 11-b | Chart + Sidecar | 증거(차트)와 시사점(읽을 것)을 한 장에 짝짓는다 | 차트 1 + 헤드라인 수치 1 + 불릿 ≤3 | chart_gen `canvas:"sidecar"` + `chart.sidecar` — 차트 68% + 시사점 칼럼 32%(`.c-sidecar`, 상단 3px accent 룰). 결론이 차트 안에 안 쓰이면 쓴다 — 제목·사이드카가 같은 주장을 말하게 |
+| 11-c | Structure/Stacked Compare | 합계 차이와 구성 이동을 함께 본다 | 막대 2~6 × 세그먼트 ≤6 | stacked-bar(chart_gen) — `bridge:"total"`(총계 다리+변화율 캡슐) 또는 `bridge:"segment"`+`bridgeSegments`(선택 세그먼트 브래킷+합계) |
 
 ## 4. 선택·실행 — 결정과 움직임
 
@@ -43,14 +45,14 @@
 | 13 | Prioritization | 후보를 영향·난이도로 줄 세운다 | 이니셔티브 5~12 | matrix-2x2(영향×실행 난이도) 또는 ranked 표 |
 | 14 | Operating Model/Architecture | 목표 조직·시스템 구조를 그린다 | 컴포넌트 3~6 | Architecture Kit(`<base>/references/architecture.md`) — 레인·레이어·아이소 계열 |
 | 15 | Transformation Roadmap | 단계·워크스트림·이정표를 짠다 | 워크스트림 3~5 × 기간 3~6 | 로드맵 도식 조각 + swinlane/lanes 계열. 90일/분기 경계 표기 |
-| 16 | Initiative Portfolio | 실행 과제 묶음과 상태·주체 | 과제 4~10 | c-table 또는 카드 그리드(상태 색은 semantic 토큰만) |
+| 16 | Initiative Portfolio | 실행 과제 묶음과 상태·주체 | 과제 4~10 | c-table 또는 c-rule-rows(레이블 열+본문 열의 헤어라인 목록, `.rr.hot`로 초점 행) — 면 채움 카드 그리드는 지양 |
 | 17 | Risk & Mitigation | 위험과 완화 대책을 짝지운다 | 위험 4~8 | 표(위험×영향×완화×주체) — 위험마다 완화가 빈칸이면 안 됨 |
 
 ## 5. 마감·부록
 
 | # | 유형 | 목적 | 수용량 | 만드는 법 |
 |---|---|---|---|---|
-| 18 | Recommendation/Decision | 권고를 명령형으로 못 박고 결정을 요청한다 | 권고 3~5 + 결정 요청 1~3 | c-do(권고 블록). 진단으로 끝내지 않는다 |
+| 18 | Recommendation/Decision | 권고를 명령형으로 못 박고 결정을 요청한다 | 권고 3~5 + 결정 요청 1~3 | c-do(권고 블록) + c-rule-rows(결정 요청 목록 — 항목마다 주체·근거를 한 줄씩). 진단으로 끝내지 않는다 |
 | 19 | Appendix/Evidence | 원본·상세를 본문 흐름 밖에 보관한다 | 장 당 표 4~12행×3~8열 | 표·전시 조각. 페이지 번호·원장 ID를 남겨 소환 가능하게 |
 
 ## 6. 선택 규칙
@@ -61,6 +63,8 @@
 4. **히어로 주장 배치는 절제.** 큰 숫자 1개+한 문장 유형의 장은 덱에서 1~2장(Exec Summary·핵심 발견)까지만.
 5. **2×2·플라이휠·퍼널은 구조가 실재할 때만.** 축에 의미 있는 변화가 없으면 2×2는 목록일 뿐이다.
 6. **같은 그리드 정렬.** 대안 비교·로드맵처럼 같은 종류의 장은 덱 전체에서 같은 골격을 쓴다.
+7. **면 채움 카드 대신 룰.** 목록·묶음 장은 헤어라인과 컬럼으로 짠다 — c-glance(상단 잉크 룰 3열)·c-rule-rows(룰 행 목록)·c-sonw(좌측 룰 2칸). 면을 칠하는 곳은 추천 행·권고 블록(c-do)처럼 결정 지점뿐이다.
+8. **차트 장은 증거+시사점 짝.** "그래서 무엇인가"가 제목에 담기지 않는 차트 장은 사이드카(11-b)로 시사점 칼럼을 붙인다 — 사이드카는 덱당 2~4장, 모든 차트 장에 걸지 않는다(걸면 같은 실루엣 연속 위반).
 
 ## 7. 고정 템플릿 금지
 

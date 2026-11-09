@@ -1464,38 +1464,38 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 /* ---- consult.css ---- */
 /* consulting-deck 로컬 테마 — 시각 방향 4종 토큰 세트 (references/consulting-design.md §1·§7)
    사용: 덱 작업 폴더 src/ 에 복사하고 장 section 을 .slide.consult* 로 스코프한다.
-   - .consult           Executive Minimal  (기본 — PoC 승격본, agy 리뷰 통과 값 그대로)
+   - .consult           Boardroom Sharp    (따뜻한 종이·직각·에디토리얼 대형 수치 — 재무·이사회 보고)
    - .consult-dense     Analytical Dense   (근거 밀도↑: 크기 축소 계열 최소 18px, 표 행 높이↓, c-note/c-src 2열 허용)
    - .consult-editorial Strategy Editorial (제목·수치 대형화, 여백 확대)
-   - .consult-tech      Tech Transformation (라인·레인 토큰 accent 편향, Architecture Kit 결합 친화)
-   규칙: 15색 역할 토큰만 방향별로 다르다. hex 는 토큰 정의부(1절)에만 — 구조·밀도 규칙엔 var() 만.
-   accent(초점)는 판단·권고 1종, blue(근거)는 데이터 계열 — 두 계열이 섞이면 안 된다(§4). */
+   - .consult-tech      Tech Analytical    (차가운 헤어라인·tabular+모노 숫자 — 기술 전환·아키텍처)
+   규칙: 15색 역할 토큰 + 구조 토큰(--c-num-font·반경)만 방향별로 다르다. hex 는 토큰 정의부(1절)에만 —
+   구조·밀도 규칙엔 var() 만. accent(초점)는 판단·권고 1종, blue(근거)는 데이터 계열 — 두 계열이 섞이면 안 된다(§4).
+   P2 재조정: 면 채움 카드 제거(헤어라인·컬럼·여백 구조) · 신규 프리미티브 c-rule-rows·c-sidecar ·
+   .consult(따뜻함)와 .consult-tech(차가움)의 정체 분리 — 색뿐 아니라 반경·숫자 서체도 다르다. */
 
-/* ── 1. 토큰 정의부 — 방향별 색 역할 세트 ───────────────────────────
-   2026-11-09 재조정 — ztd-charts(MIT, github.com/Junhan2/ztd-charts) 예제 대시보드의
-   디자인 값 참조(코드 복사 없음): 단일 선명 액센트 + 비초점 트랙 그레이(뒤로 물러남) ·
-   가는 실선 그리드(--grid) · 청람 기운 잉크. 신규 토큰: --grid(그리드 헤어라인) ·
-   --track(비초점 데이터) · --track-strong(제2계열·점). blue 는 데이터 색에서
-   텍스트 보조·히트맵 본색조 역할로 이동했다. */
+/* ── 1. 토큰 정의부 — 방향별 색 역할·구조 토큰 세트 ─────────────────
+   --c-num-font: 수치·태그 서체(Executive=에디토리얼 세리프 숫자, Tech=UI 모노+tabular) */
 .slide.consult{
-  --ink:#14171b;            /* ztd deep — 청람 기운 짙은 잉크 */
-  --paper:#ffffff;          /* 순백 카드 */
-  --light:#eef1f4;          /* 차분한 밝은 면 */
-  --soft:#5d6570;           /* 설명 글 */
-  --line:#b3b9c2;           /* 경계 — 가늘고 옅게 */
-  --grid:#e6e9ed;           /* 그리드 헤어라인(실선) */
-  --accent:#0b76c4;         /* 초점색 1종 — 강조·추천은 이것만 */
-  --accent-text:#085a9e;
-  --accent-light:#cfe6f8;
-  --blue:#667790;           /* 보조 텍스트·히트맵 본셀 색조(회청) */
-  --blue-text:#52627a;
-  --blue-soft:#eef1f4;
-  --track:#d5dae0;          /* 비초점 데이터(막대·양수 측) */
-  --track-strong:#9aa3ae;   /* 제2계열·점·샌키 밴드 */
+  --ink:#111822;            /* 딥 네이비/차콜 — 지면 잉크 */
+  --paper:#fffdf9;          /* 웜 화이트 */
+  --light:#f8f7f4;          /* 따뜻한 종이 톤 배경 */
+  --soft:#4a5563;           /* 설명 글 */
+  --line:#9aa3ae;           /* 헤어라인 — 1px 룰의 주재료 */
+  --grid:#e8e4dc;           /* 그리드 헤어라인(실선) — 종이 톤에 맞춘 웜 그레이 */
+  --accent:#085a9e;         /* 클래식 코발트 — 강조·추천은 이것만 */
+  --accent-text:#07487e;
+  --accent-light:#d4e4f4;
+  --blue:#4a6183;           /* 보조 텍스트·히트맵 본셀 색조(회청) */
+  --blue-text:#3d5271;
+  --blue-soft:#eceef2;
+  --track:#d9dee4;          /* 비초점 데이터(막대·양수 측) */
+  --track-strong:#8f99a6;   /* 제2계열·점·샌키 밴드 */
   --success:#0f7a3d;
   --danger:#b3422e;
   --muted:#d5dae0;
-  --chip:#e6e9ed;
+  --chip:#e9e6de;
+  --r1:2px; --r2:4px;       /* 직각에 가까운 반경 — 보드룸 날카로움 */
+  --c-num-font:Georgia,'Times New Roman',serif;  /* 에디토리얼 재무 숫자 */
 }
 .slide.consult-dense{        /* analytical — 더 짙은 잉크, 뉴트럴 톤, 동일 역할 분리 */
   --ink:#16222c; --paper:#fbfbfa; --light:#eaedee; --soft:#3d4c56; --line:#76858f;
@@ -1503,6 +1503,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
   --accent:#0d3b66; --accent-text:#0a2f52; --accent-light:#b8d0e2;
   --blue:#66809c; --blue-text:#527090; --blue-soft:#e7edf3;
   --success:#1b6244; --danger:#96382c; --muted:#bfc9cf; --chip:#e0e5e8;
+  --c-num-font:inherit;
 }
 .slide.consult-editorial{    /* editorial — 따뜻한 종이·잉크, 버건디 초점으로 대비 */
   --ink:#201b14; --paper:#faf7f1; --light:#f0ebe0; --soft:#55493b; --line:#96897a;
@@ -1510,40 +1511,81 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
   --accent:#7a1f2e; --accent-text:#611825; --accent-light:#e3c6cb;
   --blue:#5d789a; --blue-text:#4a6280; --blue-soft:#ece7db;
   --success:#2c6b45; --danger:#a03528; --muted:#d0c8b8; --chip:#eae3d5;
+  --c-num-font:inherit;
 }
-.slide.consult-tech{         /* tech — ztd brand 블루(#0b8fd8)를 초점으로, 그리드·트랙은 중립 공유 */
-  --ink:#14171b; --paper:#fafbfc; --light:#eef1f4; --soft:#4c5763; --line:#aab4c0;
+.slide.consult-tech{         /* tech — 차가운 헤어라인·다크 슬레이트 잉크·cyan 초점, 숫자는 모노+tabular */
+  --ink:#0f172a; --paper:#fafbfc; --light:#eef1f4; --soft:#4c5763; --line:#aab4c0;
   --grid:#e6e9ed; --track:#d5dae0; --track-strong:#9aa3ae;
   --accent:#0b8fd8; --accent-text:#0a6eb0; --accent-light:#cfe8fa;
   --blue:#5b6f8f; --blue-text:#46597a; --blue-soft:#eef2f7;
   --success:#0f7a54; --danger:#b3422e; --muted:#cdd6de; --chip:#e3e8ee;
+  --r1:3px; --r2:6px;
+  --c-num-font:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
 }
 
 /* ── 2. 공통 구조 — 4방향이 같은 선택자·값을 공유 (Executive 기본) ── */
 /* 주장형 제목 — 한 문장 결론이 2줄로 균형 있게 (외톨이 단어 방지) */
-.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .title{font-size:54px;line-height:1.22;font-weight:800;letter-spacing:-.5px;text-wrap:balance;word-break:keep-all}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .title{font-size:54px;line-height:1.22;font-weight:800;word-break:keep-all}
+/* kinetic 시그니처는 제목을 글자별 inline-block(.ed-letter)으로 쪼갠다 — 그러면 모든 글자 경계가
+   분절점이 되어 keep-all 이 무력하다(어절 한가운데 절단). inline 으로 두면 일반 텍스트처럼
+   keep-all 규칙대로 끊기고, kinetic 의 정착 상태는 원래 기법 없는 장과 동일하다. */
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .ed-letter{display:inline}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .eyebrow{letter-spacing:2px;font-size:24px}
 
-/* At-a-Glance 3불릿(사실→단서→전망): 펌 오프닝 공식 — 상단 보더로 카드 식별성 부여 */
+/* At-a-Glance 3불릿(사실→단서→전망): 펌 오프닝 공식 — 면 채움 카드 대신 상단 잉크 룰 에디토리얼 컬럼.
+   강조 변형(.hlt)은 3px accent 룰 — 면은 어디에도 칠하지 않는다 */
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-glance{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s4)}
-.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-glance>div{background:var(--light);border-radius:var(--r2);border-top:4px solid var(--blue);padding:var(--s3) var(--s4);display:flex;flex-direction:column;gap:var(--s2)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-glance>div{border-top:2px solid var(--ink);padding:var(--s3) 0 0;display:flex;flex-direction:column;gap:var(--s2)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-glance>div.hlt{border-top:3px solid var(--accent);padding-top:calc(var(--s3) - 1px)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-glance>div.hlt .g-k{color:var(--accent-text)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-glance .g-k{font-size:22px;font-weight:800;color:var(--blue-text);letter-spacing:2px}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-glance p{font-size:26px;line-height:1.42;font-weight:600}
 
-/* 핵심 수치 카드: 숫자+단위+기준 — 강조 카드는 초점색+살짝 찬 면 */
+/* 룰 행 목록(Executive Summary·이니셔티브·권고 리스트): 고정폭 레이블 열 + 본문 열,
+   행마다 1px --line 상단 헤어라인 — 면 채움 없이 그리드 리듬만으로 구조를 만든다 */
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows{display:flex;flex-direction:column}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr{display:grid;grid-template-columns:220px 1fr;gap:var(--s4);padding:var(--s3) 0;border-top:1px solid var(--line)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr:last-child{border-bottom:1px solid var(--line)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr-k{font-size:21px;font-weight:800;letter-spacing:1.5px;color:var(--blue-text);line-height:1.4}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr-v{font-size:27px;line-height:1.45;font-weight:700}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr-d{font-size:21px;line-height:1.45;color:var(--soft);margin-top:6px}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr ul{margin:8px 0 0;padding-left:20px;display:grid;gap:6px}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr li{font-size:21px;line-height:1.4;color:var(--soft)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr li b{color:var(--ink)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr.hot{border-top:2px solid var(--accent)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr.hot .rr-k{color:var(--accent-text)}
+
+/* 사이드카 — 차트 68% + 시사점 칼럼 32%: 상단 3px accent 룰·헤드라인 수치·불릿 2~3개.
+   차트 장은 '증거+시사점' 짝으로 둔다(consulting-layouts.md §3·§6) */
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar{display:grid;grid-template-columns:68fr 32fr;gap:var(--s4);flex:1;min-height:0}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .c-sidecar-main{min-width:0;display:flex;flex-direction:column}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .c-sidecar-main .dg{width:100%;height:auto}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .c-sidecar-panel{border-top:3px solid var(--accent);padding-top:var(--s3);display:flex;flex-direction:column;gap:var(--s3)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .sc-k{font-size:21px;font-weight:800;letter-spacing:2.5px;color:var(--accent-text)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .sc-v{font-size:64px;font-weight:800;line-height:1;color:var(--ink);font-family:var(--c-num-font);font-variant-numeric:tabular-nums}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .sc-v small{font-size:26px;font-weight:700;margin-left:4px}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .sc-h{font-size:26px;font-weight:800;line-height:1.35}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar ul{margin:0;padding:0;list-style:none}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar li{font-size:23px;line-height:1.45;font-weight:600;padding:var(--s2) 0;border-top:1px solid var(--line)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar li b{color:var(--accent-text)}
+
+/* 핵심 수치 카드: 숫자+단위+기준 — 강조 카드는 초점색+살짝 찬 면. 숫자는 방향별 서체 토큰 */
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s4)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-metric{border-top:4px solid var(--line);padding-top:var(--s2);display:flex;flex-direction:column;gap:var(--s1)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-metric.hlt{border-top-color:var(--accent);background:color-mix(in srgb,var(--accent) 5%,var(--paper));border-radius:var(--r1);padding:var(--s2) var(--s3) var(--s3)}
-.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-metric .m-v{font-size:84px;font-weight:800;line-height:1;color:var(--ink);font-variant-numeric:tabular-nums}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-metric .m-v{font-size:84px;font-weight:800;line-height:1;color:var(--ink);font-family:var(--c-num-font);font-variant-numeric:tabular-nums}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-metric.hlt .m-v{color:var(--accent)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-metric .m-v small{font-size:34px;font-weight:700;margin-left:6px}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-metric .m-l{font-size:26px;font-weight:700;color:var(--soft)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-metric .m-b{font-size:21px;color:var(--soft)}
+/* Executive(Boardroom Sharp) — 핵심 재무 수치는 에디토리얼 대형 스케일 */
+.slide.consult .c-metric .m-v{font-size:96px}
+.slide.consult .c-metric .m-v small{font-size:38px}
 
-/* So What / Now What 스트립 */
+/* So What / Now What 스트립 — 면 채움 없이 좌측 룰만으로 구분(Now What=초점 룰) */
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sonw{display:grid;grid-template-columns:1fr 1fr;gap:var(--s4)}
-.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sonw>div{border-left:6px solid var(--blue);background:var(--blue-soft);border-radius:var(--r1);padding:var(--s3) var(--s4)}
-.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sonw .nw{border-left-color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,var(--paper))}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sonw>div{border-left:3px solid var(--blue);padding:var(--s2) 0 var(--s2) var(--s3)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sonw .nw{border-left-color:var(--accent)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sonw .s-k{font-size:22px;font-weight:800;letter-spacing:2px;color:var(--blue-text);margin-bottom:var(--s1)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sonw .nw .s-k{color:var(--accent-text)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sonw p{font-size:27px;line-height:1.45;font-weight:600}
@@ -1554,16 +1596,16 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-table thead th{font-size:21px;font-weight:800;color:var(--soft);letter-spacing:1px;border-bottom:3px solid var(--line)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-table td:first-child{font-weight:800;font-size:27px;white-space:nowrap}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-table .rec{background:color-mix(in srgb,var(--accent) 7%,var(--paper));box-shadow:inset 0 0 0 3px var(--accent)}
-.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-tag{display:inline-block;font-size:19px;font-weight:800;color:var(--paper);background:var(--accent);border-radius:var(--r1);padding:4px 14px;margin-left:12px;letter-spacing:2px;vertical-align:.14em;white-space:nowrap}
-.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-note{font-size:22px;color:var(--soft);line-height:1.4}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-tag{display:inline-block;font-size:19px;font-weight:800;color:var(--paper);background:var(--accent);border-radius:var(--r1);padding:4px 14px;margin-left:12px;letter-spacing:2px;vertical-align:.14em;white-space:nowrap;font-family:var(--c-num-font)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-note{font-size:18px;color:var(--soft);line-height:1.4}
 
-/* 권고 명령형 마감 */
+/* 권고 명령형 마감 — 덱 전체에서 다크 필은 이 블록 계열에만 허용한다(면 채움 절제 규칙) */
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-do{display:flex;gap:var(--s3);align-items:flex-start;background:var(--ink);color:var(--paper);border-radius:var(--r2);padding:var(--s3) var(--s4)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-do .d-k{font-size:22px;font-weight:800;letter-spacing:2px;color:var(--accent-light);white-space:nowrap;padding-top:6px}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-do p{font-size:28px;line-height:1.5;font-weight:700}
 
-/* 출처 블록: 모든 분석 장 하단 고정 — 신뢰=디자인 */
-.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-src{display:flex;justify-content:space-between;gap:var(--s4);border-top:1px solid var(--line);padding-top:var(--s2);margin-top:auto;font-size:20px;color:var(--soft)}
+/* 출처 블록: 모든 분석 장 하단 고정 — 신뢰=디자인 (fine print 는 작고 옅게) */
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-src{display:flex;justify-content:space-between;gap:var(--s4);border-top:1px solid var(--line);padding-top:var(--s2);margin-top:auto;font-size:18px;color:var(--soft)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-src .s-syn{font-weight:800;color:var(--danger);white-space:nowrap}
 
 
@@ -1572,6 +1614,67 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
    fill=var(--accent) 인라인으로 직접 칠한다. */
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .wf .k-solid-b{fill:var(--track)}
 
+/* ── 3. 방향별 밀도·크기 오버라이드 ─────────────────────────────── */
+/* Analytical Dense — 근거 밀도↑, 본문·주석 축소 계열 최소 18px 유지, 표 행 높이↓, c-note/c-src 2열 허용 */
+.slide.consult-dense .title{font-size:46px}
+.slide.consult-dense .eyebrow{font-size:20px;letter-spacing:1.5px}
+.slide.consult-dense .c-glance .g-k{font-size:19px}
+.slide.consult-dense .c-glance p{font-size:22px;line-height:1.38}
+.slide.consult-dense .c-metric .m-v{font-size:62px}
+.slide.consult-dense .c-metric .m-v small{font-size:27px}
+.slide.consult-dense .c-metric .m-l{font-size:22px}
+.slide.consult-dense .c-metric .m-b{font-size:18px}
+.slide.consult-dense .c-rule-rows .rr{grid-template-columns:170px 1fr}
+.slide.consult-dense .c-rule-rows .rr-k{font-size:18px}
+.slide.consult-dense .c-rule-rows .rr-v{font-size:23px}
+.slide.consult-dense .c-rule-rows .rr-d,.slide.consult-dense .c-rule-rows .rr li{font-size:18px}
+.slide.consult-dense .c-sidecar .sc-v{font-size:52px}
+.slide.consult-dense .c-sidecar .sc-h{font-size:22px}
+.slide.consult-dense .c-sidecar li{font-size:19px}
+.slide.consult-dense .c-sidecar .sc-k{font-size:18px}
+.slide.consult-dense .c-sonw .s-k{font-size:19px}
+.slide.consult-dense .c-sonw p{font-size:23px;line-height:1.4}
+.slide.consult-dense .c-table{font-size:22px}
+.slide.consult-dense .c-table th,.slide.consult-dense .c-table td{padding:12px 18px}
+.slide.consult-dense .c-table thead th{font-size:18px}
+.slide.consult-dense .c-table td:first-child{font-size:23px}
+.slide.consult-dense .c-tag{font-size:18px}
+.slide.consult-dense .c-note{font-size:18px;columns:2 auto;column-gap:var(--s4)}
+.slide.consult-dense .c-do .d-k{font-size:19px}
+.slide.consult-dense .c-do p{font-size:24px}
+.slide.consult-dense .c-src{display:grid;grid-template-columns:1fr auto;font-size:18px}
+
+/* Strategy Editorial — 제목 계열·핵심 수치 대형화, 여백 확대 */
+.slide.consult-editorial .title{font-size:66px;line-height:1.18}
+.slide.consult-editorial .eyebrow{font-size:27px}
+.slide.consult-editorial .c-glance .g-k{font-size:24px}
+.slide.consult-editorial .c-glance p{font-size:30px;line-height:1.5}
+.slide.consult-editorial .c-metric .m-v{font-size:110px}
+.slide.consult-editorial .c-metric .m-v small{font-size:40px}
+.slide.consult-editorial .c-metric .m-l{font-size:30px}
+.slide.consult-editorial .c-metric .m-b{font-size:24px}
+.slide.consult-editorial .c-rule-rows .rr{grid-template-columns:260px 1fr;gap:var(--s5)}
+.slide.consult-editorial .c-rule-rows .rr-k{font-size:24px}
+.slide.consult-editorial .c-rule-rows .rr-v{font-size:32px}
+.slide.consult-editorial .c-rule-rows .rr-d,.slide.consult-editorial .c-rule-rows .rr li{font-size:24px}
+.slide.consult-editorial .c-sidecar .sc-v{font-size:78px}
+.slide.consult-editorial .c-sidecar .sc-h{font-size:30px}
+.slide.consult-editorial .c-sidecar li{font-size:26px}
+.slide.consult-editorial .c-sidecar .sc-k{font-size:24px}
+.slide.consult-editorial .c-sonw .s-k{font-size:24px}
+.slide.consult-editorial .c-sonw p{font-size:32px;line-height:1.5}
+.slide.consult-editorial .c-table{font-size:27px}
+.slide.consult-editorial .c-table th,.slide.consult-editorial .c-table td{padding:24px 26px}
+.slide.consult-editorial .c-note{font-size:20px}
+.slide.consult-editorial .c-do p{font-size:32px}
+.slide.consult-editorial .c-src{font-size:19px}
+
+/* Tech Transformation — 크기는 Executive 계열, 표 눈금·구분선도 accent 편향(토큰 경로),
+   숫자·태그·값은 --c-num-font 모노 + tabular-numeric 정렬 */
+.slide.consult-tech .c-table thead th{border-bottom-color:var(--accent)}
+.slide.consult-tech .c-metric{border-top-color:var(--line)}
+.slide.consult-tech .c-metric .m-v{font-family:var(--c-num-font)}
+.slide.consult-tech .c-sidecar .sc-v{font-family:var(--c-num-font)}
 /* ── 데모 B(it-cost) 확장: 표지·SCQA·로드맵·결정 요청 — 덱 로컬 클래스 ── */
 .slide.consult.cover{justify-content:center;background:linear-gradient(160deg,var(--paper) 62%,var(--blue-soft) 100%)}
 .c-cover-kicker{display:flex;align-items:center;gap:var(--s2);color:var(--accent-text);font-weight:800;letter-spacing:3px;font-size:24px}
@@ -1584,27 +1687,28 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 .c-cover-ask .a-k{font-size:22px;font-weight:800;letter-spacing:2px;color:var(--accent-text)}
 .c-cover-ask p{font-size:28px;font-weight:700;line-height:1.4}
 
-.c-scqa{display:grid;grid-template-columns:1fr 1fr;gap:var(--s3)}
-.c-scqa>div{border-radius:var(--r2);padding:var(--s3) var(--s4);min-height:210px}
-.c-scqa .sq-s{background:var(--light)}
-.c-scqa .sq-c{background:color-mix(in srgb,var(--danger) 6%,var(--paper));border-top:4px solid var(--danger)}
-.c-scqa .sq-q{background:color-mix(in srgb,var(--accent) 7%,var(--paper));border-top:4px solid var(--accent)}
-.c-scqa .sq-a{background:var(--ink);color:var(--paper)}
-.c-scqa .s-k{font-size:23px;font-weight:800;letter-spacing:2px;color:var(--blue-text);margin-bottom:var(--s2)}
+/* SCQA — 면 채움 카드 대신 상단 룰 4열(마지막 ANSWER 만 다크 면 — 덱의 유일한 절대 초점) */
+.c-scqa{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s3)}
+.c-scqa>div{border-top:2px solid var(--ink);padding:var(--s3) var(--s3) var(--s3) 0;min-height:0}
+.c-scqa .sq-c{border-top-color:var(--danger)}
+.c-scqa .sq-q{border-top-color:var(--accent)}
+.c-scqa .sq-a{background:var(--ink);color:var(--paper);border-top-color:var(--ink);border-radius:var(--r1);padding:var(--s3)}
+.c-scqa .s-k{font-size:21px;font-weight:800;letter-spacing:2px;color:var(--blue-text);margin-bottom:var(--s2)}
 .c-scqa .sq-a .s-k{color:var(--accent-light)}
-.c-scqa p.v{font-size:29px;line-height:1.45;font-weight:700}
-.c-scqa p.d{font-size:23px;color:var(--soft);margin-top:var(--s1);line-height:1.4}
+.c-scqa p.v{font-size:26px;line-height:1.45;font-weight:700}
+.c-scqa p.d{font-size:21px;color:var(--soft);margin-top:var(--s1);line-height:1.4}
 .c-scqa .sq-a p.d{color:var(--muted)}
 
-.c-road{display:grid;grid-template-columns:210px repeat(3,1fr);gap:14px;font-size:22px}
-.c-road>div{border-radius:var(--r1);padding:16px 18px;line-height:1.4}
-.c-road .rh{font-weight:800;color:var(--paper);background:var(--blue)}
+/* 로드맵 — 단계 헤더 솔리드(착수 시점 지시) + 셀은 헤어라인 행 */
+.c-road{display:grid;grid-template-columns:210px repeat(3,1fr);gap:0 14px;font-size:22px}
+.c-road>div{padding:16px 18px;line-height:1.4}
+.c-road .rh{font-weight:800;color:var(--paper);background:var(--blue);border-radius:var(--r1)}
 .c-road .rh.a{background:var(--accent)}
-.c-road .rl{font-weight:800;color:var(--blue-text);background:var(--light);display:flex;align-items:center}
-.c-road .rc{background:var(--paper);border:1px solid var(--muted)}
+.c-road .rl{font-weight:800;color:var(--blue-text);display:flex;align-items:center;border-top:1px solid var(--line)}
+.c-road .rc{border-top:1px solid var(--line)}
 .c-road .rc b{display:block;font-size:23px;margin-bottom:4px;color:var(--ink)}
 .c-road .rc .r-v{color:var(--accent-text);font-weight:800}
-.c-road-note{font-size:22px;color:var(--soft);margin-top:var(--s2)}
+.c-road-note{font-size:20px;color:var(--soft);margin-top:var(--s2)}
 
 .c-ask{border:3px solid var(--accent);border-radius:var(--r2);padding:var(--s3) var(--s4)}
 .c-ask .a-k{font-size:23px;font-weight:800;letter-spacing:2px;color:var(--accent-text);margin-bottom:var(--s2)}
@@ -1778,7 +1882,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 <section class="slide consult" style="gap:26px">
   <div class="head">
     <p class="eyebrow">Executive Summary · IT 비용 최적화 · 2026-11</p>
-    <h2 class="title">IT 비용 3년 39% 증가의 원인 90%는 구조다 — 전환 실행으로 FY27 연 370억(30%)을 줄인다</h2>
+    <h2 class="title">IT 비용 3년 39% 증가의 원인 90%는 구조다 — 전&#8288;환 실행으로 FY27 연 370억(30%)을 줄인다</h2>
   </div>
   <div class="c-glance" data-step="1">
     <div>
@@ -1830,53 +1934,77 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 
 <!-- ==== 03-cost-structure.html ==== -->
 <!-- consulting chart — stacked-bar
-     모델: charts/03-cost-structure.json · 생성: node consulting-deck/charts/chart_gen.mjs --in charts/03-cost-structure.json -o <이 파일>
+     모델: examples/consulting-demo/it-cost/charts/03-cost-structure.json · 생성: node consulting-deck/charts/chart_gen.mjs --in examples/consulting-demo/it-cost/charts/03-cost-structure.json -o <이 파일>
      질문: 1,240억은 무엇으로 이루어져 있고, 비중은 어떻게 변했나
      손으로 고치지 않는다. 모델을 고치고 다시 생성한다. -->
 <section class="slide consult" data-archetype="chart-bar" data-variant="stacked" style="gap:18px">
   <div class="head"><p class="eyebrow">연간 IT 비용 구성 · FY22 vs FY25</p><h2 class="title">인프라·라이선스가 비용의 69%를 차지한다 — 3년간 그 비중은 더 커졌다</h2></div>
-  <svg class="dg" viewBox="0 0 1560 590" role="img" aria-label="FY22 892억과 FY25 1,240억의 구성 비교 — 인프라 480, 라이선스 380, 인건·외주 260, 운영·기타 120억">
+  <div class="c-sidecar">
+    <div class="c-sidecar-main">
+  <svg class="dg" viewBox="0 0 1040 590" role="img" aria-label="FY22 892억과 FY25 1,240억의 구성 비교 — 인프라 480, 라이선스 380, 인건·외주 260, 운영·기타 120억">
     <title>인프라·라이선스가 비용의 69%를 차지한다 — 3년간 그 비중은 더 커졌다</title>
     <text class="k-t-tag" x="60" y="42">(단위: 억원)</text>
-    <rect x="970" y="24" width="16" height="14" rx="3" fill="var(--track-strong)" stroke="var(--paper)" stroke-width="2.5"/>
-    <text x="992" y="37" font-size="20" font-weight="600" fill="var(--ink)">인프라</text>
-    <rect x="1082" y="24" width="16" height="14" rx="3" fill="var(--accent)" stroke="var(--paper)" stroke-width="2.5"/>
-    <text x="1104" y="37" font-size="20" font-weight="600" fill="var(--ink)">라이선스</text>
-    <rect x="1214" y="24" width="16" height="14" rx="3" fill="var(--muted)" stroke="var(--paper)" stroke-width="2.5"/>
-    <text x="1236" y="37" font-size="20" font-weight="600" fill="var(--ink)">인건·외주</text>
-    <rect x="1357" y="24" width="16" height="14" rx="3" fill="var(--line)" stroke="var(--paper)" stroke-width="2.5"/>
-    <text x="1379" y="37" font-size="20" font-weight="600" fill="var(--ink)">운영·기타</text>
-    <path d="M60,470 L1500,470" class="k-ln-n"/>
+    <rect x="450" y="24" width="16" height="14" rx="3" fill="var(--track-strong)" stroke="var(--line)" stroke-width="1.5"/>
+    <text x="472" y="37" font-size="20" font-weight="600" fill="var(--ink)">인프라</text>
+    <rect x="562" y="24" width="16" height="14" rx="3" fill="var(--accent)" stroke="var(--line)" stroke-width="1.5"/>
+    <text x="584" y="37" font-size="20" font-weight="600" fill="var(--ink)">라이선스</text>
+    <rect x="694" y="24" width="16" height="14" rx="3" fill="var(--muted)" stroke="var(--line)" stroke-width="1.5"/>
+    <text x="716" y="37" font-size="20" font-weight="600" fill="var(--ink)">인건·외주</text>
+    <rect x="837" y="24" width="16" height="14" rx="3" fill="var(--line)" stroke="var(--line)" stroke-width="1.5"/>
+    <text x="859" y="37" font-size="20" font-weight="600" fill="var(--ink)">운영·기타</text>
+    <path d="M60,470 L980,470" class="k-ln-n"/>
     <g data-step="1">
-      <rect x="495" y="374.03" width="240" height="95.97" fill="var(--track-strong)" stroke="var(--paper)" stroke-width="2.5"/>
-      <text x="615" y="428.02" font-size="18" font-weight="700" fill="var(--ink)" text-anchor="middle">340</text>
-      <rect x="495" y="302.9" width="240" height="71.13" fill="var(--accent)" stroke="var(--paper)" stroke-width="2.5"/>
-      <text x="615" y="344.47" font-size="18" font-weight="700" class="k-t-w" text-anchor="middle">252</text>
-      <rect x="495" y="243.06" width="240" height="59.84" fill="var(--muted)" stroke="var(--paper)" stroke-width="2.5"/>
-      <text x="615" y="278.98" font-size="18" font-weight="700" fill="var(--ink)" text-anchor="middle">212</text>
-      <rect x="495" y="218.23" width="240" height="24.84" fill="var(--line)" stroke="var(--paper)" stroke-width="2.5"/>
-      <text x="615" y="236.65" font-size="18" font-weight="700" fill="var(--ink)" text-anchor="middle">88</text>
-      <text x="615" y="200.23" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">892</text>
-      <text x="615" y="516" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">FY22</text>
+      <rect x="235" y="374.03" width="240" height="95.97" fill="var(--track-strong)" stroke="var(--paper)" stroke-width="2.5"/>
+      <text x="355" y="428.02" font-size="18" font-weight="700" fill="var(--ink)" text-anchor="middle">340</text>
+      <rect x="235" y="302.9" width="240" height="71.13" fill="var(--accent)" stroke="var(--paper)" stroke-width="2.5"/>
+      <text x="355" y="344.47" font-size="18" font-weight="700" class="k-t-w" text-anchor="middle">252</text>
+      <rect x="235" y="243.06" width="240" height="59.84" fill="var(--muted)" stroke="var(--paper)" stroke-width="2.5"/>
+      <text x="355" y="278.98" font-size="18" font-weight="700" fill="var(--ink)" text-anchor="middle">212</text>
+      <rect x="235" y="218.23" width="240" height="24.84" fill="var(--line)" stroke="var(--paper)" stroke-width="2.5"/>
+      <text x="355" y="236.65" font-size="18" font-weight="700" fill="var(--ink)" text-anchor="middle">88</text>
+      <text x="355" y="200.23" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">892</text>
+      <text x="355" y="516" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">FY22</text>
     </g>
     <g data-step="2">
-      <rect x="825" y="334.52" width="240" height="135.48" fill="var(--track-strong)" stroke="var(--paper)" stroke-width="2.5"/>
-      <text x="945" y="408.26" font-size="18" font-weight="700" fill="var(--ink)" text-anchor="middle">480</text>
-      <rect x="825" y="227.26" width="240" height="107.26" fill="var(--accent)" stroke="var(--paper)" stroke-width="2.5"/>
-      <text x="945" y="286.89" font-size="18" font-weight="700" class="k-t-w" text-anchor="middle">380</text>
-      <rect x="825" y="153.87" width="240" height="73.39" fill="var(--muted)" stroke="var(--paper)" stroke-width="2.5"/>
-      <text x="945" y="196.56" font-size="18" font-weight="700" fill="var(--ink)" text-anchor="middle">260</text>
-      <rect x="825" y="120" width="240" height="33.87" fill="var(--line)" stroke="var(--paper)" stroke-width="2.5"/>
-      <text x="945" y="142.94" font-size="18" font-weight="700" fill="var(--ink)" text-anchor="middle">120</text>
-      <text x="945" y="102" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">1,240</text>
-      <text x="945" y="516" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">FY25</text>
-      <path d="M945,524 L945,522" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
-      <text x="945" y="550" font-size="24" font-weight="800" class="k-t-o" text-anchor="middle">「핵심」 인프라+라이선스</text>
-      <text x="945" y="574" font-size="24" font-weight="800" class="k-t-o" text-anchor="middle"> 860억 = 69%</text>
+      <rect x="565" y="334.52" width="240" height="135.48" fill="var(--track-strong)" stroke="var(--paper)" stroke-width="2.5"/>
+      <text x="685" y="408.26" font-size="18" font-weight="700" fill="var(--ink)" text-anchor="middle">480</text>
+      <rect x="565" y="227.26" width="240" height="107.26" fill="var(--accent)" stroke="var(--paper)" stroke-width="2.5"/>
+      <text x="685" y="286.89" font-size="18" font-weight="700" class="k-t-w" text-anchor="middle">380</text>
+      <rect x="565" y="153.87" width="240" height="73.39" fill="var(--muted)" stroke="var(--paper)" stroke-width="2.5"/>
+      <text x="685" y="196.56" font-size="18" font-weight="700" fill="var(--ink)" text-anchor="middle">260</text>
+      <rect x="565" y="120" width="240" height="33.87" fill="var(--line)" stroke="var(--paper)" stroke-width="2.5"/>
+      <text x="685" y="142.94" font-size="18" font-weight="700" fill="var(--ink)" text-anchor="middle">120</text>
+      <text x="685" y="102" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">1,240</text>
+      <text x="685" y="516" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">FY25</text>
+      <path d="M685,524 L685,522" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
+<rect x="551.8" y="531" width="64" height="26" rx="13" fill="var(--accent)"/>
+<text x="583.8" y="551" font-size="18" font-weight="800" class="k-t-w" text-anchor="middle">핵심</text>
+      <text x="623.8" y="550" font-size="24" font-weight="800" class="k-t-o" text-anchor="start">인프라+라이선스 </text>
+      <text x="623.8" y="574" font-size="24" font-weight="800" class="k-t-o" text-anchor="start">860억 = 69%</text>
     </g>
-      <path d="M615,524 L615,526" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
-      <text x="615" y="550" font-size="20" font-weight="600" class="k-t-tag" text-anchor="middle">「참고」 4개 항목 모두 증가</text>
-  </svg>
+      <path d="M355,524 L355,526" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
+<rect x="227" y="531" width="64" height="26" rx="13" fill="var(--track-strong)"/>
+<text x="259" y="551" font-size="18" font-weight="800" class="k-t-w" text-anchor="middle">참고</text>
+      <text x="299" y="550" font-size="20" font-weight="600" class="k-t-tag" text-anchor="start">4개 항목 모두 증가</text>
+    <g data-step="2">
+      <path d="M475,218.23 L475,76 L565,76 L565,120" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="6 7"/>
+      <rect x="480.9" y="61" width="78.2" height="30" rx="15" fill="var(--accent)"/>
+      <text x="520" y="83" font-size="21" font-weight="800" class="k-t-w" text-anchor="middle">+39%</text>
+      <text x="520" y="116" font-size="18" font-weight="700" class="k-t-o" text-anchor="middle">+348억원</text>
+    </g>
+    </svg>
+    </div>
+    <aside class="c-sidecar-panel" data-step="2">
+      <p class="sc-k">SO WHAT</p>
+      <p class="sc-v">69<small>%</small></p>
+      <p class="sc-h">인프라+라이선스 비중 — 3년 전 66%보다 더 커졌다</p>
+      <ul>
+        <li>증가가 계약·장비 같은 <b>구조 깊은 곳</b>에서 났다</li>
+        <li>항목별 절감으로는 한계 — 구조 접근이 필요하다</li>
+        <li>대응안은 06장 절감 기회에서 제시한다</li>
+      </ul>
+    </aside>
+  </div>
   <p class="c-note" data-step="2"><b>방법론·한계</b> — 구성 분류: 자산·계약 기준 원가 배부, 일회성 프로젝트는 운영·기타에 포함</p>
   <div class="c-src" data-step="2">
     <p>Source: consulting-deck 예시 — 가상 시나리오 · 기준 2026-11</p>
@@ -1887,71 +2015,89 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 
 <!-- ==== 04-cost-growth.html ==== -->
 <!-- consulting chart — waterfall
-     모델: charts/04-cost-growth.json · 생성: node consulting-deck/charts/chart_gen.mjs --in charts/04-cost-growth.json -o <이 파일>
+     모델: examples/consulting-demo/it-cost/charts/04-cost-growth.json · 생성: node consulting-deck/charts/chart_gen.mjs --in examples/consulting-demo/it-cost/charts/04-cost-growth.json -o <이 파일>
      질문: 3년간 348억이 어디서 왔는가 — 얼마나 지속될 것인가
      손으로 고치지 않는다. 모델을 고치고 다시 생성한다. -->
 <section class="slide consult" data-archetype="waterfall" data-variant="bridge" style="gap:18px">
   <div class="head"><p class="eyebrow">비용 증가 요인 분해 · FY22→FY25</p><h2 class="title">3년 증가분 348억의 43%는 라이선스 단가 인상이다 — 대부분 구조 요인이라 저절로 줄지 않는다</h2></div>
-  <svg class="dg" viewBox="0 0 1560 580" role="img" aria-label="FY22 892억에서 FY25 1,240억까지 증가분 348억의 분해: 라이선스 단가 148, 클라우드 중복 96, 레거시 유지 74, 인력 추가 58, 물가 40, 통합 절감 마이너스 68억">
+  <div class="c-sidecar">
+    <div class="c-sidecar-main">
+  <svg class="dg" viewBox="0 0 1040 580" role="img" aria-label="FY22 892억에서 FY25 1,240억까지 증가분 348억의 분해: 라이선스 단가 148, 클라우드 중복 96, 레거시 유지 74, 인력 추가 58, 물가 40, 통합 절감 마이너스 68억">
     <title>3년 증가분 348억의 43%는 라이선스 단가 인상이다 — 대부분 구조 요인이라 저절로 줄지 않는다</title>
     <text class="k-t-tag" x="60" y="42">(단위: 억원)</text>
-    <path d="M60,460 L1500,460" fill="none" stroke="var(--line)" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M60,460 L980,460" fill="none" stroke="var(--line)" stroke-width="2.5" stroke-linecap="round"/>
     <g class="wf" data-step="1">
-      <rect x="90" y="388" width="120" height="72" class="k-solid-n"/>
+      <rect x="90" y="388" width="55" height="72" class="k-solid-n"/>
       <path d="M106,468 L120,444 M122,468 L136,444" fill="none" stroke="var(--line)" stroke-width="3" class="axis-brk"/>
-      <text x="150" y="364" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">892</text>
-      <text x="150" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">FY22 IT 비용</text>
+      <text x="117.5" y="364" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">892</text>
+      <text x="117.5" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">FY22 IT 비용</text>
     </g>
     <g class="wf" data-step="2">
-      <path d="M210,388 L270,388" class="k-ln-g"/>
-      <rect x="270" y="285.54" width="120" height="102.46" fill="var(--accent)"/>
-      <text x="330" y="261.54" font-size="26" font-weight="800" class="k-t-o" text-anchor="middle">+148</text>
-      <text x="330" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">라이선스 단가</text>
-      <path d="M330,392 L330,394" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
-      <text x="330" y="422" font-size="24" font-weight="800" class="k-t-o" text-anchor="middle">「핵심」 2024 </text>
-      <text x="330" y="446" font-size="24" font-weight="800" class="k-t-o" text-anchor="middle">재계약 확정</text>
+      <path d="M145,388 L205,388" class="k-ln-g"/>
+      <rect x="205" y="285.54" width="55" height="102.46" fill="var(--accent)"/>
+      <text x="232.5" y="261.54" font-size="26" font-weight="800" class="k-t-o" text-anchor="middle">+148</text>
+      <text x="232.5" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">라이선스 단가</text>
+      <path d="M232.5,392 L232.5,394" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
+<rect x="176.5" y="403" width="64" height="26" rx="13" fill="var(--accent)"/>
+<text x="208.5" y="423" font-size="18" font-weight="800" class="k-t-w" text-anchor="middle">핵심</text>
+      <text x="248.5" y="422" font-size="24" font-weight="800" class="k-t-o" text-anchor="start">202</text>
+      <text x="248.5" y="446" font-size="24" font-weight="800" class="k-t-o" text-anchor="start">4 …</text>
     </g>
     <g class="wf" data-step="3">
-      <path d="M390,285.54 L450,285.54" class="k-ln-g"/>
-      <rect x="450" y="219.08" width="120" height="66.46" fill="var(--accent)"/>
-      <text x="510" y="195.08" font-size="26" font-weight="800" class="k-t-o" text-anchor="middle">+96</text>
-      <text x="510" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">클라우드 중복</text>
-      <path d="M510,289.54 L510,291.54" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
-      <text x="510" y="315.54" font-size="20" font-weight="600" class="k-t-tag" text-anchor="middle">「참고」 이관 </text>
-      <text x="510" y="339.54" font-size="20" font-weight="600" class="k-t-tag" text-anchor="middle">완결 시 해소</text>
+      <path d="M260,285.54 L320,285.54" class="k-ln-g"/>
+      <rect x="320" y="219.08" width="55" height="66.46" fill="var(--accent)"/>
+      <text x="347.5" y="195.08" font-size="26" font-weight="800" class="k-t-o" text-anchor="middle">+96</text>
+      <text x="347.5" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">클라우드 중복</text>
+      <path d="M347.5,289.54 L347.5,291.54" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
+<rect x="290.5" y="296.54" width="64" height="26" rx="13" fill="var(--track-strong)"/>
+<text x="322.5" y="316.54" font-size="18" font-weight="800" class="k-t-w" text-anchor="middle">참고</text>
+      <text x="362.5" y="315.54" font-size="20" font-weight="600" class="k-t-tag" text-anchor="start">이관</text>
+      <text x="362.5" y="339.54" font-size="20" font-weight="600" class="k-t-tag" text-anchor="start"> 완…</text>
     </g>
     <g class="wf" data-step="4">
-      <path d="M570,219.08 L630,219.08" class="k-ln-g"/>
-      <rect x="630" y="167.85" width="120" height="51.23" class="k-solid-b"/>
-      <text x="690" y="143.85" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">+74</text>
-      <text x="690" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">레거시 유지</text>
+      <path d="M375,219.08 L435,219.08" class="k-ln-g"/>
+      <rect x="435" y="167.85" width="55" height="51.23" class="k-solid-b"/>
+      <text x="462.5" y="143.85" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">+74</text>
+      <text x="462.5" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">레거시 유지</text>
     </g>
     <g class="wf" data-step="5">
-      <path d="M750,167.85 L810,167.85" class="k-ln-g"/>
-      <rect x="810" y="127.69" width="120" height="40.15" class="k-solid-b"/>
-      <text x="870" y="103.69" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">+58</text>
-      <text x="870" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">인력 추가</text>
+      <path d="M490,167.85 L550,167.85" class="k-ln-g"/>
+      <rect x="550" y="127.69" width="55" height="40.15" class="k-solid-b"/>
+      <text x="577.5" y="103.69" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">+58</text>
+      <text x="577.5" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">인력 추가</text>
     </g>
     <g class="wf" data-step="6">
-      <path d="M930,127.69 L990,127.69" class="k-ln-g"/>
-      <rect x="990" y="100" width="120" height="27.69" class="k-solid-b"/>
-      <text x="1050" y="76" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">+40</text>
-      <text x="1050" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">물가 연동</text>
+      <path d="M605,127.69 L665,127.69" class="k-ln-g"/>
+      <rect x="665" y="100" width="55" height="27.69" class="k-solid-b"/>
+      <text x="692.5" y="76" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">+40</text>
+      <text x="692.5" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">물가 연동</text>
     </g>
     <g class="wf" data-step="7">
-      <path d="M1110,100 L1170,100" class="k-ln-g"/>
-      <rect x="1170" y="100" width="120" height="47.08" class="k-solid-b"/>
-      <text x="1230" y="76" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">−68</text>
-      <text x="1230" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">통합 절감</text>
+      <path d="M720,100 L780,100" class="k-ln-g"/>
+      <rect x="780" y="100" width="55" height="47.08" class="k-solid-b"/>
+      <text x="807.5" y="76" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">−68</text>
+      <text x="807.5" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">통합 절감</text>
     </g>
     <g class="wf" data-step="8">
-      <path d="M1290,147.08 L1350,147.08" class="k-ln-g"/>
-      <rect x="1350" y="147.08" width="120" height="312.92" class="k-solid-n"/>
-      <path d="M1366,468 L1380,444 M1382,468 L1396,444" fill="none" stroke="var(--line)" stroke-width="3" class="axis-brk"/>
-      <text x="1410" y="123.08" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle" data-count>1,240</text>
-      <text x="1410" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">FY25 IT 비용</text>
+      <path d="M835,147.08 L895,147.08" class="k-ln-g"/>
+      <rect x="895" y="147.08" width="55" height="312.92" class="k-solid-n"/>
+      <path d="M911,468 L925,444 M927,468 L941,444" fill="none" stroke="var(--line)" stroke-width="3" class="axis-brk"/>
+      <text x="922.5" y="123.08" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle" data-count>1,240</text>
+      <text x="922.5" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">FY25 IT 비용</text>
     </g>
-  </svg>
+    </svg>
+    </div>
+    <aside class="c-sidecar-panel" data-step="8">
+      <p class="sc-k">SO WHAT</p>
+      <p class="sc-v">90<small>%</small></p>
+      <p class="sc-h">증가 요인 416억의 90%(376억)가 구조 요인이다</p>
+      <ul>
+        <li>라이선스 단가 +148 — <b>2024 재계약으로 이미 확정</b></li>
+        <li>클라우드 중복 +96 — 이관 완결 시 해소되는 일시 비용</li>
+        <li>협상 없이는 줄지 않는다 — 비용 통제가 아니라 구조 전환</li>
+      </ul>
+    </aside>
+  </div>
   <p class="c-note" data-step="8"><b>방법론·한계</b> — 구조/비구조 구분: 2년 이상 지속되는 계약·인력 항목을 구조 요인으로 분류, 물가 연동은 계약 지수 반영</p>
   <div class="c-src" data-step="8">
     <p>Source: consulting-deck 예시 — 가상 시나리오 · 기준 2026-11</p>
@@ -1962,43 +2108,60 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 
 <!-- ==== 05-benchmark.html ==== -->
 <!-- consulting chart — ranked-bar-h
-     모델: charts/05-benchmark.json · 생성: node consulting-deck/charts/chart_gen.mjs --in charts/05-benchmark.json -o <이 파일>
+     모델: examples/consulting-demo/it-cost/charts/05-benchmark.json · 생성: node consulting-deck/charts/chart_gen.mjs --in examples/consulting-demo/it-cost/charts/05-benchmark.json -o <이 파일>
      질문: 우리 IT 비용 수준은 비교 집단 어디에 위치하나
      손으로 고치지 않는다. 모델을 고치고 다시 생성한다. -->
 <section class="slide consult" data-archetype="chart-bar" data-variant="ranked" style="gap:18px">
   <div class="head"><p class="eyebrow">IT 비용 매출 비율 벤치마크 · FY25</p><h2 class="title">IT 비용은 매출의 4.1% — 비교 5사 중 두 번째로 높다</h2></div>
-  <svg class="dg" viewBox="0 0 1560 582" role="img" aria-label="동종 제조 5사의 IT 비용 매출 비율: C사 3.4, B사 3.6, A사 3.9, 우리 회사 4.1, D사 4.5퍼센트">
+  <div class="c-sidecar">
+    <div class="c-sidecar-main">
+  <svg class="dg" viewBox="0 0 1040 608" role="img" aria-label="동종 제조 5사의 IT 비용 매출 비율: C사 3.4, B사 3.6, A사 3.9, 우리 회사 4.1, D사 4.5퍼센트">
     <title>IT 비용은 매출의 4.1% — 비교 5사 중 두 번째로 높다</title>
     <text class="k-t-tag" x="60" y="42">(단위: %)</text>
-    <line x1="320" y1="56" x2="320" y2="538" stroke="var(--line)" stroke-width="2.5"/>
-    <line x1="320" y1="538" x2="1500" y2="538" stroke="var(--line)" stroke-width="2.5"/>
+    <line x1="320" y1="56" x2="320" y2="564" stroke="var(--line)" stroke-width="2.5"/>
+    <line x1="320" y1="564" x2="980" y2="564" stroke="var(--line)" stroke-width="2.5"/>
     <g data-step="1">
       <text x="300" y="106" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">경쟁 D사</text>
-      <rect x="320" y="70" width="1100" height="56" rx="8" fill="var(--track)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
-      <text x="1436" y="106" font-size="28" font-weight="800" fill="var(--ink)">4.5</text>
+      <rect x="320" y="70" width="580" height="56" rx="8" fill="var(--track)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
+      <text x="916" y="106" font-size="28" font-weight="800" fill="var(--ink)">4.5</text>
     </g>
     <g data-step="2">
       <text x="300" y="188" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">우리 회사</text>
-      <rect x="320" y="152" width="1002.22" height="56" rx="8" fill="var(--accent)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
-      <text x="1338.22" y="188" font-size="28" font-weight="800" fill="var(--ink)">4.1</text>
-      <text x="320" y="232" font-size="24" font-weight="800" class="k-t-o" text-anchor="start">「핵심」 그룹 중위 3.9%보다 높고, 전환 선례 D사(4.5→진행 중)와 같은 원인 구조</text>
+      <rect x="320" y="152" width="528.44" height="56" rx="8" fill="var(--accent)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
+      <text x="864.44" y="188" font-size="28" font-weight="800" fill="var(--ink)">4.1</text>
+<rect x="320" y="213" width="64" height="26" rx="13" fill="var(--accent)"/>
+<text x="352" y="233" font-size="18" font-weight="800" class="k-t-w" text-anchor="middle">핵심</text>
+      <text x="392" y="232" font-size="24" font-weight="800" class="k-t-o" text-anchor="start">그룹 중위 3.9%보다 높고, 전환 선례 D사(4.5→진행</text>
+      <text x="392" y="258" font-size="24" font-weight="800" class="k-t-o" text-anchor="start"> 중)와 같은 원인 구조</text>
     </g>
     <g data-step="3">
-      <text x="300" y="316" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">경쟁 A사</text>
-      <rect x="320" y="280" width="953.33" height="56" rx="8" fill="var(--track)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
-      <text x="1289.33" y="316" font-size="28" font-weight="800" fill="var(--ink)">3.9</text>
+      <text x="300" y="342" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">경쟁 A사</text>
+      <rect x="320" y="306" width="502.67" height="56" rx="8" fill="var(--track)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
+      <text x="838.67" y="342" font-size="28" font-weight="800" fill="var(--ink)">3.9</text>
     </g>
     <g data-step="4">
-      <text x="300" y="398" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">경쟁 B사</text>
-      <rect x="320" y="362" width="880" height="56" rx="8" fill="var(--track)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
-      <text x="1216" y="398" font-size="28" font-weight="800" fill="var(--ink)">3.6</text>
+      <text x="300" y="424" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">경쟁 B사</text>
+      <rect x="320" y="388" width="464" height="56" rx="8" fill="var(--track)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
+      <text x="800" y="424" font-size="28" font-weight="800" fill="var(--ink)">3.6</text>
     </g>
     <g data-step="5">
-      <text x="300" y="480" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">경쟁 C사</text>
-      <rect x="320" y="444" width="831.11" height="56" rx="8" fill="var(--track)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
-      <text x="1167.11" y="480" font-size="28" font-weight="800" fill="var(--ink)">3.4</text>
+      <text x="300" y="506" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">경쟁 C사</text>
+      <rect x="320" y="470" width="438.22" height="56" rx="8" fill="var(--track)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
+      <text x="774.22" y="506" font-size="28" font-weight="800" fill="var(--ink)">3.4</text>
     </g>
-  </svg>
+    </svg>
+    </div>
+    <aside class="c-sidecar-panel" data-step="5">
+      <p class="sc-k">SO WHAT</p>
+      <p class="sc-v">4.1<small>%</small></p>
+      <p class="sc-h">IT 비용 매출 비 — 비교 5사 중 두 번째로 높다</p>
+      <ul>
+        <li>그룹 중위 3.9%보다 높다</li>
+        <li>전환 선례 D사(4.5→진행 중)와 <b>같은 원인 구조</b></li>
+        <li>목표 2.9% — 비교 최저 수준(3.4%) 이하</li>
+      </ul>
+    </aside>
+  </div>
   <p class="c-note" data-step="5"><b>방법론·한계</b> — 매출 규모 보정: 5사 모두 매출 8천억~1조 2천억 원 대역, IT 비용=운영비 기준(CAPEX 제외)</p>
   <div class="c-src" data-step="5">
     <p>Source: consulting-deck 예시 — 가상 시나리오 · 기준 FY25 결산 기준</p>
@@ -2009,7 +2172,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 
 <!-- ==== 06-savings.html ==== -->
 <!-- consulting chart — waterfall
-     모델: charts/06-savings.json · 생성: node consulting-deck/charts/chart_gen.mjs --in charts/06-savings.json -o <이 파일>
+     모델: examples/consulting-demo/it-cost/charts/06-savings.json · 생성: node consulting-deck/charts/chart_gen.mjs --in examples/consulting-demo/it-cost/charts/06-savings.json -o <이 파일>
      질문: 870억까지 무엇을 얼마나 줄이는가 — 다리의 각 다리가 얼마나 단단한가
      손으로 고치지 않는다. 모델을 고치고 다시 생성한다. -->
 <section class="slide consult" data-archetype="waterfall" data-variant="bridge" style="gap:18px">
@@ -2030,8 +2193,10 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
       <text x="370" y="76" font-size="26" font-weight="800" class="k-t-o" text-anchor="middle">−142</text>
       <text x="370" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">라이선스 정비</text>
       <path d="M370,183.88 L370,185.88" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
-      <text x="370" y="213.88" font-size="24" font-weight="800" class="k-t-o" text-anchor="middle">「핵심」 증가 </text>
-      <text x="370" y="237.88" font-size="24" font-weight="800" class="k-t-o" text-anchor="middle">요인의 직접 반전</text>
+<rect x="272.8" y="194.88" width="64" height="26" rx="13" fill="var(--accent)"/>
+<text x="304.8" y="214.88" font-size="18" font-weight="800" class="k-t-w" text-anchor="middle">핵심</text>
+      <text x="344.8" y="213.88" font-size="24" font-weight="800" class="k-t-o" text-anchor="start">증가 </text>
+      <text x="344.8" y="237.88" font-size="24" font-weight="800" class="k-t-o" text-anchor="start">요인의 직…</text>
     </g>
     <g class="wf" data-step="3">
       <path d="M442.5,179.88 L502.5,179.88" class="k-ln-g"/>
@@ -2057,8 +2222,10 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
       <text x="1190" y="284.13" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">+30</text>
       <text x="1190" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">전환 투자</text>
       <path d="M1190,330.13 L1190,332.13" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
-      <text x="1190" y="356.13" font-size="20" font-weight="600" class="k-t-tag" text-anchor="middle">「참고」 FY26 1회성</text>
-      <text x="1190" y="380.13" font-size="20" font-weight="600" class="k-t-tag" text-anchor="middle"> 투자</text>
+<rect x="1095.5" y="337.13" width="64" height="26" rx="13" fill="var(--track-strong)"/>
+<text x="1127.5" y="357.13" font-size="18" font-weight="800" class="k-t-w" text-anchor="middle">참고</text>
+      <text x="1167.5" y="356.13" font-size="20" font-weight="600" class="k-t-tag" text-anchor="start">FY26 1회성 </text>
+      <text x="1167.5" y="380.13" font-size="20" font-weight="600" class="k-t-tag" text-anchor="start">투자</text>
     </g>
     <g class="wf" data-step="7">
       <path d="M1262.5,308.13 L1322.5,308.13" class="k-ln-g"/>
@@ -2078,7 +2245,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 
 <!-- ==== 07-asis-tobe.html ==== -->
 <!-- consulting chart — diverging-bar
-     모델: charts/07-asis-tobe.json · 생성: node consulting-deck/charts/chart_gen.mjs --in charts/07-asis-tobe.json -o <이 파일>
+     모델: examples/consulting-demo/it-cost/charts/07-asis-tobe.json · 생성: node consulting-deck/charts/chart_gen.mjs --in examples/consulting-demo/it-cost/charts/07-asis-tobe.json -o <이 파일>
      질문: 절감이 어디에 얼마나 집중되어 있고, 무엇은 오히려 늘리나
      손으로 고치지 않는다. 모델을 고치고 다시 생성한다. -->
 <section class="slide consult" data-archetype="chart-bar" data-variant="diverging" style="gap:18px">
@@ -2097,7 +2264,9 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
       <text x="320" y="92" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">인프라</text>
       <rect x="340" y="56" width="460" height="56" rx="8" fill="var(--track-strong)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:right center"/>
       <text x="356" y="92" font-size="28" font-weight="800" fill="var(--paper)" text-anchor="start">−45</text>
-      <text x="340" y="136" font-size="20" font-weight="600" class="k-t-tag" text-anchor="start">「참고」 클라우드 이관 완결이 전제</text>
+<rect x="340" y="117" width="64" height="26" rx="13" fill="var(--track-strong)"/>
+<text x="372" y="137" font-size="18" font-weight="800" class="k-t-w" text-anchor="middle">참고</text>
+      <text x="412" y="136" font-size="20" font-weight="600" class="k-t-tag" text-anchor="start">클라우드 이관 완결이 전제</text>
     </g>
     <g data-step="2">
       <text x="320" y="220" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">라이선스</text>
@@ -2118,7 +2287,9 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
       <text x="320" y="466" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">보안·컴플라이언스</text>
       <rect x="800" y="430" width="153.33" height="56" rx="8" fill="var(--accent)" stroke="var(--ink)" stroke-width="3" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
       <text x="969.33" y="466" font-size="28" font-weight="800" fill="var(--ink)" text-anchor="start">+15</text>
-      <text x="800" y="510" font-size="24" font-weight="800" class="k-t-o" text-anchor="start">「핵심」 규제 대응·제로트러스트 — 축소 불가, 선제 투자</text>
+<rect x="800" y="491" width="64" height="26" rx="13" fill="var(--accent)"/>
+<text x="832" y="511" font-size="18" font-weight="800" class="k-t-w" text-anchor="middle">핵심</text>
+      <text x="872" y="510" font-size="24" font-weight="800" class="k-t-o" text-anchor="start">규제 대응·제로트러스트 — 축소 불가, 선제 투자</text>
     </g>
   </svg>
   <p class="c-note" data-step="5"><b>방법론·한계</b> — 증감률은 06 장 절감 다리의 항목 배부 결과 — 동일 원장(evidence.json C06) 대조</p>
@@ -2226,13 +2397,29 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
       <p class="m-b">FY26 상반기 집행 후 FY27 중반 회수 완료</p>
     </div>
   </div>
-  <div class="c-ask" data-step="2">
-    <p class="a-k">의사결정 요청 — 2026-11-24 이사회</p>
-    <ol>
-      <li>절감 프로그램("클라우드 중심 IT 구조 전환") 및 전환 투자 30억 승인<small>실행 주체: IT본부·전략기획실 공동 — 3단계 로드맵(09 장) 확정</small></li>
-      <li>IT 비용 거버넌스 위원회 출범 승인<small>월간 지표·품의 게이트 운영 — 이사회 분기 보고</small></li>
-      <li>FY26 1분기 라이선스 재계약 착수 승인<small>연 142억 실현의 출발 — 재계약 시점 지연 시 효과 FY27 이연</small></li>
-    </ol>
+  <p class="c-note" data-step="2"><b>의사결정 요청 — 2026-11-24 이사회</b></p>
+  <div class="c-rule-rows" data-step="2">
+    <div class="rr hot">
+      <p class="rr-k">결정 ①</p>
+      <div>
+        <p class="rr-v">절감 프로그램("클라우드 중심 IT 구조 전환") 및 전환 투자 30억 승인</p>
+        <p class="rr-d">실행 주체: IT본부·전략기획실 공동 — 3단계 로드맵(09 장) 확정</p>
+      </div>
+    </div>
+    <div class="rr">
+      <p class="rr-k">결정 ②</p>
+      <div>
+        <p class="rr-v">IT 비용 거버넌스 위원회 출범 승인</p>
+        <p class="rr-d">월간 지표·품의 게이트 운영 — 이사회 분기 보고</p>
+      </div>
+    </div>
+    <div class="rr">
+      <p class="rr-k">결정 ③</p>
+      <div>
+        <p class="rr-v">FY26 1분기 라이선스 재계약 착수 승인</p>
+        <p class="rr-d">연 142억 실현의 출발 — 재계약 시점 지연 시 효과 FY27 이연</p>
+      </div>
+    </div>
   </div>
   <div class="c-src" data-step="3">
     <p>Source: consulting-deck 예시 — 가상 시나리오 · 효과는 실행 속도 가정 ±15% 변동</p>

@@ -1,90 +1,111 @@
 <!-- consulting chart — heatmap
-     모델: charts/05-value.json · 생성: node consulting-deck/charts/chart_gen.mjs --in charts/05-value.json -o <이 파일>
+     모델: examples/consulting-demo/ai-transform/charts/05-value.json · 생성: node consulting-deck/charts/chart_gen.mjs --in examples/consulting-demo/ai-transform/charts/05-value.json -o <이 파일>
      질문: 가치 원천별 잠재는 사업부 어디에 몰리는가
      손으로 고치지 않는다. 모델을 고치고 다시 생성한다. -->
 <section class="slide consult consult-tech" data-archetype="heatmap-grid" data-variant="matrix" style="gap:18px">
   <div class="head"><p class="eyebrow">가치 기회 · 사업부×가치원천 잠재 강도</p><h2 class="title">가치는 운임·수요·응대 3개 클러스터에 몰린다 — 연 140억의 원천을 수량화했다</h2></div>
-  <svg class="dg" viewBox="0 0 1560 522" role="img" aria-label="사업부 5개와 가치원천 5개의 잠재 강도: 운영최적 열이 택배 78·운송 88·창고 84로 가장 짙고, 문서자동은 백오피스 92에 몰린다">
+  <div class="c-sidecar">
+    <div class="c-sidecar-main">
+  <svg class="dg" viewBox="0 0 1040 670" role="img" aria-label="사업부 5개와 가치원천 5개의 잠재 강도: 운영최적 열이 택배 78·운송 88·창고 84로 가장 짙고, 문서자동은 백오피스 92에 몰린다">
     <title>가치는 운임·수요·응대 3개 클러스터에 몰린다 — 연 140억의 원천을 수량화했다</title>
     <text class="k-t-tag" x="60" y="42">(단위: 강도 지수(0~100))</text>
-    <text x="375" y="80" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">수요예측</text>
-    <text x="625" y="80" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">운영최적</text>
-    <text x="875" y="80" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">고객응대</text>
-    <text x="1125" y="80" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">문서자동</text>
-    <text x="1375" y="80" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">이상탐지</text>
+    <text x="323" y="80" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">수요예측</text>
+    <text x="469" y="80" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">운영최적</text>
+    <text x="615" y="80" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">고객응대</text>
+    <text x="761" y="80" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">문서자동</text>
+    <text x="907" y="80" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">이상탐지</text>
     <g data-step="1">
       <text x="234" y="136" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">택배</text>
-      <rect x="250" y="98" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 92%, transparent)"/>
-      <text x="375" y="136" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">92</text>
-      <rect x="500" y="98" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--accent) 76%, transparent)"/>
-      <text x="625" y="136" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">78</text>
-      <rect x="750" y="98" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 62%, transparent)"/>
-      <text x="875" y="136" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">66</text>
-      <rect x="1000" y="98" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 26%, transparent)"/>
-      <text x="1125" y="136" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">34</text>
-      <rect x="1250" y="98" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 34%, transparent)"/>
-      <text x="1375" y="136" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">41</text>
+      <rect x="250" y="98" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 92%, transparent)"/>
+      <text x="323" y="136" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">92</text>
+      <rect x="396" y="98" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--accent) 76%, transparent)"/>
+      <text x="469" y="136" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">78</text>
+      <rect x="542" y="98" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 62%, transparent)"/>
+      <text x="615" y="136" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">66</text>
+      <rect x="688" y="98" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 26%, transparent)"/>
+      <text x="761" y="136" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">34</text>
+      <rect x="834" y="98" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 34%, transparent)"/>
+      <text x="907" y="136" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">41</text>
     </g>
     <g data-step="2">
       <text x="234" y="202" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">운송</text>
-      <rect x="250" y="164" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 71%, transparent)"/>
-      <text x="375" y="202" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">74</text>
-      <rect x="500" y="164" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--accent) 87%, transparent)"/>
-      <text x="625" y="202" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">88</text>
-      <rect x="750" y="164" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 30%, transparent)"/>
-      <text x="875" y="202" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">38</text>
-      <rect x="1000" y="164" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 17%, transparent)"/>
-      <text x="1125" y="202" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">26</text>
-      <rect x="1250" y="164" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 41%, transparent)"/>
-      <text x="1375" y="202" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">47</text>
+      <rect x="250" y="164" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 71%, transparent)"/>
+      <text x="323" y="202" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">74</text>
+      <rect x="396" y="164" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--accent) 87%, transparent)"/>
+      <text x="469" y="202" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">88</text>
+      <rect x="542" y="164" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 30%, transparent)"/>
+      <text x="615" y="202" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">38</text>
+      <rect x="688" y="164" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 17%, transparent)"/>
+      <text x="761" y="202" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">26</text>
+      <rect x="834" y="164" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 41%, transparent)"/>
+      <text x="907" y="202" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">47</text>
     </g>
     <g data-step="3">
       <text x="234" y="268" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">창고</text>
-      <rect x="250" y="230" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 79%, transparent)"/>
-      <text x="375" y="268" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">81</text>
-      <rect x="500" y="230" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--accent) 83%, transparent)"/>
-      <text x="625" y="268" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">84</text>
-      <rect x="750" y="230" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 12%, transparent)"/>
-      <text x="875" y="268" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">22</text>
-      <rect x="1000" y="230" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 37%, transparent)"/>
-      <text x="1125" y="268" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">44</text>
-      <rect x="1250" y="230" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 47%, transparent)"/>
-      <text x="1375" y="268" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">53</text>
+      <rect x="250" y="230" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 79%, transparent)"/>
+      <text x="323" y="268" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">81</text>
+      <rect x="396" y="230" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--accent) 83%, transparent)"/>
+      <text x="469" y="268" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">84</text>
+      <rect x="542" y="230" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 12%, transparent)"/>
+      <text x="615" y="268" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">22</text>
+      <rect x="688" y="230" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 37%, transparent)"/>
+      <text x="761" y="268" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">44</text>
+      <rect x="834" y="230" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 47%, transparent)"/>
+      <text x="907" y="268" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">53</text>
     </g>
     <g data-step="4">
       <text x="234" y="334" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">국제물류</text>
-      <rect x="250" y="296" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 59%, transparent)"/>
-      <text x="375" y="334" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">63</text>
-      <rect x="500" y="296" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--accent) 45%, transparent)"/>
-      <text x="625" y="334" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">51</text>
-      <rect x="750" y="296" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 53%, transparent)"/>
-      <text x="875" y="334" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">58</text>
-      <rect x="1000" y="296" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 58%, transparent)"/>
-      <text x="1125" y="334" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">62</text>
-      <rect x="1250" y="296" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 28%, transparent)"/>
-      <text x="1375" y="334" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">36</text>
+      <rect x="250" y="296" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 59%, transparent)"/>
+      <text x="323" y="334" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">63</text>
+      <rect x="396" y="296" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--accent) 45%, transparent)"/>
+      <text x="469" y="334" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">51</text>
+      <rect x="542" y="296" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 53%, transparent)"/>
+      <text x="615" y="334" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">58</text>
+      <rect x="688" y="296" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 58%, transparent)"/>
+      <text x="761" y="334" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">62</text>
+      <rect x="834" y="296" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 28%, transparent)"/>
+      <text x="907" y="334" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">36</text>
     </g>
     <g data-step="5">
       <text x="234" y="400" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="end">백오피스</text>
-      <rect x="250" y="362" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 19%, transparent)"/>
-      <text x="375" y="400" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">28</text>
-      <rect x="500" y="362" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--accent) 14%, transparent)"/>
-      <text x="625" y="400" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">24</text>
-      <rect x="750" y="362" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 49%, transparent)"/>
-      <text x="875" y="400" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">54</text>
-      <rect x="1000" y="362" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 92%, transparent)"/>
-      <text x="1125" y="400" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">92</text>
-      <rect x="1250" y="362" width="246" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 22%, transparent)"/>
-      <text x="1375" y="400" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">31</text>
+      <rect x="250" y="362" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 19%, transparent)"/>
+      <text x="323" y="400" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">28</text>
+      <rect x="396" y="362" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--accent) 14%, transparent)"/>
+      <text x="469" y="400" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">24</text>
+      <rect x="542" y="362" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 49%, transparent)"/>
+      <text x="615" y="400" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">54</text>
+      <rect x="688" y="362" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 92%, transparent)"/>
+      <text x="761" y="400" font-size="20" font-weight="700" class="k-t-w" text-anchor="middle">92</text>
+      <rect x="834" y="362" width="142" height="62" rx="4" style="fill:color-mix(in srgb, var(--blue) 22%, transparent)"/>
+      <text x="907" y="400" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">31</text>
     </g>
-      <path d="M625,434 L625,462" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
-      <text x="625" y="490" font-size="24" font-weight="800" class="k-t-o" text-anchor="middle">「핵심」 운임·경로(연 34억) — 데이터 준비가 선행 과제</text>
-      <path d="M1125,434 L1125,466" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
-      <text x="1125" y="490" font-size="20" font-weight="600" class="k-t-tag" text-anchor="middle">「참고」 문서자동(연 26억) — 백오피스 편중, 즉시 착수</text>
-    <text x="250" y="466" font-size="18" fill="var(--soft)">22</text>
-    <rect x="310" y="454" width="140" height="14" rx="3" style="fill:color-mix(in srgb, var(--accent) 45%, transparent)"/>
-    <text x="464" y="466" font-size="18" fill="var(--soft)">92</text>
-  </svg>
+      <path d="M469,434 L469,462" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
+<rect x="402.4" y="471" width="64" height="26" rx="13" fill="var(--accent)"/>
+<text x="434.4" y="491" font-size="18" font-weight="800" class="k-t-w" text-anchor="middle">핵심</text>
+      <text x="474.4" y="490" font-size="24" font-weight="800" class="k-t-o" text-anchor="start">운임·</text>
+      <text x="474.4" y="514" font-size="24" font-weight="800" class="k-t-o" text-anchor="start">경로…</text>
+      <path d="M761,434 L761,540" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
+<rect x="694" y="545" width="64" height="26" rx="13" fill="var(--track-strong)"/>
+<text x="726" y="565" font-size="18" font-weight="800" class="k-t-w" text-anchor="middle">참고</text>
+      <text x="766" y="564" font-size="20" font-weight="600" class="k-t-tag" text-anchor="start">문서자</text>
+      <text x="766" y="588" font-size="20" font-weight="600" class="k-t-tag" text-anchor="start">동(연…</text>
+    <defs><linearGradient id="hm-grad" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="var(--blue)" stop-opacity=".14"/><stop offset="1" stop-color="var(--blue)" stop-opacity=".92"/></linearGradient></defs>
+    <text x="250" y="666" font-size="18" fill="var(--soft)">22</text>
+    <rect x="310" y="654" width="140" height="14" rx="3" fill="url(#hm-grad)"/>
+    <text x="464" y="666" font-size="18" fill="var(--soft)">92</text>
+    </svg>
+    </div>
+    <aside class="c-sidecar-panel" data-step="5">
+      <p class="sc-k">SO WHAT</p>
+      <p class="sc-v">140<small>억</small></p>
+      <p class="sc-h">연 가치 목표 — 3개 클러스터에 집중</p>
+      <ul>
+        <li>운임·수요·응대 3개 클러스터가 가치의 대부분</li>
+        <li>운임·경로 34억은 <b>데이터 준비가 선행 과제</b></li>
+        <li>문서자동 26억은 백오피스 편중 — 즉시 착수</li>
+      </ul>
+    </aside>
+  </div>
   <p class="c-note" data-step="5"><b>방법론·한계</b> — 강도 = 원천 가치액의 사업부 배분 지수 · 원천별 연환산 추정(운영 전환 완료 기준)</p>
   <div class="c-src" data-step="5">
     <p>Source: consulting-deck 예시 — 가상 시나리오 · 기준 FY25 사업부 베이스 기준</p>

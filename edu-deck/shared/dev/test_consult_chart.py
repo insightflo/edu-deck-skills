@@ -208,7 +208,7 @@ class ConsultChartTest(unittest.TestCase):
         self.assertIn('data-count', html, '최종 합계는 count-up')
         self.assertIn('k-solid-n', html, 'total 막대는 k-solid-n')
         self.assertIn('−140', html, '증감 라벨은 부호 포함')
-        self.assertIn('「핵심」', html, 'main 주석 표식')
+        self.assertIn('>핵심<', html, 'main 주석은 캡슐 배지 표식')
 
     def test_ranked_sorted_and_highlight(self):
         out = self.tmp / 'rb-struct.html'
@@ -244,7 +244,8 @@ class ConsultChartTest(unittest.TestCase):
         # 증감 막대 = 파랑/초점색/회색 fill(base·total 의 k-solid-n 제외)
         delta_heights = [float(h) for h, attrs in
                          re.findall(r'<rect[^>]*height="([\d.]+)"([^>]*)>', html)
-                         if 'k-solid-b' in attrs or 'var(--accent)' in attrs or 'var(--muted)' in attrs]
+                         if 'rx=' not in attrs and
+                         ('k-solid-b' in attrs or 'var(--accent)' in attrs or 'var(--muted)' in attrs)]
         self.assertEqual(len(delta_heights), 4)
         self.assertTrue(all(h >= 18 for h in delta_heights),
                         f'증감 막대 {delta_heights} — 축 생략 후에도 18px 미만')
@@ -326,7 +327,7 @@ class ConsultChartTest(unittest.TestCase):
         self.assertEqual(code, 0, log)
         html = out.read_text(encoding='utf-8')
         # waterfall: 항목 라벨 y=508 — 주석 라인은 ±10px 안에 들어오면 안 된다
-        ann_ys = [float(y) for y in re.findall(r'<text x="[\d.]+" y="([\d.]+)"[^>]*>「', html)]
+        ann_ys = [float(y) for y in re.findall(r'<text x="[\d.]+" y="([\d.]+)" font-size="2[04]"[^>]*class="k-t-[ot]"', html)]
         self.assertTrue(ann_ys, 'waterfall 주석 없음')
         for y in ann_ys:
             self.assertFalse(498 < y < 518, f'주석 y={y} 가 항목 라벨(508)과 겹침')
@@ -339,8 +340,10 @@ class ConsultChartTest(unittest.TestCase):
         code, log = run(RB, out)
         self.assertEqual(code, 0, log)
         html = out.read_text(encoding='utf-8')
-        self.assertIn('「핵심」 재설계 유무가 성과를 7배 가른다', html)   # 아래 배치는 원문 유지(넓은 폭)
-        self.assertIn('「참고」 목표 연동 시 전환율 2배', html)
+        self.assertIn('재설계 유무가 성과를 7배 가른다', html)   # 아래 배치는 원문 유지(넓은 폭)
+        self.assertIn('목표 연동 시 전환율 2배', html)
+        self.assertIn('>핵심<', html, 'main 주석 캡슐 배지')
+        self.assertIn('>참고<', html, 'sub 주석 캡슐 배지')
         # 주석 y 가 다른 항목 라벨 y 와 겹치지 않는지 — 그룹별 비교
         groups = re.findall(r'<g data-step="\d+">(.*?)</g>', html, re.S)
         name_ys = []
@@ -350,7 +353,7 @@ class ConsultChartTest(unittest.TestCase):
             name_y = float(ny2.group(1)) if ny2 else None
             if name_y is not None:
                 name_ys.append(name_y)
-            for ay in re.findall(r'<text[^>]*y="([\d.]+)"[^>]*>「', g):
+            for ay in re.findall(r'<text[^>]*y="([\d.]+)"[^>]*font-size="2[04]"[^>]*class="k-t-[ot]"', g):
                 ann_positions.append((name_y, float(ay)))
         for name_y, ay in ann_positions:
             others = {y for y in name_ys if y != name_y}
@@ -532,6 +535,92 @@ class ConsultChartTest(unittest.TestCase):
         code, log = run(p, out)
         self.assertEqual(code, 0, log)
         self.assertIn('<section class="slide consult"', out.read_text(encoding='utf-8'))
+
+    # ── P2 옵션: sidecar · bridge · targetQuadrant ─────────────────
+    def test_sidecar_panel_structure(self):
+        def add(m):
+            m['chart']['canvas'] = 'sidecar'
+            m['chart']['sidecar'] = {'v': '42', 'unit': '%', 'h': '시사점 한 줄',
+                                     'bullets': ['첫째 근거', '둘째 근거']}
+        p = self._mutate(WF, add, 'sidecar.json')
+        out = self.tmp / 'sidecar.html'
+        code, log = run(p, out)
+        self.assertEqual(code, 0, log)
+        html = out.read_text(encoding='utf-8')
+        self.assertIn('class="c-sidecar"', html)
+        self.assertIn('class="c-sidecar-main"', html)
+        self.assertIn('class="c-sidecar-panel"', html)
+        self.assertIn('>42<small>%</small>', html, '헤드라인 수치+단위')
+        self.assertIn('시사점 한 줄', html)
+        self.assertEqual(html.count('<li>'), 2, '불릿 수')
+        self.assertIn('viewBox="0 0 1040', html, 'sidecar 캔버스는 좁은 폭')
+        self.assertIn('class="c-src"', html, '출처 블록은 사이드카 밖에 유지')
+
+    def test_sidecar_default_key(self):
+        p = self._mutate(WF, lambda m: m['chart'].__setitem__('sidecar', {'v': '7', 'bullets': ['하나']}), 'sidecar-k.json')
+        out = self.tmp / 'sidecar-k.html'
+        code, log = run(p, out)
+        self.assertEqual(code, 0, log)
+        self.assertIn('>SO WHAT<', out.read_text(encoding='utf-8'))
+
+    def test_sidecar_validation_rejected(self):
+        # bullets 4개 → FAIL
+        p = self._mutate(WF, lambda m: m['chart'].__setitem__('sidecar',
+                         {'v': '1', 'bullets': ['a', 'b', 'c', 'd']}), 'sc-bad.json')
+        code, log = run(p, self.tmp / 'sc-bad.html')
+        self.assertEqual(code, 1)
+        self.assertIn('bullets', log)
+        # v 누락 → FAIL
+        p = self._mutate(WF, lambda m: m['chart'].__setitem__('sidecar', {'bullets': ['a']}), 'sc-bad2.json')
+        code, log = run(p, self.tmp / 'sc-bad2.html')
+        self.assertEqual(code, 1)
+        # canvas:"sidecar" 인데 sidecar 없음 → 경고, 생성은 계속
+        p = self._mutate(WF, lambda m: m['chart'].__setitem__('canvas', 'sidecar'), 'sc-warn.json')
+        code, log = run(p, self.tmp / 'sc-warn.html')
+        self.assertEqual(code, 0, log)
+        self.assertIn('WARN', log.upper())
+
+    def test_bridge_total(self):
+        def add(m):
+            m['chart']['bridge'] = 'total'
+        p = self._mutate(ST, add, 'bridge-t.json')
+        out = self.tmp / 'bridge-t.html'
+        code, log = run(p, out)
+        self.assertEqual(code, 0, log)
+        html = out.read_text(encoding='utf-8')
+        self.assertIn('stroke-dasharray', html, '총계 다리는 점선')
+        self.assertIn('%', html, '변화율 캡슐 % 표기')
+
+    def test_bridge_wrong_type_warned(self):
+        p = self._mutate(WF, lambda m: m['chart'].__setitem__('bridge', 'total'), 'br-wf.json')
+        code, log = run(p, self.tmp / 'br-wf.html')
+        self.assertEqual(code, 0, log)
+        self.assertIn('WARN', log.upper())
+
+    def test_target_quadrant(self):
+        def add(m):
+            m['chart']['targetQuadrant'] = 'tr'
+        p = self._mutate(MX, add, 'tq.json')
+        out = self.tmp / 'tq.html'
+        code, log = run(p, out)
+        self.assertEqual(code, 0, log)
+        html = out.read_text(encoding='utf-8')
+        self.assertIn('var(--accent) 7%', html, '목표 사분면 틴트')
+        code2, log2 = run(p, self.tmp / 'tq2.html')
+        self.assertEqual(out.read_bytes(), (self.tmp / 'tq2.html').read_bytes(), '결정성')
+        # 잘못된 값 → FAIL
+        p = self._mutate(MX, lambda m: m['chart'].__setitem__('targetQuadrant', 'xx'), 'tq-bad.json')
+        code, log = run(p, self.tmp / 'tq-bad.html')
+        self.assertEqual(code, 1)
+
+    def test_matrix_steps_compressed(self):
+        # 점이 많아도 단계는 축(1)+비초점(2)+초점(3)으로 압축된다
+        out = self.tmp / 'mx-steps.html'
+        code, log = run(MX, out)
+        self.assertEqual(code, 0, log)
+        html = out.read_text(encoding='utf-8')
+        steps = [int(s) for s in re.findall(r'<g data-step="(\d+)"', html)]
+        self.assertLessEqual(max(steps), 3, f'matrix 단계 과다: {sorted(set(steps))}')
 
     # ── --check 계약 ────────────────────────────────────────────────
     def test_check_byte_compare(self):

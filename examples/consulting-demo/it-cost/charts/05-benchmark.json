@@ -14,11 +14,26 @@
       "period": "FY25"
     },
     "data": [
-      { "label": "경쟁 C사", "value": 3.4 },
-      { "label": "경쟁 B사", "value": 3.6 },
-      { "label": "경쟁 A사", "value": 3.9 },
-      { "label": "우리 회사", "value": 4.1 },
-      { "label": "경쟁 D사", "value": 4.5 }
+      {
+        "label": "경쟁 C사",
+        "value": 3.4
+      },
+      {
+        "label": "경쟁 B사",
+        "value": 3.6
+      },
+      {
+        "label": "경쟁 A사",
+        "value": 3.9
+      },
+      {
+        "label": "우리 회사",
+        "value": 4.1
+      },
+      {
+        "label": "경쟁 D사",
+        "value": 4.5
+      }
     ],
     "highlight": [
       "우리 회사"
@@ -29,7 +44,18 @@
         "on": "우리 회사",
         "kind": "main"
       }
-    ]
+    ],
+    "canvas": "sidecar",
+    "sidecar": {
+      "v": "4.1",
+      "unit": "%",
+      "h": "IT 비용 매출 비 — 비교 5사 중 두 번째로 높다",
+      "bullets": [
+        "그룹 중위 3.9%보다 높다",
+        "전환 선례 D사(4.5→진행 중)와 <b>같은 원인 구조</b>",
+        "목표 2.9% — 비교 최저 수준(3.4%) 이하"
+      ]
+    }
   },
   "source": {
     "text": "consulting-deck 예시 — 가상 시나리오",

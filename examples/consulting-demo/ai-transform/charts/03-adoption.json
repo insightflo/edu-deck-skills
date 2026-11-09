@@ -14,11 +14,26 @@
       "period": "2026-01 설문"
     },
     "data": [
-      { "label": "계속 투자 의사", "value": 90 },
-      { "label": "2028 재정의 전망", "value": 90 },
-      { "label": "투자 수익 낙관", "value": 80 },
-      { "label": "CEO 확신", "value": 62 },
-      { "label": "현장 확신(비C실무)", "value": 48 }
+      {
+        "label": "계속 투자 의사",
+        "value": 90
+      },
+      {
+        "label": "2028 재정의 전망",
+        "value": 90
+      },
+      {
+        "label": "투자 수익 낙관",
+        "value": 80
+      },
+      {
+        "label": "CEO 확신",
+        "value": 62
+      },
+      {
+        "label": "현장 확신(비C실무)",
+        "value": 48
+      }
     ],
     "highlight": [
       "현장 확신(비C실무)"
@@ -29,7 +44,18 @@
         "on": "현장 확신(비C실무)",
         "kind": "main"
       }
-    ]
+    ],
+    "canvas": "sidecar",
+    "sidecar": {
+      "v": "48",
+      "unit": "%",
+      "h": "현장 확신 — CEO 확신 62%보다 14%p 낮다",
+      "bullets": [
+        "구석실에서 멀어질수록 확신이 옅어진다 — 62→48%",
+        "전환의 진짜 과제는 <b>현장 확신</b>을 만드는 것",
+        "90일 착수 패키지에 채택률 게이트를 둔다(로드맵 장)"
+      ]
+    }
   },
   "source": {
     "text": "BCG AI Radar 2026 — As AI Investments Surge, CEOs Take the Lead (bcg.com) · 설문 2,400명(CEO 640)·16개 시장",

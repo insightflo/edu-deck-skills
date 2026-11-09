@@ -12,37 +12,37 @@
 .c-cover-ask .a-k{font-size:22px;font-weight:800;letter-spacing:2px;color:var(--accent-text)}
 .c-cover-ask p{font-size:28px;font-weight:700;line-height:1.4}
 
-/* SCQA 2×2 */
-.c-scqa{display:grid;grid-template-columns:1fr 1fr;gap:var(--s3)}
-.c-scqa>div{border-radius:var(--r2);padding:var(--s4);min-height:236px}
-.c-scqa .sq-s{background:var(--light)}
-.c-scqa .sq-c{background:color-mix(in srgb,var(--danger) 6%,var(--paper));border-top:4px solid var(--danger)}
-.c-scqa .sq-q{background:color-mix(in srgb,var(--accent) 7%,var(--paper));border-top:4px solid var(--accent)}
-.c-scqa .sq-a{background:var(--ink);color:var(--paper)}
-.c-scqa .s-k{font-size:23px;font-weight:800;letter-spacing:2px;color:var(--blue-text);margin-bottom:var(--s2)}
+/* SCQA — 면 채움 카드 대신 상단 룰 4열(마지막 ANSWER 만 다크 면 — 덱의 유일한 절대 초점) */
+.c-scqa{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s3)}
+.c-scqa>div{border-top:2px solid var(--ink);padding:var(--s3) var(--s3) var(--s3) 0;min-height:0}
+.c-scqa .sq-c{border-top-color:var(--danger)}
+.c-scqa .sq-q{border-top-color:var(--accent)}
+.c-scqa .sq-a{background:var(--ink);color:var(--paper);border-top-color:var(--ink);border-radius:var(--r1);padding:var(--s3)}
+.c-scqa .s-k{font-size:21px;font-weight:800;letter-spacing:2px;color:var(--blue-text);margin-bottom:var(--s2)}
 .c-scqa .sq-a .s-k{color:var(--accent-light)}
-.c-scqa p.v{font-size:28px;line-height:1.45;font-weight:700}
-.c-scqa p.d{font-size:22px;color:var(--soft);margin-top:var(--s1);line-height:1.4}
+.c-scqa p.v{font-size:26px;line-height:1.45;font-weight:700}
+.c-scqa p.d{font-size:21px;color:var(--soft);margin-top:var(--s1);line-height:1.4}
 .c-scqa .sq-a p.d{color:var(--muted)}
 
-/* TOM 4레일 — As-Is→To-Be 세로 카드 */
+/* TOM 4레일 — As-Is→To-Be 헤어라인 레일(리드 레일만 accent 룰) */
 .c-tom{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s3)}
-.c-tom>div{background:var(--paper);border:1px solid var(--muted);border-top:5px solid var(--blue);border-radius:var(--r2);padding:var(--s3);display:flex;flex-direction:column;gap:var(--s2)}
-.c-tom>div.t-lead{border-top-color:var(--accent);background:color-mix(in srgb,var(--accent) 5%,var(--paper))}
+.c-tom>div{border-top:3px solid var(--line);padding:var(--s3) var(--s3) var(--s3) 0;display:flex;flex-direction:column;gap:var(--s2)}
+.c-tom>div.t-lead{border-top-color:var(--accent)}
 .c-tom .t-k{font-size:23px;font-weight:800;letter-spacing:1px}
-.c-tom .t-asis{font-size:19px;color:var(--soft);border:1px dashed var(--muted);border-radius:var(--r1);padding:8px 12px}
+.c-tom .t-lead .t-k{color:var(--accent-text)}
+.c-tom .t-asis{font-size:19px;color:var(--soft);border-top:1px dashed var(--muted);padding:10px 0 0}
 .c-tom .t-tobe{font-size:24px;font-weight:800;line-height:1.4}
 .c-tom ul{margin:0;padding-left:22px;display:grid;gap:8px}
 .c-tom li{font-size:21px;line-height:1.4;color:var(--soft)}
 .c-tom li b{color:var(--ink)}
 
-/* 90일 로드맵 그리드(데모 B c-road 계약 동일) */
-.c-road{display:grid;grid-template-columns:200px repeat(3,1fr);gap:14px;font-size:22px}
-.c-road>div{border-radius:var(--r1);padding:16px 18px;line-height:1.4}
-.c-road .rh{font-weight:800;color:var(--paper);background:var(--blue)}
+/* 90일 로드맵 — 단계 헤더 솔리드(착수 시점 지시) + 셀은 헤어라인 행 */
+.c-road{display:grid;grid-template-columns:200px repeat(3,1fr);gap:0 14px;font-size:22px}
+.c-road>div{padding:16px 18px;line-height:1.4}
+.c-road .rh{font-weight:800;color:var(--paper);background:var(--blue);border-radius:var(--r1)}
 .c-road .rh.a{background:var(--accent)}
-.c-road .rl{font-weight:800;color:var(--blue-text);background:var(--light);display:flex;align-items:center}
-.c-road .rc{background:var(--paper);border:1px solid var(--muted)}
+.c-road .rl{font-weight:800;color:var(--blue-text);display:flex;align-items:center;border-top:1px solid var(--line)}
+.c-road .rc{border-top:1px solid var(--line)}
 .c-road .rc b{display:block;font-size:23px;margin-bottom:4px;color:var(--ink)}
 .c-road .rc .r-v{color:var(--accent-text);font-weight:800}
-.c-road-note{font-size:22px;color:var(--soft);margin-top:var(--s2)}
+.c-road-note{font-size:20px;color:var(--soft);margin-top:var(--s2)}
