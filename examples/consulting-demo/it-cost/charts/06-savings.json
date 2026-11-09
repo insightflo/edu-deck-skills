@@ -15,13 +15,42 @@
       "axisBreak": 600
     },
     "data": [
-      { "label": "FY25 IT 비용", "value": 1240, "kind": "base" },
-      { "label": "라이선스 정비", "value": -142, "kind": "delta" },
-      { "label": "클라우드 최적화", "value": -118, "kind": "delta" },
-      { "label": "레거시 전환", "value": -86, "kind": "delta" },
-      { "label": "외주 재협상", "value": -54, "kind": "delta" },
-      { "label": "전환 투자", "value": 30, "kind": "delta", "oneoff": true },
-      { "label": "FY27 목표", "value": 870, "kind": "total" }
+      {
+        "label": "FY25 IT 비용",
+        "value": 1240,
+        "kind": "base"
+      },
+      {
+        "label": "라이선스 정비",
+        "value": -142,
+        "kind": "delta"
+      },
+      {
+        "label": "클라우드 최적화",
+        "value": -118,
+        "kind": "delta"
+      },
+      {
+        "label": "레거시 전환",
+        "value": -86,
+        "kind": "delta"
+      },
+      {
+        "label": "외주 재협상",
+        "value": -54,
+        "kind": "delta"
+      },
+      {
+        "label": "전환 투자",
+        "value": 30,
+        "kind": "delta",
+        "oneoff": true
+      },
+      {
+        "label": "FY27 목표",
+        "value": 870,
+        "kind": "total"
+      }
     ],
     "highlight": [
       "라이선스 정비",
@@ -29,12 +58,12 @@
     ],
     "annotations": [
       {
-        "label": "04 장 증가 요인의 직접 반전 — 원인을 치료",
+        "label": "증가 요인의 직접 반전",
         "on": "라이선스 정비",
         "kind": "main"
       },
       {
-        "label": "FY26 1회성 — 회수 14개월(10 장)",
+        "label": "FY26 1회성 투자",
         "on": "전환 투자",
         "kind": "sub"
       }

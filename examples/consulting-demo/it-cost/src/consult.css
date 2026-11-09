@@ -20,7 +20,7 @@
   --chip:#e8ebee;
 }
 /* 주장형 제목 — 한 문장 결론이 2줄로 균형 있게 (중-1: 외톨이 단어 방지) */
-.slide.consult .title{font-size:54px;line-height:1.22;font-weight:800;letter-spacing:-.5px;text-wrap:balance}
+.slide.consult .title{font-size:54px;line-height:1.22;font-weight:800;letter-spacing:-.5px;text-wrap:balance;word-break:keep-all}
 .slide.consult .eyebrow{letter-spacing:2px;font-size:24px}
 
 /* At-a-Glance 3불릿(사실→단서→전망): 펌 오프닝 공식 — 상단 보더로 카드 식별성 부여(중-2) */
