@@ -65,14 +65,20 @@ node <이 스킬>/charts/chart_gen.mjs --in <작업 폴더>/charts/NN-이름.jso
 - 컨설팅 덱은 **팩 경로를 쓰지 않는다**. `deck.json`에 `title`·`output`만 쓰고 `src/`를 직접 저작한다. 테마는 덱 로컬 `src/*.css`(consult.css 계열 — `consulting-deck/assets/consult.css`를 복사해 쓴다)로 준다. IT 아키텍처·전환 장은 Architecture Kit(`<base>/references/architecture.md`)을 그대로 결합할 수 있다.
 - 노트는 장마다 실제 발표 근거로 쓴다(자동 진행 금지). 계약(`data-step/add/only/lit/until`·`.chk`·`aside.notes`)은 교육 덱과 동일하게 보호한다.
 
-### 6. 조립·검사
+### 6. 조립·검사·심미 리뷰
 ```bash
 python3 <base>/scripts/build_deck.py <작업 폴더>
 python3 <base>/scripts/check_deck.py <작업 폴더>/<결과 파일> --sheets <작업 폴더>/qa --json <작업 폴더>/qa/check.json
 python3 <이 스킬>/checks/check_consulting.py <작업 폴더>     # 컨설팅 게이트(논리·데이터·근거 대조)
+python3 <이 스킬>/checks/capture_deck.py <작업 폴더>/<결과 파일> <작업 폴더>/qa/shots   # 전 장 최종 상태 캡처
 ```
 - 게이트의 기준·자동 검사와 사람 승인의 구분: `references/quality-gates.md`.
 - 1920×1080 캡처를 직접 본다(표지·핵심 장·차트 장). 모션은 단계·재방문·인쇄·reduced-motion을 확인한다.
+- **심미 리뷰(의무)**: 자동 검사 통과는 심미 품질의 증거가 아니다. 완성 덱은 반드시
+  `references/design-review.md` 절차로 독립 검수를 통과한다 — 저작 에이전트가 아니라
+  **시각 판단 기능이 있는 에이전트**(이 환경: agy/gemini-4-argon)가 캡처를 보고
+  7관점(위계·레이아웃·타이포·차트·공간·정체성·모션)으로 진단한다. 지적은 치명→권고
+  순으로 반영하고 재평가 받는다. 자기 결과물 자체 평가로 갈음하지 않는다.
 
 ### 7. 보고
 - 결과 경로·장 수·형태·청중·서사 뼈대 한 줄. 사용한 출처 수와 가상 데이터 항목.
@@ -107,6 +113,7 @@ python3 <이 스킬>/checks/check_consulting.py <작업 폴더>     # 컨설팅 
 | 파일 | 언제 읽나 |
 |---|---|
 | `references/storyline.md` | 3단계: 저작 형태 분기·문제 정의·이슈 트리·통치 사상·서사 뼈대·주장형 제목·Exec Summary |
+| `references/design-review.md` | 6단계: 심미 리뷰 — 독립 아트 디렉터 계약(7관점·시각 판단 에이전트 필수·자동검사≠심미 증거) |
 | `references/evidence.md` | 2·4단계: evidence.json 원장·증거 유형·가정/사실 구분·가상 데이터 표기·계산 검증 |
 | `references/consulting-layouts.md` | 5단계: 19 유형 배치 카탈로그(목적·수용량·만드는 법)와 선택 규칙 |
 | `references/analytical-charts.md` | 4단계: 질문 기반 차트 선택·5층 구조·주석·색·출처 블록·모션 |

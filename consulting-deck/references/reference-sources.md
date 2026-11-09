@@ -62,3 +62,10 @@ McKinsey MGI 2025 in Charts: playwright→Akamai 403 · curl→연결 차단 · 
   스택 세그먼트 종이색 분리선. `assets/consult.css` 신규 토큰(--grid·--track·--track-strong)과
   `charts/chart_gen.mjs` 비초점 fill/축선 두께로 구현.
 - **경계**: 코드·컴포넌트 복사 없음(값·개념만). 분석 자료: /tmp/ztd/(캡처·토큰 덤프 — 세션 한시).
+
+## 디자인 진단 스킬 3종 (2026-11-10 추가 — 심미 리뷰 계약의 개념 출처)
+
+- **Impeccable** (pbakaus/impeccable, Apache-2.0) — critique/bolder/typeset/layout/polish 디자인 어휘·리뷰와 기술검사 분리 원칙 → references/design-review.md §2·§3.
+- **designer-skills/design-review** (julianoczkowski/designer-skills, Apache-2.0) — 실제 화면 캡처 필수 절차(코드만 읽고 평가 금지) → §1 절차·§4 호출 계약.
+- **better-web-ui** (aladicf — 로컬 설치 스킬, critique·hierarchy·data-viz) — 세분화 진단 렌즈 → 7관점 표.
+- 코드 복사 없음. 웹 UI용 원칙을 슬라이드·발표 위계용으로 재작성했다.
