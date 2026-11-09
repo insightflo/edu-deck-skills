@@ -906,7 +906,7 @@ body{font-family:'Pretendard Variable','Apple SD Gothic Neo','Malgun Gothic','�
 .src-list b{color:var(--ink);font-weight:700}
 .src-list a{color:var(--blue);text-decoration:none;word-break:break-all}
 
-/* ---------- 자습 레이어(S 자습 · P 인쇄 · G 용어집)와 확인 문제(.chk) ----------
+/* ---------- 자습 레이어(S 자습 · P 인쇄 · D 용어집)와 확인 문제(.chk) ----------
    클린룸 재작성. st- 접두 클래스는 셸 스크립트(assets/js/study.js)가 런타임에 만든다 —
    원고에는 쓰지 않는다. 표시 토글(st-show·st-fold·st-self·st-printing·hidden)과
    무대 변수(--st-sc·--st-top·--st-k·--st-w·--st-fs)는 엔진이 읽는 계약이라 유지한다. */
@@ -1568,6 +1568,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 <marker id="ah-o" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="var(--accent)"/></marker>
 <marker id="ah-b" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="var(--blue)"/></marker>
 <marker id="ah-n" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="var(--ink)"/></marker>
+<marker id="ah-open" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1.5 1L9 5L1.5 9" fill="none" stroke="var(--soft)" stroke-width="1.8"/></marker>
 <symbol id="i-cube" viewBox="0 0 100 100">
   <path d="M50 12 86 30v40L50 88 14 70V30L50 12Z" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M14 30l36 18 36-18M50 48v40" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1867,7 +1868,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 <div id="progress"></div>
 <div id="dots"></div>
 <div id="counter"></div>
-<div id="help">→ 다음 (한 단계씩) · ← 이전 · F 전체화면 · N 발표자 노트 · S 자습 · P 인쇄 · G 용어집 · A 자동 발표 · E 편집</div>
+<div id="help">→ 다음 (한 단계씩) · ← 이전 · F 전체화면 · N 발표자 노트 · S 자습 · P 인쇄 · G 끝까지 재생 · M 자동 완주(장 진입 시) · D 용어집 · A 자동 발표 · E 편집</div>
 <div id="notes"><div class="h">발표자 노트 (N으로 닫기)</div><div id="notesText"></div></div>
 
 <script>/* Shared on-screen reader. It never owns lesson state: deckGo/step events and
@@ -2319,7 +2320,9 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
     'stat-strip':'.stat','quadrant':'.qcell,.qp,.qbub','flashcards':'.fc','ops-report':'.oi',
     'sankey-flow':'.sk','decision-tree':'.dt','kanban-board':'.kb','version-graph':'.vg',
     'event-fanout':'.ef','route-tour':'.rt','waterfall':'.wf','mesh-network':'.ms',
-    'heatmap-grid':'.hm','swimlane':'.sl','cycle-ring':'.cy'
+    'heatmap-grid':'.hm','swimlane':'.sl','cycle-ring':'.cy',
+    // TASK-arch-kit: 생성기가 굽는 svg.dg 아키텍처 도식 — 단계 루트는 g[data-step]
+    'arch-diagram':'svg g[data-step]'
   };
   const packTargets={atlas:'.atlas-origin,.atlas-source,.atlas-destination',briefing:'.briefing-row',casebook:'.casebook-narrative,.casebook-exhibit,.casebook-decision',editorial:'.editorial-story,.editorial-margin,.editorial-bottom',field:'.field-row',lab:'.lab-observation,.lab-evidence,.lab-next',seminar:'.seminar-turns span,.seminar-preparation,.seminar-invitation',workbook:'.workbook-read,.workbook-write,.workbook-reflection'};
   const packArch={atlas:'map',briefing:'compare-table',casebook:'before-after',editorial:'build-up',field:'sequence',lab:'mechanism',seminar:'hub',workbook:'frame-form'};
@@ -2395,7 +2398,10 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
     // 스윔레인: 카드가 띠 위에 올라가고 인계 화살표가 다음 띠로 넘어간다.
     'swimlane':{name:'lane-slide',frames:i=>['translateY(28px)','translateY(-3px)','translateY(0px)'],draw:true},
     // 순환링: 조각이 회전하듯 제자리로 돌아와 시계 방향 한 바퀴가 완성된다.
-    'cycle-ring':{name:'ring-circuit',frames:i=>['rotate(-14deg) scale(.94)','rotate(2deg) scale(1.01)','rotate(0deg) scale(1)'],draw:true}
+    'cycle-ring':{name:'ring-circuit',frames:i=>['rotate(-14deg) scale(.94)','rotate(2deg) scale(1.01)','rotate(0deg) scale(1)'],draw:true},
+    // TASK-arch-kit: 생성기 산출 svg.dg 아키텍처 — 단계 그룹이 아래에서 자리 잡고
+    // 새로 드러난 선이 그려지며(draw) dash-flow 경로에 패킷 입자가 흐른다(design §4.11).
+    'arch-diagram':{name:'arch-trace',frames:i=>['translateY(28px) scale(.98)','translateY(0px) scale(1)'],draw:true,particles:true}
   };
   // Wipe a prior result in-place: the mask and its content counter-translate,
   // so the old words remain stationary as the new result is uncovered. Neither
@@ -3687,6 +3693,9 @@ try{
       memoBody.textContent=memo?memo.textContent:'';
       if(location.hash!=='#'+(pos+1)) history.replaceState(null,'','#'+(pos+1));
       document.dispatchEvent(new CustomEvent('deckslide',{detail:pos}));
+      /* 자동 완주(M): instant 아님 = 사용자 넘김·첫 로드 — 도착한 장의 남은 단계를 순차 재생한다.
+         deckGo·검사기(instant)는 영향 없고, toEnd 진입(←로 돌아가기)은 이미 끝 단계라 무동작 */
+      if(motionAuto&&!instant) finishSteps();
     }
     /* 이미 켜진 장이 있을 때만 전환 연출을 태운다 — 첫 표시는 즉시 그린다 */
     if(window.eduMotion&&!instant&&deckEl.querySelector('.slide.active')) window.eduMotion.navigate(commit,deckEl.dataset.dir);
@@ -3721,6 +3730,8 @@ try{
     else if(k==='End'){ jumpTo(pages.length-1,false); }
     else if(k==='f'||k==='F'||k==='ㄹ'){ bigScreen(); }
     else if(k==='n'||k==='N'||k==='ㅜ'){ swapMemo(); }
+    else if(k==='g'||k==='G'||k==='ㅎ'){ e.preventDefault(); motionFinishKey(); }
+    else if(k==='m'||k==='M'||k==='ㅡ'){ e.preventDefault(); motionModeSet(!motionAuto); }
   });
   var CLICK_GUARD='a,button,.todo,.chk,.code,.tabs,.faq,.pin-shot,.pin-list,.st-panel,.st-modal,.st-print,.expl,.dsheet';
   document.addEventListener('click',function(e){
@@ -3755,6 +3766,25 @@ try{
       if(mark<topMark(pages[pos])) finishTimer=setTimeout(tick,gap);
     };
     finishTimer=setTimeout(tick,gap);
+  }
+  /* ---- 모션 재생 방식(M 토글): 장이 바뀔 때 자동 완주 ↔ 입력마다 한 단계 ----
+     G 키는 dblclick 과 같은 finishSteps 를 부른다(마우스 없이 남은 단계 순차 재생).
+     방식은 localStorage 'edeck-motion-auto' 에 남겨 다음 열람에서도 유지한다.
+     자동 완주는 사용자 넘김에서만 — deckGo·검사기(instant)는 영향 없다. */
+  var MODE_KEY='edeck-motion-auto';
+  var motionAuto=false;
+  try{ motionAuto=localStorage.getItem(MODE_KEY)==='1'; }catch(eM){}
+  function motionGuard(){
+    return !rootEl.classList.contains('ed-compact')&&!document.body.classList.contains('in-hub');
+  }
+  function motionFinishKey(){ if(motionGuard()) finishSteps(); }
+  function motionModeSet(on){
+    if(!motionGuard()) return;
+    motionAuto=on;
+    try{ localStorage.setItem(MODE_KEY,on?'1':'0'); }catch(eM){}
+    if(window.edToast) window.edToast(on?'모션 자동 완주 켬 — 장이 바뀌면 그 장의 끝까지 재생합니다 (M 끄기)'
+                                        :'모션 자동 완주 끔 — 클릭·키마다 한 단계씩 재생합니다 (M 켜기)');
+    if(on) finishSteps(); else cancelFinish();
   }
   document.addEventListener('dblclick',function(e){
     if(rootEl.classList.contains('ed-compact')) return;
@@ -3805,7 +3835,7 @@ try{
 <script>
 /*
   자습 레이어(클린룸 재작성): 자습 모드(S 키), 인쇄(P 키 — 한 장 요약·발표 대본),
-  용어집(G 키), 확인 문제(.chk) 채점과 복습 안내.
+  용어집(D 키), 확인 문제(.chk) 채점과 복습 안내.
   [하는 일] 발표용 덱을 혼자 보는 사람이 장마다 발표자 노트를 읽고, 한 장 요약과
     발표 대본을 A4로 인쇄하고, 용어를 찾고, 확인 문제를 풀 수 있게 한다.
   [안 하는 일] 덱 원고(슬라이드 마크업)를 고치지 않는다. aside.notes,
@@ -3927,7 +3957,7 @@ try{
   var pPrev=mkBtn('st-pbtn st-prev','← 이전'), pNext=mkBtn('st-pbtn st-next st-main','다음 →');
   var pTerms=mkBtn('st-pbtn st-tool','용어집'), pPrint=mkBtn('st-pbtn st-tool','인쇄');
   var pFold=mkBtn('st-pbtn st-fold',''), pOff=mkBtn('st-pbtn st-off','자습 끄기');
-  pTerms.title='용어집 (G)'; pPrint.title='인쇄 (P)'; pOff.title='자습 모드 끄기 (S)';
+  pTerms.title='용어집 (D)'; pPrint.title='인쇄 (P)'; pOff.title='자습 모드 끄기 (S)';
   var pGap=mk('span','st-sp');
   [pTag,pPos,pHint,pGap,pPrev,pNext,pTerms,pPrint,pFold,pOff].forEach(function(x){ pBar.appendChild(x); });
   var pText=mk('div','st-pb'); pText.setAttribute('aria-live','polite'); pText.tabIndex=0;
@@ -3987,7 +4017,7 @@ try{
     document.body.classList.toggle('st-self',selfOn);
     document.body.classList.toggle('st-fold',folded);
     paintPanel(); fitStage();
-    if(!quiet) toast(selfOn?'자습 모드를 켰습니다. 장마다 설명이 아래에 나옵니다. (S 끄기 · G 용어집 · P 인쇄)':'자습 모드를 껐습니다. (S로 다시 켜기)');
+    if(!quiet) toast(selfOn?'자습 모드를 켰습니다. 장마다 설명이 아래에 나옵니다. (S 끄기 · D 용어집 · P 인쇄)':'자습 모드를 껐습니다. (S로 다시 켜기)');
   }
   function setFold(f){ folded=!!f; store(KEY_FOLD,folded?'1':'0'); document.body.classList.toggle('st-fold',folded); paintPanel(); fitStage(); }
   function fakeKey(key){ document.dispatchEvent(new KeyboardEvent('keydown',{key:key,bubbles:true,cancelable:true})); }
@@ -4126,7 +4156,7 @@ try{
   pkX.addEventListener('click',hideLayer);
 
   /* =========================================================
-     3. 용어집(G): glossary 데이터로 만든다. slide 키 또는 본문 찾기로 그 장으로 간다
+     3. 용어집(D): glossary 데이터로 만든다. slide 키 또는 본문 찾기로 그 장으로 간다
      ========================================================= */
   var gloss=mk('div','st-modal st-gloss'); gloss.id='st-gloss';
   gloss.setAttribute('role','dialog'); gloss.setAttribute('aria-modal','true'); gloss.setAttribute('aria-label','용어집');
@@ -4279,7 +4309,7 @@ try{
       if(atHub()){ toast('목차 화면에서는 자습 모드를 쓰지 않습니다. 편을 열면 장마다 설명이 붙습니다.'); }
       else setSelf(!selfOn);
     }
-    else if(k==='g'||k==='G'||k==='ㅎ'){ e.preventDefault(); openGlossary(); }
+    else if(k==='d'||k==='D'||k==='ㅇ'){ e.preventDefault(); openGlossary(); }
     else if(k==='p'||k==='P'||k==='ㅔ'){ e.preventDefault(); openPicker(); }
   },true);
   /* 클릭: 레이어 배경을 누르면 닫기만 하고 장은 넘기지 않는다 */
