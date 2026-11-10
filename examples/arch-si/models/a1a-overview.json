@@ -134,7 +134,8 @@
       "spec": "TLS 종단",
       "icon": "i-si-rack",
       "fam": "paper",
-      "h": 68
+      "h": 68,
+      "w": 80
     },
     {
       "id": "web2",
@@ -143,7 +144,8 @@
       "spec": "TLS 종단",
       "icon": "i-si-rack",
       "fam": "paper",
-      "h": 68
+      "h": 68,
+      "w": 80
     },
     {
       "id": "apigw",
@@ -491,7 +493,7 @@
       "pad": {
         "top": 32,
         "bottom": 20,
-        "side": 18
+        "side": 8
       }
     },
     {
@@ -508,13 +510,18 @@
     },
     {
       "id": "z-web",
-      "label": "WEB 계층",
+      "label": "WEB",
       "parent": "z-dmz",
       "headerStyle": "tinted",
       "members": [
         "web1",
         "web2"
-      ]
+      ],
+      "pad": {
+        "top": 32,
+        "bottom": 20,
+        "side": 4
+      }
     },
     {
       "id": "z-int",
@@ -524,7 +531,7 @@
       "pad": {
         "top": 32,
         "bottom": 20,
-        "side": 18
+        "side": 16
       }
     },
     {
@@ -536,7 +543,11 @@
         "apigw",
         "auth",
         "log"
-      ]
+      ],
+      "pad": {
+        "top": 40,
+        "side": 16
+      }
     },
     {
       "id": "z-svc",

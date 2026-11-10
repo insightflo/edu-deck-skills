@@ -182,6 +182,35 @@ const nodes = Object.fromEntries(Object.entries(NODES).map(([id, d]) => {
   return [id, { cx: v.x, cy: v.y, ...d }];
 }));
 const nRect = (n) => ({ x0: n.cx - n.w / 2, x1: n.cx + n.w / 2, y0: n.cy - n.h / 2, y1: n.cy + n.h / 2 + (n.shape === 'circle' ? 34 : 0) });
+// HA 쌍 마주보는 면의 최소 간격 — 배지(원 r10 + 라벨 여유)가 들어갈 44px를 확보한다.
+// 부족하면 면 기준 아래/오른쪽 노드를 밀고, 연쇄 충돌 노드도 같은 규칙으로 민다(결정적 fixpoint).
+const HA_GAP = 44;
+const axisOf = (ra, rb) => (rb.x0 > ra.x1 || rb.x1 < ra.x0) ? 'x' : 'y';
+const overlapOn = (r, q, ax) => ax === 'y' ? Math.min(r.x1, q.x1) - Math.max(r.x0, q.x0) : Math.min(r.y1, q.y1) - Math.max(r.y0, q.y0);
+for (let round = 0; round < 4; round++) {
+  let changed = false;
+  for (const p of HAPAIRS) {
+    const a = nodes[p.a], b = nodes[p.b];
+    const ax = axisOf(nRect(a), nRect(b));
+    const [lo, hi] = ax === 'y' ? (a.cy < b.cy ? [a, b] : [b, a]) : (a.cx < b.cx ? [a, b] : [b, a]);
+    const gap = ax === 'y' ? nRect(hi).y0 - nRect(lo).y1 : nRect(hi).x0 - nRect(lo).x1;
+    if (gap >= HA_GAP) continue;
+    const shove = (n, d) => {
+      if (ax === 'y') n.cy += d; else n.cx += d;
+      const r = nRect(n);
+      for (const q of Object.values(nodes)) {
+        if (q === n) continue;
+        const qr = nRect(q);
+        const behind = ax === 'y' ? qr.y0 >= r.y0 - 2 && qr.y0 < r.y1 + HA_GAP / 2 : qr.x0 >= r.x0 - 2 && qr.x0 < r.x1 + HA_GAP / 2;
+        if (overlapOn(r, qr, ax) > 20 && behind)
+          shove(q, (ax === 'y' ? r.y1 + HA_GAP / 2 - qr.y0 : r.x1 + HA_GAP / 2 - qr.x0));
+      }
+    };
+    shove(hi, HA_GAP - gap);
+    changed = true;
+  }
+  if (!changed) break;
+}
 // aux 엣지는 dagre에 넣지 않는다(레이아웃 비구동 정적 보조선) — 두 노드 상자 경계를 잇되,
 // 직선이 다른 노드 사각형과 교차하면 직교(elbow) 채널로 우회한다.
 // 결정성: 우회 후보는 고정 순서로 평가하고 첫 번째 무교차 후보를 택한다(시간·난수 없음).
@@ -334,7 +363,14 @@ const haGeom = HAPAIRS.map((p) => {
        rb.x0 > ra.x1 ? { x: rb.x0, y: nodes[p.b].cy } : { x: rb.x1, y: nodes[p.b].cy }]
     : [rb.y0 > ra.y1 ? { x: nodes[p.a].cx, y: ra.y1 } : { x: nodes[p.a].cx, y: ra.y0 },
        rb.y0 > ra.y1 ? { x: nodes[p.b].cx, y: rb.y0 } : { x: nodes[p.b].cx, y: rb.y1 }];
-  return { ...p, s, e: e2, horiz };
+  // 배지 점유 영역 — 칩 라벨이 배지 자리에 앉으면 배지 글자가 칩 상자에 페어링돼
+  // 'SVG 글자 넘침' 오류가 난다. overlaps() 의 장애물로 쓴다.
+  const mx = (s.x + e2.x) / 2, my = (s.y + e2.y) / 2;
+  const labW = p.label ? p.label.length * 17 + 20 : 0;
+  const badgeBox = horiz
+    ? { x0: mx - 14 - labW / 2, x1: mx + 14 + labW / 2, y0: my - 32, y1: my + 14 }
+    : { x0: mx - 14, x1: mx + 14 + labW, y0: my - 14, y1: my + 14 };
+  return { ...p, s, e: e2, horiz, badgeBox };
 });
 // 범례: 명시 우선, 없고 사용 kind 2종↑이면 자동 유도
 const legBar = model.legendStyle === 'bar' || model.legend === 'bar';
@@ -402,7 +438,8 @@ const overlaps = (r, own) => Object.values(nodes).some((n) => hit(r, grow(nRect(
       ? { x0: z.r.x0, x1: z.r.x1, y0: z.r.y1 - 48, y1: z.r.y1 }
       : { x0: z.r.x0, x1: z.r.x1, y0: z.r.y0, y1: z.r.y0 + 48 };
     return hit(r, b);
-  }) || edges.some((e, i) => i !== own && (
+  }) || haGeom.some((h) => hit(r, h.badgeBox))
+  || edges.some((e, i) => i !== own && (
     e.pts.some((p, k) => k > 0 && hit(r, segBox(e.pts[k - 1], p, SEG_M)))
     || hit(r, capBox(e.pts[e.pts.length - 1], CAP_M))
   ))
@@ -470,9 +507,15 @@ const zoneMarkup = (z) => {
     const barCls = z.headerStyle === 'solid-blue' ? 'k-zbar-b' : 'k-zbar-n';
     const face = solid ? 'k-zface' : 'k-zface-t';
     const lw = (z.label || '').length * 17 + 8;
+    // 캡슐은 면 안에 들어가야 한다 — 면 밖으로 넘친 캡슐은 이웃 글자 앵커를 삼켜
+    // 'SVG 글자 넘침' 오류를 만든다. 면이 캡슐보다 좁으면 캡슐 없이 글자만 둔다.
+    const capW = lw + 20, capFits = capW + 8 <= W;
+    const capX = capFits ? Math.min(z.r.x0 + 12, z.r.x1 - capW - 4) : z.r.x0;
     const label = solid
       ? `<rect class="${barCls}" x="${X(z.r.x0)}" y="${zy}" width="${W}" height="32" style="rx:10px"/><text class="k-t-zh" x="${X(z.r.x0 + 16)}" y="${zy + 23}">${esc(z.label)}</text>`
-      : `<rect class="k-zbar-n" x="${X(z.r.x0 + 12)}" y="${zy + 6}" width="${r2(lw + 20)}" height="28" style="rx:14px"/><text class="k-t-zh" x="${X(z.r.x0 + 22)}" y="${zy + 26}">${esc(z.label)}</text>`;
+      : (capFits
+        ? `<rect class="k-zbar-n" x="${X(capX)}" y="${zy + 6}" width="${r2(capW)}" height="28" style="rx:14px"/><text class="k-t-zh" x="${X(capX + 22)}" y="${zy + 26}">${esc(z.label)}</text>`
+        : `<text class="k-t-zh" x="${X(z.r.x0 + 10)}" y="${zy + 26}">${esc(z.label)}</text>`);
     return `<g data-step="${z.step ?? STEP.zones}">
     <rect class="${face}" x="${X(z.r.x0)}" y="${zy}" width="${W}" height="${HH}" style="rx:12px"/>
     ${label}
@@ -568,10 +611,12 @@ const nodeMarkup = (id, n) => {
   const x = X(n.cx - n.w / 2), y = Y(n.cy - n.h / 2);
   if (n.template === 'equip') {
     // 장비 소자 96×88 — 아이콘 36 + 15px 굵은 장비명 + 13px spec + 우상단 수량 배지
+    // h<78 소형: 아이콘 22(y+5)로 축소하고 이름·spec 베이스라인을 아래로 — 아이콘 하단이 장비명 글리프를 덮지 않게
+    const eqS = n.h < 78, isz = eqS ? 22 : 36;
     o.push(`<rect class="${FAM_CLASS[n.fam]}" x="${x}" y="${y}" width="${n.w}" height="${n.h}" style="rx:8px"/>`);
-    if (n.icon) o.push(`<use aria-hidden="true" href="#${n.icon}" x="${r2(x + n.w / 2 - 18)}" y="${r2(y + 8)}" width="36" height="36" style="color:${ICON_COLOR[n.fam]}"/>`);
-    o.push(`<text class="k-t-eq" x="${r2(x + n.w / 2)}" y="${r2(y + n.h - (n.spec ? 26 : 16))}" text-anchor="middle">${esc(n.name)}</text>`);
-    if (n.spec) o.push(`<text class="k-t-spec" x="${r2(x + n.w / 2)}" y="${r2(y + n.h - 9)}" text-anchor="middle">${esc(n.spec)}</text>`);
+    if (n.icon) o.push(`<use aria-hidden="true" href="#${n.icon}" x="${r2(x + n.w / 2 - isz / 2)}" y="${r2(y + (eqS ? 5 : 8))}" width="${isz}" height="${isz}" style="color:${ICON_COLOR[n.fam]}"/>`);
+    o.push(`<text class="k-t-eq" x="${r2(x + n.w / 2)}" y="${r2(y + n.h - (n.spec ? (eqS ? 23 : 26) : (eqS ? 14 : 16)))}" text-anchor="middle">${esc(n.name)}</text>`);
+    if (n.spec) o.push(`<text class="k-t-spec" x="${r2(x + n.w / 2)}" y="${r2(y + n.h - (eqS ? 6 : 9))}" text-anchor="middle">${esc(n.spec)}</text>`);
     if (n.qty != null && n.qty > 1) o.push(`<g class="k-qty"><circle cx="${r2(x + n.w - 12)}" cy="${r2(y + 12)}" r="10"/><text class="k-t-qty" x="${r2(x + n.w - 12)}" y="${r2(y + 16.5)}" text-anchor="middle">${n.qty > 99 ? '99+' : n.qty}</text></g>`);
     o.push(stateChips(id, n, x + 8, y - 10));
   } else if (n.template === 'cluster') {

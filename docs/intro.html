@@ -543,6 +543,54 @@ body,.slide,.pack{font-family:'Pretendard Variable',sans-serif}
 .k-t-w{fill:var(--paper)}
 .k-t-o{fill:var(--accent-text)}
 .k-t-b{fill:var(--blue-text)}
+/* ── SI 블루프린트 확장(architecture overhaul) ──
+   존 솔리드 헤더·버스·HA·복합 노드·범례 바는 k-* 어휘를 잇는다.
+   k-t-eq·k-t-spec·k-t-qty 는 도식 내부 마이크로 타이포 계약(checker 허용 하한: 렌더링 12px) — 장비 spec·
+   포트·수량처럼 기호성 글자에만 쓰며, check_deck 의 18px 하한 예외는 이 세 클래스와
+   .arch-blueprint 범위로 국한된다(계약 근거: references/architecture.md). */
+.k-zface{fill:#fff;stroke:var(--line);stroke-width:1.5}
+.k-zface-t{fill:var(--blue-soft);fill-opacity:.45;stroke:var(--line);stroke-width:1.5}
+.k-zbar-n{fill:var(--bp-navy,#0f172a)}
+.k-zbar-b{fill:var(--bp-royal,#1d4ed8)}
+.k-t-zh{font-size:22px;font-weight:800;fill:#fff}
+.k-t-eq{font-size:16px;font-weight:700;fill:var(--ink)}
+.k-t-spec{font-size:15px;font-weight:600;fill:var(--soft)}
+.k-t-qty{font-size:15px;font-weight:800;fill:#fff}
+.k-qty circle{fill:var(--accent)}
+.k-clus{fill:#fff;stroke:var(--line);stroke-width:1.5}
+.k-clus-hd{fill:var(--blue);stroke:none}
+.k-chip{fill:var(--paper);stroke:var(--line);stroke-width:1}
+.k-res{fill:var(--muted);fill-opacity:.4}
+.k-res-f{fill:var(--blue)}
+.k-bus-trunk{fill:none;stroke:var(--blue);stroke-width:6;stroke-linecap:round}
+.k-bus-san{fill:none;stroke:var(--danger);stroke-width:5;stroke-linecap:round}
+.k-bus-lan{fill:none;stroke:var(--line);stroke-width:4;stroke-linecap:round}
+.k-bus-trunk-dot{fill:var(--blue)}
+.k-bus-san-dot{fill:var(--danger)}
+.k-bus-lan-dot{fill:var(--line)}
+.k-ha{stroke:var(--blue);stroke-width:2.5}
+.k-hab circle{fill:var(--blue)}
+.k-legbar{fill:var(--light);stroke:var(--line);stroke-width:1}
+/* theme:'blueprint' — 아키텍처 장 전용 쿨 화이트 계획도 면(warm beige 제거).
+   스코프 토큰 오버라이드라 다른 장·다른 덱에는 영향이 없다. */
+.slide.arch-blueprint{--paper:#ffffff;--light:#f8fafc;--ink:#0f172a;--soft:#334155;--line:#94a3b8;--blue:#1d4ed8;--blue-text:#1e40af;--blue-soft:#dbeafe;--accent:#d97706;--accent-text:#b45309;--accent-soft:color-mix(in srgb,#d97706 10%,#fff);--muted:#cbd5e1;--danger:#dc2626;--bp-navy:#0f172a;--bp-royal:#1d4ed8;background:#f8fafc}
+/* chrome:'blueprint' — 1행 컴팩트 헤더(일련번호·제목·아이브로) */
+.bp-head{display:flex;align-items:baseline;gap:18px;min-height:56px;border-bottom:2px solid var(--ink);padding-bottom:8px}
+.bp-head .title{margin:0;font-size:40px;line-height:1.2}
+.bp-serial{font-size:22px;font-weight:800;color:var(--blue);font-variant-numeric:tabular-nums}
+.bp-serial::before{content:"["}
+.bp-serial::after{content:"]"}
+.bp-eyebrow{margin-left:auto;font-size:18px;font-weight:700;color:var(--soft);letter-spacing:.08em}
+/* sidePanel — 도식 우측 스펙 시트 열(BOM·핵심 목록·스택 요약) */
+.arch-side{flex:0 0 280px;min-width:280px;box-sizing:border-box;display:flex;flex-direction:column;gap:14px;background:var(--paper);border:1.5px solid var(--line);border-radius:12px;padding:18px;overflow:hidden}
+.arch-side-t{margin:0;font-size:26px;font-weight:800;color:var(--ink)}
+.arch-side-blk{display:flex;flex-direction:column;gap:8px;min-height:0}
+.arch-side-h{margin:0;font-size:20px;font-weight:800;color:var(--blue-text)}
+.arch-side-tb{width:100%;border-collapse:collapse}
+.arch-side-tb th{text-align:left;font-size:18px;font-weight:800;color:var(--soft);border-bottom:2px solid var(--ink);padding:4px 6px}
+.arch-side-tb td{font-size:18px;color:var(--ink);border-bottom:1px solid var(--line);padding:5px 6px}
+.arch-side-ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:18px;line-height:1.45;color:var(--ink)}
+.arch-side-p{margin:0;font-size:18px;line-height:1.5;color:var(--soft)}
 /* 다크 슬라이드 "면 위가 아니라 슬라이드 바탕 위" 도식 글자 표식(k-ds) — .dark .eyebrow 와 같은
    어댑테이션. 밝은 도형(k-paper/k-blue/k-orange) 위의 잉크 글자는 표식하지 않는다. */
 .slide.dark .k-ds{fill:var(--light)}
@@ -906,7 +954,7 @@ body{font-family:'Pretendard Variable','Apple SD Gothic Neo','Malgun Gothic','�
 .src-list b{color:var(--ink);font-weight:700}
 .src-list a{color:var(--blue);text-decoration:none;word-break:break-all}
 
-/* ---------- 자습 레이어(S 자습 · P 인쇄 · G 용어집)와 확인 문제(.chk) ----------
+/* ---------- 자습 레이어(S 자습 · P 인쇄 · D 용어집)와 확인 문제(.chk) ----------
    클린룸 재작성. st- 접두 클래스는 셸 스크립트(assets/js/study.js)가 런타임에 만든다 —
    원고에는 쓰지 않는다. 표시 토글(st-show·st-fold·st-self·st-printing·hidden)과
    무대 변수(--st-sc·--st-top·--st-k·--st-w·--st-fs)는 엔진이 읽는 계약이라 유지한다. */
@@ -1461,57 +1509,275 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 .screen-cite .sc-gist{font-size:26px;line-height:1.45;color:var(--soft)}
 .screen-cite .sc-gist b{color:var(--accent-text);font-weight:800}
 
-/* 구성도·업무 흐름(data-c="stack") 공통 어휘 — 덱·팩·장 배치 조각 어디서나 같은 클래스다.
-   노드를 행·열 격자에 놓고 assets/kit/stack.js 가 SVG 로 그린다. 색은 슬라이드 토큰을 따른다.
-   형식은 references/stack.md. 포팅 원천: ppt-html stack.css(caru-ini/stack-diagram MIT 계승). */
-.viz-fig{margin:0;display:flex;flex-direction:column;gap:14px;min-width:0}
-.viz-fig figcaption{font-size:24px;line-height:1.5;color:var(--soft)}
-.slide.dark .viz-fig figcaption{color:color-mix(in srgb,var(--light) 78%,var(--ink))}
-.stack-fig{--sf-ink:var(--ink);--sf-sub:var(--soft);--sf-paper:var(--paper);--sf-tile:var(--paper);--sf-rule:var(--line);--sf-brand:var(--accent);--sf-accent:var(--accent-deep,var(--accent));
-  position:relative;width:100%;margin:0}
-.slide.dark .stack-fig{--sf-ink:var(--light);--sf-sub:color-mix(in srgb,var(--light) 62%,var(--ink));--sf-paper:var(--ink);--sf-tile:color-mix(in srgb,var(--light) 8%,var(--ink));--sf-rule:color-mix(in srgb,var(--light) 22%,var(--ink));--sf-brand:var(--accent-light,var(--accent));--sf-accent:var(--accent,var(--accent-light))}
-.stack-fig svg{display:block;width:100%;height:auto;max-height:600px;overflow:visible}
-.stack-fig .sf-tile{fill:var(--sf-tile);stroke:var(--sf-rule);stroke-width:1.5}
-.stack-fig .sf-ico{fill:none;stroke:var(--sf-ink);stroke-linecap:round;stroke-linejoin:round}
-.stack-fig .sf-name,.stack-fig .sf-role,.stack-fig .sf-el,.stack-fig .sf-glabel{paint-order:stroke;stroke:var(--sf-paper);stroke-width:6;stroke-linejoin:round;font-family:var(--pack-sans,inherit)}
-.stack-fig .sf-name{font-size:19px;font-weight:700;fill:var(--sf-ink)}
-.stack-fig .sf-role{font-size:14px;font-weight:500;fill:var(--sf-sub)}
-.stack-fig .sf-el{font-size:14px;font-weight:600;fill:var(--sf-sub)}
-.stack-fig .sf-e-main .sf-el{fill:var(--sf-brand)}
-.stack-fig .sf-t-brand .sf-tile{fill:color-mix(in srgb,var(--sf-brand) 14%,var(--sf-paper));stroke:var(--sf-brand)}
-.stack-fig .sf-t-brand .sf-ico{stroke:var(--sf-brand)}
-.stack-fig .sf-t-dark .sf-tile{fill:var(--sf-ink);stroke:var(--sf-ink)}
-.stack-fig .sf-t-dark .sf-ico{stroke:var(--sf-paper)}
-.stack-fig .sf-badge{fill:var(--sf-brand)}
-.stack-fig .sf-badge-t{fill:var(--sf-paper);font-size:13px;font-weight:700;dominant-baseline:central;font-family:var(--pack-sans,inherit)}
-.stack-fig .sf-group rect{fill:color-mix(in srgb,var(--sf-ink) 4%,var(--sf-paper));stroke:var(--sf-rule);stroke-width:1.5}
-.stack-fig .sf-g-brand rect{fill:color-mix(in srgb,var(--sf-brand) 8%,var(--sf-paper));stroke:color-mix(in srgb,var(--sf-brand) 55%,var(--sf-paper))}
-.stack-fig .sf-g-accent rect{fill:color-mix(in srgb,var(--sf-accent) 9%,var(--sf-paper));stroke:color-mix(in srgb,var(--sf-accent) 55%,var(--sf-paper))}
-.stack-fig .sf-glabel{font-size:16px;font-weight:700;fill:var(--sf-ink);stroke:var(--gh);stroke-width:7}
-.stack-fig .sf-lg-plain{--gh:color-mix(in srgb,var(--sf-ink) 4%,var(--sf-paper))}
-.stack-fig .sf-lg-brand{--gh:color-mix(in srgb,var(--sf-brand) 8%,var(--sf-paper))}
-.stack-fig .sf-lg-accent{--gh:color-mix(in srgb,var(--sf-accent) 9%,var(--sf-paper))}
-.stack-fig .sf-gico{fill:none;stroke:var(--sf-sub);stroke-linecap:round;stroke-linejoin:round}
-.stack-fig .sf-edge path{fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
-.stack-fig .sf-e-main path{stroke:var(--sf-brand)}
-.stack-fig .sf-e-sub path,.stack-fig .sf-e-dash path{stroke:var(--sf-sub)}
-.stack-fig .sf-e-dash path{stroke-dasharray:7 6}
-.stack-fig .sf-ar-main{fill:var(--sf-brand)}
-.stack-fig .sf-ar-sub{fill:var(--sf-sub)}
-/* 장에 들어올 때: 그룹 → 노드 → 화살표·라벨 순으로 나타난다(is-play). 인쇄·캡처·동작 줄이기·자습에서는 is-play 가 없어 완성 모습이다 */
-@keyframes sfPop{from{opacity:0;transform:translateY(8px) scale(.94)}to{opacity:1;transform:none}}
-@keyframes sfFade{from{opacity:0}to{opacity:1}}
-@keyframes sfDraw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
-.stack-fig.is-play .sf-group,.stack-fig.is-play .sf-glw{animation:sfFade .45s ease both;animation-delay:var(--d,0ms)}
-.stack-fig.is-play .sf-node{animation:sfPop .45s cubic-bezier(.22,1,.36,1) both;animation-delay:var(--d,0ms);transform-box:fill-box;transform-origin:center}
-.stack-fig.is-play .sf-e-main path,.stack-fig.is-play .sf-e-sub path{stroke-dasharray:1;animation:sfDraw .6s ease both;animation-delay:var(--d,0ms)}
-.stack-fig.is-play .sf-e-dash path{animation:sfFade .5s ease both;animation-delay:var(--d,0ms)}
-.stack-fig.is-play .sf-el{animation:sfFade .4s ease both;animation-delay:var(--d,0ms)}
-@media print{.stack-fig .sf-group,.stack-fig .sf-glw,.stack-fig .sf-node,.stack-fig .sf-edge path,.stack-fig .sf-el{animation:none!important;opacity:1!important}}
-@media (prefers-reduced-motion:reduce){.stack-fig .sf-group,.stack-fig .sf-glw,.stack-fig .sf-node,.stack-fig .sf-edge path,.stack-fig .sf-el{animation:none!important;opacity:1!important}}
-body.st-self .stack-fig .sf-group,body.st-self .stack-fig .sf-glw,body.st-self .stack-fig .sf-node,body.st-self .stack-fig .sf-edge path,body.st-self .stack-fig .sf-el,
-body.st-printing .stack-fig .sf-group,body.st-printing .stack-fig .sf-glw,body.st-printing .stack-fig .sf-node,body.st-printing .stack-fig .sf-edge path,body.st-printing .stack-fig .sf-el,
-body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body.st-presenter .stack-fig .sf-node,body.st-presenter .stack-fig .sf-edge path,body.st-presenter .stack-fig .sf-el{animation:none!important;opacity:1!important}
+/* ---- consult.css ---- */
+/* consulting-deck 로컬 테마 — 시각 방향 4종 토큰 세트 (references/consulting-design.md §1·§7)
+   사용: 덱 작업 폴더 src/ 에 복사하고 장 section 을 .slide.consult* 로 스코프한다.
+   - .consult           Boardroom Sharp    (따뜻한 종이·직각·에디토리얼 대형 수치 — 재무·이사회 보고)
+   - .consult-dense     Analytical Dense   (근거 밀도↑: 크기 축소 계열 최소 18px, 표 행 높이↓, c-note/c-src 2열 허용)
+   - .consult-editorial Strategy Editorial (제목·수치 대형화, 여백 확대)
+   - .consult-tech      Tech Analytical    (차가운 헤어라인·tabular+모노 숫자 — 기술 전환·아키텍처)
+   규칙: 15색 역할 토큰 + 구조 토큰(--c-num-font·반경)만 방향별로 다르다. hex 는 토큰 정의부(1절)에만 —
+   구조·밀도 규칙엔 var() 만. accent(초점)는 판단·권고 1종, blue(근거)는 데이터 계열 — 두 계열이 섞이면 안 된다(§4).
+   P2 재조정: 면 채움 카드 제거(헤어라인·컬럼·여백 구조) · 신규 프리미티브 c-rule-rows·c-sidecar ·
+   .consult(따뜻함)와 .consult-tech(차가움)의 정체 분리 — 색뿐 아니라 반경·숫자 서체도 다르다. */
+
+/* ── 1. 토큰 정의부 — 방향별 색 역할·구조 토큰 세트 ─────────────────
+   --c-num-font: 수치·태그 서체(Executive=에디토리얼 세리프 숫자, Tech=UI 모노+tabular) */
+.slide.consult{
+  --ink:#111822;            /* 딥 네이비/차콜 — 지면 잉크 */
+  --paper:#fffdf9;          /* 웜 화이트 */
+  --light:#f8f7f4;          /* 따뜻한 종이 톤 배경 */
+  --soft:#4a5563;           /* 설명 글 */
+  --line:#9aa3ae;           /* 헤어라인 — 1px 룰의 주재료 */
+  --grid:#e8e4dc;           /* 그리드 헤어라인(실선) — 종이 톤에 맞춘 웜 그레이 */
+  --accent:#085a9e;         /* 클래식 코발트 — 강조·추천은 이것만 */
+  --accent-text:#07487e;
+  --accent-light:#d4e4f4;
+  --blue:#4a6183;           /* 보조 텍스트·히트맵 본셀 색조(회청) */
+  --blue-text:#3d5271;
+  --blue-soft:#eceef2;
+  --track:#d9dee4;          /* 비초점 데이터(막대·양수 측) */
+  --track-strong:#8f99a6;   /* 제2계열·점·샌키 밴드 */
+  --success:#0f7a3d;
+  --danger:#b3422e;
+  --muted:#d5dae0;
+  --chip:#e9e6de;
+  --r1:2px; --r2:4px;       /* 직각에 가까운 반경 — 보드룸 날카로움 */
+  --c-num-font:Georgia,'Times New Roman',serif;  /* 에디토리얼 재무 숫자 */
+}
+.slide.consult-dense{        /* analytical — 더 짙은 잉크, 뉴트럴 톤, 동일 역할 분리 */
+  --ink:#16222c; --paper:#fbfbfa; --light:#eaedee; --soft:#3d4c56; --line:#76858f;
+  --grid:#dfe3e8; --track:#d3d9df; --track-strong:#8f99a4;
+  --accent:#0d3b66; --accent-text:#0a2f52; --accent-light:#b8d0e2;
+  --blue:#66809c; --blue-text:#527090; --blue-soft:#e7edf3;
+  --success:#1b6244; --danger:#96382c; --muted:#bfc9cf; --chip:#e0e5e8;
+  --c-num-font:inherit;
+}
+.slide.consult-editorial{    /* editorial — 따뜻한 종이·잉크, 버건디 초점으로 대비 */
+  --ink:#201b14; --paper:#faf7f1; --light:#f0ebe0; --soft:#55493b; --line:#96897a;
+  --grid:#e8e2d6; --track:#ddd4c4; --track-strong:#a89a83;
+  --accent:#7a1f2e; --accent-text:#611825; --accent-light:#e3c6cb;
+  --blue:#5d789a; --blue-text:#4a6280; --blue-soft:#ece7db;
+  --success:#2c6b45; --danger:#a03528; --muted:#d0c8b8; --chip:#eae3d5;
+  --c-num-font:inherit;
+}
+.slide.consult-tech{         /* tech — 차가운 헤어라인·다크 슬레이트 잉크·cyan 초점, 숫자는 모노+tabular */
+  --ink:#0f172a; --paper:#fafbfc; --light:#eef1f4; --soft:#4c5763; --line:#aab4c0;
+  --grid:#e6e9ed; --track:#d5dae0; --track-strong:#9aa3ae;
+  --accent:#0b8fd8; --accent-text:#0a6eb0; --accent-light:#cfe8fa;
+  --blue:#5b6f8f; --blue-text:#46597a; --blue-soft:#eef2f7;
+  --success:#0f7a54; --danger:#b3422e; --muted:#cdd6de; --chip:#e3e8ee;
+  --r1:3px; --r2:6px;
+  --c-num-font:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+}
+
+/* ── 2. 공통 구조 — 4방향이 같은 선택자·값을 공유 (Executive 기본) ── */
+/* 주장형 제목 — 한 문장 결론이 2줄로 균형 있게 (외톨이 단어 방지) */
+/* letter-spacing 를 제목에 걸면 Chromium 이 keep-all 을 무력화해 한글 어절이 분절된다 — 쓰지 않는다 */
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .title{font-size:54px;line-height:1.22;font-weight:800;word-break:keep-all}
+/* kinetic 시그니처는 제목을 글자별 inline-block(.ed-letter)으로 쪼갠다 — 그러면 모든 글자 경계가
+   분절점이 되어 keep-all 이 무력하다(어절 한가운데 절단). inline 으로 두면 일반 텍스트처럼
+   keep-all 규칙대로 끊기고, kinetic 의 정착 상태는 원래 기법 없는 장과 동일하다. */
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .ed-letter{display:inline}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .eyebrow{letter-spacing:2px;font-size:24px}
+
+/* At-a-Glance 3불릿(사실→단서→전망): 펌 오프닝 공식 — 면 채움 카드 대신 상단 잉크 룰 에디토리얼 컬럼.
+   강조 변형(.hlt)은 3px accent 룰 — 면은 어디에도 칠하지 않는다 */
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-glance{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s4)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-glance>div{border-top:2px solid var(--ink);padding:var(--s3) 0 0;display:flex;flex-direction:column;gap:var(--s2)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-glance>div.hlt{border-top:3px solid var(--accent);padding-top:calc(var(--s3) - 1px)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-glance>div.hlt .g-k{color:var(--accent-text)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-glance .g-k{font-size:22px;font-weight:800;color:var(--blue-text);letter-spacing:2px}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-glance p{font-size:26px;line-height:1.42;font-weight:600}
+
+/* 룰 행 목록(Executive Summary·이니셔티브·권고 리스트): 고정폭 레이블 열 + 본문 열,
+   행마다 1px --line 상단 헤어라인 — 면 채움 없이 그리드 리듬만으로 구조를 만든다 */
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows{display:flex;flex-direction:column}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr{display:grid;grid-template-columns:220px 1fr;gap:var(--s4);padding:var(--s3) 0;border-top:1px solid var(--line)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr:last-child{border-bottom:1px solid var(--line)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr-k{font-size:21px;font-weight:800;letter-spacing:1.5px;color:var(--blue-text);line-height:1.4}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr-v{font-size:27px;line-height:1.45;font-weight:700}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr-d{font-size:21px;line-height:1.45;color:var(--soft);margin-top:6px}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr ul{margin:8px 0 0;padding-left:20px;display:grid;gap:6px}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr li{font-size:21px;line-height:1.4;color:var(--soft)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr li b{color:var(--ink)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr.hot{border-top:2px solid var(--accent)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-rule-rows .rr.hot .rr-k{color:var(--accent-text)}
+
+/* 사이드카 — 차트 68% + 시사점 칼럼 32%: 상단 3px accent 룰·헤드라인 수치·불릿 2~3개.
+   차트 장은 '증거+시사점' 짝으로 둔다(consulting-layouts.md §3·§6) */
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar{display:grid;grid-template-columns:68fr 32fr;gap:var(--s4);flex:1;min-height:0}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .c-sidecar-main{min-width:0;min-height:0;display:flex;flex-direction:column}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .c-sidecar-main .dg{width:100%;height:auto;max-height:100%;margin:auto 0}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .c-sidecar-panel{border-top:3px solid var(--accent);padding-top:var(--s3);display:flex;flex-direction:column;gap:var(--s3)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .sc-k{font-size:21px;font-weight:800;letter-spacing:2.5px;color:var(--accent-text)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .sc-v{font-size:64px;font-weight:800;line-height:1;color:var(--ink);font-family:var(--c-num-font);font-variant-numeric:tabular-nums}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .sc-v small{font-size:26px;font-weight:700;margin-left:4px}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .sc-h{font-size:26px;font-weight:800;line-height:1.35}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar ul{margin:0;padding:0;list-style:none}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar li{font-size:23px;line-height:1.45;font-weight:600;padding:var(--s2) 0;border-top:1px solid var(--line)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar li b{color:var(--accent-text)}
+
+/* 핵심 수치 카드: 숫자+단위+기준 — 강조 카드는 초점색+살짝 찬 면. 숫자는 방향별 서체 토큰 */
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s4)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-metric{border-top:4px solid var(--line);padding-top:var(--s2);display:flex;flex-direction:column;gap:var(--s1)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-metric.hlt{border-top-color:var(--accent);background:color-mix(in srgb,var(--accent) 5%,var(--paper));border-radius:var(--r1);padding:var(--s2) var(--s3) var(--s3)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-metric .m-v{font-size:84px;font-weight:800;line-height:1;color:var(--ink);font-family:var(--c-num-font);font-variant-numeric:tabular-nums}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-metric.hlt .m-v{color:var(--accent)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-metric .m-v small{font-size:34px;font-weight:700;margin-left:6px}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-metric .m-l{font-size:26px;font-weight:700;color:var(--soft)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-metric .m-b{font-size:21px;color:var(--soft)}
+/* Executive(Boardroom Sharp) — 핵심 재무 수치는 에디토리얼 대형 스케일 */
+.slide.consult .c-metric .m-v{font-size:96px}
+.slide.consult .c-metric .m-v small{font-size:38px}
+
+/* So What / Now What 스트립 — 면 채움 없이 좌측 룰만으로 구분(Now What=초점 룰) */
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sonw{display:grid;grid-template-columns:1fr 1fr;gap:var(--s4)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sonw>div{border-left:3px solid var(--blue);padding:var(--s2) 0 var(--s2) var(--s3)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sonw .nw{border-left-color:var(--accent)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sonw .s-k{font-size:22px;font-weight:800;letter-spacing:2px;color:var(--blue-text);margin-bottom:var(--s1)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sonw .nw .s-k{color:var(--accent-text)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sonw p{font-size:27px;line-height:1.45;font-weight:600}
+
+/* 대안 비교표: 평가기준 × 대안 — 행숫자 정렬·추천 행 강화 */
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-table{width:100%;border-collapse:collapse;font-size:25px;font-variant-numeric:tabular-nums}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-table th,.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-table td{padding:18px 22px;border-bottom:1px solid var(--muted);text-align:left;vertical-align:top;line-height:1.4}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-table thead th{font-size:21px;font-weight:800;color:var(--soft);letter-spacing:1px;border-bottom:3px solid var(--line)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-table td:first-child{font-weight:800;font-size:27px;white-space:nowrap}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-table .rec{background:color-mix(in srgb,var(--accent) 7%,var(--paper));box-shadow:inset 0 0 0 3px var(--accent)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-table .col-rec{background:color-mix(in srgb,var(--accent) 6%,transparent)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-table thead th.col-rec{border-top:3px solid var(--accent)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-table td.col-rec b{color:var(--accent-text)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-tag{display:inline-block;font-size:19px;font-weight:800;color:var(--paper);background:var(--accent);border-radius:var(--r1);padding:4px 14px;margin-left:12px;letter-spacing:2px;vertical-align:.14em;white-space:nowrap;font-family:var(--c-num-font)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-note{font-size:18px;color:var(--soft);line-height:1.4}
+
+/* 권고 명령형 마감 — 덱 전체에서 다크 필은 이 블록 계열에만 허용한다(면 채움 절제 규칙) */
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-do{display:flex;gap:var(--s3);align-items:flex-start;background:var(--ink);color:var(--paper);border-radius:var(--r2);padding:var(--s3) var(--s4)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-do .d-k{font-size:22px;font-weight:800;letter-spacing:2px;color:var(--accent-light);white-space:nowrap;padding-top:6px}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-do p{font-size:28px;line-height:1.5;font-weight:700}
+
+/* 출처 블록: 모든 분석 장 하단 고정 — 신뢰=디자인 (fine print 는 작고 옅게) */
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-src{display:flex;justify-content:space-between;gap:var(--s4);border-top:1px solid var(--line);padding-top:var(--s2);margin-top:auto;font-size:18px;color:var(--soft)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-src .s-syn{font-weight:800;color:var(--danger);white-space:nowrap}
+
+
+/* ── 2-b. 차트 톤 스코프 오버라이드(ztd 참조) — 공용 k-* 는 건드리지 않고 컨설팅 장 안에서만 ──
+   워터폴 일반 증감 막대(k-solid-b)는 비초점 → 트랙 그레이. 강조(highlight)는 chart_gen 이
+   fill=var(--accent) 인라인으로 직접 칠한다. */
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .wf .k-solid-b{fill:var(--track)}
+
+/* ── 3. 방향별 밀도·크기 오버라이드 ─────────────────────────────── */
+/* Analytical Dense — 근거 밀도↑, 본문·주석 축소 계열 최소 18px 유지, 표 행 높이↓, c-note/c-src 2열 허용 */
+.slide.consult-dense .title{font-size:46px}
+.slide.consult-dense .eyebrow{font-size:20px;letter-spacing:1.5px}
+.slide.consult-dense .c-glance .g-k{font-size:19px}
+.slide.consult-dense .c-glance p{font-size:22px;line-height:1.38}
+.slide.consult-dense .c-metric .m-v{font-size:62px}
+.slide.consult-dense .c-metric .m-v small{font-size:27px}
+.slide.consult-dense .c-metric .m-l{font-size:22px}
+.slide.consult-dense .c-metric .m-b{font-size:18px}
+.slide.consult-dense .c-rule-rows .rr{grid-template-columns:170px 1fr}
+.slide.consult-dense .c-rule-rows .rr-k{font-size:18px}
+.slide.consult-dense .c-rule-rows .rr-v{font-size:23px}
+.slide.consult-dense .c-rule-rows .rr-d,.slide.consult-dense .c-rule-rows .rr li{font-size:18px}
+.slide.consult-dense .c-sidecar .sc-v{font-size:52px}
+.slide.consult-dense .c-sidecar .sc-h{font-size:22px}
+.slide.consult-dense .c-sidecar li{font-size:19px}
+.slide.consult-dense .c-sidecar .sc-k{font-size:18px}
+.slide.consult-dense .c-sonw .s-k{font-size:19px}
+.slide.consult-dense .c-sonw p{font-size:23px;line-height:1.4}
+.slide.consult-dense .c-table{font-size:22px}
+.slide.consult-dense .c-table th,.slide.consult-dense .c-table td{padding:12px 18px}
+.slide.consult-dense .c-table thead th{font-size:18px}
+.slide.consult-dense .c-table td:first-child{font-size:23px}
+.slide.consult-dense .c-tag{font-size:18px}
+.slide.consult-dense .c-note{font-size:18px;columns:2 auto;column-gap:var(--s4)}
+.slide.consult-dense .c-do .d-k{font-size:19px}
+.slide.consult-dense .c-do p{font-size:24px}
+.slide.consult-dense .c-src{display:grid;grid-template-columns:1fr auto;font-size:18px}
+
+/* Strategy Editorial — 제목 계열·핵심 수치 대형화, 여백 확대 */
+.slide.consult-editorial .title{font-size:66px;line-height:1.18}
+.slide.consult-editorial .eyebrow{font-size:27px}
+.slide.consult-editorial .c-glance .g-k{font-size:24px}
+.slide.consult-editorial .c-glance p{font-size:30px;line-height:1.5}
+.slide.consult-editorial .c-metric .m-v{font-size:110px}
+.slide.consult-editorial .c-metric .m-v small{font-size:40px}
+.slide.consult-editorial .c-metric .m-l{font-size:30px}
+.slide.consult-editorial .c-metric .m-b{font-size:24px}
+.slide.consult-editorial .c-rule-rows .rr{grid-template-columns:260px 1fr;gap:var(--s5)}
+.slide.consult-editorial .c-rule-rows .rr-k{font-size:24px}
+.slide.consult-editorial .c-rule-rows .rr-v{font-size:32px}
+.slide.consult-editorial .c-rule-rows .rr-d,.slide.consult-editorial .c-rule-rows .rr li{font-size:24px}
+.slide.consult-editorial .c-sidecar .sc-v{font-size:78px}
+.slide.consult-editorial .c-sidecar .sc-h{font-size:30px}
+.slide.consult-editorial .c-sidecar li{font-size:26px}
+.slide.consult-editorial .c-sidecar .sc-k{font-size:24px}
+.slide.consult-editorial .c-sonw .s-k{font-size:24px}
+.slide.consult-editorial .c-sonw p{font-size:32px;line-height:1.5}
+.slide.consult-editorial .c-table{font-size:27px}
+.slide.consult-editorial .c-table th,.slide.consult-editorial .c-table td{padding:24px 26px}
+.slide.consult-editorial .c-note{font-size:20px}
+.slide.consult-editorial .c-do p{font-size:32px}
+.slide.consult-editorial .c-src{font-size:19px}
+
+/* Tech Transformation — 크기는 Executive 계열, 표 눈금·구분선도 accent 편향(토큰 경로),
+   숫자·태그·값은 --c-num-font 모노 + tabular-numeric 정렬 */
+.slide.consult-tech .c-table thead th{border-bottom-color:var(--accent)}
+.slide.consult-tech .c-metric{border-top-color:var(--line)}
+.slide.consult-tech .c-metric .m-v{font-family:var(--c-num-font)}
+.slide.consult-tech .c-sidecar .sc-v{font-family:var(--c-num-font)}
+
+/* ---- intro.css ---- */
+/* intro-deck 전용 클래스 — 소개 쇼 커스텀 조형(in-* 접두사).
+   공용 계약(data-step·.chk·k-*)와 겹치지 않게 모두 .slide 안에서만 의미를 가진다. */
+
+/* s01 오프닝 — 프롬프트 입력 줄과 4대 실물 미니 프레임 */
+.in-eyebrow{font-size:26px;font-weight:800;letter-spacing:6px;color:var(--accent-text)}
+.in-eyebrow::before{content:"";display:inline-block;width:40px;height:4px;background:currentColor;margin-right:18px;vertical-align:.22em}
+.in-hero{font-size:104px;font-weight:900;line-height:1.08;letter-spacing:-3px;color:var(--ink);margin:0}
+.in-hero em{font-style:normal;color:var(--accent-text)}
+.in-sub{font-size:30px;line-height:1.4;color:var(--soft);margin:0;font-weight:600}
+.in-prompt{display:flex;align-items:center;gap:16px;background:var(--light);border:1.5px solid var(--line);border-left:5px solid var(--accent);border-radius:var(--r2);padding:14px 22px;font-size:24px;font-weight:600;color:var(--ink);margin:0}
+.in-prompt::before{content:">";font-weight:800;color:var(--accent-text);font-family:ui-monospace,monospace}
+.in-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:18px;min-height:0}
+.in-fr{display:flex;flex-direction:column;background:#fff;border:1.5px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(15,23,42,.06)}
+.in-fr-t{display:flex;align-items:center;justify-content:space-between;font-size:18px;font-weight:800;padding:10px 16px;border-bottom:1px solid var(--line);background:var(--light);color:var(--ink)}
+.in-fr-t i{font-style:normal;font-size:18px;font-weight:800;color:var(--paper);background:var(--accent);border-radius:999px;padding:2px 10px}
+.in-fr svg{flex:1;min-height:0;width:100%;display:block}
+
+/* 공용 헤어라인 카드 — 컨설팅 문법의 위쪽 굵은 규칙선 */
+.in-hl{border-top:3px solid var(--accent);padding-top:14px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.in-hl-k{font-size:19px;font-weight:800;letter-spacing:2px;color:var(--accent-text)}
+.in-hl-v{font-size:26px;font-weight:700;line-height:1.4;color:var(--ink);margin:0}
+.in-hl-d{font-size:20px;line-height:1.45;color:var(--soft);margin:0}
+
+/* s03 다양성 — 스탯 타일 */
+.in-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;flex:1;min-height:0}
+.in-stat{display:flex;flex-direction:column;background:var(--paper);border:1.5px solid var(--line);border-radius:14px;padding:22px 24px;min-height:0;gap:6px}
+.in-stat-v{font-size:56px;font-weight:900;line-height:1;color:var(--ink);font-variant-numeric:tabular-nums}
+.in-stat-v small{font-size:26px;font-weight:800;color:var(--accent-text);margin-left:4px}
+.in-stat-k{font-size:20px;font-weight:800;color:var(--soft)}
+.in-stat-fig{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
+.in-stat-fig svg{width:100%;height:100%;display:block}
+
+/* s06 다층 단면 — 층 레이블 */
+.in-layer{display:flex;align-items:center;gap:16px;font-size:22px;font-weight:700;color:var(--ink);padding:10px 0;border-bottom:1px solid var(--line)}
+.in-layer:last-child{border-bottom:none}
+.in-layer b{flex:none;width:36px;height:36px;border-radius:50%;background:var(--blue);color:var(--paper);font-size:19px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.in-layer small{color:var(--soft);font-size:18px;font-weight:600}
+
+/* s07 CTA — 실물 덱 링크 카드와 갤러리 히어로 */
+.in-links{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-content:start}
+.in-link{display:flex;align-items:center;gap:18px;background:var(--paper);border:1.5px solid var(--line);border-radius:var(--r2);padding:20px 24px;text-decoration:none;color:inherit;transition:border-color var(--m1) var(--e-out),transform var(--m1) var(--e-out)}
+.in-link:hover{border-color:var(--accent);transform:translateY(-2px)}
+.in-link svg{width:44px;height:44px;flex:none;color:var(--accent)}
+.in-link p{margin:0;font-size:24px;font-weight:800;color:var(--ink)}
+.in-link small{display:block;font-size:18px;font-weight:600;color:var(--soft);margin-top:2px}
+.in-cta{display:flex;flex-direction:column;justify-content:center;gap:22px;background:var(--ink);border-radius:var(--r3);padding:44px 40px;color:var(--paper)}
+.in-cta h3{margin:0;font-size:44px;font-weight:900;line-height:1.25}
+.in-cta p{margin:0;font-size:22px;line-height:1.5;color:var(--muted)}
+.in-cta a{display:inline-flex;align-items:center;gap:14px;align-self:flex-start;background:var(--accent);color:var(--paper);font-size:28px;font-weight:800;padding:18px 34px;border-radius:999px;text-decoration:none}
 
 </style>
 <link rel="icon" href="data:,">
@@ -1614,226 +1880,501 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
 <marker id="ah-o" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="var(--accent)"/></marker>
 <marker id="ah-b" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="var(--blue)"/></marker>
 <marker id="ah-n" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="var(--ink)"/></marker>
+<marker id="ah-open" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1.5 1L9 5L1.5 9" fill="none" stroke="var(--soft)" stroke-width="1.8"/></marker>
+<symbol id="i-si-rack" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"><rect x="14" y="16" width="72" height="28" rx="4"/><rect x="14" y="52" width="72" height="28" rx="4"/></g><g fill="currentColor"><rect x="20" y="22" width="34" height="16" rx="2" opacity=".22"/><rect x="20" y="58" width="34" height="16" rx="2" opacity=".22"/><circle cx="72" cy="30" r="4"/><circle cx="80" cy="30" r="4"/><circle cx="72" cy="66" r="4"/><circle cx="80" cy="66" r="4"/></g></symbol>
+<symbol id="i-si-switch" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"><rect x="12" y="30" width="76" height="40" rx="5"/></g><g fill="currentColor"><rect x="18" y="38" width="10" height="10" rx="1.5" opacity=".3"/><rect x="32" y="38" width="10" height="10" rx="1.5" opacity=".3"/><rect x="46" y="38" width="10" height="10" rx="1.5" opacity=".3"/><rect x="60" y="38" width="10" height="10" rx="1.5" opacity=".3"/><rect x="18" y="52" width="10" height="10" rx="1.5" opacity=".3"/><rect x="32" y="52" width="10" height="10" rx="1.5" opacity=".3"/><rect x="46" y="52" width="10" height="10" rx="1.5" opacity=".3"/><rect x="60" y="52" width="10" height="10" rx="1.5" opacity=".3"/><circle cx="78" cy="44" r="4"/></g></symbol>
+<symbol id="i-si-lb" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><rect x="30" y="36" width="40" height="30" rx="5"/><path d="M12 51H30M70 38L88 26M70 51H88M70 64L88 76"/></g><g fill="currentColor" opacity=".28"><rect x="30" y="36" width="40" height="30" rx="5"/></g><g fill="currentColor"><circle cx="88" cy="26" r="4"/><circle cx="88" cy="51" r="4"/><circle cx="88" cy="76" r="4"/></g></symbol>
+<symbol id="i-si-fw" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"><rect x="16" y="26" width="68" height="48" rx="5"/><path d="M16 42H84M16 58H84M40 26V42M64 26V42M28 42V58M52 42V58M76 42V58M40 58V74M64 58V74"/></g><g fill="currentColor" opacity=".18"><rect x="16" y="26" width="68" height="48" rx="5"/></g></symbol>
+<symbol id="i-si-san" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="5"><ellipse cx="50" cy="26" rx="28" ry="10"/><path d="M22 26V70C22 76 35 84 50 84C65 84 78 76 78 70V26"/><path d="M22 48C22 54 35 60 50 60C65 60 78 54 78 48"/></g><g fill="currentColor" opacity=".2"><ellipse cx="50" cy="26" rx="28" ry="10"/></g><g fill="currentColor"><circle cx="40" cy="72" r="3.5"/><circle cx="52" cy="75" r="3.5"/><circle cx="64" cy="71" r="3.5"/></g></symbol>
+<symbol id="i-si-nas" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"><rect x="24" y="16" width="52" height="68" rx="5"/><path d="M50 20V80"/></g><g fill="currentColor" opacity=".25"><rect x="30" y="24" width="14" height="52" rx="2"/><rect x="56" y="24" width="14" height="52" rx="2"/></g><g fill="currentColor"><rect x="40" y="30" width="4" height="10" rx="2"/><rect x="66" y="30" width="4" height="10" rx="2"/></g></symbol>
+<symbol id="i-si-k8s" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"><path d="M50 8L74 18L88 40L82 66L60 84L36 82L16 62L14 36L28 16Z"/><circle cx="50" cy="48" r="14"/><path d="M50 8V34M74 18L60 40M88 40L64 48M82 66L60 56M60 84L54 62M36 82L42 62M16 62L36 54M14 36L36 44M28 16L40 38"/></g><g fill="currentColor" opacity=".22"><circle cx="50" cy="48" r="14"/></g></symbol>
+<symbol id="i-si-db" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="5"><ellipse cx="34" cy="30" rx="18" ry="8"/><path d="M16 30V62C16 66 24 72 34 72C44 72 52 66 52 62V30"/><ellipse cx="66" cy="46" rx="18" ry="8"/><path d="M48 46V78C48 82 56 88 66 88C76 88 84 82 84 78V46"/><path d="M34 72V78" stroke-linecap="round"/></g><g fill="currentColor" opacity=".2"><ellipse cx="34" cy="30" rx="18" ry="8"/><ellipse cx="66" cy="46" rx="18" ry="8"/></g></symbol>
+<symbol id="i-si-cloud" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"><path d="M28 74C18 74 12 66 12 58C12 50 18 44 26 42C28 30 38 22 50 22C62 22 72 30 74 42C82 44 88 50 88 58C88 66 82 74 72 74Z"/></g><g fill="currentColor" opacity=".2"><path d="M28 74C18 74 12 66 12 58C12 50 18 44 26 42C28 30 38 22 50 22C62 22 72 30 74 42C82 44 88 50 88 58C88 66 82 74 72 74Z"/></g><circle cx="50" cy="56" r="6" fill="currentColor"/></symbol>
+<symbol id="i-si-mon" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="18" width="72" height="48" rx="5"/><path d="M38 84H62M50 66V84"/><path d="M24 46H36L42 34L50 56L56 42L62 46H76"/></g></symbol>
+<symbol id="i-si-ha" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="30" width="28" height="38" rx="4"/><rect x="58" y="30" width="28" height="38" rx="4"/><path d="M46 42H54M54 58H46" /><path d="M42 49H58M54 45L58 49L54 53"/></g><g fill="currentColor"><rect x="20" y="36" width="16" height="8" rx="2" opacity=".28"/><rect x="64" y="36" width="16" height="8" rx="2" opacity=".28"/><circle cx="24" cy="60" r="3"/><circle cx="68" cy="60" r="3"/></g></symbol>
+<symbol id="i-si-rt" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="32" width="68" height="36" rx="6"/><path d="M28 44L48 44L56 56L72 56"/><path d="M66 50L72 56L66 62"/><path d="M72 44L56 44L48 56L28 56"/><path d="M34 50L28 56L34 62" transform="translate(-6 -12)"/></g></symbol>
+<symbol id="i-si-waf" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"><path d="M50 12L78 22V48C78 68 66 80 50 88C34 80 22 68 22 48V22Z"/><path d="M34 44H66M34 56H66M42 34V44M58 34V44M42 56V66M58 56V66" stroke-width="4"/></g><g fill="currentColor" opacity=".18"><path d="M50 12L78 22V48C78 68 66 80 50 88C34 80 22 68 22 48V22Z"/></g></symbol>
+<symbol id="i-si-gw" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M24 84V38C24 24 36 14 50 14C64 14 76 24 76 38V84"/><path d="M12 56H64M56 48L64 56L56 64"/><path d="M76 44H88" opacity=".6"/></g><path d="M36 84V46C36 38 42 32 50 32C58 32 64 38 64 46V84" fill="currentColor" opacity=".2"/></symbol>
+<symbol id="i-si-vm" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"><rect x="18" y="18" width="64" height="64" rx="7"/><rect x="28" y="28" width="20" height="20" rx="3"/><rect x="54" y="28" width="20" height="20" rx="3"/><rect x="28" y="54" width="20" height="20" rx="3"/><rect x="54" y="54" width="20" height="20" rx="3"/></g><g fill="currentColor" opacity=".24"><rect x="28" y="28" width="20" height="20" rx="3"/><rect x="54" y="54" width="20" height="20" rx="3"/></g></symbol>
+<symbol id="i-si-bak" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"><rect x="16" y="24" width="68" height="52" rx="5"/><circle cx="36" cy="46" r="10"/><circle cx="64" cy="46" r="10"/><path d="M46 46H54" stroke-linecap="round"/><path d="M28 68H72" stroke-linecap="round"/></g><g fill="currentColor" opacity=".24"><rect x="16" y="24" width="68" height="52" rx="5"/></g><circle cx="36" cy="46" r="3.5" fill="currentColor"/><circle cx="64" cy="46" r="3.5" fill="currentColor"/></symbol>
 </defs></svg>
 <!-- ==== 01-cover.html ==== -->
-<section class="slide cx" data-archetype="cover" data-variant="center" id="cover-center" style="padding:0">
-<div class="cx-text" style="left:0;top:200px;width:1920px;align-items:center;text-align:center">
-<p class="cx-eyebrow">edu-deck 소개</p>
-<h1 class="cx-title"><span data-text="프롬프트 하나로" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret"></span></h1>
-<div class="cx-tokens" style="justify-content:center">
-<span style="--d:0">한국어 교육 자료</span><span style="--d:1">·</span><span style="--d:2">단일 HTML</span><span style="--d:3">·</span><span style="--d:4">코드 재생</span>
-</div>
-<p class="cx-sub" style="margin-top:36px">이런 요청 하나면 충분합니다</p>
-<div class="col" style="align-items:center;gap:18px;margin-top:14px">
-<p class="pill" data-fx="scatter-gather" style="font-size:30px">"물질의 상태 변화 단원평가 퀴즈 만들어줘"</p>
-<p class="pill" data-fx="scatter-gather" style="font-size:30px">"비와 비율 학습지 한 장 부탁해"</p>
-<p class="pill" data-fx="scatter-gather" style="font-size:30px">"사고 사례로 배우는 현장 안전 교육자료"</p>
-</div>
-</div>
-<p class="cover-date" style="z-index:3">30초 소개 — 코드로 재생</p>
-<aside class="notes">소개 쇼 첫 장입니다. 실제 사용자 요청과 같은 문장 세 개가 흩어진 글자에서 모여 듭니다. 제목은 타이핑되고, 요청 문장들은 scatter-gather 기법으로 자리를 잡습니다. 발표자는 이 화면을 두고 "이렇게 부탁하면 됩니다"라고 한 줄 덧붙이면 충분합니다. 다음 장에서는 이 요청이 어떤 경로를 거쳐 완성되는지 보여 줍니다.</aside>
+<section class="slide" data-archetype="cover" style="padding:72px 84px;gap:0">
+  <div class="row" style="flex:1;min-height:0;align-items:center;gap:60px">
+    <div class="col" style="flex:1.05;min-width:0;gap:24px;justify-content:center">
+      <p class="in-eyebrow">edu-deck 소개 — 30초</p>
+      <h1 class="in-hero">프롬프트 <em>하나로</em></h1>
+      <p class="in-sub">교육·아키텍처·컨설팅 덱이<br>단일 HTML로 완성됩니다</p>
+      <div class="col" style="gap:12px;margin-top:10px" data-step="1">
+        <p class="in-prompt">"사내 LLM 도입 워크숍 교육자료 만들어줘"</p>
+        <p class="in-prompt">"업무포털 이중화 구성도 인수인계 장표"</p>
+        <p class="in-prompt">"IT 비용 최적화 경영진 보고서"</p>
+      </div>
+      <p class="small" data-step="2" style="margin-top:6px">외부 의존 0 — 브라우저에서 바로 재생·인쇄</p>
+    </div>
+    <div class="in-grid" style="flex:0 0 640px">
+      <div class="in-fr" data-step="3"><p class="in-fr-t">SI 청사진 구성도 <i>arch</i></p>
+        <svg class="dg" viewBox="0 0 300 168" aria-hidden="true">
+          <rect width="300" height="168" fill="#f8fafc"/>
+          <g><rect x="14" y="30" width="90" height="120" class="k-zface" rx="8"/><rect x="14" y="30" width="90" height="16" class="k-zbar-n" rx="6"/><text x="22" y="43" font-size="11" font-weight="800" fill="#fff">DMZ</text>
+            <rect x="26" y="58" width="66" height="26" rx="5" fill="#fff" stroke="var(--line)"/><rect x="26" y="96" width="66" height="26" rx="5" fill="#fff" stroke="var(--line)"/></g>
+          <g><rect x="130" y="30" width="156" height="120" class="k-zface" rx="8"/><rect x="130" y="30" width="156" height="16" class="k-zbar-b" rx="6"/><text x="138" y="43" font-size="11" font-weight="800" fill="#fff">내부망</text>
+            <rect x="142" y="58" width="60" height="26" rx="5" fill="#fff" stroke="var(--line)"/><rect x="212" y="58" width="60" height="26" rx="5" fill="#fff" stroke="var(--line)"/>
+            <rect x="142" y="96" width="130" height="38" rx="5" fill="#fff" stroke="var(--line)"/><rect x="142" y="96" width="130" height="10" fill="var(--blue)" rx="5"/></g>
+          <path d="M104 71 H130 M104 109 H130" stroke="var(--blue)" stroke-width="4" fill="none"/>
+          <path d="M202 71 H212" stroke="var(--accent)" stroke-width="4" fill="none"/>
+        </svg></div>
+      <div class="in-fr" data-step="4"><p class="in-fr-t">컨설팅 차트+사이드카 <i>consult</i></p>
+        <svg class="dg" viewBox="0 0 300 168" aria-hidden="true">
+          <rect width="300" height="168" fill="#fff"/>
+          <rect x="16" y="16" width="130" height="4" fill="var(--accent)"/>
+          <g fill="var(--ink)"><rect x="28" y="120" width="34" height="30"/><rect x="72" y="86" width="34" height="64" fill="var(--accent)"/><rect x="116" y="66" width="34" height="84"/></g>
+          <path d="M62 135 H72 M106 118 H116" stroke="var(--line)" stroke-width="2" stroke-dasharray="3 3"/>
+          <g><rect x="196" y="40" width="88" height="3" fill="var(--accent)"/><rect x="196" y="56" width="88" height="8" fill="var(--muted)"/><rect x="196" y="72" width="70" height="8" fill="var(--muted)"/><rect x="196" y="88" width="80" height="8" fill="var(--muted)"/><rect x="196" y="110" width="88" height="1.5" fill="var(--line)"/><rect x="196" y="120" width="60" height="8" fill="var(--soft)"/></g>
+        </svg></div>
+      <div class="in-fr" data-step="5"><p class="in-fr-t">학습지·워크시트 <i>edu</i></p>
+        <svg class="dg" viewBox="0 0 300 168" aria-hidden="true">
+          <rect width="300" height="168" fill="#f8fafc"/>
+          <rect x="60" y="18" width="180" height="132" rx="8" fill="#fff" stroke="var(--line)" stroke-width="1.5"/>
+          <rect x="60" y="18" width="180" height="22" rx="8" fill="var(--blue)"/>
+          <g stroke="var(--line)" stroke-width="4" stroke-linecap="round"><line x1="76" y1="58" x2="160" y2="58"/><line x1="76" y1="78" x2="200" y2="78"/><line x1="76" y1="98" x2="140" y2="98"/><line x1="76" y1="122" x2="180" y2="122"/></g>
+          <circle cx="212" cy="60" r="15" fill="none" stroke="var(--accent)" stroke-width="4"/><path d="M205 60 l5 5 10 -10" stroke="var(--accent)" stroke-width="4" fill="none"/>
+        </svg></div>
+      <div class="in-fr" data-step="6"><p class="in-fr-t">확인 퀴즈·자습 <i>quiz</i></p>
+        <svg class="dg" viewBox="0 0 300 168" aria-hidden="true">
+          <rect width="300" height="168" fill="#fff"/>
+          <rect x="24" y="26" width="252" height="54" rx="8" fill="var(--paper)" stroke="var(--line)" stroke-width="1.5"/>
+          <g stroke="var(--soft)" stroke-width="4" stroke-linecap="round"><line x1="40" y1="46" x2="200" y2="46"/><line x1="40" y1="64" x2="150" y2="64"/></g>
+          <circle cx="90" cy="122" r="26" fill="var(--blue)"/><text x="90" y="132" font-size="30" font-weight="800" fill="#fff" text-anchor="middle">O</text>
+          <circle cx="210" cy="122" r="26" fill="none" stroke="var(--accent-text)" stroke-width="4"/><text x="210" y="132" font-size="30" font-weight="800" fill="var(--accent-text)" text-anchor="middle">X</text>
+        </svg></div>
+    </div>
+  </div>
+  <aside class="notes">첫 장입니다. 왼쪽은 실제 요청문 세 가지 — 초중등 교과가 아니라 사내 워크숍·SI 인수인계·경영 보고서까지 스펙트럼을 보여 줍니다. 오른쪽 네 프레임이 이 스킬이 실제로 만드는 산출물의 얼굴입니다: 아키텍처 블루프린트, 컨설팅 차트와 사이드카, 학습지, OX 퀴즈. 청중은 여기서 "한 줄을 넣으면 이런 결과물이 나온다"를 눈으로 확인합니다.</aside>
 </section>
 
 <!-- ==== 02-pipeline.html ==== -->
-<section class="slide" data-archetype="arch-flow" data-variant="lanes" style="gap:28px">
-  <div class="head"><p class="eyebrow">만드는 경로</p><h2 class="title">요청 한 줄이 덱이 되기까지</h2></div>
-  <div class="row" style="flex:1;min-height:0;gap:40px">
-    <figure class="viz-fig" style="flex:1;min-width:0">
-    <div class="stack-fig" data-c="stack" role="img" aria-label="요청이 조사·구성·저작·검사를 거쳐 단일 HTML로 완성되는 흐름" data-d='{"nodes":[{"id":"req","name":"요청","icon":"mail","row":1,"col":0,"role":"프롬프트 한 줄"},{"id":"res","name":"조사","icon":"search","row":1,"col":1,"role":"근거 수집"},{"id":"org","name":"구성","icon":"layers","row":1,"col":2,"role":"흐름·장 배치"},{"id":"auth","name":"저작","icon":"file-text","row":1,"col":3,"role":"조각 조립"},{"id":"chk","name":"검사","icon":"circle-check","row":1,"col":4,"role":"계약·대비 검증"},{"id":"out","name":"단일 HTML","icon":"file","row":1,"col":5,"role":"브라우저 재생","tone":"brand"}],"edges":[{"from":"req","to":"res"},{"from":"res","to":"org"},{"from":"org","to":"auth"},{"from":"auth","to":"chk"},{"from":"chk","to":"out"}],"groups":[{"id":"pipe","label":"edu-deck 파이프라인","icon":"workflow","nodes":["req","res","org","auth","chk","out"],"cols":[0,5],"tone":"accent"}]}'></div>
-    </figure>
-    <div class="col" style="flex:0 0 480px;justify-content:center;gap:22px">
-      <div class="card" data-step="1" style="padding:22px 28px"><p class="body" style="font-size:28px"><b>조사</b> — 주제 근거와 사실을 모읍니다</p></div>
-      <div class="card" data-step="2" style="padding:22px 28px"><p class="body" style="font-size:28px"><b>구성·저작</b> — 흐름을 잡고 계열 조각으로 배치합니다</p></div>
-      <div class="card" data-step="3" style="padding:22px 28px"><p class="body" style="font-size:28px"><b>검사</b> — 대비·넘침·계약을 자동으로 확인합니다</p></div>
+<section class="slide" data-archetype="arch-flow" style="gap:30px">
+  <div class="head"><p class="eyebrow">만드는 경로 · 품질 보증</p><h2 class="title">요청 한 줄이 두 번의 검수를 지나 덱이 됩니다</h2></div>
+  <svg class="dg" viewBox="0 0 1664 340" role="img" aria-label="제작 파이프라인: 요청이 경로 라우팅·조사와 근거 원장·조각 조립·이중 검수를 거쳐 단일 HTML로 완성된다">
+    <title>요청에서 완성까지 — 라우팅·조사·조립·이중 검수</title>
+    <g data-step="1">
+      <rect x="20" y="96" width="216" height="148" rx="14" class="k-paper"/>
+      <text x="128" y="152" font-size="30" font-weight="800" fill="var(--ink)" text-anchor="middle">요청</text>
+      <text x="128" y="196" font-size="21" font-weight="600" fill="var(--soft)" text-anchor="middle">프롬프트 한 줄</text>
+    </g>
+    <g data-step="2"><path d="M236 170 H290" class="k-ln-b"/></g>
+    <g data-step="2">
+      <rect x="290" y="96" width="216" height="148" rx="14" class="k-paper"/>
+      <text x="398" y="152" font-size="30" font-weight="800" fill="var(--ink)" text-anchor="middle">라우팅</text>
+      <text x="398" y="196" font-size="21" font-weight="600" fill="var(--soft)" text-anchor="middle">4경로 자동 선택</text>
+    </g>
+    <g data-step="3"><path d="M506 170 H560" class="k-ln-b"/></g>
+    <g data-step="3">
+      <rect x="560" y="96" width="216" height="148" rx="14" class="k-paper"/>
+      <text x="668" y="152" font-size="30" font-weight="800" fill="var(--ink)" text-anchor="middle">조사 · 원장</text>
+      <text x="668" y="196" font-size="21" font-weight="600" fill="var(--soft)" text-anchor="middle">근거 수집·출처 대조</text>
+    </g>
+    <g data-step="4"><path d="M776 170 H830" class="k-ln-b"/></g>
+    <g data-step="4">
+      <rect x="830" y="96" width="216" height="148" rx="14" class="k-paper"/>
+      <text x="938" y="152" font-size="30" font-weight="800" fill="var(--ink)" text-anchor="middle">조립</text>
+      <text x="938" y="196" font-size="21" font-weight="600" fill="var(--soft)" text-anchor="middle">계열 조각·생성기로 배치</text>
+    </g>
+    <g data-step="5"><path d="M1046 170 H1100" class="k-ln-b"/></g>
+    <g data-step="5">
+      <rect x="1100" y="96" width="232" height="148" rx="14" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="2.5"/>
+      <text x="1216" y="152" font-size="30" font-weight="800" fill="var(--blue-text)" text-anchor="middle">이중 검수</text>
+      <text x="1216" y="196" font-size="21" font-weight="600" fill="var(--soft)" text-anchor="middle">기술 계약 + 심미 크리틱</text>
+    </g>
+    <g data-step="6"><path d="M1332 170 H1386" class="k-ln-o"/></g>
+    <g data-step="6">
+      <rect x="1386" y="96" width="258" height="148" rx="14" fill="var(--ink)" stroke="var(--ink)"/>
+      <text x="1515" y="152" font-size="32" font-weight="800" fill="var(--paper)" text-anchor="middle">단일 HTML</text>
+      <text x="1515" y="196" font-size="21" font-weight="600" fill="var(--muted)" text-anchor="middle">외부 의존 없이 재생</text>
+    </g>
+  </svg>
+  <div class="row" style="gap:40px;flex:0 0 auto">
+    <div class="in-hl" style="flex:1" data-step="7">
+      <p class="in-hl-k">기술 계약 — check_deck.py</p>
+      <p class="in-hl-v">대비·넘침·접근성·노트 길이를 빌드마다 자동 검사</p>
+      <p class="in-hl-d">errors=0이 아니면 배포하지 않는다는 규칙이 코드로 강제됩니다</p>
+    </div>
+    <div class="in-hl" style="flex:1" data-step="8">
+      <p class="in-hl-k">심미 크리틱 — design-critique.md</p>
+      <p class="in-hl-v">6단계 절차·9항목 채점으로 실제 캡처 화면을 독립 검수</p>
+      <p class="in-hl-d">기술이 무결해도 조형이 흔들리면 FAIL — 별도의 눈이 한 번 더 봅니다</p>
     </div>
   </div>
-  <aside class="notes">파이프라인 장입니다. 구성도 부품이 그룹에서 노드·화살표 순서로 스스로 그려집니다. 오른쪽 세 칸을 눌러 열 때마다 조사·구성저작·검사의 한 줄 설명이 드러납니다. 모든 단계가 같은 저장소의 스킬과 스크립트로 실행되며 결과는 외부 의존 없는 HTML 하나라고 덧붙입니다.</aside>
+  <aside class="notes">파이프라인 장입니다. 위 레일이 요청부터 단일 HTML까지의 여섯 고개를 순서대로 공개하고, 아래 헤어라인 카드 두 장이 검수 체계의 이중 구조를 보여 줍니다. 왼쪽은 check_deck.py의 기술 계약, 오른쪽은 design-critique.md의 심미 채점 — 어느 하나라도 빠지면 이 저장소의 품질 기준을 설명할 수 없습니다.</aside>
 </section>
 
-<!-- ==== 03-stats.html ==== -->
-<section class="slide" data-archetype="stat-strip" style="gap:32px">
-  <div class="head"><p class="eyebrow">재료 규모</p><h2 class="title">카탈로그에 올라 있는 실물 숫자</h2></div>
-  <div class="stat-strip" style="margin-top:auto">
-    <div class="stat" data-src="F01"><p class="stat-num" data-count>52</p><p class="stat-label">배치 계열</p></div>
-    <div class="stat" data-src="F02"><p class="stat-num" data-count>253</p><p class="stat-label">장 변형</p></div>
-    <div class="stat" data-src="F03"><p class="stat-num" data-count>42</p><p class="stat-label">모션 실행 이름</p></div>
+<!-- ==== 03-diversity.html ==== -->
+<section class="slide" data-archetype="stat-strip" style="gap:28px">
+  <div class="head"><p class="eyebrow">다양성 엔진</p><h2 class="title">같은 문법이 주제마다 다른 얼굴을 만듭니다</h2></div>
+  <div class="in-stats">
+    <div class="in-stat" data-step="1">
+      <p class="in-stat-v">52<small>계열</small></p>
+      <p class="in-stat-k">장 배치 변형 253</p>
+      <div class="in-stat-fig"><svg viewBox="0 0 200 150" aria-hidden="true">
+        <g fill="var(--blue-soft)" stroke="var(--line)">
+          <rect x="6" y="6" width="42" height="30" rx="4"/><rect x="56" y="6" width="42" height="30" rx="4"/><rect x="106" y="6" width="42" height="30" rx="4"/><rect x="156" y="6" width="38" height="30" rx="4"/>
+          <rect x="6" y="44" width="42" height="30" rx="4"/><rect x="56" y="44" width="42" height="30" rx="4"/><rect x="106" y="44" width="42" height="30" rx="4"/><rect x="156" y="44" width="38" height="30" rx="4"/>
+          <rect x="6" y="82" width="42" height="30" rx="4"/><rect x="56" y="82" width="42" height="30" rx="4"/><rect x="106" y="82" width="42" height="30" rx="4"/><rect x="156" y="82" width="38" height="30" rx="4"/>
+          <rect x="6" y="120" width="42" height="24" rx="4"/><rect x="56" y="120" width="42" height="24" rx="4"/><rect x="106" y="120" width="42" height="24" rx="4"/><rect x="156" y="120" width="38" height="24" rx="4"/>
+        </g>
+        <g fill="var(--accent)"><rect x="56" y="44" width="42" height="30" rx="4" fill-opacity=".55"/><rect x="106" y="6" width="42" height="30" rx="4" fill-opacity=".55"/><rect x="156" y="82" width="38" height="30" rx="4" fill-opacity=".55"/><rect x="6" y="120" width="42" height="24" rx="4" fill-opacity=".55"/></g>
+      </svg></div>
+    </div>
+    <div class="in-stat" data-step="2">
+      <p class="in-stat-v">64<small>조합</small></p>
+      <p class="in-stat-k">리소스팩 — 설계 8 × 흐름 8</p>
+      <div class="in-stat-fig"><svg viewBox="0 0 200 150" aria-hidden="true">
+        <g>
+          <g fill="var(--blue-soft)" stroke="var(--paper)" stroke-width="2">
+            <rect x="28" y="10" width="18" height="18"/><rect x="48" y="10" width="18" height="18"/><rect x="68" y="10" width="18" height="18"/><rect x="88" y="10" width="18" height="18"/><rect x="108" y="10" width="18" height="18"/><rect x="128" y="10" width="18" height="18"/><rect x="148" y="10" width="18" height="18"/><rect x="168" y="10" width="18" height="18"/>
+            <rect x="28" y="30" width="18" height="18"/><rect x="48" y="30" width="18" height="18"/><rect x="68" y="30" width="18" height="18"/><rect x="88" y="30" width="18" height="18"/><rect x="108" y="30" width="18" height="18"/><rect x="128" y="30" width="18" height="18"/><rect x="148" y="30" width="18" height="18"/><rect x="168" y="30" width="18" height="18"/>
+            <rect x="28" y="50" width="18" height="18"/><rect x="48" y="50" width="18" height="18"/><rect x="68" y="50" width="18" height="18"/><rect x="88" y="50" width="18" height="18"/><rect x="108" y="50" width="18" height="18"/><rect x="128" y="50" width="18" height="18"/><rect x="148" y="50" width="18" height="18"/><rect x="168" y="50" width="18" height="18"/>
+            <rect x="28" y="70" width="18" height="18"/><rect x="48" y="70" width="18" height="18"/><rect x="68" y="70" width="18" height="18"/><rect x="88" y="70" width="18" height="18"/><rect x="108" y="70" width="18" height="18"/><rect x="128" y="70" width="18" height="18"/><rect x="148" y="70" width="18" height="18"/><rect x="168" y="70" width="18" height="18"/>
+            <rect x="28" y="90" width="18" height="18"/><rect x="48" y="90" width="18" height="18"/><rect x="68" y="90" width="18" height="18"/><rect x="88" y="90" width="18" height="18"/><rect x="108" y="90" width="18" height="18"/><rect x="128" y="90" width="18" height="18"/><rect x="148" y="90" width="18" height="18"/><rect x="168" y="90" width="18" height="18"/>
+            <rect x="28" y="110" width="18" height="18"/><rect x="48" y="110" width="18" height="18"/><rect x="68" y="110" width="18" height="18"/><rect x="88" y="110" width="18" height="18"/><rect x="108" y="110" width="18" height="18"/><rect x="128" y="110" width="18" height="18"/><rect x="148" y="110" width="18" height="18"/><rect x="168" y="110" width="18" height="18"/>
+          </g>
+          <rect x="88" y="50" width="18" height="18" fill="var(--accent)"/><rect x="88" y="50" width="18" height="18" fill="none" stroke="var(--accent)" stroke-width="3"/>
+          <text x="12" y="24" font-size="14" font-weight="800" fill="var(--soft)">8</text>
+          <text x="100" y="145" font-size="14" font-weight="800" fill="var(--soft)">× 8</text>
+        </g>
+      </svg></div>
+    </div>
+    <div class="in-stat" data-step="3">
+      <p class="in-stat-v">8<small>종</small></p>
+      <p class="in-stat-k">legacy 테마 — 색·그림자·반경</p>
+      <div class="in-stat-fig"><svg viewBox="0 0 200 150" aria-hidden="true">
+        <g>
+          <rect x="34" y="14" width="60" height="24" rx="12" fill="#0e7a86"/><rect x="106" y="14" width="60" height="24" rx="12" fill="#2c50b0"/>
+          <rect x="34" y="46" width="60" height="24" rx="12" fill="#33713c"/><rect x="106" y="46" width="60" height="24" rx="12" fill="#b85c0f"/>
+          <rect x="34" y="78" width="60" height="24" rx="12" fill="#a62f63"/><rect x="106" y="78" width="60" height="24" rx="12" fill="#8a4b1f"/>
+          <rect x="34" y="110" width="60" height="24" rx="12" fill="#41586e"/><rect x="106" y="110" width="60" height="24" rx="12" fill="#d19a4a"/>
+        </g>
+      </svg></div>
+    </div>
+    <div class="in-stat" data-step="4">
+      <p class="in-stat-v">42<small>+5</small></p>
+      <p class="in-stat-k">모션 실행 이름 + 공통 기법</p>
+      <div class="in-stat-fig"><svg viewBox="0 0 200 150" aria-hidden="true">
+        <g fill="none" stroke-linecap="round">
+          <path d="M14 118 C50 118 50 40 100 40 S 150 96 186 60" stroke="var(--blue)" stroke-width="5"/>
+          <path d="M14 96 C60 96 60 130 110 130 S 160 84 186 96" stroke="var(--accent)" stroke-width="5" stroke-dasharray="10 8"/>
+          <path d="M14 60 C60 60 70 100 120 100 S 170 30 186 38" stroke="var(--line)" stroke-width="4"/>
+        </g>
+        <circle cx="100" cy="40" r="7" fill="var(--blue)"/><circle cx="186" cy="60" r="7" fill="var(--accent)"/>
+      </svg></div>
+    </div>
   </div>
-  <aside class="notes">재료 규모 장입니다. 세 지표가 카운트업으로 모입니다. 계열·변형·시그니처 수는 카탈로그와 모션 라이브러리의 실제 수치이며, 근거 목록은 뒤쪽 출처 장에 F01~F03으로 실려 있습니다. 같은 숫자가 README와 갤러리 표기에도 쓰인다고 덧붙입니다.</aside>
-</section>
-
-<!-- ==== 04-tiles.html ==== -->
-<section class="slide" data-archetype="tile-grid" data-variant="cards" style="gap:32px">
-  <div class="head"><p class="eyebrow">대표 계열</p><h2 class="title">같은 문법, 다른 얼굴</h2></div>
-  <div class="skg">
-    <div class="sk-card" data-step="1"><div><p class="sk-name">표지 <span>16종</span></p><p class="sk-d">편집·포스터·청사진 등 주제별 첫 장</p></div><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-presentation" width="100" height="100" style="color:var(--accent)"/></svg></div>
-    <div class="sk-card" data-step="1"><div><p class="sk-name">도식 <span>52계열</span></p><p class="sk-d">흐름·판단·수치·지도를 정적 SVG로</p></div><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-workflow" width="100" height="100" style="color:var(--blue)"/></svg></div>
-    <div class="sk-card" data-step="2"><div><p class="sk-name">퀴즈 <span>OX·AB·분류</span></p><p class="sk-d">판정 도장·해설까지 한 화면에서</p></div><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-circle-check" width="100" height="100" style="color:var(--success)"/></svg></div>
-    <div class="sk-card" data-step="2"><div><p class="sk-name">자습 <span>요약·용어</span></p><p class="sk-d">발표 없이도 혼자 읽는 모드</p></div><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-book-open" width="100" height="100" style="color:var(--accent)"/></svg></div>
-    <div class="sk-card" data-step="3"><div><p class="sk-name">인쇄 <span>전 장 완결</span></p><p class="sk-d">단계를 펼친 정적 출력 그대로</p></div><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-printer" width="100" height="100" style="color:var(--blue)"/></svg></div>
-    <div class="sk-card sk-own" data-step="3"><div><p class="sk-name">출처 <span>사실 검증</span></p><p class="sk-d">data-src id로 근거를 대조합니다</p></div><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-shield-check" width="100" height="100" style="color:var(--accent)"/></svg></div>
+  <div class="row" style="gap:14px;flex:0 0 auto;justify-content:center" data-step="5">
+    <p class="pill" style="font-size:22px">아키텍처 생성기 3종 + blueprint</p>
+    <p class="pill" style="font-size:22px">컨설팅 차트 11종</p>
+    <p class="pill" style="font-size:22px">표지 변형 16종 · arc 6종</p>
   </div>
-  <aside class="notes">대표 계열 장입니다. 여섯 칸이 파도처럼 순서대로 들어옵니다. 표지·도식·퀴즈·자습·인쇄·출처가 한 저장소의 조각 계약을 공유하며, 목록은 계열 카탈로그의 일부입니다. 다음 장에서는 이 조각들의 모션이 녹화가 아니라 코드로 동작함을 보여 줍니다.</aside>
+  <aside class="notes">다양성 장입니다. 네 타일이 재료 규모를 실물 비주얼로 보여 줍니다 — 52계열 253변형은 지면 모자이크로, 64조합 리소스팩은 문자 그대로 8×8 격자로, 8테마는 실제 액센트 색 견본으로, 모션은 42개 실행 이름에 공통 기법 5종을 더한 숫자로. 아래 알약 세 개가 다음 두 장에서 실연될 생성기 계열을 예고합니다.</aside>
 </section>
 
-<!-- ==== 05-sankey.html ==== -->
-<section class="slide" data-archetype="sankey-flow" data-variant="hub-split" style="gap:22px">
-  <div class="head"><p class="eyebrow">모션 실연 · 샌키</p><h2 class="title">요청이 재료로 흘러 들어옵니다</h2></div>
-  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="세 갈래 요청이 하나의 스킬 조합에 모여 네 갈래 결과로 나가는 흐름 도식">
-    <g class="sk" data-step="1">
-      <path d="M280,104 C480,104 560,186 700,196 L700,244 C560,238 480,156 280,152 Z" class="k-solid-b" opacity=".92"/>
-      <rect x="40" y="60" width="240" height="88" class="k-solid-b"/>
-      <text x="160" y="98" font-size="26" font-weight="700" class="k-t-w" text-anchor="middle">퀴즈 요청</text>
-      <text x="160" y="128" font-size="19" class="k-t-w" text-anchor="middle" opacity=".85">예시 4종</text>
-      <path d="M280,262 C480,262 560,282 700,290 L700,338 C560,330 480,318 280,306 Z" class="k-solid-b" opacity=".72"/>
-      <rect x="40" y="222" width="240" height="88" class="k-solid-b"/>
-      <text x="160" y="258" font-size="26" font-weight="700" class="k-t-w" text-anchor="middle">학습지 요청</text>
-      <text x="160" y="288" font-size="19" class="k-t-w" text-anchor="middle" opacity=".85">예시 4종</text>
-      <path d="M280,420 C480,420 560,378 700,366 L700,414 C560,420 480,468 280,472 Z" class="k-solid-b" opacity=".55"/>
-      <rect x="40" y="384" width="240" height="88" class="k-solid-b"/>
-      <text x="160" y="422" font-size="26" font-weight="700" class="k-t-w" text-anchor="middle">안전 교육</text>
-      <text x="160" y="452" font-size="19" class="k-t-w" text-anchor="middle" opacity=".85">예시 4종</text>
+<!-- ==== 04-architecture.html ==== -->
+<section class="slide arch-blueprint" data-archetype="arch-diagram" style="gap:14px">
+  <div class="bp-head"><span class="bp-serial">004</span><h2 class="title">아키텍처 생성기 — 시맨틱 JSON이 그린 실물</h2><span class="bp-eyebrow">Architecture Kit · arch_layout.mjs</span></div>
+  <div style="display:flex;gap:16px;align-items:stretch;flex:1;min-height:0">
+  <div style="flex:1;min-width:0">
+  <svg class="dg" viewBox="0 0 1664 600" role="img" aria-label="생성 실연 구성도: 사용자가 경계 방어의 WAF를 거쳐 이중화 WEB 쌍, API 게이트웨이로 들어오고 내부 버스가 서비스 클러스터·메시지큐·캐시로 갈라지며 DB 쌍과 관제가 붙어 있다">
+  <title>아키텍처 생성기 — 시맨틱 JSON이 그린 실물</title>
+  <g data-step="1">
+    <rect class="k-zface" x="191" y="81" width="346" height="356" style="rx:12px"/>
+    <rect class="k-zbar-n" x="191" y="81" width="346" height="32" style="rx:10px"/><text class="k-t-zh" x="207" y="104">경계 대역</text>
+  </g>
+  <g data-step="1">
+    <rect class="k-zface" x="523" y="30" width="1070" height="468" style="rx:12px"/>
+    <rect class="k-zbar-b" x="523" y="30" width="1070" height="32" style="rx:10px"/><text class="k-t-zh" x="539" y="53">내부망</text>
+  </g>
+  <g data-step="1">
+    <rect class="k-zface-t" x="209" y="121" width="310" height="300" style="rx:12px"/>
+    <rect class="k-zbar-n" x="221" y="127" width="113" height="28" style="rx:14px"/><text class="k-t-zh" x="243" y="147">전방 방어</text>
+  </g>
+  <g data-step="1">
+    <rect class="k-zface-t" x="541" y="70" width="538" height="412" style="rx:12px"/>
+    <rect class="k-zbar-n" x="553" y="76" width="113" height="28" style="rx:14px"/><text class="k-t-zh" x="575" y="96">응용 계층</text>
+  </g>
+  <g data-step="1">
+    <rect class="k-zface-t" x="1101" y="70" width="474" height="412" style="rx:12px"/>
+    <rect class="k-zbar-n" x="1113" y="76" width="130" height="28" style="rx:14px"/><text class="k-t-zh" x="1135" y="96">데이터·관제</text>
+  </g>
+  <g data-step="3">
+      <path class="k-ln-b dash-flow" d="M163 272 L233 272" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="201.5" y="186" width="81" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="242" y="212" text-anchor="middle">443</text>
     </g>
-    <g class="sk" data-step="2">
-      <rect x="700" y="170" width="200" height="290" class="k-solid-a"/>
-      <text x="800" y="300" font-size="27" font-weight="800" class="k-t-w" text-anchor="middle">스킬 조합</text>
-      <text x="800" y="332" font-size="19" class="k-t-w" text-anchor="middle" opacity=".85">계열 배정</text>
+  <g data-step="3">
+      <path class="k-ln-b" d="M329 272 L329 341 Q329 353 341 353 L399 353" marker-end="url(#ah-b)"/>
     </g>
-    <g class="sk" data-step="3">
-      <path d="M900,196 C1040,186 1120,104 1280,104 L1280,152 C1120,156 1040,238 900,244 Z" class="k-solid-o" opacity=".9"/>
-      <rect x="1280" y="60" width="240" height="88" class="k-paper"/>
-      <text x="1400" y="98" font-size="26" font-weight="700" fill="var(--ink)" text-anchor="middle">퀴즈 덱</text>
-      <text x="1400" y="128" font-size="19" fill="var(--soft)" text-anchor="middle">단일 HTML</text>
-      <path d="M900,290 C1040,290 1120,286 1280,282 L1280,330 C1120,330 1040,334 900,338 Z" class="k-solid-o" opacity=".72"/>
-      <rect x="1280" y="246" width="240" height="88" class="k-paper"/>
-      <text x="1400" y="282" font-size="26" font-weight="700" fill="var(--ink)" text-anchor="middle">학습지</text>
-      <text x="1400" y="312" font-size="19" fill="var(--soft)" text-anchor="middle">단일 HTML</text>
-      <path d="M900,366 C1040,378 1120,420 1280,420 L1280,472 C1120,468 1040,420 900,414 Z" class="k-solid-o" opacity=".55"/>
-      <rect x="1280" y="384" width="240" height="88" class="k-paper"/>
-      <text x="1400" y="422" font-size="26" font-weight="700" fill="var(--ink)" text-anchor="middle">안전 자료</text>
-      <text x="1400" y="452" font-size="19" fill="var(--soft)" text-anchor="middle">단일 HTML</text>
+  <g data-step="3">
+      <path class="k-ln-b" d="M329 272 L329 233 Q329 221 341 221 L399 221" marker-end="url(#ah-b)"/>
     </g>
-  </svg>
-  <aside class="notes">샌키 실연 장입니다. 세 갈래 요청 밴드가 오른쪽으로 흘러 중앙 기둥에 모인 뒤 세 갈래 결과로 나갑니다 — stream-converge 시그니처가 장 진입과 함께 실제로 발화합니다. 모든 그림이 SVG 경로와 클래스 어휘로 그려진다고 덧붙입니다.</aside>
-</section>
-
-<!-- ==== 06-kanban.html ==== -->
-<section class="slide" data-archetype="kanban-board" data-variant="flow" style="gap:22px">
-  <div class="head"><p class="eyebrow">모션 실연 · 칸반</p><h2 class="title">만드는 일의 흐름을 따라갑니다</h2></div>
-  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="준비·저작·검사 세 칸을 카드가 넘어가는 진행 보드 도식">
-    <rect x="40" y="50" width="440" height="480" class="k-gray"/>
-    <rect x="560" y="50" width="440" height="480" class="k-gray"/>
-    <rect x="1080" y="50" width="440" height="480" class="k-gray"/>
-    <g data-step="1">
-      <rect x="64" y="72" width="180" height="44" class="k-solid-n"/>
-      <text x="154" y="101" font-size="22" font-weight="800" class="k-t-w" text-anchor="middle">준비</text>
-      <text x="452" y="101" font-size="20" font-weight="700" fill="var(--soft)" text-anchor="end">3건</text>
+  <g data-step="3">
+      <path class="k-ln-b" d="M495 353 L553 353 Q565 353 565 341 L565 272" marker-end="url(#ah-b)"/>
     </g>
-    <g class="kb" data-step="1">
-      <rect x="80" y="140" width="360" height="72" class="k-paper"/>
-      <text x="104" y="172" font-size="24" font-weight="700" fill="var(--ink)">주제·대상 정하기</text>
-      <text x="104" y="198" font-size="20" fill="var(--soft)">요청 문장</text>
+  <g data-step="3">
+      <path class="k-ln-b" d="M495 221 L495 260 Q495 272 507 272 L565 272" marker-end="url(#ah-b)"/>
     </g>
-    <g class="kb" data-step="1">
-      <rect x="80" y="228" width="360" height="72" class="k-paper"/>
-      <text x="104" y="260" font-size="24" font-weight="700" fill="var(--ink)">근거 조사</text>
-      <text x="104" y="286" font-size="20" fill="var(--soft)">사실 id 채번</text>
+  <g data-step="3">
+      <path class="k-ln-b" d="M1055 394 L1125 394" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="1041" y="274" width="98" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1090" y="300" text-anchor="middle">1521</text>
     </g>
-    <g data-step="2">
-      <rect x="584" y="72" width="180" height="44" class="k-solid-n"/>
-      <text x="674" y="101" font-size="22" font-weight="800" class="k-t-w" text-anchor="middle">저작</text>
-      <text x="972" y="101" font-size="20" font-weight="700" fill="var(--soft)" text-anchor="end">2건</text>
-      <path d="M470,176 L556,176" class="k-ln-g" marker-end="url(#ah-arr)"/>
+  <g>
+      <path class="k-ln-g" d="M775 272 L775 124 Q775 112 787 112 L1443 112 Q1455 112 1455 124 L1455 394" marker-end="url(#ahg)"/>
+      <rect class="k-paper" x="1144" y="128" width="64" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1176" y="154" text-anchor="middle">헬스</text>
     </g>
-    <g class="kb" data-step="2">
-      <rect x="600" y="140" width="360" height="72" class="k-paper"/>
-      <text x="624" y="172" font-size="24" font-weight="700" fill="var(--ink)">흐름·장 배치</text>
-      <text x="624" y="198" font-size="20" fill="var(--soft)">계열 선택</text>
+  <g data-step="3"><polyline class="k-bus-trunk" points="810,146 810,418"/>
+    <polyline class="k-bus-trunk" points="775,272 810,272"/>
+    <polyline class="k-bus-trunk" points="810,394 845,394"/>
+    <polyline class="k-bus-trunk" points="810,272 902,272"/>
+    <polyline class="k-bus-trunk" points="810,170 902,170"/>
+    <circle class="k-bus-trunk-dot" cx="810" cy="272" r="4"/><circle class="k-bus-trunk-dot" cx="810" cy="394" r="4"/><circle class="k-bus-trunk-dot" cx="810" cy="272" r="4"/><circle class="k-bus-trunk-dot" cx="810" cy="170" r="4"/><text class="k-t-spec" x="818" y="158">내부 10G</text></g>
+  <g data-step="3"><line class="k-ha" x1="443" y1="309" x2="443" y2="265"/><line class="k-ha" x1="451" y1="309" x2="451" y2="265"/>
+    <g class="k-hab"><circle cx="447" cy="287" r="10"/><text class="k-t-qty" x="447" y="290.5" text-anchor="middle">HA</text></g><text class="k-t-spec" x="461" y="291" text-anchor="start">L4</text></g>
+  <g data-step="2">
+    <circle class="k-blue" cx="117" cy="272" r="46"/>
+    <text class="k-t-tag" x="117" y="306" text-anchor="middle" style="fill:var(--blue)">사용자</text>
     </g>
-    <g class="kb" data-step="2">
-      <rect x="600" y="228" width="360" height="72" class="k-paper"/>
-      <text x="624" y="260" font-size="24" font-weight="700" fill="var(--ink)">문안·도식 저작</text>
-      <text x="624" y="286" font-size="20" fill="var(--soft)">조각 조립</text>
+  <g data-step="2">
+    <rect class="k-orange" x="233" y="228" width="96" height="88" style="rx:8px"/>
+    <use aria-hidden="true" href="#i-si-waf" x="263" y="236" width="36" height="36" style="color:var(--accent)"/>
+    <text class="k-t-eq" x="281" y="290" text-anchor="middle">WAF</text>
+    <text class="k-t-spec" x="281" y="307" text-anchor="middle">웹 공격 차단</text>
     </g>
-    <g data-step="3">
-      <rect x="1104" y="72" width="180" height="44" class="k-solid-n"/>
-      <text x="1194" y="101" font-size="22" font-weight="800" class="k-t-w" text-anchor="middle">검사·완료</text>
-      <text x="1492" y="101" font-size="20" font-weight="700" fill="var(--soft)" text-anchor="end">1건</text>
-      <path d="M990,176 L1076,176" class="k-ln-g" marker-end="url(#ah-arr)"/>
+  <g data-step="2">
+    <rect class="k-paper" x="399" y="309" width="96" height="88" style="rx:8px"/>
+    <use aria-hidden="true" href="#i-si-rack" x="429" y="317" width="36" height="36" style="color:var(--ink)"/>
+    <text class="k-t-eq" x="447" y="371" text-anchor="middle">WEB-1</text>
+    <text class="k-t-spec" x="447" y="388" text-anchor="middle">TLS 종단</text>
     </g>
-    <g class="kb" data-step="3">
-      <rect x="1120" y="140" width="360" height="72" class="k-solid-g"/>
-      <text x="1144" y="172" font-size="24" font-weight="700" class="k-t-w">대비·넘침·계약</text>
-      <text x="1144" y="198" font-size="20" class="k-t-w" opacity=".85">자동 검사 통과</text>
+  <g data-step="2">
+    <rect class="k-paper" x="399" y="177" width="96" height="88" style="rx:8px"/>
+    <use aria-hidden="true" href="#i-si-rack" x="429" y="185" width="36" height="36" style="color:var(--ink)"/>
+    <text class="k-t-eq" x="447" y="239" text-anchor="middle">WEB-2</text>
+    <text class="k-t-spec" x="447" y="256" text-anchor="middle">TLS 종단</text>
     </g>
-  </svg>
-  <aside class="notes">칸반 실연 장입니다. 카드가 세 상태 칸을 넘어가듯 등장합니다 — card-drift 시그니처가 실제로 발화합니다. 준비에서 검사까지 실제 작업 흐름과 같은 순서이며, 화살표가 칸 사이 인계를 표시한다고 덧붙입니다.</aside>
-</section>
-
-<!-- ==== 07-cycle.html ==== -->
-<section class="slide" data-archetype="cycle-ring" data-variant="ring" style="gap:22px">
-  <div class="head"><p class="eyebrow">모션 실연 · 순환</p><h2 class="title">요청에서 완성까지 한 바퀴</h2></div>
-  <svg class="dg" viewBox="0 0 1560 560" role="img" aria-label="요청·초안·검토·완성 네 조각이 이어져 한 바퀴를 도는 순환 고리 도식">
-    <g class="cy" data-step="1">
-      <path d="M780,70 A210,210 0 0 1 990,280 L890,280 A110,110 0 0 0 780,170 Z" class="k-blue"/>
-      <text x="985" y="140" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">요청</text>
-      <text x="985" y="172" font-size="19" fill="var(--soft)" text-anchor="middle">프롬프트</text>
+  <g data-step="2">
+    <rect class="k-clus" x="565" y="208" width="210" height="128" style="rx:10px"/>
+    <rect class="k-clus-hd" x="565" y="208" width="210" height="30" style="rx:10px"/>
+    <text class="k-t-zh" x="577" y="229">API GW</text>
+    <rect class="k-chip" x="577" y="246" width="56.7" height="30" style="rx:6px"/><text class="k-t-spec" x="605.3" y="266" text-anchor="middle">라우팅</text>
+    <rect class="k-chip" x="641.7" y="246" width="56.7" height="30" style="rx:6px"/><text class="k-t-spec" x="670" y="266" text-anchor="middle">SSO 검증</text>
+    <rect class="k-chip" x="706.3" y="246" width="56.7" height="30" style="rx:6px"/><text class="k-t-spec" x="734.7" y="266" text-anchor="middle">속도제한</text>
+    <rect class="k-res" x="577" y="310" width="140" height="14" style="rx:7px"/>
+    <rect class="k-res-f" x="577" y="310" width="81.2" height="14" style="rx:7px"/>
+    <text class="k-t-spec" x="725" y="321.5">58%</text>
     </g>
-    <g class="cy" data-step="2">
-      <path d="M990,280 A210,210 0 0 1 780,490 L780,390 A110,110 0 0 0 890,280 Z" class="k-blue" opacity=".8"/>
-      <text x="985" y="430" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">초안</text>
-      <text x="985" y="462" font-size="19" fill="var(--soft)" text-anchor="middle">조각 조립</text>
+  <g data-step="2">
+    <rect class="k-clus" x="845" y="330" width="210" height="128" style="rx:10px"/>
+    <rect class="k-clus-hd" x="845" y="330" width="210" height="30" style="rx:10px"/>
+    <text class="k-t-zh" x="857" y="351">업무 서비스</text>
+    <rect class="k-chip" x="857" y="368" width="89" height="29" style="rx:6px"/><text class="k-t-spec" x="901.5" y="387.5" text-anchor="middle">주문</text>
+    <rect class="k-chip" x="954" y="368" width="89" height="29" style="rx:6px"/><text class="k-t-spec" x="998.5" y="387.5" text-anchor="middle">결제</text>
+    <rect class="k-chip" x="857" y="405" width="89" height="29" style="rx:6px"/><text class="k-t-spec" x="901.5" y="424.5" text-anchor="middle">정산</text>
+    <rect class="k-chip" x="954" y="405" width="89" height="29" style="rx:6px"/><text class="k-t-spec" x="998.5" y="424.5" text-anchor="middle">검색</text>
+    <rect class="k-res" x="857" y="432" width="140" height="14" style="rx:7px"/>
+    <rect class="k-res-f" x="857" y="432" width="86.8" height="14" style="rx:7px"/>
+    <text class="k-t-spec" x="1005" y="443.5">62%</text>
     </g>
-    <g class="cy" data-step="3">
-      <path d="M780,490 A210,210 0 0 1 570,280 L670,280 A110,110 0 0 0 780,390 Z" class="k-blue" opacity=".65"/>
-      <text x="575" y="430" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">검토</text>
-      <text x="575" y="462" font-size="19" fill="var(--soft)" text-anchor="middle">검사·수정</text>
+  <g data-step="2">
+    <rect class="k-paper" x="902" y="228" width="96" height="88" style="rx:8px"/>
+    <use aria-hidden="true" href="#i-si-vm" x="932" y="236" width="36" height="36" style="color:var(--ink)"/>
+    <text class="k-t-eq" x="950" y="290" text-anchor="middle">메시지큐</text>
+    <text class="k-t-spec" x="950" y="307" text-anchor="middle">비동기 발행</text>
     </g>
-    <g class="cy" data-step="4">
-      <path d="M570,280 A210,210 0 0 1 780,70 L780,170 A110,110 0 0 0 670,280 Z" class="k-blue" opacity=".5"/>
-      <text x="575" y="140" font-size="24" font-weight="800" fill="var(--ink)" text-anchor="middle">완성</text>
-      <text x="575" y="172" font-size="19" fill="var(--soft)" text-anchor="middle">단일 HTML</text>
+  <g data-step="2">
+    <rect class="k-paper" x="902" y="126" width="96" height="88" style="rx:8px"/>
+    <use aria-hidden="true" href="#i-si-vm" x="932" y="134" width="36" height="36" style="color:var(--ink)"/>
+    <text class="k-t-eq" x="950" y="188" text-anchor="middle">캐시</text>
+    <text class="k-t-spec" x="950" y="205" text-anchor="middle">Redis</text>
     </g>
-    <circle cx="780" cy="280" r="88" class="k-solid-n"/>
-    <text x="780" y="274" font-size="26" font-weight="800" class="k-t-w" text-anchor="middle">만들기</text>
-    <text x="780" y="306" font-size="19" class="k-t-w" text-anchor="middle">한 주기</text>
-    <circle cx="900" cy="120" r="14" class="k-solid-o"/>
-  </svg>
-  <aside class="notes">순환 실연 장입니다. 네 조각이 고리를 따라 차례로 자리 잡습니다 — ring-circuit 시그니처가 실제로 발화합니다. 완성은 끝이 아니라 다음 요청의 출발이라고 덧붙입니다. 다음 장에서는 완성물 안의 퀴즈 판정을 보여 줍니다.</aside>
-</section>
-
-<!-- ==== 08-quiz.html ==== -->
-<section class="slide" data-archetype="quiz-ox" style="gap:32px">
-  <div class="head"><p class="eyebrow">완성물 안의 퀴즈</p><h2 class="title">맞으면 O, 틀리면 X</h2></div>
-  <div class="col" style="flex:1;min-height:0;align-items:center;justify-content:center;gap:30px;background:var(--blue-soft);padding:34px"><p class="body" style="font-size:44px">"이 덱의 모션은 녹화가 아니라 코드가 그립니다"</p><div class="row" style="gap:20px"><span style="font-size:48px;border:2px solid var(--line);border-radius:50%;width:90px;height:90px;display:grid;place-items:center">O</span><span style="font-size:48px;border:2px solid var(--line);border-radius:50%;width:90px;height:90px;display:grid;place-items:center">X</span></div><p class="small" data-step="1">방금 지나간 세 장이 증거입니다</p><div class="qrow" data-step="2"><span class="ox o">O</span><p class="qt">motion.js 시그니처가 실시간으로 그립니다</p></div></div>
-  <aside class="notes">퀴즈 실연 장입니다. 문장을 읽고 마지막에 정답 O에 판정 도장이 찍힙니다 — judgment-stamp 계열의 실제 판정 연출입니다. 확인 문제·OX·선택 퀴즈 조각이 같은 문법으로 들어간다고 덧붙입니다.</aside>
-</section>
-
-<!-- ==== 09-sources.html ==== -->
-<section class="slide" data-archetype="sources" style="gap:32px">
-  <div class="head"><p class="eyebrow">근거</p><h2 class="title">방금 본 숫자의 출처</h2></div>
-  <ul class="src-list">
-    <li data-src="F01"><span class="sid">F01</span><span><b>edu-deck-skills</b>, 「조각 카탈로그 — 배치 계열 52종」, 저장소 표 — snippets·layouts.md</span></li>
-    <li data-src="F02"><span class="sid">F02</span><span><b>edu-deck-skills</b>, 「장 변형 수 — 253변형」, 저장소 표 — 아키타입 갤러리</span></li>
-    <li data-src="F03"><span class="sid">F03</span><span><b>edu-deck-skills</b>, 「모션 실행 이름 42종 + 기법 5종」, 저장소 표 — MOTION_LIBRARY.md</span></li>
-  </ul>
-  <p class="small">수치는 저장소의 카탈로그·모션 라이브러리와 같은 값입니다. 바뀔 수 있으니 최신은 README·갤러리를 확인하세요.</p>
-  <aside class="notes">출처 장입니다. 지표의 근거가 줄 단위로 정렬되어 나타납니다 — evidence-align 시그니처입니다. 같은 id의 숫자 칩이 앞 장에 있었듯이, 실제 덱에서도 사실 칩과 이 목록이 쌍으로 움직인다고 설명합니다.</aside>
-</section>
-
-<!-- ==== 10-closing.html ==== -->
-<section class="slide dark center" data-archetype="closing">
-  <h2 class="big">다음은 직접<br>열어 보는 <em class="t2">차례</em></h2>
-  <div class="row" style="flex-wrap:wrap;gap:16px;justify-content:center">
-    <p class="pill">퀴즈 덱</p>
-    <p class="pill">학습지</p>
-    <p class="pill">안전 교육</p>
+  <g data-step="2">
+    <rect class="k-clus" x="1125" y="346" width="300" height="96" style="rx:10px"/>
+    <rect class="k-paper" x="1135" y="354" width="135" height="64" style="rx:6px"/>
+    <use aria-hidden="true" href="#i-si-db" x="1188.5" y="360" width="28" height="28" style="color:var(--ink)"/>
+    <text class="k-t-spec" x="1202.5" y="410" text-anchor="middle">#1</text>
+    <title>주 DB</title>
+    <rect class="k-paper" x="1280" y="354" width="135" height="64" style="rx:6px"/>
+    <use aria-hidden="true" href="#i-si-db" x="1333.5" y="360" width="28" height="28" style="color:var(--ink)"/>
+    <text class="k-t-spec" x="1347.5" y="410" text-anchor="middle">#2</text>
+    <title>대기 DB</title>
+    <text class="k-t-spec" x="1275" y="435" text-anchor="middle">DB 쌍 · A/S 복제</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-orange" x="1455" y="350" width="96" height="88" style="rx:8px"/>
+    <use aria-hidden="true" href="#i-si-mon" x="1485" y="358" width="36" height="36" style="color:var(--accent)"/>
+    <text class="k-t-eq" x="1503" y="412" text-anchor="middle">관제</text>
+    <text class="k-t-spec" x="1503" y="429" text-anchor="middle">헬스·알람</text>
+    </g>
+  <g><rect class="k-legbar" x="0" y="536" width="1664" height="56"/><polyline class="k-ln-b" points="34,562 104,562"/><text class="k-t-tag" x="118" y="568">동기 호출</text>
+    <polyline class="k-ln-g" points="294,562 364,562"/><text class="k-t-tag" x="378" y="568">보조·관제</text>
+    <use aria-hidden="true" href="#i-si-fw" x="554" y="546" width="30" height="30" style="color:var(--blue)"/><text class="k-t-tag" x="594" y="568">경계 보안</text>
+    <use aria-hidden="true" href="#i-si-rack" x="770" y="546" width="30" height="30" style="color:var(--blue)"/><text class="k-t-tag" x="810" y="568">가상 장비</text>
+    <rect x="986" y="548" width="34" height="24" rx="12" fill="var(--mut)"/><text class="k-t-tag" x="1030" y="568">기존</text></g>
+</svg>
   </div>
-  <div class="row" style="flex-wrap:wrap;gap:20px;justify-content:center;margin-top:8px">
-    <a class="pill" href="../examples/states-quiz/물질의상태변화-단원평가퀴즈-교육자료.html" style="font-size:30px;padding:18px 34px;text-decoration:none;color:inherit">▶ 예시 4종 보기</a>
-    <a class="pill" href="gallery.html" style="font-size:30px;padding:18px 34px;text-decoration:none;color:inherit">▶ 자산 갤러리 315점</a>
+  <aside class="arch-side">
+    <p class="eyebrow" style="margin:0 0 4px">생성 계약</p>
+    <p class="arch-side-t">시맨틱 JSON → 직교 SVG</p>
+<div class="arch-side-blk"><p class="arch-side-h">BOM — 이 장의 재료</p><table class="arch-side-tb"><thead><tr><th>구성</th><th>수량</th></tr></thead><tbody><tr><td>WEB 이중화</td><td>2</td></tr><tr><td>클러스터</td><td>2</td></tr><tr><td>DB 쌍</td><td>2</td></tr><tr><td>경계 장비</td><td>1</td></tr></tbody></table></div>
+<div class="arch-side-blk"><p class="arch-side-h">모델 필드</p><ul class="arch-side-ul"><li>zones 중첩·솔리드 헤더</li><li>buses T-드롭·haPairs</li><li>equip·cluster·rack-group</li><li>SI 2톤 아이콘 16종</li></ul></div>
+<div class="arch-side-blk"><p class="arch-side-h">출력</p><p class="arch-side-p">직교 배선·사선 0 — 검색 가능한 SVG 텍스트로 내보낸다.</p></div>
+  </aside>
+</div>
+  
+  <aside class="notes">아키텍처 생성기 실연 장입니다. 화면의 블루프린트는 손으로 그린 그림이 아니라 시맨틱 JSON 모델을 arch_layout.mjs가 배치한 산출물 — 중첩 존과 솔리드 헤더 바, WEB 쌍의 이중화 마커, API 게이트웨이에서 세 갈래로 갈라지는 내부 버스 T-드롭이 보입니다. 우측 패널은 이 장에 쓰인 재료의 BOM, 하단 막대는 선 종류 범례입니다. 존, 노드, 연결 순서로 점등됩니다.</aside>
+</section>
+
+<!-- ==== 05-consulting.html ==== -->
+<!-- consulting chart — waterfall
+     모델: charts/intro-chart.json · 생성: node consulting-deck/charts/chart_gen.mjs --in charts/intro-chart.json -o <이 파일>
+     질문: 한 줄 요청이 덱 하나가 되기까지 무엇이 쌓이는가
+     손으로 고치지 않는다. 모델을 고치고 다시 생성한다. -->
+<section class="slide consult-tech" data-archetype="waterfall" data-variant="bridge" style="gap:18px">
+  <div class="head"><p class="eyebrow">Consulting Kit · chart_gen.mjs 실연</p><h2 class="title">차트 11종·시사점 사이드카·근거 원장까지 코드가 정밀하게 그린다</h2></div>
+  <div class="c-sidecar">
+    <div class="c-sidecar-main">
+  <svg class="dg" viewBox="0 0 1040 580" role="img" aria-label="워터폴 실연: 요청 1건이 만드는 산출물의 구성 — 장 배치 253 변형·모션 47·검수 계약을 거쳐 덱 1개로 합산">
+    <title>차트 11종·시사점 사이드카·근거 원장까지 코드가 정밀하게 그린다</title>
+    <text class="k-t-tag" x="0" y="42">(단위: 자산)</text>
+    <path d="M60,460 L980,460" fill="none" stroke="var(--line)" stroke-width="2.5" stroke-linecap="round"/>
+    <g class="wf" data-step="1">
+      <rect x="91" y="372.2" width="93" height="87.8" class="k-solid-n"/>
+      <text x="137.5" y="348.2" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">120</text>
+      <text x="137.5" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">요청 1건</text>
+    </g>
+    <g class="wf" data-step="2">
+      <path d="M184,372.2 L244,372.2" class="k-ln-g"/>
+      <rect x="244" y="187.07" width="93" height="185.12" class="k-solid-b"/>
+      <text x="290.5" y="163.07" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">+253</text>
+      <text x="290.5" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">장 배치 253</text>
+    </g>
+    <g class="wf" data-step="3">
+      <path d="M337,187.07 L397,187.07" class="k-ln-g"/>
+      <rect x="397" y="152.68" width="93" height="34.39" class="k-solid-b"/>
+      <text x="443.5" y="128.68" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">+47</text>
+      <text x="443.5" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">모션 42+5</text>
+    </g>
+    <g class="wf" data-step="4">
+      <path d="M490,152.68 L550,152.68" class="k-ln-g"/>
+      <rect x="550" y="100" width="93" height="52.68" class="k-solid-b"/>
+      <text x="596.5" y="76" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">+72</text>
+      <text x="596.5" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">팩·테마 72</text>
+    </g>
+    <g class="wf" data-step="5">
+      <path d="M643,100 L703,100" class="k-ln-g"/>
+      <rect x="703" y="100" width="93" height="65.85" fill="var(--accent)"/>
+      <text x="749.5" y="76" font-size="26" font-weight="800" class="k-t-o" text-anchor="middle">−90</text>
+      <text x="749.5" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">재사용 절감</text>
+      <path d="M749.5,169.85 L749.5,171.85" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
+<rect x="683.5" y="176.85" width="64" height="26" rx="13" fill="var(--track-strong)"/>
+<text x="715.5" y="196.85" font-size="18" font-weight="800" class="k-t-w" text-anchor="middle">참고</text>
+      <text x="755.5" y="195.85" font-size="20" font-weight="600" class="k-t-tag" text-anchor="start">재료 </text>
+      <text x="755.5" y="219.85" font-size="20" font-weight="600" class="k-t-tag" text-anchor="start">재사용</text>
+    </g>
+    <g class="wf" data-step="6">
+      <path d="M796,165.85 L856,165.85" class="k-ln-g"/>
+      <rect x="856" y="165.85" width="93" height="294.15" class="k-solid-n"/>
+      <text x="902.5" y="141.85" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle" data-count>402</text>
+      <text x="902.5" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">단일 HTML</text>
+    </g>
+    </svg>
+    </div>
+    <aside class="c-sidecar-panel" data-step="6">
+      <p class="sc-k">SO WHAT</p>
+      <p class="sc-v">11<small>종</small></p>
+      <p class="sc-h">차트 생성기가 그리는 실물 — 워터폴·사분면·토네이도 등</p>
+      <ul>
+        <li>우측 시사점 칼럼이 같은 모델에서 생성</li>
+        <li><b>근거 원장</b>으로 수치·출처를 이중 대조</li>
+        <li>헤어라인 4방향 — .consult 계열 문법</li>
+      </ul>
+    </aside>
   </div>
-  <div class="bar"></div>
-  <aside class="notes">마무리 장입니다. 예시 4종과 자산 갤러리로 가는 두 링크가 실제로 눌러집니다. 발표 후 질문을 받고, 이 소개 쇼는 여기서 정지합니다 — 다시 보려면 R을 누릅니다.</aside>
+  <p class="c-note" data-step="6"><b>방법론·한계</b> — 워터폴 수치는 생성 실연용 가상 예시 — 실제 자산 수는 README·갤러리 기준</p>
+  <div class="c-src" data-step="6">
+    <p>Source: edu-deck 소개 쇼 — 생성기 실연 (가상 수치) · 기준 2026-11</p>
+    <p class="s-syn">가상 데이터</p>
+  </div>
+  <aside class="notes">컨설팅 키트 실연 장. chart_gen.mjs가 만든 실제 워터폴 브리지 — 막대·연결선·스태거 라벨·주석이 모두 모델 JSON에서 결정론적으로 생성된다. 오른쪽 시사점 칼럼은 차트와 같은 모델의 sidecar 필드, 하단 출처 줄은 source 필드가 만든다. 11종 차트 중 대표로 워터폴을 골랐다. 발표 포인트: '같은 생성기가 헤어라인 컨설팅 문법까지 같이 그린다'.</aside>
+</section>
+
+<!-- ==== 06-layers.html ==== -->
+<section class="slide" data-archetype="quiz-ox" style="gap:28px">
+  <div class="head"><p class="eyebrow">단일 HTML 안의 층위</p><h2 class="title">파일 하나에 덱 전부가 들어 있습니다</h2></div>
+  <div class="row" style="flex:1;min-height:0;gap:56px">
+    <svg class="dg" viewBox="0 0 760 620" role="img" aria-label="단일 HTML의 단면: 슬라이드 본편 아래에 단계 공개·발표자 노트·확인 퀴즈·자습과 검색·인쇄와 출처 층이 차례로 쌓여 있다" style="flex:0 0 640px">
+      <title>완성 덱의 층위 — 여섯 겹</title>
+      <g data-step="1">
+        <rect x="60" y="60" width="560" height="330" rx="14" fill="var(--paper)" stroke="var(--ink)" stroke-width="2.5"/>
+        <rect x="60" y="60" width="560" height="46" rx="14" fill="var(--blue)"/>
+        <text x="84" y="91" font-size="24" font-weight="800" fill="#fff">슬라이드 본편 — 253 변형</text>
+        <g stroke="var(--line)" stroke-width="4" stroke-linecap="round"><line x1="88" y1="140" x2="430" y2="140"/><line x1="88" y1="176" x2="500" y2="176"/><line x1="88" y1="212" x2="380" y2="212"/></g>
+        <rect x="88" y="250" width="200" height="100" rx="10" fill="var(--blue-soft)" stroke="var(--blue)"/>
+        <rect x="312" y="250" width="200" height="100" rx="10" fill="#fff" stroke="var(--line)"/>
+      </g>
+      <g data-step="2">
+        <rect x="86" y="392" width="560" height="42" rx="10" fill="var(--accent-soft)" stroke="var(--accent)"/>
+        <text x="110" y="420" font-size="22" font-weight="700" fill="var(--accent-text)">단계 공개 — 화살표 한 번에 한 겹</text>
+      </g>
+      <g data-step="3">
+        <rect x="112" y="438" width="560" height="42" rx="10" fill="#fff" stroke="var(--line)"/>
+        <text x="136" y="466" font-size="22" font-weight="700" fill="var(--ink)">발표자 노트 — 장당 60자 이상 검사</text>
+      </g>
+      <g data-step="4">
+        <rect x="138" y="484" width="560" height="42" rx="10" fill="#fff" stroke="var(--line)"/>
+        <text x="162" y="512" font-size="22" font-weight="700" fill="var(--ink)">확인 퀴즈 — 판정 도장·해설·복습 연결</text>
+      </g>
+      <g data-step="5">
+        <rect x="164" y="530" width="560" height="42" rx="10" fill="#fff" stroke="var(--line)"/>
+        <text x="188" y="558" font-size="22" font-weight="700" fill="var(--ink)">자습 모드 · 용어집 · 검색 · 진도 저장</text>
+      </g>
+      <g data-step="6">
+        <rect x="190" y="576" width="560" height="42" rx="10" fill="var(--blue-soft)" stroke="var(--blue)"/>
+        <text x="214" y="604" font-size="22" font-weight="700" fill="var(--blue-text)">인쇄 완결 · 출처·검증 층</text>
+      </g>
+    </svg>
+    <div class="col" style="flex:1;min-width:0;gap:22px;justify-content:center">
+      <p class="in-hl-k" data-step="7">지금 바로 확인 — 이 쇼도 같은 파일입니다</p>
+      <div class="qrow" data-step="8"><p class="qn">Q</p><p class="qt">이 화면의 장면은 전부 코드가 그립니까?</p><span class="ox o">O</span><span class="ox x">X</span></div>
+      <p class="in-hl-d" data-step="8">정답 O — 녹화가 아니라 실시간 생성입니다</p>
+      <div class="row" style="gap:12px;flex-wrap:wrap;font-size:23px" data-step="9">
+        <span class="kbd">→ 단계</span><span class="kbd">N 노트</span><span class="kbd">S 자습</span><span class="kbd">P 인쇄</span><span class="kbd">/ 검색</span>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">단일 HTML 다층 장입니다. 왼쪽 단면이 파일 하나에 쌓인 여섯 층을 아래로 펼칩니다 — 본편·단계 공개·발표자 노트·퀴즈·자습·인쇄. 오른쪽 OX 칸은 진짜 퀴즈 부품이라 마지막 단계에서 판정 도장이 찍힙니다. 아래 키 안내는 시청자가 직접 눌러 볼 수 있는 단축키입니다.</aside>
+</section>
+
+<!-- ==== 07-cta.html ==== -->
+<section class="slide" data-archetype="closing" style="gap:30px">
+  <div class="head"><p class="eyebrow">다음은 직접 여는 차례</p><h2 class="title">실물을 열어 확인하세요</h2></div>
+  <div class="row" style="flex:1;min-height:0;gap:40px">
+    <div class="in-links" style="flex:1.35">
+      <a class="in-link" href="../examples/states-quiz/물질의상태변화-단원평가퀴즈-교육자료.html" data-step="1"><svg aria-hidden="true"><use href="#i-check"/></svg><p>교육 덱 — 단원평가 퀴즈<small>판정 도장·해설·복습 연결</small></p></a>
+      <a class="in-link" href="../examples/ratio-worksheet/비와-비율-학습지.html" data-step="1"><svg aria-hidden="true"><use href="#i-book"/></svg><p>교육 덱 — 비와 비율 학습지<small>인쇄까지 완결되는 워크시트</small></p></a>
+      <a class="in-link" href="../examples/safety-casebook/사고-사례-현장-안전-교육자료.html" data-step="2"><svg aria-hidden="true"><use href="#i-shield"/></svg><p>교육 덱 — 현장 안전 사례집<small>casebook 팩으로 만든 사례철</small></p></a>
+      <a class="in-link" href="../examples/privacy-talk/개인정보-보호-기본-교육자료.html" data-step="2"><svg aria-hidden="true"><use href="#i-id-card"/></svg><p>교육 덱 — 개인정보 보호 교육<small>세미나형 법정 의무 과정</small></p></a>
+      <a class="in-link" href="../examples/arch-si/arch-si.html" data-step="3"><svg aria-hidden="true"><use href="#i-si-rack"/></svg><p>SI 아키텍처 — 13장<small>블루프린트·버스·중첩 존 실연</small></p></a>
+      <a class="in-link" href="../examples/consulting-demo/ai-transform/ai-transform-consulting-deck.html" data-step="3"><svg aria-hidden="true"><use href="#i-chart"/></svg><p>컨설팅 — AI 전환 보고<small>헤어라인·차트·근거 원장</small></p></a>
+    </div>
+    <div class="in-cta" style="flex:1" data-step="4">
+      <h3>재료 378점은<br>전부 재생됩니다</h3>
+      <p>조각·모션·테마·팩 매트릭스를 실제 덱으로 찍어 모아 둔 자산 갤러리 — 이 쇼에 쓴 재료도 여기서 왔습니다.</p>
+      <a href="gallery.html">▶ 자산 갤러리 열기 — 378점</a>
+      <p class="small" style="color:var(--muted)">컨설팅 데모 2종(it-cost)도 갤러리 카드에서 바로 열립니다</p>
+    </div>
+  </div>
+  <aside class="notes">마무리 장이며 정지 장입니다. 왼쪽 여섯 카드가 실물 덱 바로가기 — 교육 4종, SI 아키텍처 13장, 컨설팅 보고서. 오른쪽 큰 버튼이 자산 갤러리입니다. 링크는 전부 클릭할 수 있고, 이 소개 쇼는 여기서 멈춥니다 — 다시 보려면 R을 누릅니다.</aside>
 </section>
 
 </div>
@@ -1841,7 +2382,7 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
 <div id="progress"></div>
 <div id="dots"></div>
 <div id="counter"></div>
-<div id="help">→ 다음 (한 단계씩) · ← 이전 · F 전체화면 · N 발표자 노트 · S 자습 · P 인쇄 · G 용어집 · A 자동 발표 · E 편집</div>
+<div id="help">→ 다음 (한 단계씩) · ← 이전 · F 전체화면 · N 발표자 노트 · S 자습 · P 인쇄 · G 끝까지 재생 · M 자동 완주(장 진입 시) · D 용어집 · A 자동 발표 · E 편집</div>
 <div id="notes"><div class="h">발표자 노트 (N으로 닫기)</div><div id="notesText"></div></div>
 
 <script>/* Shared on-screen reader. It never owns lesson state: deckGo/step events and
@@ -2293,7 +2834,9 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
     'stat-strip':'.stat','quadrant':'.qcell,.qp,.qbub','flashcards':'.fc','ops-report':'.oi',
     'sankey-flow':'.sk','decision-tree':'.dt','kanban-board':'.kb','version-graph':'.vg',
     'event-fanout':'.ef','route-tour':'.rt','waterfall':'.wf','mesh-network':'.ms',
-    'heatmap-grid':'.hm','swimlane':'.sl','cycle-ring':'.cy'
+    'heatmap-grid':'.hm','swimlane':'.sl','cycle-ring':'.cy',
+    // TASK-arch-kit: 생성기가 굽는 svg.dg 아키텍처 도식 — 단계 루트는 g[data-step]
+    'arch-diagram':'svg g[data-step]'
   };
   const packTargets={atlas:'.atlas-origin,.atlas-source,.atlas-destination',briefing:'.briefing-row',casebook:'.casebook-narrative,.casebook-exhibit,.casebook-decision',editorial:'.editorial-story,.editorial-margin,.editorial-bottom',field:'.field-row',lab:'.lab-observation,.lab-evidence,.lab-next',seminar:'.seminar-turns span,.seminar-preparation,.seminar-invitation',workbook:'.workbook-read,.workbook-write,.workbook-reflection'};
   const packArch={atlas:'map',briefing:'compare-table',casebook:'before-after',editorial:'build-up',field:'sequence',lab:'mechanism',seminar:'hub',workbook:'frame-form'};
@@ -2369,7 +2912,10 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
     // 스윔레인: 카드가 띠 위에 올라가고 인계 화살표가 다음 띠로 넘어간다.
     'swimlane':{name:'lane-slide',frames:i=>['translateY(28px)','translateY(-3px)','translateY(0px)'],draw:true},
     // 순환링: 조각이 회전하듯 제자리로 돌아와 시계 방향 한 바퀴가 완성된다.
-    'cycle-ring':{name:'ring-circuit',frames:i=>['rotate(-14deg) scale(.94)','rotate(2deg) scale(1.01)','rotate(0deg) scale(1)'],draw:true}
+    'cycle-ring':{name:'ring-circuit',frames:i=>['rotate(-14deg) scale(.94)','rotate(2deg) scale(1.01)','rotate(0deg) scale(1)'],draw:true},
+    // TASK-arch-kit: 생성기 산출 svg.dg 아키텍처 — 단계 그룹이 아래에서 자리 잡고
+    // 새로 드러난 선이 그려지며(draw) dash-flow 경로에 패킷 입자가 흐른다(design §4.11).
+    'arch-diagram':{name:'arch-trace',frames:i=>['translateY(28px) scale(.98)','translateY(0px) scale(1)'],draw:true,particles:true}
   };
   // Wipe a prior result in-place: the mask and its content counter-translate,
   // so the old words remain stationary as the new result is uncovered. Neither
@@ -2680,7 +3226,10 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
   // becomes visible (slide entry when visible at step 0, or at the step whose
   // data-step/data-add/data-only reveals it). Static modes and revisited
   // (back) states show the authored final DOM — overlays stay, text is intact.
-  const FX={strike:'m3',stamp:'m3',mark:'m4',count:'m4',travel:'m4',block:'m4',type:1500,press:'m2','scatter-gather':'m4','slice-reveal':'m4','row-mask-rise':'m3','weight-wave':'m3','rack-focus':'m3'};
+  const FX={strike:'m3',stamp:'m3',mark:'m4',count:'m4',travel:'m4',block:'m4',type:1500,press:'m2','scatter-gather':'m4','slice-reveal':'m4','row-mask-rise':'m3','weight-wave':'m3','rack-focus':'m3','bar-grow':'m3','card-deal':'m3',blinds:'m4'};
+  // A declared transform-reveal technique owns the element's own entrance: the
+  // archetype signature must not stack a second transform animation on it.
+  const FX_OWN_TRANSFORM=new Set(['bar-grow','card-deal']);
   function animateMs(el,frames,ms,ease='e-out',delay=0,cleanup){
     if(!el||staticMode()||!el.animate){if(cleanup)cleanup();return null;}
     const a=el.animate(frames,{duration:ms,easing:token('--'+ease,el),delay,fill:'backwards'});
@@ -2707,7 +3256,7 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
     const name=el.dataset.fx;
     if(name==='strike')fxOverlay(el,'ed-fx-strike');
     else if(name==='mark')fxOverlay(el,'ed-fx-mark');
-    // count/type/travel/block/stamp/press: the authored DOM is already final.
+    // Other kinds leave no overlay: the authored DOM is already final.
   }
   function fxCount(el,at){
     const orig=el.textContent;
@@ -2744,7 +3293,7 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
     const spans=all('.ed-fx-ch',el);
     spans.forEach((s,k)=>animateMs(s,[{visibility:'hidden'},{visibility:'visible'}],1,'e-out',at+k*rate,k===len-1?restore:null));
   }
-  // ---- TASK-motions: shared technique vocabulary (5 kinds) ----
+  // ---- TASK-motions + TASK-fx-absorb: shared technique vocabulary (8 kinds) ----
   // Each one is a finite, cancellable opt-in effect; static modes keep the
   // authored final DOM untouched. Letter splits match kinetic() exactly —
   // .ed-letter spans for glyphs, plain text nodes for spaces — so the settled
@@ -2815,6 +3364,58 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
     const scope=el.closest('.chk')||el.closest('.slide')||document;
     if(el.dataset.fxDim)all(el.dataset.fxDim,scope).slice(0,3).forEach(d=>animateMs(d,[{filter:'blur(0px)'},{filter:'blur(3px)',offset:.4},{filter:'blur(3px)',offset:.72},{filter:'blur(0px)'}],ms*1.8,'e-inout',at));
   }
+  // ---- TASK-fx-absorb: three techniques ported by concept from the klic
+  // motion catalogue (own implementation; no code copied) ----
+  // bar-grow: a bar, gauge or progress strip grows from its fixed base edge
+  // into the authored size — the element's own width/height IS the final state.
+  // The authored transform-origin picks the axis (bottom anchors a vertical
+  // grow, left a horizontal one; top/right follow the same rule). Without an
+  // edge anchor the aspect ratio decides: taller than wide grows upward,
+  // wider than tall grows rightward, and the base edge is set for the play.
+  function fxBarGrow(el,at){
+    const base=getComputedStyle(el).transform,suffix=base==='none'?'':' '+base;
+    const w=el.offsetWidth||el.getBoundingClientRect().width||0,h=el.offsetHeight||el.getBoundingClientRect().height||0;
+    const o=getComputedStyle(el).transformOrigin.split(' ').map(parseFloat);
+    const edge=Math.abs(o[1]-h)<2?'bottom':Math.abs(o[1])<2?'top':Math.abs(o[0])<2?'left':Math.abs(o[0]-w)<2?'right':'';
+    const vertical=edge?edge==='bottom'||edge==='top':h>w;
+    if(!edge)el.style.transformOrigin=vertical?'center bottom':'left center';
+    const axis=vertical?'scaleY':'scaleX';
+    const peers=all('[data-fx="bar-grow"]',el.closest('.slide')||document),i=Math.max(0,peers.indexOf(el));
+    animateMs(el,[{transform:`${axis}(0)`+suffix},{transform:`${axis}(1)`+suffix}],duration(FX['bar-grow'],el),'e-spring',at+Math.min(i,6)*duration('m1',el)/4);
+  }
+  // card-deal: a card is dealt out of a slightly stacked pile — it slides from
+  // a small offset toward the pile's centre with a hint of index-hashed tilt
+  // and settles square (final rotation 0). Offsets stay within ±24px/±4deg.
+  function fxDeal(el,at){
+    const base=getComputedStyle(el).transform,suffix=base==='none'?'':' '+base;
+    const pile=el.parentElement?el.parentElement.getBoundingClientRect():null,r=el.getBoundingClientRect();
+    let dx=0,dy=0;
+    if(pile&&r.width&&r.height){
+      dx=Math.max(-24,Math.min(24,(pile.left+pile.width/2-(r.left+r.width/2))*.35));
+      dy=Math.max(-24,Math.min(24,(pile.top+pile.height/2-(r.top+r.height/2))*.35));
+    }
+    const peers=all('[data-fx="card-deal"]',el.closest('.slide')||document),i=Math.max(0,peers.indexOf(el));
+    const rot=((i*29)%7-3)*4/3;
+    animateMs(el,[{transform:`translate(${dx.toFixed(1)}px,${dy.toFixed(1)}px) rotate(${rot.toFixed(2)}deg)`+suffix,opacity:0},{transform:'translate(0px,0px) rotate(0deg)'+suffix,opacity:1}],duration(FX['card-deal'],el),'e-spring',at+Math.min(i,6)*duration('m1',el)/4);
+  }
+  // blinds: the element is cut into horizontal strips that open top to bottom
+  // in stagger — the clip-path exception slice-reveal already owns, so the
+  // bands are one multi-rect polygon whose per-band edge sweeps down in turn.
+  // One large-area element at a time; strip edges collapse to zero-height
+  // rects until their window so the vertex count never changes.
+  function fxBlinds(el,at){
+    if(!CSS.supports('clip-path','polygon(0% 0%,100% 0%,100% 100%,0% 100%)'))return;
+    const N=5,stagger=.12,span=.52;
+    const times=new Set([0,1]);for(let i=0;i<N;i++){times.add(i*stagger);times.add(Math.min(1,i*stagger+span));}
+    const frames=[...times].sort((a,b)=>a-b).map(t=>{
+      const pts=[];for(let i=0;i<N;i++){
+        const y0=i*100/N,y1=y0+Math.min(1,Math.max(0,(t-i*stagger)/span))*100/N;
+        pts.push(`0% ${y0.toFixed(2)}%`,`100% ${y0.toFixed(2)}%`,`100% ${y1.toFixed(2)}%`,`0% ${y1.toFixed(2)}%`);
+      }
+      return{clipPath:`polygon(${pts.join(',')})`,offset:t};
+    });
+    animateMs(el,frames,duration(FX.blinds,el),'e-out',at);
+  }
   function fxFire(el){
     const name=el.dataset.fx;
     if(!FX[name])return false;
@@ -2836,6 +3437,9 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
       case 'row-mask-rise':fxRowMask(el,at);break;
       case 'weight-wave':fxWeight(el,at);break;
       case 'rack-focus':fxRack(el,at);break;
+      case 'bar-grow':fxBarGrow(el,at);break;
+      case 'card-deal':fxDeal(el,at);break;
+      case 'blinds':fxBlinds(el,at);break;
     }
     return 'fx-'+name;
   }
@@ -2885,7 +3489,8 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
     if(entry)titleImpact(s,arch);
     if(arch==='before-after'||arch==='worked-example')semanticScene(s,arch,step,entry);
     else{
-      targets.forEach((e,i)=>{e.style.transformOrigin=arch==='meter'?'left center':arch==='sequence'?'left bottom':'center';
+      targets.forEach((e,i)=>{if(FX_OWN_TRANSFORM.has(e.dataset.fx))return;
+        e.style.transformOrigin=arch==='meter'?'left center':arch==='sequence'?'left bottom':'center';
         // A newly revealed chat bubble is not a pin: pin overshoot crosses the
         // clipped chat viewport. Keep the bubble inside its final footprint.
         const frames=arch==='mock-legend'&&!e.matches('.mk')?['scale(.96)','scale(1)']:r.frames(i);
@@ -3589,6 +4194,7 @@ try{
   /* idx 장으로 간다. toEnd 면 그 장의 마지막 단계부터 시작(←로 돌아갈 때),
      instant 면 전환 연출 없이 바로 칠한다(deckGo·첫 표시) */
   function jumpTo(idx,toEnd,instant){
+    cancelFinish();
     deckEl.dataset.dir=(idx>pos)?'fwd':'back';
     pos=Math.max(0,Math.min(pages.length-1,idx));
     mark=toEnd?topMark(pages[pos]):0;
@@ -3601,13 +4207,16 @@ try{
       memoBody.textContent=memo?memo.textContent:'';
       if(location.hash!=='#'+(pos+1)) history.replaceState(null,'','#'+(pos+1));
       document.dispatchEvent(new CustomEvent('deckslide',{detail:pos}));
+      /* 자동 완주(M): instant 아님 = 사용자 넘김·첫 로드 — 도착한 장의 남은 단계를 순차 재생한다.
+         deckGo·검사기(instant)는 영향 없고, toEnd 진입(←로 돌아가기)은 이미 끝 단계라 무동작 */
+      if(motionAuto&&!instant) finishSteps();
     }
     /* 이미 켜진 장이 있을 때만 전환 연출을 태운다 — 첫 표시는 즉시 그린다 */
     if(window.eduMotion&&!instant&&deckEl.querySelector('.slide.active')) window.eduMotion.navigate(commit,deckEl.dataset.dir);
     else commit();
   }
-  function advance(){ if(mark<topMark(pages[pos])){ mark++; emitStep(true); } else if(pos<pages.length-1){ jumpTo(pos+1,false); } }
-  function retreat(){ if(mark>0){ mark--; emitStep(false); } else if(pos>0){ jumpTo(pos-1,true); } }
+  function advance(){ cancelFinish(); if(mark<topMark(pages[pos])){ mark++; emitStep(true); } else if(pos<pages.length-1){ jumpTo(pos+1,false); } }
+  function retreat(){ cancelFinish(); if(mark>0){ mark--; emitStep(false); } else if(pos>0){ jumpTo(pos-1,true); } }
   /* 검사기·읽기 계층이 부르는 동기 점프: 전환 연출 없이 장·단계를 곧바로 맞춘다 */
   window.deckGo=function(i,st){
     jumpTo(i,false,true);
@@ -3635,6 +4244,8 @@ try{
     else if(k==='End'){ jumpTo(pages.length-1,false); }
     else if(k==='f'||k==='F'||k==='ㄹ'){ bigScreen(); }
     else if(k==='n'||k==='N'||k==='ㅜ'){ swapMemo(); }
+    else if(k==='g'||k==='G'||k==='ㅎ'){ e.preventDefault(); motionFinishKey(); }
+    else if(k==='m'||k==='M'||k==='ㅡ'){ e.preventDefault(); motionModeSet(!motionAuto); }
   });
   var CLICK_GUARD='a,button,.todo,.chk,.code,.tabs,.faq,.pin-shot,.pin-list,.st-panel,.st-modal,.st-print,.expl,.dsheet';
   document.addEventListener('click',function(e){
@@ -3643,6 +4254,60 @@ try{
     /* 참고 자료 링크·체크리스트 칸·확인 문제·자습 창을 누른 클릭은 장을 넘기지 않는다 */
     if(e.target.closest&&e.target.closest(CLICK_GUARD)) return;
     if(e.clientX<window.innerWidth/3) retreat(); else advance();
+  });
+  /* 더블클릭: 현재 장의 남은 단계를 순차 재생해 끝까지 공개한다(장 이동 없음).
+     dblclick 전에 click 이 먼저 단계를 넘기는 것은 감수한다 — click 반응을
+     지연 큐로 늦추지 않는다. 이미 마지막 단계면 아무 일도 하지 않는다. */
+  var finishTimer=null;
+  function cancelFinish(){ if(finishTimer!==null){ clearTimeout(finishTimer); finishTimer=null; } }
+  function staticNow(){
+    var mq=window.matchMedia?window.matchMedia.bind(window):function(){return{matches:false};};
+    return mq('(prefers-reduced-motion: reduce)').matches||mq('print').matches
+      ||/st-(self|printing|presenter|sheet)/.test(document.body.className);
+  }
+  /* 스킵 점프가 아니라 단계 공개 경로를 재생 간격으로 연달아 호출한다 —
+     남은 단계의 모션이 다 보인다. 전체 3초 상한 안에서 남은 수로 균등 분할. */
+  function finishSteps(){
+    cancelFinish();
+    var top=topMark(pages[pos]);
+    if(mark>=top) return;
+    if(staticNow()){ mark=top; emitStep(false); return; }
+    var gap=Math.min(600,3000/(top-mark));
+    var tick=function(){
+      finishTimer=null;
+      if(mark>=topMark(pages[pos])) return;
+      mark++; emitStep(true);
+      if(mark<topMark(pages[pos])) finishTimer=setTimeout(tick,gap);
+    };
+    finishTimer=setTimeout(tick,gap);
+  }
+  /* ---- 모션 재생 방식(M 토글): 장이 바뀔 때 자동 완주 ↔ 입력마다 한 단계 ----
+     G 키는 dblclick 과 같은 finishSteps 를 부른다(마우스 없이 남은 단계 순차 재생).
+     방식은 localStorage 'edeck-motion-auto' 에 남겨 다음 열람에서도 유지한다.
+     자동 완주는 사용자 넘김에서만 — deckGo·검사기(instant)는 영향 없다. */
+  var MODE_KEY='edeck-motion-auto';
+  var motionAuto=false;
+  try{ motionAuto=localStorage.getItem(MODE_KEY)==='1'; }catch(eM){}
+  function motionGuard(){
+    return !rootEl.classList.contains('ed-compact')&&!document.body.classList.contains('in-hub');
+  }
+  function motionFinishKey(){ if(motionGuard()) finishSteps(); }
+  function motionModeSet(on){
+    if(!motionGuard()) return;
+    motionAuto=on;
+    try{ localStorage.setItem(MODE_KEY,on?'1':'0'); }catch(eM){}
+    if(window.edToast) window.edToast(on?'모션 자동 완주 켬 — 장이 바뀌면 그 장의 끝까지 재생합니다 (M 끄기)'
+                                        :'모션 자동 완주 끔 — 클릭·키마다 한 단계씩 재생합니다 (M 켜기)');
+    if(on) finishSteps(); else cancelFinish();
+  }
+  document.addEventListener('dblclick',function(e){
+    if(rootEl.classList.contains('ed-compact')) return;
+    if(document.body.classList.contains('in-hub')) return;
+    if(memoBox.contains(e.target)) return;
+    /* click 과 같은 가드·같은 영역 — 왼쪽 1/3(이전 영역) 위에서는 동작하지 않는다 */
+    if(e.target.closest&&e.target.closest(CLICK_GUARD)) return;
+    if(e.clientX<window.innerWidth/3) return;
+    finishSteps();
   });
   var drag=null;
   document.addEventListener('touchstart',function(e){ drag=e.touches[0].clientX; },{passive:true});
@@ -3684,7 +4349,7 @@ try{
 <script>
 /*
   자습 레이어(클린룸 재작성): 자습 모드(S 키), 인쇄(P 키 — 한 장 요약·발표 대본),
-  용어집(G 키), 확인 문제(.chk) 채점과 복습 안내.
+  용어집(D 키), 확인 문제(.chk) 채점과 복습 안내.
   [하는 일] 발표용 덱을 혼자 보는 사람이 장마다 발표자 노트를 읽고, 한 장 요약과
     발표 대본을 A4로 인쇄하고, 용어를 찾고, 확인 문제를 풀 수 있게 한다.
   [안 하는 일] 덱 원고(슬라이드 마크업)를 고치지 않는다. aside.notes,
@@ -3806,7 +4471,7 @@ try{
   var pPrev=mkBtn('st-pbtn st-prev','← 이전'), pNext=mkBtn('st-pbtn st-next st-main','다음 →');
   var pTerms=mkBtn('st-pbtn st-tool','용어집'), pPrint=mkBtn('st-pbtn st-tool','인쇄');
   var pFold=mkBtn('st-pbtn st-fold',''), pOff=mkBtn('st-pbtn st-off','자습 끄기');
-  pTerms.title='용어집 (G)'; pPrint.title='인쇄 (P)'; pOff.title='자습 모드 끄기 (S)';
+  pTerms.title='용어집 (D)'; pPrint.title='인쇄 (P)'; pOff.title='자습 모드 끄기 (S)';
   var pGap=mk('span','st-sp');
   [pTag,pPos,pHint,pGap,pPrev,pNext,pTerms,pPrint,pFold,pOff].forEach(function(x){ pBar.appendChild(x); });
   var pText=mk('div','st-pb'); pText.setAttribute('aria-live','polite'); pText.tabIndex=0;
@@ -3866,7 +4531,7 @@ try{
     document.body.classList.toggle('st-self',selfOn);
     document.body.classList.toggle('st-fold',folded);
     paintPanel(); fitStage();
-    if(!quiet) toast(selfOn?'자습 모드를 켰습니다. 장마다 설명이 아래에 나옵니다. (S 끄기 · G 용어집 · P 인쇄)':'자습 모드를 껐습니다. (S로 다시 켜기)');
+    if(!quiet) toast(selfOn?'자습 모드를 켰습니다. 장마다 설명이 아래에 나옵니다. (S 끄기 · D 용어집 · P 인쇄)':'자습 모드를 껐습니다. (S로 다시 켜기)');
   }
   function setFold(f){ folded=!!f; store(KEY_FOLD,folded?'1':'0'); document.body.classList.toggle('st-fold',folded); paintPanel(); fitStage(); }
   function fakeKey(key){ document.dispatchEvent(new KeyboardEvent('keydown',{key:key,bubbles:true,cancelable:true})); }
@@ -4005,7 +4670,7 @@ try{
   pkX.addEventListener('click',hideLayer);
 
   /* =========================================================
-     3. 용어집(G): glossary 데이터로 만든다. slide 키 또는 본문 찾기로 그 장으로 간다
+     3. 용어집(D): glossary 데이터로 만든다. slide 키 또는 본문 찾기로 그 장으로 간다
      ========================================================= */
   var gloss=mk('div','st-modal st-gloss'); gloss.id='st-gloss';
   gloss.setAttribute('role','dialog'); gloss.setAttribute('aria-modal','true'); gloss.setAttribute('aria-label','용어집');
@@ -4158,7 +4823,7 @@ try{
       if(atHub()){ toast('목차 화면에서는 자습 모드를 쓰지 않습니다. 편을 열면 장마다 설명이 붙습니다.'); }
       else setSelf(!selfOn);
     }
-    else if(k==='g'||k==='G'||k==='ㅎ'){ e.preventDefault(); openGlossary(); }
+    else if(k==='d'||k==='D'||k==='ㅇ'){ e.preventDefault(); openGlossary(); }
     else if(k==='p'||k==='P'||k==='ㅔ'){ e.preventDefault(); openPicker(); }
   },true);
   /* 클릭: 레이어 배경을 누르면 닫기만 하고 장은 넘기지 않는다 */
@@ -4313,363 +4978,10 @@ doc.addEventListener('keydown',function(e){
 })();
 })();
 </script>
-<script type="application/json" id="ppt-stack-icons">{
- "icons": {
-  "archive": "<rect width=\"20\" height=\"5\" x=\"2\" y=\"3\" rx=\"1\"/><path d=\"M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8\"/><path d=\"M10 12h4\"/>",
-  "arrow-down": "<path d=\"M12 5v14\"/><path d=\"m19 12-7 7-7-7\"/>",
-  "arrow-left": "<path d=\"m12 19-7-7 7-7\"/><path d=\"M19 12H5\"/>",
-  "arrow-right": "<path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/>",
-  "arrow-up": "<path d=\"m5 12 7-7 7 7\"/><path d=\"M12 19V5\"/>",
-  "award": "<path d=\"m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526\"/><circle cx=\"12\" cy=\"8\" r=\"6\"/>",
-  "bell": "<path d=\"M10.268 21a2 2 0 0 0 3.464 0\"/><path d=\"M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326\"/>",
-  "book-open": "<path d=\"M12 5v16\"/><path d=\"M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z\"/>",
-  "bot": "<path d=\"M12 8V4H8\"/><rect width=\"16\" height=\"12\" x=\"4\" y=\"8\" rx=\"2\"/><path d=\"M2 14h2\"/><path d=\"M20 14h2\"/><path d=\"M15 13v2\"/><path d=\"M9 13v2\"/>",
-  "box": "<path d=\"M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z\"/><path d=\"m3.3 7 8.7 5 8.7-5\"/><path d=\"M12 22V12\"/>",
-  "brain": "<path d=\"M12 18V5\"/><path d=\"M15 13a4.17 4.17 0 01-3-4 4.17 4.17 0 01-3 4\"/><path d=\"M17.707 6.294A3 3 0 1012 5a3 3 0 10-5.707 1.294\"/><path d=\"M17.996 5.125a4 4 0 012.526 5.77\"/><path d=\"M18 18a4 4 0 002-7.465\"/><path d=\"M19.967 17.482a4 4 0 11-7.967.517 4 4 0 11-7.967-.517\"/><path d=\"M6 18a4 4 0 01-2-7.465\"/><path d=\"M6.004 5.125a4 4 0 00-2.526 5.77\"/>",
-  "briefcase": "<path d=\"M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16\"/><rect width=\"20\" height=\"14\" x=\"2\" y=\"6\" rx=\"2\"/>",
-  "building": "<path d=\"M12 10h.01\"/><path d=\"M12 14h.01\"/><path d=\"M12 6h.01\"/><path d=\"M16 10h.01\"/><path d=\"M16 14h.01\"/><path d=\"M16 6h.01\"/><path d=\"M8 10h.01\"/><path d=\"M8 14h.01\"/><path d=\"M8 6h.01\"/><path d=\"M9 22v-3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3\"/><rect x=\"4\" y=\"2\" width=\"16\" height=\"20\" rx=\"2\"/>",
-  "building-2": "<path d=\"M10 12h4\"/><path d=\"M10 8h4\"/><path d=\"M14 21v-3a2 2 0 0 0-4 0v3\"/><path d=\"M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2\"/><path d=\"M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16\"/>",
-  "calendar": "<path d=\"M8 2v3\"/><path d=\"M16 2v3\"/><rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"2\"/><path d=\"M3 9h18\"/>",
-  "camera": "<path d=\"M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z\"/><circle cx=\"12\" cy=\"13\" r=\"3\"/>",
-  "chart-column": "<path d=\"M3 3v16a2 2 0 0 0 2 2h16\"/><path d=\"M18 17V9\"/><path d=\"M13 17V5\"/><path d=\"M8 17v-3\"/>",
-  "chart-line": "<path d=\"M3 3v16a2 2 0 0 0 2 2h16\"/><path d=\"m19 9-5 5-4-4-3 3\"/>",
-  "chart-pie": "<path d=\"M21 12c.552 0 1.005-.449.95-.998a10 10 0 0 0-8.953-8.951c-.55-.055-.998.398-.998.95v8a1 1 0 0 0 1 1z\"/><path d=\"M21.21 15.89A10 10 0 1 1 8 2.83\"/>",
-  "check": "<path d=\"M20 6 9 17l-5-5\"/>",
-  "circle-check": "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"m16 9-5.5 5.5L8 12\"/>",
-  "circle-x": "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"m15 9-6 6\"/><path d=\"m9 9 6 6\"/>",
-  "clipboard-check": "<rect width=\"8\" height=\"4\" x=\"8\" y=\"2\" rx=\"1\" ry=\"1\"/><path d=\"M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2\"/><path d=\"m9 14 2 2 4-4\"/>",
-  "clipboard-list": "<rect width=\"8\" height=\"4\" x=\"8\" y=\"2\" rx=\"1\" ry=\"1\"/><path d=\"M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2\"/><path d=\"M12 11h4\"/><path d=\"M12 16h4\"/><path d=\"M8 11h.01\"/><path d=\"M8 16h.01\"/>",
-  "clock": "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M12 6v6l4 2\"/>",
-  "cloud": "<path d=\"M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z\"/>",
-  "code": "<path d=\"m16 18 6-6-6-6\"/><path d=\"m8 6-6 6 6 6\"/>",
-  "cpu": "<path d=\"M12 20v2\"/><path d=\"M12 2v2\"/><path d=\"M17 20v2\"/><path d=\"M17 2v2\"/><path d=\"M2 12h2\"/><path d=\"M2 17h2\"/><path d=\"M2 7h2\"/><path d=\"M20 12h2\"/><path d=\"M20 17h2\"/><path d=\"M20 7h2\"/><path d=\"M7 20v2\"/><path d=\"M7 2v2\"/><rect x=\"4\" y=\"4\" width=\"16\" height=\"16\" rx=\"2\"/><rect x=\"8\" y=\"8\" width=\"8\" height=\"8\" rx=\"1\"/>",
-  "credit-card": "<rect width=\"20\" height=\"14\" x=\"2\" y=\"5\" rx=\"2\"/><line x1=\"2\" x2=\"22\" y1=\"10\" y2=\"10\"/><path d=\"M6 14h2\"/>",
-  "database": "<ellipse cx=\"12\" cy=\"5\" rx=\"9\" ry=\"3\"/><path d=\"M3 5V19A9 3 0 0 0 21 19V5\"/><path d=\"M3 12A9 3 0 0 0 21 12\"/>",
-  "download": "<path d=\"M12 15V3\"/><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"/><path d=\"m7 10 5 5 5-5\"/>",
-  "eye": "<path d=\"M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/>",
-  "file": "<path d=\"M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z\"/><path d=\"M14 2v5a1 1 0 0 0 1 1h5\"/>",
-  "file-check": "<path d=\"M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z\"/><path d=\"M14 2v5a1 1 0 0 0 1 1h5\"/><path d=\"m9 15 2 2 4-4\"/>",
-  "file-search": "<path d=\"M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z\"/><path d=\"M14 2v5a1 1 0 0 0 1 1h5\"/><circle cx=\"11.5\" cy=\"14.5\" r=\"2.5\"/><path d=\"M13.3 16.3 15 18\"/>",
-  "file-signature": "<path d=\"M14.364 13.634a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506l4.013-4.009a1 1 0 0 0-3.004-3.004z\"/><path d=\"M14.487 7.858A1 1 0 0 1 14 7V2\"/><path d=\"M20 19.645V20a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l2.516 2.516\"/><path d=\"M8 18h1\"/>",
-  "file-text": "<path d=\"M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z\"/><path d=\"M14 2v5a1 1 0 0 0 1 1h5\"/><path d=\"M10 9H8\"/><path d=\"M16 13H8\"/><path d=\"M16 17H8\"/>",
-  "filter": "<path d=\"M10 20a1 1 0 0 0 .553.895l2 1A1 1 0 0 0 14 21v-7a2 2 0 0 1 .517-1.341L21.74 4.67A1 1 0 0 0 21 3H3a1 1 0 0 0-.742 1.67l7.225 7.989A2 2 0 0 1 10 14z\"/>",
-  "flag": "<path d=\"M4 22V4a1 1 0 0 1 .4-.8A6 6 0 0 1 8 2c3 0 5 2 7.333 2q2 0 3.067-.8A1 1 0 0 1 20 4v10a1 1 0 0 1-.4.8A6 6 0 0 1 16 16c-3 0-5-2-8-2a6 6 0 0 0-4 1.528\"/>",
-  "folder": "<path d=\"M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z\"/>",
-  "gavel": "<path d=\"m14 13-8.381 8.38a1 1 0 0 1-3.001-3l8.384-8.381\"/><path d=\"m16 16 6-6\"/><path d=\"m21.5 10.5-8-8\"/><path d=\"m8 8 6-6\"/><path d=\"m8.5 7.5 8 8\"/>",
-  "git-branch": "<path d=\"M15 6a9 9 0 0 0-9 9V3\"/><circle cx=\"18\" cy=\"6\" r=\"3\"/><circle cx=\"6\" cy=\"18\" r=\"3\"/>",
-  "globe": "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20\"/><path d=\"M2 12h20\"/>",
-  "graduation-cap": "<path d=\"M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z\"/><path d=\"M22 10v6\"/><path d=\"M6 12.5V16a6 3 0 0 0 12 0v-3.5\"/>",
-  "handshake": "<path d=\"m11 17 2 2a1 1 0 1 0 3-3\"/><path d=\"m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4\"/><path d=\"m21 3 1 11h-2\"/><path d=\"M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3\"/><path d=\"M3 4h8\"/>",
-  "hard-drive": "<path d=\"M10 16h.01\"/><path d=\"M2.212 11.577a2 2 0 0 0-.212.896V18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5.527a2 2 0 0 0-.212-.896L18.55 5.11A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z\"/><path d=\"M21.946 12.013H2.054\"/><path d=\"M6 16h.01\"/>",
-  "heart": "<path d=\"M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5\"/>",
-  "house": "<path d=\"M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8\"/><path d=\"M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"/>",
-  "key": "<path d=\"m2 21 9.6-9.6\"/><path d=\"m7.5 15.5 2.3 2.3a1 1 0 0 1 0 1.4l-2.1 2.1a1 1 0 0 1-1.4 0L4 19\"/><circle cx=\"15.5\" cy=\"7.5\" r=\"5.5\"/>",
-  "laptop": "<path d=\"M18 5a2 2 0 0 1 2 2v8.526a2 2 0 0 0 .212.897l1.068 2.127a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45l1.068-2.127A2 2 0 0 0 4 15.526V7a2 2 0 0 1 2-2z\"/><path d=\"M20.054 15.987H3.946\"/>",
-  "layers": "<path d=\"M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z\"/><path d=\"M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12\"/><path d=\"M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17\"/>",
-  "layout-dashboard": "<rect width=\"7\" height=\"9\" x=\"3\" y=\"3\" rx=\"1\"/><rect width=\"7\" height=\"5\" x=\"14\" y=\"3\" rx=\"1\"/><rect width=\"7\" height=\"9\" x=\"14\" y=\"12\" rx=\"1\"/><rect width=\"7\" height=\"5\" x=\"3\" y=\"16\" rx=\"1\"/>",
-  "lightbulb": "<path d=\"M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5\"/><path d=\"M9 18h6\"/><path d=\"M10 22h4\"/>",
-  "link": "<path d=\"M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71\"/><path d=\"M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71\"/>",
-  "list-checks": "<path d=\"M13 5h8\"/><path d=\"M13 12h8\"/><path d=\"M13 19h8\"/><path d=\"m3 17 2 2 4-4\"/><path d=\"m3 7 2 2 4-4\"/>",
-  "lock": "<rect width=\"18\" height=\"11\" x=\"3\" y=\"11\" rx=\"2\" ry=\"2\"/><path d=\"M7 11V7a5 5 0 0 1 10 0v4\"/>",
-  "mail": "<path d=\"m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7\"/><rect x=\"2\" y=\"4\" width=\"20\" height=\"16\" rx=\"2\"/>",
-  "map-pin": "<path d=\"M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0\"/><circle cx=\"12\" cy=\"10\" r=\"3\"/>",
-  "message-square": "<path d=\"M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z\"/>",
-  "messages-square": "<path d=\"M16 10a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 14.286V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z\"/><path d=\"M20 9a2 2 0 0 1 2 2v10.286a.71.71 0 0 1-1.212.502l-2.202-2.202A2 2 0 0 0 17.172 19H10a2 2 0 0 1-2-2v-1\"/>",
-  "mic": "<path d=\"M12 19v3\"/><path d=\"M19 10v2a7 7 0 0 1-14 0v-2\"/><rect x=\"9\" y=\"2\" width=\"6\" height=\"13\" rx=\"3\"/>",
-  "monitor": "<rect width=\"20\" height=\"14\" x=\"2\" y=\"3\" rx=\"2\"/><line x1=\"8\" x2=\"16\" y1=\"21\" y2=\"21\"/><line x1=\"12\" x2=\"12\" y1=\"17\" y2=\"21\"/>",
-  "network": "<rect x=\"16\" y=\"16\" width=\"6\" height=\"6\" rx=\"1\"/><rect x=\"2\" y=\"16\" width=\"6\" height=\"6\" rx=\"1\"/><rect x=\"9\" y=\"2\" width=\"6\" height=\"6\" rx=\"1\"/><path d=\"M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3\"/><path d=\"M12 12V8\"/>",
-  "package": "<path d=\"M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z\"/><path d=\"M12 22V12\"/><polyline points=\"3.29 7 12 12 20.71 7\"/><path d=\"m7.5 4.27 9 5.15\"/>",
-  "pencil": "<path d=\"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z\"/><path d=\"m15 5 4 4\"/>",
-  "phone": "<path d=\"M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384\"/>",
-  "printer": "<path d=\"M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2\"/><path d=\"M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6\"/><rect x=\"6\" y=\"14\" width=\"12\" height=\"8\" rx=\"1\"/>",
-  "qr-code": "<rect width=\"5\" height=\"5\" x=\"3\" y=\"3\" rx=\"1\"/><rect width=\"5\" height=\"5\" x=\"16\" y=\"3\" rx=\"1\"/><rect width=\"5\" height=\"5\" x=\"3\" y=\"16\" rx=\"1\"/><path d=\"M21 16h-3a2 2 0 0 0-2 2v3\"/><path d=\"M21 21v.01\"/><path d=\"M12 7v3a2 2 0 0 1-2 2H7\"/><path d=\"M3 12h.01\"/><path d=\"M12 3h.01\"/><path d=\"M12 16v.01\"/><path d=\"M16 12h1\"/><path d=\"M21 12v.01\"/><path d=\"M12 21v-1\"/>",
-  "receipt": "<path d=\"M12 17V7\"/><path d=\"M16 8h-6a2 2 0 0 0 0 4h4a2 2 0 0 1 0 4H8\"/><path d=\"M4 3a1 1 0 0 1 1-1 1.3 1.3 0 0 1 .7.2l.933.6a1.3 1.3 0 0 0 1.4 0l.934-.6a1.3 1.3 0 0 1 1.4 0l.933.6a1.3 1.3 0 0 0 1.4 0l.933-.6a1.3 1.3 0 0 1 1.4 0l.934.6a1.3 1.3 0 0 0 1.4 0l.933-.6A1.3 1.3 0 0 1 19 2a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1 1.3 1.3 0 0 1-.7-.2l-.933-.6a1.3 1.3 0 0 0-1.4 0l-.934.6a1.3 1.3 0 0 1-1.4 0l-.933-.6a1.3 1.3 0 0 0-1.4 0l-.933.6a1.3 1.3 0 0 1-1.4 0l-.934-.6a1.3 1.3 0 0 0-1.4 0l-.933.6a1.3 1.3 0 0 1-.7.2 1 1 0 0 1-1-1z\"/>",
-  "refresh-cw": "<path d=\"M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8\"/><path d=\"M21 3v5h-5\"/><path d=\"M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16\"/><path d=\"M8 16H3v5\"/>",
-  "repeat": "<path d=\"m17 2 4 4-4 4\"/><path d=\"M3 11v-1a4 4 0 0 1 4-4h14\"/><path d=\"m7 22-4-4 4-4\"/><path d=\"M21 13v1a4 4 0 0 1-4 4H3\"/>",
-  "rocket": "<path d=\"M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5\"/><path d=\"M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09\"/><path d=\"M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z\"/><path d=\"M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05\"/>",
-  "scale": "<path d=\"M12 3v18\"/><path d=\"m19 8 3 8a5 5 0 0 1-6 0zV7\"/><path d=\"M3 7h1a17 17 0 0 0 8-2 17 17 0 0 0 8 2h1\"/><path d=\"m5 8 3 8a5 5 0 0 1-6 0zV7\"/><path d=\"M7 21h10\"/>",
-  "scan-search": "<path d=\"M3 7V5a2 2 0 0 1 2-2h2\"/><path d=\"M17 3h2a2 2 0 0 1 2 2v2\"/><path d=\"M21 17v2a2 2 0 0 1-2 2h-2\"/><path d=\"M7 21H5a2 2 0 0 1-2-2v-2\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/><path d=\"m16 16-1.9-1.9\"/>",
-  "search": "<path d=\"m21 21-4.34-4.34\"/><circle cx=\"11\" cy=\"11\" r=\"8\"/>",
-  "send": "<path d=\"M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z\"/><path d=\"m21.854 2.147-10.94 10.939\"/>",
-  "server": "<rect width=\"20\" height=\"8\" x=\"2\" y=\"2\" rx=\"2\" ry=\"2\"/><rect width=\"20\" height=\"8\" x=\"2\" y=\"14\" rx=\"2\" ry=\"2\"/><line x1=\"6\" x2=\"6.01\" y1=\"6\" y2=\"6\"/><line x1=\"6\" x2=\"6.01\" y1=\"18\" y2=\"18\"/>",
-  "settings": "<path d=\"M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/>",
-  "share-2": "<circle cx=\"18\" cy=\"5\" r=\"3\"/><circle cx=\"6\" cy=\"12\" r=\"3\"/><circle cx=\"18\" cy=\"19\" r=\"3\"/><line x1=\"8.59\" x2=\"15.42\" y1=\"13.51\" y2=\"17.49\"/><line x1=\"15.41\" x2=\"8.59\" y1=\"6.51\" y2=\"10.49\"/>",
-  "shield-check": "<path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\"/><path d=\"m9 12 2 2 4-4\"/>",
-  "smartphone": "<rect width=\"14\" height=\"20\" x=\"5\" y=\"2\" rx=\"2\" ry=\"2\"/><path d=\"M12 18h.01\"/>",
-  "sparkles": "<path d=\"M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z\"/><path d=\"M20 2v4\"/><path d=\"M22 4h-4\"/><circle cx=\"4\" cy=\"20\" r=\"2\"/>",
-  "star": "<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z\"/>",
-  "store": "<path d=\"M15 21v-5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5\"/><path d=\"M17.774 10.31a1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.451 0 1.12 1.12 0 0 0-1.548 0 2.5 2.5 0 0 1-3.452 0 1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.77-3.248l2.889-4.184A2 2 0 0 1 7 2h10a2 2 0 0 1 1.653.873l2.895 4.192a2.5 2.5 0 0 1-3.774 3.244\"/><path d=\"M4 10.95V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.05\"/>",
-  "tablet": "<rect width=\"16\" height=\"20\" x=\"4\" y=\"2\" rx=\"2\" ry=\"2\"/><line x1=\"12\" x2=\"12.01\" y1=\"18\" y2=\"18\"/>",
-  "target": "<circle cx=\"12\" cy=\"12\" r=\"10\"/><circle cx=\"12\" cy=\"12\" r=\"6\"/><circle cx=\"12\" cy=\"12\" r=\"2\"/>",
-  "terminal": "<path d=\"M12 19h8\"/><path d=\"m4 17 6-6-6-6\"/>",
-  "thumbs-up": "<path d=\"M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z\"/><path d=\"M7 10v12\"/>",
-  "trash-2": "<path d=\"M10 11v6\"/><path d=\"M14 11v6\"/><path d=\"M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6\"/><path d=\"M3 6h18\"/><path d=\"M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2\"/>",
-  "trending-up": "<path d=\"M16 7h6v6\"/><path d=\"m22 7-8.5 8.5-5-5L2 17\"/>",
-  "triangle-alert": "<path d=\"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3\"/><path d=\"M12 9v4\"/><path d=\"M12 17h.01\"/>",
-  "truck": "<path d=\"M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2\"/><path d=\"M15 18H9\"/><path d=\"M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14\"/><circle cx=\"17\" cy=\"18\" r=\"2\"/><circle cx=\"7\" cy=\"18\" r=\"2\"/>",
-  "upload": "<path d=\"M12 3v12\"/><path d=\"m17 8-5-5-5 5\"/><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"/>",
-  "user": "<path d=\"M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2\"/><circle cx=\"12\" cy=\"7\" r=\"4\"/>",
-  "user-round": "<circle cx=\"12\" cy=\"8\" r=\"5\"/><path d=\"M20 21a8 8 0 0 0-16 0\"/>",
-  "users": "<path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\"/><path d=\"M16 3.128a4 4 0 0 1 0 7.744\"/><path d=\"M22 21v-2a4 4 0 0 0-3-3.87\"/><circle cx=\"9\" cy=\"7\" r=\"4\"/>",
-  "wallet": "<path d=\"M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1\"/><path d=\"M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4\"/>",
-  "wifi": "<path d=\"M12 20h.01\"/><path d=\"M2 8.82a15 15 0 0 1 20 0\"/><path d=\"M5 12.859a10 10 0 0 1 14 0\"/><path d=\"M8.5 16.429a5 5 0 0 1 7 0\"/>",
-  "workflow": "<rect width=\"8\" height=\"8\" x=\"3\" y=\"3\" rx=\"2\"/><path d=\"M7 11v4a2 2 0 0 0 2 2h4\"/><rect width=\"8\" height=\"8\" x=\"13\" y=\"13\" rx=\"2\"/>",
-  "wrench": "<path d=\"M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z\"/>",
-  "zap": "<path d=\"M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z\"/>"
- },
- "library": "lucide-static",
- "license": "ISC (https://lucide.dev/license)",
- "version": "1.69.0"
-}</script>
-<script>/* 구성도·업무 흐름 부품 — 슬라이드에서 data-c="stack" 으로 켠다.
-   <div class="stack-fig" data-c="stack" data-d='{"nodes":[…],"edges":[…],"groups":[…]}' role="img" aria-label="…"></div>
-   노드는 행·열 격자에 놓고, 좌표·그룹 상자·화살표 경로는 이 파일이 규칙으로 계산한다(사람이 좌표를 짜지 않는다).
-   배치 규칙은 caru-ini/stack-diagram(MIT)의 geometry 규칙을 따라 한글 폭·슬라이드 크기에 맞게 옮겼다:
-     · 노드 = 타일 + 그 아래 글자(박스). 세로 화살표는 위 노드의 박스 아래쪽 → 아래 노드의 타일 위쪽을 잇는다(글자를 가로지르지 않는다).
-     · 같은 줄의 먼 노드 사이는 노드가 없는 위쪽 통로, 줄·열이 다르면 열 사이 틈과 줄 사이 띠로만 꺾는다(노드 박스를 지나지 않는다).
-   아이콘은 Lucide 선 아이콘(ISC)만 쓴다(빌드가 <script id="ppt-stack-icons"> 로 넣는 사본). 로고(브랜드 마크)는 쓰지 않는다.
-   색은 슬라이드 토큰(--ink·--accent 등)을 따르고 어두운 장(.slide.dark)도 따른다.
-   데이터 형식은 references/stack.md, 검사는 scripts/stack_schema.py.
-
-   edu-deck 마운트(아래 "마운트" 절): 모든 data-c="stack" 요소는 로드 시 즉시 그린다(인쇄·자습·reduced 완성 모습).
-   화면 발표에서 장에 들어올 때만 is-play 를 켜 그룹→노드→화살표 순 등장을 태우고, 한 번 본 요소는 다시 재생하지 않는다.
-   발화 감사는 eduMotion.sigLog 에 'stack-reveal' 로 기록한다. */
-(function () {
-  'use strict';
-  const ICONS = (() => {
-    try {
-      const tag = document.getElementById('ppt-stack-icons');
-      const o = tag ? JSON.parse(tag.textContent) : (window.PPTStackIcons || {});
-      return o.icons || {};
-    } catch (e) { return {}; }
-  })();
-
-  // 격자 상수(논리 단위). scripts/stack_schema.py 의 같은 이름 상수와 맞춰 둔다.
-  const T = 64, BW = 176, BH = 110, PX = 204, PY = 166, OX = 40, OY = 44, GPX = 12, GPT = 40, GPB = 8, NEST = 12;
-  const NS = 'http://www.w3.org/2000/svg';
-  let SEQ = 0;
-  const mk = (tag, attrs, parent) => {
-    const e = document.createElementNS(NS, tag);
-    for (const k in attrs || {}) e.setAttribute(k, attrs[k]);
-    if (parent) parent.appendChild(e);
-    return e;
-  };
-  const mcv = document.createElement('canvas').getContext('2d');
-  function fit(s, max, size, w, family) {      // 칸 폭을 넘으면 …으로 줄인다
-    s = String(s); mcv.font = `${w} ${size}px ${family}`;
-    if (mcv.measureText(s).width <= max) return s;
-    while (s.length > 1 && mcv.measureText(s + '…').width > max) s = s.slice(0, -1);
-    return s + '…';
-  }
-
-  /* ───────── 배치 ───────── */
-  function geometry(o) {
-    const N = {}, G = {};
-    o.nodes.forEach((n, i) => { N[n.id] = Object.assign({}, n, { i, cx: OX + n.col * PX + BW / 2, top: OY + n.row * PY }); });
-    (o.groups || []).forEach((g, i) => { G[g.id] = Object.assign({}, g, { i, kids: [] }); });
-    Object.values(G).forEach((g) => { if (g.parent && G[g.parent]) G[g.parent].kids.push(g.id); });
-    const cache = {};
-    const rect = (g) => {
-      if (cache[g.id]) return cache[g.id];
-      let c0 = Infinity, c1 = -Infinity, r0 = Infinity, r1 = -Infinity;
-      for (const id of g.nodes || []) { const n = N[id]; if (!n) continue; c0 = Math.min(c0, n.col); c1 = Math.max(c1, n.col); r0 = Math.min(r0, n.row); r1 = Math.max(r1, n.row); }
-      if (g.cols) { c0 = g.cols[0]; c1 = g.cols[1]; }
-      const has = c0 !== Infinity;
-      let x0 = has ? OX + c0 * PX - GPX : Infinity, x1 = has ? OX + c1 * PX + BW + GPX : -Infinity;
-      let y0 = has ? OY + r0 * PY - GPT : Infinity, y1 = has ? OY + r1 * PY + BH + GPB : -Infinity;
-      for (const kid of g.kids) { const k = rect(G[kid]); x0 = Math.min(x0, k.x0 - NEST); x1 = Math.max(x1, k.x1 + NEST); y0 = Math.min(y0, k.y0 - 30); y1 = Math.max(y1, k.y1 + NEST); }
-      return (cache[g.id] = { x0, y0, x1, y1 });
-    };
-    Object.values(G).forEach((g) => { g.r = rect(g); });
-    let W = 0, H = 0;
-    Object.values(N).forEach((n) => { W = Math.max(W, n.cx + BW / 2 + OX); H = Math.max(H, n.top + BH + 24); });
-    Object.values(G).forEach((g) => { W = Math.max(W, g.r.x1 + 16); H = Math.max(H, g.r.y1 + 12); });
-    return { N, G, W, H };
-  }
-
-  /* ───────── 화살표 경로 ───────── */
-  function route(a, b, at, shift) {   // shift: 서로 반대로 가는 한 쌍이면 ±9 로 나란히 벌린다(같은 선에 겹치지 않게)
-    const dr = b.row - a.row, dc = b.col - a.col, s = dc > 0 ? 1 : -1, M = T / 2 + 5;
-    const ym = (n) => n.top + T / 2;
-    let pts, lab;
-    if (dr === 0) {
-      const lo = Math.min(a.col, b.col), hi = Math.max(a.col, b.col);
-      let blocked = false;
-      for (let c = lo + 1; c < hi; c++) if (at(a.row, c)) blocked = true;
-      if (!blocked) { const y = ym(a) + shift; pts = [[a.cx + s * M, y], [b.cx - s * M, y]]; lab = { x: (a.cx + b.cx) / 2, y: shift > 0 ? y + 21 : y - 10, a: 'middle' }; }
-      else { const y = a.top - 20; pts = [[a.cx, a.top - 5], [a.cx, y], [b.cx, y], [b.cx, b.top - 5]]; lab = { x: (a.cx + b.cx) / 2, y: y - 7, a: 'middle' }; }
-    } else if (dc === 0) {
-      const lo = Math.min(a.row, b.row), hi = Math.max(a.row, b.row);
-      let blocked = false;
-      for (let r = lo + 1; r < hi; r++) if (at(r, a.col)) blocked = true;
-      if (!blocked) {
-        const x = a.cx + shift;
-        pts = dr > 0 ? [[x, a.top + BH + 4], [x, b.top - 5]] : [[x, a.top - 4], [x, b.top + BH + 5]];
-        lab = { x: shift < 0 ? x - 11 : x + 11, y: dr > 0 ? a.top + BH + (PY - BH) / 2 : a.top - (PY - BH) / 2, a: shift < 0 ? 'end' : 'start' };
-      } else {
-        const gx = a.cx + PX / 2;
-        pts = [[a.cx + M, ym(a)], [gx, ym(a)], [gx, ym(b)], [b.cx + M, ym(b)]];
-        lab = { x: gx + 9, y: (ym(a) + ym(b)) / 2, a: 'start' };
-      }
-    } else if (Math.abs(dc) === 1) {
-      const gx = a.cx + s * PX / 2;
-      pts = [[a.cx + s * M, ym(a)], [gx, ym(a)], [gx, ym(b)], [b.cx - s * M, ym(b)]];
-      lab = { x: gx, y: dr > 0 ? a.top + BH + (PY - BH) / 2 : a.top - (PY - BH) / 2, a: 'middle' };
-    } else {
-      const xs = a.cx + s * PX / 2, xt = b.cx - s * PX / 2, yb = dr > 0 ? b.top - 34 : b.top + BH + 12;
-      pts = [[a.cx + s * M, ym(a)], [xs, ym(a)], [xs, yb], [xt, yb], [xt, ym(b)], [b.cx - s * M, ym(b)]];
-      lab = { x: (xs + xt) / 2, y: yb - 7, a: 'middle' };
-    }
-    return { pts, lab };
-  }
-  function pathOf(pts, r) {                     // 꺾이는 곳을 둥글게
-    let d = `M${pts[0][0]} ${pts[0][1]}`;
-    for (let i = 1; i < pts.length; i++) {
-      const p = pts[i], q = pts[i - 1], n = pts[i + 1];
-      if (!n) { d += ` L${p[0]} ${p[1]}`; break; }
-      const l1 = Math.hypot(p[0] - q[0], p[1] - q[1]), l2 = Math.hypot(n[0] - p[0], n[1] - p[1]), k = Math.min(r, l1 / 2, l2 / 2);
-      const a = [p[0] - ((p[0] - q[0]) / l1) * k, p[1] - ((p[1] - q[1]) / l1) * k], b = [p[0] + ((n[0] - p[0]) / l2) * k, p[1] + ((n[1] - p[1]) / l2) * k];
-      d += ` L${a[0]} ${a[1]} Q${p[0]} ${p[1]} ${b[0]} ${b[1]}`;
-    }
-    return d;
-  }
-
-  /* ───────── 그리기 ───────── */
-  function draw(host, o) {
-    const family = getComputedStyle(host).getPropertyValue('--pack-sans').trim() || getComputedStyle(host).fontFamily || 'Pretendard,system-ui,sans-serif';
-    const { N, G, W, H } = geometry(o);
-    const at = (r, c) => o.nodes.find((n) => n.row === r && n.col === c);
-    const uid = 'sf' + (++SEQ);
-    host.textContent = '';
-    const svg = mk('svg', { viewBox: `0 0 ${W} ${H}`, 'aria-hidden': 'true', preserveAspectRatio: 'xMidYMid meet' });
-    const defs = mk('defs', {}, svg);
-    [['m', 'sf-ar-main'], ['s', 'sf-ar-sub']].forEach(([k, cls]) => {
-      const m = mk('marker', { id: `${uid}-${k}`, viewBox: '0 0 12 12', refX: 11, refY: 6, markerWidth: 12, markerHeight: 12, markerUnits: 'userSpaceOnUse', orient: 'auto' }, defs);
-      mk('path', { d: 'M1 1 L11 6 L1 11 L4 6 Z', class: cls }, m);
-    });
-    const lg = mk('g', { class: 'sf-groups' }, svg), le = mk('g', { class: 'sf-edges' }, svg), ln = mk('g', { class: 'sf-nodes' }, svg), ll = mk('g', { class: 'sf-labels' }, svg);
-
-    // 그룹: 큰 것부터(바깥 → 안쪽)
-    Object.values(G).sort((p, q) => (q.r.x1 - q.r.x0) * (q.r.y1 - q.r.y0) - (p.r.x1 - p.r.x0) * (p.r.y1 - p.r.y0)).forEach((g) => {
-      const r = g.r, gg = mk('g', { class: `sf-group sf-g-${g.tone || 'plain'}`, style: `--d:${g.i * 60}ms` }, lg);
-      mk('rect', { x: r.x0, y: r.y0, width: r.x1 - r.x0, height: r.y1 - r.y0, rx: 16 }, gg);
-      // 라벨은 화살표 위 레이어에 둔다: 선이 라벨을 지나가면 라벨 글자 둘레의 그룹색 테두리(halo)가 선을 가린다
-      const gl = mk('g', { class: `sf-glw sf-lg-${g.tone || 'plain'}`, style: `--d:${g.i * 60}ms` }, ll);
-      let lx = r.x0 + 16;
-      if (g.icon && ICONS[g.icon]) { const ic = mk('g', { transform: `translate(${lx} ${r.y0 + 10}) scale(.85)`, class: 'sf-gico', 'stroke-width': 2.2 }, gl); ic.innerHTML = ICONS[g.icon]; lx += 27; }
-      const t = mk('text', { x: lx, y: r.y0 + 25, class: 'sf-glabel' }, gl);
-      t.textContent = fit(g.label, r.x1 - lx - 14, 16, 700, family);
-    });
-
-    // 화살표
-    const base = 150 + o.nodes.length * 80;
-    (o.edges || []).forEach((e, j) => {
-      const a = N[e.from], b = N[e.to], kind = e.kind || 'main';
-      const rev = o.edges.some((x) => x.from === e.to && x.to === e.from), fwd = a.row < b.row || (a.row === b.row && a.col < b.col);
-      const { pts, lab } = route(a, b, at, rev ? (fwd ? -9 : 9) : 0);
-      const ge = mk('g', { class: `sf-edge sf-e-${kind}`, style: `--d:${base + j * 110}ms` }, le);
-      mk('path', { d: pathOf(pts, 12), pathLength: 1, 'marker-end': `url(#${uid}-${kind === 'main' ? 'm' : 's'})` }, ge);
-      if (e.label) {
-        const t = mk('text', { x: lab.x, y: lab.y, 'text-anchor': lab.a, class: 'sf-el' }, ll);
-        t.setAttribute('style', `--d:${base + j * 110 + 300}ms`);
-        t.textContent = fit(e.label, 104, 14, 600, family);
-      }
-    });
-
-    // 노드
-    o.nodes.forEach((n0) => {
-      const n = N[n0.id], tone = n.tone || 'plain', g = mk('g', { class: `sf-node sf-t-${tone}`, style: `--d:${150 + n.i * 80}ms` }, ln);
-      mk('rect', { x: n.cx - T / 2, y: n.top, width: T, height: T, rx: 15, class: 'sf-tile' }, g);
-      if (ICONS[n.icon]) { const ic = mk('g', { transform: `translate(${n.cx - 16} ${n.top + 16}) scale(1.333)`, class: 'sf-ico', 'stroke-width': 1.6 }, g); ic.innerHTML = ICONS[n.icon]; }
-      const nm = mk('text', { x: n.cx, y: n.top + T + 20, 'text-anchor': 'middle', class: 'sf-name' }, g);
-      nm.textContent = fit(n.name, BW - 6, 19, 700, family);
-      if (n.role) { const rl = mk('text', { x: n.cx, y: n.top + T + 42, 'text-anchor': 'middle', class: 'sf-role' }, g); rl.textContent = fit(n.role, BW - 6, 14, 500, family); }
-      if (n.badge) {
-        mk('circle', { cx: n.cx - T / 2 + 2, cy: n.top + 2, r: 12, class: 'sf-badge' }, g);
-        const bt = mk('text', { x: n.cx - T / 2 + 2, y: n.top + 2.5, 'text-anchor': 'middle', class: 'sf-badge-t' }, g);
-        bt.textContent = String(n.badge);
-      }
-    });
-    host.appendChild(svg);
-  }
-
-  window.PPTStack = { draw, geometry, route, consts: { T, BW, BH, PX, PY, OX, OY, GPX, GPT, GPB, NEST } };
-
-  /* ───────── 마운트: edu-deck ─────────
-     모든 요소는 로드 시 즉시 그린다 — 인쇄·자습·reduced·미지원 환경의 완성 모습.
-     화면 발표에서는 활성 장에 들어올 때 한 번만 is-play 를 켠다(그룹→노드→화살표 순, CSS).
-     무성 장 감사와 맞추기 위해 발화는 'stack-reveal' 로 sigLog 에 남긴다. */
-  const REDUCE = matchMedia('(prefers-reduced-motion: reduce)');
-  const PRINT = matchMedia('print');
-  const seen = new WeakSet();      // 발표에서 한 번 본 요소 — 재방문해도 다시 재생하지 않는다
-  let printing = false;
-  const staticMode = () => printing || PRINT.matches || REDUCE.matches ||
-    document.body.classList.contains('st-self') ||
-    document.body.classList.contains('st-printing') ||
-    document.body.classList.contains('st-presenter');
-  const currentSlide = () => document.querySelector('.deck.on>.slide.active, #stage>.slide.active');
-  const DATA = new WeakMap();      // 리사이즈 재그리기용 — 파싱한 데이터를 요소에 묶어 둔다
-  function mount(el) {
-    let o;
-    try { o = JSON.parse(el.dataset.d || '{}'); } catch (e) { return; }
-    if (!Array.isArray(o.nodes) || !o.nodes.length) return;
-    try { draw(el, o); } catch (e) { return; }   // 데이터가 어긋나면 비워 둔다. 빌드 검사가 먼저 알린다
-    DATA.set(el, o);
-    el.classList.add('is-ready');
-  }
-  function sig(s, step) {
-    const log = window.eduMotion && window.eduMotion.sigLog;
-    if (!log) return;
-    let slide = -1;
-    if (window.deckInfo) { const info = window.deckInfo(); if (info && typeof info.slide === 'number') slide = info.slide; }
-    if (slide < 0) slide = [...document.querySelectorAll('.slide')].indexOf(s);
-    log.push(Object.freeze({ slide, step, sig: 'stack-reveal' }));
-    if (log.length > 500) log.shift();
-    document.dispatchEvent(new CustomEvent('edumotion', { detail: { slide, step, sig: 'stack-reveal' } }));
-  }
-  function enter(el) {
-    if (staticMode() || seen.has(el)) { el.classList.remove('is-play'); el.classList.add('is-done'); return; }
-    seen.add(el);
-    el.classList.remove('is-play', 'is-done'); void el.offsetWidth;
-    el.classList.add('is-play');
-    const s = el.closest('.slide'), info = window.deckInfo ? window.deckInfo() : {};
-    if (s) sig(s, info.step || 0);
-    const o = DATA.get(el) || {};
-    const last = 150 + (o.nodes || []).length * 80 + ((o.edges || []).length) * 110 + 700;
-    setTimeout(() => { el.classList.remove('is-play'); el.classList.add('is-done'); }, last);
-  }
-  function onSlide() {
-    const s = currentSlide();
-    if (s) s.querySelectorAll('[data-c="stack"]').forEach(enter);
-  }
-  function settle() {
-    document.querySelectorAll('[data-c="stack"].is-play').forEach((el) => {
-      el.classList.remove('is-play'); el.classList.add('is-done');
-    });
-  }
-  document.addEventListener('deckslide', onSlide);
-  window.addEventListener('beforeprint', () => { printing = true; settle(); });
-  window.addEventListener('afterprint', () => { printing = false; });
-  REDUCE.addEventListener('change', settle);
-  PRINT.addEventListener('change', settle);
-  document.addEventListener('edmode', settle);
-  new MutationObserver(() => { if (staticMode()) settle(); }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
-  document.querySelectorAll('[data-c="stack"]').forEach(mount);
-  /* 리사이즈: 폰트·폭이 바뀌면 fit() 결과가 달라지므로 다시 그린다. is-done 요소는 그대로 완성 모습. */
-  let rzT = 0;
-  window.addEventListener('resize', () => {
-    clearTimeout(rzT);
-    rzT = setTimeout(() => document.querySelectorAll('[data-c="stack"].is-ready').forEach((el) => {
-      const o = DATA.get(el); if (o) try { draw(el, o); } catch (e) {}
-    }), 150);
-  });
-  onSlide();   /* 첫 장(주소 #N 포함)은 deckslide 가 이미 지났다 */
-})();
-</script>
 <style>
 #progress,#dots,#counter,#help,#notes,#notesText,.ed-reader-nav,.ed-topbar,.ed-zoom,.ed-zoom-hint,#edAuto,#edEdit,#memoBox,.dsheet-open,#st-panel,.st-btn{display:none!important}
-#stage{--ed-s:min(calc(100vw/1920),calc((100vh - 84px)/1080))!important}
-#show-cap{position:fixed;left:50%;bottom:44px;transform:translateX(-50%);background:rgba(32,43,50,.88);color:#f2efe9;font:600 24px/1.4 'Pretendard Variable',sans-serif;padding:12px 30px;border-radius:999px;z-index:40;pointer-events:none;max-width:88vw;text-align:center}
+#stage{--ed-s:min(calc(100vw/1920),calc((100vh - 96px)/1080))!important}
+#show-cap{position:fixed;left:50%;bottom:10px;transform:translateX(-50%);background:rgba(32,43,50,.9);color:#f2efe9;font:600 17px/1.35 'Pretendard Variable',sans-serif;padding:6px 20px;border-radius:999px;z-index:40;pointer-events:none;max-width:88vw;text-align:center}
 #show-bar{position:fixed;left:0;right:0;bottom:0;height:8px;display:flex;gap:3px;z-index:40;background:rgba(0,0,0,.22)}
 #show-bar i{flex:1;position:relative;background:rgba(255,255,255,.28);overflow:hidden}
 #show-bar i b{position:absolute;inset:0;background:#3fb9d6;transform-origin:left;transform:scaleX(0)}
@@ -4679,16 +4991,22 @@ doc.addEventListener('keydown',function(e){
 <script>
 
 (function(){
-var BUDGET=[3000, 3500, 2200, 2200, 1800, 1800, 2000, 2000, 2000, 0], SCENES=[[0], [1], [2, 3], [4, 5, 6], [7, 8], [9]], CAP=['프롬프트 하나로, 한국어 교육 자료가 만들어집니다', '요청 한 줄이 조사·구성·저작·검사를 지나 단일 HTML이 됩니다', '배치 계열 52 · 변형 253 · 모션 실행 이름 42 — 재료는 카탈로그에 있습니다', '지금 보이는 모션은 녹화가 아니라 코드가 그립니다', '퀴즈 판정·자습·인쇄·출처 검증까지 한 파일에 담깁니다', '실제 예시와 자산 갤러리에서 직접 확인할 수 있습니다'];
+var BUDGET=[4500, 4200, 3800, 5200, 4000, 4200, 0], SCENES=[[0], [1], [2], [3], [4], [5, 6]], CAP=['프롬프트 하나로 — 교육·아키텍처·컨설팅 덱이 단일 HTML로 완성됩니다', '요청 한 줄이 조사·조립·기술 계약·심미 크리틱까지 거쳐 완성됩니다', '52계열 253변형 · 8×8 리소스팩 64조합 · 8테마 — 주제마다 다른 얼굴을 만듭니다', 'SI 시스템 구성도·입체 HW·시퀀스까지 시맨틱 JSON에서 직교 도식으로 생성합니다', '컨설팅 차트 11종과 우측 시사점 사이드카·근거 원장 대조까지 코드로 정밀하게 그립니다', '퀴즈·자습·발표 노트·인쇄까지 외부 의존 없는 파일 하나 — 지금 실물을 열어보세요'];
 var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* 캡처·수동 탐색 격리 — 자동 진행은 정상 시청 전용이다.
+   ?shot·?sheet·?pause·?noauto·해시 직접 접근·webdriver·외부 deckGo 호출이
+   감지되면 스케줄러는 멈추고 진행 바·자막만 현재 위치를 따라간다 */
+var qs=new URLSearchParams(location.search);
+var manual=qs.has('shot')||qs.has('sheet')||qs.has('pause')||qs.has('noauto')
+  ||navigator.webdriver===true||(location.hash&&location.hash.length>1);
 var cap=document.createElement('div');cap.id='show-cap';document.body.appendChild(cap);
 var bar=document.createElement('div');bar.id='show-bar';document.body.appendChild(bar);
 var hint=document.createElement('div');hint.id='show-state';hint.textContent='⏸ 일시정지 — Space로 재개';document.body.appendChild(hint);
 var segs=SCENES.map(function(){var i=document.createElement('i');i.appendChild(document.createElement('b'));bar.appendChild(i);return i.firstElementChild;});
 var slideScene=[];SCENES.forEach(function(s,si){s.forEach(function(sl){slideScene[sl]=si;});});
 var NSLIDES=slideScene.length;
-var sched=[],idx=0,t0=0,el=0,timer=null,paused=false,started=false,via='-';
-var DIAG=window.__introDiag={started:false,elapsed:0,lastScene:-1,via:'-'};
+var sched=[],idx=0,t0=0,el=0,timer=null,paused=false,started=false,via='-',selfCall=false;
+var DIAG=window.__introDiag={started:false,elapsed:0,lastScene:-1,via:'-',manual:manual};
 function maxOf(i){var p=document.querySelectorAll('#stage>.slide');if(i<p.length){var m=0;p[i].querySelectorAll('[data-step],[data-add],[data-only],[data-lit],[data-until]').forEach(function(e){['step','add','only','lit','until'].forEach(function(a){if(e.dataset[a]!==undefined)m=Math.max(m,+e.dataset[a]);});});return m;}return 0;}
 function sceneOf(i){return slideScene[i]===undefined?SCENES.length-1:slideScene[i];}
 function paint(){
@@ -4700,25 +5018,33 @@ function paint(){
  DIAG.lastScene=sc;DIAG.elapsed=started?Date.now()-t0:0;DIAG.via=via;
  document.dispatchEvent(new CustomEvent('introscene',{detail:{scene:sc,slide:pos,via:via}}));
 }
+/* selfCall 플래그 아래의 deckGo 호출만 스케줄러 소유로 인정한다 */
+function go(i,st){selfCall=true;try{window.deckGo&&deckGo(i,st);}finally{selfCall=false;}}
 /* 브라우저 무관 진행 — 엔진 공개 API deckGo 직접 호출, 불가 시 합성 키 폴백 */
 function press(){
  var used=false;
  if(window.deckGo&&window.deckInfo){try{
   var inf=deckInfo();
-  if(inf.step<inf.maxStep)deckGo(inf.slide,inf.step+1);else deckGo(inf.slide+1,0);
+  if(inf.step<inf.maxStep)go(inf.slide,inf.step+1);else go(inf.slide+1,0);
   used=true;via='api';}catch(e){used=false;}}
  if(!used){via='key';document.dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowRight',bubbles:true,cancelable:true}));}
 }
-function arm(){if(paused||idx>=sched.length)return;var wait=sched[idx]-el;if(wait<0)wait=0;timer=setTimeout(tick,wait);}
+function arm(){if(manual||paused||idx>=sched.length)return;var wait=sched[idx]-el;if(wait<0)wait=0;timer=setTimeout(tick,wait);}
 function tick(){el=sched[idx];idx++;press();arm();}
 function play(){paused=false;hint.classList.remove('on');t0=Date.now()-el;arm();}
 function pause(){paused=true;hint.classList.add('on');el=Date.now()-t0;clearTimeout(timer);}
-function restart(){clearTimeout(timer);el=0;idx=0;paused=false;window.deckGo&&deckGo(0,0);play();}
+function restart(){clearTimeout(timer);el=0;idx=0;paused=false;manual=false;DIAG.manual=false;go(0,0);play();}
+/* 외부 deckGo(캡처·콘솔·다른 스크립트)가 장 위치를 바꾸면 자동 진행은 즉시 양보한다.
+   이때는 사용자가 누른 일시정지가 아니므로 힌트 알약은 띄우지 않는다 */
+var _deckGo=window.deckGo;
+if(_deckGo){window.deckGo=function(){
+ if(!selfCall){manual=true;clearTimeout(timer);DIAG.manual=true;}
+ return _deckGo.apply(this,arguments);};}
 document.addEventListener('deckstep',function(){
  paint();
- // 퀴즈 장: 마지막 단계 도달 직후 실제 판정을 그린다
+ // 마지막 단계에 .ox.o가 남아 있으면 실제 판정을 그린다(퀴즈 실연 장)
  var inf=window.deckInfo&&deckInfo();
- if(inf&&inf.slide===7&&inf.step>=inf.maxStep)setTimeout(function(){var e=document.querySelector('.slide.active .ox.o');if(e&&!e.classList.contains('lit')){e.classList.add('lit','picked');if(window.eduMotion&&eduMotion.verdict)eduMotion.verdict(e,true);}},350);
+ if(inf&&inf.step>=inf.maxStep)setTimeout(function(){var e=document.querySelector('.slide.active .ox.o');if(e&&!e.classList.contains('lit')){e.classList.add('lit','picked');if(window.eduMotion&&eduMotion.verdict)eduMotion.verdict(e,true);}},350);
 });
 document.addEventListener('deckslide',function(){var inf=window.deckInfo&&deckInfo();if(inf)paint();});
 /* Space·클릭 = 일시정지/재개 — 캡처 단계에서 가로채 엔진의 advance와 충돌하지 않게 한다 */
@@ -4744,15 +5070,9 @@ paint(); // 로드 전부터 진행 바·자막 노출 — "재생 중" 표시
 function begin(){
  if(started)return;started=true;DIAG.started=true;
  if(reduce){ // 정적 완결: 자동 재생 없이 첫 장을 최종 상태로
-  window.deckGo&&deckGo(0,maxOf(0));paint();return;
+  go(0,maxOf(0));paint();return;
  }
- /* 1장 재발화: seen이 요소 WeakMap이라 클론 스왑으로 초기화 → 쇼 시작 시점에 시그니처가 확실히 움직인다 */
- var act=document.querySelector('#stage>.slide.active');
- if(act){var cl=act.cloneNode(true);
-  // 전환 시 나가는 클론의 제목이 들어오는 장 제목과 edu-title을 공유하지 않게 한다
-  cl.querySelectorAll('.title,.cx-title,.big,.pack-prompt').forEach(function(e){e.style.viewTransitionName='vt-ign';});
-  act.replaceWith(cl);cl.classList.add('active');}
- document.dispatchEvent(new Event('deckslide'));
+ if(manual){paint();return;} // 캡처·수동 모드: 스케줄러 없이 자막·진행 바만
  t0=Date.now();el=0;idx=0;paint();arm();
 }
 if(document.readyState==='complete')setTimeout(begin,0);
