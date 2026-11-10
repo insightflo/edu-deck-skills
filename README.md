@@ -10,7 +10,7 @@
 [![Works with](https://img.shields.io/badge/agents-pi%20%C2%B7%20Claude%20Code%20%C2%B7%20Codex-7a5cc4?style=flat-square)](#4-사용법)
 [![Ships](https://img.shields.io/badge/산출물-단일%20HTML%20%C2%B7%20외부의존%200-0e7d95?style=flat-square)](#2-한눈에-보는-구성)
 [![Assets](https://img.shields.io/badge/%EB%A6%AC%EC%86%8C%EC%8A%A4%ED%8C%A9-%EC%84%A4%EA%B3%84%208%EC%A2%85%20%C2%B7%20%ED%9D%90%EB%A6%84%208%EC%A2%85-2f6fb0?style=flat-square)](docs/gallery.html)
-[![Assets](https://img.shields.io/badge/%EC%9E%A5%20%EB%B0%B0%EC%B9%98-41%EA%B3%84%EC%97%B4%20231%EB%B3%80%ED%98%95-e8772e?style=flat-square)](docs/gallery.html)
+[![Assets](https://img.shields.io/badge/%EC%9E%A5%20%EB%B0%B0%EC%B9%98-52%EA%B3%84%EC%97%B4%20253%EB%B3%80%ED%98%95-e8772e?style=flat-square)](docs/gallery.html)
 [![Tests](https://img.shields.io/badge/%ED%9A%8C%EA%B7%80-384%20tests%20%C2%B7%20pack%2064%2F64-59c3d6?style=flat-square)](#5-검증--검사기는-계약-품질-판단은-사람)
 
 ![데모](docs/demo-quiz.gif)
@@ -60,13 +60,13 @@
 
 **무엇을 만들 수 있나 — 지원 범위** (수치는 저장소 회귀로 검증)
 
-<img src="docs/diagrams/diagram-scope.png" width="100%" alt="지원 범위 도식 — 규모 1편/N편, legacy 테마 8종·arc 5종·조각 41계열 231변형·표지 16종, 팩 8설계×8흐름 64조합, 덱 유형 4종, 기본 포함 기능">
+<img src="docs/diagrams/diagram-scope.png" width="100%" alt="지원 범위 도식 — 규모 1편/N편, legacy 테마 8종·arc 5종·조각 52계열 253변형·표지 16종, 팩 8설계×8흐름 64조합, 덱 유형 4종, 기본 포함 기능">
 
 **어떻게 만들어지나 — 요청부터 검사까지** (실선=코드 강제, 점선=에이전트 수행)
 
 <img src="docs/diagrams/diagram-pipeline.png" width="46%" alt="저작 파이프라인 도식 — 요청→라우팅→legacy/팩 경로→조립→검사"> <img src="docs/diagrams/diagram-cross.png" width="52.6%" alt="완성 덱 단면 도식 — 슬라이드·단계공개·노트·퀴즈·자습·출처 층위">
 
-**완성 덱 하나의 단면** — 파일 하나에 교육 자료 전체 층위: 슬라이드(253변형·8테마·모션 실행 이름 42종+기법 8종) / 단계 공개 / 발표자 노트(60자 이상 검사) / 확인 문제·퀴즈 / 자습 모드·용어집·검색 / 출처·검증 층. [**▶ 자산 갤러리에서 실물 315점 보기**](https://insightflo.github.io/edu-deck-skills/docs/gallery.html)
+**완성 덱 하나의 단면** — 파일 하나에 교육 자료 전체 층위: 슬라이드(253변형·8테마·모션 실행 이름 42종+기법 5종) / 단계 공개 / 발표자 노트(60자 이상 검사) / 확인 문제·퀴즈 / 자습 모드·용어집·검색 / 출처·검증 층. [**▶ 자산 갤러리에서 실물 378점 보기**](https://insightflo.github.io/edu-deck-skills/docs/gallery.html)
 
 ## 3. 자산 갤러리 — 재료 전부
 
@@ -81,7 +81,7 @@
 | 테마 | **8종** | 같은 덱 3장(표지·목차·내용) × 전 테마 매트릭스 + 같은 장면 비교 |
 | 모션 시그니처 | **실행 이름 42종 전체 + 공통 기법 8종**(data-fx) | 카드를 스크롤하면 실물이 그 자리에서 자동 재생(녹화물 없음) |
 | 표지 | 직접 설계 + 카탈로그 16종 | 아키타입 갤러리 |
-| 아키텍처 모션 키트 | **시맨틱 JSON → 도식 생성기 3종**(dagre 2D·입체 HW·레인/시퀀스+토큰 시뮬레이터) + SI 실무형 10유형 + 모션 10종 레시피 | ▶ [원형 6장면](https://insightflo.github.io/edu-deck-skills/examples/arch-demo/demo6.html) · [SI 10유형 11장](https://insightflo.github.io/edu-deck-skills/examples/arch-si/arch-si.html) · 갤러리 '아키텍처' 절 |
+| 아키텍처 모션 키트 | **시맨틱 JSON → 도식 생성기 3종**(직교 2D — 중첩 존·솔리드 헤더 바·백본 버스·복합 노드·장비 아이콘 16종 ·입체 HW·레인/시퀀스+토큰 시뮬레이터) + SI 실무형 10유형 + 모션 10종 레시피 · blueprint 테마 | ▶ [원형 6장면](https://insightflo.github.io/edu-deck-skills/examples/arch-demo/demo6.html) · [SI 10유형 13장](https://insightflo.github.io/edu-deck-skills/examples/arch-si/arch-si.html) · 갤러리 '아키텍처' 절 |
 
 이전 수동 제작 소개 영상(showreel mp4·GIF)은 [코드 재생 소개 쇼](docs/intro.html)로 교체했습니다 — `promo/make_intro.py`가 덱을 조립하고 쇼 런처를 주입해 생성합니다.
 
@@ -128,8 +128,8 @@ python3 scripts/check_deck.py --style <덱.html>   # 취향 상세
 edu-deck/          진입(라우터) 스킬 + 공통: 셸·모션 엔진·조각 41계열·아이콘·팩 8종·검사·조립 도구
 edu-deck-solo/     한 주제 한 덱 — brief → 조사 → outline → 저작 → 검사
 edu-deck-series/   여러 편 시리즈 + 목차 포털·진도·같은 편 복습
-examples/          실물 예시 4종(저작 과정 포함) + 아키텍처 모션 데모(arch-demo 6장면·arch-si SI 10유형 11장)
-docs/              소개 쇼(intro.html)·도식·자산 갤러리(실물 재생 315점)
+examples/          실물 예시 4종(저작 과정 포함) + 아키텍처 모션 데모(arch-demo 6장면·arch-si SI 10유형 13장)
+docs/              소개 쇼(intro.html)·도식·자산 갤러리(실물 재생 378점)
 ```
 
 ## 7. 라이선스·크레딧
