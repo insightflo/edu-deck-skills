@@ -71,13 +71,7 @@
     "highlight": [
       "선도군(상위 15%)"
     ],
-    "annotations": [
-      {
-        "label": "격차 31.0%p (8분기 전 19.0%p) — 45.0/14.0 = 3.2배",
-        "on": "26Q2",
-        "kind": "main"
-      }
-    ],
+    "endDelta": true,
     "canvas": "sidecar",
     "sidecar": {
       "v": "3.2",

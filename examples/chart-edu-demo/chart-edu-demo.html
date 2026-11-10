@@ -1525,6 +1525,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 
 /* ── 2. 공통 구조 — 4방향이 같은 선택자·값을 공유 (Executive 기본) ── */
 /* 주장형 제목 — 한 문장 결론이 2줄로 균형 있게 (외톨이 단어 방지) */
+/* letter-spacing 를 제목에 걸면 Chromium 이 keep-all 을 무력화해 한글 어절이 분절된다 — 쓰지 않는다 */
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .title{font-size:54px;line-height:1.22;font-weight:800;word-break:keep-all}
 /* kinetic 시그니처는 제목을 글자별 inline-block(.ed-letter)으로 쪼갠다 — 그러면 모든 글자 경계가
    분절점이 되어 keep-all 이 무력하다(어절 한가운데 절단). inline 으로 두면 일반 텍스트처럼
@@ -1596,6 +1597,9 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-table thead th{font-size:21px;font-weight:800;color:var(--soft);letter-spacing:1px;border-bottom:3px solid var(--line)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-table td:first-child{font-weight:800;font-size:27px;white-space:nowrap}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-table .rec{background:color-mix(in srgb,var(--accent) 7%,var(--paper));box-shadow:inset 0 0 0 3px var(--accent)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-table .col-rec{background:color-mix(in srgb,var(--accent) 6%,transparent)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-table thead th.col-rec{border-top:3px solid var(--accent)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-table td.col-rec b{color:var(--accent-text)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-tag{display:inline-block;font-size:19px;font-weight:800;color:var(--paper);background:var(--accent);border-radius:var(--r1);padding:4px 14px;margin-left:12px;letter-spacing:2px;vertical-align:.14em;white-space:nowrap;font-family:var(--c-num-font)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-note{font-size:18px;color:var(--soft);line-height:1.4}
 
@@ -1675,7 +1679,6 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 .slide.consult-tech .c-metric{border-top-color:var(--line)}
 .slide.consult-tech .c-metric .m-v{font-family:var(--c-num-font)}
 .slide.consult-tech .c-sidecar .sc-v{font-family:var(--c-num-font)}
-
 /* ── 데모 로컬 — 차트 장 배경 온도 통일 ──
    이 덱의 비차트 장은 공유 셸 기본 --light(#f5f2ea, 웜 크림)인데 컨설팅 테마의
    --light(회청)가 차트 장만 차갑게 만들었다. 덱 기본값으로 되돌린다(권고-5). */
@@ -1859,7 +1862,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
     <div class="c-sidecar-main">
   <svg class="dg" viewBox="0 0 1040 580" role="img" aria-label="워터폴: 마케팅비가 2024년 120억에서 광고 재계약 −12, 채널 통폐합 −9, 신규 캠페인 +8, 일회성 이벤트 −12를 거쳐 2025년 95억이 되는 경로">
     <title>워터폴은 시작값에 증감을 쌓아 끝값에 닿는 다리다</title>
-    <text class="k-t-tag" x="60" y="42">(단위: 억 원)</text>
+    <text class="k-t-tag" x="0" y="42">(단위: 억 원)</text>
     <path d="M60,460 L980,460" fill="none" stroke="var(--line)" stroke-width="2.5" stroke-linecap="round"/>
     <g class="wf" data-step="1">
       <rect x="91" y="100" width="93" height="360" class="k-solid-n"/>
@@ -1937,7 +1940,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
   <div class="head"><p class="eyebrow">차트 읽기 ② — 히트맵(격자 농도)</p><h2 class="title">히트맵은 짙은 칸부터 읽는다 — 화·목이 뜨겁고 금은 식는다</h2></div>
   <svg class="dg" viewBox="0 0 1560 530" role="img" aria-label="히트맵: 부서(영업·물류·개발·지원)별 요일(월~금) 시스템 사용률. 화·목이 높고 금요일이 낮다">
     <title>히트맵은 짙은 칸부터 읽는다 — 화·목이 뜨겁고 금은 식는다</title>
-    <text class="k-t-tag" x="60" y="42">(단위: %)</text>
+    <text class="k-t-tag" x="0" y="42">(단위: %)</text>
     <text x="375" y="80" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">월</text>
     <text x="625" y="80" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">화</text>
     <text x="875" y="80" font-size="20" font-weight="700" fill="var(--ink)" text-anchor="middle">수</text>
@@ -2000,9 +2003,9 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
       <text x="1086.6" y="424" font-size="24" font-weight="800" class="k-t-o" text-anchor="start">짙은 열부터 </text>
       <text x="1086.6" y="448" font-size="24" font-weight="800" class="k-t-o" text-anchor="start">읽는다 — 화…</text>
     <defs><linearGradient id="hm-grad" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="var(--blue)" stop-opacity=".14"/><stop offset="1" stop-color="var(--blue)" stop-opacity=".92"/></linearGradient></defs>
-    <text x="250" y="526" font-size="18" fill="var(--soft)">30</text>
-    <rect x="310" y="514" width="140" height="14" rx="3" fill="url(#hm-grad)"/>
-    <text x="464" y="526" font-size="18" fill="var(--soft)">90</text>
+    <text x="1304" y="36" font-size="18" fill="var(--soft)" text-anchor="end">30</text>
+    <rect x="1314" y="24" width="140" height="14" rx="3" fill="url(#hm-grad)"/>
+    <text x="1464" y="36" font-size="18" fill="var(--soft)">90</text>
   </svg>
   <div class="c-src" data-step="4">
     <p>Source: 교육용 가상 데이터 · 기준 2025년(가상)</p>

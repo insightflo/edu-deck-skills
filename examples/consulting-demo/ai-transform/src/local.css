@@ -46,3 +46,12 @@
 .c-road .rc b{display:block;font-size:23px;margin-bottom:4px;color:var(--ink)}
 .c-road .rc .r-v{color:var(--accent-text);font-weight:800}
 .c-road-note{font-size:20px;color:var(--soft);margin-top:var(--s2)}
+
+/* 표지 우측 수치 레일 — 세로 헤어라인 3단(재크리틱 Major-2: 우하단 빈 공간 앵커) */
+.c-cover-grid{display:grid;grid-template-columns:1fr 340px;gap:var(--s5);align-items:end}
+.c-cover-kpi{border-top:3px solid var(--accent);padding-top:var(--s3);display:flex;flex-direction:column}
+.c-cover-kpi>div{padding:var(--s3) 0;border-top:1px solid var(--line)}
+.c-cover-kpi>div:first-child{border-top:none}
+.c-cover-kpi b{display:block;font-family:var(--c-num-font);font-variant-numeric:tabular-nums;font-size:60px;font-weight:800;line-height:1;color:var(--ink)}
+.c-cover-kpi b small{font-size:26px;margin-left:4px}
+.c-cover-kpi span{font-size:21px;color:var(--soft);font-weight:600;line-height:1.4}

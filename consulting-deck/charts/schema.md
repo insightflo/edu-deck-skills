@@ -41,6 +41,7 @@ consulting-deck/charts/chart_gen.mjs --in MODEL.json -o src/NN-이름.html
 | `bridge` | stacked-bar | `total` \| `segment` — 두 막대 사이 다리. `total`=첫↔끝 총계를 계단 점선+캡슐 변화율(%, Δ절대값)로. `segment`=끝 막대의 선택 세그먼트에 브래킷+합계·비중 |
 | `bridgeSegments` | stacked-bar | 세그먼트 name 배열 — `bridge:"segment"`의 대상(name 해석 실패 → FAIL) |
 | `targetQuadrant` | matrix-2x2 | `tr`\|`tl`\|`br`\|`bl` — 목표 사분면을 옅은 초점색 틴트+굵은 라벨로 표시(값은 위치: 우상·좌상·우하·좌하) |
+| `endDelta` | line | `true` — 마지막 눈금에서 계열 1·2의 끝점 사이를 점선 세로 브리지+`Δ값·배수` 라벨로 잇는다(계열 ≥2 필요). 사이드카 결합 시 문장 주석 대신 쓰는 수치 기호 |
 | `data` | ● | 행 배열(대부분 타입) 또는 객체 — heatmap `{rows,cols,cells}` · sankey `{nodes,flows}` (아래 타입별 표) |
 | `series[]` | line ● | `[{name, points:[v…], fill?}]` — points 수 = data 수, 계열 최대 4, `fill:true`는 면적 변형 |
 | `axes` | matrix-2x2 ● | `{x:{min,max,label}, y:{min,max,label}}` — 사분면 축 범위 |
@@ -132,8 +133,9 @@ waterfall의 시작 막대가 최대값의 60% 이상이면 증감 막대가 너
 - 주석은 참조 항목(`on`)의 단계 그룹 안에 캡슐 배지 「핵심」(main)·「참고」(sub) + 본문으로 붙는다 — 배지는 main=초점색·sub=중립 칩, 필요 시 `var(--accent)` 점선 리더로 항목과 연결.
   - waterfall: 항목 폭 안 2줄까지 절사 — 연결선 위 빈 공간 또는 항목 라벨 아래.
   - ranked·diverging: 수치 오른쪽(음수는 왼쪽)에 인라인 — 공간이 모자라면 막대 아래로 내려 행 높이를 가산. 어떤 경우든 다른 행 라벨과 겹치지 않는다.
-  - heatmap: 행·열 주석을 격자 아래 주석 레인에 순차 누적 — 같은 단계에 두 블록이 나란히 서지 않아 수평 충돌을 원천 제거. 범례는 레인 아래.
-  - matrix-2x2: 라벨 레인 충돌 회피 후 점→라벨 헤어라인 리더, 주석도 배지+줄바꿈.
+  - heatmap: 행·열 주석을 격자 아래 주석 레인에 순차 누적 — 같은 단계에 두 블록이 나란히 서지 않아 수평 충돌을 원천 제거. 범례는 우상단(단위 태그 행).
+  - matrix-2x2: 라벨은 점 근처 후보 6자리(우→좌→우상→좌상→하→상) 중 충돌 없는 첫 자리 — 못 찾으면 아래 레인으로만 밀고 점→라벨 헤어라인 리더. 주석도 라벨 아래 레인.
+  - **역할 분리(사이드카 결합 시)**: `canvas:"sidecar"`면 문장형 `annotations`는 사이드카 bullets 로 옮기고 차트 안에는 `endDelta`·`targetQuadrant`·highlight 같은 수치·기호만 남긴다(중복 방지·재크리틱 Blocker-2).
 
 ## 재생성 계약
 

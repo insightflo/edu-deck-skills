@@ -622,6 +622,33 @@ class ConsultChartTest(unittest.TestCase):
         steps = [int(s) for s in re.findall(r'<g data-step="(\d+)"', html)]
         self.assertLessEqual(max(steps), 3, f'matrix 단계 과다: {sorted(set(steps))}')
 
+    def test_end_delta_bridge(self):
+        # line + endDelta: 마지막 눈금의 두 계열 끝점 사이에 점선 브리지 + Δ·배수 라벨
+        def add(m):
+            m['chart']['endDelta'] = True
+        p = self._mutate(LN, add, 'endd.json')
+        out = self.tmp / 'endd.html'
+        code, log = run(p, out)
+        self.assertEqual(code, 0, log)
+        html = out.read_text(encoding='utf-8')
+        self.assertIn('stroke-dasharray="6 5"', html, '격차 점선 브리지 없음')
+        self.assertIn('+8.6%p · 2.6×', html, 'Δ·배수 라벨(14.1-5.5, 14.1/5.5) 없음')
+
+    def test_matrix_labels_near_points(self):
+        # 점 라벨은 점에서 ±34px(세로) 안쪽 후보 배치 — 멀리 이탈하면 실패
+        out = self.tmp / 'mx-near.html'
+        code, log = run(MX, out)
+        self.assertEqual(code, 0, log)
+        html = out.read_text(encoding='utf-8')
+        pts = [(float(m[0]), float(m[1])) for m in re.findall(r'<circle cx="([\d.]+)" cy="([\d.]+)"', html)]
+        self.assertTrue(pts, '점 없음')
+        far = 0
+        for m in re.finditer(r'<text x="([\d.]+)" y="([\d.]+)" font-size="20"[^>]*>([^<]+)</text>', html):
+            tx, ty = float(m[1]), float(m[2])
+            if not any(abs(px - tx) < 200 and abs(py - ty) < 60 for px, py in pts):
+                far += 1
+        self.assertEqual(far, 0, '점에서 이탈한 라벨이 있다')
+
     # ── --check 계약 ────────────────────────────────────────────────
     def test_check_byte_compare(self):
         out = self.tmp / 'chk.html'

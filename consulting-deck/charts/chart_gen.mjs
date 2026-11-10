@@ -386,7 +386,7 @@ const emitBadge = (svg, x, yBase, a) => {
 };
 const annFont = (a) => (a.kind === 'main' ? 24 : 20);
 const eyebrow = slide.eyebrow || `${chart.measure.unit} · ${chart.measure.period || ''}`.replace(/ · $/, '');
-const unitTag = `    <text class="k-t-tag" x="60" y="42">(단위: ${esc(chart.measure.unit)})</text>`;
+const unitTag = `    <text class="k-t-tag" x="0" y="42">(단위: ${esc(chart.measure.unit)})</text>`;
 
 function svgOpen(h, aria) {
   return [
@@ -588,7 +588,7 @@ function buildRanked() {
   const H = yy + 56;
   const svg = svgOpen(H, slide.ariaLabel || `${chart.type} — ${chart.question}`);
   svg.push(unitTag);
-  svg.push(`    <line x1="${AXIS_X}" y1="56" x2="${AXIS_X}" y2="${H - 44}" stroke="var(--line)" stroke-width="2.5"/>`);
+  svg.push(`    <line x1="${AXIS_X}" y1="56" x2="${AXIS_X}" y2="${ys[ys.length - 1] + BAR_H}" stroke="var(--line)" stroke-width="2.5"/>`);
   svg.push(`    <line x1="${AXIS_X}" y1="${H - 44}" x2="${R_EDGE}" y2="${H - 44}" stroke="var(--line)" stroke-width="2.5"/>`);
   rows.forEach((d, i) => {
     const { w, inline, below } = plans[i];
@@ -857,6 +857,19 @@ function buildLine() {
     annBy(s.name).forEach((a) => emitAnn(svg, a, Math.min(lx2 - 40, R_EDGE - 300), TOP + 10, ly2 - 10, 620));
     svg.push(`    </g>`);
   });
+  /* 끝점 격차 브리지 — 사이드카 결합 장에서 문장 캡슐 대신 수치 기호만 남긴다 */
+  if (chart.endDelta && series.length >= 2) {
+    const vA = series[0].points[n - 1], vB = series[1].points[n - 1];
+    const xE = X(n - 1), yA = Y(vA), yB = Y(vB);
+    const d = vA - vB, r = vB ? vA / vB : 0;
+    const u = chart.measure.unit === '%' ? '%p' : chart.measure.unit;
+    const dStr = u === '%p' ? (Math.round(d * 10) / 10).toFixed(1) : fmt(Math.round(d * 10) / 10);
+    const lbl = `${d > 0 ? '+' : ''}${dStr}${u} · ${fmt(Math.round(r * 10) / 10)}×`;
+    svg.push(`    <g data-step="${series.length}">`);
+    svg.push(`      <path d="M${r2(xE - 12)},${r2(yA)} L${r2(xE - 26)},${r2(yA + 8)} L${r2(xE - 26)},${r2(yB - 8)} L${r2(xE - 12)},${r2(yB)}" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="6 5"/>`);
+    svg.push(`      <text x="${r2(xE - 42)}" y="${r2((yA + yB) / 2 + 7)}" font-size="22" font-weight="800" class="k-t-o" text-anchor="end">${esc(lbl)}</text>`);
+    svg.push(`    </g>`);
+  }
   /* x 라벨에 걸린 주석 — 해당 눈금 아래 */
   data.forEach((d, i) => {
     let ay = BASE_Y + (rot ? 96 : 74);
@@ -981,12 +994,12 @@ function buildHeatmap() {
       annLane += emitAnn(svg, a, r2(gridX + c * cw + cw / 2), annLane, gridY + gridH + 8, colAnnW) + 18;
     });
   });
-  /* 농도 범례 — min→max 단일 hue 그라디언트(주석 레인 아래) */
-  const legY = totalAnnH ? annLane + 16 : gridY + gridH + 40;
+  /* 농도 범례 — min→max 단일 hue 그라디언트. 단위 태그와 같은 행의 우측 끝:
+     하단 두면 사이드카 결합 시 주석 레인·푸터와 충돌한다(재크리틱 기술-1) */
   svg.push(`    <defs><linearGradient id="hm-grad" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="var(--blue)" stop-opacity=".14"/><stop offset="1" stop-color="var(--blue)" stop-opacity=".92"/></linearGradient></defs>`);
-  svg.push(`    <text x="${gridX}" y="${r2(legY + 12)}" font-size="18" fill="var(--soft)">${esc(fmt(vmin))}</text>`);
-  svg.push(`    <rect x="${r2(gridX + 60)}" y="${r2(legY)}" width="140" height="14" rx="3" fill="url(#hm-grad)"/>`);
-  svg.push(`    <text x="${r2(gridX + 214)}" y="${r2(legY + 12)}" font-size="18" fill="var(--soft)">${esc(fmt(vmax))}</text>`);
+  svg.push(`    <text x="${R_EDGE - 196}" y="36" font-size="18" fill="var(--soft)" text-anchor="end">${esc(fmt(vmin))}</text>`);
+  svg.push(`    <rect x="${R_EDGE - 186}" y="24" width="140" height="14" rx="3" fill="url(#hm-grad)"/>`);
+  svg.push(`    <text x="${R_EDGE - 36}" y="36" font-size="18" fill="var(--soft)">${esc(fmt(vmax))}</text>`);
   return section(svg, { bars: rl.length, steps: rl.length });
 }
 
@@ -1035,23 +1048,43 @@ function buildMatrix() {
   const ANN_W = 560;
   const placed = [];
   pts.forEach((p) => {
-    const right = p.px < PX1 - 260;
-    p.right = right;
     p.lw = tw(p.d.label, 20) + 4;
-    p.lx = right ? p.px + 22 : p.px - 22;
-    p.lcx = right ? p.lx + p.lw / 2 : p.lx - p.lw / 2;   /* anchor=end 라벨은 lx 에서 왼쪽으로 뻗는다 */
-    let ly = p.py + 7;
-    /* 레인 충돌 — 기존 라벨/주석 레인(세로 26px·가로 근접) 또는 다른 점의 원(±14px) */
-    const laneHit = () =>
-      placed.some((q) => Math.abs(q.ly - ly) < 26 && Math.abs(q.cx - p.lcx) < q.hw + p.lw / 2) ||
-      pts.some((q2) => q2 !== p && Math.abs(q2.py - ly + 7) < 24 && q2.px > p.lx - p.lw - 16 && q2.px < p.lx + p.lw + 16);
-    while (laneHit() && ly < PY1 + 4) ly += 28;
-    placed.push({ ly, cx: p.lcx, hw: p.lw / 2 });
-    p.ly = ly;
+    /* 후보 배치 — 점 근처(±22px)부터 우→좌→우상→좌상→아래→위 순.
+       어느 자리도 못 찾으면 우측 자리에서 아래로 한 레인씩 민다(점에서 24px 안팎 유지).
+       재크리틱 기술-2: 같은 좌표 포개짐·점에서 200px 이탈 방지 */
+    const spot = (dx, dy, anch) => {
+      const x0 = p.px + dx, y0 = p.py + dy;
+      const l = anch === 'start' ? x0 : anch === 'end' ? x0 - p.lw : x0 - p.lw / 2;
+      const r = l + p.lw;
+      if (l < PX0 + 4 || r > PX1 - 4 || y0 < PY0 + 18 || y0 > PY1 - 4) return null;
+      const bad =
+        placed.some((q) => Math.abs(q.ly - y0) < 26 && l < q.cx + q.hw && r > q.cx - q.hw) ||
+        pts.some((q2) => q2 !== p && q2.px > l - 14 && q2.px < r + 14 && Math.abs(q2.py - (y0 - 7)) < 24);
+      return bad ? null : { lx: x0, ly: y0, anch, cx: (l + r) / 2 };
+    };
+    let s = spot(22, 7, 'start') || spot(-22, 7, 'end') ||
+            spot(22, -19, 'start') || spot(-22, -19, 'end') ||
+            spot(0, 34, 'middle') || spot(0, -22, 'middle');
+    if (!s) {
+      /* 후보 전멸 — 플롯 끝에 붙여(end→start) 아래 레인으로만 이동: viewBox 밖으로 새지 않게 */
+      for (const [anch, x0] of [['end', PX1 - 22], ['start', PX0 + 22]]) {
+        const l = anch === 'end' ? x0 - p.lw : x0, r = l + p.lw;
+        /* 자기 점이 라벨 폭 안이면 그 아래 한 레인부터 시작 — 점을 글자로 덮지 않는다 */
+        let y0 = (p.px > l - 8 && p.px < r + 8) ? p.py + 40 : p.py + 7;
+        const hit = () =>
+          placed.some((q) => Math.abs(q.ly - y0) < 26 && l < q.cx + q.hw && r > q.cx - q.hw) ||
+          pts.some((q2) => q2 !== p && q2.px > l - 14 && q2.px < r + 14 && Math.abs(q2.py - (y0 - 7)) < 24);
+        while (hit() && y0 < PY1 - 4) y0 += 28;
+        if (y0 <= PY1 - 4) { s = { lx: x0, ly: y0, anch, cx: (l + r) / 2 }; break; }
+      }
+      if (!s) s = { lx: p.px + 22, ly: p.py + 7, anch: 'start', cx: p.px + 22 + p.lw / 2 };
+    }
+    placed.push({ ly: s.ly, cx: s.cx, hw: p.lw / 2 });
+    p.lx = s.lx; p.ly = s.ly; p.lcx = s.cx; p.anch = s.anch;
     /* 주석 줄 — 이 점의 라벨 아래에 이어서 배치하고 레인에 등록한다(나중 점이 피한다) */
     const anns2 = annBy(p.d.label);
     if (!anns2.length) { p.annTop = null; return; }
-    let ay = ly + 32, first = null;
+    let ay = p.ly + 32, first = null;
     const annHit = (w2) =>
       placed.some((q) => Math.abs(q.ly - ay) < 26 && Math.abs(q.cx - p.px) < q.hw + w2 / 2) ||
       pts.some((q2) => q2 !== p && Math.abs(q2.py - ay + 6) < 26 && Math.abs(q2.px - p.px) < w2 / 2 + 16);
@@ -1071,12 +1104,12 @@ function buildMatrix() {
   const emitPoint = (p) => {
     const { px, py, hot, d } = p;
     svg.push(`      <circle cx="${r2(px)}" cy="${r2(py)}" r="${hot ? 13 : 10}" fill="${hot ? 'var(--accent)' : 'var(--track-strong)'}" opacity="${hot ? '.95' : '.78'}"/>`);
-    /* 라벨이 한 레인 이상 밀려났으면 점→라벨 리더선을 긋는다 */
-    if (p.ly - p.py > 26)
+    /* 라벨이 원래 자리에서 한 레인 이상 밀려났을 때만 점→라벨 리더선을 긋는다 */
+    if (Math.abs(p.ly - (p.py + 7)) > 20)
       svg.push(`      <path d="M${r2(px)},${r2(py + 12)} L${r2(p.lcx)},${r2(p.ly - 16)}" fill="none" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="3 4"/>`);
-    svg.push(`      <text x="${r2(p.lx)}" y="${r2(p.ly)}" font-size="20" font-weight="${hot ? 800 : 600}" fill="var(--ink)" text-anchor="${p.right ? 'start' : 'end'}">${esc(d.label)}</text>`);
+    svg.push(`      <text x="${r2(p.lx)}" y="${r2(p.ly)}" font-size="20" font-weight="${hot ? 800 : 600}" fill="var(--ink)" text-anchor="${p.anch}" paint-order="stroke" stroke="var(--paper)" stroke-width="4" stroke-linejoin="round">${esc(d.label)}</text>`);
     if (p.annTop != null)
-      annBy(d.label).forEach((a) => emitAnn(svg, a, Math.max(PX0 + 80, Math.min(px, PX1 - 80)), p.annTop, p.ly + 8, ANN_W));
+      annBy(d.label).forEach((a) => emitAnn(svg, a, Math.max(PX0 + 80, Math.min(px, PX1 - 80)), p.annTop, p.annTop - p.ly > 40 ? p.ly + 8 : null, ANN_W));
   };
   svg.push(`    <g data-step="2">`);
   pts.filter((p) => !p.hot).forEach(emitPoint);
@@ -1091,14 +1124,16 @@ function buildMatrix() {
 function buildTornado() {
   const rows = [...data].sort((a, b) => (b.high - b.low) - (a.high - a.low) || String(a.label).localeCompare(String(b.label)));
   const ROW = 84, BAR_H = 52, TOP = 64;
-  const ZERO = Math.round(VBW / 2) + 50, HALF = Math.min(560, R_EDGE - ZERO - 60), LABEL_X = ZERO - HALF - 24;
+  /* 행 라벨이 캔버스 왼쪽 밖으로 새지 않게 HALF 를 라벨 폭으로도 상한한다(사이드카 1040 폭) */
+  const ZERO = Math.round(VBW / 2) + 50, LBL_W = Math.max(...rows.map((d) => tw(d.label, 26))) + 32;
+  const HALF = Math.min(560, R_EDGE - ZERO - 60, ZERO - LBL_W - 24), LABEL_X = ZERO - HALF - 24;
   const maxA = Math.max(...rows.flatMap((d) => [Math.abs(d.low), Math.abs(d.high)]), 1e-9);
   /* 행별 주석 줄 수만큼 행 높이를 늘린다 — 2줄 주석이 다음 행 막대와 겹치는 것을 막는다(agy 치명-2/3) */
   const rowExtra = rows.map((d) => {
     const lines = annBy(d.label).reduce((a2, an) => a2 + wrapLines(an.label, 900 - ANN_PAD, annFont(an)).length, 0);
     return lines ? lines * 24 + 14 : 0;
   });
-  const H = TOP + rows.reduce((a2, _d, i) => a2 + ROW + rowExtra[i], 0) + 56;
+  const H = TOP + rows.reduce((a2, _d, i) => a2 + ROW + rowExtra[i], 0) + 76;   /* X축 눈금-방법론 줄 12px+ */
   const svg = svgOpen(H, slide.ariaLabel || `${chart.type} — ${chart.question}`);
   svg.push(unitTag);
   svg.push(`    <line x1="${ZERO - HALF}" y1="${H - 56}" x2="${ZERO + HALF}" y2="${H - 56}" stroke="var(--soft)" stroke-width="3"/>`);

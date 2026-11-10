@@ -38,13 +38,6 @@
     "highlight": [
       "현장 확신(비C실무)"
     ],
-    "annotations": [
-      {
-        "label": "구석실에서 멀어질수록 확신은 62→48% — 전환의 진짜 과제는 현장 확신을 만드는 것",
-        "on": "현장 확신(비C실무)",
-        "kind": "main"
-      }
-    ],
     "canvas": "sidecar",
     "sidecar": {
       "v": "48",

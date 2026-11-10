@@ -90,18 +90,7 @@
         "y": 8.4
       }
     ],
-    "annotations": [
-      {
-        "label": "우상단 3건 = 첫 90일 착수 분량",
-        "on": "수요예측 에이전트",
-        "kind": "main"
-      },
-      {
-        "label": "가치 최대 — 데이터 준비 후 2단계",
-        "on": "운임·경로",
-        "kind": "sub"
-      }
-    ],
+    "annotations": [],
     "sidecar": {
       "v": "3",
       "unit": "개",
