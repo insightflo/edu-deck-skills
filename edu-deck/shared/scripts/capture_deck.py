@@ -55,6 +55,13 @@ def main():
         for i in range(n):
             pg.evaluate(f'window.deckGo({i}, 99)')
             pg.wait_for_timeout(700)
+            # stack-fig(Architecture Kit) 노드 등장은 시차 애니메이션(최대 ~3.2s)이다 —
+            # is-play 가 남아 있으면 끝날 때까지 기다려야 완성 상태가 찍힌다
+            try:
+                pg.wait_for_function("!document.querySelector('.stack-fig.is-play')", timeout=4000)
+            except Exception:
+                pass
+            pg.wait_for_timeout(150)
             pg.screenshot(path=str(out / f's{i + 1:02d}.png'))
         if n > 1:
             pg.evaluate('window.deckGo(0, 99)')
