@@ -95,8 +95,8 @@
 /* 사이드카 — 차트 68% + 시사점 칼럼 32%: 상단 3px accent 룰·헤드라인 수치·불릿 2~3개.
    차트 장은 '증거+시사점' 짝으로 둔다(consulting-layouts.md §3·§6) */
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar{display:grid;grid-template-columns:68fr 32fr;gap:var(--s4);flex:1;min-height:0}
-.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .c-sidecar-main{min-width:0;display:flex;flex-direction:column}
-.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .c-sidecar-main .dg{width:100%;height:auto}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .c-sidecar-main{min-width:0;min-height:0;display:flex;flex-direction:column}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .c-sidecar-main .dg{width:100%;height:auto;max-height:100%;margin:auto 0}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .c-sidecar-panel{border-top:3px solid var(--accent);padding-top:var(--s3);display:flex;flex-direction:column;gap:var(--s3)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .sc-k{font-size:21px;font-weight:800;letter-spacing:2.5px;color:var(--accent-text)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .sc-v{font-size:64px;font-weight:800;line-height:1;color:var(--ink);font-family:var(--c-num-font);font-variant-numeric:tabular-nums}

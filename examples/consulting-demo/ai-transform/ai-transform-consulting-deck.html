@@ -5478,7 +5478,7 @@ doc.addEventListener('keydown',function(e){
     });
 
     // 화살표
-    const base = 150 + o.nodes.length * 80;
+    const base = 150 + o.nodes.length * 80, labs = [];
     (o.edges || []).forEach((e, j) => {
       const a = N[e.from], b = N[e.to], kind = e.kind || 'main';
       const rev = o.edges.some((x) => x.from === e.to && x.to === e.from), fwd = a.row < b.row || (a.row === b.row && a.col < b.col);
@@ -5489,7 +5489,21 @@ doc.addEventListener('keydown',function(e){
         const t = mk('text', { x: lab.x, y: lab.y, 'text-anchor': lab.a, class: 'sf-el' }, ll);
         t.setAttribute('style', `--d:${base + j * 110 + 300}ms`);
         t.textContent = fit(e.label, 104, 14, 600, family);
+        labs.push({ t, x: lab.x, y: lab.y, a: lab.a, w: mcv.measureText(t.textContent).width });
       }
+    });
+    // 라벨끼리 겹치면 뒤쪽을 같은 행간 띠 안에서 위아래로 비켜 준다
+    const lbox = (L, y) => ({ x0: L.a === 'middle' ? L.x - L.w / 2 : L.a === 'end' ? L.x - L.w : L.x, x1: L.a === 'middle' ? L.x + L.w / 2 : L.a === 'end' ? L.x : L.x + L.w, y });
+    const placed = [];
+    labs.forEach((L) => {
+      for (const dy of [0, 21, -21, 42]) {
+        const b = lbox(L, L.y + dy);
+        if (!placed.some((q) => b.x0 < q.x1 && b.x1 > q.x0 && Math.abs(b.y - q.y) < 18)) {
+          if (dy) { L.y += dy; L.t.setAttribute('y', L.y); }
+          break;
+        }
+      }
+      placed.push(lbox(L, L.y));
     });
 
     // 노드

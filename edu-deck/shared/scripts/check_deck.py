@@ -1101,8 +1101,13 @@ RENDER_JS = r"""
     let fs = parseFloat(c.fontSize);
     if (e instanceof SVGElement && e.getScreenCTM) { const m = e.getScreenCTM(); if (m) fs *= Math.hypot(m.c, m.d) || 1; }
     if (fs === 0) continue;
-    if (fs < 18) out.push({sev: 'ERROR', kind: '글자 크기', target: desc(e), msg: desc(e) + ' ' + fs.toFixed(1) + 'px (18px 미만)'});
-    else if (fs < 20) out.push({sev: 'WARN', kind: '글자 크기', target: desc(e), msg: desc(e) + ' ' + fs.toFixed(1) + 'px (20px 미만)'});
+    // 아키텍처 내부 마이크로 타이포 계약 — 도식(svg.dg) 안의 장비 spec·수량·헤더 수치
+    // (k-t-spec·k-t-eq·k-t-qty)에만 12px 이상을 허용한다. 기호성 라벨이라 읽기 주체가
+    // 본문이 아니라 장비 도면의 표기이며, 범위는 이 세 클래스로 엄격히 한정한다
+    // (근거: shared/references/architecture.md "마이크로 타이포 계약").
+    const micro = e.closest('svg.dg') && (e.getAttribute('class') || '').match(/\bk-t-(spec|eq|qty)\b/);
+    if (fs < (micro ? 12 : 18)) out.push({sev: 'ERROR', kind: '글자 크기', target: desc(e), msg: desc(e) + ' ' + fs.toFixed(1) + 'px (' + (micro ? 12 : 18) + 'px 미만)'});
+    else if (!micro && fs < 20) out.push({sev: 'WARN', kind: '글자 크기', target: desc(e), msg: desc(e) + ' ' + fs.toFixed(1) + 'px (20px 미만)'});
     const pos = positioned(e, null);
     if (!coverFree(e) && !pos) {
       let box = null; for (let x = e.parentElement; x && x !== slide; x = x.parentElement) { if (isBox(x)) { box = x; break; } }

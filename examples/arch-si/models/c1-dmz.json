@@ -1,124 +1,156 @@
 {
-  "title": "DMZ 이중 방화벽 — 443·8080·1521 3단 포트 격리",
-  "eyebrow": "SI 유형 C1 · 인프라 — DMZ 논리 2D",
-  "small": "인수인계 포인트 — 개방 포트는 443·8080·1521 3구간뿐이다. 정책 변경도 이 기준으로 낸다.",
-  "ariaLabel": "DMZ 논리 구성도: 외부 사용자가 WAF와 DMZ 경계 방화벽을 거쳐 웹 서버 2대로 들어가고, 내부 경계 방화벽을 지나 WAS 2대와 주 DB에 닿는다. 선은 연결 가능성만 나타낸다",
-  "titleSvg": "DMZ 논리 — 3존 띠·신뢰 경계 2·포트 라벨",
-  "notes": "P0 인프라 논리도. 9노드 전원 개별(대수 보존)·장비 형상이 아닌 아이콘+역할로 구분(방패=WAF·불꽃=FW). 외부·DMZ·내부 3개 면색 소속 띠와 사이 신뢰 경계 2개. 선은 전부 연결 가능성(포트)이며 회선·케이블 종류는 표기하지 않는다. 1단계 존·경계, 2단계 장비, 3단계 연결.",
+  "title": "공통 DMZ 구간 — 외부 채널 통합",
+  "eyebrow": "SI 유형 C1 · 공통 구간 세부",
+  "theme": "blueprint",
+  "chrome": "blueprint",
+  "serial": "011",
+  "small": "인수인계 포인트 — 외부 채널이 생길 때마다 별도 존을 만들지 않는다. DMZ 대역을 재사용하고 경계 정책만 추가한다.",
+  "ariaLabel": "공통 DMZ 구성도: 외부기관이 DMZ 대역의 WAF·경계 방화벽·WEB 계층을 거쳐 신뢰 경계 안 내부망의 WAS·DB에 닿는다. DMZ와 내부망이 수직으로 분리된 대역으로 그려진다",
+  "titleSvg": "공통 DMZ — 수직 분리 대역·T-드롭 버스",
+  "notes": "공통 DMZ 장 — 블루프린트 개편 시연. 외부망/DMZ/내부망을 솔리드 헤더 존으로 수직 분리하고, DMZ 안은 전방 방어·WEB 두 하위존으로 나눈다. FW→WEB·WAS→DB 연결은 T-드롭 버스, IDS 미러·모니터링은 aux 보조선. 신뢰 경계는 내부망 상단 수평 경계선. 1단계 존·경계, 2단계 노드, 3단계 연결.",
   "layout": {
     "dir": "LR",
-    "nodesep": 150,
-    "ranksep": 60,
-    "chipAvoid": true
+    "nodesep": 10,
+    "ranksep": 30,
+    "edgesep": 16
   },
+  "hints": [
+    {
+      "from": "waf",
+      "to": "ids"
+    },
+    {
+      "from": "web1",
+      "to": "monitor"
+    },
+    {
+      "from": "was2",
+      "to": "monitor"
+    }
+  ],
   "nodes": [
     {
-      "id": "u-ext",
-      "name": "외부 사용자",
-      "role": "인터넷",
-      "icon": "i-people",
+      "id": "ext",
+      "name": "외부기관",
+      "icon": "i-building",
       "shape": "circle",
       "fam": "blue",
-      "w": 136,
-      "h": 136
+      "w": 92
+    },
+    {
+      "id": "partner",
+      "name": "협력기관",
+      "icon": "i-people",
+      "shape": "circle",
+      "fam": "paper",
+      "w": 92
     },
     {
       "id": "waf",
       "name": "WAF",
-      "role": "웹방화벽",
-      "icon": "i-shield",
-      "fam": "orange",
-      "w": 136,
-      "h": 144
+      "template": "equip",
+      "spec": "웹 공격 차단",
+      "icon": "i-si-waf",
+      "fam": "orange"
     },
     {
       "id": "fw1",
       "name": "FW-1",
-      "role": "DMZ 경계",
-      "icon": "i-fire",
-      "fam": "orange",
-      "w": 136,
-      "h": 144
+      "template": "equip",
+      "spec": "경계 방화벽",
+      "icon": "i-si-fw",
+      "fam": "orange"
+    },
+    {
+      "id": "ids",
+      "name": "IDS",
+      "template": "equip",
+      "spec": "침입탐지·미러",
+      "icon": "i-si-mon",
+      "fam": "orange"
     },
     {
       "id": "web1",
       "name": "WEB-1",
-      "role": "정적·TLS 종단",
-      "icon": "i-window",
-      "fam": "paper",
-      "w": 136,
-      "h": 144
+      "template": "equip",
+      "spec": "정적·프록시",
+      "icon": "i-si-rack",
+      "fam": "paper"
     },
     {
       "id": "web2",
       "name": "WEB-2",
-      "role": "정적·TLS 종단",
-      "icon": "i-window",
-      "fam": "paper",
-      "w": 136,
-      "h": 144
+      "template": "equip",
+      "spec": "정적·프록시",
+      "icon": "i-si-rack",
+      "fam": "paper"
     },
     {
       "id": "fw2",
       "name": "FW-2",
-      "role": "내부 경계",
-      "icon": "i-fire",
-      "fam": "orange",
-      "w": 136,
-      "h": 144
+      "template": "equip",
+      "spec": "내부 경계",
+      "icon": "i-si-fw",
+      "fam": "orange"
     },
     {
       "id": "was1",
       "name": "WAS-1",
-      "role": "업무 처리",
-      "icon": "i-gear",
-      "fam": "paper",
-      "w": 136,
-      "h": 144
+      "template": "equip",
+      "spec": "업무 처리",
+      "icon": "i-si-vm",
+      "fam": "paper"
     },
     {
       "id": "was2",
       "name": "WAS-2",
-      "role": "업무 처리",
-      "icon": "i-gear",
-      "fam": "paper",
-      "w": 136,
-      "h": 144
+      "template": "equip",
+      "spec": "업무 처리",
+      "icon": "i-si-vm",
+      "fam": "paper"
     },
     {
       "id": "db1",
       "name": "DB-주",
-      "role": "Oracle",
-      "icon": "i-db",
-      "fam": "paper",
-      "w": 136,
-      "h": 144,
-      "state": "ok"
+      "template": "equip",
+      "spec": "Oracle 19c",
+      "icon": "i-si-db",
+      "fam": "paper"
+    },
+    {
+      "id": "db2",
+      "name": "DB-대기",
+      "template": "equip",
+      "spec": "Standby",
+      "icon": "i-si-db",
+      "fam": "paper"
+    },
+    {
+      "id": "monitor",
+      "name": "관제",
+      "template": "equip",
+      "spec": "헬스·알람",
+      "icon": "i-si-mon",
+      "fam": "orange"
     }
   ],
   "edges": [
     {
-      "from": "u-ext",
+      "from": "ext",
       "to": "waf",
       "label": "443",
       "kind": "b",
       "flow": true
     },
     {
+      "from": "partner",
+      "to": "waf",
+      "label": "443",
+      "kind": "b"
+    },
+    {
       "from": "waf",
       "to": "fw1",
-      "label": "443",
-      "kind": "b"
-    },
-    {
-      "from": "fw1",
-      "to": "web1",
-      "label": "443",
-      "kind": "b"
-    },
-    {
-      "from": "fw1",
-      "to": "web2",
       "label": "443",
       "kind": "b"
     },
@@ -135,106 +167,229 @@
       "kind": "b"
     },
     {
-      "from": "fw2",
-      "to": "was1",
-      "label": "8080",
-      "kind": "b"
+      "from": "ids",
+      "to": "fw2",
+      "label": "미러",
+      "kind": "g",
+      "aux": true
     },
     {
-      "from": "fw2",
-      "to": "was2",
-      "label": "8080",
-      "kind": "b"
+      "from": "monitor",
+      "to": "db1",
+      "label": "헬스",
+      "kind": "g",
+      "aux": true
+    },
+    {
+      "from": "monitor",
+      "to": "fw2",
+      "label": "헬스",
+      "kind": "g",
+      "aux": true
     },
     {
       "from": "was1",
-      "to": "db1",
-      "label": "1521",
-      "kind": "b"
+      "to": "db2",
+      "label": "복제",
+      "kind": "g",
+      "aux": true
+    }
+  ],
+  "buses": [
+    {
+      "id": "bus-web",
+      "label": "DMZ 내부 10G",
+      "style": "trunk",
+      "from": [
+        "fw1"
+      ],
+      "to": [
+        "web1",
+        "web2"
+      ]
     },
     {
-      "from": "was2",
-      "to": "db1",
-      "label": "1521",
-      "kind": "b"
+      "id": "bus-was",
+      "label": "내부망 10G",
+      "style": "trunk",
+      "from": [
+        "fw2"
+      ],
+      "to": [
+        "was1",
+        "was2"
+      ]
+    },
+    {
+      "id": "bus-db",
+      "label": "DB 접속 1521",
+      "style": "san",
+      "from": [
+        "was1",
+        "was2"
+      ],
+      "to": [
+        "db1",
+        "db2"
+      ]
     }
+  ],
+  "haPairs": [
+    [
+      "web1",
+      "web2",
+      "L4"
+    ],
+    [
+      "was1",
+      "was2",
+      "L4"
+    ],
+    [
+      "db1",
+      "db2",
+      "A/S"
+    ]
   ],
   "zones": [
     {
       "id": "z-ext",
-      "label": "외부",
-      "kind": "member",
+      "label": "외부망",
+      "headerStyle": "solid-navy",
       "members": [
-        "u-ext"
+        "ext",
+        "partner"
       ],
       "pad": {
-        "top": 240,
-        "bottom": 190,
-        "side": 24
+        "top": 32,
+        "bottom": 16,
+        "side": 20
       }
     },
     {
       "id": "z-dmz",
-      "label": "DMZ",
-      "kind": "member",
-      "labelPos": "bottom",
+      "label": "DMZ 대역 (공용 채널)",
+      "headerStyle": "solid-blue",
+      "members": [],
+      "pad": {
+        "top": 32,
+        "bottom": 20,
+        "side": 18
+      }
+    },
+    {
+      "id": "z-front",
+      "label": "전방 방어",
+      "parent": "z-dmz",
+      "headerStyle": "tinted",
       "members": [
         "waf",
         "fw1",
+        "ids"
+      ]
+    },
+    {
+      "id": "z-web",
+      "label": "WEB 계층",
+      "parent": "z-dmz",
+      "headerStyle": "tinted",
+      "members": [
         "web1",
         "web2"
-      ],
-      "pad": {
-        "top": 68,
-        "bottom": 56,
-        "side": 24
-      }
+      ]
     },
     {
       "id": "z-int",
-      "label": "내부",
-      "kind": "member",
-      "members": [
-        "fw2",
-        "was1",
-        "was2",
-        "db1"
-      ],
+      "label": "내부망 (신뢰 구간)",
+      "headerStyle": "solid-navy",
+      "members": [],
       "pad": {
-        "top": 68,
-        "bottom": 56,
-        "side": 24
+        "top": 32,
+        "bottom": 20,
+        "side": 18
       }
     },
     {
-      "id": "b1",
-      "label": "신뢰 경계",
-      "between": [
-        "z-ext",
-        "z-dmz"
-      ],
-      "labelAt": "top"
+      "id": "z-was",
+      "label": "응용 계층",
+      "parent": "z-int",
+      "headerStyle": "tinted",
+      "members": [
+        "fw2",
+        "was1",
+        "was2"
+      ]
     },
     {
-      "id": "b2",
-      "label": "신뢰 경계",
-      "between": [
-        "z-dmz",
-        "z-int"
-      ],
-      "labelAt": "top"
+      "id": "z-db",
+      "label": "데이터·관제",
+      "parent": "z-int",
+      "headerStyle": "tinted",
+      "members": [
+        "db1",
+        "db2",
+        "monitor"
+      ]
     }
   ],
-  "legend": [
+  "legendStyle": "bar",
+  "legendItems": [
     {
       "kind": "b",
-      "label": "연결 가능성(포트)"
+      "label": "동기 호출·포트"
     },
     {
-      "fam": "orange",
-      "label": "경계 보안 장비"
+      "kind": "g",
+      "label": "보조·미러"
+    },
+    {
+      "icon": "i-si-fw",
+      "label": "경계 보안"
+    },
+    {
+      "icon": "i-si-rack",
+      "label": "가상 장비"
+    },
+    {
+      "badge": "existing",
+      "label": "기존"
     }
   ],
+  "sidePanel": {
+    "eyebrow": "정책 요약",
+    "title": "개방 포트·구간",
+    "sections": [
+      {
+        "t": "개방 포트",
+        "columns": [
+          "구간",
+          "포트"
+        ],
+        "rows": [
+          [
+            "외부→DMZ",
+            "443"
+          ],
+          [
+            "DMZ→내부",
+            "8080"
+          ],
+          [
+            "응용→DB",
+            "1521"
+          ]
+        ]
+      },
+      {
+        "t": "핵심 원칙",
+        "items": [
+          "외부 채널은 DMZ 대역 재사용",
+          "내부망 직접 접근 차단",
+          "WEB·WAS·DB 이중화"
+        ]
+      }
+    ]
+  },
   "steps": {
     "zones": 1,
     "nodes": 2,

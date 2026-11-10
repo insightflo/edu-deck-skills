@@ -67,6 +67,54 @@ body,.slide,.pack{font-family:'Pretendard Variable',sans-serif}
 .k-t-w{fill:var(--paper)}
 .k-t-o{fill:var(--accent-text)}
 .k-t-b{fill:var(--blue-text)}
+/* ── SI 블루프린트 확장(architecture overhaul) ──
+   존 솔리드 헤더·버스·HA·복합 노드·범례 바는 k-* 어휘를 잇는다.
+   k-t-eq·k-t-spec·k-t-qty 는 도식 내부 마이크로 타이포 계약(checker 허용 하한: 렌더링 12px) — 장비 spec·
+   포트·수량처럼 기호성 글자에만 쓰며, check_deck 의 18px 하한 예외는 이 세 클래스와
+   .arch-blueprint 범위로 국한된다(계약 근거: references/architecture.md). */
+.k-zface{fill:#fff;stroke:var(--line);stroke-width:1.5}
+.k-zface-t{fill:var(--blue-soft);fill-opacity:.45;stroke:var(--line);stroke-width:1.5}
+.k-zbar-n{fill:var(--bp-navy,#0f172a)}
+.k-zbar-b{fill:var(--bp-royal,#1d4ed8)}
+.k-t-zh{font-size:22px;font-weight:800;fill:#fff}
+.k-t-eq{font-size:16px;font-weight:700;fill:var(--ink)}
+.k-t-spec{font-size:15px;font-weight:600;fill:var(--soft)}
+.k-t-qty{font-size:15px;font-weight:800;fill:#fff}
+.k-qty circle{fill:var(--accent)}
+.k-clus{fill:#fff;stroke:var(--line);stroke-width:1.5}
+.k-clus-hd{fill:var(--blue);stroke:none}
+.k-chip{fill:var(--paper);stroke:var(--line);stroke-width:1}
+.k-res{fill:var(--muted);fill-opacity:.4}
+.k-res-f{fill:var(--blue)}
+.k-bus-trunk{fill:none;stroke:var(--blue);stroke-width:6;stroke-linecap:round}
+.k-bus-san{fill:none;stroke:var(--danger);stroke-width:5;stroke-linecap:round}
+.k-bus-lan{fill:none;stroke:var(--line);stroke-width:4;stroke-linecap:round}
+.k-bus-trunk-dot{fill:var(--blue)}
+.k-bus-san-dot{fill:var(--danger)}
+.k-bus-lan-dot{fill:var(--line)}
+.k-ha{stroke:var(--blue);stroke-width:2.5}
+.k-hab circle{fill:var(--blue)}
+.k-legbar{fill:var(--light);stroke:var(--line);stroke-width:1}
+/* theme:'blueprint' — 아키텍처 장 전용 쿨 화이트 계획도 면(warm beige 제거).
+   스코프 토큰 오버라이드라 다른 장·다른 덱에는 영향이 없다. */
+.slide.arch-blueprint{--paper:#ffffff;--light:#f8fafc;--ink:#0f172a;--soft:#334155;--line:#94a3b8;--blue:#1d4ed8;--blue-text:#1e40af;--blue-soft:#dbeafe;--accent:#d97706;--accent-text:#b45309;--accent-soft:color-mix(in srgb,#d97706 10%,#fff);--muted:#cbd5e1;--danger:#dc2626;--bp-navy:#0f172a;--bp-royal:#1d4ed8;background:#f8fafc}
+/* chrome:'blueprint' — 1행 컴팩트 헤더(일련번호·제목·아이브로) */
+.bp-head{display:flex;align-items:baseline;gap:18px;min-height:56px;border-bottom:2px solid var(--ink);padding-bottom:8px}
+.bp-head .title{margin:0;font-size:40px;line-height:1.2}
+.bp-serial{font-size:22px;font-weight:800;color:var(--blue);font-variant-numeric:tabular-nums}
+.bp-serial::before{content:"["}
+.bp-serial::after{content:"]"}
+.bp-eyebrow{margin-left:auto;font-size:18px;font-weight:700;color:var(--soft);letter-spacing:.08em}
+/* sidePanel — 도식 우측 스펙 시트 열(BOM·핵심 목록·스택 요약) */
+.arch-side{flex:0 0 280px;min-width:280px;box-sizing:border-box;display:flex;flex-direction:column;gap:14px;background:var(--paper);border:1.5px solid var(--line);border-radius:12px;padding:18px;overflow:hidden}
+.arch-side-t{margin:0;font-size:26px;font-weight:800;color:var(--ink)}
+.arch-side-blk{display:flex;flex-direction:column;gap:8px;min-height:0}
+.arch-side-h{margin:0;font-size:20px;font-weight:800;color:var(--blue-text)}
+.arch-side-tb{width:100%;border-collapse:collapse}
+.arch-side-tb th{text-align:left;font-size:18px;font-weight:800;color:var(--soft);border-bottom:2px solid var(--ink);padding:4px 6px}
+.arch-side-tb td{font-size:18px;color:var(--ink);border-bottom:1px solid var(--line);padding:5px 6px}
+.arch-side-ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:18px;line-height:1.45;color:var(--ink)}
+.arch-side-p{margin:0;font-size:18px;line-height:1.5;color:var(--soft)}
 /* 다크 슬라이드 "면 위가 아니라 슬라이드 바탕 위" 도식 글자 표식(k-ds) — .dark .eyebrow 와 같은
    어댑테이션. 밝은 도형(k-paper/k-blue/k-orange) 위의 잉크 글자는 표식하지 않는다. */
 .slide.dark .k-ds{fill:var(--light)}

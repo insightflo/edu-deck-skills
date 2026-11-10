@@ -232,11 +232,19 @@ class BoundaryLabelTest(unittest.TestCase):
         m2 = re.search(r'<text[^>]*y="([\d.]+)"[^>]*>' + re.escape(label) + r'</text>', svg)
         self.assertIsNotNone(m2, f'경계 라벨 "{label}" 텍스트를 찾지 못했다')
         y_label = float(m2.group(1))
-        # 단일 존 경계(between:[z]) — 라벨은 존 하단(y1) 밖에 있어야 한다
-        zid = bounds[0]['between'][0]
-        zr = next(z['r'] for z in coords['zones'] if z['id'] == zid)
-        self.assertGreater(y_label, zr['y1'],
-                           f'경계 라벨 y={y_label} 가 존 하단 {zr["y1"]} 안에 있다(정규화 미적용 버그 회귀)')
+        zrs = [next(z['r'] for z in coords['zones'] if z['id'] == zid) for zid in bounds[0]['between']]
+        # 경계선 방향 판별 — 수직선(좌우 분리)이면 라벨은 두 존 위(선 상단)에,
+        # 수평선(상하 분리)이면 첫 존 하단 밖에 놓인다. 둘 다 존 사각형 밖이 계약이다.
+        pline = re.search(r'<polyline points="([^"]+)"[^>]*stroke-dasharray="11 9"', svg)
+        self.assertIsNotNone(pline, '경계 polyline 없음')
+        pts = [tuple(map(float, p.split(','))) for p in pline.group(1).split()]
+        vertical = abs(pts[-1][0] - pts[0][0]) < 2
+        if vertical:
+            self.assertLess(y_label, min(z['y0'] for z in zrs),
+                            f'수직 경계 라벨 y={y_label} 가 존 상단 안쪽에 있다')
+        else:
+            self.assertGreater(y_label, zrs[0]['y1'],
+                               f'경계 라벨 y={y_label} 가 존 하단 {zrs[0]["y1"]} 안에 있다(정규화 미적용 버그 회귀)')
 
 
 class FallbackChipTest(unittest.TestCase):
@@ -273,6 +281,100 @@ class ChipAvoidTest(unittest.TestCase):
             return a[0] < b[0] + b[2] and a[0] + a[2] > b[0] and a[1] < b[1] + 36 and a[1] + 36 > b[1]
         bad = [(a, b) for a, b in itertools.combinations(chips, 2) if ov(a, b)]
         self.assertFalse(bad, f'라벨 칩 겹침 {len(bad)}건')
+
+
+class OrthoRouteTest(unittest.TestCase):
+    """직교 배선 계약 — 방출된 path·line·polyline 세그먼트에 사선이 없어야 한다."""
+
+    def test_no_diagonal_segments(self):
+        svg = gen(m(edges=[
+            {'from': 'a', 'to': 'b'}, {'from': 'a', 'to': 'c'},
+            {'from': 'b', 'to': 'd'}, {'from': 'd', 'to': 'a', 'aux': True},
+        ]))
+        body = svg[svg.find('<svg'):svg.find('</svg>')]
+        diag = 0
+        for d in re.findall(r'<path[^>]*d="([^"]+)"', body):
+            pts = [(float(a), float(b)) for a, b in re.findall(r'[MLQ]\s*([\d.\-]+)\s+([\d.\-]+)', d)]
+            diag += sum(1 for i in range(1, len(pts))
+                        if abs(pts[i][0] - pts[i-1][0]) > 0.5 and abs(pts[i][1] - pts[i-1][1]) > 0.5)
+        self.assertEqual(diag, 0, '사선 세그먼트 발견')
+
+
+class NestedZoneTest(unittest.TestCase):
+    """존 중첩은 parent 체인으로 3단계까지 — 4단계는 FAIL."""
+
+    def _zones(self):
+        return [
+            {'id': 'l1', 'label': 'L1', 'members': [], 'headerStyle': 'solid-navy'},
+            {'id': 'l2', 'label': 'L2', 'members': ['a', 'b'], 'parent': 'l1'},
+            {'id': 'l3', 'label': 'L3', 'members': ['c'], 'parent': 'l2'},
+            {'id': 'l4', 'label': 'L4', 'members': ['d'], 'parent': 'l3'},
+        ]
+
+    def test_three_levels_emit(self):
+        svg = gen(m(zones=self._zones()[:3]))
+        self.assertIn('k-zface', svg)
+        self.assertIn('L3', svg)
+
+    def test_fourth_level_fails(self):
+        r = subprocess.run(['node', str(GEN), self._tmp(self._zones()), '-o', '/dev/null'],
+                           capture_output=True, text=True)
+        self.assertNotEqual(r.returncode, 0)
+        self.assertIn('중첩', r.stderr)
+
+    @staticmethod
+    def _tmp(zones):
+        import tempfile, os
+        f = tempfile.NamedTemporaryFile('w', suffix='.json', delete=False, encoding='utf-8')
+        json.dump(m(zones=zones), f, ensure_ascii=False)
+        f.close()
+        return f.name
+
+
+class BusHATest(unittest.TestCase):
+    """버스 = 백본 + T-드롭(draw 예산 밖)·from×to 점대점 자동 제거 / HA쌍 = 이중선."""
+
+    def test_bus_trunk_drops_and_dedupe(self):
+        svg = gen(m(edges=[{'from': 'a', 'to': 'c'}, {'from': 'b', 'to': 'c'}],
+                    buses=[{'id': 'bs', 'from': ['a'], 'to': ['c', 'd']}]))
+        self.assertIn('k-bus-trunk', svg)
+        body = svg[svg.find('<svg'):svg.find('</svg>')]
+        # 백본 1 + from 1개·to 2개 T-드롭 = 4개 polyline
+        self.assertEqual(len(re.findall(r'<polyline class="k-bus-', body)), 4)
+
+    def test_ha_pair_double_line(self):
+        svg = gen(m(haPairs=[['a', 'b']]))
+        self.assertIn('k-hab', svg)
+        self.assertGreaterEqual(svg.count('class="k-ha"'), 2)
+
+
+class MicroTypoTest(unittest.TestCase):
+    """마이크로 타이포 계약 — k-t-spec/eq/qty 는 svg.dg 안에서만 12px+ 허용.
+    계약 근거는 architecture.md 문서 + check_deck 스코프 규칙 + CSS 크기다."""
+
+    def test_checker_keeps_scoped_rule(self):
+        src = (S / 'scripts' / 'check_deck.py').read_text(encoding='utf-8')
+        self.assertIn('k-t-(spec|eq|qty)', src)
+        self.assertIn('svg.dg', src)
+
+    def test_css_sizes_within_contract(self):
+        css = (S / 'assets' / 'css' / 'visual-motion.css').read_text(encoding='utf-8')
+        for cls in ('k-t-spec', 'k-t-eq', 'k-t-qty'):
+            mt = re.search(rf'\.{cls}\{{[^}}]*font-size:(\d+)px', css)
+            self.assertIsNotNone(mt, f'{cls} 크기 정의 없음')
+            self.assertTrue(12 <= int(mt.group(1)) <= 16, f'{cls} {mt.group(1)}px — 12~16px 계약 밖')
+
+
+class IconA11yTest(unittest.TestCase):
+    def test_use_icons_aria_hidden(self):
+        nodes = [dict(n) for n in BASE['nodes']]
+        nodes[0].update(template='equip', icon='i-si-fw')
+        svg = gen(m(nodes=nodes, edges=[{'from': 'a', 'to': 'b'}]))
+        body = svg[svg.find('<svg'):svg.find('</svg>')]
+        uses = re.findall(r'<use\b[^>]*>', body)
+        self.assertTrue(uses)
+        self.assertTrue(all('aria-hidden="true"' in u for u in uses),
+                        'aria-hidden 없는 아이콘 use 발견')
 
 
 class DeterminismTest(unittest.TestCase):

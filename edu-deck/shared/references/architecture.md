@@ -153,6 +153,17 @@
 | `zones[].between` | `[존A, 존B]` | 멤버 대신 **두 존 사이의 경계선**(점선 polyline + 라벨). 라벨 글자받이가 선 구간에 걸치면 선을 라벨 위·아래로 쪼개 글자 관통을 막는다 |
 | `zones[].labelPos` | `top` · `bottom` | 띠 라벨 위치 — 상단 띠와 선 라벨이 부딪힐 때 `bottom` |
 | `zones[].pad` | `{top,bottom,side}` | 존 여백 덮어쓰기(기본 top 56 · side 24 · bottom 24) |
+| `zones[].parent` | 존 id | **중첩 존** — 자식은 부모 멤버처럼 취급해 부모 상자에 감싸인다. 깊이 ≤3단(존>존>존). `members`가 비어도 자식 존만 있으면 성립(부모 전용 존) |
+| `zones[].headerStyle` | `solid-navy` · `solid-blue` · `tinted` | 존 라벨을 띠 라벨 대신 **헤더 바**로 그린다(블루프린트 조). solid = 상단 전폭 바 + 흰 글자, tinted = 소형 캡슐 |
+| `nodes[].template` | `card`(기본) · `equip` · `cluster` · `rack-group` | 노드 템플릿. `equip` 96×88 소형 장비 소자(아이콘+장비명+spec+수량배지), `cluster` 220×150 헤더+내부 칩 격자(`subitems`≤4)+자원 바(`res`0~100), `rack-group` 300×96 동종 장비 #1~#4 가로 나열(`items`2~4) |
+| `nodes[].spec` / `qty` | 문구 / 정수 | equip 의 13px 스펙 줄 / 우상단 수량 배지(>1 일 때만) |
+| `buses[]` | `{id,label?,style?,from[],to[]}` | **T-드롭 버스** — from↔to 쌍 전부를 가려내고 대신 두 중간 사이 트렁크 1본 + 각 노드 드롭 선으로 그린다. `style: trunk|san|lan`. 랭크 제약은 유지되므로 배치가 어긋나지 않는다 |
+| `haPairs[]` | `[노드a, 노드b, 라벨?]` | **HA 이중선** — 같은 랭크의 이중화 쌍 사이에 평행 이중선 + 원형 마커(기본 `HA`) |
+| `theme` | `"blueprint"` | 슬라이드에 `.arch-blueprint` — 쿨 화이트 도면지 배경 |
+| `chrome` | `"blueprint"` | 콤팩트 헤더(`[serial] 제목 — eyebrow`) — `serial` 과 함께 사용 |
+| `sidePanel` | `{eyebrow?,title?,sections[]}` | 도식 우측 **BOM·사양 패널**(표 `columns`+`rows` 또는 불릿 `items`). 도식과 같은 폭 예산 안에서 나뉜다 |
+| `legendStyle` | `"bar"` | 범례를 우상단 대신 **하단 전폭 바**로 그린다 — `legendItems[]` 에 선 종류·아이콘·배지 항목 |
+| `legendItems[]` | `{kind}`·`{icon}`·`{badge:"existing|new"}`+`label` | legendStyle=bar 항목 어휘 |
 | `states[].text` | 칩 문구 | 상태 칩 글자를 역할 문구(예 `Active·운영`)로 구분 — 노드 초기 칩은 `node.stateText`. 글자 폭은 노드 폭 안에 들어가게 잡는다 |
 | `layout.chipAvoid` | `true` | 라벨 칩끼리의 충돌까지 회피(옵트인). 칩이 **다른 엣지 선·화살촉·다른 칩의 글자 중심**을 덮는 것은 옵션 없이도 항상 회피한다 |
 | `legend[]` | `{kind,label}` 또는 `{fam,label}` | 선 어휘 + 노드 색 의미(예 주황=경계 장비) 범례. 생략 시 사용 kind 2종 이상이면 자동 유도 |
@@ -161,7 +172,10 @@
 **주의 3개 (실측)**
 - `aux` 는 **생성기 예산(링크 ≤12)에서 제외**된다(비-aux만 계수). 런타임 단계 draw는 새로 드러난 `g[data-step]` 내 경로만 그리므로 aux 는 단계에 애니메이션되지 않는다. 단, 장 진입 직후(아무 단계도 열리기 전)의 초기 draw 는 '그 순간 보이는 경로' 순서로 최대 12개를 긋는다 — 항시 표시인 aux 가 여기 포함될 수 있으나 최종 상태는 항상 전부 표시다.
 - `kind:"g"` 의 화살촉은 `ahg`(범용 회색)로, 정의는 `assets/icons/base.svg` 에 있다(`extra.svg` 의 `ah-o/ah-b/ah-n/ah-open` 과 다른 파일 — 마커가 "없다"고 오독하지 말 것. 빌드가 전체 아이콘을 수집해 덱에 넣는다).
-- 존은 **1단**(중첩 없음). 두 사이트가 같은 랭크에 걸치면 존 상자가 겹친다 — 회선 순서를 바꿔 사이트를 순차 랭크로 밀어낸다(예: `코어-본사 → FW-센터 → 코어-센터`).
+- 존은 **최대 3단 중첩**(`parent`). 자식 존은 부모 멤버처럼 감싸지고, `members`가 비어 있어도 자식 존만으로 성립한다. 존 라벨은 헤더 띠 안에서만 이동하므로 멤버 노드를 존 밖으로 밀어내지 않는다. 두 사이트가 같은 랭크에 걸치면 존 상자가 겹칠 수 있다 — 회선 순서를 바꿔 사이트를 순차 랭크로 밀어낸다(예: `코어-본사 → FW-센터 → 코어-센터`).
+- 보이는 경로는 **전부 직교(수평·수직 세그먼트)**다 — dagre 는 랭크·순서만 정하고, 경로는 생성기가 멘해튼 후보(직선→L자→U자) 중 노드 비충돌 안쪽 회랑을 골라 굽는다. 사선 세그먼트는 없다. aux·버스 멤버는 draw 예산(링크 ≤12) 밖이다.
+- 마이크로 타이포(`k-t-spec` 13px · `k-t-eq` 15px · `k-t-qty` 11px)는 **아키텍처 도식 안에서만** 18px 하한 예외다 — `check_deck` 이 svg.dg 범위로 한정해 허용한다. 도식 밖 글자는 여전히 18px 미만 ERROR.
+- SI 장비 아이콘 16종(`i-si-fw/waf/lb/rack/gw/vm/db/san/bak/mon/ids/meter/tel/sat/switch/rtr`)은 `assets/icons/si.svg` — 빌드가 심볼로 수집한다.
 
 ---
 

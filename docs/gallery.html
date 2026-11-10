@@ -711,13 +711,13 @@ footer { margin-top:56px; color:#5a6b76; font-size:13.5px; border-top:1.5px soli
           <div class="a" data-only="1"><span class="av">«짧은 문구 ≤4자»</span><div class="at" style="word-break:break-all"><p>«결과/답변 ≤63자»</p></div></div>
           <div class="a" data-only="2"><span class="av">«짧은 문구 ≤4자»</span><div class="at" style="word-break:break-all"><p>«결과/답변 ≤190자»</p></div></div>
           <div class="a" data-only="3"><span class="av">«짧은 문구 ≤4자»</span><div class="at" style="word-break:break-all"><p>«결과/답변 ≤14자»<br>«결과/답변 ≤38자»<br>«결과/답변 ≤29자»</p></div></div>
-          <div class="a" data-only="4"><span class="av">«짧은 문구 ≤4자»</span><div class="at" style="word-break:break-all"><p>«결과/답변 ≤14자»<br>«결과/답변 ≤38자»<br>«결과/답변 ≤30자»<br>«결과/답변 ≤27자»</p></div></div>
+          <div class="a" data-step="4"><span class="av">«짧은 문구 ≤4자»</span><div class="at" style="word-break:break-all"><p>«결과/답변 ≤14자»<br>«결과/답변 ≤38자»<br>«결과/답변 ≤30자»<br>«결과/답변 ≤27자»</p></div></div>
         </div>
         <p class="verdict" data-only="0">«판정 한 줄 ≤23자»</p>
         <p class="verdict" data-only="1">«판정 한 줄 ≤21자»</p>
         <p class="verdict" data-only="2">«판정 한 줄 ≤17자»</p>
         <p class="verdict" data-only="3">«판정 한 줄 ≤12자»</p>
-        <p class="verdict" data-only="4">«판정 한 줄 ≤6자»</p>
+        <p class="verdict" data-step="4">«판정 한 줄 ≤6자»</p>
         </div></div>
       </div>
     </div>
@@ -5316,7 +5316,7 @@ footer { margin-top:56px; color:#5a6b76; font-size:13.5px; border-top:1.5px soli
     });
 
     // 화살표
-    const base = 150 + o.nodes.length * 80;
+    const base = 150 + o.nodes.length * 80, labs = [];
     (o.edges || []).forEach((e, j) => {
       const a = N[e.from], b = N[e.to], kind = e.kind || 'main';
       const rev = o.edges.some((x) => x.from === e.to && x.to === e.from), fwd = a.row < b.row || (a.row === b.row && a.col < b.col);
@@ -5327,7 +5327,21 @@ footer { margin-top:56px; color:#5a6b76; font-size:13.5px; border-top:1.5px soli
         const t = mk('text', { x: lab.x, y: lab.y, 'text-anchor': lab.a, class: 'sf-el' }, ll);
         t.setAttribute('style', `--d:${base + j * 110 + 300}ms`);
         t.textContent = fit(e.label, 104, 14, 600, family);
+        labs.push({ t, x: lab.x, y: lab.y, a: lab.a, w: mcv.measureText(t.textContent).width });
       }
+    });
+    // 라벨끼리 겹치면 뒤쪽을 같은 행간 띠 안에서 위아래로 비켜 준다
+    const lbox = (L, y) => ({ x0: L.a === 'middle' ? L.x - L.w / 2 : L.a === 'end' ? L.x - L.w : L.x, x1: L.a === 'middle' ? L.x + L.w / 2 : L.a === 'end' ? L.x : L.x + L.w, y });
+    const placed = [];
+    labs.forEach((L) => {
+      for (const dy of [0, 21, -21, 42]) {
+        const b = lbox(L, L.y + dy);
+        if (!placed.some((q) => b.x0 < q.x1 && b.x1 > q.x0 && Math.abs(b.y - q.y) < 18)) {
+          if (dy) { L.y += dy; L.t.setAttribute('y', L.y); }
+          break;
+        }
+      }
+      placed.push(lbox(L, L.y));
     });
 
     // 노드

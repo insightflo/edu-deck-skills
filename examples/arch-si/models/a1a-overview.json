@@ -1,186 +1,671 @@
 {
-  "title": "API GW 단일 관문 — 내·외부 연계 중계",
+  "title": "API GW 단일 관문 — 3권역 망분리 종합 개요",
   "eyebrow": "SI 유형 A1 · 차세대 업무포털 종합 개요",
-  "small": "인수인계 포인트 — 모든 외부 호출은 API GW에서 시작·종료한다. GW를 우회하는 직접 호출 경로가 생기면 인증·감사 구멍이 되므로 신규 연동은 반드시 GW 경로로 등록한다.",
-  "ariaLabel": "차세대 업무포털 개요 구성도: 사용자가 포털 웹을 거쳐 API 게이트웨이에 들어가 인증과 업무 API로 전달되고, 업무 API가 업무 DB와 외부기관에 연결된다. 호출과 응답이 서로 다른 선으로 구분된다",
-  "titleSvg": "업무포털 개요 — 호출/응답 쌍·소속존·신뢰 경계",
-  "notes": "P0 종합시스템 개요 장. 응답선 kind=r(점선+open 화살촉)이 라우팅 실선과 방향 쌍을 이루고, 내부망은 kind=member 면색 띠(소속), 왼쪽 주황 점선이 between 경계선(신뢰 경계)이다 — 소속과 신뢰가 분리됐다. 외부기관은 내부망 존 바깥 오른쪽에 배치된다(hint 간선으로 랭크 분리 — 망 경계 왜곡 방지). 1단계 존·경계, 2단계 노드, 3단계 연결.",
+  "theme": "blueprint",
+  "chrome": "blueprint",
+  "serial": "001",
+  "ariaLabel": "차세대 업무포털 개요 구성도: 외부 접속 구간에서 경계 방화벽·WAF·부하분산기를 거쳐 WEB 계층으로 들어가고, API 게이트웨이 버스를 통해 서비스 계층으로 전달된 뒤 데이터 계층의 DB·SAN·비동기 설비에 닿는다. 신뢰 경계가 권역 사이 점선으로 표시된다",
+  "titleSvg": "업무포털 개요 — 3권역·중첩존·버스 배선",
+  "notes": "P0 종합시스템 개요 장 — 블루프린트 개편 시연. 외부 접속·DMZ 접근계층·내부 업무계층 3권역을 솔리드 헤더 존으로 나누고, 내부 업무계층은 GW·인증/서비스/데이터 하위존, 데이터는 저장 손자존까지 3단계 중첩. GW→서비스·WEB→GW 연결은 T-드롭 버스 3본으로 그려 점대점 엣지 남발 없이 고밀도 배선을 표현한다. API GW는 cluster 템플릿, 비동기 설비·DB는 rack-group, WEB은 HA 이중선. 1단계 존·경계, 2단계 노드, 3단계 연결.",
   "layout": {
     "dir": "LR",
-    "nodesep": 40,
-    "ranksep": 96,
-    "edgesep": 24,
-    "chipAvoid": true
+    "nodesep": 4,
+    "ranksep": 10,
+    "edgesep": 16,
+    "align": "UL"
   },
   "hints": [
     {
-      "from": "db",
-      "to": "ext"
+      "from": "fw1",
+      "to": "waf"
+    },
+    {
+      "from": "fw1",
+      "to": "ids"
+    },
+    {
+      "from": "waf",
+      "to": "web2"
+    },
+    {
+      "from": "web1",
+      "to": "auth"
+    },
+    {
+      "from": "web1",
+      "to": "log"
+    },
+    {
+      "from": "notif",
+      "to": "monitor"
+    },
+    {
+      "from": "bak",
+      "to": "ext",
+      "weight": 5
     }
   ],
   "nodes": [
     {
       "id": "user",
       "name": "사용자",
-      "role": "직원·외부",
       "icon": "i-people",
       "shape": "circle",
       "fam": "blue",
-      "w": 112,
-      "h": 112
+      "w": 76,
+      "h": 76
     },
     {
-      "id": "web",
-      "name": "포털 WEB",
-      "role": "SSR · Node",
-      "icon": "i-window",
+      "id": "partner",
+      "name": "협력기관",
+      "icon": "i-building",
+      "shape": "circle",
       "fam": "paper",
-      "w": 152,
-      "h": 132
+      "w": 76,
+      "h": 76
+    },
+    {
+      "id": "admin",
+      "name": "관리자",
+      "icon": "i-person",
+      "shape": "circle",
+      "fam": "paper",
+      "w": 76,
+      "h": 76
+    },
+    {
+      "id": "citizen",
+      "name": "민원",
+      "icon": "i-person",
+      "shape": "circle",
+      "fam": "paper",
+      "w": 76,
+      "h": 76
+    },
+    {
+      "id": "ext",
+      "name": "외부기관",
+      "icon": "i-building",
+      "shape": "circle",
+      "fam": "paper",
+      "w": 76,
+      "h": 76
+    },
+    {
+      "id": "fw1",
+      "name": "FW-1",
+      "template": "equip",
+      "spec": "DMZ 경계",
+      "icon": "i-si-fw",
+      "fam": "orange",
+      "h": 68
+    },
+    {
+      "id": "waf",
+      "name": "WAF",
+      "template": "equip",
+      "spec": "웹방화벽",
+      "icon": "i-si-waf",
+      "fam": "orange",
+      "h": 68
+    },
+    {
+      "id": "lb",
+      "name": "L4 LB",
+      "template": "equip",
+      "spec": "부하분산",
+      "icon": "i-si-lb",
+      "fam": "paper",
+      "h": 68
+    },
+    {
+      "id": "ids",
+      "name": "IDS",
+      "template": "equip",
+      "spec": "침입탐지",
+      "icon": "i-si-mon",
+      "fam": "orange",
+      "h": 68
+    },
+    {
+      "id": "web1",
+      "name": "WEB-1",
+      "template": "equip",
+      "spec": "TLS 종단",
+      "icon": "i-si-rack",
+      "fam": "paper",
+      "h": 68
+    },
+    {
+      "id": "web2",
+      "name": "WEB-2",
+      "template": "equip",
+      "spec": "TLS 종단",
+      "icon": "i-si-rack",
+      "fam": "paper",
+      "h": 68
     },
     {
       "id": "apigw",
       "name": "API GW",
-      "role": "라우팅·Kong",
-      "icon": "i-globe",
+      "template": "cluster",
+      "icon": "i-si-gw",
       "fam": "blue",
-      "w": 152,
+      "subitems": [
+        "라우팅",
+        "SSO 검증",
+        "속도제한",
+        "로깅"
+      ],
+      "res": 58,
+      "w": 196,
       "h": 132
     },
     {
       "id": "auth",
       "name": "인증",
-      "role": "SSO·권한",
+      "template": "equip",
+      "spec": "SSO·권한",
       "icon": "i-key",
       "fam": "paper",
-      "w": 152,
-      "h": 132
+      "h": 68
     },
     {
-      "id": "core",
-      "name": "업무 API",
-      "role": "도메인·Spring",
-      "icon": "i-gear",
+      "id": "log",
+      "name": "로그수집",
+      "template": "equip",
+      "spec": "Fluentd",
+      "icon": "i-si-mon",
       "fam": "paper",
-      "w": 152,
-      "h": 132
+      "h": 68
+    },
+    {
+      "id": "order",
+      "name": "주문 API",
+      "template": "equip",
+      "spec": "Spring",
+      "icon": "i-clipboard",
+      "fam": "paper",
+      "h": 68
+    },
+    {
+      "id": "pay",
+      "name": "결제 API",
+      "template": "equip",
+      "spec": "Spring",
+      "icon": "i-coin",
+      "fam": "paper",
+      "h": 68
+    },
+    {
+      "id": "acct",
+      "name": "정산 API",
+      "template": "equip",
+      "spec": "배치 연계",
+      "icon": "i-calc",
+      "fam": "paper",
+      "h": 68
+    },
+    {
+      "id": "search",
+      "name": "검색",
+      "template": "equip",
+      "spec": "색인 조회",
+      "icon": "i-search",
+      "fam": "paper",
+      "h": 68
+    },
+    {
+      "id": "notif",
+      "name": "알림 API",
+      "template": "equip",
+      "spec": "메일·SMS",
+      "icon": "i-mail",
+      "fam": "paper",
+      "h": 68
+    },
+    {
+      "id": "fw2",
+      "name": "FW-2",
+      "template": "equip",
+      "spec": "내부 경계",
+      "icon": "i-si-fw",
+      "fam": "orange",
+      "h": 68
+    },
+    {
+      "id": "async",
+      "name": "비동기 ×3",
+      "template": "rack-group",
+      "items": [
+        "메시지큐 Kafka",
+        "워커 ×3",
+        "캐시 Redis"
+      ],
+      "icon": "i-bolt",
+      "fam": "paper",
+      "spec": "이벤트 처리",
+      "w": 226,
+      "h": 88
+    },
+    {
+      "id": "monitor",
+      "name": "모니터링",
+      "template": "equip",
+      "spec": "헬스·알람",
+      "icon": "i-si-mon",
+      "fam": "orange",
+      "h": 68
     },
     {
       "id": "db",
-      "name": "업무 DB",
-      "role": "Oracle 19c",
-      "icon": "i-db",
+      "name": "DB 이중화",
+      "template": "rack-group",
+      "items": [
+        "DB-주 Oracle 19c",
+        "DB-대기 Standby"
+      ],
+      "icon": "i-si-db",
       "fam": "paper",
-      "w": 152,
-      "h": 132,
-      "state": "ok"
+      "spec": "A/S",
+      "w": 200,
+      "h": 88
     },
     {
-      "id": "ext",
-      "name": "외부기관",
-      "role": "연계",
-      "icon": "i-building",
-      "shape": "circle",
+      "id": "san",
+      "name": "SAN",
+      "template": "equip",
+      "spec": "FC 스토리지",
+      "icon": "i-si-san",
       "fam": "paper",
-      "w": 112,
-      "h": 112
+      "h": 68
+    },
+    {
+      "id": "bak",
+      "name": "백업",
+      "template": "equip",
+      "spec": "테이프",
+      "icon": "i-si-bak",
+      "fam": "paper",
+      "h": 68
     }
   ],
   "edges": [
     {
       "from": "user",
-      "to": "web",
-      "label": "HTTPS",
-      "kind": "b",
-      "flow": true
-    },
-    {
-      "from": "web",
-      "to": "apigw",
+      "to": "fw1",
       "label": "443",
       "kind": "b",
       "flow": true
     },
     {
-      "from": "apigw",
-      "to": "auth",
-      "label": "검증",
-      "kind": "g"
-    },
-    {
-      "from": "apigw",
-      "to": "core",
-      "label": "라우팅",
-      "kind": "b",
-      "flow": true
-    },
-    {
-      "from": "core",
-      "to": "db",
-      "label": "JDBC",
+      "from": "partner",
+      "to": "fw1",
+      "label": "443",
       "kind": "b"
     },
     {
-      "from": "core",
-      "to": "ext",
-      "label": "IF-03",
+      "from": "admin",
+      "to": "fw1",
+      "label": "관리",
       "kind": "g"
     },
     {
-      "from": "core",
+      "from": "citizen",
+      "to": "fw1",
+      "label": "443",
+      "kind": "b"
+    },
+    {
+      "from": "fw1",
+      "to": "lb",
+      "label": "443",
+      "kind": "b"
+    },
+    {
+      "from": "lb",
+      "to": "web1",
+      "label": "443",
+      "kind": "b"
+    },
+    {
+      "from": "lb",
+      "to": "web2",
+      "label": "443",
+      "kind": "b"
+    },
+    {
+      "from": "order",
+      "to": "fw2",
+      "label": "1521",
+      "kind": "b"
+    },
+    {
+      "from": "pay",
+      "to": "fw2",
+      "label": "1521",
+      "kind": "b"
+    },
+    {
+      "from": "notif",
+      "to": "async",
+      "label": "이벤트",
+      "kind": "o",
+      "flow": true
+    },
+    {
+      "from": "fw1",
+      "to": "waf",
+      "label": "443",
+      "kind": "r",
+      "aux": true
+    },
+    {
+      "from": "waf",
+      "to": "web1",
+      "label": "검사",
+      "kind": "r",
+      "aux": true
+    },
+    {
+      "from": "apigw",
+      "to": "auth",
+      "label": "SSO",
+      "kind": "g",
+      "aux": true
+    },
+    {
+      "from": "apigw",
+      "to": "log",
+      "label": "로깅",
+      "kind": "g",
+      "aux": true
+    },
+    {
+      "from": "acct",
+      "to": "ext",
+      "label": "IF-03",
+      "kind": "g",
+      "aux": true
+    },
+    {
+      "from": "async",
+      "to": "db",
+      "label": "적재",
+      "kind": "b",
+      "aux": true
+    },
+    {
+      "from": "monitor",
       "to": "apigw",
-      "label": "응답",
-      "kind": "r"
+      "label": "헬스",
+      "kind": "g",
+      "aux": true
+    },
+    {
+      "from": "monitor",
+      "to": "db",
+      "label": "헬스",
+      "kind": "g",
+      "aux": true
+    },
+    {
+      "from": "ids",
+      "to": "fw2",
+      "label": "미러",
+      "kind": "g",
+      "aux": true
     }
+  ],
+  "buses": [
+    {
+      "id": "bus-web",
+      "label": "WEB→GW 10G",
+      "style": "trunk",
+      "from": [
+        "web1",
+        "web2"
+      ],
+      "to": [
+        "apigw"
+      ]
+    },
+    {
+      "id": "bus-svc",
+      "label": "API 버스 10G",
+      "style": "trunk",
+      "from": [
+        "apigw"
+      ],
+      "to": [
+        "order",
+        "pay",
+        "acct",
+        "search",
+        "notif"
+      ]
+    },
+    {
+      "id": "bus-data",
+      "label": "SAN·DB 버스",
+      "style": "san",
+      "from": [
+        "fw2"
+      ],
+      "to": [
+        "db",
+        "san",
+        "bak"
+      ]
+    }
+  ],
+  "haPairs": [
+    [
+      "web1",
+      "web2",
+      "L4"
+    ]
   ],
   "zones": [
     {
+      "id": "z-ext",
+      "label": "외부망",
+      "headerStyle": "solid-navy",
+      "members": [
+        "user",
+        "partner",
+        "admin",
+        "citizen"
+      ],
+      "pad": {
+        "top": 32,
+        "bottom": 16,
+        "side": 14
+      }
+    },
+    {
+      "id": "z-dmz",
+      "label": "접근·중계 계층 (DMZ)",
+      "headerStyle": "solid-blue",
+      "members": [],
+      "pad": {
+        "top": 32,
+        "bottom": 20,
+        "side": 18
+      }
+    },
+    {
+      "id": "z-front",
+      "label": "전방 방어",
+      "parent": "z-dmz",
+      "headerStyle": "tinted",
+      "members": [
+        "fw1",
+        "waf",
+        "lb",
+        "ids"
+      ]
+    },
+    {
+      "id": "z-web",
+      "label": "WEB 계층",
+      "parent": "z-dmz",
+      "headerStyle": "tinted",
+      "members": [
+        "web1",
+        "web2"
+      ]
+    },
+    {
       "id": "z-int",
-      "label": "내부망",
-      "kind": "member",
+      "label": "내부 업무 계층",
+      "headerStyle": "solid-navy",
+      "members": [],
+      "pad": {
+        "top": 32,
+        "bottom": 20,
+        "side": 18
+      }
+    },
+    {
+      "id": "z-gw",
+      "label": "GW·인증",
+      "parent": "z-int",
+      "headerStyle": "tinted",
       "members": [
         "apigw",
         "auth",
-        "core",
-        "db"
+        "log"
+      ]
+    },
+    {
+      "id": "z-svc",
+      "label": "서비스 계층",
+      "parent": "z-int",
+      "headerStyle": "tinted",
+      "members": [
+        "order",
+        "pay",
+        "acct",
+        "search",
+        "notif"
+      ]
+    },
+    {
+      "id": "z-data",
+      "label": "데이터 계층",
+      "parent": "z-int",
+      "headerStyle": "tinted",
+      "members": [
+        "fw2",
+        "async",
+        "monitor"
+      ]
+    },
+    {
+      "id": "z-store",
+      "label": "저장",
+      "parent": "z-data",
+      "headerStyle": "tinted",
+      "members": [
+        "db",
+        "san",
+        "bak"
       ]
     },
     {
       "id": "b-trust",
       "label": "신뢰 경계",
       "between": [
+        "z-dmz",
         "z-int"
-      ]
-    }
-  ],
-  "legend": [
-    {
-      "kind": "b",
-      "label": "동기 호출 · 점선+입자=요청 흐름"
+      ],
+      "labelAt": "top"
     },
     {
-      "kind": "r",
-      "label": "응답"
+      "id": "z-out",
+      "label": "외부 연계",
+      "members": [
+        "ext"
+      ],
+      "headerStyle": "tinted"
+    }
+  ],
+  "legendStyle": "bar",
+  "legendItems": [
+    {
+      "kind": "b",
+      "label": "동기 호출·포트"
     },
     {
       "kind": "g",
       "label": "보조·연계"
+    },
+    {
+      "kind": "o",
+      "label": "이벤트"
+    },
+    {
+      "icon": "i-si-rack",
+      "label": "가상 장비"
+    },
+    {
+      "icon": "i-si-fw",
+      "label": "경계 보안"
+    },
+    {
+      "badge": "existing",
+      "label": "기존"
+    },
+    {
+      "badge": "new",
+      "label": "신규"
     }
   ],
-  "handover": {
-    "title": "인수인계 핵심 포인트",
-    "points": [
+  "sidePanel": {
+    "eyebrow": "BOM · 구성 요약",
+    "title": "장비·서비스 목록",
+    "sections": [
       {
-        "t": "단일 관문",
-        "d": "모든 외부 호출은 API GW 경로다. 우회 직접 호출은 인증·감사 구멍."
+        "t": "주요 장비(BOM)",
+        "columns": [
+          "구분",
+          "수량"
+        ],
+        "rows": [
+          [
+            "FW 경계",
+            "2식"
+          ],
+          [
+            "WAF·IDS",
+            "2식"
+          ],
+          [
+            "L4 LB",
+            "1식"
+          ],
+          [
+            "WEB/WAS",
+            "2식"
+          ],
+          [
+            "SAN·백업",
+            "2식"
+          ]
+        ]
       },
       {
-        "t": "인증 경계",
-        "d": "SSO 검증은 GW→인증 경로에서만. 443 외 인바운드는 없다."
+        "t": "핵심 원칙",
+        "items": [
+          "외부 호출은 API GW 단일 관문",
+          "443·1521 포트만 개방",
+          "WEB·DB 이중화(A/S)"
+        ]
       },
       {
-        "t": "대외 창구",
-        "d": "외부기관 연동(IF-03)은 업무 API가 단일 창구다."
+        "t": "인수인계 포인트",
+        "text": "모든 외부 호출은 API GW에서 시작·종료한다. GW를 우회하는 직접 호출 경로가 생기면 인증·감사 구멍이 되므로 신규 연동은 반드시 GW 경로로 등록한다."
       }
     ]
   },

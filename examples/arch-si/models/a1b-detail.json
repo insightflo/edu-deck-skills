@@ -1,26 +1,32 @@
 {
-  "title": "업무포털 상세 — API 분리·이벤트 비동기 격리",
+  "title": "업무포털 상세 — 클러스터·Pod·이중화 구성",
   "eyebrow": "SI 유형 A1 · 종합시스템 — 상세 분리 장",
+  "theme": "blueprint",
+  "chrome": "blueprint",
+  "serial": "002",
   "small": "인수인계 포인트 — 단말 응답이 필요한 호출은 동기(실선), 후처리는 이벤트(점선)로 분리한다.",
-  "ariaLabel": "업무포털 상세 구성도: 게이트웨이 아래 주문·결제·정산·검색 서비스가 데이터·메시지큐·워커와 연결되고 외부기관 연계가 붙는다. 모니터링 헬스체크와 마감 이벤트는 정적 보조선이다",
-  "titleSvg": "업무포털 상세 — aux 정적 보조선 포함",
-  "notes": "개요↔상세 2단 분리의 상세 장. draw 예산(path 12) 안에 핵심 요청 경로를 넣고, 헬스체크 2엣지·마감 이벤트·적재는 aux:true 정적 보조선으로 예산 밖에서 직교 우회로 그린다. 정산 API는 게이트웨이 라우팅을 받는 업무 계층(3열)에 앉고, 외부기관은 내부망 존 바깥(hint 간선으로 랭크 분리)에 배치된다 — 망 경계가 도식에서 정확해진다. 1단계 존·경계, 2단계 13노드, 3단계 동기 호출·조회, 4단계 비동기 이벤트·외부 연계 순차 조명.",
+  "ariaLabel": "업무포털 상세 구성도: 웹 이중화 그룹이 API 게이트웨이 클러스터를 거쳐 주문·결제·정산·검색·알림 서비스로 전달되고, 메시지큐·워커 그룹·DB·캐시·외부기관과 연결된다",
+  "titleSvg": "업무포털 상세 — 클러스터 노드·랙 그룹·수량 배지",
+  "notes": "개요↔상세 2단 분리의 상세 장 — 블루프린트 개편 시연. API GW·주문·결제는 cluster 템플릿(내부 서브 칩 + 자원 바), 포털 WEB·워커는 rack-group(동일 장비 #1~#3 나열), 나머지는 equip 템플릿으로 표기한다. GW→서비스는 T-드롭 버스, 데이터 계층 연결은 직교 배선. 헬스체크·적재는 aux 정적 보조선. 1단계 존·경계, 2단계 노드, 3단계 연결.",
   "layout": {
     "dir": "LR",
-    "nodesep": 36,
-    "ranksep": 62,
-    "edgesep": 16,
-    "chipAvoid": true
+    "nodesep": 10,
+    "ranksep": 36,
+    "edgesep": 18
   },
   "hints": [
     {
-      "from": "worker",
-      "to": "ext"
+      "from": "acct",
+      "to": "ext",
+      "weight": 4
     },
     {
-      "from": "apigw",
-      "to": "acct",
-      "weight": 100
+      "from": "search",
+      "to": "cache"
+    },
+    {
+      "from": "pay",
+      "to": "monitor"
     }
   ],
   "nodes": [
@@ -30,89 +36,8 @@
       "icon": "i-people",
       "shape": "circle",
       "fam": "blue",
-      "w": 100,
-      "h": 108
-    },
-    {
-      "id": "web",
-      "name": "포털 WEB",
-      "icon": "i-window",
-      "fam": "paper",
-      "w": 130,
-      "h": 88
-    },
-    {
-      "id": "apigw",
-      "name": "API GW",
-      "icon": "i-globe",
-      "fam": "blue",
-      "w": 112,
-      "h": 88
-    },
-    {
-      "id": "auth",
-      "name": "인증",
-      "icon": "i-key",
-      "fam": "paper",
-      "w": 142,
-      "h": 88
-    },
-    {
-      "id": "order",
-      "name": "주문 API",
-      "icon": "i-clipboard",
-      "fam": "paper",
-      "w": 112,
-      "h": 88
-    },
-    {
-      "id": "pay",
-      "name": "결제 API",
-      "icon": "i-coin",
-      "fam": "paper",
-      "w": 108,
-      "h": 88
-    },
-    {
-      "id": "acct",
-      "name": "정산 API",
-      "icon": "i-calc",
-      "fam": "paper",
-      "w": 130,
-      "h": 88
-    },
-    {
-      "id": "search",
-      "name": "검색",
-      "icon": "i-search",
-      "fam": "paper",
-      "w": 108,
-      "h": 88
-    },
-    {
-      "id": "mq",
-      "name": "메시지큐",
-      "icon": "i-bolt",
-      "fam": "orange",
-      "w": 108,
-      "h": 88
-    },
-    {
-      "id": "worker",
-      "name": "워커",
-      "icon": "i-robot",
-      "fam": "paper",
-      "w": 104,
-      "h": 88
-    },
-    {
-      "id": "db",
-      "name": "업무 DB",
-      "icon": "i-db",
-      "fam": "paper",
-      "w": 128,
-      "h": 88,
-      "state": "ok"
+      "w": 92,
+      "h": 92
     },
     {
       "id": "ext",
@@ -120,16 +45,136 @@
       "icon": "i-building",
       "shape": "circle",
       "fam": "paper",
-      "w": 106,
-      "h": 118
+      "w": 92,
+      "h": 92
+    },
+    {
+      "id": "web",
+      "name": "포털 WEB ×2",
+      "template": "rack-group",
+      "items": [
+        "포털 WEB-1",
+        "포털 WEB-2"
+      ],
+      "icon": "i-si-rack",
+      "fam": "paper",
+      "spec": "TLS 종단"
+    },
+    {
+      "id": "apigw",
+      "name": "API GW",
+      "template": "cluster",
+      "icon": "i-si-gw",
+      "fam": "blue",
+      "subitems": [
+        "라우팅",
+        "SSO 검증",
+        "속도제한",
+        "로깅"
+      ],
+      "res": 58,
+      "w": 184,
+      "h": 132
+    },
+    {
+      "id": "order",
+      "name": "주문 API",
+      "template": "cluster",
+      "icon": "i-clipboard",
+      "fam": "paper",
+      "subitems": [
+        "pod-1",
+        "pod-2",
+        "pod-3",
+        "pod-4"
+      ],
+      "res": 62,
+      "w": 184,
+      "h": 132
+    },
+    {
+      "id": "pay",
+      "name": "결제 API",
+      "template": "cluster",
+      "icon": "i-coin",
+      "fam": "paper",
+      "subitems": [
+        "결제",
+        "정산",
+        "청구"
+      ],
+      "res": 45,
+      "w": 184,
+      "h": 132
+    },
+    {
+      "id": "acct",
+      "name": "정산 API",
+      "template": "equip",
+      "spec": "배치 연계",
+      "icon": "i-calc",
+      "fam": "paper"
+    },
+    {
+      "id": "search",
+      "name": "검색",
+      "template": "equip",
+      "spec": "색인 조회",
+      "icon": "i-search",
+      "fam": "paper"
+    },
+    {
+      "id": "notif",
+      "name": "알림 API",
+      "template": "equip",
+      "spec": "메일·SMS",
+      "icon": "i-mail",
+      "fam": "paper"
+    },
+    {
+      "id": "mq",
+      "name": "메시지큐",
+      "template": "equip",
+      "spec": "Kafka",
+      "icon": "i-bolt",
+      "fam": "orange"
+    },
+    {
+      "id": "worker",
+      "name": "워커 ×3",
+      "template": "rack-group",
+      "items": [
+        "워커-1",
+        "워커-2",
+        "워커-3"
+      ],
+      "icon": "i-si-vm",
+      "fam": "paper",
+      "spec": "구독 처리"
+    },
+    {
+      "id": "cache",
+      "name": "캐시",
+      "template": "equip",
+      "spec": "Redis",
+      "icon": "i-si-vm",
+      "fam": "paper"
+    },
+    {
+      "id": "db",
+      "name": "업무 DB",
+      "template": "equip",
+      "spec": "Oracle 19c",
+      "icon": "i-si-db",
+      "fam": "paper"
     },
     {
       "id": "monitor",
       "name": "모니터링",
-      "icon": "i-heart",
-      "fam": "orange",
-      "w": 130,
-      "h": 88
+      "template": "equip",
+      "spec": "헬스·알람",
+      "icon": "i-si-mon",
+      "fam": "orange"
     }
   ],
   "edges": [
@@ -138,109 +183,46 @@
       "to": "web",
       "label": "HTTPS",
       "kind": "b",
-      "flow": true,
-      "step": 3
+      "flow": true
     },
     {
       "from": "web",
       "to": "apigw",
       "label": "443",
       "kind": "b",
-      "flow": true,
-      "step": 3
-    },
-    {
-      "from": "apigw",
-      "to": "order",
-      "label": "라우팅",
-      "kind": "b",
-      "step": 3
-    },
-    {
-      "from": "apigw",
-      "to": "pay",
-      "label": "라우팅",
-      "kind": "b",
-      "step": 3
-    },
-    {
-      "from": "apigw",
-      "to": "acct",
-      "label": "라우팅",
-      "kind": "b",
-      "aux": true
+      "flow": true
     },
     {
       "from": "order",
       "to": "db",
       "label": "JDBC",
-      "kind": "b",
-      "step": 3
+      "kind": "b"
     },
     {
       "from": "pay",
       "to": "db",
       "label": "JDBC",
-      "kind": "b",
-      "step": 3
+      "kind": "b"
     },
     {
       "from": "pay",
       "to": "mq",
-      "label": "결제이벤트",
+      "label": "이벤트",
       "kind": "o",
-      "flow": true,
-      "step": 4
+      "flow": true
     },
     {
       "from": "mq",
       "to": "worker",
       "label": "구독",
       "kind": "o",
-      "flow": true,
-      "step": 4
-    },
-    {
-      "from": "order",
-      "to": "search",
-      "label": "색인",
-      "kind": "g",
-      "step": 3
-    },
-    {
-      "from": "apigw",
-      "to": "auth",
-      "label": "검증",
-      "kind": "g",
-      "step": 3
+      "flow": true
     },
     {
       "from": "acct",
       "to": "ext",
       "label": "IF-03",
-      "kind": "g",
-      "step": 4
-    },
-    {
-      "from": "monitor",
-      "to": "web",
-      "label": "헬스",
-      "kind": "g",
-      "aux": true
-    },
-    {
-      "from": "monitor",
-      "to": "db",
-      "label": "헬스",
-      "kind": "g",
-      "aux": true
-    },
-    {
-      "from": "acct",
-      "to": "mq",
-      "label": "마감이벤트",
-      "kind": "o",
-      "aux": true
+      "kind": "g"
     },
     {
       "from": "worker",
@@ -248,57 +230,198 @@
       "label": "적재",
       "kind": "b",
       "aux": true
+    },
+    {
+      "from": "search",
+      "to": "cache",
+      "label": "조회",
+      "kind": "g",
+      "aux": true
+    },
+    {
+      "from": "notif",
+      "to": "mq",
+      "label": "이벤트",
+      "kind": "o",
+      "aux": true
+    },
+    {
+      "from": "monitor",
+      "to": "apigw",
+      "label": "헬스",
+      "kind": "g",
+      "aux": true
+    },
+    {
+      "from": "monitor",
+      "to": "db",
+      "label": "헬스",
+      "kind": "g",
+      "aux": true
     }
   ],
-  "zones": [
+  "buses": [
     {
-      "id": "z-int",
-      "label": "내부망",
-      "kind": "member",
-      "pad": {
-        "top": 42,
-        "bottom": 22,
-        "side": 18
-      },
-      "members": [
-        "apigw",
-        "auth",
+      "id": "bus-svc",
+      "label": "API 버스 10G",
+      "style": "trunk",
+      "from": [
+        "apigw"
+      ],
+      "to": [
         "order",
         "pay",
         "acct",
         "search",
+        "notif"
+      ]
+    }
+  ],
+  "zones": [
+    {
+      "id": "z-ext",
+      "label": "외부",
+      "kind": "member",
+      "members": [
+        "user"
+      ],
+      "pad": {
+        "top": 60,
+        "bottom": 30,
+        "side": 18
+      }
+    },
+    {
+      "id": "z-edge",
+      "label": "접근 계층",
+      "headerStyle": "solid-blue",
+      "members": [
+        "web"
+      ],
+      "pad": {
+        "top": 36,
+        "bottom": 24,
+        "side": 18
+      }
+    },
+    {
+      "id": "z-int",
+      "label": "내부 업무 계층",
+      "headerStyle": "solid-navy",
+      "members": [],
+      "pad": {
+        "top": 36,
+        "bottom": 24,
+        "side": 18
+      }
+    },
+    {
+      "id": "z-gw",
+      "label": "GW·인증",
+      "parent": "z-int",
+      "headerStyle": "tinted",
+      "members": [
+        "apigw"
+      ]
+    },
+    {
+      "id": "z-svc",
+      "label": "서비스 계층",
+      "parent": "z-int",
+      "headerStyle": "tinted",
+      "members": [
+        "order",
+        "pay",
+        "acct",
+        "search",
+        "notif"
+      ]
+    },
+    {
+      "id": "z-data",
+      "label": "데이터·관측",
+      "parent": "z-int",
+      "headerStyle": "tinted",
+      "members": [
         "mq",
         "worker",
-        "db"
+        "db",
+        "cache",
+        "monitor"
       ]
     },
     {
       "id": "b-trust",
       "label": "신뢰 경계",
-      "labelAt": "top",
       "between": [
+        "z-edge",
         "z-int"
-      ]
+      ],
+      "labelAt": "top"
     }
   ],
-  "legend": [
+  "legendStyle": "bar",
+  "legendItems": [
     {
       "kind": "b",
       "label": "동기 호출"
     },
     {
       "kind": "o",
-      "label": "이벤트 · 점선+입자=흐름"
+      "label": "이벤트"
     },
     {
       "kind": "g",
-      "label": "보조·연계 · 헬스/적재는 상시 보조선"
+      "label": "보조·연계"
     },
     {
-      "fam": "orange",
-      "label": "비동기·관측 계통"
+      "icon": "i-si-rack",
+      "label": "장비·그룹"
+    },
+    {
+      "badge": "existing",
+      "label": "기존"
+    },
+    {
+      "badge": "new",
+      "label": "신규"
     }
   ],
+  "sidePanel": {
+    "eyebrow": "구성 요약",
+    "title": "핵심 빌드 목록",
+    "sections": [
+      {
+        "t": "클러스터 구성",
+        "items": [
+          "API GW — 라우팅·SSO·속도제한·로깅",
+          "주문 pod ×4 (res 62%)",
+          "결제 3모듈 (res 45%)"
+        ]
+      },
+      {
+        "t": "장비",
+        "columns": [
+          "구분",
+          "수량"
+        ],
+        "rows": [
+          [
+            "포털 WEB",
+            "2대"
+          ],
+          [
+            "워커",
+            "3대"
+          ],
+          [
+            "DB",
+            "1식"
+          ]
+        ]
+      }
+    ]
+  },
   "steps": {
     "zones": 1,
     "nodes": 2,
