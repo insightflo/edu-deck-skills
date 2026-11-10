@@ -96,6 +96,20 @@ class BetweenTest(unittest.TestCase):
 
 class LabelPosTest(unittest.TestCase):
     def test_bottom_label_moves_down(self):
+        # franja inferior libre → labelPos bottom se respeta
+        nodes2 = [n for n in BASE['nodes'] if n['id'] in ('a', 'b')]
+        def ly(pos):
+            svg = gen(m(nodes=nodes2,
+                        zones=[{'id': 'z', 'label': 'L', 'members': ['a', 'b'],
+                                'kind': 'member', 'labelPos': pos}]))
+            for seg in svg.split('<text'):
+                if 'L</text>' in seg:
+                    return float(seg.split('y="')[1].split('"')[0])
+            raise AssertionError('존 라벨 없음')
+        self.assertGreater(ly('bottom'), ly('top'))
+
+    def test_blocked_bottom_falls_back_to_top_strip(self):
+        # nodos ajenos invaden la franja inferior → la etiqueta cae en la franja libre
         def ly(pos):
             svg = gen(m(zones=[{'id': 'z', 'label': 'L', 'members': ['a', 'b'],
                                 'kind': 'member', 'labelPos': pos}]))
@@ -103,7 +117,7 @@ class LabelPosTest(unittest.TestCase):
                 if 'L</text>' in seg:
                     return float(seg.split('y="')[1].split('"')[0])
             raise AssertionError('존 라벨 없음')
-        self.assertGreater(ly('bottom'), ly('top'))
+        self.assertEqual(ly('bottom'), ly('top'))
 
 
 class AutoLegendTest(unittest.TestCase):
@@ -246,15 +260,19 @@ class FallbackChipTest(unittest.TestCase):
 
 
 class ChipAvoidTest(unittest.TestCase):
-    def test_optin_moves_colliding_chips(self):
-        # 실제 칩 충돌이 있는 기존 데모 모델 — chipAvoid 옵트인 시 배치가 달라져야 한다
+    def test_avoid_keeps_demo_chips_separated(self):
+        # 회피가 상시 동작 — 기존 데모 모델에서 칩 겹침이 없어야 한다
         demo = S.parents[1] / 'examples' / 'arch-demo' / 'models' / '01-microservices.json'
         if not demo.exists():
             self.skipTest('기존 데모 모델 없음')
-        model = json.loads(demo.read_text(encoding='utf-8'))
-        off = gen(model)
-        on = gen({**model, 'layout': {**model.get('layout', {}), 'chipAvoid': True}})
-        self.assertNotEqual(off, on)
+        svg = gen(json.loads(demo.read_text(encoding='utf-8')))
+        chips = [tuple(map(float, g)) for g in
+                 re.findall(r'<rect class="k-paper" x="([\d.]+)" y="([\d.]+)" width="([\d.]+)" height="36"', svg)]
+        import itertools
+        def ov(a, b):
+            return a[0] < b[0] + b[2] and a[0] + a[2] > b[0] and a[1] < b[1] + 36 and a[1] + 36 > b[1]
+        bad = [(a, b) for a, b in itertools.combinations(chips, 2) if ov(a, b)]
+        self.assertFalse(bad, f'라벨 칩 겹침 {len(bad)}건')
 
 
 class DeterminismTest(unittest.TestCase):

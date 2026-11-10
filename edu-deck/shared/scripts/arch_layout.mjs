@@ -185,9 +185,12 @@ const edges = EDGES.map((e, i) => {
 /* ── 2. 정규화: 존 패딩 포함 전체 bbox → 1664 폭·여백 안 가운데 ── */
 const zoneBox = (z) => {
   const p = { ...ZP, ...(z.pad || {}) };
+  // 라벨이 앉는 띠(48px)는 노드가 못 들어오게 패딩으로 확보한다
+  const top = z.label && z.labelPos !== 'bottom' ? Math.max(p.top, 48) : p.top;
+  const bottom = z.label && z.labelPos === 'bottom' ? Math.max(p.bottom, 48) : p.bottom;
   const rs = z.members.map((m) => nRect(nodes[m]));
   return { x0: Math.min(...rs.map((r) => r.x0)) - p.side, x1: Math.max(...rs.map((r) => r.x1)) + p.side,
-           y0: Math.min(...rs.map((r) => r.y0)) - p.top, y1: Math.max(...rs.map((r) => r.y1)) + p.bottom };
+           y0: Math.min(...rs.map((r) => r.y0)) - top, y1: Math.max(...rs.map((r) => r.y1)) + bottom };
 };
 const zoneRects = ZONES.filter((z) => !z.between);
 const bounds = ZONES.filter((z) => z.between);
@@ -237,8 +240,8 @@ function midPoint(pts) {
   }
   return pts[0];
 }
-// 기배치 라벨 칩 bbox — 칩끼리의 상호 충돌도 회피. layout.chipAvoid:true 옵트인
-// (기존 모델은 칩 위치를 그대로 둬 출력 불변 — 칩 겹침이 있는 모델만 명시 적용)
+// 기배치 라벨 칩 bbox — 칩끼리의 상호 충돌은 항상 회피한다(agy 이슈-5: 알약끼리
+// 겹치는 것 자체가 결함). layout.chipAvoid 는 레거시 플래그로 남기되 기본 켜짐과 같다.
 const placedChips = [];
 const hit = (r, b) => r.x0 < b.x1 && r.x1 > b.x0 && r.y0 < b.y1 && r.y1 > b.y0;
 const grow = (b, m) => ({ x0: b.x0 - m, x1: b.x1 + m, y0: b.y0 - m, y1: b.y1 + m });
@@ -263,18 +266,30 @@ const overlaps = (r, own) => Object.values(nodes).some((n) => hit(r, grow(nRect(
   // 기본 규칙: 나중 칩이 먼저 칩의 글자 앵커(중심)를 덮으면 검사기가 그 칩을 상자로
   // 읽어 “글자 넘침”이 된다 — 앵커 커버는 칩Avoid 옵션과 무관하게 항상 금지.
   || placedChips.some((b) => hit(r, { x0: b.ax - 3, x1: b.ax + 3, y0: b.ay - 3, y1: b.ay + 3 }))
-  || (L.chipAvoid && placedChips.some((b) => hit(r, b)));
+  || placedChips.some((b) => hit(r, b));
 // 라벨 칩은 svg·범례 영역 안에 있어야 한다 — 정규화 좌표로 검사
 const legH = legendItems.length ? 56 : 0;
 const inBox = (r) => X(r.x0) >= 2 && X(r.x1) <= VBW - 2 && Y(r.y0) >= 2 && Y(r.y1) <= H - 2 - legH;
+// 칩 회랑(corridor) — 회피 오프셋은 컨테이너/캔버스 경계 안에서만 굴린다.
+// 두 끝점이 속한 존 rect ∪ 엣지 자체 bbox 의 외접 상자를 +10 여유로 쓴다
+// (agy 이슈-6: 존 밖 허공으로 밀려나 화살표에서 분리되는 회귀 방지).
+const corridorOf = (e) => {
+  const zs = zones.filter((z) => z.members.includes(e.a) || z.members.includes(e.b)).map((z) => z.r);
+  const ex = e.pts.map((p) => p.x), ey = e.pts.map((p) => p.y);
+  const bb = { x0: Math.min(...ex), x1: Math.max(...ex), y0: Math.min(...ey), y1: Math.max(...ey) };
+  const parts = [...zs, bb];
+  return { x0: Math.min(...parts.map((r) => r.x0)) - 10, x1: Math.max(...parts.map((r) => r.x1)) + 10,
+           y0: Math.min(...parts.map((r) => r.y0)) - 10, y1: Math.max(...parts.map((r) => r.y1)) + 10 };
+};
 const labelPos = (e, idx) => {
-  const m = midPoint(e.pts), w = e.label.length * 17 + 30;
+  const m = midPoint(e.pts), w = e.label.length * 17 + 30, corr = corridorOf(e);
+  const inside = (r) => r.x0 >= corr.x0 && r.x1 <= corr.x1 && r.y0 >= corr.y0 && r.y1 <= corr.y1;
   const pair = edges.findIndex((q) => q.a === e.b && q.b === e.a);
   const off = pair >= 0 && pair < idx ? 26 : pair >= 0 ? -26 : 0;
   for (const dy of [off, off - 34, off + 34, off - 68, off + 68, off - 102, off + 102]) {
     for (const dx of [0, -44, 44, -88, 88, -132, 132, -176, 176]) {
       const r = { x0: m.x + dx - w / 2, x1: m.x + dx + w / 2, y0: m.y - 18 + dy, y1: m.y + 18 + dy };
-      if (inBox(r) && !overlaps(r, idx)) { placedChips.push({ ...r, ax: m.x + dx, ay: m.y + dy }); return { x: m.x + dx, y: m.y + dy, w }; }
+      if (inBox(r) && inside(r) && !overlaps(r, idx)) { placedChips.push({ ...r, ax: m.x + dx, ay: m.y + dy }); return { x: m.x + dx, y: m.y + dy, w }; }
     }
   }
   const ly = Math.min(Math.max(m.y + off, minY - PAD + 22), maxY + PAD - 22 - legH);
@@ -289,10 +304,28 @@ const zoneMarkup = (z) => {
   const rect = z.kind === 'member'
     ? `<rect class="k-paper" x="${X(z.r.x0)}" y="${Y(z.r.y0)}" width="${r2(z.r.x1 - z.r.x0)}" height="${r2(z.r.y1 - z.r.y0)}" style="rx:12px;fill-opacity:${z.opacity ?? .55}"/>`
     : `<rect class="k-frame" x="${X(z.r.x0)}" y="${Y(z.r.y0)}" width="${r2(z.r.x1 - z.r.x0)}" height="${r2(z.r.y1 - z.r.y0)}" style="rx:12px"/>`;
-  const ly = z.labelPos === 'bottom' ? Y(z.r.y1 - 14) : Y(z.r.y0 + 34);
+  // 존 라벨이 멤버/외부 노드 위에 앉으면 띠 안에서 비켜 찍는다
+  // (agy 이슈-5: 원형 노드가 컨테이너 제목을 가리는 결함). 선호 띠에
+  // 자리가 없으면 반대 띠로 보낸다.
+  const lw = z.label.length * 15 + 8;
+  const freeX = (y0, y1) => {
+    for (let x = z.r.x0 + 16; x + lw <= z.r.x1 - 8; x += 40) {
+      const r = { x0: x - 4, x1: x + lw + 4, y0: y0 + 6, y1: y1 - 6 };
+      if (!Object.values(nodes).some((n) => hit(r, nRect(n)))) return x;
+    }
+    return null;
+  };
+  const spots = z.labelPos === 'bottom'
+    ? [[z.r.y1 - 48, z.r.y1, Y(z.r.y1 - 14)], [z.r.y0, z.r.y0 + 48, Y(z.r.y0 + 34)]]
+    : [[z.r.y0, z.r.y0 + 48, Y(z.r.y0 + 34)], [z.r.y1 - 48, z.r.y1, Y(z.r.y1 - 14)]];
+  let lx = z.r.x0 + 16, ly = spots[0][2];
+  for (const [y0, y1, lyv] of spots) {
+    const x = freeX(y0, y1);
+    if (x !== null) { lx = x; ly = lyv; break; }
+  }
   return `<g data-step="${z.step ?? STEP.zones}">
     ${rect}
-    <text class="k-t-tag" x="${X(z.r.x0 + 16)}" y="${ly}">${esc(z.label)}</text>
+    <text class="k-t-tag" x="${X(lx)}" y="${ly}">${esc(z.label)}</text>
   </g>`;
 };
 

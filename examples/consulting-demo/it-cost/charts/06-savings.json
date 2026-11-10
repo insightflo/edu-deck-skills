@@ -58,12 +58,12 @@
     ],
     "annotations": [
       {
-        "label": "증가 요인의 직접 반전",
+        "label": "증가 요인 반전",
         "on": "라이선스 정비",
         "kind": "main"
       },
       {
-        "label": "FY26 1회성 투자",
+        "label": "FY26 1회성",
         "on": "전환 투자",
         "kind": "sub"
       }

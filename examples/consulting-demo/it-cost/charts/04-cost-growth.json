@@ -60,18 +60,7 @@
       "라이선스 단가",
       "클라우드 중복"
     ],
-    "annotations": [
-      {
-        "label": "2024 재계약 확정",
-        "on": "라이선스 단가",
-        "kind": "main"
-      },
-      {
-        "label": "이관 완결 시 해소",
-        "on": "클라우드 중복",
-        "kind": "sub"
-      }
-    ],
+    "annotations": [],
     "calc": {
       "expectTotal": 1240
     },

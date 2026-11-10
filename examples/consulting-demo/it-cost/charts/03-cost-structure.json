@@ -64,18 +64,7 @@
     "highlight": [
       "라이선스"
     ],
-    "annotations": [
-      {
-        "label": "인프라+라이선스 860억 = 69%",
-        "on": "FY25",
-        "kind": "main"
-      },
-      {
-        "label": "4개 항목 모두 증가",
-        "on": "라이선스",
-        "kind": "sub"
-      }
-    ],
+    "annotations": [],
     "sidecar": {
       "v": "69",
       "unit": "%",

@@ -1559,8 +1559,8 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 /* 사이드카 — 차트 68% + 시사점 칼럼 32%: 상단 3px accent 룰·헤드라인 수치·불릿 2~3개.
    차트 장은 '증거+시사점' 짝으로 둔다(consulting-layouts.md §3·§6) */
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar{display:grid;grid-template-columns:68fr 32fr;gap:var(--s4);flex:1;min-height:0}
-.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .c-sidecar-main{min-width:0;display:flex;flex-direction:column}
-.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .c-sidecar-main .dg{width:100%;height:auto}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .c-sidecar-main{min-width:0;min-height:0;display:flex;flex-direction:column}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .c-sidecar-main .dg{width:100%;height:auto;max-height:100%;margin:auto 0}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .c-sidecar-panel{border-top:3px solid var(--accent);padding-top:var(--s3);display:flex;flex-direction:column;gap:var(--s3)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .sc-k{font-size:21px;font-weight:800;letter-spacing:2.5px;color:var(--accent-text)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .sc-v{font-size:64px;font-weight:800;line-height:1;color:var(--ink);font-family:var(--c-num-font);font-variant-numeric:tabular-nums}
@@ -1860,7 +1860,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
   <div class="head"><p class="eyebrow">차트 읽기 ① — 워터폴(증감 다리)</p><h2 class="title">워터폴은 시작값에 증감을 쌓아 끝값에 닿는 다리다</h2></div>
   <div class="c-sidecar">
     <div class="c-sidecar-main">
-  <svg class="dg" viewBox="0 0 1040 580" role="img" aria-label="워터폴: 마케팅비가 2024년 120억에서 광고 재계약 −12, 채널 통폐합 −9, 신규 캠페인 +8, 일회성 이벤트 −12를 거쳐 2025년 95억이 되는 경로">
+  <svg class="dg" viewBox="0 0 1040 620" role="img" aria-label="워터폴: 마케팅비가 2024년 120억에서 광고 재계약 −12, 채널 통폐합 −9, 신규 캠페인 +8, 일회성 이벤트 −12를 거쳐 2025년 95억이 되는 경로">
     <title>워터폴은 시작값에 증감을 쌓아 끝값에 닿는 다리다</title>
     <text class="k-t-tag" x="0" y="42">(단위: 억 원)</text>
     <path d="M60,460 L980,460" fill="none" stroke="var(--line)" stroke-width="2.5" stroke-linecap="round"/>
@@ -1874,7 +1874,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
       <path d="M184,100 L244,100" class="k-ln-g"/>
       <rect x="244" y="100" width="93" height="138.24" class="k-solid-b"/>
       <text x="290.5" y="76" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">−12</text>
-      <text x="290.5" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">광고 재계약</text>
+      <text x="290.5" y="540" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">광고 재계약</text>
     </g>
     <g class="wf" data-step="3">
       <path d="M337,238.24 L397,238.24" class="k-ln-g"/>
@@ -1886,7 +1886,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
       <path d="M490,341.92 L550,341.92" class="k-ln-g"/>
       <rect x="550" y="249.76" width="93" height="92.16" fill="var(--accent)"/>
       <text x="596.5" y="225.76" font-size="26" font-weight="800" class="k-t-o" text-anchor="middle">+8</text>
-      <text x="596.5" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">신규 캠페인</text>
+      <text x="596.5" y="540" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">신규 캠페인</text>
       <path d="M596.5,345.92 L596.5,347.92" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
 <rect x="523.3" y="356.92" width="64" height="26" rx="13" fill="var(--accent)"/>
 <text x="555.3" y="376.92" font-size="18" font-weight="800" class="k-t-w" text-anchor="middle">핵심</text>
@@ -1909,7 +1909,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
       <rect x="856" y="388" width="93" height="72" class="k-solid-n"/>
       <path d="M872,468 L886,444 M888,468 L902,444" fill="none" stroke="var(--line)" stroke-width="3" class="axis-brk"/>
       <text x="902.5" y="364" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle" data-count>95</text>
-      <text x="902.5" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">2025 마케팅비</text>
+      <text x="902.5" y="540" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">2025 마케팅비</text>
     </g>
     </svg>
     </div>

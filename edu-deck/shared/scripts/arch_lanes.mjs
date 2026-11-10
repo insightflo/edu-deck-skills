@@ -341,7 +341,7 @@ function buildProcess() {
       const w = Math.round(textW(e.label, 22) + 24), h = 36;
       const a = labelAt(e, pts);
       if (a.side === 'on') { chips[e.id] = { x: round(a.x - w / 2), y: round(a.y - h / 2), w, h }; continue; }
-      const c = placeChip(a.x, a.y, w, h, [a.side, 'above', 'below', 'right', 'left'], obstacles);
+      const c = placeChip(a.x, a.y, w, h, [a.side, 'above', 'below', 'right', 'left'], obstacles, { x0: 8, x1: VBW - 8, y0: C.poolH + 6, y1: H - 8 });
       // 캔버스 위로 밀려 올라간 칩은 머리띠를 덮는다 — 아래로 내린다
       if (c.y < C.poolH + 6) c.y = C.poolH + 6;
       chips[e.id] = { ...c, w, h };
@@ -486,7 +486,7 @@ function hits(r, obstacles) {
  * [이유] 레인 도식은 라벨이 흐름 위에 놓이기 쉬워 고정 오프셋으로는 반드시 겹친다.
  *   노드 상자와 이미 놓은 칩만 장애물로 본다(선은 칩이 덮어도 읽힌다).
  */
-function placeChip(ax, ay, w, h, prefer, obstacles) {
+function placeChip(ax, ay, w, h, prefer, obstacles, box) {
   const cands = [];
   for (const side of prefer) {
     for (const d of [10, 34, 58, 82]) {
@@ -496,8 +496,12 @@ function placeChip(ax, ay, w, h, prefer, obstacles) {
       if (side === 'left') cands.push({ x: round(ax - w - d), y: round(ay - h / 2) });
     }
   }
-  for (const c of cands) if (!hits({ ...c, w, h }, obstacles)) return c;
-  return cands[0];
+  /* 칩은 캔버스 경계(box) 안에만 — 회피 오프셋이 컨테이너 밖 허공으로 튀는 회귀 방지 */
+  const fits = box ? (c) => c.x >= box.x0 && c.x + w <= box.x1 && c.y >= box.y0 && c.y + h <= box.y1 : () => true;
+  for (const c of cands) if (fits(c) && !hits({ ...c, w, h }, obstacles)) return c;
+  const c0 = cands[0];
+  if (!box) return c0;
+  return { x: Math.min(Math.max(c0.x, box.x0), box.x1 - w), y: Math.min(Math.max(c0.y, box.y0), box.y1 - h) };
 }
 
 /** 라벨 자리: 가장 긴 구간의 중앙. side 로 위/아래/오른쪽/선 위를 고른다. */
@@ -670,7 +674,7 @@ function buildCompare() {
       const pts = routeC(e);
       const w = Math.round(textW(e.label, 22) + 24), h = 36;
       const a = labelAt(e, pts);
-      const c = placeChip(a.x, a.y, w, h, ['below', 'above', 'right', 'left'], obstacles);
+      const c = placeChip(a.x, a.y, w, h, ['below', 'above', 'right', 'left'], obstacles, { x0: 8, x1: VBW - 8, y0: pool + 6, y1: H - 8 });
       // 캔버스 위로 밀려 올라간 칩은 머리띠를 덮는다 — 아래로 내린다
       if (c.y < pool + 6) c.y = pool + 6;
       chips[e.id] = { ...c, w, h };

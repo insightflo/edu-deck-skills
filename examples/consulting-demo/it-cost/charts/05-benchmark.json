@@ -38,13 +38,7 @@
     "highlight": [
       "우리 회사"
     ],
-    "annotations": [
-      {
-        "label": "그룹 중위 3.9%보다 높고, 전환 선례 D사(4.5→진행 중)와 같은 원인 구조",
-        "on": "우리 회사",
-        "kind": "main"
-      }
-    ],
+    "annotations": [],
     "canvas": "sidecar",
     "sidecar": {
       "v": "4.1",

@@ -452,7 +452,7 @@ const growB = `data-fx="bar-grow" style="transform-box:fill-box;transform-origin
 function buildWaterfall() {
   const n = data.length;
   const BASE_Y = 460, PLOT = 360, CONN = 60, NAME_Y = 508;
-  const H = 580;
+  let H = 580;
   /* 스케일: 누적 최고점이 PLOT 안에 들어오도록 */
   let cum = 0, top = 0;
   const cums = data.map((d, i) => { const k = kindOf(d, i); if (k !== 'total') cum += d.value; top = Math.max(top, cum); return cum; });
@@ -489,6 +489,14 @@ function buildWaterfall() {
   const barW = Math.min(200, Math.floor((VBW - 180 - (n - 1) * CONN) / n));
   const span = n * barW + (n - 1) * CONN;
   const left = (VBW - span) / 2;
+  /* X축 라벨 2단 스태거 — 슬롯(막대+연결 폭)보다 라벨이 넓으면 홀수 번째를 한 줄 아래로.
+     좁은 사이드카 캔버스에서 인접 라벨 상호 겹침 방지(agy 갤러리 이슈-1). */
+  const slot = barW + CONN;
+  const stagger = data.some((d) => tw(String(d.label), 22) > slot * 0.94);
+  const nameY = (i) => NAME_Y + (stagger && i % 2 === 1 ? 32 : 0);
+  const nameBottom = NAME_Y + (stagger ? 32 : 0);
+  /* 스태거+아래줄 주석이 같이 오면 캔버스를 40px 늘려 넘침을 막는다 */
+  if (stagger && (chart.annotations || []).length) H += 40;
 
   const svg = svgOpen(H, slide.ariaLabel || `${chart.type} — ${chart.question}`);
   svg.push(unitTag);
@@ -528,7 +536,7 @@ function buildWaterfall() {
       svg.push(`      <path d="M${r2(x + 16)},${BASE_Y + 8} L${r2(x + 30)},${BASE_Y - 16} M${r2(x + 32)},${BASE_Y + 8} L${r2(x + 46)},${BASE_Y - 16}" fill="none" stroke="var(--line)" stroke-width="3" class="axis-brk"/>`);
     const tCls = k === 'delta' && highlights.includes(d.label) ? 'k-t-o' : '';
     svg.push(`      <text x="${r2(cx)}" y="${r2(y - 24)}" font-size="26" font-weight="800" ${tCls ? `class="${tCls}"` : 'fill="var(--ink)"'} text-anchor="middle"${isLast ? ' data-count' : ''}>${esc(val)}</text>`);
-    svg.push(`      <text x="${r2(cx)}" y="${NAME_Y}" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">${esc(d.label)}</text>`);
+    svg.push(`      <text x="${r2(cx)}" y="${nameY(i)}" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">${esc(d.label)}</text>`);
     /* 주석 — 막대 아래 빈 공간에 점선 리더로 연결. 컬럼 폭(barW+CONN/2) 이내, 최대 2줄.
        부유 막대 밑 공간이 부족하면 항목 라벨 아래로 내린다(복수 주석은 아래로 누적). */
     let annCursor = 0;
@@ -536,9 +544,9 @@ function buildWaterfall() {
       const fs = annFont(a), maxW = barW + CONN;
       const lines = wrapLines(a.label, maxW - ANN_PAD, fs);
       const need = lines.length * 24 + 16;
-      const inGap = k === 'delta' && barBottom + annCursor + need <= NAME_Y - 8;
-      const ly0 = inGap ? barBottom + annCursor + 10 + fs : NAME_Y + 14 + annCursor + fs;
-      const leadFrom = inGap ? barBottom + annCursor + 4 : NAME_Y + 8;
+      const inGap = k === 'delta' && barBottom + annCursor + need <= nameY(i) - 8;
+      const ly0 = inGap ? barBottom + annCursor + 10 + fs : nameBottom + 14 + annCursor + fs;
+      const leadFrom = inGap ? barBottom + annCursor + 4 : nameY(i) + 8;
       const widest = Math.max(...lines.map((l) => tw(l, fs)), 40) + ANN_PAD;
       const x0 = Math.max(60, Math.min(cx - widest / 2, R_EDGE - widest - 10));
       svg.push(`      <path d="M${r2(cx)},${r2(leadFrom)} L${r2(cx)},${r2(ly0 - fs - 4)}" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>`);
