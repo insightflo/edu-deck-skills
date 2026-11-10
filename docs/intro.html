@@ -1916,25 +1916,33 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 }
 
 /* ── s01 Bottom Ribbon ── */
-.in-ribbon {
+.in-ribbon,
+.in-ribbon.stat-strip {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  background: #1e293b;
-  border: 1.5px solid #334155;
+  background: #1e293b !important;
+  border: 1.5px solid #334155 !important;
   border-radius: 10px;
   padding: 12px 8px;
+  gap: 0;
   flex: 0 0 auto;
 }
-.in-rib-cell {
+.in-rib-cell,
+.in-ribbon.stat-strip .stat {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border-right: 1px solid #334155;
-  padding: 0 8px;
+  background: #1e293b !important;
+  border: none !important;
+  border-right: 1px solid #334155 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 8px !important;
   text-align: center;
 }
-.in-rib-cell:last-child { border-right: none; }
+.in-rib-cell:last-child,
+.in-ribbon.stat-strip .stat:last-child { border-right: none !important; }
 .in-rib-v {
   font-size: 25px;
   font-weight: 900;
@@ -2607,11 +2615,11 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
   <div class="in-cover-body">
     <div class="in-cover-left">
       <div>
-        <h1 class="in-hero-title">프롬프트 하나로<em data-fx="weight-wave">완성하는 실무 덱</em></h1>
+        <h1 class="in-hero-title title">프롬프트 하나로<em data-fx="weight-wave">완성하는 실무 덱</em></h1>
         <p class="in-hero-sub" style="margin-top:16px"><b>교육 워크숍 · SI 아키텍처 · 경영 컨설팅 보고서</b>까지<br>조사·조립·이중 검수를 거쳐 브라우저에서 바로 열립니다</p>
       </div>
 
-      <div class="in-term-list" data-step="1">
+      <div class="in-term-list" data-step="1" data-fx="row-mask-rise">
         <div class="in-term">
           <span class="in-term-tag t-edu">EDU · 64팩</span>
           <p class="in-term-txt">"생성형 AI 업무 도입 찬반 토론 워크숍 14장 만들어줘"</p>
@@ -2629,7 +2637,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 
     <div class="in-spec-grid">
       <!-- Specimen 1: SI Architecture Blueprint -->
-      <div class="in-spec-win" data-step="2">
+      <div class="in-spec-win" data-step="2" data-fx="card-deal">
         <div class="in-spec-bar">
           <p class="in-spec-bar-t">[01] SI 아키텍처 청사진</p>
           <p class="in-spec-bar-k">arch_layout.mjs</p>
@@ -2683,7 +2691,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
       </div>
 
       <!-- Specimen 2: Consulting Waterfall + Sidecar -->
-      <div class="in-spec-win" data-step="2">
+      <div class="in-spec-win" data-step="2" data-fx="card-deal">
         <div class="in-spec-bar">
           <p class="in-spec-bar-t">[02] 컨설팅 차트 + 사이드카</p>
           <p class="in-spec-bar-k">chart_gen.mjs</p>
@@ -2729,7 +2737,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
       </div>
 
       <!-- Specimen 3: Resource Pack 8x8 Spread -->
-      <div class="in-spec-win" data-step="3">
+      <div class="in-spec-win" data-step="3" data-fx="card-deal">
         <div class="in-spec-bar">
           <p class="in-spec-bar-t">[03] 리소스팩 8×8 지면</p>
           <p class="in-spec-bar-k">64조합 전수 검증</p>
@@ -2764,7 +2772,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
       </div>
 
       <!-- Specimen 4: Interactive Quiz & Study Layer -->
-      <div class="in-spec-win" data-step="3">
+      <div class="in-spec-win" data-step="3" data-fx="card-deal">
         <div class="in-spec-bar">
           <p class="in-spec-bar-t">[04] 퀴즈 판정 · 자습 · 노트</p>
           <p class="in-spec-bar-k">단일 HTML 6층위</p>
@@ -2797,13 +2805,13 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
   </div>
 
   <div class="in-ribbon" data-step="1">
-    <div class="in-rib-cell"><p class="in-rib-v">52계열 253변형</p><p class="in-rib-k">장 배치 조각</p></div>
-    <div class="in-rib-cell"><p class="in-rib-v">8×8 = 64조합</p><p class="in-rib-k">리소스팩 전수 검증</p></div>
-    <div class="in-rib-cell"><p class="in-rib-v">8종 테마</p><p class="in-rib-k">표지 16종 · arc 6종</p></div>
-    <div class="in-rib-cell"><p class="in-rib-v">42 + 기법 5</p><p class="in-rib-k">실시간 코드 모션</p></div>
-    <div class="in-rib-cell"><p class="in-rib-v">생성기 3종</p><p class="in-rib-k">아키텍처 + blueprint</p></div>
-    <div class="in-rib-cell"><p class="in-rib-v">차트 11종</p><p class="in-rib-k">컨설팅 + 사이드카</p></div>
-    <div class="in-rib-cell"><p class="in-rib-v">실물 378점</p><p class="in-rib-k">자산 갤러리 재생</p></div>
+    <div class="in-rib-cell"><p class="in-rib-v"><b data-fx="count">52</b>계열 <b data-fx="count">253</b>변형</p><p class="in-rib-k">장 배치 조각</p></div>
+    <div class="in-rib-cell"><p class="in-rib-v">8×8 = <b data-fx="count">64</b>조합</p><p class="in-rib-k">리소스팩 전수 검증</p></div>
+    <div class="in-rib-cell"><p class="in-rib-v"><b data-fx="count">8</b>종 테마</p><p class="in-rib-k">표지 16종 · arc 6종</p></div>
+    <div class="in-rib-cell"><p class="in-rib-v"><b data-fx="count">42</b> + 기법 5</p><p class="in-rib-k">실시간 코드 모션</p></div>
+    <div class="in-rib-cell"><p class="in-rib-v">생성기 <b data-fx="count">3</b>종</p><p class="in-rib-k">아키텍처 + blueprint</p></div>
+    <div class="in-rib-cell"><p class="in-rib-v">차트 <b data-fx="count">11</b>종</p><p class="in-rib-k">컨설팅 + 사이드카</p></div>
+    <div class="in-rib-cell"><p class="in-rib-v">실물 <b data-fx="count">378</b>점</p><p class="in-rib-k">자산 갤러리 재생</p></div>
   </div>
 
   <aside class="notes">오프닝 첫 장입니다. 어두운 엔지니어링 무대 왼쪽에 교육·아키텍처·컨설팅 3대 영역의 실제 프롬프트 명령을 배치하고, 오른쪽에는 가짜 선이 아니라 실제 데이터와 타이포가 살아 있는 4대 산출물(SI 청사진 구성도, 컨설팅 절감 브리지와 사이드카, 8×8 리소스팩 사례철·학습지, 단일 HTML 퀴즈 판정과 단축키 HUD)을 대조했습니다. 하단 리본에 저장소의 7대 핵심 수치를 한눈에 박아 첫 3초 안에 전체 스펙트럼을 증명합니다.</aside>
@@ -2816,28 +2824,28 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
     <h2 class="title">같은 문법이 주제마다 다른 얼굴을 만듭니다</h2>
   </div>
 
-  <div class="in-kpi-strip" data-step="1">
-    <div class="in-kpi-box k-acc">
-      <p class="in-kpi-num">52<span>계열 · 253변형</span></p>
+  <div class="in-kpi-strip">
+    <div class="in-kpi-box tile k-acc">
+      <p class="in-kpi-num"><b data-fx="count">52</b><span>계열 · <b data-fx="count">253</b>변형</span></p>
       <p class="in-kpi-lbl">장 배치 조각</p>
     </div>
-    <div class="in-kpi-box k-blu">
-      <p class="in-kpi-num">64<span>조합 · 8×8</span></p>
+    <div class="in-kpi-box tile k-blu">
+      <p class="in-kpi-num"><b data-fx="count">64</b><span>조합 · 8×8</span></p>
       <p class="in-kpi-lbl">리소스팩 설계×흐름</p>
     </div>
-    <div class="in-kpi-box">
-      <p class="in-kpi-num">8<span>테마 · 16표지</span></p>
+    <div class="in-kpi-box tile">
+      <p class="in-kpi-num"><b data-fx="count">8</b><span>테마 · <b data-fx="count">16</b>표지</span></p>
       <p class="in-kpi-lbl">색·반경·arc 6종</p>
     </div>
-    <div class="in-kpi-box k-acc">
-      <p class="in-kpi-num">42<span>+ 기법 5종</span></p>
+    <div class="in-kpi-box tile k-acc">
+      <p class="in-kpi-num"><b data-fx="count">42</b><span>+ 기법 5종</span></p>
       <p class="in-kpi-lbl">실시간 모션 이름</p>
     </div>
   </div>
 
   <div class="in-div-cols">
     <!-- Column 1: Resource Pack 8x8 = 64 -->
-    <div class="in-div-card" data-step="1">
+    <div class="in-div-card tile" data-step="1" data-fx="card-deal">
       <div class="in-div-hd hd-acc">
         <p class="in-div-hd-t">① 리소스팩 8×8</p>
         <p class="in-div-hd-b">64/64 검증</p>
@@ -2888,7 +2896,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
     </div>
 
     <!-- Column 2: 52 Series 253 Variants & 8 Themes -->
-    <div class="in-div-card" data-step="2">
+    <div class="in-div-card tile" data-step="2" data-fx="card-deal">
       <div class="in-div-hd">
         <p class="in-div-hd-t">② 253변형 · 8테마</p>
         <p class="in-div-hd-b">표지 16 · arc 6</p>
@@ -2931,7 +2939,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
     </div>
 
     <!-- Column 3: Architecture Kit (3 Generators + Blueprint) -->
-    <div class="in-div-card" data-step="3">
+    <div class="in-div-card tile" data-step="3" data-fx="card-deal">
       <div class="in-div-hd hd-blue">
         <p class="in-div-hd-t">③ 아키텍처 생성기 3종</p>
         <p class="in-div-hd-b">blueprint</p>
@@ -2979,7 +2987,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
     </div>
 
     <!-- Column 4: Consulting Kit (11 Charts + 4 Hairline Directions) -->
-    <div class="in-div-card" data-step="4">
+    <div class="in-div-card tile" data-step="4" data-fx="card-deal">
       <div class="in-div-hd">
         <p class="in-div-hd-t">④ 컨설팅 차트 11종</p>
         <p class="in-div-hd-b">헤어라인 4방향</p>
@@ -3175,11 +3183,11 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
     <rect x="986" y="568" width="34" height="24" rx="12" fill="var(--mut)"/><text class="k-t-tag" x="1030" y="588">기존</text></g>
 </svg>
   </div>
-  <aside class="arch-side">
+  <aside class="arch-side" data-fx="slice-reveal">
     <p class="eyebrow" style="margin:0 0 4px">생성 계약</p>
     <p class="arch-side-t">시맨틱 JSON → 직교 SVG</p>
 <div class="arch-side-blk"><p class="arch-side-h">BOM — 이 장의 재료</p><table class="arch-side-tb"><thead><tr><th>구성</th><th>수량</th></tr></thead><tbody><tr><td>WEB 이중화</td><td>2식</td></tr><tr><td>클러스터</td><td>2식</td></tr><tr><td>DB 쌍</td><td>2식</td></tr><tr><td>경계·관제</td><td>2식</td></tr></tbody></table></div>
-<div class="arch-side-blk"><p class="arch-side-h">생성기 3종 · SI 10유형</p><ul class="arch-side-ul"><li>직교 2D (중첩 존·솔리드 헤더·버스)</li><li>입체 HW (아이소메트릭 3D 랙·계층)</li><li>레인·시퀀스 (①~⑧ 호출·토큰)</li></ul></div>
+<div class="arch-side-blk"><p class="arch-side-h">생성기 <span data-fx="count">3</span>종 · SI <span data-fx="count">10</span>유형</p><ul class="arch-side-ul"><li>직교 2D (중첩 존·솔리드 헤더·버스)</li><li>입체 HW (아이소메트릭 3D 랙·계층)</li><li>레인·시퀀스 (①~⑧ 호출·토큰)</li></ul></div>
 <div class="arch-side-blk"><p class="arch-side-h">출력 품질</p><p class="arch-side-p">맨해튼 직교 배선(사선 0) · SI 2톤 아이콘 16종 · 검색 가능한 SVG 텍스트.</p></div>
   </aside>
 </div>
@@ -3201,14 +3209,14 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
     <text class="k-t-tag" x="0" y="42">(단위: 억원)</text>
     <path d="M60,460 L980,460" fill="none" stroke="var(--line)" stroke-width="2.5" stroke-linecap="round"/>
     <g class="wf" data-step="1">
-      <rect x="91" y="100" width="93" height="360" class="k-solid-n"/>
+      <rect x="91" y="100" width="93" height="360" class="k-solid-n" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:center bottom"/>
       <path d="M107,468 L121,444 M123,468 L137,444" fill="none" stroke="var(--line)" stroke-width="3" class="axis-brk"/>
-      <text x="137.5" y="76" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">1,240</text>
+      <text x="137.5" y="76" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle" data-count data-fx="count">1,240</text>
       <text x="137.5" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">FY25 비용</text>
     </g>
     <g class="wf" data-step="2">
       <path d="M184,100 L244,100" class="k-ln-g"/>
-      <rect x="244" y="100" width="93" height="110.53" fill="var(--accent)"/>
+      <rect x="244" y="100" width="93" height="110.53" fill="var(--accent)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:center top"/>
       <text x="290.5" y="76" font-size="26" font-weight="800" class="k-t-o" text-anchor="middle">−142</text>
       <text x="290.5" y="540" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">라이선스 정비</text>
       <path d="M290.5,214.53 L290.5,216.53" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
@@ -3218,34 +3226,34 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
     </g>
     <g class="wf" data-step="3">
       <path d="M337,210.53 L397,210.53" class="k-ln-g"/>
-      <rect x="397" y="210.53" width="93" height="91.85" fill="var(--accent)"/>
+      <rect x="397" y="210.53" width="93" height="91.85" fill="var(--accent)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:center top"/>
       <text x="443.5" y="186.53" font-size="26" font-weight="800" class="k-t-o" text-anchor="middle">−118</text>
       <text x="443.5" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">클라우드 통합</text>
     </g>
     <g class="wf" data-step="4">
       <path d="M490,302.38 L550,302.38" class="k-ln-g"/>
-      <rect x="550" y="302.38" width="93" height="108.97" class="k-solid-b"/>
+      <rect x="550" y="302.38" width="93" height="108.97" class="k-solid-b" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:center top"/>
       <text x="596.5" y="278.38" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">−140</text>
       <text x="596.5" y="540" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">레거시 전환</text>
     </g>
     <g class="wf" data-step="5">
       <path d="M643,411.35 L703,411.35" class="k-ln-g"/>
-      <rect x="703" y="388" width="93" height="23.35" class="k-solid-b"/>
+      <rect x="703" y="388" width="93" height="23.35" class="k-solid-b" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:center bottom"/>
       <text x="749.5" y="364" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">+30</text>
       <text x="749.5" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">전환 투자</text>
     </g>
     <g class="wf" data-step="6">
       <path d="M796,388 L856,388" class="k-ln-g"/>
-      <rect x="856" y="388" width="93" height="72" class="k-solid-n"/>
+      <rect x="856" y="388" width="93" height="72" class="k-solid-n" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:center bottom"/>
       <path d="M872,468 L886,444 M888,468 L902,444" fill="none" stroke="var(--line)" stroke-width="3" class="axis-brk"/>
-      <text x="902.5" y="364" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle" data-count>870</text>
+      <text x="902.5" y="364" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle" data-count data-fx="count">870</text>
       <text x="902.5" y="540" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">FY27 목표</text>
     </g>
     </svg>
     </div>
-    <aside class="c-sidecar-panel" data-step="6">
+    <aside class="c-sidecar-panel" data-step="6" data-fx="slice-reveal">
       <p class="sc-k">SO WHAT</p>
-      <p class="sc-v">11<small>종</small></p>
+      <p class="sc-v"><span data-count data-fx="count">11</span><small>종</small></p>
       <p class="sc-h">결정론적 차트 생성기 — 브리지·사분면·토네이도·마리메코 등</p>
       <ul>
         <li>차트와 <b>SO WHAT 사이드카</b>를 단일 JSON에서 동시 생성</li>
@@ -3271,32 +3279,32 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 
   <!-- 6-Stage End-to-End Pipeline Bar -->
   <div class="in-pipe-bar" data-step="1">
-    <div class="in-pipe-step">
+    <div class="in-pipe-step chip" data-fx="card-deal">
       <p class="in-pipe-n">STEP 01</p>
       <p class="in-pipe-t">프롬프트 요청</p>
       <p class="in-pipe-d">주제·대상 한 줄 입력</p>
     </div>
-    <div class="in-pipe-step">
+    <div class="in-pipe-step chip" data-fx="card-deal">
       <p class="in-pipe-n">STEP 02</p>
       <p class="in-pipe-t">경로 라우팅</p>
       <p class="in-pipe-d">팩64·자유·SI·컨설팅</p>
     </div>
-    <div class="in-pipe-step">
+    <div class="in-pipe-step chip" data-fx="card-deal">
       <p class="in-pipe-n">STEP 03</p>
       <p class="in-pipe-t">조사 · 원장</p>
       <p class="in-pipe-d">사실 수집·data-src 채번</p>
     </div>
-    <div class="in-pipe-step">
+    <div class="in-pipe-step chip" data-fx="card-deal">
       <p class="in-pipe-n">STEP 04</p>
       <p class="in-pipe-t">조립 · 생성</p>
       <p class="in-pipe-d">253조각·생성기 렌더</p>
     </div>
-    <div class="in-pipe-step st-gate">
+    <div class="in-pipe-step chip st-gate" data-fx="card-deal">
       <p class="in-pipe-n">STEP 05</p>
       <p class="in-pipe-t">이중 검수</p>
       <p class="in-pipe-d">계약 검사 + 심미 QA</p>
     </div>
-    <div class="in-pipe-step st-out">
+    <div class="in-pipe-step chip st-out" data-fx="card-deal">
       <p class="in-pipe-n">STEP 06</p>
       <p class="in-pipe-t">단일 HTML</p>
       <p class="in-pipe-d">외부 의존 0 · 즉시 재생</p>
@@ -3306,7 +3314,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
   <!-- Dual Quality Gate Scorecards -->
   <div class="in-gates">
     <!-- Gate 01: Technical Contract -->
-    <div class="in-gate-card" data-step="2">
+    <div class="in-gate-card card" id="gate-tech" data-step="2">
       <div class="in-gate-hd">
         <p class="in-gate-title">GATE 01 · 기계가 강제하는 기술 계약</p>
         <p class="in-gate-badge">check_deck.py</p>
@@ -3314,7 +3322,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
       <div class="in-gate-body">
         <div class="in-gate-row">
           <span class="in-gate-tag">WCAG 대비</span>
-          <p class="in-gate-txt">본문 4.5:1 · 큰 글자 3.0:1 · 238셀 테마 대비 매트릭스 검증</p>
+          <p class="in-gate-txt">본문 4.5:1 · 큰 글자 3.0:1 · <b data-fx="count">238</b>셀 테마 대비 매트릭스 검증</p>
         </div>
         <div class="in-gate-row">
           <span class="in-gate-tag">렌더 실측</span>
@@ -3326,14 +3334,14 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
         </div>
         <div class="in-gate-row">
           <span class="in-gate-tag">회귀 기준</span>
-          <p class="in-gate-txt">단위 테스트 505개 · 리소스팩 브라우저 64/64 전수 PASS</p>
+          <p class="in-gate-txt">단위 테스트 <b data-fx="count">505</b>개 · 리소스팩 브라우저 64/64 전수 PASS</p>
         </div>
         <p class="in-gate-foot">✓ 안전 가드(ERROR = 0) 미통과 시 배포 차단 — 기술 무결성 보장</p>
       </div>
     </div>
 
     <!-- Gate 02: Visual Aesthetic Critique -->
-    <div class="in-gate-card" data-step="3">
+    <div class="in-gate-card card" data-step="3" data-fx="rack-focus" data-fx-dim="#gate-tech">
       <div class="in-gate-hd g-crit">
         <p class="in-gate-title">GATE 02 · 눈으로 거르는 9항목 심미 크리틱</p>
         <p class="in-gate-badge">design-critique.md</p>
@@ -3376,32 +3384,32 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
         <p class="in-stack-top-b">외부 의존성 0 · 오프라인 완결</p>
       </div>
       <div class="in-stack-list">
-        <div class="in-layer-row" data-step="1">
+        <div class="in-layer-row" data-step="1" data-fx="card-deal">
           <p class="in-layer-badge">LAYER 01</p>
           <p class="in-layer-name">1920×1080 고정 캔버스</p>
           <p class="in-layer-desc">--ed-s 뷰포트 자동 스케일 · 줄바꿈 불변</p>
         </div>
-        <div class="in-layer-row" data-step="1">
+        <div class="in-layer-row" data-step="1" data-fx="card-deal">
           <p class="in-layer-badge">LAYER 02</p>
           <p class="in-layer-name">8 테마 · 64 팩 · 청사진 CSS</p>
           <p class="in-layer-desc">외부 웹폰트·CDN 호출 없이 전수 인라인</p>
         </div>
-        <div class="in-layer-row ly-hi" data-step="2">
+        <div class="in-layer-row ly-hi" data-step="2" data-fx="card-deal">
           <p class="in-layer-badge">LAYER 03</p>
           <p class="in-layer-name">스텝 엔진 &amp; 42+5 모션</p>
           <p class="in-layer-desc">data-step · data-only · data-lit 시선 유도</p>
         </div>
-        <div class="in-layer-row ly-hi" data-step="2">
+        <div class="in-layer-row ly-hi" data-step="2" data-fx="card-deal">
           <p class="in-layer-badge">LAYER 04</p>
           <p class="in-layer-name">실시간 OX · 객관식 판정</p>
           <p class="in-layer-desc">최종 스텝에서 .ox.o 점등 · judgment-stamp</p>
         </div>
-        <div class="in-layer-row" data-step="3">
+        <div class="in-layer-row" data-step="3" data-fx="card-deal">
           <p class="in-layer-badge">LAYER 05</p>
           <p class="in-layer-name">자습 계층 (EDU_STUDY)</p>
           <p class="in-layer-desc">localStorage 진도 · 북마크 · 하이라이트 · 메모</p>
         </div>
-        <div class="in-layer-row" data-step="3">
+        <div class="in-layer-row" data-step="3" data-fx="card-deal">
           <p class="in-layer-badge">LAYER 06</p>
           <p class="in-layer-name">발표자 보조 창 &amp; 인쇄</p>
           <p class="in-layer-desc">aside.notes 분리 창(P) · ?sheet 전 장 인쇄</p>
@@ -3411,16 +3419,16 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 
     <div class="in-quiz-panel" data-step="4">
       <p class="in-quiz-kicker">실물 엔진 동작 검증 · QUIZ-OX (JUDGMENT-STAMP)</p>
-      <div class="qrow">
+      <div class="qrow" id="quiz-qrow">
         <div class="qn">Q</div>
         <div class="qt">생성된 덱 HTML은 인터넷이 차단된 폐쇄망 PC에서도 모션·차트·퀴즈·발표 노트가 100% 동일하게 작동한다.</div>
-        <div style="display:flex;gap:12px;align-items:center"><span class="ox o">O</span><span class="ox x">X</span></div>
+        <div style="display:flex;gap:12px;align-items:center"><span class="ox o" data-fx="stamp">O</span><span class="ox x">X</span></div>
       </div>
-      <p class="in-quiz-verdict">정답 O — 완전 독립 단일 파일(Self-Contained Single HTML). CSS 토큰·인라인 SVG 도식·스텝 엔진·자습 모듈이 파일 하나에 패킹되어 별도 서버 없이 즉시 실행됩니다.</p>
+      <p class="in-quiz-verdict" data-fx="rack-focus" data-fx-dim="#quiz-qrow">정답 O — 완전 독립 단일 파일(Self-Contained Single HTML). CSS 토큰·인라인 SVG 도식·스텝 엔진·자습 모듈이 파일 하나에 패킹되어 별도 서버 없이 즉시 실행됩니다.</p>
       <div class="in-key-grid">
-        <p class="in-key-chip"><b>Space / →</b>다음 스텝</p>
-        <p class="in-key-chip"><b>DblClick</b>장 끝까지</p>
-        <p class="in-key-chip"><b>P / N</b>발표자 노트</p>
+        <p class="in-key-chip" data-fx="press"><b>Space / →</b>다음 스텝</p>
+        <p class="in-key-chip" data-fx="press"><b>DblClick</b>장 끝까지</p>
+        <p class="in-key-chip" data-fx="press"><b>P / N</b>발표자 노트</p>
         <p class="in-key-chip"><b>S 키</b>자습 패널</p>
         <p class="in-key-chip"><b>G / ?</b>장 이동·도움</p>
         <p class="in-key-chip"><b>?sheet</b>A4 인쇄뷰</p>
@@ -3435,19 +3443,19 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
   <div class="in-topbar">
     <p class="in-kicker">07 · LIVE SHOWCASE &amp; ASSET GALLERY</p>
     <div class="in-top-badges">
-      <p class="in-badge-dark">실물 덱 6종 즉시 실행</p>
-      <p class="in-badge-amber">자산 갤러리 378점</p>
+      <p class="in-badge-dark pill">실물 덱 6종 즉시 실행</p>
+      <p class="in-badge-amber pill">자산 갤러리 378점</p>
     </div>
   </div>
 
   <div>
-    <h2 style="font-size:48px;font-weight:900;color:#ffffff;letter-spacing:-1.5px;margin:0 0 6px">백문이 불여일견 — <span style="color:#fbbf24">6종의 완성된 실물 덱</span>과 <span style="color:#fbbf24">378점 갤러리</span>를 직접 열어보세요</h2>
+    <h2 class="title" style="font-size:48px;font-weight:900;color:#ffffff;letter-spacing:-1.5px;margin:0 0 6px">백문이 불여일견 — <span style="color:#fbbf24">6종의 완성된 실물 덱</span>과 <span style="color:#fbbf24">378점 갤러리</span>를 직접 열어보세요</h2>
     <p style="font-size:23px;font-weight:600;color:#cbd5e1;margin:0">아래 카드들은 정적 이미지가 아니라 실제로 작동하는 단일 HTML 덱과 전체 자산 카탈로그로 연결됩니다.</p>
   </div>
 
   <div class="in-cta-body">
     <div class="in-deck-grid">
-      <a class="in-deck-card" href="../examples/arch-si/arch-si.html" target="_blank" rel="noopener">
+      <a class="in-deck-card" data-fx="card-deal" href="../examples/arch-si/arch-si.html" target="_blank" rel="noopener">
         <div class="in-deck-top">
           <p class="in-deck-tag dt-arch">ARCH · BLUEPRINT</p>
           <p class="in-deck-open">실물 13장 열기 →</p>
@@ -3455,7 +3463,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
         <p class="in-deck-name">차세대 SI 시스템 아키텍처 제안</p>
         <p class="in-deck-desc">중첩 보안존 · 직교 10G 백본 · 입체 HW · HA 페일오버</p>
       </a>
-      <a class="in-deck-card" href="../examples/consulting-demo/ai-transform/ai-transform-consulting-deck.html" target="_blank" rel="noopener">
+      <a class="in-deck-card" data-fx="card-deal" href="../examples/consulting-demo/ai-transform/ai-transform-consulting-deck.html" target="_blank" rel="noopener">
         <div class="in-deck-top">
           <p class="in-deck-tag dt-con">CONSULT · TECH</p>
           <p class="in-deck-open">실물 12장 열기 →</p>
@@ -3463,7 +3471,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
         <p class="in-deck-name">전사 AI 전환 전략 &amp; ROI 로드맵</p>
         <p class="in-deck-desc">헤어라인 표 · 워터폴 브리지 · 우측 SO WHAT 사이드카</p>
       </a>
-      <a class="in-deck-card" href="../examples/privacy-talk/privacy-talk-deck.html" target="_blank" rel="noopener">
+      <a class="in-deck-card" data-fx="card-deal" href="../examples/privacy-talk/privacy-talk-deck.html" target="_blank" rel="noopener">
         <div class="in-deck-top">
           <p class="in-deck-tag dt-pack">PACK · SEMINAR</p>
           <p class="in-deck-open">실물 14장 열기 →</p>
@@ -3471,7 +3479,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
         <p class="in-deck-name">생성형 AI 개인정보 딜레마 토론</p>
         <p class="in-deck-desc">인용 앵커 표지 · 대칭 쟁점 구도 · 전폭 스펙트럼 · 퀴즈</p>
       </a>
-      <a class="in-deck-card" href="../examples/states-quiz/states-quiz-deck.html" target="_blank" rel="noopener">
+      <a class="in-deck-card" data-fx="card-deal" href="../examples/states-quiz/states-quiz-deck.html" target="_blank" rel="noopener">
         <div class="in-deck-top">
           <p class="in-deck-tag dt-pack">PACK · KIDS-BOARD</p>
           <p class="in-deck-open">실물 덱 열기 →</p>
@@ -3479,7 +3487,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
         <p class="in-deck-name">초등 과학 — 물질의 세 가지 상태</p>
         <p class="in-deck-desc">칠판 분필 질감 · 단계별 빈칸 퀴즈 · 분자 배열 도식</p>
       </a>
-      <a class="in-deck-card" href="../examples/ratio-worksheet/ratio-worksheet-deck.html" target="_blank" rel="noopener">
+      <a class="in-deck-card" data-fx="card-deal" href="../examples/ratio-worksheet/ratio-worksheet-deck.html" target="_blank" rel="noopener">
         <div class="in-deck-top">
           <p class="in-deck-tag dt-pack">PACK · EXAM-CRAM</p>
           <p class="in-deck-open">실물 덱 열기 →</p>
@@ -3487,7 +3495,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
         <p class="in-deck-name">중등 수학 — 비와 비율 핵심 공식</p>
         <p class="in-deck-desc">모눈종이 워크시트 · 공식 카드 · 오답 함정 대조</p>
       </a>
-      <a class="in-deck-card" href="../examples/safety-casebook/safety-casebook-deck.html" target="_blank" rel="noopener">
+      <a class="in-deck-card" data-fx="card-deal" href="../examples/safety-casebook/safety-casebook-deck.html" target="_blank" rel="noopener">
         <div class="in-deck-top">
           <p class="in-deck-tag dt-pack">PACK · SAFETY</p>
           <p class="in-deck-open">실물 덱 열기 →</p>
@@ -3497,10 +3505,10 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
       </a>
     </div>
 
-    <div class="in-gallery-hero">
+    <div class="in-gallery-hero big">
       <div>
         <p class="in-kicker" style="margin-bottom:8px">COMPLETE VISUAL CATALOG</p>
-        <p class="in-gal-num">378<span>점 실물 카탈로그</span></p>
+        <p class="in-gal-num"><b data-fx="count" style="font-weight:900;color:#fbbf24">378</b><span>점 실물 카탈로그</span></p>
         <p class="in-gal-title">전체 자산 갤러리 &amp; 모션 쇼케이스</p>
       </div>
       <p class="in-gal-desc">슬라이드 253변형 · 리소스팩 64조합 · 모션 47종 GIF · 아키텍처 · 컨설팅 썸네일을 한눈에 탐색하고 코드를 확인합니다.</p>
