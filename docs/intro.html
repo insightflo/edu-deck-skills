@@ -1729,55 +1729,750 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 .slide.consult-tech .c-sidecar .sc-v{font-family:var(--c-num-font)}
 
 /* ---- intro.css ---- */
-/* intro-deck 전용 클래스 — 소개 쇼 커스텀 조형(in-* 접두사).
-   공용 계약(data-step·.chk·k-*)와 겹치지 않게 모두 .slide 안에서만 의미를 가진다. */
+/* intro-deck 전용 아트 디렉션 스타일 (in-* 접두사)
+   테마 리듬: s01(Dark Anchor) → s02(Editorial Paper) → s03(Blueprint) → s04(Consult Tech) → s05·s06(Editorial Paper) → s07(Dark Finale)
+   계약: 공용 data-step / .chk / k-* / aside.notes 계약을 침범하지 않으며 모든 본문 글자는 ≥20px, WCAG 대비 4.5:1 이상을 준수한다. */
 
-/* s01 오프닝 — 프롬프트 입력 줄과 4대 실물 미니 프레임 */
-.in-eyebrow{font-size:26px;font-weight:800;letter-spacing:6px;color:var(--accent-text)}
-.in-eyebrow::before{content:"";display:inline-block;width:40px;height:4px;background:currentColor;margin-right:18px;vertical-align:.22em}
-.in-hero{font-size:104px;font-weight:900;line-height:1.08;letter-spacing:-3px;color:var(--ink);margin:0}
-.in-hero em{font-style:normal;color:var(--accent-text)}
-.in-sub{font-size:30px;line-height:1.4;color:var(--soft);margin:0;font-weight:600}
-.in-prompt{display:flex;align-items:center;gap:16px;background:var(--light);border:1.5px solid var(--line);border-left:5px solid var(--accent);border-radius:var(--r2);padding:14px 22px;font-size:24px;font-weight:600;color:var(--ink);margin:0}
-.in-prompt::before{content:">";font-weight:800;color:var(--accent-text);font-family:ui-monospace,monospace}
-.in-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:18px;min-height:0}
-.in-fr{display:flex;flex-direction:column;background:#fff;border:1.5px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(15,23,42,.06)}
-.in-fr-t{display:flex;align-items:center;justify-content:space-between;font-size:18px;font-weight:800;padding:10px 16px;border-bottom:1px solid var(--line);background:var(--light);color:var(--ink)}
-.in-fr-t i{font-style:normal;font-size:18px;font-weight:800;color:var(--paper);background:var(--accent);border-radius:999px;padding:2px 10px}
-.in-fr svg{flex:1;min-height:0;width:100%;display:block}
+/* ── Dark Bookend Stage (s01, s07) ── */
+.slide.dark.in-stage-dark {
+  background: #131922;
+  color: #f8fafc;
+  padding: 52px 72px 64px;
+  justify-content: space-between;
+  gap: 24px;
+}
+.slide svg text.k-t-w {
+  font-size: 19px !important;
+}
 
-/* 공용 헤어라인 카드 — 컨설팅 문법의 위쪽 굵은 규칙선 */
-.in-hl{border-top:3px solid var(--accent);padding-top:14px;display:flex;flex-direction:column;gap:8px;min-width:0}
-.in-hl-k{font-size:19px;font-weight:800;letter-spacing:2px;color:var(--accent-text)}
-.in-hl-v{font-size:26px;font-weight:700;line-height:1.4;color:var(--ink);margin:0}
-.in-hl-d{font-size:20px;line-height:1.45;color:var(--soft);margin:0}
+.in-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1.5px solid rgba(226, 232, 240, 0.16);
+  padding-bottom: 16px;
+  flex: 0 0 auto;
+}
+.in-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: #fbbf24;
+  margin: 0;
+}
+.in-kicker::before {
+  content: "";
+  display: inline-block;
+  width: 32px;
+  height: 4px;
+  background: #fbbf24;
+}
+.in-top-badges {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.in-badge-dark {
+  font-size: 20px;
+  font-weight: 700;
+  color: #e2e8f0;
+  background: #1e293b;
+  border: 1.5px solid #475569;
+  border-radius: 999px;
+  padding: 6px 18px;
+  margin: 0;
+}
+.in-badge-amber {
+  font-size: 20px;
+  font-weight: 800;
+  color: #111827;
+  background: #fbbf24;
+  border-radius: 999px;
+  padding: 6px 18px;
+  margin: 0;
+}
 
-/* s03 다양성 — 스탯 타일 */
-.in-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;flex:1;min-height:0}
-.in-stat{display:flex;flex-direction:column;background:var(--paper);border:1.5px solid var(--line);border-radius:14px;padding:22px 24px;min-height:0;gap:6px}
-.in-stat-v{font-size:56px;font-weight:900;line-height:1;color:var(--ink);font-variant-numeric:tabular-nums}
-.in-stat-v small{font-size:26px;font-weight:800;color:var(--accent-text);margin-left:4px}
-.in-stat-k{font-size:20px;font-weight:800;color:var(--soft)}
-.in-stat-fig{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
-.in-stat-fig svg{width:100%;height:100%;display:block}
+/* ── s01 Main Split ── */
+.in-cover-body {
+  display: grid;
+  grid-template-columns: 700px 1fr;
+  gap: 44px;
+  flex: 1;
+  min-height: 0;
+  align-items: stretch;
+}
+.in-cover-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 28px;
+}
+.in-hero-title {
+  font-size: 86px;
+  font-weight: 900;
+  line-height: 1.07;
+  letter-spacing: -2.8px;
+  color: #ffffff;
+  margin: 0;
+}
+.in-hero-title em {
+  font-style: normal;
+  color: #fbbf24;
+  display: block;
+}
+.in-hero-sub {
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: #cbd5e1;
+  margin: 0;
+}
+.in-hero-sub b {
+  color: #ffffff;
+  font-weight: 800;
+}
+.in-term-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.in-term {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #1e293b;
+  border: 1.5px solid #334155;
+  border-left: 5px solid #fbbf24;
+  border-radius: 10px;
+  padding: 13px 18px;
+  margin: 0;
+}
+.in-term-tag {
+  font-size: 20px;
+  font-weight: 800;
+  color: #0f172a;
+  background: #38bdf8;
+  border-radius: 6px;
+  padding: 3px 10px;
+  flex: 0 0 auto;
+}
+.in-term-tag.t-arch { background: #60a5fa; }
+.in-term-tag.t-consult { background: #fbbf24; }
+.in-term-tag.t-edu { background: #34d399; }
+.in-term-txt {
+  font-size: 23px;
+  font-weight: 700;
+  color: #f8fafc;
+  margin: 0;
+}
 
-/* s06 다층 단면 — 층 레이블 */
-.in-layer{display:flex;align-items:center;gap:16px;font-size:22px;font-weight:700;color:var(--ink);padding:10px 0;border-bottom:1px solid var(--line)}
-.in-layer:last-child{border-bottom:none}
-.in-layer b{flex:none;width:36px;height:36px;border-radius:50%;background:var(--blue);color:var(--paper);font-size:19px;font-weight:800;display:flex;align-items:center;justify-content:center}
-.in-layer small{color:var(--soft);font-size:18px;font-weight:600}
+/* ── s01 Right 2×2 Specimen Windows ── */
+.in-spec-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 18px;
+  min-height: 0;
+}
+.in-spec-win {
+  display: flex;
+  flex-direction: column;
+  background: #f8fafc;
+  border: 2px solid #475569;
+  border-radius: 12px;
+  overflow: hidden;
+  min-height: 0;
+}
+.in-spec-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #1e293b;
+  border-bottom: 1.5px solid #334155;
+  padding: 8px 16px;
+  flex: 0 0 auto;
+}
+.in-spec-bar-t {
+  font-size: 20px;
+  font-weight: 800;
+  color: #f8fafc;
+  margin: 0;
+}
+.in-spec-bar-k {
+  font-size: 20px;
+  font-weight: 800;
+  color: #fbbf24;
+  margin: 0;
+}
+.in-spec-win svg {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
 
-/* s07 CTA — 실물 덱 링크 카드와 갤러리 히어로 */
-.in-links{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-content:start}
-.in-link{display:flex;align-items:center;gap:18px;background:var(--paper);border:1.5px solid var(--line);border-radius:var(--r2);padding:20px 24px;text-decoration:none;color:inherit;transition:border-color var(--m1) var(--e-out),transform var(--m1) var(--e-out)}
-.in-link:hover{border-color:var(--accent);transform:translateY(-2px)}
-.in-link svg{width:44px;height:44px;flex:none;color:var(--accent)}
-.in-link p{margin:0;font-size:24px;font-weight:800;color:var(--ink)}
-.in-link small{display:block;font-size:18px;font-weight:600;color:var(--soft);margin-top:2px}
-.in-cta{display:flex;flex-direction:column;justify-content:center;gap:22px;background:var(--ink);border-radius:var(--r3);padding:44px 40px;color:var(--paper)}
-.in-cta h3{margin:0;font-size:44px;font-weight:900;line-height:1.25}
-.in-cta p{margin:0;font-size:22px;line-height:1.5;color:var(--muted)}
-.in-cta a{display:inline-flex;align-items:center;gap:14px;align-self:flex-start;background:var(--accent);color:var(--paper);font-size:28px;font-weight:800;padding:18px 34px;border-radius:999px;text-decoration:none}
+/* ── s01 Bottom Ribbon ── */
+.in-ribbon {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background: #1e293b;
+  border: 1.5px solid #334155;
+  border-radius: 10px;
+  padding: 12px 8px;
+  flex: 0 0 auto;
+}
+.in-rib-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid #334155;
+  padding: 0 8px;
+  text-align: center;
+}
+.in-rib-cell:last-child { border-right: none; }
+.in-rib-v {
+  font-size: 25px;
+  font-weight: 900;
+  color: #fbbf24;
+  line-height: 1.15;
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+.in-rib-k {
+  font-size: 20px;
+  font-weight: 700;
+  color: #e2e8f0;
+  margin: 2px 0 0;
+}
+
+/* ── s02 Diversity Engine (4 Architectural Columns) ── */
+.in-kpi-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  flex: 0 0 auto;
+}
+.in-kpi-box {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  background: #ffffff;
+  border-top: 4px solid var(--ink);
+  border-bottom: 1.5px solid var(--line);
+  padding: 12px 20px;
+}
+.in-kpi-box.k-acc { border-top-color: var(--accent); }
+.in-kpi-box.k-blu { border-top-color: var(--blue); }
+.in-kpi-num {
+  font-size: 42px;
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1;
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+.in-kpi-num span {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--accent-text);
+  margin-left: 4px;
+}
+.in-kpi-lbl {
+  font-size: 21px;
+  font-weight: 800;
+  color: var(--soft);
+  margin: 0;
+}
+
+.in-div-cols {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  flex: 1;
+  min-height: 0;
+}
+.in-div-card {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  min-height: 0;
+}
+.in-div-hd {
+  background: var(--ink);
+  color: #ffffff;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.in-div-hd.hd-blue { background: var(--blue); }
+.in-div-hd.hd-acc { background: #9a3412; }
+.in-div-hd-t {
+  font-size: 22px;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0;
+}
+.in-div-hd-b {
+  font-size: 20px;
+  font-weight: 800;
+  color: #fbbf24;
+  margin: 0;
+}
+.in-div-fig {
+  flex: 1;
+  min-height: 0;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8fafc;
+}
+.in-div-fig svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.in-div-ft {
+  padding: 12px 16px;
+  border-top: 1.5px solid var(--line);
+  background: #ffffff;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.35;
+  margin: 0;
+}
+
+/* ── s05 Dual Quality Gate (Pipeline + 2 Scorecards) ── */
+.in-pipe-bar {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+  flex: 0 0 auto;
+}
+.in-pipe-step {
+  background: #ffffff;
+  border: 1.5px solid var(--line);
+  border-top: 4px solid var(--blue);
+  border-radius: 8px;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.in-pipe-step.st-gate {
+  background: var(--blue-soft);
+  border-color: var(--blue);
+  border-top-width: 4px;
+}
+.in-pipe-step.st-out {
+  background: var(--ink);
+  border-color: var(--ink);
+  border-top-color: #fbbf24;
+  color: #ffffff;
+}
+.in-pipe-n {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--blue-text);
+  margin: 0;
+}
+.in-pipe-step.st-out .in-pipe-n { color: #fbbf24; }
+.in-pipe-t {
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--ink);
+  margin: 0;
+}
+.in-pipe-step.st-out .in-pipe-t { color: #ffffff; }
+.in-pipe-d {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--soft);
+  margin: 0;
+}
+.in-pipe-step.st-out .in-pipe-d { color: #cbd5e1; }
+
+.in-gates {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  flex: 1;
+  min-height: 0;
+}
+.in-gate-card {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border: 2px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  min-height: 0;
+}
+.in-gate-hd {
+  background: var(--ink);
+  color: #ffffff;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.in-gate-hd.g-crit { background: #9a3412; }
+.in-gate-title {
+  font-size: 24px;
+  font-weight: 900;
+  color: #ffffff;
+  margin: 0;
+}
+.in-gate-badge {
+  font-size: 20px;
+  font-weight: 800;
+  color: #111827;
+  background: #fbbf24;
+  border-radius: 999px;
+  padding: 4px 14px;
+  margin: 0;
+}
+.in-gate-body {
+  padding: 18px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  gap: 12px;
+}
+.in-gate-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 10px;
+}
+.in-gate-row:last-child { border-bottom: none; padding-bottom: 0; }
+.in-gate-tag {
+  font-size: 20px;
+  font-weight: 800;
+  color: #ffffff;
+  background: var(--blue);
+  border-radius: 6px;
+  padding: 4px 12px;
+  flex: 0 0 120px;
+  text-align: center;
+}
+.in-gate-tag.gt-acc { background: #9a3412; }
+.in-gate-txt {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0;
+  line-height: 1.35;
+}
+.in-crit-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.in-crit-cell {
+  background: #f8fafc;
+  border: 1.5px solid var(--line);
+  border-left: 4px solid #9a3412;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 21px;
+  font-weight: 800;
+  color: var(--ink);
+  margin: 0;
+}
+.in-gate-foot {
+  background: #f1f5f9;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 21px;
+  font-weight: 800;
+  color: var(--ink);
+  margin: 0;
+}
+
+/* ── s06 Single HTML 6-Layer Stack & Live Quiz ── */
+.in-stack-wrap {
+  display: grid;
+  grid-template-columns: 1.12fr 0.88fr;
+  gap: 36px;
+  flex: 1;
+  min-height: 0;
+  align-items: stretch;
+}
+.in-stack-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #ffffff;
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.in-stack-top {
+  background: var(--ink);
+  color: #ffffff;
+  padding: 14px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.in-stack-top-t {
+  font-size: 23px;
+  font-weight: 900;
+  color: #ffffff;
+  margin: 0;
+}
+.in-stack-top-b {
+  font-size: 20px;
+  font-weight: 800;
+  color: #fbbf24;
+  margin: 0;
+}
+.in-stack-list {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-around;
+  padding: 12px 20px;
+  gap: 8px;
+}
+.in-layer-row {
+  display: grid;
+  grid-template-columns: 128px 250px 1fr;
+  align-items: center;
+  gap: 14px;
+  background: #f8fafc;
+  border: 1.5px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 16px;
+}
+.in-layer-row.ly-hi {
+  background: var(--blue-soft);
+  border-color: var(--blue);
+}
+.in-layer-badge {
+  font-size: 20px;
+  font-weight: 800;
+  color: #ffffff;
+  background: var(--ink);
+  border-radius: 6px;
+  padding: 4px 10px;
+  text-align: center;
+  margin: 0;
+}
+.in-layer-row.ly-hi .in-layer-badge { background: var(--blue); }
+.in-layer-name {
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--ink);
+  margin: 0;
+}
+.in-layer-desc {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--soft);
+  margin: 0;
+}
+
+.in-quiz-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #ffffff;
+  border: 2px solid var(--line);
+  border-top: 5px solid var(--accent);
+  border-radius: 14px;
+  padding: 26px 28px;
+  gap: 16px;
+}
+.in-quiz-kicker {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--accent-text);
+  letter-spacing: 1.5px;
+  margin: 0;
+}
+.in-quiz-verdict {
+  background: var(--blue-soft);
+  border-left: 5px solid var(--blue);
+  border-radius: 8px;
+  padding: 14px 18px;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--ink);
+  margin: 0;
+  line-height: 1.4;
+}
+.in-key-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.in-key-chip {
+  background: #f8fafc;
+  border: 1.5px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--ink);
+  text-align: center;
+  margin: 0;
+}
+.in-key-chip b {
+  color: var(--accent-text);
+  margin-right: 6px;
+}
+
+/* ── s07 Dark Finale & Specimen Launchpad ── */
+.in-cta-body {
+  display: grid;
+  grid-template-columns: 1.32fr 0.98fr;
+  gap: 32px;
+  flex: 1;
+  min-height: 0;
+  align-items: stretch;
+}
+.in-deck-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(3, 1fr);
+  gap: 16px;
+  min-height: 0;
+}
+.in-deck-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #1e293b;
+  border: 1.5px solid #334155;
+  border-radius: 12px;
+  padding: 18px 22px;
+  text-decoration: none;
+  color: #f8fafc;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+.in-deck-card:hover {
+  border-color: #fbbf24;
+  transform: translateY(-2px);
+}
+.in-deck-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.in-deck-tag {
+  font-size: 20px;
+  font-weight: 800;
+  color: #0f172a;
+  background: #38bdf8;
+  border-radius: 6px;
+  padding: 3px 12px;
+  margin: 0;
+}
+.in-deck-tag.dt-arch { background: #60a5fa; }
+.in-deck-tag.dt-con { background: #fbbf24; }
+.in-deck-tag.dt-pack { background: #34d399; }
+.in-deck-open {
+  font-size: 20px;
+  font-weight: 800;
+  color: #fbbf24;
+  margin: 0;
+}
+.in-deck-name {
+  font-size: 26px;
+  font-weight: 900;
+  color: #ffffff;
+  margin: 6px 0 2px;
+}
+.in-deck-desc {
+  font-size: 20px;
+  font-weight: 600;
+  color: #cbd5e1;
+  margin: 0;
+}
+
+.in-gallery-hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #1e293b;
+  border: 2px solid #fbbf24;
+  border-radius: 16px;
+  padding: 30px 34px;
+  color: #f8fafc;
+}
+.in-gal-num {
+  font-size: 72px;
+  font-weight: 900;
+  color: #fbbf24;
+  line-height: 1;
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+.in-gal-num span {
+  font-size: 32px;
+  color: #ffffff;
+  margin-left: 8px;
+}
+.in-gal-title {
+  font-size: 32px;
+  font-weight: 900;
+  color: #ffffff;
+  margin: 4px 0 0;
+  line-height: 1.25;
+}
+.in-gal-desc {
+  font-size: 21px;
+  font-weight: 600;
+  color: #cbd5e1;
+  line-height: 1.45;
+  margin: 0;
+}
+.in-gal-specs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.in-gal-spec {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #e2e8f0;
+  margin: 0;
+}
+.in-gal-spec b {
+  color: #fbbf24;
+  display: block;
+  font-size: 21px;
+}
+.in-gal-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fbbf24;
+  color: #0f172a;
+  font-size: 26px;
+  font-weight: 900;
+  padding: 18px 28px;
+  border-radius: 999px;
+  text-decoration: none;
+}
 
 </style>
 <link rel="icon" href="data:,">
@@ -1899,482 +2594,926 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 <symbol id="i-si-bak" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"><rect x="16" y="24" width="68" height="52" rx="5"/><circle cx="36" cy="46" r="10"/><circle cx="64" cy="46" r="10"/><path d="M46 46H54" stroke-linecap="round"/><path d="M28 68H72" stroke-linecap="round"/></g><g fill="currentColor" opacity=".24"><rect x="16" y="24" width="68" height="52" rx="5"/></g><circle cx="36" cy="46" r="3.5" fill="currentColor"/><circle cx="64" cy="46" r="3.5" fill="currentColor"/></symbol>
 </defs></svg>
 <!-- ==== 01-cover.html ==== -->
-<section class="slide" data-archetype="cover" style="padding:72px 84px;gap:0">
-  <div class="row" style="flex:1;min-height:0;align-items:center;gap:60px">
-    <div class="col" style="flex:1.05;min-width:0;gap:24px;justify-content:center">
-      <p class="in-eyebrow">edu-deck 소개 — 30초</p>
-      <h1 class="in-hero">프롬프트 <em>하나로</em></h1>
-      <p class="in-sub">교육·아키텍처·컨설팅 덱이<br>단일 HTML로 완성됩니다</p>
-      <div class="col" style="gap:12px;margin-top:10px" data-step="1">
-        <p class="in-prompt">"사내 LLM 도입 워크숍 교육자료 만들어줘"</p>
-        <p class="in-prompt">"업무포털 이중화 구성도 인수인계 장표"</p>
-        <p class="in-prompt">"IT 비용 최적화 경영진 보고서"</p>
+<section class="slide dark in-stage-dark" data-archetype="cover" id="cover">
+  <div class="in-topbar">
+    <p class="in-kicker">EDU-DECK SKILLS · 30초 오프닝 쇼</p>
+    <div class="in-top-badges">
+      <p class="in-badge-amber">단일 HTML ~3MB</p>
+      <p class="in-badge-dark">외부 의존 0</p>
+      <p class="in-badge-dark">코드 실시간 재생</p>
+    </div>
+  </div>
+
+  <div class="in-cover-body">
+    <div class="in-cover-left">
+      <div>
+        <h1 class="in-hero-title">프롬프트 하나로<em data-fx="weight-wave">완성하는 실무 덱</em></h1>
+        <p class="in-hero-sub" style="margin-top:16px"><b>교육 워크숍 · SI 아키텍처 · 경영 컨설팅 보고서</b>까지<br>조사·조립·이중 검수를 거쳐 브라우저에서 바로 열립니다</p>
       </div>
-      <p class="small" data-step="2" style="margin-top:6px">외부 의존 0 — 브라우저에서 바로 재생·인쇄</p>
+
+      <div class="in-term-list" data-step="1">
+        <div class="in-term">
+          <span class="in-term-tag t-edu">EDU · 64팩</span>
+          <p class="in-term-txt">"생성형 AI 업무 도입 찬반 토론 워크숍 14장 만들어줘"</p>
+        </div>
+        <div class="in-term">
+          <span class="in-term-tag t-arch">ARCH · 청사진</span>
+          <p class="in-term-txt">"차세대 업무포털 3권역 망분리·이중화 인수인계 구성도"</p>
+        </div>
+        <div class="in-term">
+          <span class="in-term-tag t-consult">CONSULT · 11차트</span>
+          <p class="in-term-txt">"IT 비용 구조 전환 — 연 370억 절감 이사회 보고서"</p>
+        </div>
+      </div>
     </div>
-    <div class="in-grid" style="flex:0 0 640px">
-      <div class="in-fr" data-step="3"><p class="in-fr-t">SI 청사진 구성도 <i>arch</i></p>
-        <svg class="dg" viewBox="0 0 300 168" aria-hidden="true">
-          <rect width="300" height="168" fill="#f8fafc"/>
-          <g><rect x="14" y="30" width="90" height="120" class="k-zface" rx="8"/><rect x="14" y="30" width="90" height="16" class="k-zbar-n" rx="6"/><text x="22" y="43" font-size="11" font-weight="800" fill="#fff">DMZ</text>
-            <rect x="26" y="58" width="66" height="26" rx="5" fill="#fff" stroke="var(--line)"/><rect x="26" y="96" width="66" height="26" rx="5" fill="#fff" stroke="var(--line)"/></g>
-          <g><rect x="130" y="30" width="156" height="120" class="k-zface" rx="8"/><rect x="130" y="30" width="156" height="16" class="k-zbar-b" rx="6"/><text x="138" y="43" font-size="11" font-weight="800" fill="#fff">내부망</text>
-            <rect x="142" y="58" width="60" height="26" rx="5" fill="#fff" stroke="var(--line)"/><rect x="212" y="58" width="60" height="26" rx="5" fill="#fff" stroke="var(--line)"/>
-            <rect x="142" y="96" width="130" height="38" rx="5" fill="#fff" stroke="var(--line)"/><rect x="142" y="96" width="130" height="10" fill="var(--blue)" rx="5"/></g>
-          <path d="M104 71 H130 M104 109 H130" stroke="var(--blue)" stroke-width="4" fill="none"/>
-          <path d="M202 71 H212" stroke="var(--accent)" stroke-width="4" fill="none"/>
-        </svg></div>
-      <div class="in-fr" data-step="4"><p class="in-fr-t">컨설팅 차트+사이드카 <i>consult</i></p>
-        <svg class="dg" viewBox="0 0 300 168" aria-hidden="true">
-          <rect width="300" height="168" fill="#fff"/>
-          <rect x="16" y="16" width="130" height="4" fill="var(--accent)"/>
-          <g fill="var(--ink)"><rect x="28" y="120" width="34" height="30"/><rect x="72" y="86" width="34" height="64" fill="var(--accent)"/><rect x="116" y="66" width="34" height="84"/></g>
-          <path d="M62 135 H72 M106 118 H116" stroke="var(--line)" stroke-width="2" stroke-dasharray="3 3"/>
-          <g><rect x="196" y="40" width="88" height="3" fill="var(--accent)"/><rect x="196" y="56" width="88" height="8" fill="var(--muted)"/><rect x="196" y="72" width="70" height="8" fill="var(--muted)"/><rect x="196" y="88" width="80" height="8" fill="var(--muted)"/><rect x="196" y="110" width="88" height="1.5" fill="var(--line)"/><rect x="196" y="120" width="60" height="8" fill="var(--soft)"/></g>
-        </svg></div>
-      <div class="in-fr" data-step="5"><p class="in-fr-t">학습지·워크시트 <i>edu</i></p>
-        <svg class="dg" viewBox="0 0 300 168" aria-hidden="true">
-          <rect width="300" height="168" fill="#f8fafc"/>
-          <rect x="60" y="18" width="180" height="132" rx="8" fill="#fff" stroke="var(--line)" stroke-width="1.5"/>
-          <rect x="60" y="18" width="180" height="22" rx="8" fill="var(--blue)"/>
-          <g stroke="var(--line)" stroke-width="4" stroke-linecap="round"><line x1="76" y1="58" x2="160" y2="58"/><line x1="76" y1="78" x2="200" y2="78"/><line x1="76" y1="98" x2="140" y2="98"/><line x1="76" y1="122" x2="180" y2="122"/></g>
-          <circle cx="212" cy="60" r="15" fill="none" stroke="var(--accent)" stroke-width="4"/><path d="M205 60 l5 5 10 -10" stroke="var(--accent)" stroke-width="4" fill="none"/>
-        </svg></div>
-      <div class="in-fr" data-step="6"><p class="in-fr-t">확인 퀴즈·자습 <i>quiz</i></p>
-        <svg class="dg" viewBox="0 0 300 168" aria-hidden="true">
-          <rect width="300" height="168" fill="#fff"/>
-          <rect x="24" y="26" width="252" height="54" rx="8" fill="var(--paper)" stroke="var(--line)" stroke-width="1.5"/>
-          <g stroke="var(--soft)" stroke-width="4" stroke-linecap="round"><line x1="40" y1="46" x2="200" y2="46"/><line x1="40" y1="64" x2="150" y2="64"/></g>
-          <circle cx="90" cy="122" r="26" fill="var(--blue)"/><text x="90" y="132" font-size="30" font-weight="800" fill="#fff" text-anchor="middle">O</text>
-          <circle cx="210" cy="122" r="26" fill="none" stroke="var(--accent-text)" stroke-width="4"/><text x="210" y="132" font-size="30" font-weight="800" fill="var(--accent-text)" text-anchor="middle">X</text>
-        </svg></div>
+
+    <div class="in-spec-grid">
+      <!-- Specimen 1: SI Architecture Blueprint -->
+      <div class="in-spec-win" data-step="2">
+        <div class="in-spec-bar">
+          <p class="in-spec-bar-t">[01] SI 아키텍처 청사진</p>
+          <p class="in-spec-bar-k">arch_layout.mjs</p>
+        </div>
+        <svg viewBox="0 0 520 250" aria-hidden="true">
+          <rect width="520" height="250" fill="#f1f5f9"/>
+          <!-- DMZ Zone -->
+          <rect x="14" y="16" width="136" height="218" rx="8" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5"/>
+          <rect x="14" y="16" width="136" height="26" rx="6" fill="#0f172a"/>
+          <text x="26" y="34" font-size="14" font-weight="800" fill="#ffffff">경계 대역 (DMZ)</text>
+          <rect x="28" y="54" width="108" height="46" rx="6" fill="#fff7ed" stroke="#ea580c" stroke-width="2"/>
+          <text x="82" y="75" font-size="14" font-weight="800" fill="#9a3412" text-anchor="middle">WAF · 방화벽</text>
+          <text x="82" y="92" font-size="12" font-weight="600" fill="#475569" text-anchor="middle">443 TLS 종단</text>
+          <rect x="28" y="114" width="108" height="46" rx="6" fill="#ffffff" stroke="#475569" stroke-width="1.5"/>
+          <text x="82" y="135" font-size="14" font-weight="800" fill="#0f172a" text-anchor="middle">WEB #1·#2</text>
+          <text x="82" y="152" font-size="12" font-weight="700" fill="#1d4ed8" text-anchor="middle">HA L4 이중화</text>
+          <rect x="28" y="174" width="108" height="44" rx="6" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5"/>
+          <text x="82" y="201" font-size="13" font-weight="700" fill="#334155" text-anchor="middle">IDS 침입탐지</text>
+          <!-- Trust Boundary -->
+          <line x1="162" y1="12" x2="162" y2="238" stroke="#d97706" stroke-width="2.5" stroke-dasharray="6 5"/>
+          <!-- Internal Zone -->
+          <rect x="174" y="16" width="332" height="218" rx="8" fill="#eff6ff" stroke="#60a5fa" stroke-width="1.5"/>
+          <rect x="174" y="16" width="332" height="26" rx="6" fill="#1d4ed8"/>
+          <text x="188" y="34" font-size="14" font-weight="800" fill="#ffffff">내부 업무망 · T-드롭 직교 버스</text>
+          <!-- API GW Cluster -->
+          <rect x="188" y="56" width="132" height="96" rx="8" fill="#ffffff" stroke="#1d4ed8" stroke-width="2"/>
+          <rect x="188" y="56" width="132" height="24" rx="6" fill="#1d4ed8"/>
+          <text x="254" y="73" font-size="13" font-weight="800" fill="#ffffff" text-anchor="middle">API GW 클러스터</text>
+          <rect x="198" y="88" width="52" height="22" rx="4" fill="#f1f5f9" stroke="#cbd5e1"/><text x="224" y="103" font-size="11" font-weight="700" fill="#0f172a" text-anchor="middle">라우팅</text>
+          <rect x="258" y="88" width="52" height="22" rx="4" fill="#f1f5f9" stroke="#cbd5e1"/><text x="284" y="103" font-size="11" font-weight="700" fill="#0f172a" text-anchor="middle">SSO</text>
+          <rect x="198" y="122" width="76" height="10" rx="5" fill="#dbeafe"/><rect x="198" y="122" width="48" height="10" rx="5" fill="#1d4ed8"/>
+          <text x="284" y="131" font-size="11" font-weight="800" fill="#1d4ed8">58%</text>
+          <!-- Orthogonal Bus -->
+          <line x1="342" y1="64" x2="342" y2="212" stroke="#1d4ed8" stroke-width="4"/>
+          <line x1="320" y1="104" x2="342" y2="104" stroke="#1d4ed8" stroke-width="3"/>
+          <line x1="342" y1="82" x2="366" y2="82" stroke="#1d4ed8" stroke-width="3"/>
+          <line x1="342" y1="146" x2="366" y2="146" stroke="#1d4ed8" stroke-width="3"/>
+          <line x1="342" y1="202" x2="366" y2="202" stroke="#1d4ed8" stroke-width="3"/>
+          <circle cx="342" cy="104" r="4" fill="#1d4ed8"/><circle cx="342" cy="146" r="4" fill="#1d4ed8"/>
+          <!-- Right Services & DB -->
+          <rect x="366" y="56" width="126" height="50" rx="6" fill="#ffffff" stroke="#475569" stroke-width="1.5"/>
+          <text x="429" y="78" font-size="13" font-weight="800" fill="#0f172a" text-anchor="middle">주문·결제 Pod</text>
+          <text x="429" y="96" font-size="11" font-weight="700" fill="#1d4ed8" text-anchor="middle">클러스터 ×4 (62%)</text>
+          <rect x="366" y="120" width="126" height="50" rx="6" fill="#ffffff" stroke="#475569" stroke-width="1.5"/>
+          <text x="429" y="142" font-size="13" font-weight="800" fill="#0f172a" text-anchor="middle">메시지큐 · Redis</text>
+          <text x="429" y="160" font-size="11" font-weight="600" fill="#475569" text-anchor="middle">비동기 이벤트 버스</text>
+          <rect x="366" y="182" width="126" height="40" rx="6" fill="#0f172a"/>
+          <text x="429" y="207" font-size="13" font-weight="800" fill="#fbbf24" text-anchor="middle">DB 쌍 · A/S 복제</text>
+          <line x1="136" y1="136" x2="188" y2="104" stroke="#1d4ed8" stroke-width="2.5"/>
+        </svg>
+      </div>
+
+      <!-- Specimen 2: Consulting Waterfall + Sidecar -->
+      <div class="in-spec-win" data-step="2">
+        <div class="in-spec-bar">
+          <p class="in-spec-bar-t">[02] 컨설팅 차트 + 사이드카</p>
+          <p class="in-spec-bar-k">chart_gen.mjs</p>
+        </div>
+        <svg viewBox="0 0 520 250" aria-hidden="true">
+          <rect width="520" height="250" fill="#eef2f6"/>
+          <rect x="18" y="16" width="484" height="3" fill="#0f172a"/>
+          <text x="18" y="38" font-size="15" font-weight="900" fill="#0f172a">구조 전환으로 FY27 연 370억(30%) 절감 달성</text>
+          <!-- Waterfall Bars -->
+          <line x1="22" y1="208" x2="328" y2="208" stroke="#64748b" stroke-width="2"/>
+          <!-- Bar 1: 1240 -->
+          <rect x="32" y="68" width="44" height="140" fill="#0f172a"/>
+          <text x="54" y="60" font-size="13" font-weight="800" fill="#0f172a" text-anchor="middle">1,240</text>
+          <text x="54" y="226" font-size="12" font-weight="700" fill="#1e293b" text-anchor="middle">FY25</text>
+          <!-- Bar 2: -142 -->
+          <rect x="94" y="68" width="44" height="42" fill="#0f69c9"/>
+          <text x="116" y="60" font-size="13" font-weight="800" fill="#0f69c9" text-anchor="middle">-142</text>
+          <text x="116" y="226" font-size="12" font-weight="700" fill="#1e293b" text-anchor="middle">라이선스</text>
+          <!-- Bar 3: -118 -->
+          <rect x="156" y="110" width="44" height="34" fill="#0f69c9"/>
+          <text x="178" y="102" font-size="13" font-weight="800" fill="#0f69c9" text-anchor="middle">-118</text>
+          <text x="178" y="226" font-size="12" font-weight="700" fill="#1e293b" text-anchor="middle">클라우드</text>
+          <!-- Bar 4: -110 -->
+          <rect x="218" y="144" width="44" height="30" fill="#64748b"/>
+          <text x="240" y="136" font-size="13" font-weight="800" fill="#334155" text-anchor="middle">-110</text>
+          <text x="240" y="226" font-size="12" font-weight="700" fill="#1e293b" text-anchor="middle">레거시</text>
+          <!-- Bar 5: 870 -->
+          <rect x="278" y="112" width="44" height="96" fill="#0f172a"/>
+          <text x="300" y="104" font-size="13" font-weight="800" fill="#0f172a" text-anchor="middle">870</text>
+          <text x="300" y="226" font-size="12" font-weight="700" fill="#1e293b" text-anchor="middle">FY27</text>
+          <!-- Sidecar Right -->
+          <rect x="346" y="54" width="156" height="3" fill="#0f69c9"/>
+          <text x="346" y="74" font-size="12" font-weight="800" fill="#0f69c9">SO WHAT</text>
+          <text x="346" y="110" font-size="32" font-weight="900" fill="#0f172a">370<tspan font-size="16" font-weight="800">억</tspan></text>
+          <text x="346" y="132" font-size="13" font-weight="800" fill="#0f172a">연 구조 절감 (30%)</text>
+          <line x1="346" y1="144" x2="502" y2="144" stroke="#cbd5e1" stroke-width="1.5"/>
+          <text x="346" y="164" font-size="12" font-weight="700" fill="#334155">• 차트 11종 자동 생성</text>
+          <line x1="346" y1="176" x2="502" y2="176" stroke="#cbd5e1" stroke-width="1.5"/>
+          <text x="346" y="196" font-size="12" font-weight="700" fill="#334155">• 근거 원장 이중 대조</text>
+          <rect x="346" y="210" width="96" height="22" rx="4" fill="#0f172a"/>
+          <text x="394" y="225" font-size="11" font-weight="800" fill="#fbbf24" text-anchor="middle">원장 검증 PASS</text>
+        </svg>
+      </div>
+
+      <!-- Specimen 3: Resource Pack 8x8 Spread -->
+      <div class="in-spec-win" data-step="3">
+        <div class="in-spec-bar">
+          <p class="in-spec-bar-t">[03] 리소스팩 8×8 지면</p>
+          <p class="in-spec-bar-k">64조합 전수 검증</p>
+        </div>
+        <svg viewBox="0 0 520 250" aria-hidden="true">
+          <rect width="520" height="250" fill="#f5f0e6"/>
+          <!-- Left Page: Casebook -->
+          <rect x="14" y="16" width="238" height="218" rx="8" fill="#ffffff" stroke="#d6cfc2" stroke-width="1.5"/>
+          <rect x="14" y="16" width="238" height="30" rx="6" fill="#7c2d12"/>
+          <text x="26" y="36" font-size="13" font-weight="800" fill="#ffffff">CASE 04 · 컨베이어 협착 재해</text>
+          <rect x="26" y="58" width="84" height="22" rx="4" fill="#fef3c7" stroke="#d97706"/>
+          <text x="68" y="73" font-size="12" font-weight="800" fill="#92400e" text-anchor="middle">위험 등급 A</text>
+          <text x="26" y="102" font-size="14" font-weight="800" fill="#1e293b">1. 발생 경위 (09:12)</text>
+          <text x="26" y="122" font-size="12" font-weight="600" fill="#475569">전원 미차단 상태 이물질 제거 중 가동</text>
+          <line x1="26" y1="136" x2="238" y2="136" stroke="#e2e8f0" stroke-width="1.5"/>
+          <text x="26" y="158" font-size="14" font-weight="800" fill="#9a3412">2. 핵심 원인 · 통계 근거</text>
+          <text x="26" y="178" font-size="12" font-weight="600" fill="#475569">LOTO 잠금 미이행 (산업재해 통계 F02)</text>
+          <rect x="26" y="194" width="212" height="28" rx="5" fill="#f1f5f9"/>
+          <text x="132" y="213" font-size="12" font-weight="800" fill="#0f172a" text-anchor="middle">교훈: 정비 전 LOTO 잠금표 필수</text>
+          <!-- Right Page: Workbook -->
+          <rect x="268" y="16" width="238" height="218" rx="8" fill="#ffffff" stroke="#d6cfc2" stroke-width="1.5"/>
+          <rect x="268" y="16" width="238" height="30" rx="6" fill="#1e3a8a"/>
+          <text x="280" y="36" font-size="13" font-weight="800" fill="#ffffff">WORKBOOK · 현장 실습 점검표</text>
+          <rect x="282" y="60" width="210" height="44" rx="6" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+          <text x="296" y="87" font-size="14" font-weight="800" fill="#14532d">✓ 주 전원 차단 및 검전 확인</text>
+          <rect x="282" y="114" width="210" height="44" rx="6" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+          <text x="296" y="141" font-size="14" font-weight="800" fill="#14532d">✓ 조작반 LOTO 잠금장치 체결</text>
+          <rect x="282" y="168" width="210" height="50" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+          <text x="296" y="191" font-size="13" font-weight="800" fill="#1e3a8a">인쇄 · 자습 모드 동시 지원</text>
+          <text x="296" y="209" font-size="12" font-weight="600" fill="#475569">설계 8종 × 흐름 8종 = 64조합</text>
+        </svg>
+      </div>
+
+      <!-- Specimen 4: Interactive Quiz & Study Layer -->
+      <div class="in-spec-win" data-step="3">
+        <div class="in-spec-bar">
+          <p class="in-spec-bar-t">[04] 퀴즈 판정 · 자습 · 노트</p>
+          <p class="in-spec-bar-k">단일 HTML 6층위</p>
+        </div>
+        <svg viewBox="0 0 520 250" aria-hidden="true">
+          <rect width="520" height="250" fill="#f8fafc"/>
+          <rect x="16" y="16" width="488" height="72" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+          <rect x="28" y="30" width="38" height="38" rx="8" fill="#1d4ed8"/>
+          <text x="47" y="56" font-size="20" font-weight="900" fill="#ffffff" text-anchor="middle">Q</text>
+          <text x="80" y="48" font-size="15" font-weight="800" fill="#0f172a">가명정보의 추가정보는 원본과 같은 DB에 둘 수 있다?</text>
+          <text x="80" y="70" font-size="13" font-weight="700" fill="#64748b">개인정보 보호법 제28조의2 안전조치 의무 확인</text>
+          <!-- O / X Stamp Verdict -->
+          <circle cx="96" cy="136" r="32" fill="#ffffff" stroke="#94a3b8" stroke-width="2.5"/>
+          <text x="96" y="146" font-size="26" font-weight="900" fill="#64748b" text-anchor="middle">O</text>
+          <circle cx="182" cy="136" r="32" fill="#dc2626"/>
+          <circle cx="182" cy="136" r="37" fill="none" stroke="#dc2626" stroke-width="3" stroke-dasharray="10 4"/>
+          <text x="182" y="146" font-size="26" font-weight="900" fill="#ffffff" text-anchor="middle">X</text>
+          <!-- Explanation Card -->
+          <rect x="236" y="102" width="268" height="68" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="1.5"/>
+          <text x="252" y="128" font-size="14" font-weight="800" fill="#991b1b">정답 X — 분리 보관 의무</text>
+          <text x="252" y="150" font-size="12" font-weight="700" fill="#334155">오답 선택 시 06장 해설로 즉시 연결</text>
+          <!-- Bottom HUD Keys -->
+          <rect x="16" y="188" width="112" height="44" rx="8" fill="#0f172a"/><text x="72" y="215" font-size="13" font-weight="800" fill="#fbbf24" text-anchor="middle">→ 단계 공개</text>
+          <rect x="140" y="188" width="112" height="44" rx="8" fill="#1e293b"/><text x="196" y="215" font-size="13" font-weight="800" fill="#ffffff" text-anchor="middle">N 발표노트</text>
+          <rect x="264" y="188" width="112" height="44" rx="8" fill="#1e293b"/><text x="320" y="215" font-size="13" font-weight="800" fill="#ffffff" text-anchor="middle">S 자습모드</text>
+          <rect x="388" y="188" width="116" height="44" rx="8" fill="#1e293b"/><text x="446" y="215" font-size="13" font-weight="800" fill="#ffffff" text-anchor="middle">P 인쇄 완결</text>
+        </svg>
+      </div>
     </div>
   </div>
-  <aside class="notes">첫 장입니다. 왼쪽은 실제 요청문 세 가지 — 초중등 교과가 아니라 사내 워크숍·SI 인수인계·경영 보고서까지 스펙트럼을 보여 줍니다. 오른쪽 네 프레임이 이 스킬이 실제로 만드는 산출물의 얼굴입니다: 아키텍처 블루프린트, 컨설팅 차트와 사이드카, 학습지, OX 퀴즈. 청중은 여기서 "한 줄을 넣으면 이런 결과물이 나온다"를 눈으로 확인합니다.</aside>
+
+  <div class="in-ribbon" data-step="1">
+    <div class="in-rib-cell"><p class="in-rib-v">52계열 253변형</p><p class="in-rib-k">장 배치 조각</p></div>
+    <div class="in-rib-cell"><p class="in-rib-v">8×8 = 64조합</p><p class="in-rib-k">리소스팩 전수 검증</p></div>
+    <div class="in-rib-cell"><p class="in-rib-v">8종 테마</p><p class="in-rib-k">표지 16종 · arc 6종</p></div>
+    <div class="in-rib-cell"><p class="in-rib-v">42 + 기법 5</p><p class="in-rib-k">실시간 코드 모션</p></div>
+    <div class="in-rib-cell"><p class="in-rib-v">생성기 3종</p><p class="in-rib-k">아키텍처 + blueprint</p></div>
+    <div class="in-rib-cell"><p class="in-rib-v">차트 11종</p><p class="in-rib-k">컨설팅 + 사이드카</p></div>
+    <div class="in-rib-cell"><p class="in-rib-v">실물 378점</p><p class="in-rib-k">자산 갤러리 재생</p></div>
+  </div>
+
+  <aside class="notes">오프닝 첫 장입니다. 어두운 엔지니어링 무대 왼쪽에 교육·아키텍처·컨설팅 3대 영역의 실제 프롬프트 명령을 배치하고, 오른쪽에는 가짜 선이 아니라 실제 데이터와 타이포가 살아 있는 4대 산출물(SI 청사진 구성도, 컨설팅 절감 브리지와 사이드카, 8×8 리소스팩 사례철·학습지, 단일 HTML 퀴즈 판정과 단축키 HUD)을 대조했습니다. 하단 리본에 저장소의 7대 핵심 수치를 한눈에 박아 첫 3초 안에 전체 스펙트럼을 증명합니다.</aside>
 </section>
 
-<!-- ==== 02-pipeline.html ==== -->
-<section class="slide" data-archetype="arch-flow" style="gap:30px">
-  <div class="head"><p class="eyebrow">만드는 경로 · 품질 보증</p><h2 class="title">요청 한 줄이 두 번의 검수를 지나 덱이 됩니다</h2></div>
-  <svg class="dg" viewBox="0 0 1664 340" role="img" aria-label="제작 파이프라인: 요청이 경로 라우팅·조사와 근거 원장·조각 조립·이중 검수를 거쳐 단일 HTML로 완성된다">
-    <title>요청에서 완성까지 — 라우팅·조사·조립·이중 검수</title>
-    <g data-step="1">
-      <rect x="20" y="96" width="216" height="148" rx="14" class="k-paper"/>
-      <text x="128" y="152" font-size="30" font-weight="800" fill="var(--ink)" text-anchor="middle">요청</text>
-      <text x="128" y="196" font-size="21" font-weight="600" fill="var(--soft)" text-anchor="middle">프롬프트 한 줄</text>
-    </g>
-    <g data-step="2"><path d="M236 170 H290" class="k-ln-b"/></g>
-    <g data-step="2">
-      <rect x="290" y="96" width="216" height="148" rx="14" class="k-paper"/>
-      <text x="398" y="152" font-size="30" font-weight="800" fill="var(--ink)" text-anchor="middle">라우팅</text>
-      <text x="398" y="196" font-size="21" font-weight="600" fill="var(--soft)" text-anchor="middle">4경로 자동 선택</text>
-    </g>
-    <g data-step="3"><path d="M506 170 H560" class="k-ln-b"/></g>
-    <g data-step="3">
-      <rect x="560" y="96" width="216" height="148" rx="14" class="k-paper"/>
-      <text x="668" y="152" font-size="30" font-weight="800" fill="var(--ink)" text-anchor="middle">조사 · 원장</text>
-      <text x="668" y="196" font-size="21" font-weight="600" fill="var(--soft)" text-anchor="middle">근거 수집·출처 대조</text>
-    </g>
-    <g data-step="4"><path d="M776 170 H830" class="k-ln-b"/></g>
-    <g data-step="4">
-      <rect x="830" y="96" width="216" height="148" rx="14" class="k-paper"/>
-      <text x="938" y="152" font-size="30" font-weight="800" fill="var(--ink)" text-anchor="middle">조립</text>
-      <text x="938" y="196" font-size="21" font-weight="600" fill="var(--soft)" text-anchor="middle">계열 조각·생성기로 배치</text>
-    </g>
-    <g data-step="5"><path d="M1046 170 H1100" class="k-ln-b"/></g>
-    <g data-step="5">
-      <rect x="1100" y="96" width="232" height="148" rx="14" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="2.5"/>
-      <text x="1216" y="152" font-size="30" font-weight="800" fill="var(--blue-text)" text-anchor="middle">이중 검수</text>
-      <text x="1216" y="196" font-size="21" font-weight="600" fill="var(--soft)" text-anchor="middle">기술 계약 + 심미 크리틱</text>
-    </g>
-    <g data-step="6"><path d="M1332 170 H1386" class="k-ln-o"/></g>
-    <g data-step="6">
-      <rect x="1386" y="96" width="258" height="148" rx="14" fill="var(--ink)" stroke="var(--ink)"/>
-      <text x="1515" y="152" font-size="32" font-weight="800" fill="var(--paper)" text-anchor="middle">단일 HTML</text>
-      <text x="1515" y="196" font-size="21" font-weight="600" fill="var(--muted)" text-anchor="middle">외부 의존 없이 재생</text>
-    </g>
-  </svg>
-  <div class="row" style="gap:40px;flex:0 0 auto">
-    <div class="in-hl" style="flex:1" data-step="7">
-      <p class="in-hl-k">기술 계약 — check_deck.py</p>
-      <p class="in-hl-v">대비·넘침·접근성·노트 길이를 빌드마다 자동 검사</p>
-      <p class="in-hl-d">errors=0이 아니면 배포하지 않는다는 규칙이 코드로 강제됩니다</p>
+<!-- ==== 02-diversity.html ==== -->
+<section class="slide" data-archetype="tile-grid" data-variant="cards" style="gap:20px">
+  <div class="head">
+    <p class="eyebrow">다양성 엔진 · 4대 조형 경로와 재료 규모</p>
+    <h2 class="title">같은 문법이 주제마다 다른 얼굴을 만듭니다</h2>
+  </div>
+
+  <div class="in-kpi-strip" data-step="1">
+    <div class="in-kpi-box k-acc">
+      <p class="in-kpi-num">52<span>계열 · 253변형</span></p>
+      <p class="in-kpi-lbl">장 배치 조각</p>
     </div>
-    <div class="in-hl" style="flex:1" data-step="8">
-      <p class="in-hl-k">심미 크리틱 — design-critique.md</p>
-      <p class="in-hl-v">6단계 절차·9항목 채점으로 실제 캡처 화면을 독립 검수</p>
-      <p class="in-hl-d">기술이 무결해도 조형이 흔들리면 FAIL — 별도의 눈이 한 번 더 봅니다</p>
+    <div class="in-kpi-box k-blu">
+      <p class="in-kpi-num">64<span>조합 · 8×8</span></p>
+      <p class="in-kpi-lbl">리소스팩 설계×흐름</p>
+    </div>
+    <div class="in-kpi-box">
+      <p class="in-kpi-num">8<span>테마 · 16표지</span></p>
+      <p class="in-kpi-lbl">색·반경·arc 6종</p>
+    </div>
+    <div class="in-kpi-box k-acc">
+      <p class="in-kpi-num">42<span>+ 기법 5종</span></p>
+      <p class="in-kpi-lbl">실시간 모션 이름</p>
     </div>
   </div>
-  <aside class="notes">파이프라인 장입니다. 위 레일이 요청부터 단일 HTML까지의 여섯 고개를 순서대로 공개하고, 아래 헤어라인 카드 두 장이 검수 체계의 이중 구조를 보여 줍니다. 왼쪽은 check_deck.py의 기술 계약, 오른쪽은 design-critique.md의 심미 채점 — 어느 하나라도 빠지면 이 저장소의 품질 기준을 설명할 수 없습니다.</aside>
-</section>
 
-<!-- ==== 03-diversity.html ==== -->
-<section class="slide" data-archetype="stat-strip" style="gap:28px">
-  <div class="head"><p class="eyebrow">다양성 엔진</p><h2 class="title">같은 문법이 주제마다 다른 얼굴을 만듭니다</h2></div>
-  <div class="in-stats">
-    <div class="in-stat" data-step="1">
-      <p class="in-stat-v">52<small>계열</small></p>
-      <p class="in-stat-k">장 배치 변형 253</p>
-      <div class="in-stat-fig"><svg viewBox="0 0 200 150" aria-hidden="true">
-        <g fill="var(--blue-soft)" stroke="var(--line)">
-          <rect x="6" y="6" width="42" height="30" rx="4"/><rect x="56" y="6" width="42" height="30" rx="4"/><rect x="106" y="6" width="42" height="30" rx="4"/><rect x="156" y="6" width="38" height="30" rx="4"/>
-          <rect x="6" y="44" width="42" height="30" rx="4"/><rect x="56" y="44" width="42" height="30" rx="4"/><rect x="106" y="44" width="42" height="30" rx="4"/><rect x="156" y="44" width="38" height="30" rx="4"/>
-          <rect x="6" y="82" width="42" height="30" rx="4"/><rect x="56" y="82" width="42" height="30" rx="4"/><rect x="106" y="82" width="42" height="30" rx="4"/><rect x="156" y="82" width="38" height="30" rx="4"/>
-          <rect x="6" y="120" width="42" height="24" rx="4"/><rect x="56" y="120" width="42" height="24" rx="4"/><rect x="106" y="120" width="42" height="24" rx="4"/><rect x="156" y="120" width="38" height="24" rx="4"/>
-        </g>
-        <g fill="var(--accent)"><rect x="56" y="44" width="42" height="30" rx="4" fill-opacity=".55"/><rect x="106" y="6" width="42" height="30" rx="4" fill-opacity=".55"/><rect x="156" y="82" width="38" height="30" rx="4" fill-opacity=".55"/><rect x="6" y="120" width="42" height="24" rx="4" fill-opacity=".55"/></g>
-      </svg></div>
-    </div>
-    <div class="in-stat" data-step="2">
-      <p class="in-stat-v">64<small>조합</small></p>
-      <p class="in-stat-k">리소스팩 — 설계 8 × 흐름 8</p>
-      <div class="in-stat-fig"><svg viewBox="0 0 200 150" aria-hidden="true">
-        <g>
-          <g fill="var(--blue-soft)" stroke="var(--paper)" stroke-width="2">
-            <rect x="28" y="10" width="18" height="18"/><rect x="48" y="10" width="18" height="18"/><rect x="68" y="10" width="18" height="18"/><rect x="88" y="10" width="18" height="18"/><rect x="108" y="10" width="18" height="18"/><rect x="128" y="10" width="18" height="18"/><rect x="148" y="10" width="18" height="18"/><rect x="168" y="10" width="18" height="18"/>
-            <rect x="28" y="30" width="18" height="18"/><rect x="48" y="30" width="18" height="18"/><rect x="68" y="30" width="18" height="18"/><rect x="88" y="30" width="18" height="18"/><rect x="108" y="30" width="18" height="18"/><rect x="128" y="30" width="18" height="18"/><rect x="148" y="30" width="18" height="18"/><rect x="168" y="30" width="18" height="18"/>
-            <rect x="28" y="50" width="18" height="18"/><rect x="48" y="50" width="18" height="18"/><rect x="68" y="50" width="18" height="18"/><rect x="88" y="50" width="18" height="18"/><rect x="108" y="50" width="18" height="18"/><rect x="128" y="50" width="18" height="18"/><rect x="148" y="50" width="18" height="18"/><rect x="168" y="50" width="18" height="18"/>
-            <rect x="28" y="70" width="18" height="18"/><rect x="48" y="70" width="18" height="18"/><rect x="68" y="70" width="18" height="18"/><rect x="88" y="70" width="18" height="18"/><rect x="108" y="70" width="18" height="18"/><rect x="128" y="70" width="18" height="18"/><rect x="148" y="70" width="18" height="18"/><rect x="168" y="70" width="18" height="18"/>
-            <rect x="28" y="90" width="18" height="18"/><rect x="48" y="90" width="18" height="18"/><rect x="68" y="90" width="18" height="18"/><rect x="88" y="90" width="18" height="18"/><rect x="108" y="90" width="18" height="18"/><rect x="128" y="90" width="18" height="18"/><rect x="148" y="90" width="18" height="18"/><rect x="168" y="90" width="18" height="18"/>
-            <rect x="28" y="110" width="18" height="18"/><rect x="48" y="110" width="18" height="18"/><rect x="68" y="110" width="18" height="18"/><rect x="88" y="110" width="18" height="18"/><rect x="108" y="110" width="18" height="18"/><rect x="128" y="110" width="18" height="18"/><rect x="148" y="110" width="18" height="18"/><rect x="168" y="110" width="18" height="18"/>
+  <div class="in-div-cols">
+    <!-- Column 1: Resource Pack 8x8 = 64 -->
+    <div class="in-div-card" data-step="1">
+      <div class="in-div-hd hd-acc">
+        <p class="in-div-hd-t">① 리소스팩 8×8</p>
+        <p class="in-div-hd-b">64/64 검증</p>
+      </div>
+      <div class="in-div-fig">
+        <svg viewBox="0 0 360 330" aria-hidden="true">
+          <rect width="360" height="330" fill="#f8fafc"/>
+          <text x="16" y="24" font-size="14" font-weight="800" fill="#0f172a">설계 8종(지면 문법) × 흐름 8종(수업 뼈대)</text>
+          <!-- Row labels -->
+          <g font-size="13" font-weight="800" fill="#334155">
+            <text x="14" y="56">workbook</text>
+            <text x="14" y="86">casebook</text>
+            <text x="14" y="116">seminar</text>
+            <text x="14" y="146">editorial</text>
+            <text x="14" y="176">briefing</text>
+            <text x="14" y="206">atlas</text>
+            <text x="14" y="236">field</text>
+            <text x="14" y="266">lab</text>
           </g>
-          <rect x="88" y="50" width="18" height="18" fill="var(--accent)"/><rect x="88" y="50" width="18" height="18" fill="none" stroke="var(--accent)" stroke-width="3"/>
-          <text x="12" y="24" font-size="14" font-weight="800" fill="var(--soft)">8</text>
-          <text x="100" y="145" font-size="14" font-weight="800" fill="var(--soft)">× 8</text>
-        </g>
-      </svg></div>
+          <!-- 8x8 Grid (x=102..342, y=38..278) -->
+          <g fill="#dbeafe" stroke="#ffffff" stroke-width="2">
+            <rect x="102" y="38" width="240" height="240" fill="#e2e8f0"/>
+          </g>
+          <!-- Draw 8x8 cells via crisp rows/cols -->
+          <g fill="#eff6ff" stroke="#cbd5e1" stroke-width="1.5">
+            <!-- Row 0 -->
+            <rect x="104" y="40" width="26" height="24" fill="#1d4ed8"/><rect x="134" y="40" width="26" height="24"/><rect x="164" y="40" width="26" height="24"/><rect x="194" y="40" width="26" height="24"/><rect x="224" y="40" width="26" height="24"/><rect x="254" y="40" width="26" height="24"/><rect x="284" y="40" width="26" height="24"/><rect x="314" y="40" width="26" height="24"/>
+            <!-- Row 1 -->
+            <rect x="104" y="70" width="26" height="24"/><rect x="134" y="70" width="26" height="24"/><rect x="164" y="70" width="26" height="24" fill="#ea580c"/><rect x="194" y="70" width="26" height="24"/><rect x="224" y="70" width="26" height="24"/><rect x="254" y="70" width="26" height="24"/><rect x="284" y="70" width="26" height="24"/><rect x="314" y="70" width="26" height="24"/>
+            <!-- Row 2 -->
+            <rect x="104" y="100" width="26" height="24"/><rect x="134" y="100" width="26" height="24"/><rect x="164" y="100" width="26" height="24"/><rect x="194" y="100" width="26" height="24"/><rect x="224" y="100" width="26" height="24" fill="#1d4ed8"/><rect x="254" y="100" width="26" height="24"/><rect x="284" y="100" width="26" height="24"/><rect x="314" y="100" width="26" height="24"/>
+            <!-- Row 3 -->
+            <rect x="104" y="130" width="26" height="24"/><rect x="134" y="130" width="26" height="24" fill="#0f172a"/><rect x="164" y="130" width="26" height="24"/><rect x="194" y="130" width="26" height="24"/><rect x="224" y="130" width="26" height="24"/><rect x="254" y="130" width="26" height="24"/><rect x="284" y="130" width="26" height="24"/><rect x="314" y="130" width="26" height="24"/>
+            <!-- Row 4 -->
+            <rect x="104" y="160" width="26" height="24"/><rect x="134" y="160" width="26" height="24"/><rect x="164" y="160" width="26" height="24"/><rect x="194" y="160" width="26" height="24" fill="#ea580c"/><rect x="224" y="160" width="26" height="24"/><rect x="254" y="160" width="26" height="24"/><rect x="284" y="160" width="26" height="24"/><rect x="314" y="160" width="26" height="24"/>
+            <!-- Row 5 -->
+            <rect x="104" y="190" width="26" height="24"/><rect x="134" y="190" width="26" height="24"/><rect x="164" y="190" width="26" height="24"/><rect x="194" y="190" width="26" height="24"/><rect x="224" y="190" width="26" height="24"/><rect x="254" y="190" width="26" height="24"/><rect x="284" y="190" width="26" height="24" fill="#1d4ed8"/><rect x="314" y="190" width="26" height="24"/>
+            <!-- Row 6 -->
+            <rect x="104" y="220" width="26" height="24"/><rect x="134" y="220" width="26" height="24"/><rect x="164" y="220" width="26" height="24"/><rect x="194" y="220" width="26" height="24"/><rect x="224" y="220" width="26" height="24"/><rect x="254" y="220" width="26" height="24" fill="#0f172a"/><rect x="284" y="220" width="26" height="24"/><rect x="314" y="220" width="26" height="24"/>
+            <!-- Row 7 -->
+            <rect x="104" y="250" width="26" height="24"/><rect x="134" y="250" width="26" height="24"/><rect x="164" y="250" width="26" height="24"/><rect x="194" y="250" width="26" height="24"/><rect x="224" y="250" width="26" height="24"/><rect x="254" y="250" width="26" height="24"/><rect x="284" y="250" width="26" height="24"/><rect x="314" y="250" width="26" height="24" fill="#ea580c"/>
+          </g>
+          <rect x="14" y="286" width="332" height="32" rx="6" fill="#0f172a"/>
+          <text x="180" y="307" font-size="13" font-weight="800" fill="#fbbf24" text-anchor="middle">마주본 학습지 · 사례철 · 토론 보드 등 지면 문법 분리</text>
+        </svg>
+      </div>
+      <p class="in-div-ft">배치 문법 자체가 다른 8개 설계와 8개 수업 흐름의 64조합</p>
     </div>
-    <div class="in-stat" data-step="3">
-      <p class="in-stat-v">8<small>종</small></p>
-      <p class="in-stat-k">legacy 테마 — 색·그림자·반경</p>
-      <div class="in-stat-fig"><svg viewBox="0 0 200 150" aria-hidden="true">
-        <g>
-          <rect x="34" y="14" width="60" height="24" rx="12" fill="#0e7a86"/><rect x="106" y="14" width="60" height="24" rx="12" fill="#2c50b0"/>
-          <rect x="34" y="46" width="60" height="24" rx="12" fill="#33713c"/><rect x="106" y="46" width="60" height="24" rx="12" fill="#b85c0f"/>
-          <rect x="34" y="78" width="60" height="24" rx="12" fill="#a62f63"/><rect x="106" y="78" width="60" height="24" rx="12" fill="#8a4b1f"/>
-          <rect x="34" y="110" width="60" height="24" rx="12" fill="#41586e"/><rect x="106" y="110" width="60" height="24" rx="12" fill="#d19a4a"/>
-        </g>
-      </svg></div>
+
+    <!-- Column 2: 52 Series 253 Variants & 8 Themes -->
+    <div class="in-div-card" data-step="2">
+      <div class="in-div-hd">
+        <p class="in-div-hd-t">② 253변형 · 8테마</p>
+        <p class="in-div-hd-b">표지 16 · arc 6</p>
+      </div>
+      <div class="in-div-fig">
+        <svg viewBox="0 0 360 330" aria-hidden="true">
+          <rect width="360" height="330" fill="#f8fafc"/>
+          <!-- Mini Bauhaus Cover Specimen -->
+          <rect x="14" y="14" width="332" height="134" rx="8" fill="#f3f8f9" stroke="#cbd5e1" stroke-width="1.5"/>
+          <rect x="14" y="14" width="332" height="22" rx="6" fill="#0f172a"/>
+          <text x="26" y="29" font-size="11" font-weight="800" fill="#ffffff">— 01-cover-bauhaus · 표지 16변형</text>
+          <text x="28" y="64" font-size="12" font-weight="800" fill="#0d6e7a">핵심 주제어</text>
+          <text x="28" y="90" font-size="20" font-weight="900" fill="#0f172a">기하 조형 표지</text>
+          <text x="28" y="112" font-size="12" font-weight="600" fill="#475569">주제 톤에 맞춰 표지·테마 결합</text>
+          <line x1="28" y1="126" x2="180" y2="126" stroke="#0f172a" stroke-width="2"/>
+          <circle cx="156" cy="126" r="5" fill="#0d6e7a"/>
+          <!-- Bauhaus Geo Box -->
+          <rect x="218" y="44" width="112" height="94" fill="#ffffff" stroke="#0f172a" stroke-width="1.5"/>
+          <circle cx="256" cy="84" r="24" fill="#0d6e7a"/>
+          <polygon points="274,126 302,74 322,126" fill="#a5dce2"/>
+          <circle cx="294" cy="72" r="14" fill="none" stroke="#1e3a8a" stroke-width="6"/>
+          <rect x="226" y="112" width="18" height="18" fill="#1e3a8a"/>
+          <!-- 8 Named Theme Swatches (2x4) -->
+          <text x="16" y="170" font-size="13" font-weight="800" fill="#0f172a">8종 테마 매트릭스 (색 · 그림자 · 반경 토큰)</text>
+          <g font-size="13" font-weight="800" fill="#ffffff" text-anchor="middle">
+            <rect x="14" y="180" width="78" height="38" rx="6" fill="#0d6e7a"/><text x="53" y="204">ocean</text>
+            <rect x="98" y="180" width="78" height="38" rx="6" fill="#254eda"/><text x="137" y="204">cobalt</text>
+            <rect x="182" y="180" width="78" height="38" rx="6" fill="#2d683a"/><text x="221" y="204">forest</text>
+            <rect x="266" y="180" width="80" height="38" rx="6" fill="#8f2456"/><text x="306" y="204">berry</text>
+            <rect x="14" y="226" width="78" height="38" rx="6" fill="#7a4119"/><text x="53" y="250">cocoa</text>
+            <rect x="98" y="226" width="78" height="38" rx="6" fill="#3b4e5e"/><text x="137" y="250">graphite</text>
+            <rect x="182" y="226" width="78" height="38" rx="6" fill="#1f252d" stroke="#cf9246" stroke-width="2"/><text x="221" y="250" fill="#fbbf24">midnight</text>
+            <rect x="266" y="226" width="80" height="38" rx="6" fill="#a85113"/><text x="306" y="250">solar</text>
+          </g>
+          <rect x="14" y="276" width="332" height="42" rx="6" fill="#eff6ff" stroke="#93c5fd"/>
+          <text x="180" y="302" font-size="13" font-weight="800" fill="#1e3a8a" text-anchor="middle">도식·퀴즈·워크플로 52계열 253변형 카탈로그</text>
+        </svg>
+      </div>
+      <p class="in-div-ft">52계열 253변형 조각과 8종 테마·16종 표지·6종 arc 결합</p>
     </div>
-    <div class="in-stat" data-step="4">
-      <p class="in-stat-v">42<small>+5</small></p>
-      <p class="in-stat-k">모션 실행 이름 + 공통 기법</p>
-      <div class="in-stat-fig"><svg viewBox="0 0 200 150" aria-hidden="true">
-        <g fill="none" stroke-linecap="round">
-          <path d="M14 118 C50 118 50 40 100 40 S 150 96 186 60" stroke="var(--blue)" stroke-width="5"/>
-          <path d="M14 96 C60 96 60 130 110 130 S 160 84 186 96" stroke="var(--accent)" stroke-width="5" stroke-dasharray="10 8"/>
-          <path d="M14 60 C60 60 70 100 120 100 S 170 30 186 38" stroke="var(--line)" stroke-width="4"/>
-        </g>
-        <circle cx="100" cy="40" r="7" fill="var(--blue)"/><circle cx="186" cy="60" r="7" fill="var(--accent)"/>
-      </svg></div>
+
+    <!-- Column 3: Architecture Kit (3 Generators + Blueprint) -->
+    <div class="in-div-card" data-step="3">
+      <div class="in-div-hd hd-blue">
+        <p class="in-div-hd-t">③ 아키텍처 생성기 3종</p>
+        <p class="in-div-hd-b">blueprint</p>
+      </div>
+      <div class="in-div-fig">
+        <svg viewBox="0 0 360 330" aria-hidden="true">
+          <rect width="360" height="330" fill="#f8fafc"/>
+          <!-- 1. Orthogonal 2D Blueprint -->
+          <rect x="14" y="14" width="332" height="94" rx="8" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5"/>
+          <rect x="14" y="14" width="332" height="24" rx="6" fill="#1d4ed8"/>
+          <text x="26" y="31" font-size="12" font-weight="800" fill="#ffffff">① 직교 2D (arch_layout.mjs) · 중첩 존 · T-드롭 버스</text>
+          <rect x="26" y="48" width="84" height="48" rx="5" fill="#fff7ed" stroke="#ea580c" stroke-width="1.5"/>
+          <text x="68" y="70" font-size="13" font-weight="800" fill="#9a3412" text-anchor="middle">WAF · LB</text>
+          <text x="68" y="86" font-size="11" font-weight="700" fill="#475569" text-anchor="middle">HA 이중화</text>
+          <line x1="110" y1="72" x2="146" y2="72" stroke="#1d4ed8" stroke-width="3"/>
+          <line x1="146" y1="52" x2="146" y2="94" stroke="#1d4ed8" stroke-width="4"/>
+          <line x1="146" y1="58" x2="174" y2="58" stroke="#1d4ed8" stroke-width="3"/>
+          <line x1="146" y1="86" x2="174" y2="86" stroke="#1d4ed8" stroke-width="3"/>
+          <rect x="174" y="46" width="156" height="24" rx="4" fill="#eff6ff" stroke="#1d4ed8"/><text x="252" y="63" font-size="12" font-weight="800" fill="#1e3a8a" text-anchor="middle">API GW 클러스터 (58%)</text>
+          <rect x="174" y="76" width="156" height="24" rx="4" fill="#0f172a"/><text x="252" y="93" font-size="12" font-weight="800" fill="#fbbf24" text-anchor="middle">DB 쌍 #1·#2 · SAN 버스</text>
+
+          <!-- 2. Isometric 3D HW -->
+          <rect x="14" y="118" width="332" height="102" rx="8" fill="#131922"/>
+          <text x="26" y="138" font-size="12" font-weight="800" fill="#fbbf24">② 입체 HW (iso_layout.mjs) · 아이소메트릭 3계층</text>
+          <polygon points="180,142 250,164 180,186 110,164" fill="#1d4ed8" stroke="#93c5fd" stroke-width="1.5"/>
+          <polygon points="180,168 250,190 180,212 110,190" fill="#9a3412" stroke="#fdba74" stroke-width="1.5"/>
+          <circle cx="180" cy="164" r="6" fill="#fbbf24"/><circle cx="180" cy="190" r="6" fill="#ffffff"/>
+          <line x1="180" y1="164" x2="180" y2="190" stroke="#ffffff" stroke-width="2" stroke-dasharray="3 3"/>
+          <text x="264" y="168" font-size="12" font-weight="800" fill="#93c5fd">응용·연계</text>
+          <text x="264" y="196" font-size="12" font-weight="800" fill="#fdba74">인프라 랙</text>
+
+          <!-- 3. Swimlane & Sequence -->
+          <rect x="14" y="230" width="332" height="88" rx="8" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5"/>
+          <text x="26" y="250" font-size="12" font-weight="800" fill="#0f172a">③ 레인·시퀀스 · ①~⑧ 호출 순번 · SI 아이콘 16종</text>
+          <rect x="26" y="262" width="76" height="40" rx="6" fill="#f1f5f9" stroke="#475569"/><text x="64" y="287" font-size="13" font-weight="800" fill="#0f172a" text-anchor="middle">발주팀</text>
+          <line x1="102" y1="274" x2="152" y2="274" stroke="#1d4ed8" stroke-width="2.5"/>
+          <circle cx="127" cy="274" r="10" fill="#1d4ed8"/><text x="127" y="278" font-size="11" font-weight="800" fill="#ffffff" text-anchor="middle">1</text>
+          <rect x="152" y="262" width="76" height="40" rx="6" fill="#eff6ff" stroke="#1d4ed8"/><text x="190" y="287" font-size="13" font-weight="800" fill="#1e3a8a" text-anchor="middle">구매승인</text>
+          <line x1="228" y1="286" x2="274" y2="286" stroke="#ea580c" stroke-width="2.5" stroke-dasharray="4 3"/>
+          <circle cx="251" cy="286" r="10" fill="#ea580c"/><text x="251" y="290" font-size="11" font-weight="800" fill="#ffffff" text-anchor="middle">2</text>
+          <rect x="274" y="262" width="60" height="40" rx="6" fill="#0f172a"/><text x="304" y="287" font-size="13" font-weight="800" fill="#fbbf24" text-anchor="middle">ERP</text>
+        </svg>
+      </div>
+      <p class="in-div-ft">직교 2D · 입체 HW · 레인/시퀀스 3종 생성기와 SI 10유형</p>
+    </div>
+
+    <!-- Column 4: Consulting Kit (11 Charts + 4 Hairline Directions) -->
+    <div class="in-div-card" data-step="4">
+      <div class="in-div-hd">
+        <p class="in-div-hd-t">④ 컨설팅 차트 11종</p>
+        <p class="in-div-hd-b">헤어라인 4방향</p>
+      </div>
+      <div class="in-div-fig">
+        <svg viewBox="0 0 360 330" aria-hidden="true">
+          <rect width="360" height="330" fill="#eef2f6"/>
+          <!-- Top: 2x2 Quadrant Matrix + Sidecar -->
+          <rect x="14" y="14" width="332" height="152" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+          <text x="26" y="34" font-size="12" font-weight="800" fill="#0f172a">2×2 포트폴리오 사분면 · 우상단 타깃 하이라이트</text>
+          <rect x="28" y="44" width="184" height="108" fill="none" stroke="#64748b" stroke-width="2"/>
+          <rect x="120" y="44" width="92" height="54" fill="#dbeafe"/>
+          <line x1="120" y1="44" x2="120" y2="152" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <line x1="28" y1="98" x2="212" y2="98" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <text x="204" y="60" font-size="11" font-weight="800" fill="#1d4ed8" text-anchor="end">즉시 승인</text>
+          <circle cx="152" cy="74" r="8" fill="#0f69c9"/><circle cx="178" cy="68" r="8" fill="#0f69c9"/><circle cx="166" cy="86" r="7" fill="#0f69c9"/>
+          <circle cx="72" cy="68" r="6" fill="#64748b"/><circle cx="84" cy="126" r="6" fill="#94a3b8"/><circle cx="164" cy="124" r="6" fill="#64748b"/>
+          <!-- Mini Sidecar -->
+          <line x1="226" y1="46" x2="334" y2="46" stroke="#0f69c9" stroke-width="3"/>
+          <text x="226" y="64" font-size="11" font-weight="800" fill="#0f69c9">SO WHAT</text>
+          <text x="226" y="94" font-size="24" font-weight="900" fill="#0f172a">140<tspan font-size="13">억</tspan></text>
+          <text x="226" y="114" font-size="11" font-weight="700" fill="#334155">우상단 3과제 집중</text>
+          <line x1="226" y1="124" x2="334" y2="124" stroke="#cbd5e1" stroke-width="1.5"/>
+          <text x="226" y="142" font-size="11" font-weight="700" fill="#0f172a">원장 대조 PASS</text>
+
+          <!-- Bottom: 11 Chart Types + 4 Directions -->
+          <rect x="14" y="176" width="332" height="86" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+          <text x="26" y="198" font-size="12" font-weight="800" fill="#0f172a">chart_gen.mjs 결정론적 차트 11종</text>
+          <g font-size="12" font-weight="700" fill="#1e293b">
+            <rect x="26" y="208" width="96" height="22" rx="4" fill="#f1f5f9"/><text x="74" y="223" text-anchor="middle">워터폴 브리지</text>
+            <rect x="132" y="208" width="96" height="22" rx="4" fill="#f1f5f9"/><text x="180" y="223" text-anchor="middle">마리메코·히트맵</text>
+            <rect x="238" y="208" width="96" height="22" rx="4" fill="#f1f5f9"/><text x="286" y="223" text-anchor="middle">토네이도·레이더</text>
+            <rect x="26" y="234" width="148" height="22" rx="4" fill="#eff6ff"/><text x="100" y="249" fill="#1d4ed8" text-anchor="middle">평행좌표· 누적막대· 추세선</text>
+            <rect x="184" y="234" width="150" height="22" rx="4" fill="#eff6ff"/><text x="259" y="249" fill="#1d4ed8" text-anchor="middle">check_consulting.py</text>
+          </g>
+          <!-- 4 Hairline Directions -->
+          <g font-size="12" font-weight="800" fill="#ffffff" text-anchor="middle">
+            <rect x="14" y="272" width="78" height="44" rx="6" fill="#0f172a"/><text x="53" y="299">.consult</text>
+            <rect x="98" y="272" width="78" height="44" rx="6" fill="#1e3a8a"/><text x="137" y="299">dense</text>
+            <rect x="182" y="272" width="78" height="44" rx="6" fill="#7c2d12"/><text x="221" y="299">editorial</text>
+            <rect x="266" y="272" width="80" height="44" rx="6" fill="#0f69c9"/><text x="306" y="299">tech</text>
+          </g>
+        </svg>
+      </div>
+      <p class="in-div-ft">워터폴·사분면 등 11종 차트 생성기와 .consult 4방향 헤어라인</p>
     </div>
   </div>
-  <div class="row" style="gap:14px;flex:0 0 auto;justify-content:center" data-step="5">
-    <p class="pill" style="font-size:22px">아키텍처 생성기 3종 + blueprint</p>
-    <p class="pill" style="font-size:22px">컨설팅 차트 11종</p>
-    <p class="pill" style="font-size:22px">표지 변형 16종 · arc 6종</p>
-  </div>
-  <aside class="notes">다양성 장입니다. 네 타일이 재료 규모를 실물 비주얼로 보여 줍니다 — 52계열 253변형은 지면 모자이크로, 64조합 리소스팩은 문자 그대로 8×8 격자로, 8테마는 실제 액센트 색 견본으로, 모션은 42개 실행 이름에 공통 기법 5종을 더한 숫자로. 아래 알약 세 개가 다음 두 장에서 실연될 생성기 계열을 예고합니다.</aside>
+
+  <aside class="notes">다양성 엔진 장입니다. 상단 KPI 스트립에 52계열 253변형, 8×8=64조합 리소스팩, 8테마·16표지, 42+5 모션 수치를 명시하고, 하단 4개 기둥에 실제 지면 모형을 배치했습니다. 1열은 8×8 리소스팩 64조합 격자, 2열은 바우하우스 표지와 8종 테마 실제 색 견본, 3열은 직교 2D·입체 HW·시퀀스 아키텍처 생성기 3종, 4열은 컨설팅 2×2 사분면·사이드카와 차트 11종·4방향 헤어라인입니다.</aside>
 </section>
 
-<!-- ==== 04-architecture.html ==== -->
+<!-- ==== 03-architecture.html ==== -->
 <section class="slide arch-blueprint" data-archetype="arch-diagram" style="gap:14px">
-  <div class="bp-head"><span class="bp-serial">004</span><h2 class="title">아키텍처 생성기 — 시맨틱 JSON이 그린 실물</h2><span class="bp-eyebrow">Architecture Kit · arch_layout.mjs</span></div>
+  <div class="bp-head"><span class="bp-serial">003</span><h2 class="title">아키텍처 생성기 — 시맨틱 JSON이 그린 직교 청사진</h2><span class="bp-eyebrow">Architecture Kit · 생성기 3종(직교·입체·레인) + blueprint</span></div>
   <div style="display:flex;gap:16px;align-items:stretch;flex:1;min-height:0">
   <div style="flex:1;min-width:0">
-  <svg class="dg" viewBox="0 0 1664 600" role="img" aria-label="생성 실연 구성도: 사용자가 경계 방어의 WAF를 거쳐 이중화 WEB 쌍, API 게이트웨이로 들어오고 내부 버스가 서비스 클러스터·메시지큐·캐시로 갈라지며 DB 쌍과 관제가 붙어 있다">
-  <title>아키텍처 생성기 — 시맨틱 JSON이 그린 실물</title>
+  <svg class="dg" viewBox="0 0 1664 620" role="img" aria-label="생성 실연 구성도: 사용자가 경계 방어의 WAF를 거쳐 이중화 WEB 쌍, API 게이트웨이로 들어오고 내부 버스가 서비스 클러스터·메시지큐·캐시로 갈라지며 DB 쌍과 관제가 붙어 있다">
+  <title>아키텍처 생성기 — 시맨틱 JSON이 그린 직교 청사진</title>
   <g data-step="1">
-    <rect class="k-zface" x="191" y="81" width="346" height="356" style="rx:12px"/>
-    <rect class="k-zbar-n" x="191" y="81" width="346" height="32" style="rx:10px"/><text class="k-t-zh" x="207" y="104">경계 대역</text>
+    <rect class="k-zface" x="187" y="86" width="324" height="356" style="rx:12px"/>
+    <rect class="k-zbar-n" x="187" y="86" width="324" height="32" style="rx:10px"/><text class="k-t-zh" x="203" y="109">경계 대역</text>
   </g>
   <g data-step="1">
-    <rect class="k-zface" x="523" y="30" width="1070" height="468" style="rx:12px"/>
-    <rect class="k-zbar-b" x="523" y="30" width="1070" height="32" style="rx:10px"/><text class="k-t-zh" x="539" y="53">내부망</text>
+    <rect class="k-zface" x="523" y="30" width="1076" height="488" style="rx:12px"/>
+    <rect class="k-zbar-b" x="523" y="30" width="1076" height="32" style="rx:10px"/><text class="k-t-zh" x="539" y="53">내부망</text>
   </g>
   <g data-step="1">
-    <rect class="k-zface-t" x="209" y="121" width="310" height="300" style="rx:12px"/>
-    <rect class="k-zbar-n" x="221" y="127" width="113" height="28" style="rx:14px"/><text class="k-t-zh" x="243" y="147">전방 방어</text>
+    <rect class="k-zface-t" x="203" y="126" width="298" height="300" style="rx:12px"/>
+    <rect class="k-zbar-n" x="217" y="132" width="113" height="28" style="rx:14px"/><text class="k-t-zh" x="239" y="152">전방 방어</text>
   </g>
   <g data-step="1">
-    <rect class="k-zface-t" x="541" y="70" width="538" height="412" style="rx:12px"/>
+    <rect class="k-zface-t" x="541" y="70" width="540" height="432" style="rx:12px"/>
     <rect class="k-zbar-n" x="553" y="76" width="113" height="28" style="rx:14px"/><text class="k-t-zh" x="575" y="96">응용 계층</text>
   </g>
   <g data-step="1">
-    <rect class="k-zface-t" x="1101" y="70" width="474" height="412" style="rx:12px"/>
-    <rect class="k-zbar-n" x="1113" y="76" width="130" height="28" style="rx:14px"/><text class="k-t-zh" x="1135" y="96">데이터·관제</text>
+    <rect class="k-zface-t" x="1105" y="70" width="476" height="432" style="rx:12px"/>
+    <rect class="k-zbar-n" x="1117" y="76" width="130" height="28" style="rx:14px"/><text class="k-t-zh" x="1139" y="96">데이터·관제</text>
   </g>
   <g data-step="3">
-      <path class="k-ln-b dash-flow" d="M163 272 L233 272" marker-end="url(#ah-b)"/>
-      <rect class="k-paper" x="201.5" y="186" width="81" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="242" y="212" text-anchor="middle">443</text>
+      <path class="k-ln-b dash-flow" d="M157 282 L229 282" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="196.5" y="196" width="81" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="237" y="222" text-anchor="middle">443</text>
     </g>
   <g data-step="3">
-      <path class="k-ln-b" d="M329 272 L329 341 Q329 353 341 353 L399 353" marker-end="url(#ah-b)"/>
+      <path class="k-ln-b" d="M325 282 L325 346 Q325 358 337 358 L397 358" marker-end="url(#ah-b)"/>
     </g>
   <g data-step="3">
-      <path class="k-ln-b" d="M329 272 L329 233 Q329 221 341 221 L399 221" marker-end="url(#ah-b)"/>
+      <path class="k-ln-b" d="M325 282 L325 238 Q325 226 337 226 L397 226" marker-end="url(#ah-b)"/>
     </g>
   <g data-step="3">
-      <path class="k-ln-b" d="M495 353 L553 353 Q565 353 565 341 L565 272" marker-end="url(#ah-b)"/>
+      <path class="k-ln-b" d="M493 358 L493 294 Q493 282 505 282 L565 282" marker-end="url(#ah-b)"/>
     </g>
   <g data-step="3">
-      <path class="k-ln-b" d="M495 221 L495 260 Q495 272 507 272 L565 272" marker-end="url(#ah-b)"/>
+      <path class="k-ln-b" d="M493 226 L493 270 Q493 282 505 282 L565 282" marker-end="url(#ah-b)"/>
     </g>
   <g data-step="3">
-      <path class="k-ln-b" d="M1055 394 L1125 394" marker-end="url(#ah-b)"/>
-      <rect class="k-paper" x="1041" y="274" width="98" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="1090" y="300" text-anchor="middle">1521</text>
+      <path class="k-ln-b" d="M1057 414 L1129 414" marker-end="url(#ah-b)"/>
+      <rect class="k-paper" x="1044" y="294" width="98" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1093" y="320" text-anchor="middle">1521</text>
     </g>
   <g>
-      <path class="k-ln-g" d="M775 272 L775 124 Q775 112 787 112 L1443 112 Q1455 112 1455 124 L1455 394" marker-end="url(#ahg)"/>
-      <rect class="k-paper" x="1144" y="128" width="64" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="1176" y="154" text-anchor="middle">헬스</text>
+      <path class="k-ln-g" d="M775 282 L775 124 Q775 112 787 112 L1449 112 Q1461 112 1461 124 L1461 414" marker-end="url(#ahg)"/>
+      <rect class="k-paper" x="1152" y="128" width="64" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1184" y="154" text-anchor="middle">헬스</text>
     </g>
-  <g data-step="3"><polyline class="k-bus-trunk" points="810,146 810,418"/>
-    <polyline class="k-bus-trunk" points="775,272 810,272"/>
-    <polyline class="k-bus-trunk" points="810,394 845,394"/>
-    <polyline class="k-bus-trunk" points="810,272 902,272"/>
-    <polyline class="k-bus-trunk" points="810,170 902,170"/>
-    <circle class="k-bus-trunk-dot" cx="810" cy="272" r="4"/><circle class="k-bus-trunk-dot" cx="810" cy="394" r="4"/><circle class="k-bus-trunk-dot" cx="810" cy="272" r="4"/><circle class="k-bus-trunk-dot" cx="810" cy="170" r="4"/><text class="k-t-spec" x="818" y="158">내부 10G</text></g>
-  <g data-step="3"><line class="k-ha" x1="443" y1="309" x2="443" y2="265"/><line class="k-ha" x1="451" y1="309" x2="451" y2="265"/>
-    <g class="k-hab"><circle cx="447" cy="287" r="10"/><text class="k-t-qty" x="447" y="290.5" text-anchor="middle">HA</text></g><text class="k-t-spec" x="461" y="291" text-anchor="start">L4</text></g>
+  <g data-step="3"><polyline class="k-bus-trunk" points="811,146 811,438"/>
+    <polyline class="k-bus-trunk" points="775,282 811,282"/>
+    <polyline class="k-bus-trunk" points="811,414 847,414"/>
+    <polyline class="k-bus-trunk" points="811,282 904,282"/>
+    <polyline class="k-bus-trunk" points="811,170 904,170"/>
+    <circle class="k-bus-trunk-dot" cx="811" cy="282" r="4"/><circle class="k-bus-trunk-dot" cx="811" cy="414" r="4"/><circle class="k-bus-trunk-dot" cx="811" cy="282" r="4"/><circle class="k-bus-trunk-dot" cx="811" cy="170" r="4"/><text class="k-t-spec" x="819" y="158">내부 10G</text></g>
+  <g data-step="3"><line class="k-ha" x1="441" y1="314" x2="441" y2="270"/><line class="k-ha" x1="449" y1="314" x2="449" y2="270"/>
+    <g class="k-hab"><circle cx="445" cy="292" r="10"/><text class="k-t-qty" x="445" y="295.5" text-anchor="middle">HA</text></g><text class="k-t-spec" x="459" y="296" text-anchor="start">L4</text></g>
   <g data-step="2">
-    <circle class="k-blue" cx="117" cy="272" r="46"/>
-    <text class="k-t-tag" x="117" y="306" text-anchor="middle" style="fill:var(--blue)">사용자</text>
-    </g>
-  <g data-step="2">
-    <rect class="k-orange" x="233" y="228" width="96" height="88" style="rx:8px"/>
-    <use aria-hidden="true" href="#i-si-waf" x="263" y="236" width="36" height="36" style="color:var(--accent)"/>
-    <text class="k-t-eq" x="281" y="290" text-anchor="middle">WAF</text>
-    <text class="k-t-spec" x="281" y="307" text-anchor="middle">웹 공격 차단</text>
+    <circle class="k-blue" cx="111" cy="282" r="46"/>
+    <text class="k-t-tag" x="111" y="316" text-anchor="middle" style="fill:var(--blue)">사용자</text>
     </g>
   <g data-step="2">
-    <rect class="k-paper" x="399" y="309" width="96" height="88" style="rx:8px"/>
-    <use aria-hidden="true" href="#i-si-rack" x="429" y="317" width="36" height="36" style="color:var(--ink)"/>
-    <text class="k-t-eq" x="447" y="371" text-anchor="middle">WEB-1</text>
-    <text class="k-t-spec" x="447" y="388" text-anchor="middle">TLS 종단</text>
+    <rect class="k-orange" x="229" y="238" width="96" height="88" style="rx:8px"/>
+    <use aria-hidden="true" href="#i-si-waf" x="259" y="246" width="36" height="36" style="color:var(--accent)"/>
+    <text class="k-t-eq" x="277" y="300" text-anchor="middle">WAF</text>
+    <text class="k-t-spec" x="277" y="317" text-anchor="middle">웹 공격 차단</text>
     </g>
   <g data-step="2">
-    <rect class="k-paper" x="399" y="177" width="96" height="88" style="rx:8px"/>
-    <use aria-hidden="true" href="#i-si-rack" x="429" y="185" width="36" height="36" style="color:var(--ink)"/>
-    <text class="k-t-eq" x="447" y="239" text-anchor="middle">WEB-2</text>
-    <text class="k-t-spec" x="447" y="256" text-anchor="middle">TLS 종단</text>
+    <rect class="k-paper" x="397" y="314" width="96" height="88" style="rx:8px"/>
+    <use aria-hidden="true" href="#i-si-rack" x="427" y="322" width="36" height="36" style="color:var(--ink)"/>
+    <text class="k-t-eq" x="445" y="376" text-anchor="middle">WEB-1</text>
+    <text class="k-t-spec" x="445" y="393" text-anchor="middle">TLS 종단</text>
     </g>
   <g data-step="2">
-    <rect class="k-clus" x="565" y="208" width="210" height="128" style="rx:10px"/>
-    <rect class="k-clus-hd" x="565" y="208" width="210" height="30" style="rx:10px"/>
-    <text class="k-t-zh" x="577" y="229">API GW</text>
-    <rect class="k-chip" x="577" y="246" width="56.7" height="30" style="rx:6px"/><text class="k-t-spec" x="605.3" y="266" text-anchor="middle">라우팅</text>
-    <rect class="k-chip" x="641.7" y="246" width="56.7" height="30" style="rx:6px"/><text class="k-t-spec" x="670" y="266" text-anchor="middle">SSO 검증</text>
-    <rect class="k-chip" x="706.3" y="246" width="56.7" height="30" style="rx:6px"/><text class="k-t-spec" x="734.7" y="266" text-anchor="middle">속도제한</text>
-    <rect class="k-res" x="577" y="310" width="140" height="14" style="rx:7px"/>
-    <rect class="k-res-f" x="577" y="310" width="81.2" height="14" style="rx:7px"/>
-    <text class="k-t-spec" x="725" y="321.5">58%</text>
+    <rect class="k-paper" x="397" y="182" width="96" height="88" style="rx:8px"/>
+    <use aria-hidden="true" href="#i-si-rack" x="427" y="190" width="36" height="36" style="color:var(--ink)"/>
+    <text class="k-t-eq" x="445" y="244" text-anchor="middle">WEB-2</text>
+    <text class="k-t-spec" x="445" y="261" text-anchor="middle">TLS 종단</text>
     </g>
   <g data-step="2">
-    <rect class="k-clus" x="845" y="330" width="210" height="128" style="rx:10px"/>
-    <rect class="k-clus-hd" x="845" y="330" width="210" height="30" style="rx:10px"/>
-    <text class="k-t-zh" x="857" y="351">업무 서비스</text>
-    <rect class="k-chip" x="857" y="368" width="89" height="29" style="rx:6px"/><text class="k-t-spec" x="901.5" y="387.5" text-anchor="middle">주문</text>
-    <rect class="k-chip" x="954" y="368" width="89" height="29" style="rx:6px"/><text class="k-t-spec" x="998.5" y="387.5" text-anchor="middle">결제</text>
-    <rect class="k-chip" x="857" y="405" width="89" height="29" style="rx:6px"/><text class="k-t-spec" x="901.5" y="424.5" text-anchor="middle">정산</text>
-    <rect class="k-chip" x="954" y="405" width="89" height="29" style="rx:6px"/><text class="k-t-spec" x="998.5" y="424.5" text-anchor="middle">검색</text>
-    <rect class="k-res" x="857" y="432" width="140" height="14" style="rx:7px"/>
-    <rect class="k-res-f" x="857" y="432" width="86.8" height="14" style="rx:7px"/>
-    <text class="k-t-spec" x="1005" y="443.5">62%</text>
+    <rect class="k-clus" x="565" y="218" width="210" height="128" style="rx:10px"/>
+    <rect class="k-clus-hd" x="565" y="218" width="210" height="30" style="rx:10px"/>
+    <text class="k-t-zh" x="577" y="239">API GW</text>
+    <rect class="k-chip" x="577" y="256" width="56.7" height="30" style="rx:6px"/><text class="k-t-spec" x="605.3" y="276" text-anchor="middle">라우팅</text>
+    <rect class="k-chip" x="641.7" y="256" width="56.7" height="30" style="rx:6px"/><text class="k-t-spec" x="670" y="276" text-anchor="middle">SSO 검증</text>
+    <rect class="k-chip" x="706.3" y="256" width="56.7" height="30" style="rx:6px"/><text class="k-t-spec" x="734.7" y="276" text-anchor="middle">속도제한</text>
+    <rect class="k-res" x="577" y="320" width="140" height="14" style="rx:7px"/>
+    <rect class="k-res-f" x="577" y="320" width="81.2" height="14" style="rx:7px"/>
+    <text class="k-t-spec" x="725" y="331.5">58%</text>
     </g>
   <g data-step="2">
-    <rect class="k-paper" x="902" y="228" width="96" height="88" style="rx:8px"/>
-    <use aria-hidden="true" href="#i-si-vm" x="932" y="236" width="36" height="36" style="color:var(--ink)"/>
-    <text class="k-t-eq" x="950" y="290" text-anchor="middle">메시지큐</text>
-    <text class="k-t-spec" x="950" y="307" text-anchor="middle">비동기 발행</text>
+    <rect class="k-clus" x="847" y="350" width="210" height="128" style="rx:10px"/>
+    <rect class="k-clus-hd" x="847" y="350" width="210" height="30" style="rx:10px"/>
+    <text class="k-t-zh" x="859" y="371">업무 서비스</text>
+    <rect class="k-chip" x="859" y="388" width="89" height="29" style="rx:6px"/><text class="k-t-spec" x="903.5" y="407.5" text-anchor="middle">주문</text>
+    <rect class="k-chip" x="956" y="388" width="89" height="29" style="rx:6px"/><text class="k-t-spec" x="1000.5" y="407.5" text-anchor="middle">결제</text>
+    <rect class="k-chip" x="859" y="425" width="89" height="29" style="rx:6px"/><text class="k-t-spec" x="903.5" y="444.5" text-anchor="middle">정산</text>
+    <rect class="k-chip" x="956" y="425" width="89" height="29" style="rx:6px"/><text class="k-t-spec" x="1000.5" y="444.5" text-anchor="middle">검색</text>
+    <rect class="k-res" x="859" y="452" width="140" height="14" style="rx:7px"/>
+    <rect class="k-res-f" x="859" y="452" width="86.8" height="14" style="rx:7px"/>
+    <text class="k-t-spec" x="1007" y="463.5">62%</text>
     </g>
   <g data-step="2">
-    <rect class="k-paper" x="902" y="126" width="96" height="88" style="rx:8px"/>
-    <use aria-hidden="true" href="#i-si-vm" x="932" y="134" width="36" height="36" style="color:var(--ink)"/>
-    <text class="k-t-eq" x="950" y="188" text-anchor="middle">캐시</text>
-    <text class="k-t-spec" x="950" y="205" text-anchor="middle">Redis</text>
+    <rect class="k-paper" x="904" y="238" width="96" height="88" style="rx:8px"/>
+    <use aria-hidden="true" href="#i-si-vm" x="934" y="246" width="36" height="36" style="color:var(--ink)"/>
+    <text class="k-t-eq" x="952" y="300" text-anchor="middle">메시지큐</text>
+    <text class="k-t-spec" x="952" y="317" text-anchor="middle">비동기 발행</text>
     </g>
   <g data-step="2">
-    <rect class="k-clus" x="1125" y="346" width="300" height="96" style="rx:10px"/>
-    <rect class="k-paper" x="1135" y="354" width="135" height="64" style="rx:6px"/>
-    <use aria-hidden="true" href="#i-si-db" x="1188.5" y="360" width="28" height="28" style="color:var(--ink)"/>
-    <text class="k-t-spec" x="1202.5" y="410" text-anchor="middle">#1</text>
+    <rect class="k-paper" x="904" y="126" width="96" height="88" style="rx:8px"/>
+    <use aria-hidden="true" href="#i-si-vm" x="934" y="134" width="36" height="36" style="color:var(--ink)"/>
+    <text class="k-t-eq" x="952" y="188" text-anchor="middle">캐시</text>
+    <text class="k-t-spec" x="952" y="205" text-anchor="middle">Redis</text>
+    </g>
+  <g data-step="2">
+    <rect class="k-clus" x="1129" y="366" width="300" height="96" style="rx:10px"/>
+    <rect class="k-paper" x="1139" y="374" width="135" height="64" style="rx:6px"/>
+    <use aria-hidden="true" href="#i-si-db" x="1192.5" y="380" width="28" height="28" style="color:var(--ink)"/>
+    <text class="k-t-spec" x="1206.5" y="430" text-anchor="middle">#1</text>
     <title>주 DB</title>
-    <rect class="k-paper" x="1280" y="354" width="135" height="64" style="rx:6px"/>
-    <use aria-hidden="true" href="#i-si-db" x="1333.5" y="360" width="28" height="28" style="color:var(--ink)"/>
-    <text class="k-t-spec" x="1347.5" y="410" text-anchor="middle">#2</text>
+    <rect class="k-paper" x="1284" y="374" width="135" height="64" style="rx:6px"/>
+    <use aria-hidden="true" href="#i-si-db" x="1337.5" y="380" width="28" height="28" style="color:var(--ink)"/>
+    <text class="k-t-spec" x="1351.5" y="430" text-anchor="middle">#2</text>
     <title>대기 DB</title>
-    <text class="k-t-spec" x="1275" y="435" text-anchor="middle">DB 쌍 · A/S 복제</text>
+    <text class="k-t-spec" x="1279" y="455" text-anchor="middle">DB 쌍 · A/S 복제</text>
     </g>
   <g data-step="2">
-    <rect class="k-orange" x="1455" y="350" width="96" height="88" style="rx:8px"/>
-    <use aria-hidden="true" href="#i-si-mon" x="1485" y="358" width="36" height="36" style="color:var(--accent)"/>
-    <text class="k-t-eq" x="1503" y="412" text-anchor="middle">관제</text>
-    <text class="k-t-spec" x="1503" y="429" text-anchor="middle">헬스·알람</text>
+    <rect class="k-orange" x="1461" y="370" width="96" height="88" style="rx:8px"/>
+    <use aria-hidden="true" href="#i-si-mon" x="1491" y="378" width="36" height="36" style="color:var(--accent)"/>
+    <text class="k-t-eq" x="1509" y="432" text-anchor="middle">관제</text>
+    <text class="k-t-spec" x="1509" y="449" text-anchor="middle">헬스·알람</text>
     </g>
-  <g><rect class="k-legbar" x="0" y="536" width="1664" height="56"/><polyline class="k-ln-b" points="34,562 104,562"/><text class="k-t-tag" x="118" y="568">동기 호출</text>
-    <polyline class="k-ln-g" points="294,562 364,562"/><text class="k-t-tag" x="378" y="568">보조·관제</text>
-    <use aria-hidden="true" href="#i-si-fw" x="554" y="546" width="30" height="30" style="color:var(--blue)"/><text class="k-t-tag" x="594" y="568">경계 보안</text>
-    <use aria-hidden="true" href="#i-si-rack" x="770" y="546" width="30" height="30" style="color:var(--blue)"/><text class="k-t-tag" x="810" y="568">가상 장비</text>
-    <rect x="986" y="548" width="34" height="24" rx="12" fill="var(--mut)"/><text class="k-t-tag" x="1030" y="568">기존</text></g>
+  <g><rect class="k-legbar" x="0" y="556" width="1664" height="56"/><polyline class="k-ln-b" points="34,582 104,582"/><text class="k-t-tag" x="118" y="588">동기 호출</text>
+    <polyline class="k-ln-g" points="294,582 364,582"/><text class="k-t-tag" x="378" y="588">보조·관제</text>
+    <use aria-hidden="true" href="#i-si-fw" x="554" y="566" width="30" height="30" style="color:var(--blue)"/><text class="k-t-tag" x="594" y="588">경계 보안</text>
+    <use aria-hidden="true" href="#i-si-rack" x="770" y="566" width="30" height="30" style="color:var(--blue)"/><text class="k-t-tag" x="810" y="588">가상 장비</text>
+    <rect x="986" y="568" width="34" height="24" rx="12" fill="var(--mut)"/><text class="k-t-tag" x="1030" y="588">기존</text></g>
 </svg>
   </div>
   <aside class="arch-side">
     <p class="eyebrow" style="margin:0 0 4px">생성 계약</p>
     <p class="arch-side-t">시맨틱 JSON → 직교 SVG</p>
-<div class="arch-side-blk"><p class="arch-side-h">BOM — 이 장의 재료</p><table class="arch-side-tb"><thead><tr><th>구성</th><th>수량</th></tr></thead><tbody><tr><td>WEB 이중화</td><td>2</td></tr><tr><td>클러스터</td><td>2</td></tr><tr><td>DB 쌍</td><td>2</td></tr><tr><td>경계 장비</td><td>1</td></tr></tbody></table></div>
-<div class="arch-side-blk"><p class="arch-side-h">모델 필드</p><ul class="arch-side-ul"><li>zones 중첩·솔리드 헤더</li><li>buses T-드롭·haPairs</li><li>equip·cluster·rack-group</li><li>SI 2톤 아이콘 16종</li></ul></div>
-<div class="arch-side-blk"><p class="arch-side-h">출력</p><p class="arch-side-p">직교 배선·사선 0 — 검색 가능한 SVG 텍스트로 내보낸다.</p></div>
+<div class="arch-side-blk"><p class="arch-side-h">BOM — 이 장의 재료</p><table class="arch-side-tb"><thead><tr><th>구성</th><th>수량</th></tr></thead><tbody><tr><td>WEB 이중화</td><td>2식</td></tr><tr><td>클러스터</td><td>2식</td></tr><tr><td>DB 쌍</td><td>2식</td></tr><tr><td>경계·관제</td><td>2식</td></tr></tbody></table></div>
+<div class="arch-side-blk"><p class="arch-side-h">생성기 3종 · SI 10유형</p><ul class="arch-side-ul"><li>직교 2D (중첩 존·솔리드 헤더·버스)</li><li>입체 HW (아이소메트릭 3D 랙·계층)</li><li>레인·시퀀스 (①~⑧ 호출·토큰)</li></ul></div>
+<div class="arch-side-blk"><p class="arch-side-h">출력 품질</p><p class="arch-side-p">맨해튼 직교 배선(사선 0) · SI 2톤 아이콘 16종 · 검색 가능한 SVG 텍스트.</p></div>
   </aside>
 </div>
   
-  <aside class="notes">아키텍처 생성기 실연 장입니다. 화면의 블루프린트는 손으로 그린 그림이 아니라 시맨틱 JSON 모델을 arch_layout.mjs가 배치한 산출물 — 중첩 존과 솔리드 헤더 바, WEB 쌍의 이중화 마커, API 게이트웨이에서 세 갈래로 갈라지는 내부 버스 T-드롭이 보입니다. 우측 패널은 이 장에 쓰인 재료의 BOM, 하단 막대는 선 종류 범례입니다. 존, 노드, 연결 순서로 점등됩니다.</aside>
+  <aside class="notes">아키텍처 생성기 실연 장입니다. 화면의 블루프린트는 손으로 그린 그림이 아니라 시맨틱 JSON 모델을 arch_layout.mjs가 배치한 산출물 — 중첩 존과 솔리드 헤더 바, WEB 쌍의 이중화 마커, API 게이트웨이에서 세 갈래로 갈라지는 내부 버스 T-드롭이 보입니다. 직교 2D 외에도 입체 HW·레인 시퀀스까지 3종의 생성기가 동작합니다.</aside>
 </section>
 
-<!-- ==== 05-consulting.html ==== -->
+<!-- ==== 04-consulting.html ==== -->
 <!-- consulting chart — waterfall
-     모델: charts/intro-chart.json · 생성: node consulting-deck/charts/chart_gen.mjs --in charts/intro-chart.json -o <이 파일>
-     질문: 한 줄 요청이 덱 하나가 되기까지 무엇이 쌓이는가
+     모델: examples/promo/intro-deck/charts/intro-chart.json · 생성: node consulting-deck/charts/chart_gen.mjs --in examples/promo/intro-deck/charts/intro-chart.json -o <이 파일>
+     질문: 구조 전환으로 FY27 연 370억(30%) 절감을 어떻게 달성하는가
      손으로 고치지 않는다. 모델을 고치고 다시 생성한다. -->
-<section class="slide consult-tech" data-archetype="waterfall" data-variant="bridge" style="gap:18px">
-  <div class="head"><p class="eyebrow">Consulting Kit · chart_gen.mjs 실연</p><h2 class="title">차트 11종·시사점 사이드카·근거 원장까지 코드가 정밀하게 그린다</h2></div>
+<section class="slide consult consult-tech" data-archetype="waterfall" data-variant="bridge" style="gap:18px">
+  <div class="head"><p class="eyebrow">Consulting Kit · chart_gen.mjs 11종 실연</p><h2 class="title">차트 11종·사이드카·근거 원장까지 코드가 정밀하게 그린다</h2></div>
   <div class="c-sidecar">
     <div class="c-sidecar-main">
-  <svg class="dg" viewBox="0 0 1040 580" role="img" aria-label="워터폴 실연: 요청 1건이 만드는 산출물의 구성 — 장 배치 253 변형·모션 47·검수 계약을 거쳐 덱 1개로 합산">
-    <title>차트 11종·시사점 사이드카·근거 원장까지 코드가 정밀하게 그린다</title>
-    <text class="k-t-tag" x="0" y="42">(단위: 자산)</text>
+  <svg class="dg" viewBox="0 0 1040 620" role="img" aria-label="워터폴 브리지 실연: FY25 IT 비용 1,240억에서 라이선스 정비 마이너스 142억, 클라우드 통합 마이너스 118억, 레거시 전환 마이너스 140억, 전환 투자 플러스 30억을 거쳐 FY27 목표 870억 달성">
+    <title>차트 11종·사이드카·근거 원장까지 코드가 정밀하게 그린다</title>
+    <text class="k-t-tag" x="0" y="42">(단위: 억원)</text>
     <path d="M60,460 L980,460" fill="none" stroke="var(--line)" stroke-width="2.5" stroke-linecap="round"/>
     <g class="wf" data-step="1">
-      <rect x="91" y="372.2" width="93" height="87.8" class="k-solid-n"/>
-      <text x="137.5" y="348.2" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">120</text>
-      <text x="137.5" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">요청 1건</text>
+      <rect x="91" y="100" width="93" height="360" class="k-solid-n"/>
+      <path d="M107,468 L121,444 M123,468 L137,444" fill="none" stroke="var(--line)" stroke-width="3" class="axis-brk"/>
+      <text x="137.5" y="76" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">1,240</text>
+      <text x="137.5" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">FY25 비용</text>
     </g>
     <g class="wf" data-step="2">
-      <path d="M184,372.2 L244,372.2" class="k-ln-g"/>
-      <rect x="244" y="187.07" width="93" height="185.12" class="k-solid-b"/>
-      <text x="290.5" y="163.07" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">+253</text>
-      <text x="290.5" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">장 배치 253</text>
+      <path d="M184,100 L244,100" class="k-ln-g"/>
+      <rect x="244" y="100" width="93" height="110.53" fill="var(--accent)"/>
+      <text x="290.5" y="76" font-size="26" font-weight="800" class="k-t-o" text-anchor="middle">−142</text>
+      <text x="290.5" y="540" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">라이선스 정비</text>
+      <path d="M290.5,214.53 L290.5,216.53" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
+<rect x="217.3" y="225.53" width="64" height="26" rx="13" fill="var(--accent)"/>
+<text x="249.3" y="245.53" font-size="18" font-weight="800" class="k-t-w" text-anchor="middle">핵심</text>
+      <text x="289.3" y="244.53" font-size="24" font-weight="800" class="k-t-o" text-anchor="start">구조 동인</text>
     </g>
     <g class="wf" data-step="3">
-      <path d="M337,187.07 L397,187.07" class="k-ln-g"/>
-      <rect x="397" y="152.68" width="93" height="34.39" class="k-solid-b"/>
-      <text x="443.5" y="128.68" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">+47</text>
-      <text x="443.5" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">모션 42+5</text>
+      <path d="M337,210.53 L397,210.53" class="k-ln-g"/>
+      <rect x="397" y="210.53" width="93" height="91.85" fill="var(--accent)"/>
+      <text x="443.5" y="186.53" font-size="26" font-weight="800" class="k-t-o" text-anchor="middle">−118</text>
+      <text x="443.5" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">클라우드 통합</text>
     </g>
     <g class="wf" data-step="4">
-      <path d="M490,152.68 L550,152.68" class="k-ln-g"/>
-      <rect x="550" y="100" width="93" height="52.68" class="k-solid-b"/>
-      <text x="596.5" y="76" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">+72</text>
-      <text x="596.5" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">팩·테마 72</text>
+      <path d="M490,302.38 L550,302.38" class="k-ln-g"/>
+      <rect x="550" y="302.38" width="93" height="108.97" class="k-solid-b"/>
+      <text x="596.5" y="278.38" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">−140</text>
+      <text x="596.5" y="540" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">레거시 전환</text>
     </g>
     <g class="wf" data-step="5">
-      <path d="M643,100 L703,100" class="k-ln-g"/>
-      <rect x="703" y="100" width="93" height="65.85" fill="var(--accent)"/>
-      <text x="749.5" y="76" font-size="26" font-weight="800" class="k-t-o" text-anchor="middle">−90</text>
-      <text x="749.5" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">재사용 절감</text>
-      <path d="M749.5,169.85 L749.5,171.85" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 5"/>
-<rect x="683.5" y="176.85" width="64" height="26" rx="13" fill="var(--track-strong)"/>
-<text x="715.5" y="196.85" font-size="18" font-weight="800" class="k-t-w" text-anchor="middle">참고</text>
-      <text x="755.5" y="195.85" font-size="20" font-weight="600" class="k-t-tag" text-anchor="start">재료 </text>
-      <text x="755.5" y="219.85" font-size="20" font-weight="600" class="k-t-tag" text-anchor="start">재사용</text>
+      <path d="M643,411.35 L703,411.35" class="k-ln-g"/>
+      <rect x="703" y="388" width="93" height="23.35" class="k-solid-b"/>
+      <text x="749.5" y="364" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">+30</text>
+      <text x="749.5" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">전환 투자</text>
     </g>
     <g class="wf" data-step="6">
-      <path d="M796,165.85 L856,165.85" class="k-ln-g"/>
-      <rect x="856" y="165.85" width="93" height="294.15" class="k-solid-n"/>
-      <text x="902.5" y="141.85" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle" data-count>402</text>
-      <text x="902.5" y="508" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">단일 HTML</text>
+      <path d="M796,388 L856,388" class="k-ln-g"/>
+      <rect x="856" y="388" width="93" height="72" class="k-solid-n"/>
+      <path d="M872,468 L886,444 M888,468 L902,444" fill="none" stroke="var(--line)" stroke-width="3" class="axis-brk"/>
+      <text x="902.5" y="364" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle" data-count>870</text>
+      <text x="902.5" y="540" font-size="22" font-weight="700" fill="var(--ink)" text-anchor="middle">FY27 목표</text>
     </g>
     </svg>
     </div>
     <aside class="c-sidecar-panel" data-step="6">
       <p class="sc-k">SO WHAT</p>
       <p class="sc-v">11<small>종</small></p>
-      <p class="sc-h">차트 생성기가 그리는 실물 — 워터폴·사분면·토네이도 등</p>
+      <p class="sc-h">결정론적 차트 생성기 — 브리지·사분면·토네이도·마리메코 등</p>
       <ul>
-        <li>우측 시사점 칼럼이 같은 모델에서 생성</li>
-        <li><b>근거 원장</b>으로 수치·출처를 이중 대조</li>
-        <li>헤어라인 4방향 — .consult 계열 문법</li>
+        <li>차트와 <b>SO WHAT 사이드카</b>를 단일 JSON에서 동시 생성</li>
+        <li><b>근거 원장</b>(check_consulting.py)으로 수치·출처 자동 대조</li>
+        <li>헤어라인 4방향 — exec · dense · editorial · tech</li>
       </ul>
     </aside>
   </div>
-  <p class="c-note" data-step="6"><b>방법론·한계</b> — 워터폴 수치는 생성 실연용 가상 예시 — 실제 자산 수는 README·갤러리 기준</p>
+  <p class="c-note" data-step="6"><b>방법론·한계</b> — 단일 JSON 모델에서 막대·연결선·콜아웃·우측 시사점 칼럼·하단 원장 각주를 일괄 렌더</p>
   <div class="c-src" data-step="6">
-    <p>Source: edu-deck 소개 쇼 — 생성기 실연 (가상 수치) · 기준 2026-11</p>
+    <p>Source: consulting-deck 실연 (it-cost 데모 시나리오) · chart_gen.mjs 자동 생성 · 기준 2026-11</p>
     <p class="s-syn">가상 데이터</p>
   </div>
-  <aside class="notes">컨설팅 키트 실연 장. chart_gen.mjs가 만든 실제 워터폴 브리지 — 막대·연결선·스태거 라벨·주석이 모두 모델 JSON에서 결정론적으로 생성된다. 오른쪽 시사점 칼럼은 차트와 같은 모델의 sidecar 필드, 하단 출처 줄은 source 필드가 만든다. 11종 차트 중 대표로 워터폴을 골랐다. 발표 포인트: '같은 생성기가 헤어라인 컨설팅 문법까지 같이 그린다'.</aside>
+  <aside class="notes">컨설팅 키트 실연 장입니다. chart_gen.mjs가 단일 JSON 모델에서 결정론적으로 생성한 절감 기회 브리지(워터폴)와 우측 SO WHAT 시사점 사이드카입니다. 라이선스 정비(-142억)와 클라우드 통합(-118억) 핵심 동인이 자동 강조되고, 하단에는 근거 원장(check_consulting.py) 대조용 출처와 방법론 각주가 함께 생성됩니다.</aside>
 </section>
 
-<!-- ==== 06-layers.html ==== -->
-<section class="slide" data-archetype="quiz-ox" style="gap:28px">
-  <div class="head"><p class="eyebrow">단일 HTML 안의 층위</p><h2 class="title">파일 하나에 덱 전부가 들어 있습니다</h2></div>
-  <div class="row" style="flex:1;min-height:0;gap:56px">
-    <svg class="dg" viewBox="0 0 760 620" role="img" aria-label="단일 HTML의 단면: 슬라이드 본편 아래에 단계 공개·발표자 노트·확인 퀴즈·자습과 검색·인쇄와 출처 층이 차례로 쌓여 있다" style="flex:0 0 640px">
-      <title>완성 덱의 층위 — 여섯 겹</title>
-      <g data-step="1">
-        <rect x="60" y="60" width="560" height="330" rx="14" fill="var(--paper)" stroke="var(--ink)" stroke-width="2.5"/>
-        <rect x="60" y="60" width="560" height="46" rx="14" fill="var(--blue)"/>
-        <text x="84" y="91" font-size="24" font-weight="800" fill="#fff">슬라이드 본편 — 253 변형</text>
-        <g stroke="var(--line)" stroke-width="4" stroke-linecap="round"><line x1="88" y1="140" x2="430" y2="140"/><line x1="88" y1="176" x2="500" y2="176"/><line x1="88" y1="212" x2="380" y2="212"/></g>
-        <rect x="88" y="250" width="200" height="100" rx="10" fill="var(--blue-soft)" stroke="var(--blue)"/>
-        <rect x="312" y="250" width="200" height="100" rx="10" fill="#fff" stroke="var(--line)"/>
-      </g>
-      <g data-step="2">
-        <rect x="86" y="392" width="560" height="42" rx="10" fill="var(--accent-soft)" stroke="var(--accent)"/>
-        <text x="110" y="420" font-size="22" font-weight="700" fill="var(--accent-text)">단계 공개 — 화살표 한 번에 한 겹</text>
-      </g>
-      <g data-step="3">
-        <rect x="112" y="438" width="560" height="42" rx="10" fill="#fff" stroke="var(--line)"/>
-        <text x="136" y="466" font-size="22" font-weight="700" fill="var(--ink)">발표자 노트 — 장당 60자 이상 검사</text>
-      </g>
-      <g data-step="4">
-        <rect x="138" y="484" width="560" height="42" rx="10" fill="#fff" stroke="var(--line)"/>
-        <text x="162" y="512" font-size="22" font-weight="700" fill="var(--ink)">확인 퀴즈 — 판정 도장·해설·복습 연결</text>
-      </g>
-      <g data-step="5">
-        <rect x="164" y="530" width="560" height="42" rx="10" fill="#fff" stroke="var(--line)"/>
-        <text x="188" y="558" font-size="22" font-weight="700" fill="var(--ink)">자습 모드 · 용어집 · 검색 · 진도 저장</text>
-      </g>
-      <g data-step="6">
-        <rect x="190" y="576" width="560" height="42" rx="10" fill="var(--blue-soft)" stroke="var(--blue)"/>
-        <text x="214" y="604" font-size="22" font-weight="700" fill="var(--blue-text)">인쇄 완결 · 출처·검증 층</text>
-      </g>
-    </svg>
-    <div class="col" style="flex:1;min-width:0;gap:22px;justify-content:center">
-      <p class="in-hl-k" data-step="7">지금 바로 확인 — 이 쇼도 같은 파일입니다</p>
-      <div class="qrow" data-step="8"><p class="qn">Q</p><p class="qt">이 화면의 장면은 전부 코드가 그립니까?</p><span class="ox o">O</span><span class="ox x">X</span></div>
-      <p class="in-hl-d" data-step="8">정답 O — 녹화가 아니라 실시간 생성입니다</p>
-      <div class="row" style="gap:12px;flex-wrap:wrap;font-size:23px" data-step="9">
-        <span class="kbd">→ 단계</span><span class="kbd">N 노트</span><span class="kbd">S 자습</span><span class="kbd">P 인쇄</span><span class="kbd">/ 검색</span>
+<!-- ==== 05-quality.html ==== -->
+<section class="slide" data-archetype="compare-2" style="gap:20px">
+  <div class="head">
+    <p class="eyebrow">만드는 경로 · 이중 검수 게이트</p>
+    <h2 class="title">기술 계약과 9항목 심미 크리틱을 모두 통과해야 출하합니다</h2>
+  </div>
+
+  <!-- 6-Stage End-to-End Pipeline Bar -->
+  <div class="in-pipe-bar" data-step="1">
+    <div class="in-pipe-step">
+      <p class="in-pipe-n">STEP 01</p>
+      <p class="in-pipe-t">프롬프트 요청</p>
+      <p class="in-pipe-d">주제·대상 한 줄 입력</p>
+    </div>
+    <div class="in-pipe-step">
+      <p class="in-pipe-n">STEP 02</p>
+      <p class="in-pipe-t">경로 라우팅</p>
+      <p class="in-pipe-d">팩64·자유·SI·컨설팅</p>
+    </div>
+    <div class="in-pipe-step">
+      <p class="in-pipe-n">STEP 03</p>
+      <p class="in-pipe-t">조사 · 원장</p>
+      <p class="in-pipe-d">사실 수집·data-src 채번</p>
+    </div>
+    <div class="in-pipe-step">
+      <p class="in-pipe-n">STEP 04</p>
+      <p class="in-pipe-t">조립 · 생성</p>
+      <p class="in-pipe-d">253조각·생성기 렌더</p>
+    </div>
+    <div class="in-pipe-step st-gate">
+      <p class="in-pipe-n">STEP 05</p>
+      <p class="in-pipe-t">이중 검수</p>
+      <p class="in-pipe-d">계약 검사 + 심미 QA</p>
+    </div>
+    <div class="in-pipe-step st-out">
+      <p class="in-pipe-n">STEP 06</p>
+      <p class="in-pipe-t">단일 HTML</p>
+      <p class="in-pipe-d">외부 의존 0 · 즉시 재생</p>
+    </div>
+  </div>
+
+  <!-- Dual Quality Gate Scorecards -->
+  <div class="in-gates">
+    <!-- Gate 01: Technical Contract -->
+    <div class="in-gate-card" data-step="2">
+      <div class="in-gate-hd">
+        <p class="in-gate-title">GATE 01 · 기계가 강제하는 기술 계약</p>
+        <p class="in-gate-badge">check_deck.py</p>
+      </div>
+      <div class="in-gate-body">
+        <div class="in-gate-row">
+          <span class="in-gate-tag">WCAG 대비</span>
+          <p class="in-gate-txt">본문 4.5:1 · 큰 글자 3.0:1 · 238셀 테마 대비 매트릭스 검증</p>
+        </div>
+        <div class="in-gate-row">
+          <span class="in-gate-tag">렌더 실측</span>
+          <p class="in-gate-txt">Playwright 1920×1080 전 단계 측정 — 넘침·겹침·참조 오류 0건</p>
+        </div>
+        <div class="in-gate-row">
+          <span class="in-gate-tag">저작 계약</span>
+          <p class="in-gate-txt">글자 하한(≥18px) · 발표자 노트(≥60자) · data-src 출처 대조</p>
+        </div>
+        <div class="in-gate-row">
+          <span class="in-gate-tag">회귀 기준</span>
+          <p class="in-gate-txt">단위 테스트 505개 · 리소스팩 브라우저 64/64 전수 PASS</p>
+        </div>
+        <p class="in-gate-foot">✓ 안전 가드(ERROR = 0) 미통과 시 배포 차단 — 기술 무결성 보장</p>
+      </div>
+    </div>
+
+    <!-- Gate 02: Visual Aesthetic Critique -->
+    <div class="in-gate-card" data-step="3">
+      <div class="in-gate-hd g-crit">
+        <p class="in-gate-title">GATE 02 · 눈으로 거르는 9항목 심미 크리틱</p>
+        <p class="in-gate-badge">design-critique.md</p>
+      </div>
+      <div class="in-gate-body">
+        <div class="in-crit-grid">
+          <p class="in-crit-cell">① 시각 위계·초점</p>
+          <p class="in-crit-cell">② 정렬·여백 균형</p>
+          <p class="in-crit-cell">③ 타이포 스케일</p>
+          <p class="in-crit-cell">④ 색채 시맨틱</p>
+          <p class="in-crit-cell">⑤ 정보 밀도·호흡</p>
+          <p class="in-crit-cell">⑥ 도식·차트 완결</p>
+          <p class="in-crit-cell">⑦ 컨테이너 조형</p>
+          <p class="in-crit-cell">⑧ 장 간 리듬 설계</p>
+          <p class="in-crit-cell">⑨ 실물 캡처 검수</p>
+        </div>
+        <div class="in-gate-row" style="border-bottom:none;padding-bottom:0">
+          <span class="in-gate-tag gt-acc">독립 검수</span>
+          <p class="in-gate-txt">전 장 캡처(capture_deck.py)를 육안 대조해 가짜 도식·공백 방치 퇴출</p>
+        </div>
+        <p class="in-gate-foot">✓ 검사 통과 ≠ 좋은 디자인 — Blocker·Major 0건이어야 최종 PASS</p>
       </div>
     </div>
   </div>
-  <aside class="notes">단일 HTML 다층 장입니다. 왼쪽 단면이 파일 하나에 쌓인 여섯 층을 아래로 펼칩니다 — 본편·단계 공개·발표자 노트·퀴즈·자습·인쇄. 오른쪽 OX 칸은 진짜 퀴즈 부품이라 마지막 단계에서 판정 도장이 찍힙니다. 아래 키 안내는 시청자가 직접 눌러 볼 수 있는 단축키입니다.</aside>
+
+  <aside class="notes">제작 경로와 품질 보증 장입니다. 상단 6단계 파이프라인이 프롬프트 요청부터 라우팅·조사·조립·이중 검수·단일 HTML 출하까지의 과정을 보여 줍니다. 하단 좌우 카드는 이 스킬의 핵심 철학인 이중 검수 체계입니다. 왼쪽 GATE 01은 check_deck.py가 강제하는 대비·넘침·계약 등 기술 안전 가드이고, 오른쪽 GATE 02는 실제 캡처 화면을 9항목으로 채점하는 design-critique.md 심미 크리틱입니다.</aside>
+</section>
+
+<!-- ==== 06-anatomy.html ==== -->
+<section class="slide" data-archetype="quiz-ox" style="gap:20px">
+  <div class="head">
+    <p class="eyebrow">06 · 단일 HTML 6층 단면 &amp; 인터랙티브 판정</p>
+    <h2 class="title">외부 의존 0 — <em>단일 HTML 하나</em>에 6개 계층과 퀴즈가 내장됩니다</h2>
+  </div>
+
+  <div class="in-stack-wrap">
+    <div class="in-stack-col">
+      <div class="in-stack-top">
+        <p class="in-stack-top-t">SINGLE HTML 6-LAYER STACK</p>
+        <p class="in-stack-top-b">외부 의존성 0 · 오프라인 완결</p>
+      </div>
+      <div class="in-stack-list">
+        <div class="in-layer-row" data-step="1">
+          <p class="in-layer-badge">LAYER 01</p>
+          <p class="in-layer-name">1920×1080 고정 캔버스</p>
+          <p class="in-layer-desc">--ed-s 뷰포트 자동 스케일 · 줄바꿈 불변</p>
+        </div>
+        <div class="in-layer-row" data-step="1">
+          <p class="in-layer-badge">LAYER 02</p>
+          <p class="in-layer-name">8 테마 · 64 팩 · 청사진 CSS</p>
+          <p class="in-layer-desc">외부 웹폰트·CDN 호출 없이 전수 인라인</p>
+        </div>
+        <div class="in-layer-row ly-hi" data-step="2">
+          <p class="in-layer-badge">LAYER 03</p>
+          <p class="in-layer-name">스텝 엔진 &amp; 42+5 모션</p>
+          <p class="in-layer-desc">data-step · data-only · data-lit 시선 유도</p>
+        </div>
+        <div class="in-layer-row ly-hi" data-step="2">
+          <p class="in-layer-badge">LAYER 04</p>
+          <p class="in-layer-name">실시간 OX · 객관식 판정</p>
+          <p class="in-layer-desc">최종 스텝에서 .ox.o 점등 · judgment-stamp</p>
+        </div>
+        <div class="in-layer-row" data-step="3">
+          <p class="in-layer-badge">LAYER 05</p>
+          <p class="in-layer-name">자습 계층 (EDU_STUDY)</p>
+          <p class="in-layer-desc">localStorage 진도 · 북마크 · 하이라이트 · 메모</p>
+        </div>
+        <div class="in-layer-row" data-step="3">
+          <p class="in-layer-badge">LAYER 06</p>
+          <p class="in-layer-name">발표자 보조 창 &amp; 인쇄</p>
+          <p class="in-layer-desc">aside.notes 분리 창(P) · ?sheet 전 장 인쇄</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="in-quiz-panel" data-step="4">
+      <p class="in-quiz-kicker">실물 엔진 동작 검증 · QUIZ-OX (JUDGMENT-STAMP)</p>
+      <div class="qrow">
+        <div class="qn">Q</div>
+        <div class="qt">생성된 덱 HTML은 인터넷이 차단된 폐쇄망 PC에서도 모션·차트·퀴즈·발표 노트가 100% 동일하게 작동한다.</div>
+        <div style="display:flex;gap:12px;align-items:center"><span class="ox o">O</span><span class="ox x">X</span></div>
+      </div>
+      <p class="in-quiz-verdict">정답 O — 완전 독립 단일 파일(Self-Contained Single HTML). CSS 토큰·인라인 SVG 도식·스텝 엔진·자습 모듈이 파일 하나에 패킹되어 별도 서버 없이 즉시 실행됩니다.</p>
+      <div class="in-key-grid">
+        <p class="in-key-chip"><b>Space / →</b>다음 스텝</p>
+        <p class="in-key-chip"><b>DblClick</b>장 끝까지</p>
+        <p class="in-key-chip"><b>P / N</b>발표자 노트</p>
+        <p class="in-key-chip"><b>S 키</b>자습 패널</p>
+        <p class="in-key-chip"><b>G / ?</b>장 이동·도움</p>
+        <p class="in-key-chip"><b>?sheet</b>A4 인쇄뷰</p>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">여섯째 장은 빌드 결과물인 단일 HTML 파일의 6개 내부 계층을 분해해 보여주고, 우측에서는 실제 엔진의 quiz-ox 판정 도장(judgment-stamp)이 작동하는 모습을 실연합니다.</aside>
 </section>
 
 <!-- ==== 07-cta.html ==== -->
-<section class="slide" data-archetype="closing" style="gap:30px">
-  <div class="head"><p class="eyebrow">다음은 직접 여는 차례</p><h2 class="title">실물을 열어 확인하세요</h2></div>
-  <div class="row" style="flex:1;min-height:0;gap:40px">
-    <div class="in-links" style="flex:1.35">
-      <a class="in-link" href="../examples/states-quiz/물질의상태변화-단원평가퀴즈-교육자료.html" data-step="1"><svg aria-hidden="true"><use href="#i-check"/></svg><p>교육 덱 — 단원평가 퀴즈<small>판정 도장·해설·복습 연결</small></p></a>
-      <a class="in-link" href="../examples/ratio-worksheet/비와-비율-학습지.html" data-step="1"><svg aria-hidden="true"><use href="#i-book"/></svg><p>교육 덱 — 비와 비율 학습지<small>인쇄까지 완결되는 워크시트</small></p></a>
-      <a class="in-link" href="../examples/safety-casebook/사고-사례-현장-안전-교육자료.html" data-step="2"><svg aria-hidden="true"><use href="#i-shield"/></svg><p>교육 덱 — 현장 안전 사례집<small>casebook 팩으로 만든 사례철</small></p></a>
-      <a class="in-link" href="../examples/privacy-talk/개인정보-보호-기본-교육자료.html" data-step="2"><svg aria-hidden="true"><use href="#i-id-card"/></svg><p>교육 덱 — 개인정보 보호 교육<small>세미나형 법정 의무 과정</small></p></a>
-      <a class="in-link" href="../examples/arch-si/arch-si.html" data-step="3"><svg aria-hidden="true"><use href="#i-si-rack"/></svg><p>SI 아키텍처 — 13장<small>블루프린트·버스·중첩 존 실연</small></p></a>
-      <a class="in-link" href="../examples/consulting-demo/ai-transform/ai-transform-consulting-deck.html" data-step="3"><svg aria-hidden="true"><use href="#i-chart"/></svg><p>컨설팅 — AI 전환 보고<small>헤어라인·차트·근거 원장</small></p></a>
-    </div>
-    <div class="in-cta" style="flex:1" data-step="4">
-      <h3>재료 378점은<br>전부 재생됩니다</h3>
-      <p>조각·모션·테마·팩 매트릭스를 실제 덱으로 찍어 모아 둔 자산 갤러리 — 이 쇼에 쓴 재료도 여기서 왔습니다.</p>
-      <a href="gallery.html">▶ 자산 갤러리 열기 — 378점</a>
-      <p class="small" style="color:var(--muted)">컨설팅 데모 2종(it-cost)도 갤러리 카드에서 바로 열립니다</p>
+<section class="slide dark in-stage-dark" data-archetype="closing">
+  <div class="in-topbar">
+    <p class="in-kicker">07 · LIVE SHOWCASE &amp; ASSET GALLERY</p>
+    <div class="in-top-badges">
+      <p class="in-badge-dark">실물 덱 6종 즉시 실행</p>
+      <p class="in-badge-amber">자산 갤러리 378점</p>
     </div>
   </div>
-  <aside class="notes">마무리 장이며 정지 장입니다. 왼쪽 여섯 카드가 실물 덱 바로가기 — 교육 4종, SI 아키텍처 13장, 컨설팅 보고서. 오른쪽 큰 버튼이 자산 갤러리입니다. 링크는 전부 클릭할 수 있고, 이 소개 쇼는 여기서 멈춥니다 — 다시 보려면 R을 누릅니다.</aside>
+
+  <div>
+    <h2 style="font-size:48px;font-weight:900;color:#ffffff;letter-spacing:-1.5px;margin:0 0 6px">백문이 불여일견 — <span style="color:#fbbf24">6종의 완성된 실물 덱</span>과 <span style="color:#fbbf24">378점 갤러리</span>를 직접 열어보세요</h2>
+    <p style="font-size:23px;font-weight:600;color:#cbd5e1;margin:0">아래 카드들은 정적 이미지가 아니라 실제로 작동하는 단일 HTML 덱과 전체 자산 카탈로그로 연결됩니다.</p>
+  </div>
+
+  <div class="in-cta-body">
+    <div class="in-deck-grid">
+      <a class="in-deck-card" href="../examples/arch-si/arch-si.html" target="_blank" rel="noopener">
+        <div class="in-deck-top">
+          <p class="in-deck-tag dt-arch">ARCH · BLUEPRINT</p>
+          <p class="in-deck-open">실물 13장 열기 →</p>
+        </div>
+        <p class="in-deck-name">차세대 SI 시스템 아키텍처 제안</p>
+        <p class="in-deck-desc">중첩 보안존 · 직교 10G 백본 · 입체 HW · HA 페일오버</p>
+      </a>
+      <a class="in-deck-card" href="../examples/consulting-demo/ai-transform/ai-transform-consulting-deck.html" target="_blank" rel="noopener">
+        <div class="in-deck-top">
+          <p class="in-deck-tag dt-con">CONSULT · TECH</p>
+          <p class="in-deck-open">실물 12장 열기 →</p>
+        </div>
+        <p class="in-deck-name">전사 AI 전환 전략 &amp; ROI 로드맵</p>
+        <p class="in-deck-desc">헤어라인 표 · 워터폴 브리지 · 우측 SO WHAT 사이드카</p>
+      </a>
+      <a class="in-deck-card" href="../examples/privacy-talk/privacy-talk-deck.html" target="_blank" rel="noopener">
+        <div class="in-deck-top">
+          <p class="in-deck-tag dt-pack">PACK · SEMINAR</p>
+          <p class="in-deck-open">실물 14장 열기 →</p>
+        </div>
+        <p class="in-deck-name">생성형 AI 개인정보 딜레마 토론</p>
+        <p class="in-deck-desc">인용 앵커 표지 · 대칭 쟁점 구도 · 전폭 스펙트럼 · 퀴즈</p>
+      </a>
+      <a class="in-deck-card" href="../examples/states-quiz/states-quiz-deck.html" target="_blank" rel="noopener">
+        <div class="in-deck-top">
+          <p class="in-deck-tag dt-pack">PACK · KIDS-BOARD</p>
+          <p class="in-deck-open">실물 덱 열기 →</p>
+        </div>
+        <p class="in-deck-name">초등 과학 — 물질의 세 가지 상태</p>
+        <p class="in-deck-desc">칠판 분필 질감 · 단계별 빈칸 퀴즈 · 분자 배열 도식</p>
+      </a>
+      <a class="in-deck-card" href="../examples/ratio-worksheet/ratio-worksheet-deck.html" target="_blank" rel="noopener">
+        <div class="in-deck-top">
+          <p class="in-deck-tag dt-pack">PACK · EXAM-CRAM</p>
+          <p class="in-deck-open">실물 덱 열기 →</p>
+        </div>
+        <p class="in-deck-name">중등 수학 — 비와 비율 핵심 공식</p>
+        <p class="in-deck-desc">모눈종이 워크시트 · 공식 카드 · 오답 함정 대조</p>
+      </a>
+      <a class="in-deck-card" href="../examples/safety-casebook/safety-casebook-deck.html" target="_blank" rel="noopener">
+        <div class="in-deck-top">
+          <p class="in-deck-tag dt-pack">PACK · SAFETY</p>
+          <p class="in-deck-open">실물 덱 열기 →</p>
+        </div>
+        <p class="in-deck-name">산업안전 — 밀폐공간 질식재해 케이스북</p>
+        <p class="in-deck-desc">사고 타임라인 · 산소농도 경보 · 필수 수칙 체크리스트</p>
+      </a>
+    </div>
+
+    <div class="in-gallery-hero">
+      <div>
+        <p class="in-kicker" style="margin-bottom:8px">COMPLETE VISUAL CATALOG</p>
+        <p class="in-gal-num">378<span>점 실물 카탈로그</span></p>
+        <p class="in-gal-title">전체 자산 갤러리 &amp; 모션 쇼케이스</p>
+      </div>
+      <p class="in-gal-desc">슬라이드 253변형 · 리소스팩 64조합 · 모션 47종 GIF · 아키텍처 · 컨설팅 썸네일을 한눈에 탐색하고 코드를 확인합니다.</p>
+      <div class="in-gal-specs">
+        <p class="in-gal-spec"><b>52계열 · 253변형</b>전 아키타입 카탈로그</p>
+        <p class="in-gal-spec"><b>8×8 = 64조합</b>리소스팩 × 팔레트</p>
+        <p class="in-gal-spec"><b>42 실행 + 5 기법</b>모션 GIF 전수 수록</p>
+        <p class="in-gal-spec"><b>11 차트 · 3 생성기</b>컨설팅 · 아키텍처</p>
+      </div>
+      <a class="in-gal-btn" href="gallery.html" target="_blank" rel="noopener">전체 갤러리 열기 (gallery.html) →</a>
+    </div>
+  </div>
+  <aside class="notes">마지막 일곱째 장은 오프닝 표지와 호응하는 다크 슬레이트 북엔드 클로징입니다. 대표 실물 덱 6종과 378점 자산 갤러리로 바로 이동할 수 있는 런치패드를 제공합니다.</aside>
 </section>
 
 </div>
@@ -4991,7 +6130,7 @@ doc.addEventListener('keydown',function(e){
 <script>
 
 (function(){
-var BUDGET=[4500, 4200, 3800, 5200, 4000, 4200, 0], SCENES=[[0], [1], [2], [3], [4], [5, 6]], CAP=['프롬프트 하나로 — 교육·아키텍처·컨설팅 덱이 단일 HTML로 완성됩니다', '요청 한 줄이 조사·조립·기술 계약·심미 크리틱까지 거쳐 완성됩니다', '52계열 253변형 · 8×8 리소스팩 64조합 · 8테마 — 주제마다 다른 얼굴을 만듭니다', 'SI 시스템 구성도·입체 HW·시퀀스까지 시맨틱 JSON에서 직교 도식으로 생성합니다', '컨설팅 차트 11종과 우측 시사점 사이드카·근거 원장 대조까지 코드로 정밀하게 그립니다', '퀴즈·자습·발표 노트·인쇄까지 외부 의존 없는 파일 하나 — 지금 실물을 열어보세요'];
+var BUDGET=[4500, 4200, 4800, 4200, 4000, 4200, 0], SCENES=[[0], [1], [2], [3], [4], [5, 6]], CAP=['프롬프트 하나로 — 교육·아키텍처·컨설팅 덱이 단일 HTML로 완성됩니다', '52계열 253변형 · 8×8 리소스팩 64조합 · 8테마 — 주제마다 지면 문법이 바뀝니다', 'SI 시스템 구성도·입체 HW·시퀀스까지 시맨틱 JSON에서 직교 도식으로 생성합니다', '컨설팅 차트 11종과 우측 SO WHAT 사이드카·근거 원장까지 코드로 정밀하게 그립니다', 'check_deck 기술 계약과 9항목 심미 크리틱 — 두 번의 검수 게이트를 통과해야 출하합니다', '퀴즈·자습·발표 노트·인쇄까지 외부 의존 없는 파일 하나 — 지금 실물을 열어보세요'];
 var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 /* 캡처·수동 탐색 격리 — 자동 진행은 정상 시청 전용이다.
    ?shot·?sheet·?pause·?noauto·해시 직접 접근·webdriver·외부 deckGo 호출이
