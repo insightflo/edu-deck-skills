@@ -5047,7 +5047,7 @@ document.addEventListener('deckstep',function(){
  if(inf&&inf.step>=inf.maxStep)setTimeout(function(){var e=document.querySelector('.slide.active .ox.o');if(e&&!e.classList.contains('lit')){e.classList.add('lit','picked');if(window.eduMotion&&eduMotion.verdict)eduMotion.verdict(e,true);}},350);
 });
 document.addEventListener('deckslide',function(){var inf=window.deckInfo&&deckInfo();if(inf)paint();});
-/* Space·클릭 = 일시정지/재개 — 캡처 단계에서 가로채 엔진의 advance와 충돌하지 않게 한다 */
+/* Space = 일시정지/재개 · 클릭 = 다음으로 넘김(자동 진행 양보) — 캡처 단계에서 가로채 엔진의 advance와 충돌하지 않게 한다 */
 document.addEventListener('keydown',function(e){
  if(!e.isTrusted)return; // 런처가 보낸 합성 키는 엔진으로 그대로 통과
  if(e.key===' '){e.stopPropagation();e.preventDefault();paused?play():pause();}
@@ -5056,7 +5056,13 @@ document.addEventListener('keydown',function(e){
 },true);
 document.addEventListener('click',function(e){
  if(e.target.closest&&e.target.closest('a,button,.st-panel'))return;
- if(e.target.closest&&e.target.closest('#stage')){e.stopPropagation();paused?play():pause();}
+ if(e.target.closest&&e.target.closest('#stage')){
+  e.stopPropagation();
+  var inf=window.deckInfo?deckInfo():null;
+  if(inf&&inf.slide>=NSLIDES-1&&inf.step>=inf.maxStep){restart();return;} // 마지막 장 마지막 단계 → 처음부터
+  if(!paused){clearTimeout(timer);el=Date.now()-t0;paused=true;hint.classList.add('on');} // 손으로 넘기는 동안 자동 진행 양보
+  press();
+ }
 },true);
 /* 좁은 화면: 세로 읽기(ed-compact)가 아니라 축소된 쇼를 유지한다 */
 function stripCompact(){var h=document.documentElement;if(h.classList.contains('ed-compact'))h.classList.remove('ed-compact');}
