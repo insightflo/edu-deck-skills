@@ -1,0 +1,33 @@
+id: executive-navy
+name: "이그제큐티브 네이비"
+genre: "경영진 보고·이사회"
+recommended_theme: cobalt
+intent: "짙은 네이비를 주색으로 세우고 지면은 담백한 회백으로 눌렀습니다. 강조는 금색 한 줄로만 써서 결론 문장과 핵심 수치에 시선이 모이게 합니다."
+use: "이사회 보고, 경영진 요약, 투자 심사 자료처럼 결정권자가 짧은 시간에 판단하는 자리."
+avoid: "교육용으로 개념을 하나씩 풀어 가는 자료에는 지면이 딱딱하고 차갑습니다."
+tokens:
+  paper: "#f8f9fb"
+  surface: "#ffffff"
+  tint: "#eaeef4"
+  line: "#c8d1de"
+  ink: "#141b26"
+  ink-2: "#39445a"
+  ink-3: "#4d576d"
+  brand: "#1c3358"
+  brand-text: "#1c3358"
+  brand-tint: "#dee5f0"
+  accent: "#8a5f16"
+  accent-text: "#7a5413"
+  accent-tint: "#f6ecd8"
+  night: "#101a2c"
+  night-2: "#1a2740"
+  night-line: "#455065"
+  on-night: "#d2dbe4"
+  on-night-2: "#aaafbb"
+  radius-sm: 6px
+  radius-md: 12px
+  radius-lg: 18px
+rules:
+  no-shadow: false
+  hairline: true
+  min-font: 20

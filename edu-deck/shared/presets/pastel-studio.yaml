@@ -1,0 +1,33 @@
+id: pastel-studio
+name: "파스텔 스튜디오"
+genre: "온보딩·문화 소개"
+recommended_theme: berry
+intent: "아주 옅은 자주 지면에 부드러운 자주 주색과 청록 보조색을 놓았습니다. 층을 만드는 옅은 그림자와 큰 둥근 모서리로 첫 화면의 부담을 낮춥니다."
+use: "신입 온보딩, 조직 문화 소개, 고객 사례처럼 친근한 첫인상이 필요한 자료."
+avoid: "긴 시간 집중이 필요한 기술 심화 과정에서는 대비가 약해 피로해집니다."
+tokens:
+  paper: "#fbf7fb"
+  surface: "#ffffff"
+  tint: "#f2ecf6"
+  line: "#dbd0e4"
+  ink: "#1f1824"
+  ink-2: "#443a4d"
+  ink-3: "#584d61"
+  brand: "#5b3a72"
+  brand-text: "#5b3a72"
+  brand-tint: "#ece2f3"
+  accent: "#146b66"
+  accent-text: "#146b66"
+  accent-tint: "#dcefed"
+  night: "#1a1420"
+  night-2: "#251d2d"
+  night-line: "#504857"
+  on-night: "#e4d2e4"
+  on-night-2: "#b4adb8"
+  radius-sm: 6px
+  radius-md: 12px
+  radius-lg: 18px
+rules:
+  no-shadow: true
+  hairline: false
+  min-font: 20

@@ -1,0 +1,33 @@
+id: legal-charcoal
+name: "리걸 차콜"
+genre: "법무·계약·컴플라이언스"
+recommended_theme: graphite
+intent: "차콜 잉크와 오프화이트 지면으로 문서의 무게를 살리고, 강조는 짙은 적갈 한 점만 허용합니다. 조항·근거·결론이 순서대로 읽히도록 색 대신 번호와 선을 씁니다."
+use: "계약 검토 교육, 컴플라이언스 브리핑, 감사 지적 사항 정리처럼 문장의 정확성이 핵심인 자료."
+avoid: "시제품 소개나 마케팅 덱에는 색이 너무 없어 밋밋하게 읽힙니다."
+tokens:
+  paper: "#faf9f6"
+  surface: "#ffffff"
+  tint: "#efede7"
+  line: "#d2cec3"
+  ink: "#191a1c"
+  ink-2: "#3b3d41"
+  ink-3: "#4f5155"
+  brand: "#2b2b2f"
+  brand-text: "#2b2b2f"
+  brand-tint: "#e6e5e6"
+  accent: "#7c2f2f"
+  accent-text: "#7c2f2f"
+  accent-tint: "#f3e2e1"
+  night: "#161617"
+  night-2: "#212123"
+  night-line: "#4c4c4e"
+  on-night: "#e7dfcf"
+  on-night-2: "#b2b2b3"
+  radius-sm: 6px
+  radius-md: 12px
+  radius-lg: 18px
+rules:
+  no-shadow: false
+  hairline: true
+  min-font: 20

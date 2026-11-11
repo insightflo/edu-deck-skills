@@ -1,0 +1,33 @@
+id: campus-chalk
+name: "캠퍼스 초크"
+genre: "강의·세미나"
+recommended_theme: forest
+intent: "강의실 칠판을 연상시키는 옅은 녹회색 지면에 짙은 초록 주색을 세웠습니다. 판서를 흉내 낸 굵은 제목과 손글씨 같은 포인트 색으로 설명의 리듬을 만듭니다."
+use: "대학 강의, 사내 세미나, 개념을 처음 소개하는 입문 교육 자료."
+avoid: "정확한 수치 비교가 중심인 재무·감사 보고에는 판서 인상이 가볍게 읽힙니다."
+tokens:
+  paper: "#f7f8f3"
+  surface: "#ffffff"
+  tint: "#e9eee2"
+  line: "#c4d0b9"
+  ink: "#182114"
+  ink-2: "#3c4a35"
+  ink-3: "#505e48"
+  brand: "#2f5c3a"
+  brand-text: "#2f5c3a"
+  brand-tint: "#e0ece2"
+  accent: "#7a4f8a"
+  accent-text: "#7a4f8a"
+  accent-tint: "#eee6f2"
+  night: "#12180f"
+  night-2: "#1c2518"
+  night-line: "#495144"
+  on-night: "#e4e4d3"
+  on-night-2: "#b2b9ac"
+  radius-sm: 6px
+  radius-md: 12px
+  radius-lg: 18px
+rules:
+  no-shadow: false
+  hairline: false
+  min-font: 20

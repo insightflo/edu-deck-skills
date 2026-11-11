@@ -1,0 +1,33 @@
+id: fintech-emerald
+name: "핀테크 에메랄드"
+genre: "금융·데이터 리터러시"
+recommended_theme: ocean
+intent: "민트가 섞인 흰 지면에 깊은 에메랄드를 주색으로 앉히고, 숫자 비교는 로열 블루 보조색이 맡습니다. 증감을 색으로만 읽히지 않도록 부호와 화살표를 함께 쓰는 전제입니다."
+use: "금융 상품 교육, 재무 지표 읽기, 데이터 리터러시 과정처럼 숫자와 계정이 함께 나오는 자료."
+avoid: "감성적 브랜딩이나 문화 행사 안내에는 계산적인 인상이 차갑습니다."
+tokens:
+  paper: "#f6fbf9"
+  surface: "#ffffff"
+  tint: "#e8f4ef"
+  line: "#c4ded3"
+  ink: "#0e1f1b"
+  ink-2: "#2f4741"
+  ink-3: "#445c55"
+  brand: "#0f5c4a"
+  brand-text: "#0f5c4a"
+  brand-tint: "#dbeee7"
+  accent: "#22479e"
+  accent-text: "#22479e"
+  accent-tint: "#e0e7f7"
+  night: "#081713"
+  night-2: "#10231d"
+  night-line: "#3f504b"
+  on-night: "#cfe7df"
+  on-night-2: "#acb9b5"
+  radius-sm: 6px
+  radius-md: 12px
+  radius-lg: 18px
+rules:
+  no-shadow: false
+  hairline: true
+  min-font: 20

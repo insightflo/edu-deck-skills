@@ -1,0 +1,36 @@
+/* preset.css — "서울 에디토리얼" (seoul-editorial) · preset-css 자동 생성물
+   [역할] 색과 모서리만 바꾼다. 배치·간격·모션은 엔진 그대로다.
+   [연결] :root 가 tokens.css 의 색 역할을 덮고, .slide 가 장마다 다시 계산되는
+          파생 토큰(--accent-soft·--light 등)을 이 프리셋 값으로 고정한다.
+   [주의] 직접 고치지 않는다 — 원본은 shared/presets/seoul-editorial.yaml 이다.
+          다시 적용하면 이 파일은 통째로 덮어써진다. */
+:root{
+  --bg:#fbfaf6;--bg-2:#f1eee6;--paper:#ffffff;--line:#c9c2b2;
+  --ink:#1a1a18;--soft:#3f4342;--mut:#55595a;
+  --blue:#1f4e5f;--blue-text:#1f4e5f;--blue-soft:#e2ecee;
+  --accent:#a8332c;--accent-text:#a8332c;--accent-soft:#f4e2df;
+  --night:#141618;--night-2:#1f2325;--night-line:#4b4e4f;
+  --on-night:#e7e7cf;--on-night-2:#b2b3b2;
+  --r-sm:6px;--r-md:12px;--r-lg:18px;
+  --preset-hairline:1;--preset-no-shadow:0;--preset-min-font:22px;
+}
+.slide{
+  --light:var(--bg);--chip:var(--bg-2);
+  /* 엔진의 --muted 는 글자가 아니라 '옅은 선·면'이고, 밤 장 안에서도 글자로 쓰인다.
+     그래서 캡션 잉크(--mut)를 그대로 넣지 않고, 옅은 바탕과 섞어 양쪽에서 읽히게 한다. */
+  --muted:color-mix(in srgb,var(--bg-2) 70%,var(--mut));
+  --accent-light:#f4e2df;--accent-soft:#f4e2df;
+  --blue-light:#55595a;
+  --r1:var(--r-sm);--r2:var(--r-md);--r3:var(--r-lg);
+}
+/* 밤 무대 — 엔진의 .dark 규칙은 --ink 를 바탕, --light 를 글자로 쓴다.
+   그래서 밤 장에서는 두 이름의 뜻을 밤 토큰으로 바꾸고, 안쪽 .dark·.callout·.pill 은
+   밤 토큰으로 다시 칠한다(그대로 두면 밝은 상자 위에 밝은 글자가 된다). */
+.slide.dark,.dark.slide{
+  background:var(--night);color:var(--on-night);
+  --ink:var(--on-night);--soft:var(--on-night-2);--muted:var(--on-night-2);
+  --line:var(--night-line);--paper:var(--night-2);--light:var(--night-2);
+}
+.slide.dark .dark,.dark.slide .dark{background:var(--night-2);color:var(--on-night)}
+.slide.dark .callout,.dark.slide .callout{background:var(--night-2);color:var(--on-night)}
+.slide.dark .pill,.dark.slide .pill{background:transparent;color:var(--on-night);border:2px solid var(--night-line)}

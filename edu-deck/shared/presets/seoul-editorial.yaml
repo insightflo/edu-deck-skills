@@ -1,0 +1,33 @@
+id: seoul-editorial
+name: "서울 에디토리얼"
+genre: "사내 보고·브랜드 가이드"
+recommended_theme: cobalt
+intent: "먹빛 글자와 흰 한지 지면 위에 단청의 청록과 적갈을 얹은 편집 디자인입니다. 사진과 큰 제목을 먼저 보여 주는 지면처럼, 여백을 남기고 색은 두 곳에만 씁니다."
+use: "연차 보고서, 사내 브랜드 가이드, 채용·문화 소개처럼 읽는 사람이 회사 인상을 판단하는 자료."
+avoid: "수치를 빽빽하게 비교하는 분석 장표에는 여백이 아깝습니다. 셀 표가 많은 자리에는 executive-navy 나 mono-swiss 가 맞습니다."
+tokens:
+  paper: "#fbfaf6"
+  surface: "#ffffff"
+  tint: "#f1eee6"
+  line: "#c9c2b2"
+  ink: "#1a1a18"
+  ink-2: "#3f4342"
+  ink-3: "#55595a"
+  brand: "#1f4e5f"
+  brand-text: "#1f4e5f"
+  brand-tint: "#e2ecee"
+  accent: "#a8332c"
+  accent-text: "#a8332c"
+  accent-tint: "#f4e2df"
+  night: "#141618"
+  night-2: "#1f2325"
+  night-line: "#4b4e4f"
+  on-night: "#e7e7cf"
+  on-night-2: "#b2b3b2"
+  radius-sm: 6px
+  radius-md: 12px
+  radius-lg: 18px
+rules:
+  no-shadow: false
+  hairline: true
+  min-font: 22

@@ -1,0 +1,33 @@
+id: atelier-sand
+name: "아틀리에 샌드"
+genre: "워크숍·실습"
+recommended_theme: cocoa
+intent: "작업대의 모래색 지면에 테라코타빛 갈색 주색과 청록 보조색을 대칭으로 놓았습니다. 손으로 만지는 재료의 질감을 살리려고 그림자와 둥근 모서리를 남깁니다."
+use: "디자인 워크숍, 공예·제작 실습, 창작 프로세스 교육처럼 손을 움직이는 시간이 있는 자료."
+avoid: "법규·감사처럼 딱딱한 정확성이 우선인 자리에는 부드러운 인상이 약점이 됩니다."
+tokens:
+  paper: "#faf6f0"
+  surface: "#fffdfa"
+  tint: "#f0e8dc"
+  line: "#d8c6ae"
+  ink: "#231b14"
+  ink-2: "#4a3e33"
+  ink-3: "#5d5145"
+  brand: "#6b4a3a"
+  brand-text: "#6b4a3a"
+  brand-tint: "#eee2da"
+  accent: "#2f6a62"
+  accent-text: "#2f6a62"
+  accent-tint: "#dfeeeb"
+  night: "#1c1511"
+  night-2: "#291f19"
+  night-line: "#544b45"
+  on-night: "#efdec8"
+  on-night-2: "#bab3ab"
+  radius-sm: 6px
+  radius-md: 12px
+  radius-lg: 18px
+rules:
+  no-shadow: false
+  hairline: false
+  min-font: 20

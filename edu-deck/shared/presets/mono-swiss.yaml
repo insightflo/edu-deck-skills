@@ -1,0 +1,33 @@
+id: mono-swiss
+name: "모노 스위스"
+genre: "타이포그래피·매니페스토"
+recommended_theme: graphite
+intent: "흰 지면과 검은 잉크만 쓰고 색은 크림슨 한 점으로 줄인 스위스식 활자 중심 설계입니다. 크기·굵기·정렬만으로 위계를 만들고 선과 여백으로 격자를 드러냅니다."
+use: "디자인 원칙 선언, 편집 지침, 브랜드 타이포그래피 교육처럼 말이 곧 형식인 자료."
+avoid: "색으로 상태를 구분해야 하는 운영 교육이나 데이터 대시보드에는 부적합합니다."
+tokens:
+  paper: "#fbfbfb"
+  surface: "#ffffff"
+  tint: "#f0f0f0"
+  line: "#c9c9c9"
+  ink: "#111111"
+  ink-2: "#333333"
+  ink-3: "#484848"
+  brand: "#1c1c1c"
+  brand-text: "#1c1c1c"
+  brand-tint: "#e7e7e7"
+  accent: "#9c1b2f"
+  accent-text: "#93192c"
+  accent-tint: "#f6e2e5"
+  night: "#0d0d0d"
+  night-2: "#181818"
+  night-line: "#464646"
+  on-night: "#dbdbdb"
+  on-night-2: "#b2b2b2"
+  radius-sm: 6px
+  radius-md: 12px
+  radius-lg: 18px
+rules:
+  no-shadow: false
+  hairline: true
+  min-font: 22

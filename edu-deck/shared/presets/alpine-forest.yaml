@@ -1,0 +1,33 @@
+id: alpine-forest
+name: "알파인 포레스트"
+genre: "환경·지속가능성"
+recommended_theme: forest
+intent: "목장의 풀빛을 옅게 깐 지면에 짙은 전나무색 주색을 세웠습니다. 강조는 마른 풀의 황갈색으로 두어 자연 사진과 나란히 놓아도 튀지 않습니다."
+use: "지속가능성 보고, 환경 규제 교육, 산업 안전처럼 현장 사진이 함께 붙는 자료."
+avoid: "금융 상품이나 정밀 계측처럼 차가운 정확함이 먼저인 주제에는 부드럽게 읽힙니다."
+tokens:
+  paper: "#f8faf5"
+  surface: "#ffffff"
+  tint: "#eef2e8"
+  line: "#c9d4bf"
+  ink: "#1a2318"
+  ink-2: "#3f4d3b"
+  ink-3: "#54614d"
+  brand: "#2c5b3f"
+  brand-text: "#2c5b3f"
+  brand-tint: "#e0ece3"
+  accent: "#8a6a2f"
+  accent-text: "#82642c"
+  accent-tint: "#f2ead8"
+  night: "#121a15"
+  night-2: "#1c2620"
+  night-line: "#49524a"
+  on-night: "#dbeacd"
+  on-night-2: "#b2b8ad"
+  radius-sm: 6px
+  radius-md: 12px
+  radius-lg: 18px
+rules:
+  no-shadow: false
+  hairline: false
+  min-font: 20

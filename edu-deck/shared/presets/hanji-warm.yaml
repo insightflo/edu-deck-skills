@@ -1,0 +1,33 @@
+id: hanji-warm
+name: "한지 웜"
+genre: "문화·역사 교육"
+recommended_theme: cocoa
+intent: "누렇게 바랜 한지의 크림 지면과 감색 먹, 쪽빛 주색으로 전통 재료의 온기를 옮겼습니다. 강조는 낙엽색 한 가지로만 쓰고 선은 종이 섬유처럼 가늘게 둡니다."
+use: "문화유산·전통 공예·역사 교육처럼 배경 지식과 이야기를 함께 전하는 자료."
+avoid: "속도감이나 기술적 정밀함을 요구하는 제품 발표에는 무겁게 읽힙니다."
+tokens:
+  paper: "#faf4e6"
+  surface: "#fffdf7"
+  tint: "#f0e6d2"
+  line: "#cebc9c"
+  ink: "#241d14"
+  ink-2: "#4a3f31"
+  ink-3: "#5c5240"
+  brand: "#2b4a72"
+  brand-text: "#2b4a72"
+  brand-tint: "#e3e9f1"
+  accent: "#a8672a"
+  accent-text: "#945b25"
+  accent-tint: "#f6e8d7"
+  night: "#1d1710"
+  night-2: "#2a2118"
+  night-line: "#564e43"
+  on-night: "#f4e5c3"
+  on-night-2: "#bdb6a8"
+  radius-sm: 6px
+  radius-md: 12px
+  radius-lg: 18px
+rules:
+  no-shadow: false
+  hairline: true
+  min-font: 20

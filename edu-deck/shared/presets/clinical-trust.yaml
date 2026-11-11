@@ -1,0 +1,33 @@
+id: clinical-trust
+name: "클리니컬 트러스트"
+genre: "의료·임상·규정 준수"
+recommended_theme: ocean
+intent: "소독된 흰 지면에 청록 주색을 놓아 위생적인 인상을 만들고, 보조 글자는 회청으로 차분히 죽였습니다. 경고와 정상 상태를 색만으로 구분하지 않도록 강조색은 한 곳에만 씁니다."
+use: "임상 절차 교육, 의료기기 사용법, 감염 관리·규정 준수 교육처럼 오독이 곧 사고인 자료."
+avoid: "브랜드 캠페인이나 창의성 발표에는 지나치게 임상적으로 보입니다."
+tokens:
+  paper: "#f7fbfb"
+  surface: "#ffffff"
+  tint: "#e9f3f3"
+  line: "#c6dddd"
+  ink: "#0f2224"
+  ink-2: "#334a4d"
+  ink-3: "#485f62"
+  brand: "#145f6b"
+  brand-text: "#145f6b"
+  brand-tint: "#dceef0"
+  accent: "#5a6a86"
+  accent-text: "#4e5d78"
+  accent-tint: "#e7ebf2"
+  night: "#0c1a1c"
+  night-2: "#152629"
+  night-line: "#425254"
+  on-night: "#d2e4e4"
+  on-night-2: "#acb8b9"
+  radius-sm: 6px
+  radius-md: 12px
+  radius-lg: 18px
+rules:
+  no-shadow: false
+  hairline: true
+  min-font: 20

@@ -1,0 +1,33 @@
+id: cyber-obsidian
+name: "사이버 옵시디언"
+genre: "보안·AI 기술"
+recommended_theme: midnight
+intent: "거의 검정에 가까운 남색 무대와 청록 형광 강조로 기술적 긴장을 만듭니다. 밝은 지면에서도 색은 절제하고, 어두운 장에서만 강조가 빛나도록 설계했습니다."
+use: "정보보안 교육, AI 인프라 소개, 해커톤·기술 컨퍼런스처럼 어두운 화면에 익숙한 청중."
+avoid: "인쇄·배포용 문서나 규제 보고에는 어두운 인상이 부담스럽습니다."
+tokens:
+  paper: "#f6f6f8"
+  surface: "#ffffff"
+  tint: "#ecebf1"
+  line: "#cfcbd8"
+  ink: "#121318"
+  ink-2: "#363a45"
+  ink-3: "#4a4e5a"
+  brand: "#2a2f4a"
+  brand-text: "#2a2f4a"
+  brand-tint: "#e2e2ec"
+  accent: "#0f7f8c"
+  accent-text: "#0b6b76"
+  accent-tint: "#dceff1"
+  night: "#0b0c10"
+  night-2: "#15171d"
+  night-line: "#43454b"
+  on-night: "#d8d8df"
+  on-night-2: "#afb0b6"
+  radius-sm: 6px
+  radius-md: 12px
+  radius-lg: 18px
+rules:
+  no-shadow: false
+  hairline: true
+  min-font: 20

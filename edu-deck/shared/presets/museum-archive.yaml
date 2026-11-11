@@ -1,0 +1,33 @@
+id: museum-archive
+name: "뮤지엄 아카이브"
+genre: "아카이브·사례집"
+recommended_theme: cocoa
+intent: "파피루스빛 지면과 세피아 잉크로 오래된 기록물의 질감을 냅니다. 강조는 청동색 하나로 제한하고, 캡션과 출처 표기를 본문과 같은 급으로 정성껏 다룹니다."
+use: "사례 아카이브, 연구 기록 정리, 전시·컬렉션 해설처럼 출처와 맥락이 중요한 자료."
+avoid: "실시간 데이터나 빠른 의사결정 장표에는 기록물 인상이 느리게 읽힙니다."
+tokens:
+  paper: "#f8f3e8"
+  surface: "#fffdf6"
+  tint: "#efe6d4"
+  line: "#d2c1a4"
+  ink: "#241f18"
+  ink-2: "#453d31"
+  ink-3: "#584f42"
+  brand: "#3a3630"
+  brand-text: "#3a3630"
+  brand-tint: "#e8e4dc"
+  accent: "#8a5a2b"
+  accent-text: "#8a5a2b"
+  accent-tint: "#f2e7d6"
+  night: "#181510"
+  night-2: "#231e17"
+  night-line: "#514b43"
+  on-night: "#ede2c9"
+  on-night-2: "#bbb5aa"
+  radius-sm: 6px
+  radius-md: 12px
+  radius-lg: 18px
+rules:
+  no-shadow: false
+  hairline: true
+  min-font: 22

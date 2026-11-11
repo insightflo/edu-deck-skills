@@ -1,0 +1,33 @@
+id: blueprint-grid
+name: "블루프린트 그리드"
+genre: "아키텍처·설계 리뷰"
+recommended_theme: cobalt
+intent: "설계 도면의 옅은 청회색 바탕에 진청 주색을 얹고, 모눈을 연상시키는 가는 구분선을 깔았습니다. 치수와 라벨을 읽는 사람을 위해 대비는 세게, 장식은 최소로 둡니다."
+use: "시스템 아키텍처 리뷰, 인프라 설계서, 기술 표준 문서처럼 도식이 본문인 자료."
+avoid: "감성적인 브랜드 소개나 채용 공고에는 도면 같은 인상이 어색합니다."
+tokens:
+  paper: "#f4f7fb"
+  surface: "#ffffff"
+  tint: "#e8eef7"
+  line: "#c6d4e4"
+  ink: "#131b26"
+  ink-2: "#3a4658"
+  ink-3: "#4f5b6d"
+  brand: "#1b4f8a"
+  brand-text: "#1b4f8a"
+  brand-tint: "#dfe9f6"
+  accent: "#d2632a"
+  accent-text: "#a04f21"
+  accent-tint: "#fbe6d9"
+  night: "#0d1a2b"
+  night-2: "#16273c"
+  night-line: "#425062"
+  on-night: "#cddbea"
+  on-night-2: "#aab1bb"
+  radius-sm: 6px
+  radius-md: 12px
+  radius-lg: 18px
+rules:
+  no-shadow: false
+  hairline: true
+  min-font: 20

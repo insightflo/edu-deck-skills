@@ -1,0 +1,33 @@
+id: nordic-slate
+name: "노르딕 슬레이트"
+genre: "리서치 요약·디자인 시스템"
+recommended_theme: graphite
+intent: "북유럽 사무실의 냉정한 회청색 지면에 안개 낀 바다색 주색을 놓았습니다. 그림자 대신 가는 선과 여백으로 위계를 만들고 강조는 구리색 하나로 제한합니다."
+use: "리서치 결과 요약, 디자인 시스템 소개, 제품 스펙 문서처럼 차분한 신뢰를 파는 자료."
+avoid: "축제·이벤트처럼 감정을 먼저 움직여야 하는 자리에서는 지나치게 조용합니다."
+tokens:
+  paper: "#f7f8f9"
+  surface: "#ffffff"
+  tint: "#eceff1"
+  line: "#ccd3d8"
+  ink: "#171c20"
+  ink-2: "#3d464d"
+  ink-3: "#525b61"
+  brand: "#33556e"
+  brand-text: "#33556e"
+  brand-tint: "#dfe8ee"
+  accent: "#8a5a3b"
+  accent-text: "#8a5a3b"
+  accent-tint: "#f1e6dd"
+  night: "#101417"
+  night-2: "#1b2227"
+  night-line: "#474d52"
+  on-night: "#d7d7df"
+  on-night-2: "#afb2b6"
+  radius-sm: 6px
+  radius-md: 12px
+  radius-lg: 18px
+rules:
+  no-shadow: false
+  hairline: true
+  min-font: 20

@@ -1,0 +1,33 @@
+id: civic-ochre
+name: "시빅 오커"
+genre: "공공·정책 안내"
+recommended_theme: solar
+intent: "관공서 게시물의 황토색 지면에 짙은 청회 주색을 얹어 읽기 쉽게 했습니다. 강조는 황토빛 주황으로 두어 안내 문구와 신청 기한이 눈에 먼저 들어옵니다."
+use: "정책 안내, 민원 절차 교육, 지역 공동체 프로그램 소개처럼 많은 사람이 한 번에 읽는 자료."
+avoid: "고급 브랜드 이미지를 파는 자료에는 대중적인 인상이 어울리지 않습니다."
+tokens:
+  paper: "#fbf8f1"
+  surface: "#ffffff"
+  tint: "#f2ead8"
+  line: "#d7c8a9"
+  ink: "#201d16"
+  ink-2: "#3f3a2d"
+  ink-3: "#544e3f"
+  brand: "#2e4557"
+  brand-text: "#2e4557"
+  brand-tint: "#e0e6ec"
+  accent: "#96631a"
+  accent-text: "#875818"
+  accent-tint: "#f7ebd6"
+  night: "#191611"
+  night-2: "#241f18"
+  night-line: "#514c44"
+  on-night: "#ede1c9"
+  on-night-2: "#b9b6ac"
+  radius-sm: 6px
+  radius-md: 12px
+  radius-lg: 18px
+rules:
+  no-shadow: false
+  hairline: false
+  min-font: 20
