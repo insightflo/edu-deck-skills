@@ -33,6 +33,6 @@ python3 ../../bookstyle-html/scripts/build_book.py <북폴더> -o <북.html> --c
 - 회귀 기준선: unittest **505**(skip 7) + arch-demo **6/6** + arch-si **13/13** + pack_browser **64/64** + 컨설팅 데모 2종(check_deck·check_consulting·regen) PASS. contrast-matrix 238셀 PASS. link_audit **446/446**.
 - **아키텍처 재료 전면 개편(2026-11-10, a4534e5)**: 중첩 쓴(zones.parent)+솔리드 헤더 바·맨해튼 직교 라우터(사선 0)+buses 백본 T-드롭(간선 캡 외과)+haPairs·복합 노드 템플릿(equip·cluster·rack-group)+마이크로 타이포 계약(k-t-spec/eq/qty 12px 하한·문서·테스트 동반)·SI 장비 2톤 아이콘 16종(assets/icons/si.svg)·.arch-blueprint 테마+bp-head·sidePanel BOM·legend bar — 원본 대비 분석 workspace/ref-arch-compare.md, arch-si a1a 노드 25·중첩 3·캔버스 99% 실측. 근거·보고: workspace/p3/arch-overhaul-report.md.
 - **디자인 QA 내재화 완료(2026-11-10)**: 공통 심미 크리틱 `shared/references/design-critique.md`(6단계·9항목·Blocker/Major/Minor·취향 강제 금지·agy 호출 계약) 전 스킬 연결, capture_deck.py shared 승격. Track A: consult.css 헤어라인 재작성(c-rule-rows·c-sidecar·--c-num-font)·chart_gen 사이드카/bridge/targetQuadrant. 검증 4멈(privacy-talk·seminar 신규·arch-si·ai-transform) FAIL→PASS 입증.
-- 대기: GitHub 공개(insightflo/edu-deck-skills) 재게시 갱신, 배포 zip 재생성(dist 낡음). 한계: 테마는 색·그림자·반경만 바꾸고 장 배치는 같음.
+- 대기: 없음 — GitHub Pages는 main push로 자동 반영(실측 확인·별도 게시 작업 없음), 배포 zip은 불필요로 폐기(2026-11-11 사용자 결정). 한계: 테마는 색·그림자·반경만 바꾸고 장 배치는 같음.
 - 작업자: Devin 은 항상 1개만. 추가 작업자는 pi(glm-zcode/glm-5.3-flash, max).
 - 위임: Devin 우선(이 폴더는 devin 신뢰 경로 등록됨), pi 는 조율·검증. herdr 사용: `hc run --name <이름> --bg devin --permission-mode dangerous` + `hc send` 로 지시.
