@@ -1,0 +1,26 @@
+<section class="page pg-story" data-type="story" data-id="c01" style="--c:#2B59FF">
+<div class="pc">
+<div class="cs-top">
+<span class="cs-no">No.<b>01</b></span>
+<span class="badge" style="--bc:#0A1433;--bt:#FFFFFF;">구성 사례</span>
+<span class="chip"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>코드 리뷰</span>
+<span class="field">개발 생산성 · 야간 배치</span>
+</div>
+<div class="org">구성 사례 · 개발 생산성 팀</div>
+<h2>리뷰 에이전트가<br>12개 저장소를 읽을 수 있었다</h2>
+<div class="svc">야간에 도는 코드 리뷰 에이전트. 리뷰 품질은 좋았고, 아무도 권한을 다시 보지 않았다.</div>
+<div class="flow">
+<div class="bx prob"><i>PROBLEM · 이런 문제가</i>초기에 개인 토큰 하나를 그대로 붙였다. 그 토큰은 팀이 쓰는 12개 저장소와 패키지 레지스트리까지 닿았고, 무엇을 읽었는지 남는 기록은 없었다.</div>
+<div class="dn"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+<div class="bx sol"><i>SOLUTION · 이렇게</i>에이전트 전용 신원을 만들고, 저장소 2곳의 읽기와 코멘트 작성만 남겼다. 배포·머지·비밀값 접근은 실행 전 승인 단계로 옮겼다.</div>
+</div>
+<div class="sh">KEY FEATURES · 바꾼 것</div>
+<div class="funcs">
+<div><span>1</span>도구 호출마다 신원·도구·대상을 기록</div>
+<div><span>2</span>범위 밖 요청은 실패가 아니라 승인 요청으로</div>
+<div><span>3</span>야간 결과는 아침에 사람이 한 번 확인</div>
+</div>
+</div>
+<div class="point" data-dock="point"><i>POINT</i><span>권한을 줄이는 일은 성능을 깎는 일이 아니라 <b>사고의 반경</b>을 줄이는 일입니다.</span></div>
+<div class="pg-foot"><span>구성 예시: 실제 조직·수치가 아닌 설명용 시나리오</span><span>5</span></div>
+</section>

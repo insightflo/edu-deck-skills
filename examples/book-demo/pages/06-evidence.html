@@ -1,0 +1,61 @@
+<section class="page pg-evidence" data-type="evidence" data-id="c01" style="--c:#2B59FF">
+<div class="pc">
+<div class="ev-hd"><span class="o">No.01 · 구성 사례</span><span class="chip">통제 · 전후</span></div>
+<div class="b-figure" style="--fh:200px">
+<figure class="b-figure" style="margin-top:0">
+<div class="fr" style="height:200px;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,#E8EDFF,#F7F9FC);cursor:default">
+<svg viewBox="0 0 520 176" width="100%" height="100%" role="img" aria-label="개인 토큰 하나가 저장소 12곳에 닿던 구조를, 전용 신원과 저장소 2곳으로 좁힌 구조 비교">
+<rect x="20" y="8" width="232" height="160" rx="12" fill="#EDF0F6"/>
+<text x="40" y="34" font-size="11" font-weight="800" letter-spacing="1.2" fill="#8790A3">BEFORE</text>
+<text x="40" y="56" font-size="13.5" font-weight="800" fill="#0B1530">개인 토큰 1개</text>
+<rect x="40" y="74" width="24" height="24" rx="6" fill="#C9D3E6"/>
+<rect x="72" y="74" width="24" height="24" rx="6" fill="#C9D3E6"/>
+<rect x="104" y="74" width="24" height="24" rx="6" fill="#C9D3E6"/>
+<rect x="136" y="74" width="24" height="24" rx="6" fill="#C9D3E6"/>
+<rect x="168" y="74" width="24" height="24" rx="6" fill="#C9D3E6"/>
+<rect x="200" y="74" width="24" height="24" rx="6" fill="#C9D3E6"/>
+<rect x="40" y="106" width="24" height="24" rx="6" fill="#C9D3E6"/>
+<rect x="72" y="106" width="24" height="24" rx="6" fill="#C9D3E6"/>
+<rect x="104" y="106" width="24" height="24" rx="6" fill="#C9D3E6"/>
+<rect x="136" y="106" width="24" height="24" rx="6" fill="#C9D3E6"/>
+<rect x="168" y="106" width="24" height="24" rx="6" fill="#C9D3E6"/>
+<rect x="200" y="106" width="24" height="24" rx="6" fill="#C9D3E6"/>
+<text x="40" y="154" font-size="10.5" font-weight="700" fill="#4A5368">저장소 12곳 · 패키지 레지스트리</text>
+<path d="M256 88h10m-4-4 4 4-4 4" stroke="#2B59FF" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="270" y="8" width="230" height="160" rx="12" fill="#2B59FF"/>
+<text x="290" y="34" font-size="11" font-weight="800" letter-spacing="1.2" fill="#C3D0F5">AFTER</text>
+<text x="290" y="56" font-size="13.5" font-weight="800" fill="#FFFFFF">전용 신원 · 저장소 2곳</text>
+<rect x="290" y="74" width="24" height="24" rx="6" fill="#FFFFFF"/>
+<rect x="322" y="74" width="24" height="24" rx="6" fill="#FFFFFF"/>
+<rect x="290" y="106" width="152" height="26" rx="7" fill="rgba(255,255,255,.2)"/>
+<text x="302" y="123" font-size="11" font-weight="800" fill="#FFFFFF">코멘트 작성만 허용</text>
+<text x="290" y="154" font-size="10.5" font-weight="700" fill="#D3DDF8">배포·머지·비밀값은 승인 후</text>
+</svg>
+</div>
+<figcaption>개념도: 편의로 하나 붙인 토큰이 닿던 범위를, 업무에 필요한 두 곳으로 줄인 구조</figcaption>
+</figure>
+</div>
+<div class="ba">
+<div class="lb"><span>사람이 개입하는 지점</span><span class="delta">실행 전 3곳</span></div>
+<div class="btext">
+<div class="b"><small>BEFORE</small>사고 뒤 로그 확인</div>
+<span class="x"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+<div class="a"><small>AFTER</small>배포·머지·비밀값 승인</div>
+</div>
+</div>
+<div class="kpis" style="--n:3">
+<div><b>12<small>→2</small></b><span>에이전트가 닿는 저장소</span></div>
+<div><b>0<small>→100%</small></b><span>도구 호출 기록 비율</span></div>
+<div><b>3<small>곳</small></b><span>되돌릴 수 없는 실행의 승인 지점</span></div>
+</div>
+<div class="tags"><span>전용 신원</span><span>최소 권한 토큰</span><span>호출 단위 기록</span><span>실행 전 승인</span></div>
+<div class="b-heading" style="margin-top:22px"><span>통제 네 계층</span><small>위에서 아래로 설계</small></div>
+<div class="b-road" style="--n:4">
+<div><small>01</small><h5>정책</h5><p>허용 목록 한 장</p></div>
+<div><small>02</small><h5>신원</h5><p>실행 주체 구분</p></div>
+<div><small>03</small><h5>권한</h5><p>닿는 범위</p></div>
+<div><small>04</small><h5>기록</h5><p>호출 로그</p></div>
+</div>
+</div>
+<div class="pg-foot"><span>구성 예시 수치입니다. 실제 책에는 원문 숫자만 씁니다.</span><span>6</span></div>
+</section>

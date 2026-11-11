@@ -1,0 +1,16 @@
+{
+  "id": "sample-book",
+  "title": "작은 팀의 지식 노트",
+  "subtitle": "흩어진 문서를 한곳에서 찾는 방법",
+  "description": "찾기 어려운 팀 문서를 한 권의 노트로 묶는 짧은 안내서",
+  "brand": "작은 팀의 지식 노트 · 샘플",
+  "footer": "작은 팀의 지식 노트",
+  "author": "편집부",
+  "date": "2026. 11",
+  "og": {
+    "title": "작은 팀의 지식 노트",
+    "description": "흩어진 문서를 한곳에서 찾는 방법",
+    "url": "https://deck.soverin.cloud/sample-book.html",
+    "image": "https://deck.soverin.cloud/og/sample-book.jpg"
+  }
+}

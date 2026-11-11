@@ -1,0 +1,956 @@
+<!doctype html>
+<html lang="ko" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="generator" content="bookstyle-html/book 1.0.0">
+<title>AI 에이전트 보안과 사내 거버넌스</title>
+<meta property="og:title" content="AI 에이전트 보안과 사내 거버넌스">
+<meta property="og:description" content="권한을 가진 에이전트를 어디까지 믿고 무엇으로 통제할 것인가 — 위험 세 축, 통제 네 계층, 점검 일곱 항목">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="description" content="권한을 가진 에이전트를 어디까지 믿고 무엇으로 통제할 것인가 — 위험 세 축, 통제 네 계층, 점검 일곱 항목">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+/* bookstyle-html · 600×820 page system + fullscreen flipbook viewer */
+:root{
+  --ink:#0B1530; --sub:#4A5368; --mute:#8790A3; --line:#E3E7EF; --bg:#F3F5FA;
+  --accent:#2B59FF; --accent2:#00B39B; --navy:#0A1433; --mint:#7FE9D8;
+  --paper:#FFFFFF; --tint:#F9FAFC;
+  --stage:radial-gradient(1200px 700px at 50% 40%,#2a3354 0%,#121933 55%,#0a0f22 100%);
+  --pw:600px; --ph:820px;
+  --font:Pretendard,'Pretendard Variable','Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR','Noto Sans CJK KR',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:var(--font);color:var(--ink);background:var(--stage);overflow:hidden;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;word-break:keep-all;overflow-wrap:break-word}
+b,strong{font-weight:800}
+em{font-style:normal}
+a{color:inherit}
+img{display:block}
+.ic{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* ───── viewer chrome ───── */
+.topbar{position:fixed;top:0;left:0;right:0;height:56px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 22px;color:#D3DAEC;font-size:14px;z-index:50;background:linear-gradient(180deg,rgba(6,10,24,.72) 0%,rgba(6,10,24,0) 100%);pointer-events:none;transition:opacity .35s ease}
+.topbar .brand,.topbar .hint{pointer-events:auto}.topbar .brand{display:flex;align-items:center;gap:10px;font-weight:700;min-width:0}
+.topbar .brand span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.topbar .brand i{width:9px;height:9px;border-radius:50%;background:var(--mint);box-shadow:0 0 12px var(--mint);flex:none}
+.topbar .hint{opacity:.65;font-size:13px;white-space:nowrap}
+.ctrl{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);display:flex;align-items:center;gap:6px;padding:7px 9px;background:rgba(14,20,44,.82);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.1);border-radius:999px;z-index:50;color:#fff;box-shadow:0 10px 30px rgba(0,0,0,.35);transition:opacity .35s ease}
+.ctrl button{all:unset;cursor:pointer;height:36px;min-width:36px;padding:0 11px;border-radius:999px;display:flex;align-items:center;justify-content:center;gap:6px;font-size:13.5px;color:#E3E8F5;transition:background .2s,color .2s}
+.ctrl button:hover,.ctrl button:focus-visible{background:rgba(255,255,255,.12);color:#fff}
+.ctrl button:focus-visible{outline:2px solid var(--mint);outline-offset:1px}
+.ctrl button svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ctrl .pg{font-variant-numeric:tabular-nums;font-size:14px;min-width:80px;text-align:center;font-weight:700}
+.ctrl input[type=range]{width:190px;accent-color:var(--mint)}
+.ctrl .sep{width:1px;height:20px;background:rgba(255,255,255,.14);margin:0 2px}
+#stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:1}
+#scaler{transform-origin:center center}
+html.book-ready #scaler{transition:transform .8s cubic-bezier(.645,.045,.355,1)}
+#book{position:relative;width:calc(var(--pw)*2);height:var(--ph);perspective:2800px;transition:transform .8s cubic-bezier(.645,.045,.355,1),opacity .25s}
+#book.single{width:var(--pw)}
+#book.noanim,#book.noanim .leaf,#book.noanim .sheet,#scaler.noanim{transition:none!important}
+#book.jump{opacity:.35}
+.leaf{position:absolute;top:0;left:var(--pw);width:var(--pw);height:var(--ph);transform-origin:left center;transform-style:preserve-3d;transition:transform .9s cubic-bezier(.645,.045,.355,1)}
+.leaf.flipped{transform:rotateY(-180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden;background:var(--paper)}
+.face.back{transform:rotateY(180deg)}
+.face::before{content:'';position:absolute;top:0;bottom:0;width:26px;z-index:5;pointer-events:none}
+.face.front::before{left:0;background:linear-gradient(90deg,rgba(10,20,50,.16),rgba(10,20,50,0))}
+.face.back::before{right:0;background:linear-gradient(270deg,rgba(10,20,50,.16),rgba(10,20,50,0))}
+.face::after{content:'';position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .45s;z-index:6}
+.leaf.turning .face.front::after{opacity:1;background:linear-gradient(90deg,rgba(0,0,0,.18),rgba(0,0,0,0) 40%)}
+.leaf.turning .face.back::after{opacity:1;background:linear-gradient(270deg,rgba(0,0,0,.18),rgba(0,0,0,0) 40%)}
+.book-shadow{position:absolute;top:6px;bottom:-14px;left:-2px;right:-2px;border-radius:4px;box-shadow:0 30px 70px rgba(0,0,0,.55);pointer-events:none;transition:left .8s,right .8s}
+.spine{position:absolute;top:0;bottom:0;left:calc(var(--pw) - 1px);width:2px;background:rgba(0,0,0,.08);z-index:999;pointer-events:none}
+.sheet{position:absolute;inset:0;transform-origin:left center;transition:transform .7s cubic-bezier(.645,.045,.355,1),opacity .7s;backface-visibility:hidden;box-shadow:0 20px 50px rgba(0,0,0,.45);background:var(--paper)}
+.sheet.out{transform:perspective(2000px) rotateY(-110deg);opacity:0}
+.sheet[hidden]{display:none}
+#lightbox{position:fixed;inset:0;background:rgba(5,9,22,.92);z-index:200;display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;cursor:zoom-out;padding:30px}
+#lightbox.on{display:flex}
+#lightbox img{max-width:94vw;max-height:84vh;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.6);background:#fff}
+#lightbox p{color:#fff;font-size:16px;font-weight:700}
+@media (max-width:700px){
+  .topbar{height:44px;padding:0 14px;font-size:12.5px}
+  .topbar .hint,.ctrl input[type=range],.ctrl .sep,.ctrl [data-act=first],.ctrl [data-act=fs]{display:none}
+  .ctrl{bottom:12px;gap:2px}
+}
+@media (prefers-reduced-motion:reduce){#book,.leaf,.sheet,.book-shadow{transition:none!important}}
+
+/* ───── page source / modes ───── */
+#pages{display:none}
+.no-js body{overflow:auto}
+.no-js .chrome{display:none}
+.no-js #pages,.mode-check #pages{display:flex;flex-direction:column;align-items:center;gap:24px;padding:24px}
+.mode-check body,.mode-sheet body{overflow:auto;background:#0a0f22}
+.mode-check .chrome,.mode-sheet .chrome{display:none}
+.mode-sheet #pages{display:grid;grid-template-columns:repeat(var(--cols,6),calc(var(--pw)*var(--z,.35)));gap:34px 18px;padding:24px;justify-content:start}
+.mode-sheet #pages .page{zoom:var(--z,.35)}
+.mode-sheet .sheet-cell{position:relative}
+.mode-sheet .sheet-cell::after{content:attr(data-label);position:absolute;left:0;top:calc(var(--ph)*var(--z,.35) + 4px);font:700 12px/1 var(--font);color:#C7D0E6}
+
+/* ───── page base ───── */
+.page{position:relative;width:var(--pw);height:var(--ph);padding:42px 44px 40px;background:var(--paper);overflow:hidden;font-size:15px;line-height:1.55;color:var(--ink)}
+.pc{position:relative;height:100%}
+.t-tint{background:var(--tint)}
+.t-dark{background:var(--navy);color:#fff}
+.pg-foot{position:absolute;left:44px;right:44px;bottom:18px;display:flex;justify-content:space-between;gap:16px;font-size:11.5px;color:var(--mute)}
+.pg-foot span:first-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.t-dark .pg-foot{color:#6B789A}
+.eyebrow{font-size:12.5px;font-weight:800;letter-spacing:2px;color:var(--accent);text-transform:uppercase}
+.t-dark .eyebrow{color:var(--mint)}
+.h1{font-size:34px;line-height:1.2;font-weight:900;letter-spacing:-1.2px;margin-top:8px;text-wrap:balance}
+.h1.s{font-size:28px}
+.h1 em{color:var(--accent)}
+.t-dark .h1 em{color:var(--mint)}
+.lead{font-size:15.5px;color:var(--sub);margin-top:10px;line-height:1.6}
+.t-dark .lead{color:#B6C0DC}
+[data-goto]{cursor:pointer}
+
+/* ───── cover / back ───── */
+.pg-cover,.pg-back{background:#050B22;color:#fff;padding:50px 46px}
+.pg-back{padding:52px 48px}
+.bgimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.pg-back .bgimg{opacity:.35}
+.shade{position:absolute;inset:0}
+.pg-cover .shade{background:linear-gradient(90deg,rgba(5,11,34,.78) 0%,rgba(5,11,34,.45) 45%,rgba(5,11,34,0) 70%),linear-gradient(180deg,rgba(5,11,34,0) 55%,rgba(5,11,34,.92) 100%)}
+.pg-back .shade{background:linear-gradient(180deg,rgba(5,11,34,.6),rgba(5,11,34,.95) 70%)}
+.pg-cover .pc,.pg-back .pc{display:flex;flex-direction:column}
+.tag{display:inline-flex;align-self:flex-start;align-items:center;gap:8px;font-size:13px;font-weight:700;padding:7px 14px;border:1px solid rgba(255,255,255,.3);border-radius:999px;color:#E2EBFF;background:rgba(5,11,34,.35)}
+.pg-cover h1{font-size:80px;line-height:1.12;font-weight:900;letter-spacing:-3.5px;margin-top:30px;text-shadow:0 4px 30px rgba(0,0,0,.45)}
+.pg-cover h1 em{background:linear-gradient(90deg,#B4C2FF,#00F0D0);-webkit-background-clip:text;background-clip:text;color:transparent}
+.pg-cover .sub{font-size:18px;color:#DCE4F7;margin-top:18px;line-height:1.55;font-weight:500;text-shadow:0 2px 14px rgba(0,0,0,.5)}
+.pg-cover .bottom{margin-top:auto}
+.pg-cover .nums{display:flex;gap:26px}
+.pg-cover .nums b{display:block;font-size:34px;font-weight:900;letter-spacing:-1px;line-height:1}
+.pg-cover .nums span{font-size:12.5px;color:#C2CDE6}
+.pg-cover .meta{display:flex;justify-content:space-between;gap:16px;margin-top:20px;padding-top:15px;border-top:1px solid rgba(255,255,255,.2);font-size:13px;color:#C9D3EA}
+.pg-back h3{font-size:31px;font-weight:900;letter-spacing:-1px;line-height:1.32;margin-top:26px}
+.pg-back .ed{margin-top:auto;border-top:1px solid rgba(255,255,255,.2);padding-top:20px}
+.pg-back .ed small{display:block;font-size:12.5px;color:#9FB0D6;letter-spacing:2px;font-weight:700}
+.pg-back .ed b{display:block;font-size:24px;font-weight:900;margin-top:6px;letter-spacing:-.5px}
+.pg-back .ed p{font-size:13px;color:#AEBBDA;margin-top:10px;line-height:1.6}
+
+/* ───── divider ───── */
+.pg-divider{color:#fff;padding:56px 50px}
+.pg-divider .bg{position:absolute;inset:0}
+.pg-divider .big{position:absolute;right:-24px;top:150px;font-size:300px;font-weight:900;line-height:1;opacity:.07;letter-spacing:-12px}
+.pg-divider .pc{display:flex;flex-direction:column}
+.pg-divider .pn{font-size:14px;font-weight:800;letter-spacing:3px;opacity:.85}
+.pg-divider h2{font-size:66px;font-weight:900;letter-spacing:-2.5px;line-height:1.05;margin-top:16px;text-wrap:balance}
+.pg-divider .d{font-size:18px;opacity:.9;margin-top:16px;line-height:1.6}
+.pg-divider .list{margin-top:auto;display:grid;grid-template-columns:1fr 1fr;gap:4px 18px;font-size:14px}
+.pg-divider .list div{display:flex;gap:8px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.16);min-width:0}
+.pg-divider .list div b{font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pg-divider .list span{opacity:.6;width:22px;flex:none}
+
+/* ───── toc ───── */
+.toc-sec{margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:0 18px}
+.toc-row{display:flex;align-items:center;gap:9px;padding:10px 2px;border-bottom:1px solid var(--line);min-width:0}
+.toc-row:hover{background:#F3F6FF}
+.toc-row .n{font-size:12px;font-weight:800;color:var(--accent);width:20px;flex:none}
+.toc-row .t{font-weight:700;font-size:14px;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.toc-row .p{font-size:12px;color:var(--mute);flex:none}
+.toc-label{font-size:12.5px;color:var(--mute);margin-top:16px}
+.grp{font-size:13px;font-weight:900;margin-top:12px;display:flex;align-items:center;gap:7px}
+.grp::before{content:'';width:9px;height:9px;border-radius:2px;background:var(--gc,var(--navy))}
+.toc-cases{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0 12px;margin-top:4px}
+.toc-case{display:flex;gap:6px;align-items:center;font-size:12.6px;padding:5px 1px;border-bottom:1px dashed #E9ECF2;min-width:0}
+.toc-case:hover{color:var(--accent)}
+.toc-case i{width:8px;height:8px;border-radius:50%;flex:none}
+.toc-case .k{color:var(--mute);width:19px;font-size:11px;flex:none}
+.toc-case .o{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ───── article blocks ───── */
+.b-heading{font-size:15px;font-weight:800;margin-top:20px;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.b-heading small{font-size:12px;font-weight:500;color:var(--mute)}
+.b-text{font-size:15px;color:var(--sub);margin-top:14px;line-height:1.65}
+.t-dark .b-text{color:#D2D9EC}
+.b-bullets{list-style:none;margin-top:14px;display:flex;flex-direction:column;gap:8px;font-size:15px}
+.b-bullets li{display:flex;gap:9px}
+.b-bullets li::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent);margin-top:9px;flex:none}
+.b-compare{display:grid;grid-template-columns:1fr 34px 1fr;margin-top:18px}
+.b-compare .col{border-radius:14px;padding:15px 16px 14px;background:#EFF2F8}
+.b-compare .col.hi{background:linear-gradient(160deg,var(--accent),#3D2BFF);color:#fff}
+.b-compare h4{font-size:22px;font-weight:900}
+.b-compare small{display:block;font-size:12px;opacity:.75}
+.b-compare ul{list-style:none;margin-top:10px;display:flex;flex-direction:column;gap:6px;font-size:14px}
+.b-compare li{display:flex;gap:7px}
+.b-compare li::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.55;margin-top:9px;flex:none}
+.b-compare .mid{display:flex;align-items:center;justify-content:center;color:var(--accent)}
+.b-levels{display:flex;align-items:flex-end;gap:8px;margin-top:12px;height:236px}
+.b-levels .lv{flex:1;border-radius:12px 12px 4px 4px;padding:12px 10px;color:#fff;display:flex;flex-direction:column;min-width:0}
+.b-levels .lv>span{font-size:10.5px;font-weight:800;letter-spacing:1.2px;opacity:.8}
+.b-levels h5{font-size:17px;font-weight:900;margin-top:1px}
+.b-levels p{font-size:12px;line-height:1.4;opacity:.95;margin-top:4px}
+.b-levels .ex{margin-top:auto;font-size:11px;background:rgba(255,255,255,.18);border-radius:6px;padding:5px 6px;line-height:1.35}
+.b-quote{margin-top:16px;padding:14px 17px;border-left:4px solid var(--accent2);background:#EFFAF7;border-radius:0 12px 12px 0;font-size:16px;font-weight:800;line-height:1.5}
+.b-quote span{display:block;font-size:13px;font-weight:500;color:var(--sub);margin-top:4px}
+.t-dark .b-quote{background:rgba(255,255,255,.06);color:#fff}
+.t-dark .b-quote span{color:#B6C0DC}
+.b-stats{display:grid;grid-template-columns:repeat(var(--n,3),1fr);gap:10px;margin-top:18px}
+.b-stats>div{background:var(--bg);border-radius:14px;padding:14px;min-width:0}
+.b-stats b{display:block;font-size:42px;line-height:1;font-weight:900;letter-spacing:-1.5px;color:var(--accent);white-space:nowrap}
+.b-stats b small{font-size:16px;margin-left:2px;color:var(--ink)}
+.b-stats span{font-size:13px;color:var(--sub);display:block;margin-top:6px}
+.b-donut{display:flex;gap:22px;align-items:center;margin-top:12px}
+.b-donut .ring{width:170px;height:170px;border-radius:50%;position:relative;flex:none}
+.b-donut .ring::after{content:'';position:absolute;inset:34px;background:var(--hole,var(--paper));border-radius:50%}
+.t-tint .b-donut{--hole:var(--tint)}
+.b-donut .c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:1}
+.b-donut .c b{font-size:36px;font-weight:900;line-height:1}
+.b-donut .c span{font-size:12px;color:var(--sub)}
+.b-donut .legend{flex:1;display:flex;flex-direction:column;gap:8px;min-width:0}
+.b-donut .legend div{display:flex;align-items:center;gap:8px;font-size:14px}
+.b-donut .legend i{width:11px;height:11px;border-radius:3px;flex:none}
+.b-donut .legend .nm{flex:1;font-weight:600}
+.b-donut .legend .ct{font-weight:900}
+.b-bars{display:flex;flex-direction:column;gap:9px;margin-top:12px}
+.b-bars .row{display:grid;grid-template-columns:132px 1fr 34px;align-items:center;gap:10px;font-size:14px}
+.b-bars .tr{height:16px;background:#E9EDF4;border-radius:8px;overflow:hidden}
+.b-bars .fl{height:100%;border-radius:8px;background:linear-gradient(90deg,var(--accent),#00C2A8)}
+.b-bars b{text-align:right}
+.b-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.b-cards .card{border:1px solid var(--line);border-radius:14px;padding:12px 13px;position:relative;overflow:hidden;background:#fff;min-width:0}
+.b-cards .card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--c)}
+.b-cards .hd{display:flex;align-items:center;gap:8px}
+.b-cards .ico{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--c) 12%,#fff);color:var(--c);flex:none}
+.b-cards h5{font-size:14.5px;font-weight:900;flex:1;letter-spacing:-.4px}
+.b-cards .cnt{font-size:23px;font-weight:900;color:var(--c)}
+.b-cards .cnt small{font-size:12px;color:var(--sub)}
+.b-cards p{font-size:12.5px;color:var(--sub);margin-top:5px;line-height:1.4}
+.b-cards .orgs{display:flex;flex-wrap:wrap;gap:4px;margin-top:7px}
+.b-cards .orgs span{font-size:11.2px;padding:2px 7px;border-radius:999px;background:var(--bg);color:#2F374A;font-weight:600}
+.b-highlights{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}
+.b-highlights>div{background:rgba(127,140,180,.08);border:1px solid var(--line);border-radius:14px;padding:17px 16px 15px;min-width:0}
+.t-dark .b-highlights>div{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1)}
+.b-highlights b{display:block;font-size:34px;font-weight:900;line-height:1.05;letter-spacing:-1px;color:var(--accent);white-space:nowrap}
+.t-dark .b-highlights b{background:linear-gradient(90deg,#fff,#A9BCFF);-webkit-background-clip:text;background-clip:text;color:transparent}
+.b-highlights b small{font-size:16px}
+.b-highlights p{font-size:14px;color:var(--sub);margin-top:7px;line-height:1.4}
+.t-dark .b-highlights p{color:#D2D9EC}
+.b-highlights em{font-size:12px;color:var(--accent2);font-weight:700;display:block;margin-top:5px}
+.t-dark .b-highlights em{color:var(--mint)}
+.b-caselist{margin-top:10px;display:flex;flex-direction:column}
+.b-caselist .row{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;padding:5px 2px;border-bottom:1px solid var(--line)}
+.b-caselist .row:hover{background:#F4F7FF}
+.b-caselist .k{font-size:12px;font-weight:900;color:#fff;background:var(--c);border-radius:7px;height:24px;display:flex;align-items:center;justify-content:center}
+.b-caselist .mid{min-width:0}
+.b-caselist .o{font-size:11px;line-height:14px;color:var(--c);font-weight:800}
+.b-caselist .t{font-size:14px;font-weight:800;line-height:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.b-caselist .v{text-align:right;font-size:16px;line-height:18px;font-weight:900;white-space:nowrap}
+.b-caselist .v small{display:block;font-size:10.5px;line-height:13px;color:var(--mute);font-weight:600}
+.b-steps{margin-top:18px;display:flex;flex-direction:column;gap:9px}
+.b-steps .step{display:grid;grid-template-columns:44px 1fr;gap:12px;padding:12px 14px;border-radius:14px;background:var(--bg)}
+.b-steps .k{width:44px;height:44px;border-radius:12px;background:linear-gradient(150deg,var(--accent),#00C2A8);color:#fff;font-weight:900;font-size:19px;display:flex;align-items:center;justify-content:center}
+.b-steps h5{font-size:16px;font-weight:900}
+.b-steps p{font-size:13px;color:var(--sub);margin-top:2px;line-height:1.45}
+.b-steps .ev{font-size:12px;color:var(--accent);font-weight:700;margin-top:4px}
+.b-road{display:grid;grid-template-columns:repeat(var(--n,3),1fr);margin-top:18px}
+.b-road>div{padding:12px;position:relative;background:var(--bg)}
+.b-road>div:first-child{border-radius:12px 0 0 12px}
+.b-road>div:last-child{border-radius:0 12px 12px 0;background:var(--accent);color:#fff}
+.b-road>div:not(:last-child)::after{content:'';position:absolute;right:-9px;top:50%;transform:translateY(-50%);border:9px solid transparent;border-left-color:var(--bg);border-right:0;z-index:2}
+.b-road>div:nth-child(2):not(:last-child){background:#E5ECFF}
+.b-road>div:nth-child(2):not(:last-child)::after{border-left-color:#E5ECFF}
+.b-road small{font-size:11px;letter-spacing:1.3px;opacity:.7;display:block;font-weight:800}
+.b-road h5{font-size:17px;font-weight:900}
+.b-road p{font-size:12.5px;margin-top:3px;line-height:1.4;opacity:.9}
+.b-checks{margin-top:16px;display:flex;flex-direction:column;gap:7px}
+.chk{display:flex;gap:11px;align-items:flex-start;padding:10px 12px;border:1px solid var(--line);border-radius:12px;cursor:pointer;user-select:none;background:#fff}
+.chk .box{width:21px;height:21px;border-radius:6px;border:2px solid #BFC7D8;flex:none;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.chk.on .box{background:var(--accent2);border-color:var(--accent2)}
+.chk.on .box::after{content:'';width:9px;height:5px;border-left:2.5px solid #fff;border-bottom:2.5px solid #fff;transform:rotate(-45deg) translate(1px,-1px)}
+.chk h6{font-size:14.5px;font-weight:800}
+.chk p{font-size:12.5px;color:var(--sub);margin-top:1px}
+.score{margin-top:10px;font-size:13px;color:var(--sub);text-align:right}
+.score b{color:var(--accent2);font-size:16px}
+.b-take{margin-top:18px;display:flex;flex-direction:column}
+.b-take>div{display:flex;gap:12px;align-items:flex-start;padding:13px 0;border-top:1px solid var(--line)}
+.b-take>div>b{font-size:28px;font-weight:900;color:#CCD3E3;line-height:1;width:42px;flex:none}
+.b-take .tx{flex:1;min-width:0}
+.b-take h5{font-size:15.5px;font-weight:900}
+.b-take p{font-size:13.5px;color:var(--sub);margin-top:3px}
+.b-links{display:grid;grid-template-columns:1fr 1fr;gap:0 16px;margin-top:8px}
+.b-links a{display:flex;gap:7px;align-items:center;padding:4.5px 1px;border-bottom:1px solid var(--line);font-size:12.6px;text-decoration:none;min-width:0}
+.b-links a:hover{color:var(--accent)}
+.b-links a span{color:var(--mute);width:20px;font-size:11px;flex:none}
+.b-links a b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;font-weight:700}
+.b-links a i{font-style:normal;color:var(--accent);font-size:11px;font-weight:800;flex:none}
+.b-links .nolink{opacity:.55}
+.b-note{margin-top:10px;font-size:11.5px;color:var(--sub);line-height:1.6;background:var(--bg);border-radius:12px;padding:11px 14px}
+.b-figure{margin-top:14px}
+.b-figure .fr{border-radius:12px;overflow:hidden;background:#EEF1F6;height:var(--fh,240px);cursor:zoom-in}
+.b-figure img{width:100%;height:100%;object-fit:cover}
+.b-figure figcaption{font-size:12.5px;color:var(--sub);margin-top:6px;font-weight:600}
+
+/* ───── case: story page ───── */
+.pg-story,.pg-evidence{padding:38px 42px 40px}
+.pg-story .pg-foot,.pg-evidence .pg-foot{left:42px;right:42px}
+.cs-top{display:flex;align-items:center;gap:7px;font-size:12px}
+.cs-no{font-weight:900;font-size:13px;letter-spacing:.5px}
+.cs-no b{font-size:19px;color:var(--c)}
+.badge{padding:4px 10px;border-radius:999px;font-weight:800;font-size:11.5px;background:var(--bc,var(--navy));color:var(--bt,#fff)}
+.chip{display:inline-flex;align-items:center;gap:4px;padding:4px 10px 4px 8px;border-radius:999px;font-weight:800;font-size:11.5px;color:var(--c);background:color-mix(in srgb,var(--c) 11%,#fff)}
+.chip .ic{width:13px;height:13px}
+.cs-top .field{margin-left:auto;color:var(--mute);font-weight:600;font-size:12px;white-space:nowrap}
+.pg-story .org{margin-top:22px;font-size:16px;font-weight:800;color:var(--c);display:flex;align-items:center;gap:8px}
+.pg-story .org::before{content:'';width:18px;height:3px;border-radius:2px;background:var(--c)}
+.pg-story h2{font-size:35px;line-height:1.2;font-weight:900;letter-spacing:-1.3px;margin-top:6px;text-wrap:balance}
+.pg-story .svc{font-size:14.5px;color:var(--sub);margin-top:9px;font-weight:500}
+.flow{margin-top:20px;display:flex;flex-direction:column}
+.flow .bx{border-radius:14px;padding:13px 16px;font-size:15.5px;line-height:1.5;font-weight:600}
+.flow .bx i{display:block;font-style:normal;font-size:11px;font-weight:900;letter-spacing:1.5px;margin-bottom:3px}
+.flow .prob{background:#F1F3F7;color:#353E52}
+.flow .prob i{color:#7E879A}
+.flow .sol{background:color-mix(in srgb,var(--c) 10%,#fff);color:var(--ink)}
+.flow .sol i{color:var(--c)}
+.flow .dn{display:flex;justify-content:center;color:var(--c);height:24px;align-items:center}
+.flow .dn .ic{transform:rotate(90deg)}
+.sh{font-size:12px;font-weight:900;letter-spacing:1.5px;color:var(--mute);margin-top:20px;display:flex;align-items:center;gap:8px}
+.sh::after{content:'';flex:1;height:1px;background:var(--line)}
+.funcs{display:flex;flex-direction:column;gap:9px;margin-top:11px}
+.funcs div{display:flex;gap:11px;align-items:center;font-size:16px;font-weight:700;line-height:1.35}
+.funcs span{width:27px;height:27px;border-radius:8px;background:var(--c);color:#fff;font-size:13px;font-weight:900;display:flex;align-items:center;justify-content:center;flex:none}
+.point{position:absolute;left:42px;right:42px;bottom:46px;display:flex;align-items:center;gap:12px;background:var(--navy);color:#fff;border-radius:14px;padding:15px 17px;font-size:15.5px;line-height:1.45}
+.point i{font-style:normal;font-size:10.5px;font-weight:900;letter-spacing:1.2px;color:var(--navy);background:var(--mint);border-radius:6px;padding:4px 7px;flex:none}
+.point b{color:var(--mint)}
+
+/* ───── case: evidence page ───── */
+.ev-hd{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.ev-hd .o{font-size:14px;font-weight:800;color:var(--c);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.photos{display:grid;gap:10px;margin-top:14px}
+.photos.n2{grid-template-columns:1fr 1fr}
+.photo{margin:0;min-width:0}
+.photo .fr{background:#EEF1F6;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;cursor:zoom-in;position:relative}
+.photos.n1 .fr{height:252px}
+.photos.n2 .fr{height:200px}
+.photo img{width:100%;height:100%;object-fit:contain}
+.photo .fr::after{content:'⤢';position:absolute;right:8px;top:6px;width:24px;height:24px;border-radius:6px;background:rgba(10,20,51,.55);color:#fff;font-size:13px;display:flex;align-items:center;justify-content:center}
+.photo figcaption{font-size:12.5px;color:var(--sub);margin-top:6px;font-weight:600;display:flex;gap:6px;align-items:center}
+.photo figcaption::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--c);flex:none}
+.nophoto{margin-top:14px;height:120px;border-radius:12px;background:var(--bg);display:flex;align-items:center;justify-content:center;color:var(--mute);font-size:13px;text-align:center;padding:0 20px}
+.ba{margin-top:14px;border:1px solid var(--line);border-radius:14px;padding:12px 15px 13px}
+.ba .lb{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:13.5px;color:var(--sub);font-weight:700}
+.ba .delta{font-size:19px;font-weight:900;color:var(--c);white-space:nowrap}
+.brow{display:grid;grid-template-columns:52px 1fr;align-items:center;gap:8px;margin-top:7px;font-size:11px;font-weight:800;color:var(--mute)}
+.brow .tr{height:28px;position:relative}
+.brow .fl{height:100%;border-radius:7px;display:flex;align-items:center;padding:0 10px;font-size:14px;font-weight:800;white-space:nowrap;min-width:3px}
+.brow .fl.thin{padding:0}
+.brow .fl.b{background:#E1E5ED;color:#4A5368}
+.brow .fl.a{background:var(--c);color:#fff}
+.brow .val{position:absolute;top:0;bottom:0;display:flex;align-items:center;font-size:14px;font-weight:800;padding-left:7px;white-space:nowrap}
+.btext{display:grid;grid-template-columns:1fr 32px 1fr;align-items:center;margin-top:8px}
+.btext>div{border-radius:10px;padding:12px;font-size:15px;font-weight:800;text-align:center;line-height:1.35}
+.btext .b{background:#EEF1F6;color:#4A5368}
+.btext .a{background:var(--c);color:#fff}
+.btext .x{display:flex;justify-content:center;color:var(--c)}
+.btext small{display:block;font-size:10px;font-weight:800;letter-spacing:1px;opacity:.7;margin-bottom:2px}
+.kpis{display:grid;grid-template-columns:repeat(var(--n,3),1fr);gap:9px;margin-top:12px}
+.kpis>div{background:var(--bg);border-radius:12px;padding:12px 12px 10px;min-width:0}
+.kpis b{display:block;font-size:29px;font-weight:900;letter-spacing:-1px;line-height:1.05;white-space:nowrap}
+.kpis b small{font-size:14px;font-weight:800;margin-left:2px;color:var(--c);letter-spacing:0}
+.kpis span{display:block;font-size:13px;color:var(--sub);margin-top:6px;line-height:1.3;font-weight:600}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px}
+.tags span{font-size:12px;font-weight:700;padding:4px 9px;border:1px solid var(--line);border-radius:7px;color:#3D4660}
+.cs-links{position:absolute;left:42px;right:42px;bottom:42px;display:grid;grid-template-columns:repeat(var(--n,2),1fr);gap:8px}
+.cs-links.n2{grid-template-columns:1.5fr 1fr}
+.cs-links a{display:flex;align-items:center;justify-content:center;gap:7px;height:44px;border-radius:11px;font-size:14.5px;font-weight:800;text-decoration:none;transition:.15s;border:1.5px solid var(--line);color:var(--ink);background:#fff}
+.cs-links a .ic{width:17px;height:17px}
+.cs-links a.primary{background:var(--c);color:#fff;border-color:var(--c)}
+.cs-links a:hover{border-color:var(--c)}
+.cs-links a.primary:hover{filter:brightness(1.1)}
+
+/* ───── blank ───── */
+.pg-blank .memo{font-size:12px;font-weight:800;letter-spacing:2px;color:var(--mute)}
+.pg-blank .lines{margin-top:18px;height:calc(100% - 40px);background:repeating-linear-gradient(180deg,transparent 0 35px,var(--line) 35px 36px)}
+
+
+/* ───── fullscreen chrome idle / shot ───── */
+html.chrome-idle .topbar,html.chrome-idle .ctrl{opacity:0;pointer-events:none}
+html.mode-shot body{overflow:hidden;background:#0a0f22}
+html.mode-shot .chrome{display:none!important}
+html.mode-shot #pages{display:block!important;padding:0!important}
+html.mode-shot #pages .page{display:none}
+html.mode-shot #pages .page.is-shot{display:block;margin:0}
+
+/* ───── print (PDF) ───── */
+@media print{
+  @page{size:600px 820px;margin:0}
+  html,body{background:#fff;overflow:visible;height:auto}
+  .chrome{display:none!important}
+  #pages{display:block!important;padding:0!important}
+  #pages .page{break-after:page;page-break-after:always}
+  #pages .page:last-child{break-after:auto;page-break-after:auto}
+  .photo .fr::after{display:none}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+</style>
+</head>
+<body>
+<header class="topbar chrome"><div class="brand"><i></i><span>AI 에이전트 보안과 사내 거버넌스 · 인사이트북</span></div><div class="hint">← → 키 · 클릭 · 스와이프로 넘기기</div></header>
+<div id="stage" class="chrome"><div id="scaler"><div id="book" role="region" aria-label="책 보기"></div></div></div>
+<nav class="ctrl chrome" aria-label="페이지 이동">
+<button type="button" data-act="first" title="처음으로" aria-label="처음으로"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 18l-6-6 6-6M8 6v12"/></svg></button>
+<button type="button" data-act="prev" title="이전 페이지" aria-label="이전 페이지"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
+<span class="pg" data-role="pg" aria-live="polite">1 / 8</span>
+<button type="button" data-act="next" title="다음 페이지" aria-label="다음 페이지"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></button>
+<span class="sep"></span>
+<input type="range" data-role="range" min="1" max="8" value="1" aria-label="페이지 이동">
+<span class="sep"></span>
+<button type="button" data-act="toc" title="목차" aria-label="목차"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>목차</button>
+<button type="button" data-act="fs" title="전체화면" aria-label="전체화면"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></svg></button>
+<button type="button" data-act="print" title="PDF로 저장 · 인쇄" aria-label="PDF로 저장 · 인쇄"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V3h12v6M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><path d="M6 14h12v7H6z"/></svg>PDF</button>
+</nav>
+<div id="lightbox" class="chrome" role="dialog" aria-label="이미지 크게 보기"><img alt=""><p></p></div>
+<main id="pages">
+<section data-pno="1" class="page pg-cover" data-type="cover">
+<div class="shade" style="background:linear-gradient(90deg,rgba(5,11,34,.88) 0%,rgba(5,11,34,.45) 48%,rgba(5,11,34,0) 72%),linear-gradient(180deg,rgba(5,11,34,0) 50%,rgba(5,11,34,.92) 100%)"></div>
+<div class="pc">
+<span class="tag">인사이트북 · 사내 AI 거버넌스</span>
+<h1>AI 에이전트<br>보안과 사내<br><em>거버넌스</em></h1>
+<p class="sub">권한을 가진 에이전트를 어디까지 믿고,<br>무엇으로 통제할 것인가</p>
+<div class="bottom">
+<div class="nums">
+<div><b>3</b><span>위험 축</span></div>
+<div><b>4</b><span>통제 계층</span></div>
+<div><b>7</b><span>점검 항목</span></div>
+</div>
+<div class="meta"><span>개발 조직 AI 도입 실무용</span><span>편집부 · 2026. 11</span></div>
+</div>
+</div>
+</section>
+<section data-pno="2" class="page pg-toc" data-type="toc">
+<div class="pc">
+<div class="eyebrow">Contents</div>
+<div class="h1">목차</div>
+<div class="toc-sec">
+<div class="toc-row" data-goto="3"><span class="n">01</span><span class="t">권한을 가진 에이전트</span><span class="p">p.3</span></div>
+<div class="toc-row" data-goto="4"><span class="n">02</span><span class="t">PART 01 · 권한 사고</span><span class="p">p.4</span></div>
+<div class="toc-row" data-goto="5"><span class="n">03</span><span class="t">리뷰 에이전트의 범위</span><span class="p">p.5</span></div>
+<div class="toc-row" data-goto="6"><span class="n">04</span><span class="t">전후 비교 · 네 계층</span><span class="p">p.6</span></div>
+<div class="toc-row" data-goto="7"><span class="n">05</span><span class="t">점검표 · 일곱 가지</span><span class="p">p.7</span></div>
+</div>
+<div class="grp" style="--gc:#2B59FF">이 책이 나누는 위험 축</div>
+<div class="toc-cases">
+<div class="toc-case" data-goto="3"><i style="background:#2B59FF"></i><span class="k">01</span><span class="o">권한 범위</span></div>
+<div class="toc-case" data-goto="3"><i style="background:#00B39B"></i><span class="k">02</span><span class="o">데이터 경계</span></div>
+<div class="toc-case" data-goto="3"><i style="background:#6F8BE8"></i><span class="k">03</span><span class="o">입력 신뢰</span></div>
+<div class="toc-case" data-goto="6"><i style="background:#0A1433"></i><span class="k">04</span><span class="o">실행 승인</span></div>
+<div class="toc-case" data-goto="6"><i style="background:#00C2A8"></i><span class="k">05</span><span class="o">기록·감사</span></div>
+<div class="toc-case" data-goto="7"><i style="background:#3D2BFF"></i><span class="k">06</span><span class="o">권한 회수</span></div>
+</div>
+<div class="toc-label">제목을 누르면 해당 쪽으로 이동합니다</div>
+<div class="b-heading" style="margin-top:28px"><span>이 책이 먼저 하는 주장</span><small>세 문장</small></div>
+<div class="b-take">
+<div><b>1</b><div class="tx"><h5>권한을 좁히면 사고의 반경이 줄어든다</h5><p>도구를 고르는 결정이 아니라, 만질 수 있는 범위를 정하는 결정입니다.</p></div></div>
+<div><b>2</b><div class="tx"><h5>기록이 없으면 사후에 되짚을 수 없다</h5><p>신원·도구·대상·시각이 남아야 원인과 범위를 같은 자리에서 봅니다.</p></div></div>
+<div><b>3</b><div class="tx"><h5>되돌릴 수 없는 실행엔 사람이 선다</h5><p>배포·삭제·결제는 탐지보다 복구 비용이 큰 영역입니다.</p></div></div>
+</div>
+</div>
+<div class="pg-foot"><span>AI 에이전트 보안과 사내 거버넌스</span><span>2</span></div>
+</section>
+<section data-pno="3" class="page pg-article" data-type="article">
+<div class="pc">
+<div class="eyebrow">01 · Why</div>
+<div class="h1">에이전트는 도구가 아니라<br><em>권한을 가진 행위자</em>다</div>
+<p class="lead">챗봇은 대답하고 끝납니다. 에이전트는 읽고 쓰고 실행합니다. <b>권한이 붙으면 사고의 단위가 ‘행동’이 됩니다.</b></p>
+<div class="b-compare">
+<div class="col"><h4>챗봇</h4><small>대답하고 끝난다</small><ul><li>질문에 답하고 창을 닫음</li><li>권한은 사람 계정에만 있음</li><li>사고가 대화 기록에서 멈춤</li></ul></div>
+<div class="mid"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+<div class="col hi"><h4>에이전트</h4><small>도구를 호출한다</small><ul><li>파일·API·배포를 직접 건드림</li><li>토큰이 곧 권한이 됨</li><li>사고가 실제 데이터에 남음</li></ul></div>
+</div>
+<div class="b-heading"><span>위험은 세 축에서 온다</span><small>권한 · 데이터 · 입력</small></div>
+<div class="b-cards">
+<div class="card" style="--c:#2B59FF"><div class="hd"><h5>권한 범위</h5><span class="cnt">01</span></div><p>필요보다 넓은 토큰은 사고 범위도 넓힙니다. 빌려 쓴 개인 토큰이 흔한 출발점입니다.</p></div>
+<div class="card" style="--c:#00B39B"><div class="hd"><h5>데이터 경계</h5><span class="cnt">02</span></div><p>문서·고객 정보·비밀값이 프롬프트와 로그로 새는 길을 셉니다. 허용 범위는 사람이 정합니다.</p></div>
+<div class="card" style="--c:#6F8BE8"><div class="hd"><h5>입력 신뢰</h5><span class="cnt">03</span></div><p>이슈 본문·첨부·웹에 섞인 지시가 행동을 바꿉니다. 바깥 글은 데이터로만 다룹니다.</p></div>
+<div class="card" style="--c:#0A1433"><div class="hd"><h5>실행 승인</h5><span class="cnt">04</span></div><p>되돌리기 어려운 실행엔 사람이 서명합니다. 승인 지점이 없으면 사후 복구만 남습니다.</p></div>
+</div>
+<div class="b-quote">“보안은 모델을 숨기는 일이 아니라, <b>권한을 좁히고 기록을 남기는 일</b>입니다.”<span>OWASP LLM Top 10(2025)의 Excessive Agency 항목과 같은 지점</span></div>
+</div>
+<div class="pg-foot"><span>AI 에이전트 보안과 사내 거버넌스</span><span>3</span></div>
+</section>
+<section data-pno="4" class="page pg-divider" data-type="divider">
+<div class="bg" style="background:linear-gradient(155deg,#0A1433 0%,#1B2E8A 60%,#2B59FF 100%)"></div>
+<div class="big" aria-hidden="true">01</div>
+<div class="pc">
+<span class="pn">PART 01</span>
+<h2>권한 사고<br>시나리오</h2>
+<p class="d">좋은 결과를 내던 에이전트가<br>어느 순간 너무 많은 것을 만질 수 있었던 사례</p>
+<div class="list">
+<div data-goto="5"><span>01</span><b>리뷰 에이전트가 12개 저장소를 읽었다</b></div>
+<div data-goto="6"><span>02</span><b>전후 비교와 통제 네 계층</b></div>
+</div>
+</div>
+</section>
+<section data-pno="5" class="page pg-story" data-type="story" data-id="c01" style="--c:#2B59FF">
+<div class="pc">
+<div class="cs-top">
+<span class="cs-no">No.<b>01</b></span>
+<span class="badge" style="--bc:#0A1433;--bt:#FFFFFF;">구성 사례</span>
+<span class="chip"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>코드 리뷰</span>
+<span class="field">개발 생산성 · 야간 배치</span>
+</div>
+<div class="org">구성 사례 · 개발 생산성 팀</div>
+<h2>리뷰 에이전트가<br>12개 저장소를 읽을 수 있었다</h2>
+<div class="svc">야간에 도는 코드 리뷰 에이전트. 리뷰 품질은 좋았고, 아무도 권한을 다시 보지 않았다.</div>
+<div class="flow">
+<div class="bx prob"><i>PROBLEM · 이런 문제가</i>초기에 개인 토큰 하나를 그대로 붙였다. 그 토큰은 팀이 쓰는 12개 저장소와 패키지 레지스트리까지 닿았고, 무엇을 읽었는지 남는 기록은 없었다.</div>
+<div class="dn"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+<div class="bx sol"><i>SOLUTION · 이렇게</i>에이전트 전용 신원을 만들고, 저장소 2곳의 읽기와 코멘트 작성만 남겼다. 배포·머지·비밀값 접근은 실행 전 승인 단계로 옮겼다.</div>
+</div>
+<div class="sh">KEY FEATURES · 바꾼 것</div>
+<div class="funcs">
+<div><span>1</span>도구 호출마다 신원·도구·대상을 기록</div>
+<div><span>2</span>범위 밖 요청은 실패가 아니라 승인 요청으로</div>
+<div><span>3</span>야간 결과는 아침에 사람이 한 번 확인</div>
+</div>
+</div>
+<div class="point" data-dock="point"><i>POINT</i><span>권한을 줄이는 일은 성능을 깎는 일이 아니라 <b>사고의 반경</b>을 줄이는 일입니다.</span></div>
+<div class="pg-foot"><span>구성 예시: 실제 조직·수치가 아닌 설명용 시나리오</span><span>5</span></div>
+</section>
+<section data-pno="6" class="page pg-evidence" data-type="evidence" data-id="c01" style="--c:#2B59FF">
+<div class="pc">
+<div class="ev-hd"><span class="o">No.01 · 구성 사례</span><span class="chip">통제 · 전후</span></div>
+<div class="b-figure" style="--fh:200px">
+<figure class="b-figure" style="margin-top:0">
+<div class="fr" style="height:200px;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,#E8EDFF,#F7F9FC);cursor:default">
+<svg viewBox="0 0 520 176" width="100%" height="100%" role="img" aria-label="개인 토큰 하나가 저장소 12곳에 닿던 구조를, 전용 신원과 저장소 2곳으로 좁힌 구조 비교">
+<rect x="20" y="8" width="232" height="160" rx="12" fill="#EDF0F6"/>
+<text x="40" y="34" font-size="11" font-weight="800" letter-spacing="1.2" fill="#8790A3">BEFORE</text>
+<text x="40" y="56" font-size="13.5" font-weight="800" fill="#0B1530">개인 토큰 1개</text>
+<rect x="40" y="74" width="24" height="24" rx="6" fill="#C9D3E6"/>
+<rect x="72" y="74" width="24" height="24" rx="6" fill="#C9D3E6"/>
+<rect x="104" y="74" width="24" height="24" rx="6" fill="#C9D3E6"/>
+<rect x="136" y="74" width="24" height="24" rx="6" fill="#C9D3E6"/>
+<rect x="168" y="74" width="24" height="24" rx="6" fill="#C9D3E6"/>
+<rect x="200" y="74" width="24" height="24" rx="6" fill="#C9D3E6"/>
+<rect x="40" y="106" width="24" height="24" rx="6" fill="#C9D3E6"/>
+<rect x="72" y="106" width="24" height="24" rx="6" fill="#C9D3E6"/>
+<rect x="104" y="106" width="24" height="24" rx="6" fill="#C9D3E6"/>
+<rect x="136" y="106" width="24" height="24" rx="6" fill="#C9D3E6"/>
+<rect x="168" y="106" width="24" height="24" rx="6" fill="#C9D3E6"/>
+<rect x="200" y="106" width="24" height="24" rx="6" fill="#C9D3E6"/>
+<text x="40" y="154" font-size="10.5" font-weight="700" fill="#4A5368">저장소 12곳 · 패키지 레지스트리</text>
+<path d="M256 88h10m-4-4 4 4-4 4" stroke="#2B59FF" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="270" y="8" width="230" height="160" rx="12" fill="#2B59FF"/>
+<text x="290" y="34" font-size="11" font-weight="800" letter-spacing="1.2" fill="#C3D0F5">AFTER</text>
+<text x="290" y="56" font-size="13.5" font-weight="800" fill="#FFFFFF">전용 신원 · 저장소 2곳</text>
+<rect x="290" y="74" width="24" height="24" rx="6" fill="#FFFFFF"/>
+<rect x="322" y="74" width="24" height="24" rx="6" fill="#FFFFFF"/>
+<rect x="290" y="106" width="152" height="26" rx="7" fill="rgba(255,255,255,.2)"/>
+<text x="302" y="123" font-size="11" font-weight="800" fill="#FFFFFF">코멘트 작성만 허용</text>
+<text x="290" y="154" font-size="10.5" font-weight="700" fill="#D3DDF8">배포·머지·비밀값은 승인 후</text>
+</svg>
+</div>
+<figcaption>개념도: 편의로 하나 붙인 토큰이 닿던 범위를, 업무에 필요한 두 곳으로 줄인 구조</figcaption>
+</figure>
+</div>
+<div class="ba">
+<div class="lb"><span>사람이 개입하는 지점</span><span class="delta">실행 전 3곳</span></div>
+<div class="btext">
+<div class="b"><small>BEFORE</small>사고 뒤 로그 확인</div>
+<span class="x"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+<div class="a"><small>AFTER</small>배포·머지·비밀값 승인</div>
+</div>
+</div>
+<div class="kpis" style="--n:3">
+<div><b>12<small>→2</small></b><span>에이전트가 닿는 저장소</span></div>
+<div><b>0<small>→100%</small></b><span>도구 호출 기록 비율</span></div>
+<div><b>3<small>곳</small></b><span>되돌릴 수 없는 실행의 승인 지점</span></div>
+</div>
+<div class="tags"><span>전용 신원</span><span>최소 권한 토큰</span><span>호출 단위 기록</span><span>실행 전 승인</span></div>
+<div class="b-heading" style="margin-top:22px"><span>통제 네 계층</span><small>위에서 아래로 설계</small></div>
+<div class="b-road" style="--n:4">
+<div><small>01</small><h5>정책</h5><p>허용 목록 한 장</p></div>
+<div><small>02</small><h5>신원</h5><p>실행 주체 구분</p></div>
+<div><small>03</small><h5>권한</h5><p>닿는 범위</p></div>
+<div><small>04</small><h5>기록</h5><p>호출 로그</p></div>
+</div>
+</div>
+<div class="pg-foot"><span>구성 예시 수치입니다. 실제 책에는 원문 숫자만 씁니다.</span><span>6</span></div>
+</section>
+<section data-pno="7" class="page pg-article t-tint" data-type="article">
+<div class="pc">
+<div class="eyebrow">05 · Checklist</div>
+<div class="h1">이번 주에 점검할<br>일곱 가지</div>
+<p class="lead">전부 하지 않아도 됩니다. <b>첫 항목과 다섯째 항목</b>만 해도 사고를 나중이 아니라 그 자리에서 알 수 있습니다.</p>
+<div class="b-checks">
+<div class="chk" role="checkbox" aria-checked="false" tabindex="0"><div class="box"></div><div><h6>에이전트마다 전용 신원을 준다</h6><p>사람 계정 토큰을 빌려 쓰는 경로를 먼저 끊습니다.</p></div></div>
+<div class="chk" role="checkbox" aria-checked="false" tabindex="0"><div class="box"></div><div><h6>업무 하나에 필요한 도구만 붙인다</h6><p>읽기·쓰기·실행을 한 덩어리로 주지 않고 나눠서 승인합니다.</p></div></div>
+<div class="chk" role="checkbox" aria-checked="false" tabindex="0"><div class="box"></div><div><h6>되돌릴 수 없는 실행 세 가지를 적는다</h6><p>배포·삭제·결제 중 해당하는 항목에 사람 승인을 겁니다.</p></div></div>
+<div class="chk" role="checkbox" aria-checked="false" tabindex="0"><div class="box"></div><div><h6>바깥에서 온 글을 지시로 읽지 않게 한다</h6><p>이슈 본문·첨부·웹 페이지는 데이터입니다. 도구 호출 권한과 분리합니다.</p></div></div>
+<div class="chk" role="checkbox" aria-checked="false" tabindex="0"><div class="box"></div><div><h6>도구 호출 로그를 남긴다</h6><p>신원·도구·대상·시각 네 가지가 남으면 사후에 범위를 되짚을 수 있습니다.</p></div></div>
+<div class="chk" role="checkbox" aria-checked="false" tabindex="0"><div class="box"></div><div><h6>데이터 경계를 한 장으로 적는다</h6><p>고객 정보·비밀값·계약 문서가 프롬프트와 로그로 나가지 않게 목록을 만듭니다.</p></div></div>
+<div class="chk" role="checkbox" aria-checked="false" tabindex="0"><div class="box"></div><div><h6>분기마다 권한을 다시 세고 회수한다</h6><p>안 쓰는 권한은 사고 반경만 넓힙니다. 실험용 권한은 만료일을 둡니다.</p></div></div>
+</div>
+<div class="score">선택한 항목 <b data-role="score">0</b> / 7</div>
+</div>
+<div class="pg-foot"><span>AI 에이전트 보안과 사내 거버넌스</span><span>7</span></div>
+</section>
+<section data-pno="8" class="page pg-back" data-type="back">
+<div class="shade" style="background:linear-gradient(180deg,rgba(5,11,34,.55),rgba(5,11,34,.95) 70%)"></div>
+<div class="pc">
+<span class="tag">AI 에이전트 보안과 사내 거버넌스</span>
+<h3>에이전트를 믿는 방법은<br>권한을 좁히고<br>기록을 남기는 것입니다.</h3>
+<div class="ed">
+<small>EDITED BY</small>
+<b>편집부</b>
+<p>이 책은 bookstyle-html 양식의 예제입니다. 사례와 수치는 구성을 보여 주기 위한 가상 시나리오이며, 표준·규정의 해석은 각 원문을 확인하세요.<br>참고 : OWASP Top 10 for LLM Applications(2025) · NIST AI RMF 1.0 · ISO/IEC 42001:2023 · EU AI Act, Regulation (EU) 2024/1689<br>발행 : 2026년 11월</p>
+</div>
+</div>
+</section>
+</main>
+<script>
+/* bookstyle-html · book viewer runtime
+ * Source of truth: statically rendered <section class="page"> elements inside #pages.
+ * Modes: viewer (default) · ?check=1 · ?sheet[=cols] · ?shot=N (native 600×820 page)
+ * The book frame fills the viewport (no chrome gutter, no 0.96 shrink).
+ * A single visible page (cover, back, or narrow/portrait mode) scales to the full viewport;
+ * a two-page spread scales to fill the shorter viewport side.
+ */
+(function () {
+  'use strict';
+  var root = document.documentElement;
+  root.classList.remove('no-js');
+  root.classList.add('js');
+
+  var params = new URLSearchParams(location.search);
+  var src = Array.prototype.slice.call(document.querySelectorAll('#pages > .page'));
+  var N = src.length;
+  if (!N) return;
+
+  if (params.has('check')) { root.classList.add('mode-check'); ready().then(runCheck); return; }
+  if (params.has('sheet')) { root.classList.add('mode-sheet'); buildSheet(parseInt(params.get('sheet'), 10) || 6); return; }
+  if (params.has('shot')) { root.classList.add('mode-shot'); showShot(parseInt(params.get('shot'), 10) || 1); return; }
+
+  /* ───────── viewer ───────── */
+  var book = document.getElementById('book');
+  var scaler = document.getElementById('scaler');
+  var stage = document.getElementById('stage');
+  var label = document.querySelector('[data-role=pg]');
+  var range = document.querySelector('[data-role=range]');
+  var lightbox = document.getElementById('lightbox');
+  var css = getComputedStyle(root);
+  var PW = parseFloat(css.getPropertyValue('--pw')) || 600;
+  var PH = parseFloat(css.getPropertyValue('--ph')) || 820;
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var mode = null, cur = 0, items = [], busy = false, queued = null;
+  // spread mode: cur = number of turned leaves · single mode: cur = page index
+
+  var tocIndex = src.findIndex(function (p) { return p.dataset.type === 'toc'; });
+  var tocBtn = document.querySelector('[data-act=toc]');
+  if (tocBtn && tocIndex < 0) tocBtn.hidden = true;
+  if (range) { range.max = N; range.min = 1; }
+
+  function isSingle() { return innerWidth < 900 || innerWidth / innerHeight < 1.05; }
+  function clone(i) { return i < N ? src[i].cloneNode(true) : blank(); }
+  function blank() { var s = document.createElement('section'); s.className = 'page'; return s; }
+
+  function buildSpread() {
+    book.className = '';
+    book.innerHTML = '<div class="book-shadow"></div><div class="spine"></div>';
+    items = [];
+    var L = Math.ceil(N / 2);
+    for (var k = 0; k < L; k++) {
+      var leaf = document.createElement('div'); leaf.className = 'leaf';
+      var f = document.createElement('div'); f.className = 'face front'; f.appendChild(clone(2 * k));
+      var b = document.createElement('div'); b.className = 'face back'; b.appendChild(clone(2 * k + 1));
+      leaf.appendChild(f); leaf.appendChild(b); book.appendChild(leaf); items.push(leaf);
+    }
+    layoutSpread();
+  }
+  function zFix() {
+    var L = items.length;
+    items.forEach(function (lf, k) { lf.style.zIndex = k < cur ? k + 1 : (L - k) + 1; });
+  }
+  function layoutSpread() {
+    items.forEach(function (lf, k) { lf.classList.toggle('flipped', k < cur); });
+    zFix(); shift();
+  }
+  function shift() {
+    var L = items.length, x = 0;
+    if (cur === 0) x = -PW / 2; else if (cur === L) x = PW / 2;
+    book.style.transform = 'translateX(' + x + 'px)';
+    var sh = book.querySelector('.book-shadow');
+    if (sh) { sh.style.left = cur === 0 ? PW + 'px' : '-2px'; sh.style.right = cur === L ? PW + 'px' : '-2px'; }
+  }
+  function flip(dir) {
+    return new Promise(function (res) {
+      var L = items.length;
+      if ((dir > 0 && cur >= L) || (dir < 0 && cur <= 0)) return res(false);
+      var k = dir > 0 ? cur : cur - 1, lf = items[k], finished = false;
+      lf.classList.add('turning'); lf.style.zIndex = 1000;
+      cur += dir; lf.classList.toggle('flipped', dir > 0); shift(); update(); scaleBook();
+      function done() {
+        if (finished) return; finished = true;
+        lf.removeEventListener('transitionend', onEnd);
+        lf.classList.remove('turning'); zFix(); res(true);
+      }
+      function onEnd(e) { if (e.target === lf && e.propertyName === 'transform') done(); }
+      lf.addEventListener('transitionend', onEnd);
+      setTimeout(done, reduce ? 0 : 1100);
+    });
+  }
+
+  function buildSingle() {
+    book.className = 'single'; book.style.transform = ''; book.innerHTML = '';
+    items = src.map(function (p, i) {
+      var w = document.createElement('div'); w.className = 'sheet'; w.hidden = i !== cur;
+      w.appendChild(clone(i)); w.style.zIndex = N - i; book.appendChild(w); return w;
+    });
+  }
+  function flipSingle(dir) {
+    return new Promise(function (res) {
+      var nx = cur + dir; if (nx < 0 || nx >= N) return res(false);
+      var a = items[cur], b = items[nx], t = reduce ? 0 : 700;
+      if (dir > 0) {
+        b.hidden = false; b.classList.remove('out'); a.classList.add('out');
+        setTimeout(function () { a.hidden = true; a.classList.remove('out'); res(true); }, t);
+      } else {
+        b.hidden = false; b.classList.add('out'); b.style.zIndex = N + 1; void b.offsetWidth; b.classList.remove('out');
+        setTimeout(function () { a.hidden = true; b.style.zIndex = N - nx; res(true); }, t);
+      }
+      cur = nx; update();
+    });
+  }
+
+  function visible() {
+    if (mode === 'single') return [cur + 1];
+    var L = items.length;
+    if (cur === 0) return [1];
+    if (cur === L) return [Math.min(2 * L, N)];
+    return [2 * cur, Math.min(2 * cur + 1, N)];
+  }
+  function update() {
+    var v = visible();
+    if (label) label.textContent = (v.length > 1 && v[1] !== v[0] ? v[0] + '–' + v[1] : v[0]) + ' / ' + N;
+    if (range) range.value = v[0];
+    if (history.replaceState) history.replaceState(null, '', '#p' + v[0]);
+  }
+  function place(p) {
+    book.classList.add('noanim');
+    scaler.classList.add('noanim');
+    if (mode === 'single') { items[cur].hidden = true; cur = clamp(p - 1, 0, N - 1); items[cur].hidden = false; items[cur].classList.remove('out'); }
+    else { cur = clamp(Math.floor(p / 2), 0, items.length); layoutSpread(); }
+    update(); scaleBook();
+    void book.offsetWidth;
+    requestAnimationFrame(function () { book.classList.remove('noanim'); scaler.classList.remove('noanim'); });
+  }
+  function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+
+  function go(dir) {
+    if (busy) return;
+    busy = true;
+    (mode === 'single' ? flipSingle(dir) : flip(dir)).then(release);
+  }
+  function goTo(p) {
+    p = clamp(p | 0, 1, N);
+    if (busy) { queued = p; return; }
+    var target = mode === 'single' ? p - 1 : Math.floor(p / 2);
+    var dist = Math.abs(target - cur);
+    if (!dist) return;
+    if (dist === 1) { go(target > cur ? 1 : -1); return; }
+    busy = true;
+    book.classList.add('jump');
+    setTimeout(function () { place(p); book.classList.remove('jump'); release(); }, reduce ? 0 : 180);
+  }
+  function release() {
+    busy = false;
+    if (queued != null) { var q = queued; queued = null; goTo(q); }
+  }
+
+  function visibleBookWidth() {
+    if (mode === 'single') return PW;
+    var L = items.length;
+    if (cur === 0 || cur === L) return PW;
+    return PW * 2;
+  }
+  function viewport() {
+    var vv = window.visualViewport;
+    if (vv && vv.width && vv.height) return { w: vv.width, h: vv.height };
+    return { w: innerWidth, h: innerHeight };
+  }
+  function scaleBook() {
+    var W = visibleBookWidth();
+    var s = Math.min(stage.clientWidth / W, stage.clientHeight / PH);
+    scaler.style.zoom = '';
+    scaler.style.transform = 'scale(' + s + ')';
+  }
+  function fit() {
+    var want = isSingle() ? 'single' : 'spread';
+    if (want !== mode) {
+      var vp = mode ? visible()[0] : pageFromHash();
+      mode = want;
+      if (mode === 'single') { cur = clamp(vp - 1, 0, N - 1); buildSingle(); }
+      else { cur = clamp(Math.floor(vp / 2), 0, Math.ceil(N / 2)); buildSpread(); }
+      book.classList.add('noanim'); scaler.classList.add('noanim'); update();
+      requestAnimationFrame(function () { book.classList.remove('noanim'); scaler.classList.remove('noanim'); });
+    }
+    scaleBook();
+  }
+  function pageFromHash() { var m = /^#p(\d+)$/.exec(location.hash); return m ? clamp(+m[1], 1, N) : 1; }
+
+  /* chrome auto-hide so the book can occupy the full screen */
+  var chromeTimer = null;
+  function showChrome() {
+    root.classList.remove('chrome-idle');
+    clearTimeout(chromeTimer);
+    chromeTimer = setTimeout(function () { root.classList.add('chrome-idle'); }, 2400);
+  }
+  addEventListener('mousemove', showChrome);
+  addEventListener('touchstart', showChrome, { passive: true });
+  addEventListener('keydown', showChrome);
+
+  /* controls */
+  document.querySelectorAll('[data-act]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var act = btn.dataset.act;
+      if (act === 'prev') go(-1);
+      else if (act === 'next') go(1);
+      else if (act === 'first') goTo(1);
+      else if (act === 'toc') goTo(tocIndex + 1);
+      else if (act === 'print') window.print();
+      else if (act === 'fs') {
+        if (document.fullscreenElement) document.exitFullscreen();
+        else if (root.requestFullscreen) root.requestFullscreen();
+      }
+    });
+  });
+  if (range) range.addEventListener('input', function () { goTo(+range.value); });
+
+  addEventListener('keydown', function (e) {
+    if (lightbox.classList.contains('on')) {
+      if (e.key === 'Escape' || e.key === ' ' || e.key === 'Enter') { closeLightbox(); e.preventDefault(); }
+      return;
+    }
+    if (e.target && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
+    if (e.altKey || e.ctrlKey || e.metaKey) return;
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); go(1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(-1); }
+    else if (e.key === 'Home') { e.preventDefault(); goTo(1); }
+    else if (e.key === 'End') { e.preventDefault(); goTo(N); }
+  });
+
+  book.addEventListener('click', function (e) {
+    var z = e.target.closest('[data-zoom]');
+    if (z) {
+      var im = z.querySelector('img');
+      if (im) { lightbox.querySelector('img').src = im.currentSrc || im.src; lightbox.querySelector('p').textContent = im.alt || ''; lightbox.classList.add('on'); }
+      return;
+    }
+    var g = e.target.closest('[data-goto]');
+    if (g) { goTo(+g.dataset.goto); return; }
+    var c = e.target.closest('.chk');
+    if (c) {
+      c.classList.toggle('on');
+      c.setAttribute('aria-checked', c.classList.contains('on'));
+      var pg = c.closest('.page'), sc = pg && pg.querySelector('[data-role=score]');
+      if (sc) sc.textContent = pg.querySelectorAll('.chk.on').length;
+      return;
+    }
+    if (e.target.closest('a')) return;
+    var r = book.getBoundingClientRect(), x = (e.clientX - r.left) / r.width;
+    if (mode === 'single') go(x > 0.35 ? 1 : -1); else go(x > 0.5 ? 1 : -1);
+  });
+  var tx = null;
+  book.addEventListener('touchstart', function (e) { tx = e.touches[0].clientX; }, { passive: true });
+  book.addEventListener('touchend', function (e) {
+    if (tx == null) return;
+    var dx = e.changedTouches[0].clientX - tx;
+    if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1);
+    tx = null;
+  });
+  function closeLightbox() { lightbox.classList.remove('on'); }
+  lightbox.addEventListener('click', closeLightbox);
+  addEventListener('resize', fit);
+  addEventListener('hashchange', function () { var p = pageFromHash(); if (visible().indexOf(p) < 0) goTo(p); });
+
+  showChrome();
+  fit();
+  setTimeout(function () { root.classList.add('book-ready'); }, 300);
+  window.__book = { goTo: goTo, next: function () { go(1); }, prev: function () { go(-1); }, pages: N };
+
+  function showShot(n) {
+    var i = clamp(n, 1, N) - 1;
+    src.forEach(function (p, k) { p.classList.toggle('is-shot', k === i); });
+  }
+
+  function buildSheet(cols) {
+    var host = document.getElementById('pages');
+    host.style.setProperty('--cols', cols);
+    src.forEach(function (p, i) {
+      var cell = document.createElement('div');
+      cell.className = 'sheet-cell';
+      cell.dataset.label = 'p.' + (i + 1) + ' · ' + (p.dataset.type || '') + (p.dataset.id ? ' · ' + p.dataset.id : '');
+      host.insertBefore(cell, p); cell.appendChild(p);
+    });
+  }
+
+  function ready() {
+    var fonts = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+    var imgs = Array.prototype.slice.call(document.images).map(function (im) {
+      if (im.complete) return Promise.resolve();
+      return new Promise(function (r) { im.addEventListener('load', r); im.addEventListener('error', r); });
+    });
+    return Promise.all([fonts].concat(imgs));
+  }
+  function describe(el) {
+    if (!el) return '';
+    var s = el.tagName.toLowerCase() + (el.className && typeof el.className === 'string' ? '.' + el.className.trim().split(/\s+/).join('.') : '');
+    var t = (el.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 40);
+    return t ? s + ' "' + t + '"' : s;
+  }
+  function freeFlow(el, stop) {
+    for (var n = el; n && n !== stop; n = n.parentElement) {
+      var cs = getComputedStyle(n);
+      if (cs.position === 'absolute' || cs.position === 'fixed') return false;
+      if (n !== el && (cs.overflowX !== 'visible' || cs.overflowY !== 'visible')) return false;
+    }
+    return true;
+  }
+  function measure(pg, i) {
+    var issues = [];
+    var pc = pg.querySelector(':scope > .pc');
+    if (pc) {
+      var cr = pc.getBoundingClientRect(), limit = cr.bottom, dockName = '';
+      pg.querySelectorAll(':scope > [data-dock]').forEach(function (d) {
+        var t = d.getBoundingClientRect().top - 6;
+        if (t < limit) { limit = t; dockName = d.dataset.dock; }
+      });
+      var maxB = cr.top, worst = null, maxR = cr.right, wide = null;
+      pc.querySelectorAll('*').forEach(function (el) {
+        if (!freeFlow(el, pc)) return;
+        var r = el.getBoundingClientRect();
+        if (!r.width && !r.height) return;
+        if (r.bottom > maxB) { maxB = r.bottom; worst = el; }
+        if (r.right > maxR + 0.5) { maxR = r.right; wide = el; }
+      });
+      if (maxB > limit + 0.5) issues.push({ kind: 'overflow', px: Math.round(maxB - limit), into: dockName || 'page-bottom', el: describe(worst) });
+      if (wide) issues.push({ kind: 'overflow-x', px: Math.round(maxR - cr.right), el: describe(wide) });
+    }
+    pg.querySelectorAll('*').forEach(function (el) {
+      var cs = getComputedStyle(el);
+      if (cs.textOverflow === 'ellipsis' && el.scrollWidth > el.clientWidth + 1) issues.push({ kind: 'truncated', el: describe(el) });
+    });
+    pg.querySelectorAll('img').forEach(function (im) {
+      if (!im.naturalWidth) issues.push({ kind: 'image-broken', src: (im.getAttribute('src') || '').slice(0, 80) });
+    });
+    return { page: i + 1, type: pg.dataset.type || '', id: pg.dataset.id || '', issues: issues };
+  }
+  function runCheck() {
+    var r = src.map(measure);
+    var out = document.createElement('script');
+    out.type = 'application/json'; out.id = 'check-result';
+    out.textContent = JSON.stringify({ pages: N, results: r });
+    document.body.appendChild(out);
+  }
+})();
+
+</script>
+</body>
+</html>
