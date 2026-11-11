@@ -11,12 +11,16 @@
 ## 검사
 ```bash
 cd edu-deck/shared
-EDU_DECK_TEST_DECK=<실덱경로> python3 -m unittest discover -s dev -p 'test_*py'   # 496개(skip 7)
+EDU_DECK_TEST_DECK=<실덱경로> python3 -m unittest discover -s dev -p 'test_*py'   # 505+개(skip 7)
 python3 dev/test_pack_browser.py <아웃풋폴더>    # 64/64
 python3 scripts/build_deck.py <덱폴더> && python3 scripts/check_deck.py <결과.html>
+python3 scripts/style_preset.py --verify         # 스타일 프리셋 16종 WCAG 4.5:1 대비·스키마 전수 검사
+python3 ../../bookstyle-html/scripts/build_book.py <북폴더> -o <북.html> --check && python3 ../../bookstyle-html/scripts/preview.py check <북.html>
 ```
 
-## 현재 상태(2026-11-10)
+## 현재 상태(2026-11-11)
+
+- **bookstyle-html 스킬 편입 & 스타일 프리셋 16종 계층 신설(2026-11-11)**: ① `bookstyle-html/`(600×820 쪽 펼침 넘김 인사이트북 단일 HTML 스킬, `assets/kit/{book.css,shell.html,viewer.js}`·`scripts/{build_book,preview,og_image}.py`, 사내 자체 제작 자산 라이선스 클린 확인) 최상위 편입 + `edu-deck/SKILL.md` 라우팅 연결 + 실물 예제 북(`examples/book-demo/book-demo.html`, 8쪽) `preview.py check` 0건 검증. ② `edu-deck/shared/presets/*.yaml` 고유 장르 프리셋 16종(`seoul-editorial`·`hanji-warm`·`nordic-slate` 등 — 개념 참조: shiraki.design, 재배포 금지로 원본 값·문구 미복제, 전수 독자 창작) 및 `scripts/style_preset.py`(`--list`·`--verify`·`--apply`, `shell.html`·`check_deck.py` 무수정 `src/preset.css` 주입 방식)·`dev/test_style_presets.py`·적용 예제(`examples/preset-demo/`) 완성. 보고: `workspace/absorb/ABSORB-REPORT.md`.
 
 - **consulting-deck 스킬 완성(2026-11-09)**: 스킬 문서 8종(SKILL.md 7단계 + references 7종)·차트 생성기 11타입(`consulting-deck/charts/chart_gen.mjs`, 시험 58종)·실행 도구 3종(assets/consult.css 4방향 exec·dense·editorial·tech / checks/check_consulting.py 근거 원장 대조 / regen.py --check 재생성 계약)·edu-deck 진입 라우팅 연결·심볼릭 등록(~/Projects/skills/consulting-deck). 실물 데모 2종: **A** ai-transform 12장(.consult-tech, BCG AI Radar 2026 실인용+가상 혼합 원장, Architecture Kit 결합 stack 축① 아키텍처 장) · **B** it-cost 11장(.consult, 전수 가상). 갤러리 컨설팅 섹션(카드 11장·실물 재생). agy 시각 QA 1차 FAIL→생성기 결함 6종 수정→재검증 양 데모 PASS. 개념 출처: zairuilab/consulting-deck(Apache-2.0)·McKinsey Vizro(Apache-2.0) 개념만 재작성.
 - **워크플로 도식 계열 11종 추가(42~52)**: sankey-flow·decision-tree·kanban-board·version-graph·event-fanout·route-tour·waterfall·mesh-network·heatmap-grid·swimlane·cycle-ring — 계열 52·변형 253·실행 이름 42(+기법 5)·모션 GIF 47. 원본 참고: `~/Projects/flowmotion-gallery`(AI Studio 앱 — 모션 개념·시나리오만 참고, 코드 복사 없음). 지시서 `shared/dev/TASK-workflow-series.md`.

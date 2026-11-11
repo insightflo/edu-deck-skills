@@ -13,3 +13,9 @@
 
 effective-html 은 MIT 라이선스로 배포됩니다 (Copyright (c) 2026 plannotator).
 라이선스 전문은 `licenses/EFFECTIVE-HTML-MIT.txt` 에 있습니다.
+
+## 스타일 프리셋 개념 참조 (shiraki.design — 값·파일 미복제)
+
+`edu-deck/shared/presets/` 및 `edu-deck/shared/scripts/style_preset.py` 의 스타일 프리셋 계층은
+**shiraki.design** 스타일 명세의 구조적 개념(장르별 `intent / use / avoid` 분류 체계 및 `paper / surface / line / ink / brand / accent / night` 역할 토큰 스키마, WCAG 4.5:1 대비 보정 방법론)만 참조하여 설계했습니다.
+원본 명세 및 내부 실험본은 재배포 금지 대상이므로 저장소에 포함하지 않으며, 수록된 16종 프리셋의 색상값·문구·식별자는 모두 본 저장소에서 독자적으로 새로 창작한 고유 자산입니다.

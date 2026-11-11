@@ -69,3 +69,11 @@ McKinsey MGI 2025 in Charts: playwright→Akamai 403 · curl→연결 차단 · 
 - **designer-skills/design-review** (julianoczkowski/designer-skills, Apache-2.0) — 실제 화면 캡처 필수 절차(코드만 읽고 평가 금지) → §1 절차·§4 호출 계약.
 - **better-web-ui** (aladicf — 로컬 설치 스킬, critique·hierarchy·data-viz) — 세분화 진단 렌즈 → 공통 9항목 표(초기 7관점을 일반화).
 - 코드 복사 없음. 웹 UI용 원칙을 슬라이드·발표 위계용으로 재작성했다.
+
+## 스타일 프리셋 체계 및 북스타일 흡수 (2026-11-11 추가)
+
+- **개념 참조(shiraki.design, 재배포 금지로 값 미복제)**:
+  - 수용한 개념: 스타일 프리셋을 `intent`(분위기·의도) · `use`(적합 장르) · `avoid`(부적합 장르) 메타데이터와 지면·표면·잉크·주색·강조·다크 무대(`paper/surface/line/ink/brand/accent/night`) 역할 토큰으로 구조화하고, 모든 전경/배경 쌍을 WCAG 4.5:1 이상으로 보정·검증하는 방법론.
+  - 엄격한 경계: 원본 YAML(`style-theme/`) 및 내부 재작성본(`style-presets/`)은 재배포가 금지되어 있으므로 저장소에 단 한 파일도 포함하지 않으며, 헥스(hex) 색상값·문구·프리셋 파일명을 일절 복제하지 않았다. `edu-deck/shared/presets/`의 16종 프리셋(`seoul-editorial` 등)은 모두 `edu-deck` 맥락에서 독자 설계·창작한 고유 자산이다.
+- **`bookstyle-html` (사내 자체 제작 자산 편입)**:
+  - 600×820 쪽 펼침 넘김 인사이트북 단일 HTML 스킬(`bookstyle-html/assets/kit/{book.css,shell.html,viewer.js}`, `scripts/{build_book,preview,og_image}.py`). 타사 라이선스·외부 코드 의존 없는 자체 제작 자산임을 전수 확인하고 최상위 스킬로 편입했다.

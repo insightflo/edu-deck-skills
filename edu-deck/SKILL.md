@@ -25,6 +25,7 @@ description: "Entry skill for education deck requests. Use FIRST when the user w
 
 - **edu-deck-solo**: 이웃 스킬 `edu-deck-solo/SKILL.md` 를 읽고 그 절차를 처음부터 따른다(요청 정리 → 조사 → 구성 → 제작 → 검사 → 보고). 조각·스타일·검사 스크립트·공통 문서는 이 스킬(edu-deck) 폴더의 `shared/` 에 들어 있다 — 하위 스킬의 안내(`〈base〉`)를 따른다. 하위 스킬에게 사용자 승인·권한이 그대로 이어진다.
 - **edu-deck-series**: 같은 방식으로 `edu-deck-series/SKILL.md` 를 읽고 따른다. 공통 자산은 마찬가지로 `shared/` 를 쓴다. **edu-deck-series 가 설치되어 있지 않으면** 사용자에게 "시리즈용 스킬이 아직 없다"고 알리고 — 단일 편으로 시작할지(edu-deck-solo), 시리즈 스킬을 먼저 만들지 확인한다. 몰래 solo로 진행하고 시리즈라고 보고하지 않는다.
+- **책 양식(bookstyle-html)**: 요청이 `책 양식`·`플립북`·`인사이트북`(600×820 쪽 펼침 넘김 단일 HTML)이면 이 라우터의 덱 경로를 타지 않고 `../bookstyle-html/SKILL.md` 를 사용한다. 판면·뷰어·검사기가 다르므로 edu-deck 의 팩/legacy 경로·`check_deck.py` 를 섞지 않는다.
 
 ## 새 덱의 공통 저작 경로
 

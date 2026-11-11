@@ -14,6 +14,12 @@
 
 `deck.json` 의 `"theme"` 키로 `classic`(기본, :root 그대로)과 `ocean` `cobalt` `forest` `solar` `berry` `cocoa` `graphite` `midnight` 중 하나를 고릅니다. 각 테마는 `assets/css/themes.css` 의 `[data-theme="<id>"]` 블록에 15개 의미 역할 전부를 정의하며(일부만 덮으면 대비 매트릭스가 깨집니다), 반경 `r1~3`·모션 `m1~4`·간격 `s*`·튐 `e-spring` 비색 토큰도 테마의 shape 축값 lerp 로 함께 바꿉니다. 색은 테마로만 바뀌고 비색은 축으로만 바뀌어 대비 보장이 유지됩니다 — 새 테마를 만들면 `check_deck.py --contrast-matrix` 의 `theme:<id>` 행으로 같은 기준을 통과해야 합니다. `theme` 을 쓰지 않거나 `classic` 이면 어떤 속성도 심지 않아 기존 덱과 결과가 같습니다.
 
+## 장르 스타일 프리셋 계층 (`presets/*.yaml`)
+
+기본 8테마(`themes.css`)가 범용 색상 팔레트라면, `shared/presets/*.yaml`(16종 고유 프리셋)은 구체적인 발표·교육 장르(`intent`·`use`·`avoid`)와 세분화된 지면·표면·잉크·주색·강조·다크 무대 토큰(`paper/surface/tint/line/ink/ink-2/ink-3/brand/accent/night`)을 정의한 **장르 스타일 시트**입니다.
+- 적용 경로: `python3 shared/scripts/style_preset.py --apply <preset-id> --deck <덱폴더>` 를 실행하면 `<덱폴더>/src/preset.css` 가 생성되어 `build_deck.py` 조립 시 `/*EXTRA_CSS*/` 로 자동 주입됩니다(`shell.html`·`check_deck.py` 무수정). `bookstyle-html` 플립북에도 `--book <북폴더>` 로 동일하게 적용할 수 있습니다.
+- 대비 검증: 모든 프리셋은 `style_preset.py --verify` 및 `dev/test_style_presets.py` 에서 전경/배경 핵심 쌍의 WCAG 4.5:1(본문/어두운 무대 주 텍스트는 7.0:1) 이상 대비를 통과해야 합니다. (개념 참조: shiraki.design — 재배포 금지로 원본 값·문구 미복제, 전수 자체 창작)
+
 ## 기하와 글꼴
 
 - 간격: 8px 배수. 토큰 `s1/s2/s3/s4/s5/s6/s8/s10/s16` = 8/16/24/32/40/48/64/80/128px. SVG 좌표·글자 크기·인쇄용 mm/pt는 간격 토큰의 대상이 아닙니다.
