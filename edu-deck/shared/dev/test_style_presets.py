@@ -31,6 +31,7 @@ ABSORB = ROOT / 'workspace' / 'absorb'
 
 sys.path.insert(0, str(S / 'scripts'))
 import style_preset as sp  # noqa: E402  (경로 설정 뒤에 읽는다)
+import tone_router as tr   # noqa: E402
 
 REQUIRED_IDS = {
     'seoul-editorial', 'hanji-warm', 'nordic-slate', 'alpine-forest', 'blueprint-grid',
@@ -277,6 +278,84 @@ class TestParser(unittest.TestCase):
     def test_bad_indent_raises(self):
         with self.assertRaises(ValueError):
             sp.load_yaml_text('  paper: "#ffffff"\n')
+
+
+class TestToneRouterPreset(unittest.TestCase):
+    """tone_router.py 와 style_preset.py 의 1:1 계약 · 결정성 · 근거 문장 · 기존 키 호환."""
+
+    TOPICS = [
+        ('비와 비율 학습지', '문제를 단계별로 풀 수 있다', '초등 저학년 학생'),
+        ('물질의 상태 변화 단원 퀴즈', '상태 변화를 설명하고 퀴즈를 푼다', '초등 학생'),
+        ('개인정보 보호 기본', '개인정보 처리 규정을 지킨다', '전 직원'),
+        ('폭염 작업 안전', '폭염 위험을 알고 안전 수칙을 지킨다', '현장 작업자'),
+        ('재무제표 읽는 법', '재무제표의 구조를 읽는다', '비전공 직원'),
+        ('신입 온보딩', '회사 문화와 도구를 익힌다', '신입 직원'),
+        ('고객 응대 사례 판단', '응대 사례의 옳고 그름을 판단한다', '고객 상담 직원'),
+        ('신규 전자결재 시스템 사용법', '전자결재를 상신한다', '전 직원'),
+    ]
+
+    def test_preset_ids_match_style_preset_list(self):
+        yaml_ids = set(sp.load_all(PRESETS))
+        self.assertEqual(set(tr.PRESETS), yaml_ids, 'tone_router.PRESETS 와 shared/presets/*.yaml 불일치')
+        for pid, spec in tr.PRESETS.items():
+            self.assertEqual(set(spec['axes']), set(tr.AXES), pid)
+            for ax_name, val in spec['axes'].items():
+                self.assertGreaterEqual(val, 0.0, f'{pid}.{ax_name}')
+                self.assertLessEqual(val, 1.0, f'{pid}.{ax_name}')
+
+    def test_route_preset_determinism_and_seed(self):
+        for topic in self.TOPICS:
+            r1 = tr.route(*topic)
+            r2 = tr.route(*topic)
+            self.assertEqual(r1['preset'], r2['preset'], topic[0])
+            cands = r1['preset']['candidates']
+            self.assertEqual(len(cands), 3)
+            ids = [c['id'] for c in cands]
+            self.assertEqual(len(set(ids)), 3)
+            self.assertTrue(all(i in tr.PRESETS for i in ids))
+            self.assertEqual(r1['preset']['recommend'], ids[0])
+            s1 = tr.route(*topic, seed='42')['preset']
+            s2 = tr.route(*topic, seed='42')['preset']
+            self.assertEqual(s1, s2)
+
+    def test_preset_because_includes_axes_and_signals(self):
+        strong = tr.route('현장 안전 교육', '안전 사고 위험을 예방한다', '현장 작업자')
+        for cand in strong['preset']['candidates']:
+            self.assertIn('선택적 오버레이 제안', cand['because'])
+            self.assertIn('축 근접:', cand['because'])
+            self.assertIn('신호어:', cand['because'])
+            for sig in strong['signals']:
+                self.assertIn(sig, cand['because'])
+        weak = tr.route('무제 안내', '', '')
+        for cand in weak['preset']['candidates']:
+            self.assertIn('선택적 오버레이 제안', cand['because'])
+            self.assertIn('신호어 없음(제목 해시)', cand['because'])
+
+    def test_recent_preset_penalty_and_validation(self):
+        base = tr.route('현장 안전 교육', '안전 사고 위험을 예방한다', '현장 작업자')
+        top_id = base['preset']['recommend']
+        penalized = tr.route('현장 안전 교육', '안전 사고 위험을 예방한다', '현장 작업자',
+                             recent_preset=[top_id])
+        scores_before = {c['id']: c['score'] for c in base['preset']['candidates']}
+        all_after = tr._score(tr.PRESETS, base['axes'], '현장 안전 교육', 'preset', [top_id], '0', 0.25)
+        scores_after = {r['id']: r['score'] for r in all_after}
+        self.assertAlmostEqual(scores_before[top_id] - tr.RECENT_PENALTY, scores_after[top_id], places=3)
+        for cand in penalized['preset']['candidates']:
+            if cand['id'] == top_id:
+                self.assertIn('(최근 사용이라 감점)', cand['because'])
+        with self.assertRaises(tr.RouterError):
+            tr.route('제목', recent_preset=['unknown-preset-id'])
+
+    def test_existing_theme_cover_arc_keys_and_scores_unchanged(self):
+        for topic in self.TOPICS:
+            r_base = tr.route(*topic)
+            r_with_recent_preset = tr.route(*topic, recent_preset=['seoul-editorial', 'mono-swiss'])
+            for key in ('title', 'seed', 'axes', 'signals', 'weak_signal', 'theme', 'cover', 'arc'):
+                self.assertEqual(r_base[key], r_with_recent_preset[key], f'{topic[0]}:{key}')
+
+    def test_preset_diversity_across_topics(self):
+        recs = [tr.route(*t)['preset']['recommend'] for t in self.TOPICS]
+        self.assertGreaterEqual(len(set(recs)), 5, sorted(set(recs)))
 
 
 if __name__ == '__main__':

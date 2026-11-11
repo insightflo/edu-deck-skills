@@ -18,6 +18,7 @@
 
 기본 8테마(`themes.css`)가 범용 색상 팔레트라면, `shared/presets/*.yaml`(16종 고유 프리셋)은 구체적인 발표·교육 장르(`intent`·`use`·`avoid`)와 세분화된 지면·표면·잉크·주색·강조·다크 무대 토큰(`paper/surface/tint/line/ink/ink-2/ink-3/brand/accent/night`)을 정의한 **장르 스타일 시트**입니다.
 - 적용 경로: `python3 shared/scripts/style_preset.py --apply <preset-id> --deck <덱폴더>` 를 실행하면 `<덱폴더>/src/preset.css` 가 생성되어 `build_deck.py` 조립 시 `/*EXTRA_CSS*/` 로 자동 주입됩니다(`shell.html`·`check_deck.py` 무수정). `bookstyle-html` 플립북에도 `--book <북폴더>` 로 동일하게 적용할 수 있습니다.
+- 자동 추천 연동: `scripts/tone_router.py` 실행 시 기존 `theme`·`cover`·`arc` 출력은 그대로 유지하면서, 6축(`AXES`) 거리 기반으로 선택적 오버레이 후보인 `"preset"` 추천 1종·후보 3종·근거 문장(축 근접+신호어)을 함께 반환합니다(`--recent-preset` 감점 지원, `PRESETS` id 는 `style_preset.py --list` 16종과 1:1 계약).
 - 대비 검증: 모든 프리셋은 `style_preset.py --verify` 및 `dev/test_style_presets.py` 에서 전경/배경 핵심 쌍의 WCAG 4.5:1(본문/어두운 무대 주 텍스트는 7.0:1) 이상 대비를 통과해야 합니다. (개념 참조: shiraki.design — 재배포 금지로 원본 값·문구 미복제, 전수 자체 창작)
 
 ## 기하와 글꼴

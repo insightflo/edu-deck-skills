@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""요청 텍스트 → legacy 테마·표지 변형·줄거리(arc) 추천 라우터.
+"""요청 텍스트 → legacy 테마·표지 변형·줄거리(arc)·스타일 프리셋 추천 라우터.
 
 [파일 목적]
   resource_pack 을 쓰지 않는 legacy 경로 덱이 매번 같은 팔레트·같은 표지·같은 줄거리로
   나오는 문제를 막는다. brief 텍스트(제목·청중·교육 뒤 할 수 있어야 하는 것)에서
-  톤 축 6개를 계산하고, 축과 후보별 시그니처의 거리로 테마·표지·arc 를 고른다.
+  톤 축 6개를 계산하고, 축과 후보별 시그니처의 거리로 테마·표지·arc 및 선택적 오버레이인
+  스타일 프리셋(shared/presets/*.yaml 16종)을 고른다.
 
 [주요 흐름]
   1. 제목(가중 2)·목표(1.5)·청중(1)·기타(1) 텍스트에서 축 신호어를 센다(AXIS_SIGNALS).
@@ -12,19 +13,21 @@
   2. 후보별 점수 = 축 시그니처와의 가중 거리(가까울수록 높음) + 제목 해시 지터(JITTER)
      − 최근 사용 감점(RECENT_PENALTY). 같은 입력은 항상 같은 결과(결정적)이고
      다른 변주가 필요하면 --seed 를 바꾼다.
-  3. 테마·표지·arc 각각 후보 3종 + 추천 1종 + 근거 문장을 JSON 으로 낸다.
+  3. 테마·표지·arc·프리셋 각각 후보 3종 + 추천 1종 + 근거 문장을 JSON 으로 낸다.
 
 [외부 연결]
   THEMES 의 id 는 assets/css/themes.css 의 [data-theme="…"] 블록과 1:1 이다
   ('classic' 만 블록이 없다 — 기본 :root 그대로). COVERS 의 id 는
   assets/snippets/01-cover*.html 의 data-variant, ARCS 의 opens 는
-  check_deck.py 의 arc 인지 흐름 규칙이 쓴다. build_deck.py·build_series.py 도
-  같은 목록으로 deck.json 의 theme·arc 를 검증한다. 표준 라이브러리만 쓴다.
+  check_deck.py 의 arc 인지 흐름 규칙이 쓴다. PRESETS 의 id 는
+  shared/presets/*.yaml (style_preset.py --list) 16종과 1:1 이다.
+  build_deck.py·build_series.py 도 같은 목록으로 deck.json 의 theme·arc 를 검증한다. 표준 라이브러리만 쓴다.
 
 [수정시 주의]
   테마를 추가하면 themes.css 에 15 의미 역할 전부를 정의한 블록을 함께 둔다
   (일부만 덮으면 대비 매트릭스가 깨진다). shape 시그니처(round/motion/density/spring)는
   themes.css 블록 안 비색 토큰(r*, m*, s*, e-spring)의 lerp 입력이므로 두 곳을 함께 고른다.
+  프리셋을 추가·삭제하면 shared/presets/*.yaml 과 PRESETS 를 함께 맞춘다.
   이 점수는 교육 효과 측정이 아니라 후보를 좁히는 휴리스틱이다. 근거 문장에 신호어를 밝힌다.
 """
 import argparse
@@ -121,6 +124,27 @@ ARCS = {
                    "axes": {"energy": .5, "playful": .4, "technical": .55, "serious": .5, "warm": .4, "formal": .5}},
 }
 
+# 스타일 프리셋 시그니처. id = shared/presets/*.yaml (style_preset.py --list) 16종과 1:1.
+# 각 프리셋의 genre·intent·use·avoid 를 6축(AXES) 위치로 매핑한다(선택적 오버레이 제안).
+PRESETS = {
+    "alpine-forest":   {"axes": {"energy": .65, "playful": .35, "technical": .45, "serious": .7,  "warm": .55, "formal": .55}},
+    "atelier-sand":    {"axes": {"energy": .75, "playful": .7,  "technical": .35, "serious": .25, "warm": .75, "formal": .3}},
+    "blueprint-grid":  {"axes": {"energy": .35, "playful": .2,  "technical": .95, "serious": .65, "warm": .2,  "formal": .75}},
+    "campus-chalk":    {"axes": {"energy": .45, "playful": .55, "technical": .55, "serious": .35, "warm": .65, "formal": .4}},
+    "civic-ochre":     {"axes": {"energy": .6,  "playful": .45, "technical": .5,  "serious": .55, "warm": .65, "formal": .65}},
+    "clinical-trust":  {"axes": {"energy": .4,  "playful": .15, "technical": .8,  "serious": .9,  "warm": .35, "formal": .8}},
+    "cyber-obsidian":  {"axes": {"energy": .6,  "playful": .3,  "technical": .9,  "serious": .85, "warm": .2,  "formal": .65}},
+    "executive-navy":  {"axes": {"energy": .35, "playful": .15, "technical": .65, "serious": .8,  "warm": .25, "formal": .95}},
+    "fintech-emerald": {"axes": {"energy": .45, "playful": .25, "technical": .85, "serious": .65, "warm": .3,  "formal": .85}},
+    "hanji-warm":      {"axes": {"energy": .3,  "playful": .35, "technical": .25, "serious": .45, "warm": .85, "formal": .55}},
+    "legal-charcoal":  {"axes": {"energy": .25, "playful": .1,  "technical": .6,  "serious": .95, "warm": .2,  "formal": .95}},
+    "mono-swiss":      {"axes": {"energy": .4,  "playful": .3,  "technical": .5,  "serious": .6,  "warm": .3,  "formal": .75}},
+    "museum-archive":  {"axes": {"energy": .35, "playful": .25, "technical": .4,  "serious": .55, "warm": .7,  "formal": .7}},
+    "nordic-slate":    {"axes": {"energy": .35, "playful": .25, "technical": .75, "serious": .55, "warm": .35, "formal": .7}},
+    "pastel-studio":   {"axes": {"energy": .6,  "playful": .65, "technical": .3,  "serious": .3,  "warm": .9,  "formal": .35}},
+    "seoul-editorial": {"axes": {"energy": .45, "playful": .35, "technical": .4,  "serious": .55, "warm": .6,  "formal": .8}},
+}
+
 WEAK_REASON = "톤 신호어가 약해 제목 기준으로 순서를 돌렸습니다(같은 제목은 항상 같은 결과)"
 
 
@@ -174,11 +198,16 @@ def _score(table, ax, title, kind, recent, seed, jit_scale=1.0):
 
 
 def route(title, outcomes="", audience="", extra="", seed="0",
-          recent_theme=(), recent_cover=(), recent_arc=()):
-    """축을 계산해 테마·표지·arc 후보 3종·추천을 반환한다."""
+          recent_theme=(), recent_cover=(), recent_arc=(), recent_preset=()):
+    """축을 계산해 테마·표지·arc·스타일 프리셋 후보 3종·추천을 반환한다."""
     if not (title or "").strip():
         raise RouterError("title 이 비어 있습니다")
-    for label, table, recent in (("theme", THEMES, recent_theme), ("cover", COVERS, recent_cover), ("arc", ARCS, recent_arc)):
+    for label, table, recent in (
+        ("theme", THEMES, recent_theme),
+        ("cover", COVERS, recent_cover),
+        ("arc", ARCS, recent_arc),
+        ("preset", PRESETS, recent_preset),
+    ):
         bad = [r for r in recent if r not in table]
         if bad:
             raise RouterError(f"--recent-{label} 에 알 수 없는 id: {', '.join(bad)}")
@@ -197,13 +226,22 @@ def route(title, outcomes="", audience="", extra="", seed="0",
                               (" (최근 사용이라 감점)" if row["recent_penalty"] else ""))
         result[kind] = {"recommend": top[0]["id"],
                         "candidates": [{"id": r["id"], "score": r["score"], "because": r["because"]} for r in top]}
+    preset_rows = _score(PRESETS, ax, title, "preset", recent_preset, seed, jit_scale)
+    preset_top = preset_rows[:3]
+    sig_note = f" · 신호어: {', '.join(signal_words)}" if signal_words else " · 신호어 없음(제목 해시)"
+    for row in preset_top:
+        near = sorted(AXES, key=lambda a: abs(ax[a] - PRESETS[row["id"]]["axes"][a]))[:3]
+        row["because"] = (f"선택적 오버레이 제안 — 축 근접: {', '.join(near)}{sig_note}" +
+                          (" (최근 사용이라 감점)" if row["recent_penalty"] else ""))
+    result["preset"] = {"recommend": preset_top[0]["id"],
+                        "candidates": [{"id": r["id"], "score": r["score"], "because": r["because"]} for r in preset_top]}
     if not signal_words:
         result["note"] = WEAK_REASON
     return result
 
 
 def main(argv=None):
-    ap = argparse.ArgumentParser(description="요청 텍스트로 legacy 테마·표지·arc 후보 3종·추천을 계산한다")
+    ap = argparse.ArgumentParser(description="요청 텍스트로 legacy 테마·표지·arc·스타일 프리셋 후보 3종·추천을 계산한다")
     ap.add_argument("--title", required=True, help="덱 제목 또는 주제")
     ap.add_argument("--outcomes", default="", help="교육 뒤 청중이 할 수 있어야 하는 것(문장 이어 붙임)")
     ap.add_argument("--audience", default="", help="청중 설명")
@@ -211,11 +249,12 @@ def main(argv=None):
     ap.add_argument("--recent-theme", action="append", default=[], metavar="ID", help="최근 쓴 테마(감점)")
     ap.add_argument("--recent-cover", action="append", default=[], metavar="ID", help="최근 쓴 표지 변형(감점)")
     ap.add_argument("--recent-arc", action="append", default=[], metavar="ID", help="최근 쓴 arc(감점)")
+    ap.add_argument("--recent-preset", action="append", default=[], metavar="ID", help="최근 쓴 스타일 프리셋(감점)")
     ap.add_argument("--seed", default="0", help="같은 입력으로 다른 변주를 원할 때 바꾼다")
     args = ap.parse_args(argv)
     try:
         result = route(args.title, args.outcomes, args.audience, args.extra, args.seed,
-                       args.recent_theme, args.recent_cover, args.recent_arc)
+                       args.recent_theme, args.recent_cover, args.recent_arc, args.recent_preset)
     except RouterError as e:
         print(f"ERROR  {e}", file=sys.stderr)
         return 1
