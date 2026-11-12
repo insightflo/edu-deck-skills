@@ -92,7 +92,7 @@
   /* 화면 위·아래를 가리는 고정 크롬의 실측 경계. 위쪽 막대가 비어 있거나 둘 다
      숨겨졌으면 그쪽 화면 가장자리를 쓴다(장 맞춤·배율의 세로 여유 기준). */
   function chrome(){
-    var tb=document.querySelector('.ed-topbar'),nv=document.querySelector('.ed-reader-nav');
+    var tb=document.querySelector('.ed-top')||document.querySelector('.ed-topbar'),nv=document.querySelector('.ed-reader-nav');
     return {
       top:(tb&&tb.getClientRects().length)?tb.getBoundingClientRect().bottom:0,
       bot:(nv&&nv.getClientRects().length)?nv.getBoundingClientRect().top:window.innerHeight

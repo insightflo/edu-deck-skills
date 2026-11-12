@@ -199,6 +199,6 @@ ul.list li::marker{color:var(--accent)}
 #dots i{width:10px;height:10px;border-radius:3px;border:1px solid var(--soft);opacity:.5}
 #dots i.on{opacity:1;background:var(--accent);border-color:var(--accent)}
 #progress{position:fixed;left:0;bottom:0;height:4px;background:var(--accent);z-index:5}
-#help{position:fixed;right:20px;bottom:40px;background:var(--ink);color:var(--light);font-size:16px;border-radius:var(--r2);padding:16px 20px;opacity:.92;z-index:6}
+#help{position:fixed;right:20px;bottom:40px;background:var(--ink);color:var(--light);font-size:16px;border-radius:var(--r2);padding:16px 20px;opacity:.96;z-index:45;display:none;max-width:calc(100vw - 40px)}
 #notes{position:fixed;left:0;right:0;bottom:0;max-height:38vh;overflow:auto;background:var(--ink);color:var(--light);font-size:20px;line-height:1.5;padding:20px 28px;border-top:4px solid var(--accent-light);display:none;z-index:7}
 #notes .h{font-size:16px;color:var(--muted);margin-bottom:8px}

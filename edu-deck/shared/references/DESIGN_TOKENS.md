@@ -54,6 +54,10 @@ JS는 CSS의 계산된 값을 읽습니다. 요소 지연은 `min(index,6) × m1
 
 기본 애니메이션 속성은 transform/opacity입니다. 승인 예외는 **제목의 6px 이하 blur, m2 이내**와 **국소 SVG stroke-dashoffset, m3 이내**, 그리고 공통 기법 3건 — **`slice-reveal`의 `clip-path` inset(m4 이내)·`rack-focus`의 `filter: blur()`(m3 이내·채점 순간 한정)·`weight-wave`의 `font-variation-settings` wght(m3×1.8+글자당 60ms·제목/핵심 어구 한정)** 입니다. 숫자는 원본 문장을 바꾸지 않는 장식용 숫자 릴을 transform으로 움직입니다. 무한 루프·SMIL·캔버스 rAF 채점은 사용하지 않습니다. 60fps는 설계 목표이며 실제 측정 없이 보장하지 않습니다.
 
+## 상·하단 크롬 막대
+
+`.ed-top`(44px)·`.ed-bot`(48px)은 무대 위 고정 오버레이이며 15역할 토큰만으로 합성합니다 — 배경 `color-mix(in srgb,var(--ink) 88%,transparent)`·글자 `var(--paper)`·보조 글 `paper 75%`·선 `paper 18%`·호버 `paper 16%`·진행 채움 `accent-light`·지난 장 `paper 55%`. 자동 숨김은 `m2`/`e-out` 페이드이고 `prefers-reduced-motion`이면 즉시입니다. 이 비율들은 `check_deck.py --contrast-matrix`의 `chrome-*` 행(글자 4.5:1·채움 3:1)으로 테마·팩·프리셋 전수를 검사하므로 임의 변경 금지입니다.
+
 ## 소유권과 재생성
 
-`dev/port.py`가 두 셸을 생성합니다. 입력은 패키지 내부 `dev/*shell_template.html`, `assets/css/core.css`, `assets/css/{tokens,visual-motion,responsive}.css`, `assets/js/{motion,study,responsive}.js`, `assets/fonts/`뿐입니다. `assets/shell.html`과 `assets/pack-shell.html`을 직접 수정하지 않습니다. 포털은 `scripts/visual_assets.py`를 통해 같은 자원을 한 번 넣습니다. 예전 Downloads 원본은 이 경로에서 필요 없습니다.
+`dev/port.py`가 두 셸을 생성합니다. 입력은 패키지 내부 `dev/*shell_template.html`, `assets/css/{core,tokens,themes,visual-motion,responsive,viewer,theme-switch}.css`, `assets/js/{responsive,motion,patterns,viewer,talk,sheet,themes,study}.js`, `assets/fonts/`뿐입니다. `assets/shell.html`과 `assets/pack-shell.html`을 직접 수정하지 않습니다. 포털은 `scripts/visual_assets.py`를 통해 같은 자원을 한 번 넣습니다. 예전 Downloads 원본은 이 경로에서 필요 없습니다.

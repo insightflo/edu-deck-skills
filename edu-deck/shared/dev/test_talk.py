@@ -1,4 +1,4 @@
-"""Acceptance: talk mode — T/R timer, notes header plan, V presenter view + 2-way sync,
+"""Acceptance: talk mode — X/R timer, notes header plan, V presenter view + 2-way sync,
 static talk warnings, build --notes rehearsal sheet, non-talk decks stay clean.
 
 Builds a 4-slide talk deck (data-sec 45+60+45+30=180, talk.total=200) and the same deck
@@ -70,11 +70,11 @@ class Talk(unittest.TestCase):
         p = self.page()
         self.assertTrue(p.evaluate("document.documentElement.classList.contains('ed-talk')"))
         self.assertEqual(self.clock(p).replace(' ', ''), '0:00/0:45')  # 첫 장 누적 45초
-        p.keyboard.press('t')
+        p.keyboard.press('x')
         self.assertTrue(p.evaluate("document.getElementById('ed-clock').classList.contains('is-run')"))
         p.wait_for_timeout(1300)
         self.assertNotEqual(self.clock(p).split('/')[0].strip(), '0:00')
-        p.keyboard.press('t')
+        p.keyboard.press('x')
         self.assertFalse(p.evaluate("document.getElementById('ed-clock').classList.contains('is-run')"))
         p.keyboard.press('r')
         self.assertEqual(self.clock(p).split('/')[0].strip(), '0:00')
@@ -130,11 +130,12 @@ class Talk(unittest.TestCase):
     def test_non_talk_deck_has_no_talk_ui(self):
         p = self.page(url=self.html_plain.as_uri())
         self.assertFalse(p.evaluate("document.documentElement.classList.contains('ed-talk')"))
-        self.assertEqual(p.evaluate("getComputedStyle(document.getElementById('ed-clock')).display"), 'none')
-        self.assertNotIn('T 타이머', p.evaluate("document.getElementById('help').textContent"))
-        p.keyboard.press('t')
+        # 기능 없는 덱은 타이머 버튼이 DOM 에 아예 없다(도구 띠 노출 계약)
+        self.assertIsNone(p.evaluate("document.getElementById('ed-clock')"))
+        self.assertNotIn('X 타이머', p.evaluate("document.getElementById('help').textContent"))
+        p.keyboard.press('x')
         p.wait_for_timeout(300)
-        self.assertFalse(p.evaluate("document.getElementById('ed-clock').classList.contains('is-run')"))
+        self.assertIsNone(p.evaluate("document.getElementById('ed-clock')"))
         h = p.evaluate("document.querySelector('#notes .h').textContent")
         self.assertNotIn('이 장', h)
 

@@ -19,7 +19,7 @@ from playwright.sync_api import sync_playwright
 CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 HIDE = """
 (() => { const s=document.createElement('style');
- s.textContent='#progress,#dots,#counter,#help,.ed-toast{display:none!important}';
+ s.textContent='#progress,#dots,#counter,#help,.ed-toast,.ed-top,.ed-bot,.ed-topbar,.ed-reader-nav,.ed-chrome-pop,.ed-help-modal{display:none!important}';
  document.head.appendChild(s); })();
 """
 

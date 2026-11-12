@@ -815,6 +815,11 @@ MATRIX_ROWS = (
     ("success-on-light", "success", "light", 4.5, "상태 글(light 면)"),
     ("danger-on-light", "danger", "light", 4.5, "상태 글(light 면)"),
     ("line-boundary", "line", "paper", 3.0, "의미 있는 경계"),
+    # 상·하단 크롬(.ed-top/.ed-bot): 배경은 ink 88% + paper 합성(chrome-bg, build_matrix 에서 계산)
+    ("chrome-text", "paper", "chrome-bg", 4.5, "막대 글자"),
+    ("chrome-dim", "chrome-dim", "chrome-bg", 4.5, "막대 보조 글"),
+    ("chrome-fill", "accent-light", "chrome-bg", 3.0, "진행 채움·켜진 점"),
+    ("chrome-past", "chrome-past", "chrome-bg", 3.0, "지난 장 채움"),
 )
 _HEX_RE = re.compile(r"^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$")
 _VAR_RE = re.compile(r"^var\(\s*(--[\w-]+)\s*\)$")
@@ -922,6 +927,15 @@ def build_matrix(base, packs, themes=None):
             env.update(themes[pack[6:]])
         elif pack != "base":
             env.update(packs.get(pack, {}))
+        # 크롬 막대 합성 토큰: 배경 = ink 88% over paper, 보조 글 = paper 75%, 지난 장 = paper 55%.
+        # viewer.css 의 .ed-top/.ed-bot·.ed-crumb·.ed-seg.is-past 와 같은 비율.
+        ink_rgb = parse_color_value(env.get("ink", ""), env)
+        paper_rgb = parse_color_value(env.get("paper", ""), env)
+        if ink_rgb and paper_rgb:
+            cbg = blend(ink_rgb, paper_rgb, 0.88)
+            env["chrome-bg"] = rgb_to_hex(cbg)
+            env["chrome-dim"] = rgb_to_hex(blend(paper_rgb, cbg, 0.75))
+            env["chrome-past"] = rgb_to_hex(blend(paper_rgb, cbg, 0.55))
         for key, fg, bg, need, label in MATRIX_ROWS:
             fr = parse_color_value(env.get(fg, ""), env)
             br = parse_color_value(env.get(bg, ""), env)
@@ -1198,7 +1212,8 @@ DECKINFO_POLYFILL = r"""
 
 QUIET_CSS = ("*,*::before,*::after{animation-duration:0s!important;animation-delay:0s!important;"
              "transition-duration:0s!important;transition-delay:0s!important}"
-             "#help,#counter,#dots,#progress{display:none!important}")
+             "#help,#counter,#dots,#progress,.ed-top,.ed-bot,.ed-topbar,.ed-reader-nav,"
+             ".ed-chrome-pop,.ed-help-modal,.ed-toast{display:none!important}")
 
 # 제목 줄 수 측정: data-fit 축소 후에도 목표 줄 수를 넘는지, 발표 덱 제목이 1줄을 넘는지.
 TITLE_JS = r"""

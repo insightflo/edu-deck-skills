@@ -41,7 +41,7 @@ button:focus-visible,input:focus-visible,[tabindex]:focus-visible{outline:2px so
 .st-crayon{position:absolute;pointer-events:none;z-index:6;mix-blend-mode:multiply}
 /* Self-study panel: height/scale variables are measured by the shared engine. */
 body.st-self #stage{top:var(--st-top,50%)!important;transform:translate(-50%,-50%) scale(var(--st-sc,1))!important}
-body.st-self #progress,body.st-self #dots,body.st-self #counter,body.st-self #help{display:none}
+body.st-self #progress,body.st-self #dots,body.st-self #counter,body.st-self #help,body.st-self .ed-bot{display:none}
 .st-panel{--st-k:1;--st-w:1400px;display:none;position:fixed;inset:auto 0 0;z-index:11;background:var(--ink);color:var(--paper);border-top:2px solid var(--blue-soft);padding:calc(16px * var(--st-k)) calc(24px * var(--st-k))}
 body.st-self .st-panel{display:block}.st-pin{width:var(--st-w);max-width:100%;margin:auto}
 .st-ph{display:flex;align-items:center;flex-wrap:wrap;gap:calc(8px * var(--st-k));font-size:calc(18px * var(--st-k));padding-bottom:calc(8px * var(--st-k))}
@@ -76,7 +76,7 @@ body.st-fold .st-pb{display:none}
  @page{size:1920px 1080px;margin:0}
  html,body{height:auto;overflow:visible;background:var(--paper)}#stage{position:static;transform:none!important;height:auto}
  .slide{position:relative;display:flex!important;break-after:page}.step-hide{visibility:visible!important}
- #progress,#dots,#counter,#help,#notes,.st-panel,.st-modal,.st-toast,.chk-back,.st-crayon{display:none!important}
+ #progress,#dots,#counter,#help,#notes,.st-panel,.st-modal,.st-toast,.chk-back,.st-crayon,.ed-top,.ed-bot,.ed-chrome-pop,.ed-help-modal{display:none!important}
  *{print-color-adjust:exact;-webkit-print-color-adjust:exact}
  body.st-printing>*:not(#st-print){display:none!important}body.st-printing #st-print{position:static;display:block;background:none}
  body.st-printing .st-prbar{display:none}body.st-printing .st-prscroll{overflow:visible;padding:0}body.st-printing .st-paper{width:auto;min-height:0;margin:0;padding:0}

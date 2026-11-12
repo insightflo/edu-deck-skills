@@ -67,12 +67,17 @@ body.ed-edit .slide [data-ed]:focus{outline:2px solid var(--accent);outline-offs
    fig-slot 보다 작은 카드 단위 층 — 도식 문법(svg.dg)이 아니라 HTML 인라인. 독자 등장 모션은 없고
    장 계열 시그니처·data-step 을 따른다. is-on/is-off 도 애니메이션이 아니라 정적 강조다 */
 .vflow{display:flex;flex-direction:row;align-items:center;flex-wrap:wrap;gap:10px}
-/* 저자 검수 뷰어 모드(?sheet·?shot — assets/js/sheet.js): shell_template 과 같은 규칙. */
+/* 저자 검수 뷰어 모드(?check·?sheet·?shot — assets/js/sheet.js): shell_template 과 같은 규칙. */
 @media screen{
+html.is-check :is(#progress,#dots,#counter,#help,.ed-top,.ed-bot,.ed-topbar,.ed-reader-nav,.ed-chrome-pop,.ed-help-modal,.ed-toast){display:none!important}
 html.is-sheet body,html.is-shot body{overflow:auto;height:auto;background:var(--paper)}
 html.is-sheet #progress,html.is-sheet #dots,html.is-sheet #counter,html.is-sheet #help,
 html.is-shot #progress,html.is-shot #dots,html.is-shot #counter,html.is-shot #help,
-html.is-sheet .ed-reader-nav,html.is-shot .ed-reader-nav{display:none}
+html.is-sheet .ed-reader-nav,html.is-shot .ed-reader-nav,
+html.is-sheet .ed-top,html.is-sheet .ed-bot,html.is-sheet .ed-chrome-pop,html.is-sheet .ed-help-modal,
+html.is-shot .ed-top,html.is-shot .ed-bot,html.is-shot .ed-chrome-pop,html.is-shot .ed-help-modal,
+html.is-sheet .ed-bot :is(#progress,#dots,#counter),
+html.is-shot .ed-bot :is(#progress,#dots,#counter){display:none}
 body.st-sheet .step-hide{visibility:visible !important}
 html.is-sheet #stage{position:static !important;transform:none !important;left:auto;top:auto;
   width:max-content;display:grid;grid-template-columns:repeat(var(--sheet-cols,3),640px);gap:16px;padding:16px;

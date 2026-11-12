@@ -1,10 +1,15 @@
-/* 저자 검수 뷰어 모드 — ?sheet(전 장 축소판·접촉판)과 ?shot=N(한 장 캡처).
+/* 저자 검수 뷰어 모드 — ?check(검사기 표면)·?sheet(전 장 축소판·접촉판)·?shot=N(한 장 캡처).
    덱 결과물 하나를 URL 만으로 검수·캡처에 쓴다. 수업·발표 동작은 바꾸지 않는다:
    파라미터가 없으면 아무 일도 하지 않는다. 단계·애니메이션의 주인은 기존 엔진이고
    여기서는 클래스만 단다(st-sheet 는 motion.js 정적 판정에 합류해 전 장 완성 상태). */
 (function(){
   'use strict';
   var P=new URLSearchParams(location.search);
+  /* ?check = 검사기 표면 미리보기 — 막대·부동 UI를 숨겨 check_deck 이 보는 상태로 둔다 */
+  if(P.has('check')){
+    document.documentElement.classList.add('is-check');
+    return;
+  }
   if(P.has('sheet')){
     document.documentElement.classList.add('is-sheet');
     document.body.classList.add('st-sheet'); /* 전 장 정적 완결(motion.js staticMode) */

@@ -28,8 +28,8 @@ var clockEl=null;
 function paintClock(){
  var i=(function(){try{return deckInfo().slide||0;}catch(e){return 0;}})();
  var plan=planEnd[i]||0,t=TALK();
- if(clockEl){clockEl.innerHTML='';clockEl.appendChild(doc.createTextNode(fmt(elapsed)+' '));
-  var pl=el('span','plan','/ '+fmt(plan));clockEl.appendChild(pl);
+ if(clockEl){var tt=clockEl.querySelector('.t')||clockEl;tt.innerHTML='';tt.appendChild(doc.createTextNode(fmt(elapsed)+' '));
+  var pl=el('span','ed-clock-plan','/ '+fmt(plan));tt.appendChild(pl);
   clockEl.classList.toggle('is-run',running);clockEl.classList.toggle('is-late',running&&plan>0&&elapsed>plan);}
  if(presClock){presClock.querySelector('.t').textContent=fmt(elapsed);
   var r=t?(t.total||0)-elapsed:0;
@@ -122,6 +122,7 @@ function init(){
  root.classList.add('ed-talk');
  buildPlan();
  clockEl=doc.getElementById('ed-clock');
+ if(clockEl)clockEl.addEventListener('click',function(e){e.stopPropagation();if(e.shiftKey)timerReset();else timerToggle();});
  if(PRESENTER){body.classList.add('st-presenter');presFit();buildPresDom();post({type:'req'});}
  paintClock();paintNotesHead();
  doc.addEventListener('deckslide',function(){paintClock();paintNotesHead();if(PRESENTER)paintPres();else if(!applying)post();});

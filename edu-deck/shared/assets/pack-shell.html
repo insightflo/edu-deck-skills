@@ -658,8 +658,9 @@ html.ed-slidefit .ed-reader-status{grid-column:1/-1;font-size:16px;line-height:1
 }
 @media print{.ed-reader-nav,.ed-zoom,.ed-zoom-hint{display:none!important}}
 
-/* viewer.css — A1 검색, A2 목차, A3 엔진 실패 연속 보기, D 발표 타이머·발표자 보기.
-   시리즈 포털에는 html.ed-deck 가 없으므로 아래 규칙은 자동 비활성이다. */
+/* viewer.css — A1 검색, A2 목차, A3 엔진 실패 연속 보기, D 발표 타이머·발표자 보기,
+   상·하단 크롬(.ed-top 헤더·.ed-bot 푸터). 시리즈 포털에는 html.ed-deck 가 없으므로
+   아래 규칙은 자동 비활성이다. */
 
 /* ---------- A3: 엔진 미준비/실패 시 모든 장을 폭에 맞춰 이어 붙여 보여 준다 ---------- */
 html.ed-deck:not(.ed-ready) body,html.ed-deck.ed-fail body{overflow:auto;height:auto}
@@ -676,21 +677,89 @@ html.ed-deck:not(.ed-ready) #stage>.slide *,html.ed-deck.ed-fail #stage>.slide *
  @media (min-width:1440px){html.ed-deck:not(.ed-ready) #stage,html.ed-deck.ed-fail #stage{--ed-s:.75}}
  @media (min-width:1900px){html.ed-deck:not(.ed-ready) #stage,html.ed-deck.ed-fail #stage{--ed-s:.98}}
 }
-html.ed-deck:not(.ed-ready) :is(#progress,#dots,#counter,#help,#notes,.ed-reader-nav,.ed-topbar,.st-panel,.st-modal,.st-print,.st-toast,.chk-back,.ed-sch,.ed-toc),
-html.ed-deck.ed-fail :is(#progress,#dots,#counter,#help,#notes,.ed-reader-nav,.ed-topbar,.st-panel,.st-modal,.st-print,.st-toast,.chk-back,.ed-sch,.ed-toc){display:none!important}
+html.ed-deck:not(.ed-ready) :is(#progress,#dots,#counter,#help,#notes,.ed-reader-nav,.ed-topbar,.ed-top,.ed-bot,.ed-chrome-pop,.ed-help-modal,.st-panel,.st-modal,.st-print,.st-toast,.chk-back,.ed-sch,.ed-toc),
+html.ed-deck.ed-fail :is(#progress,#dots,#counter,#help,#notes,.ed-reader-nav,.ed-topbar,.ed-top,.ed-bot,.ed-chrome-pop,.ed-help-modal,.st-panel,.st-modal,.st-print,.st-toast,.chk-back,.ed-sch,.ed-toc){display:none!important}
 .ed-nojs{display:none;box-sizing:border-box;width:100%;background:var(--ink);color:var(--paper);font:600 15px/1.5 sans-serif;text-align:center;padding:10px 16px}
 html.ed-deck.ed-fail .ed-nojs{display:block}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
 
-/* ---------- 상단 바(목차·검색·시계) ---------- */
-.ed-topbar{position:fixed;top:12px;right:14px;z-index:8;display:flex;align-items:center;gap:8px;font-family:inherit}
-.ed-tbtn{font:inherit;font-size:15px;font-weight:700;color:var(--paper);background:color-mix(in srgb,var(--ink) 72%,transparent);border:1px solid color-mix(in srgb,var(--paper) 22%,transparent);border-radius:var(--r3);padding:8px 14px;min-height:36px;cursor:pointer;opacity:.6;transition:opacity var(--m2) var(--e-out)}
-.ed-tbtn:hover,.ed-tbtn:focus-visible,.ed-topbar:focus-within .ed-tbtn{opacity:1}
-.ed-clock{display:none;font:700 16px/1 sans-serif;color:var(--paper);background:color-mix(in srgb,var(--ink) 78%,transparent);border:1px solid color-mix(in srgb,var(--paper) 22%,transparent);border-radius:var(--r3);padding:10px 14px;opacity:.85;font-variant-numeric:tabular-nums}
-html.ed-talk .ed-clock{display:block}
-.ed-clock.is-run{border-color:var(--accent)}
-.ed-clock.is-late{color:var(--danger);border-color:var(--danger)}
-.ed-clock .plan{opacity:.6;font-weight:400}
-body.in-hub .ed-topbar{display:none}
+/* ---------- 상·하단 크롬: 무대 위 오버레이, 유휴 시 자동 숨김(body.ed-chrome-on) ---------- */
+.ed-top,.ed-bot{position:fixed;left:0;right:0;display:flex;align-items:center;box-sizing:border-box;
+ background:color-mix(in srgb,var(--ink) 88%,transparent);color:var(--paper);font-family:inherit;
+ transition:opacity var(--m2) var(--e-out)}
+.ed-top{top:0;height:44px;gap:16px;padding:0 16px;border-bottom:1px solid color-mix(in srgb,var(--paper) 18%,transparent);z-index:30}
+.ed-bot{bottom:0;height:48px;gap:20px;padding:0 12px 0 20px;border-top:1px solid color-mix(in srgb,var(--paper) 18%,transparent);z-index:8}
+body:not(.ed-chrome-on) .ed-top,body:not(.ed-chrome-on) .ed-bot{opacity:0;visibility:hidden;pointer-events:none;transition:opacity var(--m2) var(--e-out),visibility 0s var(--m2)}
+.ed-brand{display:flex;align-items:baseline;gap:12px;min-width:0;flex:1;white-space:nowrap;overflow:hidden}
+.ed-brand b{font-size:15px;font-weight:800;color:var(--paper)}
+.ed-crumb{font-size:14px;color:color-mix(in srgb,var(--paper) 75%,transparent);overflow:hidden;text-overflow:ellipsis}
+/* 도구 띠: 넘치면 JS 가 뒤 버튼부터 .ed-chrome-pop 으로 옮긴다 */
+.ed-topbar{display:flex;align-items:center;gap:4px;flex:0 1 auto;min-width:0;overflow:hidden;justify-content:flex-end;font-family:inherit}
+.ed-sep{width:1px;align-self:stretch;margin:10px 6px;background:color-mix(in srgb,var(--paper) 18%,transparent);flex:none}
+.ed-tool,.ed-more{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border:0;border-radius:6px;background:none;color:var(--paper);font:inherit;font-size:15px;font-weight:600;cursor:pointer;white-space:nowrap;opacity:1}
+.ed-tool:hover,.ed-tool:focus-visible,.ed-more:hover,.ed-more:focus-visible{background:color-mix(in srgb,var(--paper) 16%,transparent)}
+.ed-tool:focus-visible,.ed-more:focus-visible,.ed-btn:focus-visible,.ed-page:focus-visible{outline:2px solid var(--paper);outline-offset:1px}
+.ed-tool[aria-pressed="true"]{background:color-mix(in srgb,var(--paper) 16%,transparent);color:var(--accent-light)}
+.ed-ic{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ed-kbd{padding:1px 6px;border:1px solid color-mix(in srgb,var(--paper) 30%,transparent);border-radius:4px;font-family:inherit;font-size:12px;color:color-mix(in srgb,var(--paper) 75%,transparent)}
+.ed-more{flex:none}
+/* 발표 타이머 버튼(#ed-clock): talk 덱에서만 보이고, 내용은 talk.js 가 칠한다.
+   계획 누적은 .ed-clock-plan — 팩 덱의 카드 컴포넌트 .plan 과 이름이 겹치지 않게 따로 둔다 */
+.ed-clock{display:none;font-variant-numeric:tabular-nums}
+html.ed-talk .ed-clock{display:inline-flex}
+.ed-clock.is-run{color:var(--accent-light)}
+.ed-clock.is-late{color:var(--danger)}
+.ed-clock .ed-clock-plan{opacity:.6;font-weight:400}
+/* 더보기 팝오버 */
+.ed-chrome-pop{position:fixed;top:48px;right:12px;z-index:31;display:none;flex-direction:column;gap:2px;padding:8px;min-width:180px;box-sizing:border-box;
+ background:color-mix(in srgb,var(--ink) 94%,transparent);border:1px solid color-mix(in srgb,var(--paper) 22%,transparent);border-radius:var(--r2);box-shadow:var(--shadow-2)}
+.ed-chrome-pop.on{display:flex}
+.ed-chrome-pop .ed-tool{justify-content:flex-start;width:100%;font-size:15px;padding:10px 12px}
+.ed-chrome-pop .ed-tl{display:inline}
+.ed-chrome-pop .ed-sep{display:none}
+/* 하단 막대: 진행 세그먼트·단계 점·쪽 입력·이전/다음 */
+.ed-prog-track{flex:1;display:flex;align-items:center;min-width:0;height:6px;border-radius:3px;background:color-mix(in srgb,var(--paper) 18%,transparent);overflow:hidden}
+.ed-bot #progress{position:static;flex:1;height:6px;transform-origin:0 50%;background:var(--accent-light)}
+.ed-bot #progress.is-segs{transform:none!important;background:none;display:flex;gap:6px}
+.ed-seg{position:relative;flex:1;height:6px;padding:0;border:0;border-radius:3px;background:color-mix(in srgb,var(--paper) 18%,transparent);overflow:hidden;cursor:pointer}
+.ed-seg i{position:absolute;left:0;top:0;bottom:0;width:0;display:block;background:var(--accent-light);transition:width .3s var(--e-out)}
+.ed-seg.is-past i{background:color-mix(in srgb,var(--paper) 55%,transparent)}
+.ed-seg:focus-visible{outline:2px solid var(--paper);outline-offset:1px}
+.ed-bot #dots{position:static;display:flex;gap:6px;flex:none;align-items:center}
+.ed-bot #dots i{width:10px;height:10px;border-radius:50%;border:0;background:color-mix(in srgb,var(--paper) 26%,transparent);opacity:1;cursor:pointer}
+.ed-bot #dots i.on{background:var(--accent-light)}
+.ed-bot #dots i:focus-visible{outline:2px solid var(--paper);outline-offset:2px}
+.ed-pagebox{display:flex;align-items:center;gap:8px;flex:none;font-size:13px;color:color-mix(in srgb,var(--paper) 75%,transparent)}
+.ed-bot #counter{position:static;font:inherit;font-size:13px;color:inherit;opacity:1}
+.ed-page{width:56px;height:32px;box-sizing:border-box;border:1px solid color-mix(in srgb,var(--paper) 28%,transparent);border-radius:6px;background:color-mix(in srgb,var(--ink) 40%,transparent);color:var(--paper);font:inherit;font-size:14px;font-weight:700;text-align:center}
+.ed-nav{display:flex;gap:8px;flex:none}
+.ed-btn{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 14px;border:1px solid color-mix(in srgb,var(--paper) 28%,transparent);border-radius:8px;background:none;color:var(--paper);font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.ed-btn:disabled{opacity:.35;cursor:default}
+.ed-btn:not(:disabled):hover{background:color-mix(in srgb,var(--paper) 16%,transparent)}
+.ed-btn .ed-ic{width:16px;height:16px}
+/* 발표자 노트 패널은 하단 막대 위에 붙는다(compact 는 .ed-bot 없음 → 기존 위치) */
+html:not(.ed-compact) #notes{bottom:48px}
+body.in-hub .ed-top,body.in-hub .ed-bot{display:none}
+body.st-self .ed-bot{display:none}
+@media (prefers-reduced-motion:reduce){
+ .ed-top,.ed-bot,.ed-seg i{transition:none!important}
+}
+/* 뷰포트 폭 <1280: 라벨·크럼브는 시각 숨김(sr-only — 스크린리더엔 유지), 아이콘만 */
+@media (max-width:1279px){
+ .ed-tool,.ed-more{font-size:13px}
+ .ed-tool .ed-tl,.ed-tool .ed-kbd,.ed-crumb,.ed-btn .ed-tl{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+ .ed-chrome-pop .ed-tl{position:static;width:auto;height:auto;overflow:visible;clip:auto;clip-path:none;white-space:normal}
+}
+/* coarse 포인터: 탭 대상 44px(세그먼트·점은 시각 표식이라 대상만 키운다) */
+@media (pointer:coarse){
+ .ed-tool,.ed-more,.ed-btn{min-height:44px;min-width:44px;justify-content:center}
+}
+html.ed-compact .ed-topbar{display:none}
+html.ed-compact .ed-bot{display:none}
+/* slide-fit(좁은 가로)도 하단 크롬은 한 벌 — .ed-reader-nav(≈143px)를 남기고 .ed-bot 은 숨긴다 */
+html.ed-slidefit .ed-bot{display:none}
+html.ed-slidefit #notes{bottom:150px}
+html.ed-compact .ed-brand b{font-size:16px}
 
 /* ---------- 검색(Ctrl+K / /) ---------- */
 .ed-sch{position:fixed;inset:0;z-index:40;display:none;align-items:flex-start;justify-content:center;background:color-mix(in srgb,var(--ink) 55%,transparent);padding:8vh 16px 16px}
@@ -712,7 +781,7 @@ body.in-hub .ed-topbar{display:none}
 .ed-toc.on{display:flex}
 .ed-toc-box{width:min(640px,100%);max-height:80vh;background:var(--ink);border:2px solid color-mix(in srgb,var(--paper) 26%,transparent);border-radius:var(--r3);box-shadow:var(--shadow-2);overflow:hidden;display:flex;flex-direction:column}
 .ed-toc-h{flex:none;display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid color-mix(in srgb,var(--paper) 16%,transparent);font-size:18px;font-weight:800;color:var(--paper)}
-.ed-toc-x{font:inherit;font-size:15px;color:var(--soft);background:none;border:1px solid color-mix(in srgb,var(--paper) 24%,transparent);border-radius:var(--r2);padding:8px 14px;min-width:44px;min-height:44px;cursor:pointer}
+.ed-toc-x{font:inherit;font-size:15px;color:var(--paper);background:none;border:1px solid color-mix(in srgb,var(--paper) 24%,transparent);border-radius:var(--r2);padding:8px 14px;min-width:44px;min-height:44px;cursor:pointer}
 .ed-toc-list{overflow:auto;padding:8px 0}
 .ed-toc-g{padding:10px 18px 4px;font-size:13px;font-weight:800;letter-spacing:1.5px;color:var(--accent-light)}
 .ed-toc-item{display:flex;align-items:baseline;gap:12px;width:100%;text-align:left;font:inherit;color:var(--paper);background:none;border:none;padding:12px 18px;min-height:48px;cursor:pointer;font-size:17px}
@@ -721,6 +790,18 @@ body.in-hub .ed-topbar{display:none}
 .ed-toc-item.is-cur{color:var(--accent-light);font-weight:800}
 .ed-toc-item.is-cur .n{color:var(--accent-light)}
 
+/* ---------- 도움말 모달(H): #help 문구의 2열 단축키 시트 ---------- */
+.ed-help-modal{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;background:color-mix(in srgb,var(--ink) 55%,transparent)}
+.ed-help-modal.on{display:flex}
+.ed-hm-box{width:min(560px,calc(100vw - 32px));max-height:80vh;overflow:auto;background:var(--ink);border:2px solid color-mix(in srgb,var(--paper) 26%,transparent);border-radius:var(--r3);box-shadow:var(--shadow-2);padding:20px 24px;color:var(--paper);box-sizing:border-box}
+.ed-hm-h{display:flex;align-items:center;justify-content:space-between;padding-bottom:12px;border-bottom:1px solid color-mix(in srgb,var(--paper) 16%,transparent);margin-bottom:12px}
+.ed-hm-t{font-size:18px;font-weight:800}
+.ed-hm-x{font:inherit;font-size:15px;color:var(--paper);background:none;border:1px solid color-mix(in srgb,var(--paper) 24%,transparent);border-radius:var(--r2);padding:8px 14px;min-height:44px;cursor:pointer}
+.ed-hm-list{display:grid;grid-template-columns:1fr 1fr;gap:8px 24px}
+.ed-hm-row{display:flex;align-items:baseline;gap:8px;font-size:14px;color:var(--paper)}
+.ed-hm-d{color:color-mix(in srgb,var(--paper) 78%,transparent)}
+@media (max-width:640px){.ed-hm-list{grid-template-columns:1fr}}
+
 /* ---------- 토스트(팝업 차단 안내 등) ---------- */
 .ed-toast{position:fixed;left:50%;bottom:88px;transform:translateX(-50%);z-index:60;background:var(--ink);color:var(--paper);font:600 17px/1.5 sans-serif;padding:14px 24px;border-radius:var(--r3);border:2px solid var(--accent);box-shadow:var(--shadow-2);opacity:0;pointer-events:none;transition:opacity var(--m2) var(--e-out)}
 .ed-toast.on{opacity:1}
@@ -728,7 +809,7 @@ body.in-hub .ed-topbar{display:none}
 /* ---------- 발표자 보기(?presenter) ---------- */
 body.st-presenter{overflow:hidden}
 body.st-presenter #stage{position:absolute;left:31%;top:37%;transform:translate(-50%,-50%) scale(var(--pres-s,.3))!important}
-body.st-presenter :is(#progress,#dots,#counter,#help,#notes,.ed-reader-nav,.ed-topbar,.ed-sch,.ed-toc,.st-panel,.st-modal,.st-print,.st-toast,.chk-back){display:none!important}
+body.st-presenter :is(#progress,#dots,#counter,#help,#notes,.ed-reader-nav,.ed-topbar,.ed-top,.ed-bot,.ed-chrome-pop,.ed-help-modal,.ed-sch,.ed-toc,.st-panel,.st-modal,.st-print,.st-toast,.chk-back){display:none!important}
 .ed-pres{position:fixed;left:64%;top:0;bottom:0;right:0;z-index:9;display:none;flex-direction:column;gap:14px;padding:20px 22px;background:var(--ink);color:var(--paper);font-family:inherit;box-sizing:border-box}
 body.st-presenter .ed-pres{display:flex}
 .ed-pres-clock{display:flex;align-items:baseline;gap:12px;font-variant-numeric:tabular-nums}
@@ -750,12 +831,13 @@ body.st-presenter #stage,body.st-presenter #stage *,body.st-presenter .ed-pres-n
 
 /* 읽기 모드에서도 대화상자의 작은 글자는 16px 아래로 내리지 않는다 */
 html.ed-compact .ed-tbtn,html.ed-compact .ed-sch-item .s,html.ed-compact .ed-sch-in .kbd,
-html.ed-compact .ed-toc-g,html.ed-compact .ed-toc-item .n,html.ed-compact .ed-toc-x{font-size:16px}
+html.ed-compact .ed-toc-g,html.ed-compact .ed-toc-item .n,html.ed-compact .ed-toc-x,
+html.ed-compact .ed-chrome-pop .ed-tool,html.ed-compact .ed-hm-x{font-size:16px}
 html.ed-compact .ed-toc-item{font-size:18px}
 html.ed-compact .ed-sch-in input{font-size:18px}
 html.ed-compact .ed-sch-item{min-height:56px}
 
-@media print{.ed-topbar,.ed-sch,.ed-toc,.ed-toast,.ed-pres{display:none!important}}
+@media print{.ed-topbar,.ed-top,.ed-bot,.ed-chrome-pop,.ed-help-modal,.ed-sch,.ed-toc,.ed-toast,.ed-pres{display:none!important}}
 
 /* theme-switch.css — 저작 도구 테마 미리보기 패널(themes.js 가 만드는 #edThemes).
    기본은 숨김 — ?themes=1·H 키로만 연다(일반 시청자에게 보이지 않는다).
@@ -854,12 +936,17 @@ body.ed-edit .slide [data-ed]:focus{outline:2px solid var(--accent);outline-offs
    fig-slot 보다 작은 카드 단위 층 — 도식 문법(svg.dg)이 아니라 HTML 인라인. 독자 등장 모션은 없고
    장 계열 시그니처·data-step 을 따른다. is-on/is-off 도 애니메이션이 아니라 정적 강조다 */
 .vflow{display:flex;flex-direction:row;align-items:center;flex-wrap:wrap;gap:10px}
-/* 저자 검수 뷰어 모드(?sheet·?shot — assets/js/sheet.js): shell_template 과 같은 규칙. */
+/* 저자 검수 뷰어 모드(?check·?sheet·?shot — assets/js/sheet.js): shell_template 과 같은 규칙. */
 @media screen{
+html.is-check :is(#progress,#dots,#counter,#help,.ed-top,.ed-bot,.ed-topbar,.ed-reader-nav,.ed-chrome-pop,.ed-help-modal,.ed-toast){display:none!important}
 html.is-sheet body,html.is-shot body{overflow:auto;height:auto;background:var(--paper)}
 html.is-sheet #progress,html.is-sheet #dots,html.is-sheet #counter,html.is-sheet #help,
 html.is-shot #progress,html.is-shot #dots,html.is-shot #counter,html.is-shot #help,
-html.is-sheet .ed-reader-nav,html.is-shot .ed-reader-nav{display:none}
+html.is-sheet .ed-reader-nav,html.is-shot .ed-reader-nav,
+html.is-sheet .ed-top,html.is-sheet .ed-bot,html.is-sheet .ed-chrome-pop,html.is-sheet .ed-help-modal,
+html.is-shot .ed-top,html.is-shot .ed-bot,html.is-shot .ed-chrome-pop,html.is-shot .ed-help-modal,
+html.is-sheet .ed-bot :is(#progress,#dots,#counter),
+html.is-shot .ed-bot :is(#progress,#dots,#counter){display:none}
 body.st-sheet .step-hide{visibility:visible !important}
 html.is-sheet #stage{position:static !important;transform:none !important;left:auto;top:auto;
   width:max-content;display:grid;grid-template-columns:repeat(var(--sheet-cols,3),640px);gap:16px;padding:16px;
@@ -1035,7 +1122,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
   /* 화면 위·아래를 가리는 고정 크롬의 실측 경계. 위쪽 막대가 비어 있거나 둘 다
      숨겨졌으면 그쪽 화면 가장자리를 쓴다(장 맞춤·배율의 세로 여유 기준). */
   function chrome(){
-    var tb=document.querySelector('.ed-topbar'),nv=document.querySelector('.ed-reader-nav');
+    var tb=document.querySelector('.ed-top')||document.querySelector('.ed-topbar'),nv=document.querySelector('.ed-reader-nav');
     return {
       top:(tb&&tb.getClientRects().length)?tb.getBoundingClientRect().bottom:0,
       bot:(nv&&nv.getClientRects().length)?nv.getBoundingClientRect().top:window.innerHeight
@@ -2353,8 +2440,17 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
   window.eduPatterns={};
 })();
 
-/* viewer.js — 검색(Ctrl+K·/), 목차(O·상단 단추), data-fit 제목 맞춤, 엔진 준비 표시.
-   solo·pack·series 포털에 공통 탑재. series 에서는 편 안(.deck.on) 기준으로 동작한다. */
+/* viewer.js — 검색(Ctrl+K·/), 목차(O·상단 단추), 상·하단 크롬(.ed-top/.ed-bot),
+   data-fit 제목 맞춤, 엔진 준비 표시.
+   solo·pack·series 포털에 공통 탑재. series 에서는 편 안(.deck.on) 기준으로 동작한다.
+
+   크롬 계약:
+   - .ed-top(44px)·.ed-bot(48px)은 무대 위 오버레이 — 유휴 2.5s 후 자동 숨김,
+     가장자리 접근·키·터치·포커스로 복귀, 핀 버튼(localStorage ed-chrome-pin)으로 고정.
+   - 기존 id 계약 유지: .ed-topbar(도구 띠) · #ed-clock · #progress · #dots · #counter · #help.
+     #progress/#dots/#counter 는 .ed-bot 안으로 옮겨진다(엔진이 계속 갱신한다).
+   - #help 는 DOM 에만 남는 문구 소스(display:none). 시각 표시는 .ed-help-modal 단축키 시트.
+   - ?sheet/?shot/인쇄/발표자/허브/미준비 표면은 CSS 가 막대를 숨긴다(무대 치수 불변). */
 (function(){
 var doc=document, root=doc.documentElement, body=doc.body;
 var SERIES=function(){return !!window.seriesInfo;};
@@ -2366,14 +2462,54 @@ function slideEntries(){ /* [{ep,idx,el,eyebrow,title,text}] — series 면 모�
  else{slidesOf(doc.getElementById('stage')).forEach(function(s,i){out.push({ep:null,idx:i,el:s});});}
  return out;
 }
-function curInfo(){try{return window.deckInfo?deckInfo():{};}catch(e){return{};}}
+function curInfo(){try{return window.deckInfo?deckInfo():{};}catch(e){return{}};}
 function goTo(ent){if(!ent)return;if(ent.ep!=null&&SERIES())deckGo(ent.ep,ent.idx,0);else deckGo(ent.idx,0);}
 
-/* ---------- 상단 바 ---------- */
-var bar=null,searchBox=null,searchInput=null,searchList=null,tocBox=null,tocList=null,toastEl=null,toastT=null,helpEl=null,helpBtn=null;
+/* ---------- 상·하단 크롬 ---------- */
+var bar=null,topEl=null,botEl=null,crumbEl=null,brandTxt='',pageInput=null,pageEcho=null,
+    searchBox=null,searchInput=null,searchList=null,tocBox=null,tocList=null,toastEl=null,toastT=null,
+    helpEl=null,helpBtn=null,helpModal=null,helpLastFocus=null,
+    prevBtn=null,nextBtn=null,moreBtn=null,morePop=null,pinBtn=null,
+    segBox=null,chromePin=false,chromeT=null,chromeHover=false;
 function el(tag,cls,txt){var e=doc.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;}
 function toast(msg){if(!toastEl){toastEl=el('div','ed-toast');body.appendChild(toastEl);}toastEl.textContent=msg;toastEl.classList.add('on');clearTimeout(toastT);toastT=setTimeout(function(){toastEl.classList.remove('on');},2600);}
 window.edToast=toast;
+function press(k){doc.dispatchEvent(new KeyboardEvent('keydown',{key:k,bubbles:true,cancelable:true}));}
+
+/* 24 viewBox 윤곽 아이콘(윤곽선: fill none·stroke currentColor·width 2·round). 라벨은 .ed-tl span. */
+var IC={
+ toc:'<path d="M3 5h.01M3 12h.01M3 19h.01M8 5h13M8 12h13M8 19h13"/>',
+ search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+ notes:'<path d="M4 4h16v12H8l-4 4z"/><path d="M8 9h8M8 12h5"/>',
+ terms:'<path d="M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2z"/><path d="M22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z"/>',
+ study:'<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>',
+ clock:'<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5"/><path d="M9 2h6"/>',
+ theme:'<circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18v0"/><circle cx="8.5" cy="10" r="1.1"/><circle cx="12" cy="8" r="1.1"/><circle cx="15.5" cy="10" r="1.1"/>',
+ print:'<path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/>',
+ help:'<circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>',
+ full:'<path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"/>',
+ pin:'<path d="M12 17v5"/><path d="M8 3h8l-1 7 3 3v2H6v-2l3-3z"/>',
+ more:'<circle cx="5" cy="12" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="19" cy="12" r="1.7"/>',
+ prev:'<path d="M15 18l-6-6 6-6"/>',
+ next:'<path d="M9 18l6-6-6-6"/>'
+};
+function ic(name){
+ var s=doc.createElementNS('http://www.w3.org/2000/svg','svg');
+ s.setAttribute('viewBox','0 0 24 24');s.setAttribute('class','ed-ic');s.setAttribute('aria-hidden','true');
+ s.innerHTML=IC[name];return s;
+}
+/* 도구 버튼: 아이콘+라벨(+선택 kbd). label·title·aria-label·aria-keyshortcuts 일치 */
+function toolBtn(icon,label,key,onclick,kbdTxt){
+ var b=el('button','ed-tbtn ed-tool');b.type='button';
+ var a=label+(key?' ('+key+')':'');
+ b.setAttribute('aria-label',a);b.title=a;
+ if(key)b.setAttribute('aria-keyshortcuts',key);
+ b.appendChild(ic(icon));
+ b.appendChild(el('span','ed-tl',label));
+ if(kbdTxt)b.appendChild(el('kbd','ed-kbd',kbdTxt));
+ b.addEventListener('click',function(e){e.stopPropagation();onclick();});
+ return b;
+}
 
 /* ---------- 검색 ---------- */
 var INDEX=null;
@@ -2448,6 +2584,326 @@ function tocKeys(e){
  else if(e.key==='Escape'){e.preventDefault();e.stopPropagation();closeToc();}
 }
 
+/* ---------- 도움말 모달: #help 의 문구를 2열 단축키 시트로 시각화한다 ---------- */
+function buildHelp(){
+ if(helpModal)return;
+ helpModal=el('div','ed-help-modal');helpModal.setAttribute('role','dialog');
+ helpModal.setAttribute('aria-modal','true');helpModal.setAttribute('aria-label','도움말 — 키 안내');
+ var box=el('div','ed-hm-box'),head=el('div','ed-hm-h');
+ head.appendChild(el('span','ed-hm-t','도움말'));
+ var x=el('button','ed-hm-x','닫기 (Esc)');x.type='button';
+ x.addEventListener('click',function(){toggleHelpModal(false);});
+ head.appendChild(x);box.appendChild(head);
+ var list=el('div','ed-hm-list');
+ /* #help 의 "키 설명 · 키 설명 …" 문자열을 kbd·설명 쌍으로 나눈다(talk 덱은 talk.js 가 뒤에 덧붙인다) */
+ var src=(helpEl?helpEl.textContent:'').replace(/\s+/g,' ').trim();
+ src.split('·').forEach(function(item){
+  item=item.trim();if(!item)return;
+  var m=item.match(/^(\S+)\s+(.+)$/);
+  var row=el('div','ed-hm-row'),kk=el('span','ed-hm-k');
+  kk.appendChild(el('kbd','ed-kbd',m?m[1]:item));
+  row.appendChild(kk);
+  row.appendChild(el('span','ed-hm-d',m?m[2]:''));
+  list.appendChild(row);
+ });
+ box.appendChild(list);helpModal.appendChild(box);body.appendChild(helpModal);
+ helpModal.addEventListener('click',function(e){if(e.target===helpModal)toggleHelpModal(false);});
+ helpModal.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){e.preventDefault();e.stopPropagation();toggleHelpModal(false);return;}
+  if(e.key==='Tab'){ /* 대화상자 안에서 포커스 순환 */
+   var f=[].slice.call(helpModal.querySelectorAll('button'));if(!f.length)return;
+   var i=f.indexOf(doc.activeElement);
+   if(e.shiftKey&&i<=0){e.preventDefault();f[f.length-1].focus();}
+   else if(!e.shiftKey&&i===f.length-1){e.preventDefault();f[0].focus();}
+  }
+ });
+}
+function toggleHelpModal(on){
+ buildHelp();
+ var opening=on===undefined?!helpModal.classList.contains('on'):on;
+ if(opening){
+  helpLastFocus=doc.activeElement;
+  helpModal.classList.add('on');reveal();clearTimeout(chromeT);
+  var f=helpModal.querySelector('button');if(f)f.focus();
+ }else{
+  helpModal.classList.remove('on');
+  if(helpLastFocus&&helpLastFocus.focus)helpLastFocus.focus();helpLastFocus=null;
+  arm();
+ }
+}
+
+/* ---------- 크롬 자동 숨김(핀 고정 시 상시) ---------- */
+var HIDING_LAYER='.ed-sch.on,.ed-toc.on,.ed-help-modal.on,.st-modal.st-show,.st-print.st-show';
+function focusInBars(){var a=doc.activeElement;return a&&((topEl&&topEl.contains(a))||(botEl&&botEl.contains(a)));}
+function reveal(){body.classList.add('ed-chrome-on');[topEl,botEl].forEach(function(b){if(b)b.inert=false;});}
+function arm(){clearTimeout(chromeT);if(chromePin)return;chromeT=setTimeout(hide,2500);}
+function hide(){
+ if(chromePin||chromeHover||focusInBars()){arm();return;}
+ if(doc.querySelector(HIDING_LAYER)){arm();return;}
+ body.classList.remove('ed-chrome-on');
+ [topEl,botEl].forEach(function(b){if(b)b.inert=true;});
+}
+function poke(){reveal();arm();}
+function setPin(on){
+ chromePin=on;try{localStorage.setItem('ed-chrome-pin',on?'1':'0');}catch(e){}
+ if(pinBtn)pinBtn.setAttribute('aria-pressed',on?'true':'false');
+ if(on){reveal();clearTimeout(chromeT);}else arm();
+}
+
+/* ---------- 진행 세그먼트·단계 점·쪽 번호 ---------- */
+function currentEnts(){
+ var ents=slideEntries(),info=curInfo();
+ if(SERIES()&&info.ep!=null)ents=ents.filter(function(e){return String(e.ep)===String(info.ep);});
+ return ents;
+}
+function buildSegs(){
+ var info=curInfo(),ents=currentEnts(),prog=doc.getElementById('progress');
+ if(!prog)return;
+ prog.innerHTML='';
+ if(ents.length>60){prog.classList.remove('is-segs');return;} /* 과밀: 연속 막대 폴백(엔진 scaleX) */
+ prog.classList.add('is-segs');
+ ents.forEach(function(ent,i){
+  var b=el('button','ed-seg');b.type='button';
+  var t=ent.el.querySelector('.title,.big,h2,h1');
+  b.setAttribute('aria-label',(i+1)+'장 '+(t?t.textContent.trim():''));
+  b.title=(i+1)+'장';b.appendChild(el('i'));
+  (function(k){b.addEventListener('click',function(e){e.stopPropagation();goTo(currentEnts()[k]);});})(i);
+  prog.appendChild(b);
+ });
+}
+function paintSegs(){
+ var info=curInfo(),prog=doc.getElementById('progress');
+ if(!prog||!prog.classList.contains('is-segs'))return;
+ var segs=prog.children,frac;
+ for(var i=0;i<segs.length;i++){
+  var f=segs[i].querySelector('i');
+  if(i<info.slide)frac=1;
+  else if(i===info.slide)frac=info.maxStep?(info.step/info.maxStep):1;
+  else frac=0;
+  f.style.width=(frac*100)+'%';
+  segs[i].classList.toggle('is-past',i<info.slide);
+  segs[i].setAttribute('aria-current',i===info.slide?'true':'false');
+ }
+}
+function paintPage(){
+ var info=curInfo(),c=doc.getElementById('counter');
+ if(pageInput)pageInput.value=(info.slide+1);
+ if(c){c.textContent='/ '+(info.count||0);c.setAttribute('data-text',(info.slide+1)+' / '+(info.count||0));}
+ if(pageEcho)pageEcho.textContent=(info.slide+1)+' / '+(info.count||0);
+ if(prevBtn){var atFirst=info.slide===0&&info.step===0;prevBtn.disabled=atFirst;prevBtn.setAttribute('aria-disabled',atFirst?'true':'false');}
+ if(nextBtn){var atLast=info.slide===info.count-1&&info.step>=info.maxStep;nextBtn.disabled=atLast;nextBtn.setAttribute('aria-disabled',atLast?'true':'false');}
+ if(crumbEl){
+  var ents=currentEnts(),ent=ents[info.slide];
+  if(ent){var eb=(ent.el.querySelector('.eyebrow')||{}).textContent||'',t=ent.el.querySelector('.title,.big,h2,h1');
+   var txt=((eb.trim()?eb.trim()+' · ':'')+(t?t.textContent.trim():'')).replace(/\s+/g,' ').trim();
+   /* 크럼브가 덱 제목과 같으면(보통 표지) 브랜드와 문구가 겹치니 생략한다 */
+   crumbEl.textContent=(txt===brandTxt)?'':txt;}
+ }
+}
+/* 엔진이 쓰는 <i> 단계 점을 접근 가능한 버튼으로 승격한다(내용은 엔진 소유) */
+function upgradeDots(){
+ var pips=doc.getElementById('dots');if(!pips)return;
+ [].slice.call(pips.querySelectorAll('i')).forEach(function(x,i){
+  if(x.getAttribute('role'))return;
+  x.setAttribute('role','button');x.setAttribute('tabindex','0');
+  x.setAttribute('aria-label','단계 '+(i+1));
+ });
+}
+function gotoStepDot(dot){
+ var pips=doc.getElementById('dots');if(!pips||!window.deckGo)return;
+ var i=[].slice.call(pips.children).indexOf(dot);if(i<0)return;
+ var info=curInfo();
+ if(SERIES()&&info.ep!=null)deckGo(info.ep,info.slide,i+1);else deckGo(info.slide,i+1);
+}
+
+/* ---------- 더보기 ⋯ 팝오버(좁은 창·compact) ---------- */
+var toolOrder=[];
+function closePop(){if(morePop)morePop.classList.remove('on');if(moreBtn)moreBtn.setAttribute('aria-expanded','false');}
+function togglePop(){if(!morePop)return;var on=!morePop.classList.contains('on');morePop.classList.toggle('on',on);moreBtn.setAttribute('aria-expanded',on?'true':'false');}
+function refitChrome(){
+ if(!bar||!morePop)return;
+ /* 전부 도구 띠로 되돌린 뒤 넘치는 만큼 뒤에서부터 팝오버로 옮긴다 */
+ while(morePop.firstChild)bar.appendChild(morePop.firstChild);
+ toolOrder.forEach(function(node){bar.appendChild(node);});
+ var compact=root.classList.contains('ed-compact');
+ if(compact){toolOrder.forEach(function(n){morePop.appendChild(n);});return;}
+ var guard=60;
+ while(guard-->0&&bar.scrollWidth>bar.clientWidth&&bar.children.length){
+  var last=bar.lastElementChild;if(!last)break;
+  morePop.insertBefore(last,morePop.firstChild);
+ }
+}
+window.addEventListener('resize',function(){refitChrome();});
+
+/* ---------- 크롬 조립 ---------- */
+function buildChrome(){
+ var PACK=!!doc.querySelector('meta[name="edu-deck-resource-pack"]');
+ var isSheet=root.classList.contains('is-sheet')||root.classList.contains('is-shot');
+ try{chromePin=localStorage.getItem('ed-chrome-pin')==='1';}catch(e){}
+
+ topEl=el('div','ed-top');
+ var brand=el('div','ed-brand'),t=el('b',null,(doc.title||'').replace(/\s+/g,' ').trim());
+ brandTxt=t.textContent;
+ crumbEl=el('span','ed-crumb');
+ brand.appendChild(t);brand.appendChild(crumbEl);topEl.appendChild(brand);
+ bar=el('nav','ed-topbar');bar.setAttribute('aria-label','도구');
+
+ function sep(){var s=el('i','ed-sep');s.setAttribute('aria-hidden','true');return s;}
+ var groups=[],g;
+
+ g=[];
+ g.push(toolBtn('toc','목차','O',openToc));
+ g.push(toolBtn('search','검색','Ctrl+K',openSearch,'/'));
+ groups.push(g);
+
+ g=[];
+ if(doc.querySelector('.slide .notes, .slide aside.notes')){
+  var bn=toolBtn('notes','노트','N',function(){press('n');});
+  bn.setAttribute('aria-pressed','false');g.push(bn);
+  new MutationObserver(function(){
+   var n=doc.getElementById('notes');
+   bn.setAttribute('aria-pressed',n&&n.style.display==='block'?'true':'false');
+  }).observe(doc.getElementById('notes'),{attributes:true,attributeFilter:['style']});
+ }
+ var DATA=window.EDU_STUDY||{};
+ if(Array.isArray(DATA.glossary)&&DATA.glossary.length){
+  g.push(toolBtn('terms','용어','D',function(){press('d');}));
+ }
+ if(window.EDU_STUDY){
+  var bs=toolBtn('study','자습','S',function(){press('s');});
+  bs.setAttribute('aria-pressed','false');g.push(bs);
+  new MutationObserver(function(){
+   bs.setAttribute('aria-pressed',body.classList.contains('st-self')?'true':'false');
+  }).observe(body,{attributes:true,attributeFilter:['class']});
+ }
+ /* 발표 타이머: #ed-clock 을 도구 버튼으로 승격(내용은 talk.js 가 칠한다).
+    발표 덱(EDU_STUDY.talk)이나 ?presenter 에서만 만든다 — 기능 없는 덱엔 버튼 자체가 없다 */
+ var _pp=new URLSearchParams(location.search);
+ if((window.EDU_STUDY&&window.EDU_STUDY.talk)||_pp.has('presenter')){
+  var clock=el('button','ed-tbtn ed-tool ed-clock');clock.id='ed-clock';clock.type='button';
+  clock.setAttribute('aria-label','타이머 시작·멈춤 (X)');clock.title='타이머 시작·멈춤 (X) · 처음부터 (R · Shift+클릭)';
+  clock.setAttribute('aria-keyshortcuts','X');
+  clock.appendChild(ic('clock'));clock.appendChild(el('span','t'));
+  g.push(clock);
+ }
+ if(g.length)groups.push(g);
+
+ var P=new URLSearchParams(location.search);
+ if(P.has('themes')&&window.eduThemePreview){
+  var bt=toolBtn('theme','테마','T',function(){if(window.eduThemePreview)window.eduThemePreview.toggle();});
+  groups.push([bt]);
+ }
+
+ g=[];
+ g.push(toolBtn('print','인쇄','P',function(){press('p');}));
+ g.push(toolBtn('full','전체','F',function(){press('f');}));
+ if(!PACK&&helpEl){
+  helpBtn=toolBtn('help','도움말','H',function(){toggleHelpModal();},'H');
+  g.push(helpBtn);
+ }
+ pinBtn=toolBtn('pin','핀',null,function(){setPin(!chromePin);});
+ pinBtn.classList.add('ed-pin');
+ pinBtn.setAttribute('aria-pressed',chromePin?'true':'false');
+ pinBtn.title='막대 항상 표시 고정';
+ g.push(pinBtn);
+ groups.push(g);
+
+ groups.forEach(function(gr,i){
+  if(i>0)bar.appendChild(sep());
+  gr.forEach(function(b){bar.appendChild(b);});
+ });
+ toolOrder=[].slice.call(bar.children);
+ topEl.appendChild(bar);
+
+ moreBtn=el('button','ed-more');moreBtn.type='button';
+ moreBtn.setAttribute('aria-label','도구 더보기');moreBtn.setAttribute('aria-expanded','false');
+ moreBtn.appendChild(ic('more'));
+ moreBtn.addEventListener('click',function(e){e.stopPropagation();togglePop();});
+ topEl.appendChild(moreBtn);
+ morePop=el('div','ed-chrome-pop');
+ body.appendChild(topEl);body.appendChild(morePop);
+
+ /* 하단 막대: 기존 #progress·#dots·#counter 를 옮겨 담는다(엔진이 계속 갱신) */
+ botEl=el('div','ed-bot');
+ var track=el('div','ed-prog-track');
+ var prog=doc.getElementById('progress');if(prog)track.appendChild(prog);
+ botEl.appendChild(track);
+ var pips=doc.getElementById('dots');
+ if(pips){
+  pips.removeAttribute('aria-hidden');
+  pips.addEventListener('click',function(e){
+   var d=e.target.closest&&e.target.closest('i');if(d){e.stopPropagation();gotoStepDot(d);}
+  });
+  pips.addEventListener('keydown',function(e){
+   if(e.key!=='Enter'&&e.key!==' ')return;
+   var d=e.target.closest&&e.target.closest('i');if(d){e.preventDefault();e.stopPropagation();gotoStepDot(d);}
+  });
+  new MutationObserver(upgradeDots).observe(pips,{childList:true});
+  botEl.appendChild(pips);
+ }
+ var pagebox=el('div','ed-pagebox');
+ pageInput=el('input','ed-page');pageInput.id='edPage';pageInput.type='text';
+ pageInput.setAttribute('inputmode','numeric');pageInput.setAttribute('aria-label','쪽 번호');
+ pageInput.addEventListener('keydown',function(e){
+  e.stopPropagation();
+  if(e.key==='Enter'){
+   e.preventDefault();
+   var n=parseInt(pageInput.value,10),info=curInfo();
+   if(isFinite(n)){n=Math.max(1,Math.min(info.count||1,n));
+    if(SERIES()&&info.ep!=null)deckGo(info.ep,n-1,0);else deckGo(n-1,0);}
+   pageInput.value=(curInfo().slide+1);pageInput.blur();
+  }else if(e.key==='Escape'){e.preventDefault();pageInput.value=(curInfo().slide+1);pageInput.blur();}
+ });
+ pageInput.addEventListener('input',function(){pageInput.value=pageInput.value.replace(/[^0-9]/g,'');});
+ pagebox.appendChild(pageInput);
+ var c=doc.getElementById('counter');
+ if(c){c.setAttribute('aria-live','polite');c.setAttribute('aria-atomic','true');pagebox.appendChild(c);}
+ botEl.appendChild(pagebox);
+ var nav=el('div','ed-nav');
+ prevBtn=el('button','ed-btn');prevBtn.type='button';
+ prevBtn.setAttribute('aria-label','이전 장 (←)');prevBtn.title='이전 장 (←)';
+ prevBtn.appendChild(ic('prev'));prevBtn.appendChild(el('span','ed-tl','이전'));
+ prevBtn.addEventListener('click',function(e){e.stopPropagation();if(!prevBtn.disabled)press('ArrowLeft');});
+ nextBtn=el('button','ed-btn');nextBtn.type='button';
+ nextBtn.setAttribute('aria-label','다음 단계·장 (→)');nextBtn.title='다음 단계·장 (→)';
+ nextBtn.appendChild(el('span','ed-tl','다음'));nextBtn.appendChild(ic('next'));
+ nextBtn.addEventListener('click',function(e){e.stopPropagation();if(!nextBtn.disabled)press('ArrowRight');});
+ nav.appendChild(prevBtn);nav.appendChild(nextBtn);botEl.appendChild(nav);
+ body.appendChild(botEl);
+
+ /* 막대 숨김 중에도 쪽수는 스크린리더에 읽힌다(시각 숨김은 opacity·inert) */
+ pageEcho=el('span','sr');pageEcho.setAttribute('aria-live','polite');body.appendChild(pageEcho);
+
+ /* 자동 숨김 트리거 */
+ doc.addEventListener('mousemove',function(e){
+  if(e.clientY<40||e.clientY>window.innerHeight-40)poke();
+ });
+ [topEl,botEl].forEach(function(b){
+  b.addEventListener('mouseenter',function(){chromeHover=true;poke();});
+  b.addEventListener('mouseleave',function(){chromeHover=false;arm();});
+ });
+ doc.addEventListener('touchstart',function(){poke();},{passive:true});
+ doc.addEventListener('focusin',function(e){if(focusInBars())poke();},true);
+ doc.addEventListener('focusout',function(e){arm();},true);
+ doc.addEventListener('click',function(e){
+  if(morePop&&morePop.classList.contains('on')&&!morePop.contains(e.target)&&e.target!==moreBtn)closePop();
+ });
+
+ buildSegs();upgradeDots();
+ doc.addEventListener('deckslide',function(){buildSegsIfEp();paintSegs();paintPage();});
+ doc.addEventListener('deckstep',function(){paintSegs();paintPage();upgradeDots();});
+ paintPage();
+
+ if(chromePin){reveal();}else{reveal();arm();}
+ refitChrome();
+ if(!isSheet)requestAnimationFrame(refitChrome);
+}
+var lastEp=null;
+function buildSegsIfEp(){
+ var info=curInfo(),ep=(info&&info.ep!=null)?String(info.ep):null;
+ if(SERIES()&&ep!==lastEp){lastEp=ep;buildSegs();}
+}
+
 /* ---------- data-fit: 제목을 1(또는 지정)줄 안에 최대 20% 줄여 맞춘다 ---------- */
 function fitTitles(){
  doc.querySelectorAll('.title[data-fit]').forEach(function(t){
@@ -2458,51 +2914,40 @@ function fitTitles(){
   if(t.offsetHeight>lh()*maxL+2)t.style.fontSize=min+'px';
  });
 }
-
 /* ---------- 키 ---------- */
 function typing(t){return t&&(t.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName));}
-function toggleHelp(on){if(!helpEl)return;helpEl.classList.toggle('on',on===undefined?!helpEl.classList.contains('on'):on);}
 window.addEventListener('keydown',function(e){
  var k=e.key;
  if(e.isComposing)return;
  var schOn=searchBox&&searchBox.classList.contains('on'),tocOn=tocBox&&tocBox.classList.contains('on'),
-     helpOn=helpEl&&helpEl.classList.contains('on');
- if(schOn||tocOn||helpOn){
-  if(k==='Escape'){e.preventDefault();e.stopImmediatePropagation();(schOn?closeSearch:(tocOn?closeToc:function(){toggleHelp(false);}))();return;}
-  if(helpOn&&(k==='h'||k==='H'||k==='ㅗ')){e.preventDefault();e.stopImmediatePropagation();toggleHelp(false);return;}
-  var inside=e.target&&e.target.closest&&(e.target.closest('.ed-sch')||e.target.closest('.ed-toc')||e.target.closest('#help'));
+     hmOn=helpModal&&helpModal.classList.contains('on');
+ if(schOn||tocOn||hmOn){
+  if(k==='Escape'){e.preventDefault();e.stopImmediatePropagation();(schOn?closeSearch:(tocOn?closeToc:function(){toggleHelpModal(false);}))();return;}
+  if(hmOn&&(k==='h'||k==='H'||k==='ㅗ')){e.preventDefault();e.stopImmediatePropagation();toggleHelpModal(false);return;}
+  var inside=e.target&&e.target.closest&&(e.target.closest('.ed-sch')||e.target.closest('.ed-toc')||e.target.closest('.ed-help-modal'));
   if(!inside)e.stopImmediatePropagation(); /* 대화상자 밖의 키가 엔진에 새지 않게 막는다 */
-  return;}
+  return;
+ }
  if((e.ctrlKey||e.metaKey)&&!e.altKey&&(k==='k'||k==='K')){if(typing(e.target))return;e.preventDefault();openSearch();return;}
  if(e.ctrlKey||e.metaKey||e.altKey)return;
  if(typing(e.target))return;
  if(k==='/'){e.preventDefault();openSearch();return;}
  if(k==='o'||k==='O'||k==='ㅐ'){openToc();return;}
- /* H/ㅗ = 도움말 토글. 팩 덱의 #help 는 4초 뒤 사라지는 부트 힌트라 대상 아님 */
- if(helpBtn&&(k==='h'||k==='H'||k==='ㅗ')){
+ /* F6 = 막대로 포커스 이동(숨겨진 포커스 방지 — 막대는 숨김 상태에서 inert) */
+ if(k==='F6'){e.preventDefault();reveal();arm();var f=bar&&bar.querySelector('button');if(f)f.focus();return;}
+ /* H/ㅗ/? = 도움말 모달 토글. 팩 덱의 #help 는 4초 뒤 사라지는 부트 힌트라 대상 아님 */
+ if(helpBtn&&(k==='h'||k==='H'||k==='ㅗ'||k==='?')){
   if(doc.querySelector('.st-modal.st-show,.st-print.st-show'))return;
-  e.preventDefault();toggleHelp();return;}
+  e.preventDefault();toggleHelpModal();return;}
 },true);
+/* 모든 키 입력은 막대를 복귀시킨다(실제 단축키 처리는 위 리스너가 순서대로 맡는다) */
+window.addEventListener('keydown',function(){poke();},true);
 
 /* ---------- 초기화 ---------- */
 function init(){
  if(root.classList.contains('ed-nojs'))return;
- bar=el('div','ed-topbar');
- var bT=el('button','ed-tbtn','목차');bT.type='button';bT.setAttribute('aria-label','목차 열기 (O)');
- bT.addEventListener('click',openToc);
- var bS=el('button','ed-tbtn','검색');bS.type='button';bS.setAttribute('aria-label','검색 (Ctrl+K)');
- bS.addEventListener('click',openSearch);
- var clock=el('span','ed-clock');clock.id='ed-clock';
- bar.appendChild(clock);bar.appendChild(bT);bar.appendChild(bS);
- /* 도움말(H) — 검색 옆 세 번째 단추. 팩 덱 #help 는 부트 힌트라 이 단추는 legacy 전용 */
  helpEl=doc.getElementById('help');
- if(!doc.querySelector('meta[name="edu-deck-resource-pack"]')&&helpEl){
-  helpBtn=el('button','ed-tbtn');helpBtn.type='button';helpBtn.setAttribute('aria-label','도움말 (H)');
-  var ic=el('span',null,'?');ic.setAttribute('aria-hidden','true');ic.style.fontWeight='800';
-  helpBtn.appendChild(ic);helpBtn.appendChild(doc.createTextNode(' 도움말(H)'));
-  helpBtn.addEventListener('click',function(){toggleHelp();});
-  bar.appendChild(helpBtn);}
- body.appendChild(bar);
+ buildChrome();
 
  searchBox=el('div','ed-sch');var sb=el('div','ed-sch-box');
  var sin=el('div','ed-sch-in');searchInput=el('input');searchInput.type='text';searchInput.placeholder='슬라이드 검색…';searchInput.setAttribute('aria-label','슬라이드 검색');
@@ -2561,8 +3006,8 @@ var clockEl=null;
 function paintClock(){
  var i=(function(){try{return deckInfo().slide||0;}catch(e){return 0;}})();
  var plan=planEnd[i]||0,t=TALK();
- if(clockEl){clockEl.innerHTML='';clockEl.appendChild(doc.createTextNode(fmt(elapsed)+' '));
-  var pl=el('span','plan','/ '+fmt(plan));clockEl.appendChild(pl);
+ if(clockEl){var tt=clockEl.querySelector('.t')||clockEl;tt.innerHTML='';tt.appendChild(doc.createTextNode(fmt(elapsed)+' '));
+  var pl=el('span','ed-clock-plan','/ '+fmt(plan));tt.appendChild(pl);
   clockEl.classList.toggle('is-run',running);clockEl.classList.toggle('is-late',running&&plan>0&&elapsed>plan);}
  if(presClock){presClock.querySelector('.t').textContent=fmt(elapsed);
   var r=t?(t.total||0)-elapsed:0;
@@ -2655,6 +3100,7 @@ function init(){
  root.classList.add('ed-talk');
  buildPlan();
  clockEl=doc.getElementById('ed-clock');
+ if(clockEl)clockEl.addEventListener('click',function(e){e.stopPropagation();if(e.shiftKey)timerReset();else timerToggle();});
  if(PRESENTER){body.classList.add('st-presenter');presFit();buildPresDom();post({type:'req'});}
  paintClock();paintNotesHead();
  doc.addEventListener('deckslide',function(){paintClock();paintNotesHead();if(PRESENTER)paintPres();else if(!applying)post();});
@@ -2669,13 +3115,18 @@ function init(){
 if(doc.readyState==='loading')doc.addEventListener('DOMContentLoaded',init);else init();
 })();
 
-/* 저자 검수 뷰어 모드 — ?sheet(전 장 축소판·접촉판)과 ?shot=N(한 장 캡처).
+/* 저자 검수 뷰어 모드 — ?check(검사기 표면)·?sheet(전 장 축소판·접촉판)·?shot=N(한 장 캡처).
    덱 결과물 하나를 URL 만으로 검수·캡처에 쓴다. 수업·발표 동작은 바꾸지 않는다:
    파라미터가 없으면 아무 일도 하지 않는다. 단계·애니메이션의 주인은 기존 엔진이고
    여기서는 클래스만 단다(st-sheet 는 motion.js 정적 판정에 합류해 전 장 완성 상태). */
 (function(){
   'use strict';
   var P=new URLSearchParams(location.search);
+  /* ?check = 검사기 표면 미리보기 — 막대·부동 UI를 숨겨 check_deck 이 보는 상태로 둔다 */
+  if(P.has('check')){
+    document.documentElement.classList.add('is-check');
+    return;
+  }
   if(P.has('sheet')){
     document.documentElement.classList.add('is-sheet');
     document.body.classList.add('st-sheet'); /* 전 장 정적 완결(motion.js staticMode) */

@@ -1,5 +1,6 @@
-/* viewer.css — A1 검색, A2 목차, A3 엔진 실패 연속 보기, D 발표 타이머·발표자 보기.
-   시리즈 포털에는 html.ed-deck 가 없으므로 아래 규칙은 자동 비활성이다. */
+/* viewer.css — A1 검색, A2 목차, A3 엔진 실패 연속 보기, D 발표 타이머·발표자 보기,
+   상·하단 크롬(.ed-top 헤더·.ed-bot 푸터). 시리즈 포털에는 html.ed-deck 가 없으므로
+   아래 규칙은 자동 비활성이다. */
 
 /* ---------- A3: 엔진 미준비/실패 시 모든 장을 폭에 맞춰 이어 붙여 보여 준다 ---------- */
 html.ed-deck:not(.ed-ready) body,html.ed-deck.ed-fail body{overflow:auto;height:auto}
@@ -16,21 +17,89 @@ html.ed-deck:not(.ed-ready) #stage>.slide *,html.ed-deck.ed-fail #stage>.slide *
  @media (min-width:1440px){html.ed-deck:not(.ed-ready) #stage,html.ed-deck.ed-fail #stage{--ed-s:.75}}
  @media (min-width:1900px){html.ed-deck:not(.ed-ready) #stage,html.ed-deck.ed-fail #stage{--ed-s:.98}}
 }
-html.ed-deck:not(.ed-ready) :is(#progress,#dots,#counter,#help,#notes,.ed-reader-nav,.ed-topbar,.st-panel,.st-modal,.st-print,.st-toast,.chk-back,.ed-sch,.ed-toc),
-html.ed-deck.ed-fail :is(#progress,#dots,#counter,#help,#notes,.ed-reader-nav,.ed-topbar,.st-panel,.st-modal,.st-print,.st-toast,.chk-back,.ed-sch,.ed-toc){display:none!important}
+html.ed-deck:not(.ed-ready) :is(#progress,#dots,#counter,#help,#notes,.ed-reader-nav,.ed-topbar,.ed-top,.ed-bot,.ed-chrome-pop,.ed-help-modal,.st-panel,.st-modal,.st-print,.st-toast,.chk-back,.ed-sch,.ed-toc),
+html.ed-deck.ed-fail :is(#progress,#dots,#counter,#help,#notes,.ed-reader-nav,.ed-topbar,.ed-top,.ed-bot,.ed-chrome-pop,.ed-help-modal,.st-panel,.st-modal,.st-print,.st-toast,.chk-back,.ed-sch,.ed-toc){display:none!important}
 .ed-nojs{display:none;box-sizing:border-box;width:100%;background:var(--ink);color:var(--paper);font:600 15px/1.5 sans-serif;text-align:center;padding:10px 16px}
 html.ed-deck.ed-fail .ed-nojs{display:block}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
 
-/* ---------- 상단 바(목차·검색·시계) ---------- */
-.ed-topbar{position:fixed;top:12px;right:14px;z-index:8;display:flex;align-items:center;gap:8px;font-family:inherit}
-.ed-tbtn{font:inherit;font-size:15px;font-weight:700;color:var(--paper);background:color-mix(in srgb,var(--ink) 72%,transparent);border:1px solid color-mix(in srgb,var(--paper) 22%,transparent);border-radius:var(--r3);padding:8px 14px;min-height:36px;cursor:pointer;opacity:.6;transition:opacity var(--m2) var(--e-out)}
-.ed-tbtn:hover,.ed-tbtn:focus-visible,.ed-topbar:focus-within .ed-tbtn{opacity:1}
-.ed-clock{display:none;font:700 16px/1 sans-serif;color:var(--paper);background:color-mix(in srgb,var(--ink) 78%,transparent);border:1px solid color-mix(in srgb,var(--paper) 22%,transparent);border-radius:var(--r3);padding:10px 14px;opacity:.85;font-variant-numeric:tabular-nums}
-html.ed-talk .ed-clock{display:block}
-.ed-clock.is-run{border-color:var(--accent)}
-.ed-clock.is-late{color:var(--danger);border-color:var(--danger)}
-.ed-clock .plan{opacity:.6;font-weight:400}
-body.in-hub .ed-topbar{display:none}
+/* ---------- 상·하단 크롬: 무대 위 오버레이, 유휴 시 자동 숨김(body.ed-chrome-on) ---------- */
+.ed-top,.ed-bot{position:fixed;left:0;right:0;display:flex;align-items:center;box-sizing:border-box;
+ background:color-mix(in srgb,var(--ink) 88%,transparent);color:var(--paper);font-family:inherit;
+ transition:opacity var(--m2) var(--e-out)}
+.ed-top{top:0;height:44px;gap:16px;padding:0 16px;border-bottom:1px solid color-mix(in srgb,var(--paper) 18%,transparent);z-index:30}
+.ed-bot{bottom:0;height:48px;gap:20px;padding:0 12px 0 20px;border-top:1px solid color-mix(in srgb,var(--paper) 18%,transparent);z-index:8}
+body:not(.ed-chrome-on) .ed-top,body:not(.ed-chrome-on) .ed-bot{opacity:0;visibility:hidden;pointer-events:none;transition:opacity var(--m2) var(--e-out),visibility 0s var(--m2)}
+.ed-brand{display:flex;align-items:baseline;gap:12px;min-width:0;flex:1;white-space:nowrap;overflow:hidden}
+.ed-brand b{font-size:15px;font-weight:800;color:var(--paper)}
+.ed-crumb{font-size:14px;color:color-mix(in srgb,var(--paper) 75%,transparent);overflow:hidden;text-overflow:ellipsis}
+/* 도구 띠: 넘치면 JS 가 뒤 버튼부터 .ed-chrome-pop 으로 옮긴다 */
+.ed-topbar{display:flex;align-items:center;gap:4px;flex:0 1 auto;min-width:0;overflow:hidden;justify-content:flex-end;font-family:inherit}
+.ed-sep{width:1px;align-self:stretch;margin:10px 6px;background:color-mix(in srgb,var(--paper) 18%,transparent);flex:none}
+.ed-tool,.ed-more{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border:0;border-radius:6px;background:none;color:var(--paper);font:inherit;font-size:15px;font-weight:600;cursor:pointer;white-space:nowrap;opacity:1}
+.ed-tool:hover,.ed-tool:focus-visible,.ed-more:hover,.ed-more:focus-visible{background:color-mix(in srgb,var(--paper) 16%,transparent)}
+.ed-tool:focus-visible,.ed-more:focus-visible,.ed-btn:focus-visible,.ed-page:focus-visible{outline:2px solid var(--paper);outline-offset:1px}
+.ed-tool[aria-pressed="true"]{background:color-mix(in srgb,var(--paper) 16%,transparent);color:var(--accent-light)}
+.ed-ic{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ed-kbd{padding:1px 6px;border:1px solid color-mix(in srgb,var(--paper) 30%,transparent);border-radius:4px;font-family:inherit;font-size:12px;color:color-mix(in srgb,var(--paper) 75%,transparent)}
+.ed-more{flex:none}
+/* 발표 타이머 버튼(#ed-clock): talk 덱에서만 보이고, 내용은 talk.js 가 칠한다.
+   계획 누적은 .ed-clock-plan — 팩 덱의 카드 컴포넌트 .plan 과 이름이 겹치지 않게 따로 둔다 */
+.ed-clock{display:none;font-variant-numeric:tabular-nums}
+html.ed-talk .ed-clock{display:inline-flex}
+.ed-clock.is-run{color:var(--accent-light)}
+.ed-clock.is-late{color:var(--danger)}
+.ed-clock .ed-clock-plan{opacity:.6;font-weight:400}
+/* 더보기 팝오버 */
+.ed-chrome-pop{position:fixed;top:48px;right:12px;z-index:31;display:none;flex-direction:column;gap:2px;padding:8px;min-width:180px;box-sizing:border-box;
+ background:color-mix(in srgb,var(--ink) 94%,transparent);border:1px solid color-mix(in srgb,var(--paper) 22%,transparent);border-radius:var(--r2);box-shadow:var(--shadow-2)}
+.ed-chrome-pop.on{display:flex}
+.ed-chrome-pop .ed-tool{justify-content:flex-start;width:100%;font-size:15px;padding:10px 12px}
+.ed-chrome-pop .ed-tl{display:inline}
+.ed-chrome-pop .ed-sep{display:none}
+/* 하단 막대: 진행 세그먼트·단계 점·쪽 입력·이전/다음 */
+.ed-prog-track{flex:1;display:flex;align-items:center;min-width:0;height:6px;border-radius:3px;background:color-mix(in srgb,var(--paper) 18%,transparent);overflow:hidden}
+.ed-bot #progress{position:static;flex:1;height:6px;transform-origin:0 50%;background:var(--accent-light)}
+.ed-bot #progress.is-segs{transform:none!important;background:none;display:flex;gap:6px}
+.ed-seg{position:relative;flex:1;height:6px;padding:0;border:0;border-radius:3px;background:color-mix(in srgb,var(--paper) 18%,transparent);overflow:hidden;cursor:pointer}
+.ed-seg i{position:absolute;left:0;top:0;bottom:0;width:0;display:block;background:var(--accent-light);transition:width .3s var(--e-out)}
+.ed-seg.is-past i{background:color-mix(in srgb,var(--paper) 55%,transparent)}
+.ed-seg:focus-visible{outline:2px solid var(--paper);outline-offset:1px}
+.ed-bot #dots{position:static;display:flex;gap:6px;flex:none;align-items:center}
+.ed-bot #dots i{width:10px;height:10px;border-radius:50%;border:0;background:color-mix(in srgb,var(--paper) 26%,transparent);opacity:1;cursor:pointer}
+.ed-bot #dots i.on{background:var(--accent-light)}
+.ed-bot #dots i:focus-visible{outline:2px solid var(--paper);outline-offset:2px}
+.ed-pagebox{display:flex;align-items:center;gap:8px;flex:none;font-size:13px;color:color-mix(in srgb,var(--paper) 75%,transparent)}
+.ed-bot #counter{position:static;font:inherit;font-size:13px;color:inherit;opacity:1}
+.ed-page{width:56px;height:32px;box-sizing:border-box;border:1px solid color-mix(in srgb,var(--paper) 28%,transparent);border-radius:6px;background:color-mix(in srgb,var(--ink) 40%,transparent);color:var(--paper);font:inherit;font-size:14px;font-weight:700;text-align:center}
+.ed-nav{display:flex;gap:8px;flex:none}
+.ed-btn{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 14px;border:1px solid color-mix(in srgb,var(--paper) 28%,transparent);border-radius:8px;background:none;color:var(--paper);font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.ed-btn:disabled{opacity:.35;cursor:default}
+.ed-btn:not(:disabled):hover{background:color-mix(in srgb,var(--paper) 16%,transparent)}
+.ed-btn .ed-ic{width:16px;height:16px}
+/* 발표자 노트 패널은 하단 막대 위에 붙는다(compact 는 .ed-bot 없음 → 기존 위치) */
+html:not(.ed-compact) #notes{bottom:48px}
+body.in-hub .ed-top,body.in-hub .ed-bot{display:none}
+body.st-self .ed-bot{display:none}
+@media (prefers-reduced-motion:reduce){
+ .ed-top,.ed-bot,.ed-seg i{transition:none!important}
+}
+/* 뷰포트 폭 <1280: 라벨·크럼브는 시각 숨김(sr-only — 스크린리더엔 유지), 아이콘만 */
+@media (max-width:1279px){
+ .ed-tool,.ed-more{font-size:13px}
+ .ed-tool .ed-tl,.ed-tool .ed-kbd,.ed-crumb,.ed-btn .ed-tl{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+ .ed-chrome-pop .ed-tl{position:static;width:auto;height:auto;overflow:visible;clip:auto;clip-path:none;white-space:normal}
+}
+/* coarse 포인터: 탭 대상 44px(세그먼트·점은 시각 표식이라 대상만 키운다) */
+@media (pointer:coarse){
+ .ed-tool,.ed-more,.ed-btn{min-height:44px;min-width:44px;justify-content:center}
+}
+html.ed-compact .ed-topbar{display:none}
+html.ed-compact .ed-bot{display:none}
+/* slide-fit(좁은 가로)도 하단 크롬은 한 벌 — .ed-reader-nav(≈143px)를 남기고 .ed-bot 은 숨긴다 */
+html.ed-slidefit .ed-bot{display:none}
+html.ed-slidefit #notes{bottom:150px}
+html.ed-compact .ed-brand b{font-size:16px}
 
 /* ---------- 검색(Ctrl+K / /) ---------- */
 .ed-sch{position:fixed;inset:0;z-index:40;display:none;align-items:flex-start;justify-content:center;background:color-mix(in srgb,var(--ink) 55%,transparent);padding:8vh 16px 16px}
@@ -52,7 +121,7 @@ body.in-hub .ed-topbar{display:none}
 .ed-toc.on{display:flex}
 .ed-toc-box{width:min(640px,100%);max-height:80vh;background:var(--ink);border:2px solid color-mix(in srgb,var(--paper) 26%,transparent);border-radius:var(--r3);box-shadow:var(--shadow-2);overflow:hidden;display:flex;flex-direction:column}
 .ed-toc-h{flex:none;display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid color-mix(in srgb,var(--paper) 16%,transparent);font-size:18px;font-weight:800;color:var(--paper)}
-.ed-toc-x{font:inherit;font-size:15px;color:var(--soft);background:none;border:1px solid color-mix(in srgb,var(--paper) 24%,transparent);border-radius:var(--r2);padding:8px 14px;min-width:44px;min-height:44px;cursor:pointer}
+.ed-toc-x{font:inherit;font-size:15px;color:var(--paper);background:none;border:1px solid color-mix(in srgb,var(--paper) 24%,transparent);border-radius:var(--r2);padding:8px 14px;min-width:44px;min-height:44px;cursor:pointer}
 .ed-toc-list{overflow:auto;padding:8px 0}
 .ed-toc-g{padding:10px 18px 4px;font-size:13px;font-weight:800;letter-spacing:1.5px;color:var(--accent-light)}
 .ed-toc-item{display:flex;align-items:baseline;gap:12px;width:100%;text-align:left;font:inherit;color:var(--paper);background:none;border:none;padding:12px 18px;min-height:48px;cursor:pointer;font-size:17px}
@@ -61,6 +130,18 @@ body.in-hub .ed-topbar{display:none}
 .ed-toc-item.is-cur{color:var(--accent-light);font-weight:800}
 .ed-toc-item.is-cur .n{color:var(--accent-light)}
 
+/* ---------- 도움말 모달(H): #help 문구의 2열 단축키 시트 ---------- */
+.ed-help-modal{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;background:color-mix(in srgb,var(--ink) 55%,transparent)}
+.ed-help-modal.on{display:flex}
+.ed-hm-box{width:min(560px,calc(100vw - 32px));max-height:80vh;overflow:auto;background:var(--ink);border:2px solid color-mix(in srgb,var(--paper) 26%,transparent);border-radius:var(--r3);box-shadow:var(--shadow-2);padding:20px 24px;color:var(--paper);box-sizing:border-box}
+.ed-hm-h{display:flex;align-items:center;justify-content:space-between;padding-bottom:12px;border-bottom:1px solid color-mix(in srgb,var(--paper) 16%,transparent);margin-bottom:12px}
+.ed-hm-t{font-size:18px;font-weight:800}
+.ed-hm-x{font:inherit;font-size:15px;color:var(--paper);background:none;border:1px solid color-mix(in srgb,var(--paper) 24%,transparent);border-radius:var(--r2);padding:8px 14px;min-height:44px;cursor:pointer}
+.ed-hm-list{display:grid;grid-template-columns:1fr 1fr;gap:8px 24px}
+.ed-hm-row{display:flex;align-items:baseline;gap:8px;font-size:14px;color:var(--paper)}
+.ed-hm-d{color:color-mix(in srgb,var(--paper) 78%,transparent)}
+@media (max-width:640px){.ed-hm-list{grid-template-columns:1fr}}
+
 /* ---------- 토스트(팝업 차단 안내 등) ---------- */
 .ed-toast{position:fixed;left:50%;bottom:88px;transform:translateX(-50%);z-index:60;background:var(--ink);color:var(--paper);font:600 17px/1.5 sans-serif;padding:14px 24px;border-radius:var(--r3);border:2px solid var(--accent);box-shadow:var(--shadow-2);opacity:0;pointer-events:none;transition:opacity var(--m2) var(--e-out)}
 .ed-toast.on{opacity:1}
@@ -68,7 +149,7 @@ body.in-hub .ed-topbar{display:none}
 /* ---------- 발표자 보기(?presenter) ---------- */
 body.st-presenter{overflow:hidden}
 body.st-presenter #stage{position:absolute;left:31%;top:37%;transform:translate(-50%,-50%) scale(var(--pres-s,.3))!important}
-body.st-presenter :is(#progress,#dots,#counter,#help,#notes,.ed-reader-nav,.ed-topbar,.ed-sch,.ed-toc,.st-panel,.st-modal,.st-print,.st-toast,.chk-back){display:none!important}
+body.st-presenter :is(#progress,#dots,#counter,#help,#notes,.ed-reader-nav,.ed-topbar,.ed-top,.ed-bot,.ed-chrome-pop,.ed-help-modal,.ed-sch,.ed-toc,.st-panel,.st-modal,.st-print,.st-toast,.chk-back){display:none!important}
 .ed-pres{position:fixed;left:64%;top:0;bottom:0;right:0;z-index:9;display:none;flex-direction:column;gap:14px;padding:20px 22px;background:var(--ink);color:var(--paper);font-family:inherit;box-sizing:border-box}
 body.st-presenter .ed-pres{display:flex}
 .ed-pres-clock{display:flex;align-items:baseline;gap:12px;font-variant-numeric:tabular-nums}
@@ -90,9 +171,10 @@ body.st-presenter #stage,body.st-presenter #stage *,body.st-presenter .ed-pres-n
 
 /* 읽기 모드에서도 대화상자의 작은 글자는 16px 아래로 내리지 않는다 */
 html.ed-compact .ed-tbtn,html.ed-compact .ed-sch-item .s,html.ed-compact .ed-sch-in .kbd,
-html.ed-compact .ed-toc-g,html.ed-compact .ed-toc-item .n,html.ed-compact .ed-toc-x{font-size:16px}
+html.ed-compact .ed-toc-g,html.ed-compact .ed-toc-item .n,html.ed-compact .ed-toc-x,
+html.ed-compact .ed-chrome-pop .ed-tool,html.ed-compact .ed-hm-x{font-size:16px}
 html.ed-compact .ed-toc-item{font-size:18px}
 html.ed-compact .ed-sch-in input{font-size:18px}
 html.ed-compact .ed-sch-item{min-height:56px}
 
-@media print{.ed-topbar,.ed-sch,.ed-toc,.ed-toast,.ed-pres{display:none!important}}
+@media print{.ed-topbar,.ed-top,.ed-bot,.ed-chrome-pop,.ed-help-modal,.ed-sch,.ed-toc,.ed-toast,.ed-pres{display:none!important}}
