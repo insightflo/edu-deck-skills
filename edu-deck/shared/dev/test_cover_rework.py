@@ -81,12 +81,12 @@ class CatalogShapeTest(unittest.TestCase):
     def test_router_covers_match_catalog(self):
         self.assertEqual(set(tone_router.COVERS), set(ALL_SIXTEEN))
 
-    def test_total_variant_count_253(self):
+    def test_total_variant_count_260(self):
         n = 0
         for f in SNIPPETS.glob('*.html'):
             n += len(BeautifulSoup(
                 f.read_text(encoding='utf-8'), 'html.parser').select('section.slide'))
-        self.assertEqual(n, 253)
+        self.assertEqual(n, 260)
 
 
 class CoverContractTest(unittest.TestCase):

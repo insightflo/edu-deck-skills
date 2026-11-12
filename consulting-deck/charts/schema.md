@@ -85,6 +85,12 @@ waterfall의 시작 막대가 최대값의 60% 이상이면 증감 막대가 너
 | `tornado` | 3~8 `{label,low,high,base?}` | `low ≥ high` → FAIL · 대칭축 ±max(|low|,|high|) · 출력은 범위(high−low) 내림차순 | 항목 label |
 | `sankey` | `data:{nodes:[{id,label?}],flows:[{from,to,value}]}` | 노드 3~12 · flows 2~18 · from/to 미존재·자기순환·순환 그래프·value≤0 → FAIL. 열은 최장 경로 깊이, 밴드 두께=값 비례 | 노드 label |
 | `pareto` | 4~10 `{label,value}` | `value ≤ 0` → FAIL · 단위 `%`면 합계≈100(비율 모드) · `calc.expectTotal` 있으면 합계 검증 | 항목 label |
+| `bullet` | 2~8 `{label,value,target}` | `value`/`target` 숫자·음수 → FAIL. 트랙 전폭 위 값 막대 + 목표 세로선, 목표 초과는 `--accent` | 항목 label |
+| `dumbbell` | 2~8 `{label,before,after}` | `before`/`after` 숫자. 빈 원=이전·찬 원=이후 + Δ 자동 표기(값-값 스케일은 공통 범위) | 항목 label |
+| `slope` | 3~10 `{label,before,after}` | `before`/`after` 숫자. 최대 \|Δ\| 항목만 `--accent` 강조, 나머지는 muted | 항목 label |
+| `waffle` | 2~5 `{label,value}` | `value` 0~100 · 합계≈100 아니면 FAIL(10×10 칸=100%). 0은 0칸 | 항목 label |
+
+**gauge(반원 게이지)는 만들지 않는다** — 스니펫 `07-meter` 가 이미 커버한다(중복 방지, kodoc round2 8번 판정).
 
 **contribution/decomposition 차트는 별도 타입이 아니다** — waterfall의 `kind` 구성으로 표현한다
 (base→delta→delta… 로 매출→비용→이익 분해). 구성 요소의 마지막을 `total`로 두면

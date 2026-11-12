@@ -36,7 +36,12 @@ MX = EX / 'mx-portfolio.json'
 TN = EX / 'tn-sensitivity.json'
 SK = EX / 'sk-budget.json'
 PA = EX / 'pa-defect.json'
+BL = EX / 'bl-kpi.json'
+DM = EX / 'db-cost-shift.json'
+SL = EX / 'sl-share.json'
+WA = EX / 'wf-cost-mix.json'
 P3A = [ST, LN, SC, HM, MX, TN, SK, PA]
+P4 = [BL, DM, SL, WA]
 NODE = shutil.which('node')
 
 
@@ -648,6 +653,63 @@ class ConsultChartTest(unittest.TestCase):
             if not any(abs(px - tx) < 200 and abs(py - ty) < 60 for px, py in pts):
                 far += 1
         self.assertEqual(far, 0, '점에서 이탈한 라벨이 있다')
+
+    # ── 신유형 4종(kodoc round2 8번) ────────────────────────────────
+    def test_new_types_deterministic(self):
+        for src in P4:
+            a, b = self.tmp / (src.stem + 'a.html'), self.tmp / (src.stem + 'b.html')
+            for f in (a, b):
+                code, log = run(src, f)
+                self.assertEqual(code, 0, f'{src.name}: {log}')
+            self.assertEqual(a.read_bytes(), b.read_bytes(), f'{src.name}: 두 실행 결과가 다르다')
+
+    def test_bullet_target_line_and_over_accent(self):
+        out = self.tmp / 'bl.html'
+        code, log = run(BL, out)
+        self.assertEqual(code, 0, log)
+        html = out.read_text(encoding='utf-8')
+        self.assertIn('data-variant="bullet"', html)
+        self.assertIn('목표', html)
+        self.assertIn('var(--accent)', html, '목표 초과 강조 없음(가동률 92≥90)')
+
+    def test_bullet_missing_target_rejected(self):
+        def bad(m):
+            del m['chart']['data'][0]['target']
+        p = self._mutate(BL, bad, 'bl-no-t.json')
+        code, log = run(p)
+        self.assertEqual(code, 1)
+        self.assertIn('target', log)
+
+    def test_dumbbell_delta_label(self):
+        out = self.tmp / 'dm.html'
+        code, log = run(DM, out)
+        self.assertEqual(code, 0, log)
+        html = out.read_text(encoding='utf-8')
+        self.assertIn('data-variant="dumbbell"', html)
+        self.assertIn('−40', html, 'Δ 라벨(120→80) 없음')
+        self.assertIn('fill="var(--accent)"', html, 'highlight 강조 없음')
+
+    def test_slope_single_highlight(self):
+        out = self.tmp / 'sl.html'
+        code, log = run(SL, out)
+        self.assertEqual(code, 0, log)
+        html = out.read_text(encoding='utf-8')
+        self.assertEqual(html.count('stroke="var(--accent)"'), 1, '최대 변화 항목 단일 강조가 아니다(A +12)')
+
+    def test_waffle_sum_rejected(self):
+        def bad(m):
+            m['chart']['data'][0]['value'] = 90
+        p = self._mutate(WA, bad, 'wa-sum.json')
+        code, log = run(p)
+        self.assertEqual(code, 1)
+        self.assertIn('100', log)
+
+    def test_waffle_cells_100(self):
+        out = self.tmp / 'wa.html'
+        code, log = run(WA, out)
+        self.assertEqual(code, 0, log)
+        html = out.read_text(encoding='utf-8')
+        self.assertEqual(len(re.findall(r'<rect[^>]*rx="10"', html)), 100, '10×10 칸 수 불일치')
 
     # ── --check 계약 ────────────────────────────────────────────────
     def test_check_byte_compare(self):

@@ -39,7 +39,7 @@ const argv = process.argv.slice(2);
 const arg = (k, d = null) => { const i = argv.indexOf(k); return i >= 0 ? argv[i + 1] : d; };
 const has = (k) => argv.includes(k);
 if (!argv.length || has('--help') || has('-h')) {
-  console.log(`chart_gen.mjs — 컨설팅 차트 생성기(11종: waterfall · ranked-bar-h · diverging-bar · stacked-bar · line · scatter · heatmap · matrix-2x2 · tornado · sankey · pareto)
+  console.log(`chart_gen.mjs — 컨설팅 차트 생성기(15종: waterfall · ranked-bar-h · diverging-bar · stacked-bar · line · scatter · heatmap · matrix-2x2 · tornado · sankey · pareto · bullet · dumbbell · slope · waffle)
 usage: node chart_gen.mjs --in MODEL.json [-o SLIDE.html] [--svg-only] [--check] [--quiet]
   --in       차트 의미 모델(스키마: consulting-deck/charts/schema.md)
   -o         슬라이드 단편 출력(기본 stdout)
@@ -77,6 +77,11 @@ const TYPES = {
   'tornado':       { min: 3, max: 8,  archetype: 'chart-bar',    variant: 'tornado' },
   'sankey':        { min: 2, max: 18, archetype: 'sankey-flow',  variant: 'data' },
   'pareto':        { min: 4, max: 10, archetype: 'chart-bar',    variant: 'pareto' },
+  // kodoc round2 8번 — 설계만 이식(정적 SVG): bullet 목표 대비·dumbbell 두 시점 Δ·slope 순위 변화·waffle 10×10 비율
+  'bullet':        { min: 2, max: 8,  archetype: 'chart-bar',    variant: 'bullet' },
+  'dumbbell':      { min: 2, max: 8,  archetype: 'chart-line',   variant: 'dumbbell' },
+  'slope':         { min: 3, max: 10, archetype: 'chart-line',   variant: 'slope' },
+  'waffle':        { min: 2, max: 5,  archetype: 'heatmap-grid', variant: 'waffle' },
 };
 /* data 가 {rows,cols,cells}·{nodes,flows} 객체인 타입 — 그 외는 행 배열 */
 const OBJ_DATA = new Set(['heatmap', 'sankey']);
@@ -273,6 +278,22 @@ if (type && data) {
         if (Math.abs(s - chart.calc.expectTotal) > 1e-6) fail(`pareto 합계 ${Math.round(s * 100) / 100} ≠ calc.expectTotal ${chart.calc.expectTotal}`);
       }
       break;
+    case 'bullet':
+      data.forEach((d, i) => {
+        lab(d, i); num(d.value, `data[${i}].value`); num(d.target, `data[${i}].target`);
+        if (typeof d.value === 'number' && typeof d.target === 'number' && (d.value < 0 || d.target < 0)) fail(`bullet data[${i}] 음수 — 목표 대비는 양수만`);
+      });
+      break;
+    case 'dumbbell':
+    case 'slope':
+      data.forEach((d, i) => { lab(d, i); num(d.before, `data[${i}].before`); num(d.after, `data[${i}].after`); });
+      break;
+    case 'waffle': {
+      data.forEach((d, i) => { lab(d, i); num(d.value, `data[${i}].value`); if (typeof d.value === 'number' && (d.value < 0 || d.value > 100)) fail(`waffle data[${i}].value ${d.value} — 0~100 비율만`); });
+      const sum = data.reduce((s, d) => s + (typeof d.value === 'number' ? d.value : 0), 0);
+      if (Math.abs(sum - 100) > 0.01) fail(`waffle 비율 합 ${Math.round(sum * 100) / 100} — 100 이어야 한다(칸은 100개)`);
+      break;
+    }
     default:
       data.forEach((d, i) => {
         lab(d, i);
@@ -327,6 +348,9 @@ if (type && chart.type === 'ranked-bar-h') {
 if (type && chart.type === 'diverging-bar' && data.length) {
   const pos = data.some((d) => d.value > 0), neg = data.some((d) => d.value < 0);
   if (!(pos && neg)) warn('diverging-bar 인데 부호가 한쪽뿐 — 0축 발산이 아니라 ranked-bar-h 가 적합할 수 있다');
+}
+if (type && chart.type === 'bullet') {
+  data.forEach((d, i) => { if (typeof d.target !== 'number' && d.target != null) fail(`bullet data[${i}].target 누락`); });
 }
 
 if (errors.length) { for (const e of errors) console.error(`FAIL: ${e}`); process.exit(1); }
@@ -1301,12 +1325,125 @@ function buildPareto() {
   return section(svg, { bars: n, steps: n });
 }
 
+/* ── 3-L. bullet — 목표 세로선 + 값 막대 + 목표 초과 강조 (kodoc 설계 이식) ── */
+function buildBullet() {
+  const ROW = 86, BAR_H = 40, AXIS_X = 330, TOP = 80;
+  const maxV = Math.max(...data.map((d) => Math.max(d.value, d.target)), 1e-9) * 1.08;
+  const MAX_W = Math.min(1050, R_EDGE - AXIS_X - 140);
+  const U = (v) => (v / maxV) * MAX_W;
+  const H = TOP + data.length * ROW + 60;
+  const svg = svgOpen(H, slide.ariaLabel || `${chart.type} — ${chart.question}`);
+  svg.push(unitTag);
+  data.forEach((d, i) => {
+    const y = TOP + i * ROW, over = d.value >= d.target;
+    svg.push(`    <g class="wf" data-step="${i + 1}">`);
+    svg.push(`      <text x="${AXIS_X - 22}" y="${r2(y + BAR_H / 2 + 8)}" font-size="24" font-weight="700" fill="var(--ink)" text-anchor="end">${esc(d.label)}</text>`);
+    /* 3영역 배경 — 트랙 전폭(정상 구간) 위 값 막대, 목표선이 구간 경계 */
+    svg.push(`      <rect x="${AXIS_X}" y="${r2(y)}" width="${r2(MAX_W)}" height="${BAR_H}" fill="var(--track)" rx="4"/>`);
+    svg.push(`      <rect x="${AXIS_X}" y="${r2(y)}" width="${r2(Math.max(U(d.value), 4))}" height="${BAR_H}" ${over ? 'fill="var(--accent)"' : 'class="k-solid-b"'} rx="4" ${growL}/>`);
+    svg.push(`      <line x1="${r2(AXIS_X + U(d.target))}" y1="${r2(y - 8)}" x2="${r2(AXIS_X + U(d.target))}" y2="${r2(y + BAR_H + 8)}" stroke="var(--ink)" stroke-width="3"/>`);
+    svg.push(`      <text x="${r2(AXIS_X + U(d.target))}" y="${r2(y - 14)}" font-size="20" font-weight="700" fill="var(--soft)" text-anchor="middle">목표 ${esc(fmt(d.target))}</text>`);
+    svg.push(`      <text x="${r2(AXIS_X + Math.max(U(d.value), 4) + 14)}" y="${r2(y + BAR_H / 2 + 8)}" font-size="24" font-weight="800" class="${over ? 'k-t-o' : ''}" fill="var(--ink)">${esc(fmt(d.value))}</text>`);
+    svg.push(`    </g>`);
+  });
+  return section(svg, { bars: data.length, steps: data.length });
+}
+
+/* ── 3-M. dumbbell — 빈 원=이전 · 찬 원=이후 + Δ 자동 라벨 (kodoc 설계 이식) ── */
+function buildDumbbell() {
+  const ROW = 84, AXIS_X = 330, TOP = 80, R = 11;
+  const lo = Math.min(...data.flatMap((d) => [d.before, d.after])), hi = Math.max(...data.flatMap((d) => [d.before, d.after]), lo + 1e-9);
+  const span = hi - lo || 1e-9;
+  const MAX_W = Math.min(960, R_EDGE - AXIS_X - 160);
+  const U = (v) => (v - lo) / span * MAX_W;
+  const H = TOP + data.length * ROW + 60;
+  const svg = svgOpen(H, slide.ariaLabel || `${chart.type} — ${chart.question}`);
+  svg.push(unitTag);
+  data.forEach((d, i) => {
+    const y = TOP + i * ROW, x1 = AXIS_X + U(d.before), x2 = AXIS_X + U(d.after);
+    const delta = d.after - d.before;
+    const hl = highlights.includes(d.label);
+    svg.push(`    <g class="wf" data-step="${i + 1}">`);
+    svg.push(`      <text x="${AXIS_X - 22}" y="${r2(y + 8)}" font-size="24" font-weight="700" fill="var(--ink)" text-anchor="end">${esc(d.label)}</text>`);
+    svg.push(`      <line x1="${r2(x1)}" y1="${r2(y)}" x2="${r2(x2)}" y2="${r2(y)}" stroke="var(--line)" stroke-width="5" stroke-linecap="round"/>`);
+    svg.push(`      <circle cx="${r2(x1)}" cy="${r2(y)}" r="${R}" fill="var(--paper)" stroke="var(--soft)" stroke-width="3"/>`);
+    svg.push(`      <circle cx="${r2(x2)}" cy="${r2(y)}" r="${R}" ${hl ? 'fill="var(--accent)"' : 'class="k-solid-b"'}/>`);
+    svg.push(`      <text x="${r2(x1)}" y="${r2(y - 20)}" font-size="20" font-weight="600" fill="var(--muted)" text-anchor="middle">${esc(fmt(d.before))}</text>`);
+    svg.push(`      <text x="${r2(x2)}" y="${r2(y - 20)}" font-size="22" font-weight="800" class="${hl ? 'k-t-o' : ''}" fill="var(--ink)" text-anchor="middle">${esc(fmt(d.after))}</text>`);
+    svg.push(`      <text x="${r2(Math.max(x1, x2) + 34)}" y="${r2(y + 8)}" font-size="22" font-weight="800" class="k-t-tag">${esc(fmtDelta(delta))}</text>`);
+    svg.push(`    </g>`);
+  });
+  return section(svg, { bars: data.length, steps: data.length });
+}
+
+/* ── 3-N. slope — 두 시점 순위·구성 변화, 최대 변화 항목만 강조 (kodoc 설계 이식) ── */
+function buildSlope() {
+  const TOP = 90, ROW = 74, X1 = 400, X2 = Math.min(1120, R_EDGE - 220);
+  const vals = data.flatMap((d) => [d.before, d.after]);
+  const lo = Math.min(...vals), hi = Math.max(...vals, lo + 1e-9);
+  const span = hi - lo || 1e-9;
+  /* 값 → y (높은 값이 위) */
+  const Y = (v) => TOP + (1 - (v - lo) / span) * ((data.length - 1) * ROW * 0.92);
+  /* 최대 |Δ| 항목 단일 강조 — 변화 서사가 하나로 수렴한다 */
+  const maxD = Math.max(...data.map((d) => Math.abs(d.after - d.before)));
+  const H = TOP + (data.length - 1) * ROW * 0.92 + 120;
+  const svg = svgOpen(H, slide.ariaLabel || `${chart.type} — ${chart.question}`);
+  svg.push(unitTag);
+  svg.push(`    <line x1="${X1}" y1="${TOP - 30}" x2="${X1}" y2="${r2(Y(lo) + 40)}" stroke="var(--line)" stroke-width="2.5"/>`);
+  svg.push(`    <line x1="${X2}" y1="${TOP - 30}" x2="${X2}" y2="${r2(Y(lo) + 40)}" stroke="var(--line)" stroke-width="2.5"/>`);
+  data.forEach((d, i) => {
+    const y1 = Y(d.before), y2 = Y(d.after);
+    const hl = Math.abs(d.after - d.before) === maxD;
+    const stroke = hl ? 'stroke="var(--accent)" stroke-width="4"' : 'stroke="var(--muted)" stroke-width="2.5"';
+    const tCls = hl ? 'k-t-o' : '';
+    svg.push(`    <g class="wf" data-step="${hl ? data.length : i + 1}">`);
+    svg.push(`      <line x1="${X1}" y1="${r2(y1)}" x2="${X2}" y2="${r2(y2)}" ${stroke} ${hl ? 'stroke-dasharray="none"' : 'opacity="0.75"'}/>`);
+    svg.push(`      <circle cx="${X1}" cy="${r2(y1)}" r="8" ${hl ? 'fill="var(--accent)"' : 'class="k-solid-b"'}/>`);
+    svg.push(`      <circle cx="${X2}" cy="${r2(y2)}" r="8" ${hl ? 'fill="var(--accent)"' : 'class="k-solid-b"'}/>`);
+    svg.push(`      <text x="${X1 - 20}" y="${r2(y1 + 7)}" font-size="22" font-weight="${hl ? 800 : 600}" class="${tCls}" fill="var(--ink)" text-anchor="end">${esc(d.label)} ${esc(fmt(d.before))}</text>`);
+    svg.push(`      <text x="${X2 + 20}" y="${r2(y2 + 7)}" font-size="22" font-weight="${hl ? 800 : 600}" class="${tCls}" fill="var(--ink)" text-anchor="start">${esc(fmt(d.after))} ${hl ? `(${esc(fmtDelta(d.after - d.before))})` : ''}</text>`);
+    svg.push(`    </g>`);
+  });
+  return section(svg, { bars: data.length, steps: data.length });
+}
+
+/* ── 3-O. waffle — 10×10 칸 비율(합 100), 단위칸 색 대비 유지 (kodoc 설계 이식) ── */
+function buildWaffle() {
+  const CELL = 56, GAP = 8, TOP = 84, X0 = 60;
+  const fills = ['k-solid-b', 'fill="var(--accent)"', 'fill="var(--muted)"', 'fill="var(--track-strong)"', 'fill="var(--line)"'];
+  /* 순서대로 칸을 채운다 — 0은 0칸(정직한 수치 계약) */
+  let cells = [];
+  data.forEach((d, i) => { for (let k = 0; k < Math.round(d.value); k++) cells.push(i); });
+  const H = TOP + 10 * (CELL + GAP) + 150;
+  const svg = svgOpen(H, slide.ariaLabel || `${chart.type} — ${chart.question}`);
+  svg.push(unitTag);
+  cells.forEach((ci, k) => {
+    const r = Math.floor(k / 10), c = k % 10;
+    const step = data.length - ci;   // 첫 범주가 마지막 단계 — 뒤 범주부터 공개
+    const f = fills[ci % fills.length];
+    const paint = f.startsWith('k-') ? `class="wf ${f}"` : `class="wf" ${f}`;
+    svg.push(`    <rect ${paint} data-step="${step}" x="${r2(X0 + c * (CELL + GAP))}" y="${r2(TOP + r * (CELL + GAP))}" width="${CELL}" height="${CELL}" rx="10"/>`);
+  });
+  /* 범례 — 오른쪽 세로 나열 */
+  const lx = X0 + 10 * (CELL + GAP) + 60;
+  data.forEach((d, i) => {
+    const y = TOP + i * 74;
+    svg.push(`    <g class="wf" data-step="${data.length - i}">`);
+    svg.push(`      <rect x="${lx}" y="${r2(y)}" width="30" height="30" rx="6" ${fills[i % fills.length].includes('k-') ? `class="${fills[i % fills.length]}"` : fills[i % fills.length]}/>`);
+    svg.push(`      <text x="${lx + 44}" y="${r2(y + 24)}" font-size="26" font-weight="800" fill="var(--ink)">${esc(fmt(d.value))}%</text>`);
+    svg.push(`      <text x="${lx + 44 + tw(fmt(d.value), 26) + 56}" y="${r2(y + 24)}" font-size="24" font-weight="600" fill="var(--soft)">${esc(d.label)}</text>`);
+    svg.push(`    </g>`);
+  });
+  return section(svg, { bars: cells.length, steps: data.length });
+}
+
 /* ── 4. 방출 ─────────────────────────────────────────────────────── */
 const BUILD = {
   'waterfall': buildWaterfall, 'ranked-bar-h': buildRanked, 'diverging-bar': buildDiverging,
   'stacked-bar': buildStacked, 'line': buildLine, 'scatter': buildScatter,
   'heatmap': buildHeatmap, 'matrix-2x2': buildMatrix, 'tornado': buildTornado,
   'sankey': buildSankey, 'pareto': buildPareto,
+  'bullet': buildBullet, 'dumbbell': buildDumbbell, 'slope': buildSlope, 'waffle': buildWaffle,
 };
 const doc = BUILD[chart.type]();
 const body = svgOnly ? doc.svg : doc.section;

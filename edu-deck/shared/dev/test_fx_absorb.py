@@ -98,7 +98,7 @@ class AttributeContractTest(unittest.TestCase):
                 self.assertIn(name, FX_KINDS, 'check_deck FX_KINDS 미등록')
         # 기존 5종·원시 어휘 무변경 — 실행 이름은 arch-trace(TASK-arch-kit) 포함 42종.
         names = set(re.findall(r"name:'([a-z-]+)'", MOTION))
-        self.assertEqual(len(names), 42,
+        self.assertEqual(len(names), 44,
                          f'실행 이름 {len(names)}종 — 42종 체계 변경 감지: {sorted(names)}')
 
     def test_no_forbidden_motion_in_snippets(self):

@@ -1,0 +1,39 @@
+<!-- 체크
+  아키타입 diagnose (변형: screen3)
+  실물 진단 장 — 왼쪽에 실제 화면(사용자 제공 이미지 또는 CSS 목업)과 .ed-callout 지점 라벨 2개,
+  오른쪽에 3단 해설: 주장 박스(상태 라벨) → 틴트 '왜' 박스 → 개념 카드 2.
+  반례 중심 교육 구조: 판정된 산출물을 먼저 보여주고 이유와 개념으로 내려간다.
+  쓰는 법: .ed-callout 의 left/top 은 화면 안 지점 좌표(%). data-tail 은 꼬리 방향.
+    주장 ≤40자 · 왜 ≤60자 · 개념 카드는 짧게. 실화면 이미지는 사용자가 준 것만 허용한다.
+  근거: 사내 발표 덱 관찰(2026-11) — 실화면 콜아웃 + 주장→왜→개념 3단 해설. -->
+
+<!-- screen3: 실화면 + 콜아웃 2개 / 우측 3단 해설 -->
+<section class="slide" data-archetype="diagnose" data-variant="screen3" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 어디가 틀렸는가 ≤28자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;gap:40px;align-items:stretch">
+    <div data-step="1" style="flex:1.4;position:relative;min-height:0">
+      <!-- 실제 화면: 사용자 제공 이미지를 넣거나 CSS 목업으로 대체. 없으면 목업 프레임 자체를 지우지 않는다 -->
+      <div style="position:absolute;inset:0;background:var(--ink);border-radius:var(--r2);display:flex;align-items:center;justify-content:center">
+        <p style="color:var(--muted);font-size:26px">«실제 화면 이미지 또는 목업»</p>
+      </div>
+      <p class="ed-callout" data-step="2" data-tail="down" style="left:8%;top:10%">«지점 1 ≤16자»</p>
+      <p class="ed-callout" data-step="2" data-tail="up" style="left:52%;top:74%">«지점 2 ≤16자»</p>
+    </div>
+    <div class="col" style="flex:1;gap:20px;justify-content:center">
+      <div class="card card--quiet" data-step="3" style="gap:8px;border-left:4px solid var(--coral)">
+        <p class="label" style="color:var(--coral)">«판정 — 반려·승인·보류»</p>
+        <p class="body" style="font-size:30px;color:var(--ink)">“«주장 인용 ≤40자»”</p>
+      </div>
+      <div data-step="4" style="background:var(--accent-light);border-radius:var(--r1);padding:20px 28px">
+        <p class="label">왜</p>
+        <p class="body" style="font-size:28px;color:var(--ink)">«어긋난 이유 ≤60자»</p>
+      </div>
+      <div class="row" data-step="5" style="gap:20px">
+        <div class="card card--quiet f1" style="gap:6px;padding:22px 26px"><p class="label">«개념 1 ≤10자»</p><p class="small" style="font-size:24px">«설명 ≤30자»</p></div>
+        <div class="card card--quiet f1" style="gap:6px;padding:22px 26px"><p class="label">«개념 2 ≤10자»</p><p class="small" style="font-size:24px">«설명 ≤30자»</p></div>
+      </div>
+    </div>
+  </div>
+  <p class="fact fact--quiet" data-src="«F01»">«화면 출처·조회일 ≤45자»</p>
+  <aside class="notes">«발표자 노트 110~450자»</aside>
+</section>

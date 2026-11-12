@@ -27,7 +27,7 @@ class VisualMotion(unittest.TestCase):
   p=self.page()
   self.assertTrue(p.evaluate('!!window.eduMotion'),'shell must install the shared motion engine')
   rows=p.evaluate('''async()=>{let out=[];const N=deckInfo().count;for(let i=0;i<N;i++){deckGo(i,0);await new Promise(r=>requestAnimationFrame(r));let s=document.querySelector('.slide.active');out.push({arch:s.dataset.archetype,signature:s.dataset.motionSignature,n:s.getAnimations({subtree:true}).length});}return out;}''')
-  self.assertEqual(len({r['arch'] for r in rows}),50)
+  self.assertEqual(len({r['arch'] for r in rows}),52)
   # arch-flow는 부품(data-c=stack)이 'stack-reveal'을 직접 기록한다 — 엔진 레시피 밖이라
   # data-motion-signature가 없는 게 계약이다(애니메이션은 부품의 is-play CSS가 돌린다).
   self.assertTrue(all(r['n'] and (r['signature'] or r['arch']=='arch-flow') for r in rows),rows)

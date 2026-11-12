@@ -1,5 +1,5 @@
 <!--
-  아키타입 before-after (변형: mocks, stacks, fix, cross-check, slider)
+  아키타입 before-after (변형: mocks, stacks, fix, cross-check, slider, numeric)
   언제: 전후 비교. mocks=같은 일의 나쁜/좋은 결과 화면, stacks=쌓는 순서·양 비교, fix=한 번에 끝 / 고쳐서 다시, cross-check=두 곳에 확인, slider=가운데 핸들로 나뉜 한 표면.
   단계: 전 → 후 → 정리
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
@@ -146,4 +146,32 @@
   </div>
   <div class="callout" data-step="4" style="font-size:28px;padding:24px 32px"><b>«강조 앞부분 ≤12자»</b> «정리 문장 ≤60자»</div>
   <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>
+
+<!-- numeric: 수치 전후 — 회색 취소선 구값 → 화살표 → 강조 신값의 큰 카드
+     규칙: 두 값은 같은 단위·분모. 근거 캡션 한 줄. (사내 덱 09장 원리 — 차트 없이 개선 서사) -->
+<section class="slide" data-archetype="before-after" data-variant="numeric" style="gap:36px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 무엇이 얼마나 바뀌었나 ≤28자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;gap:32px;align-items:stretch">
+    <div class="card card--quiet f1" data-step="1" style="justify-content:center;align-items:center;gap:20px">
+      <p class="label">«지표 이름 ≤12자»</p>
+      <p style="display:flex;align-items:baseline;gap:28px;margin:0">
+        <span class="stat-num" data-count style="font-size:64px;color:var(--muted);text-decoration:line-through;text-decoration-thickness:6px">«구값 ≤8자»</span>
+        <span style="font-size:64px;color:var(--soft)">→</span>
+        <span class="stat-num" data-count style="font-size:110px;color:var(--accent);line-height:1">«신값 ≤8자»</span>
+      </p>
+      <p class="small" style="font-size:24px;color:var(--muted)">«단위·기간·조건 ≤28자»</p>
+    </div>
+    <div class="card card--quiet f1" data-step="1" style="justify-content:center;align-items:center;gap:20px">
+      <p class="label">«지표 이름 ≤12자»</p>
+      <p style="display:flex;align-items:baseline;gap:28px;margin:0">
+        <span class="stat-num" data-count style="font-size:64px;color:var(--muted);text-decoration:line-through;text-decoration-thickness:6px">«구값 ≤8자»</span>
+        <span style="font-size:64px;color:var(--soft)">→</span>
+        <span class="stat-num" data-count style="font-size:110px;color:var(--accent);line-height:1">«신값 ≤8자»</span>
+      </p>
+      <p class="small" style="font-size:24px;color:var(--muted)">«단위·기간·조건 ≤28자»</p>
+    </div>
+  </div>
+  <p class="fact fact--quiet" data-src="«F01»">«측정 조건·출처 ≤45자»</p>
+  <aside class="notes">«발표자 노트 110~450자»</aside>
 </section>

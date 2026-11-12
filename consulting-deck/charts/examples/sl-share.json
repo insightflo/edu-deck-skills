@@ -1,0 +1,1 @@
+{"slide":{"title":"점유 변화","notes":"t"},"chart":{"type":"slope","question":"누가 올랐나","measure":{"unit":"%","period":"2026"},"data":[{"label":"A","before":40,"after":52},{"label":"B","before":35,"after":30},{"label":"C","before":25,"after":18}]},"source":{"text":"내부","asOf":"2026-10","synthetic":true}}

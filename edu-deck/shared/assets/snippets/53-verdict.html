@@ -1,0 +1,79 @@
+<!-- 체크
+  아키타입 verdict (변형: rejected · approved · hold)
+  판정의 시각화 — 기계가 낸 산출물을 인용 카드로 보여주고 기울어진 아웃라인 스탬프로 채점한다.
+  ✓/✗ 두 축 쌍 카드로 "맞은 것"과 "틀린 것"을 한 장에 나란히 둔다(부분 승인 서사).
+  쓰는 법: 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다. 스탬프 문구는 반려·승인·보류 중 하나.
+    인용 ≤48자 · 근거 ≤40자 · 축 라벨은 짧게(구조·해석 등). data-step 공개 단계를 유지한다.
+  근거: 사내 발표 덱 관찰(2026-11) — 판정은 두 축으로 분리하면 부분 승인 서사가 신뢰를 만든다. -->
+
+<!-- rejected: 반려 판정 — 인용문 + 기울어진 스탬프 + ✓/✗ 쌍 카드 -->
+<section class="slide" data-archetype="verdict" data-variant="rejected" style="gap:36px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 판정 대상 한 문장 ≤28자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;align-items:stretch;gap:0;position:relative">
+    <div class="card card--quiet f1" data-step="1" style="gap:18px;justify-content:center;position:relative">
+      <p class="label">«산출물 출처 — 모델·도구 이름 ≤20자»</p>
+      <p class="body" style="font-size:40px;font-weight:600;color:var(--ink);line-height:1.4">“«인용 ≤48자»”</p>
+      <div class="ed-stamp" data-step="2" style="position:absolute;right:36px;top:36px;transform:rotate(-8deg);border:4px solid var(--coral);border-radius:12px;padding:12px 28px;color:var(--coral);font-size:40px;font-weight:800;letter-spacing:4px">반려</div>
+    </div>
+  </div>
+  <div class="row" style="gap:32px;align-items:stretch">
+    <div class="card card--quiet f1" data-step="3" style="gap:10px;border-top:4px solid var(--blue)">
+      <p class="label" style="color:var(--blue)">✓ «맞은 축 — 구조·산술 등 ≤8자»</p>
+      <p class="body" style="font-size:30px">«근거 ≤40자»</p>
+    </div>
+    <div class="card card--quiet f1" data-step="3" style="gap:10px;border-top:4px solid var(--coral)">
+      <p class="label" style="color:var(--coral)">✗ «틀린 축 — 해석·근거 밖 등 ≤8자»</p>
+      <p class="body" style="font-size:30px">«근거 ≤40자»</p>
+    </div>
+  </div>
+  <p class="fact fact--quiet" data-src="«F01»">«심사 근거 — 문서·판정 기준 ≤45자»</p>
+  <aside class="notes">«발표자 노트 110~450자»</aside>
+</section>
+
+<!-- approved: 승인 판정 — 스탬프만 바꾼다 -->
+<section class="slide" data-archetype="verdict" data-variant="approved" style="gap:36px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 판정 대상 한 문장 ≤28자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;align-items:stretch">
+    <div class="card card--quiet f1" data-step="1" style="gap:18px;justify-content:center;position:relative">
+      <p class="label">«산출물 출처 — 모델·도구 이름 ≤20자»</p>
+      <p class="body" style="font-size:40px;font-weight:600;color:var(--ink);line-height:1.4">“«인용 ≤48자»”</p>
+      <div class="ed-stamp" data-step="2" style="position:absolute;right:36px;top:36px;transform:rotate(-8deg);border:4px solid var(--blue);border-radius:12px;padding:12px 28px;color:var(--blue);font-size:40px;font-weight:800;letter-spacing:4px">승인</div>
+    </div>
+  </div>
+  <div class="row" style="gap:32px;align-items:stretch">
+    <div class="card card--quiet f1" data-step="3" style="gap:10px;border-top:4px solid var(--blue)">
+      <p class="label" style="color:var(--blue)">✓ «맞은 축 ≤8자»</p>
+      <p class="body" style="font-size:30px">«근거 ≤40자»</p>
+    </div>
+    <div class="card card--quiet f1" data-step="3" style="gap:10px;border-top:4px solid var(--coral)">
+      <p class="label" style="color:var(--coral)">✗ «틀린 축 ≤8자»</p>
+      <p class="body" style="font-size:30px">«근거 ≤40자»</p>
+    </div>
+  </div>
+  <p class="fact fact--quiet" data-src="«F01»">«심사 근거 ≤45자»</p>
+  <aside class="notes">«발표자 노트 110~450자»</aside>
+</section>
+
+<!-- hold: 보류 판정 — 스탬프 색을 muted로 -->
+<section class="slide" data-archetype="verdict" data-variant="hold" style="gap:36px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤21자»</p><h2 class="title">«제목: 판정 대상 한 문장 ≤28자»</h2></div>
+  <div class="row" style="flex:1;min-height:0;align-items:stretch">
+    <div class="card card--quiet f1" data-step="1" style="gap:18px;justify-content:center;position:relative">
+      <p class="label">«산출물 출처 — 모델·도구 이름 ≤20자»</p>
+      <p class="body" style="font-size:40px;font-weight:600;color:var(--ink);line-height:1.4">“«인용 ≤48자»”</p>
+      <div class="ed-stamp" data-step="2" style="position:absolute;right:36px;top:36px;transform:rotate(-8deg);border:4px solid var(--soft);border-radius:12px;padding:12px 28px;color:var(--soft);font-size:40px;font-weight:800;letter-spacing:4px">보류</div>
+    </div>
+  </div>
+  <div class="row" style="gap:32px;align-items:stretch">
+    <div class="card card--quiet f1" data-step="3" style="gap:10px;border-top:4px solid var(--blue)">
+      <p class="label" style="color:var(--blue)">✓ «맞은 축 ≤8자»</p>
+      <p class="body" style="font-size:30px">«근거 ≤40자»</p>
+    </div>
+    <div class="card card--quiet f1" data-step="3" style="gap:10px;border-top:4px solid var(--coral)">
+      <p class="label" style="color:var(--coral)">✗ «틀린 축 ≤8자»</p>
+      <p class="body" style="font-size:30px">«근거 ≤40자»</p>
+    </div>
+  </div>
+  <p class="fact fact--quiet" data-src="«F01»">«심사 근거 ≤45자»</p>
+  <aside class="notes">«발표자 노트 110~450자»</aside>
+</section>

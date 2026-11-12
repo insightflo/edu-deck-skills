@@ -1,0 +1,1 @@
+{"slide":{"title":"비용 전후","notes":"t"},"chart":{"type":"dumbbell","question":"얼마나 줄었나","measure":{"unit":"억","period":"2026"},"data":[{"label":"서버","before":120,"after":80},{"label":"라이선스","before":60,"after":45}],"highlight":["서버"]},"source":{"text":"내부","asOf":"2026-10","synthetic":true}}

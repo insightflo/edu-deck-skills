@@ -720,6 +720,18 @@ const haMarkup = (h) => {
     <g class="k-hab"><circle cx="${r2(X(mx))}" cy="${r2(Y(my))}" r="10"/><text class="k-t-qty" x="${r2(X(mx))}" y="${r2(Y(my) + 3.5)}" text-anchor="middle">HA</text></g>${h.label ? `<text class="k-t-spec" x="${r2(X(mx) + (h.horiz ? 0 : 14))}" y="${r2(Y(my) - (h.horiz ? 14 : -4))}" text-anchor="${h.horiz ? 'middle' : 'start'}">${esc(h.label)}</text>` : ''}</g>`;
 };
 
+// 범례 칩 폭 문자별 계수 — Pretendard 실측 0.864(한글)/0.575(라틴)em
+// (kodoc diagram-width-table.json measured 참고, iso_layout.mjs textPx와 동일 규칙)
+function labelPx(s, size) {
+  let w = 0;
+  for (const ch of String(s)) {
+    const cp = ch.codePointAt(0);
+    if (ch === ' ') w += size * 0.3;
+    else if (cp < 0x2e80) w += size * 0.58;
+    else w += size * 0.87;
+  }
+  return w;
+}
 const legendMarkup = (items) => {
   if (!items || !items.length) return '';
   const bar = model.legendStyle === 'bar' || model.legend === 'bar';
@@ -730,20 +742,20 @@ const legendMarkup = (items) => {
     const y0 = H - 64;
     const segs = items2.map((it) => {
       let seg;
-      if (it.icon) { seg = `<use aria-hidden="true" href="#${it.icon}" x="${r2(x)}" y="${r2(y0 + 10)}" width="30" height="30" style="color:var(--blue)"/><text class="k-t-tag" x="${r2(x + 40)}" y="${r2(y0 + 32)}">${esc(it.label)}</text>`; x += 40 + it.label.length * 24 + 56; }
+      if (it.icon) { seg = `<use aria-hidden="true" href="#${it.icon}" x="${r2(x)}" y="${r2(y0 + 10)}" width="30" height="30" style="color:var(--blue)"/><text class="k-t-tag" x="${r2(x + 40)}" y="${r2(y0 + 32)}">${esc(it.label)}</text>`; x += 40 + labelPx(it.label, 24) + 56; }
       else if (it.badge) {
         const bc = { new: 'var(--amber, #d97706)', replaced: 'var(--coral, #dc2626)', existing: 'var(--mut)' }[it.badge] || 'var(--mut)';
         seg = `<rect x="${r2(x)}" y="${r2(y0 + 12)}" width="34" height="24" rx="12" fill="${bc}"/><text class="k-t-tag" x="${r2(x + 44)}" y="${r2(y0 + 32)}">${esc(it.label)}</text>`;
-        x += 44 + it.label.length * 24 + 56;
+        x += 44 + labelPx(it.label, 24) + 56;
       } else if (it.fam) {
         const cls = FAM_CLASS[it.fam] || 'k-paper';
         seg = `<rect class="${cls}" x="${r2(x)}" y="${r2(y0 + 12)}" width="36" height="26" style="rx:8px"/><text class="k-t-tag" x="${r2(x + 48)}" y="${r2(y0 + 32)}">${esc(it.label)}</text>`;
-        x += 48 + it.label.length * 24 + 56;
+        x += 48 + labelPx(it.label, 24) + 56;
       } else {
         const kk = KIND[it.kind] || { mk: 'ahg' };
         const kd = kk.dash ? ` stroke-dasharray="${kk.dash}"` : '';
         seg = `<polyline class="k-ln-${kk.cls || it.kind}"${kd} points="${x},${r2(y0 + 26)} ${x + 70},${r2(y0 + 26)}"/><text class="k-t-tag" x="${r2(x + 84)}" y="${r2(y0 + 32)}">${esc(it.label)}</text>`;
-        x += 84 + it.label.length * 24 + 56;
+        x += 84 + labelPx(it.label, 24) + 56;
       }
       return seg;
     });
@@ -753,13 +765,13 @@ const legendMarkup = (items) => {
     if (it.fam) {                                  // 노드 색 의미 스토치 — 선 범례 옆에 함께
       const cls = FAM_CLASS[it.fam] || 'k-paper';
       const seg = `<rect class="${cls}" x="${r2(x)}" y="${r2(H - 52)}" width="36" height="26" style="rx:8px"/><text class="k-t-tag" x="${x + 48}" y="${r2(H - 32)}">${esc(it.label)}</text>`;
-      x += 48 + it.label.length * 24 + 60;
+      x += 48 + labelPx(it.label, 24) + 60;
       return seg;
     }
     const kk = KIND[it.kind] || { mk: 'ahg' };
     const kd = kk.dash ? ` stroke-dasharray="${kk.dash}"` : '';
     const seg = `<polyline class="k-ln-${kk.cls || it.kind}"${kd} points="${x},${r2(H - 40)} ${x + 70},${r2(H - 40)}"/><text class="k-t-tag" x="${x + 84}" y="${r2(H - 32)}">${esc(it.label)}</text>`;
-    x += 84 + it.label.length * 24 + 60;
+    x += 84 + labelPx(it.label, 24) + 60;
     return seg;
   }).join('\n    ')}</g>`;
 };

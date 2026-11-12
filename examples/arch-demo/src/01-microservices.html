@@ -142,8 +142,8 @@
     <text class="k-t-tag" x="943" y="401" text-anchor="middle">검색 색인원</text>
     </g>
   <g><polyline class="k-ln-b" points="34,684 104,684"/><text class="k-t-tag" x="118" y="692">동기 호출</text>
-    <polyline class="k-ln-o" points="298,684 368,684"/><text class="k-t-tag" x="382" y="692">이벤트(패킷)</text>
-    <polyline class="k-ln-g" points="610,684 680,684"/><text class="k-t-tag" x="694" y="692">보조·회신</text></g>
+    <polyline class="k-ln-o" points="268.71999999999997,684 338.71999999999997,684"/><text class="k-t-tag" x="352.71999999999997" y="692">이벤트(패킷)</text>
+    <polyline class="k-ln-g" points="544.96,684 614.96,684"/><text class="k-t-tag" x="628.96" y="692">보조·회신</text></g>
 </svg>
   <p class="small">읽는 법 — 점선 틀: 책임 경계 · 파란 선: 동기 호출 · 주황 선: 이벤트(점=패킷 흐름) · 회색 선: 보조·회신</p>
   <aside class="notes">가상 예시 시스템이다. 1단계에 책임 경계 세 칸(코어·비동기·데이터)이 뜨고, 2단계에 노드 11개가 켜지며, 3단계에 연결선 12개가 그려진다. 격자 상한(노드 14·행 3) 안에서는 억지로 눌러 담아야 했던 11노드 규모를 dagre가 랭크 배치로 풀어낸 장면이다. publish/consume 두 이벤트 경로에 패킷이 흐르고, app→db sql이 긴 우회선으로, gw↔auth 왕복이 두 줄로 갈라지는지 본다.</aside>

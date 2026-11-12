@@ -160,9 +160,10 @@ function textPx(s, size) {
   let w = 0;
   for (const ch of String(s)) {
     const cp = ch.codePointAt(0);
+    // Pretendard 실측 0.864/0.575em — kodoc diagram-width-table.json measured 참고
     if (ch === ' ') w += size * 0.3;
-    else if (cp < 0x2e80) w += size * 0.56;
-    else w += size;
+    else if (cp < 0x2e80) w += size * 0.58;
+    else w += size * 0.87;
   }
   return w;
 }

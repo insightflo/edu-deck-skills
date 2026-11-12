@@ -81,6 +81,8 @@ body{
   display:flex;flex-direction:column;gap:16px;
 }
 .card h3{font-size:44px;font-weight:700;line-height:1.2}
+/* 강도 분리(glm-vs-ours §4-1): 시끄러운 것은 장에 하나. 조용한 상자는 헤어라인 하나로. */
+.card--quiet{border:1px solid var(--line);border-top:1px solid var(--line);box-shadow:none}
 .body{font-size:32px;color:var(--soft);line-height:1.45}
 .dark .body,.dark .small{color:var(--muted)}
 .small{font-size:28px;color:var(--soft);line-height:1.5}
@@ -100,6 +102,10 @@ ul.list li::marker{color:var(--accent)}
   padding:32px 48px;font-size:36px;font-weight:700;line-height:1.4;
 }
 .callout b{color:var(--accent-light)}
+/* 결론 띠를 카드 밖 한 줄로 내리는 조용한 변형 — 인라인 텍스트, 면·띠 없음 */
+.callout--inline{background:none;color:var(--soft);border-left:none;border-radius:0;
+  padding:0;font-size:28px;font-weight:600;line-height:1.5}
+.callout--inline b{color:var(--accent-text)}
 .ico{width:56px;height:56px;color:var(--accent)}
 .pill{
   background:var(--ink);color:var(--light);
@@ -219,6 +225,9 @@ ul.list li::marker{color:var(--accent)}
 
 /* ── 사실 칩·체크 행 ────────────────────────────────────── */
 .fact{font-size:23px;font-weight:700;color:var(--blue-text);background:var(--blue-soft);border-left:6px solid var(--blue);border-radius:0 var(--r1) var(--r1) 0;padding:10px 20px;align-self:flex-start;margin-top:8px}
+/* 출처를 본문과 경쟁시키지 않는 조용한 행 — 면·띠 없이 작은 글자만 남긴다 */
+.fact--quiet{font-size:23px;font-weight:400;color:var(--muted);background:none;border-left:none;
+  border-radius:0;padding:0;align-self:flex-start;margin-top:auto}
 .todo{display:flex;align-items:center;gap:32px;background:var(--paper);border:2px solid var(--line);border-radius:var(--r2);padding:24px 32px;cursor:pointer}
 .todo h4{font-size:36px;font-weight:800}
 .todo p{font-size:28px;color:var(--soft)}
@@ -2292,12 +2301,12 @@ body.st-presenter #edThemes,html.ed-deck:not(.ed-ready) #edThemes{display:none!i
     <text class="k-t-spec" x="1392" y="504" text-anchor="middle">테이프</text>
     </g>
   <g><rect class="k-legbar" x="0" y="780" width="1664" height="56"/><polyline class="k-ln-b" points="34,806 104,806"/><text class="k-t-tag" x="118" y="812">동기 호출·포트</text>
-    <polyline class="k-ln-g" points="366,806 436,806"/><text class="k-t-tag" x="450" y="812">보조·연계</text>
-    <polyline class="k-ln-o" points="626,806 696,806"/><text class="k-t-tag" x="710" y="812">이벤트</text>
-    <use aria-hidden="true" href="#i-si-rack" x="838" y="790" width="30" height="30" style="color:var(--blue)"/><text class="k-t-tag" x="878" y="812">가상 장비</text>
-    <use aria-hidden="true" href="#i-si-fw" x="1054" y="790" width="30" height="30" style="color:var(--blue)"/><text class="k-t-tag" x="1094" y="812">경계 보안</text>
-    <rect x="1270" y="792" width="34" height="24" rx="12" fill="var(--mut)"/><text class="k-t-tag" x="1314" y="812">기존</text>
-    <rect x="1418" y="792" width="34" height="24" rx="12" fill="var(--amber, #d97706)"/><text class="k-t-tag" x="1462" y="812">신규</text></g>
+    <polyline class="k-ln-g" points="320.4,806 390.4,806"/><text class="k-t-tag" x="404.4" y="812">보조·연계</text>
+    <polyline class="k-ln-o" points="557.8399999999999,806 627.8399999999999,806"/><text class="k-t-tag" x="641.8" y="812">이벤트</text>
+    <use aria-hidden="true" href="#i-si-rack" x="760.5" y="790" width="30" height="30" style="color:var(--blue)"/><text class="k-t-tag" x="800.5" y="812">가상 장비</text>
+    <use aria-hidden="true" href="#i-si-fw" x="947.2" y="790" width="30" height="30" style="color:var(--blue)"/><text class="k-t-tag" x="987.2" y="812">경계 보안</text>
+    <rect x="1133.9" y="792" width="34" height="24" rx="12" fill="var(--mut)"/><text class="k-t-tag" x="1177.9" y="812">기존</text>
+    <rect x="1275.7" y="792" width="34" height="24" rx="12" fill="var(--amber, #d97706)"/><text class="k-t-tag" x="1319.7" y="812">신규</text></g>
 </svg>
   </div>
   <aside class="arch-side">
@@ -2531,11 +2540,11 @@ body.st-presenter #edThemes,html.ed-deck:not(.ed-ready) #edThemes{display:none!i
     <text class="k-t-spec" x="1164" y="503" text-anchor="middle">헬스·알람</text>
     </g>
   <g><rect class="k-legbar" x="0" y="862" width="1664" height="56"/><polyline class="k-ln-b" points="34,888 104,888"/><text class="k-t-tag" x="118" y="894">동기 호출</text>
-    <polyline class="k-ln-o" points="294,888 364,888"/><text class="k-t-tag" x="378" y="894">이벤트</text>
-    <polyline class="k-ln-g" points="506,888 576,888"/><text class="k-t-tag" x="590" y="894">보조·연계</text>
-    <use aria-hidden="true" href="#i-si-rack" x="766" y="872" width="30" height="30" style="color:var(--blue)"/><text class="k-t-tag" x="806" y="894">장비·그룹</text>
-    <rect x="982" y="874" width="34" height="24" rx="12" fill="var(--mut)"/><text class="k-t-tag" x="1026" y="894">기존</text>
-    <rect x="1130" y="874" width="34" height="24" rx="12" fill="var(--amber, #d97706)"/><text class="k-t-tag" x="1174" y="894">신규</text></g>
+    <polyline class="k-ln-o" points="264.71999999999997,888 334.71999999999997,888"/><text class="k-t-tag" x="348.7" y="894">이벤트</text>
+    <polyline class="k-ln-g" points="467.35999999999996,888 537.3599999999999,888"/><text class="k-t-tag" x="551.4" y="894">보조·연계</text>
+    <use aria-hidden="true" href="#i-si-rack" x="704.8" y="872" width="30" height="30" style="color:var(--blue)"/><text class="k-t-tag" x="744.8" y="894">장비·그룹</text>
+    <rect x="898.2" y="874" width="34" height="24" rx="12" fill="var(--mut)"/><text class="k-t-tag" x="942.2" y="894">기존</text>
+    <rect x="1040" y="874" width="34" height="24" rx="12" fill="var(--amber, #d97706)"/><text class="k-t-tag" x="1084" y="894">신규</text></g>
 </svg>
   </div>
   <aside class="arch-side">
@@ -2652,9 +2661,9 @@ body.st-presenter #edThemes,html.ed-deck:not(.ed-ready) #edThemes{display:none!i
     <text class="t-l" x="1339" y="478" text-anchor="middle">파일 저장소</text>
     </g>
   <g><polyline class="k-ln-b" points="34,580 104,580"/><text class="k-t-tag" x="118" y="588">동기 호출</text>
-    <polyline class="k-ln-g" points="298,580 368,580"/><text class="k-t-tag" x="382" y="588">보조·연계</text>
-    <rect class="k-blue" x="562" y="568" width="36" height="26" style="rx:8px"/><text class="k-t-tag" x="610" y="588">온라인 계통</text>
-    <rect class="k-orange" x="814" y="568" width="36" height="26" style="rx:8px"/><text class="k-t-tag" x="862" y="588">배치 계통</text></g>
+    <polyline class="k-ln-g" points="268.71999999999997,580 338.71999999999997,580"/><text class="k-t-tag" x="352.71999999999997" y="588">보조·연계</text>
+    <rect class="k-blue" x="510.2" y="568" width="36" height="26" style="rx:8px"/><text class="k-t-tag" x="558.16" y="588">온라인 계통</text>
+    <rect class="k-orange" x="729.8" y="568" width="36" height="26" style="rx:8px"/><text class="k-t-tag" x="777.76" y="588">배치 계통</text></g>
 </svg>
   </div>
   <div style="flex:0 0 260px;display:flex;flex-direction:column;gap:12px">
@@ -2767,8 +2776,8 @@ body.st-presenter #edThemes,html.ed-deck:not(.ed-ready) #edThemes{display:none!i
     <text class="k-t-tag" x="242" y="596" text-anchor="middle">공공 연계</text>
     </g>
   <g><polyline class="k-ln-b" points="34,698 104,698"/><text class="k-t-tag" x="118" y="706">동기 호출</text>
-    <polyline class="k-ln-g" stroke-dasharray="8 8" points="298,698 368,698"/><text class="k-t-tag" x="382" y="706">응답</text>
-    <polyline class="k-ln-g" points="490,698 560,698"/><text class="k-t-tag" x="574" y="706">보조·연계</text></g>
+    <polyline class="k-ln-g" stroke-dasharray="8 8" points="268.71999999999997,698 338.71999999999997,698"/><text class="k-t-tag" x="352.71999999999997" y="706">응답</text>
+    <polyline class="k-ln-g" points="454.47999999999996,698 524.48,698"/><text class="k-t-tag" x="538.48" y="706">보조·연계</text></g>
 </svg>
   <p class="small">인수인계 포인트 — 신규 연동은 허브 없이 직접 붙이지 않는다. IF 등록 후 허브 경로로만 낸다.</p>
   <aside class="notes">P0 연계 아키텍처. 허브(EAI) 매개 패턴으로 IF 번호·프로토콜·주기를 일관된 3토큰 라벨에 싣고 동기/비동기는 선 종류로 구분한다. 외부기관은 내부망 존 바깥 아래 대외 영역에 별도 존으로 분리된다. 1단계 존·경계, 2단계 시스템(온라인 허브=청색, 내부 기간계=기본, 대외 기관=주황), 3단계 IF-01 대내 동기 호출·응답, 4단계 IF-02·IF-04 내부 배치 연계, 5단계 IF-03 대외 실시간 연계.</aside>
@@ -3111,9 +3120,9 @@ body.st-presenter #edThemes,html.ed-deck:not(.ed-ready) #edThemes{display:none!i
     <text class="t-l" x="1332" y="166" text-anchor="middle">재처리 대기</text>
     </g>
   <g><polyline class="k-ln-b" points="34,465.5 104,465.5"/><text class="k-t-tag" x="118" y="473.5">정상 JOB 선후행</text>
-    <polyline class="k-ln-g" stroke-dasharray="8 8" points="418,465.5 488,465.5"/><text class="k-t-tag" x="502" y="473.5">오류 응답</text>
-    <polyline class="k-ln-g" points="682,465.5 752,465.5"/><text class="k-t-tag" x="766" y="473.5">재처리 경로</text>
-    <rect class="k-orange" x="970" y="453.5" width="36" height="26" style="rx:8px"/><text class="k-t-tag" x="1018" y="473.5">오류·재처리 격리</text></g>
+    <polyline class="k-ln-g" stroke-dasharray="8 8" points="338.56,465.5 408.56,465.5"/><text class="k-t-tag" x="422.56" y="473.5">오류 응답</text>
+    <polyline class="k-ln-g" points="573.28,465.5 643.28,465.5"/><text class="k-t-tag" x="657.28" y="473.5">재처리 경로</text>
+    <rect class="k-orange" x="828.9" y="453.5" width="36" height="26" style="rx:8px"/><text class="k-t-tag" x="876.88" y="473.5">오류·재처리 격리</text></g>
 </svg>
   </div>
   <div style="flex:0 0 260px;display:flex;flex-direction:column;gap:12px">
@@ -3310,10 +3319,10 @@ body.st-presenter #edThemes,html.ed-deck:not(.ed-ready) #edThemes{display:none!i
     <text class="k-t-spec" x="1317" y="205" text-anchor="middle">헬스·알람</text>
     </g>
   <g><rect class="k-legbar" x="0" y="558" width="1664" height="56"/><polyline class="k-ln-b" points="34,584 104,584"/><text class="k-t-tag" x="118" y="590">동기 호출·포트</text>
-    <polyline class="k-ln-g" points="366,584 436,584"/><text class="k-t-tag" x="450" y="590">보조·미러</text>
-    <use aria-hidden="true" href="#i-si-fw" x="626" y="568" width="30" height="30" style="color:var(--blue)"/><text class="k-t-tag" x="666" y="590">경계 보안</text>
-    <use aria-hidden="true" href="#i-si-rack" x="842" y="568" width="30" height="30" style="color:var(--blue)"/><text class="k-t-tag" x="882" y="590">가상 장비</text>
-    <rect x="1058" y="570" width="34" height="24" rx="12" fill="var(--mut)"/><text class="k-t-tag" x="1102" y="590">기존</text></g>
+    <polyline class="k-ln-g" points="320.4,584 390.4,584"/><text class="k-t-tag" x="404.4" y="590">보조·미러</text>
+    <use aria-hidden="true" href="#i-si-fw" x="557.8" y="568" width="30" height="30" style="color:var(--blue)"/><text class="k-t-tag" x="597.8" y="590">경계 보안</text>
+    <use aria-hidden="true" href="#i-si-rack" x="744.6" y="568" width="30" height="30" style="color:var(--blue)"/><text class="k-t-tag" x="784.6" y="590">가상 장비</text>
+    <rect x="931.3" y="570" width="34" height="24" rx="12" fill="var(--mut)"/><text class="k-t-tag" x="975.3" y="590">기존</text></g>
 </svg>
   </div>
   <aside class="arch-side">
@@ -3441,9 +3450,9 @@ body.st-presenter #edThemes,html.ed-deck:not(.ed-ready) #edThemes{display:none!i
     <text class="k-t-tag" x="1502" y="370" text-anchor="middle">복제 DB</text>
     </g>
   <g><polyline class="k-ln-b" points="34,591 104,591"/><text class="k-t-tag" x="118" y="599">전용회선</text>
-    <polyline class="k-ln-g" points="274,591 344,591"/><text class="k-t-tag" x="358" y="599">인터넷 VPN</text>
-    <polyline class="k-ln-o" points="586,591 656,591"/><text class="k-t-tag" x="670" y="599">백업 경로</text>
-    <rect class="k-orange" x="850" y="579" width="36" height="26" style="rx:8px"/><text class="k-t-tag" x="898" y="599">대외 경계 장비</text></g>
+    <polyline class="k-ln-g" points="261.52,591 331.52,591"/><text class="k-t-tag" x="345.52" y="599">인터넷 VPN</text>
+    <polyline class="k-ln-o" points="517.12,591 587.12,591"/><text class="k-t-tag" x="601.12" y="599">백업 경로</text>
+    <rect class="k-orange" x="751.8" y="579" width="36" height="26" style="rx:8px"/><text class="k-t-tag" x="799.8399999999999" y="599">대외 경계 장비</text></g>
 </svg>
   <p class="small">인수인계 포인트 — 두 사이트는 전용광(실선)과 백업 VPN(점선)으로 이중화된다. 전환 절차를 사전 숙지할 것.</p>
   <aside class="notes">물리 구성도다. 논리도(C1)와 달리 포트가 아니라 구간(사이트-회선-장비)을 보여준다. 본사와 센터 두 사이트 존이 순차 랭크로 완전 분리된다(hint 간선 — 존 상자가 겹쳐 방화벽 소속이 모호해지는 위상 왜곡 방지). 1단계에 두 사이트 띠와 대외 경계 장비가 서고, 2단계에 각 사이트의 코어·서버·DB가 켜지며, 3단계에 회선 3종(실선 전용회선·점선 인터넷 VPN·주황 백업 경로)이 그려진다. 라벨의 1G/10G·광/구리는 예시 스펙이며 실측값이 아니다.</aside>
@@ -3538,7 +3547,7 @@ body.st-presenter #edThemes,html.ed-deck:not(.ed-ready) #edThemes{display:none!i
     <g data-step="6"><circle cx="1168" cy="94" r="9" style="fill:var(--blue)"/><text class="k-t-tag" x="1183" y="101">Active 승격</text></g>
     </g>
   <g><polyline class="k-ln-b" points="34,528 104,528"/><text class="k-t-tag" x="118" y="536">동기 호출</text>
-    <polyline class="k-ln-g" points="298,528 368,528"/><text class="k-t-tag" x="382" y="536">보조·연계</text></g>
+    <polyline class="k-ln-g" points="268.71999999999997,528 338.71999999999997,528"/><text class="k-t-tag" x="352.71999999999997" y="536">보조·연계</text></g>
 </svg>
   </div>
   <div style="flex:0 0 260px;display:flex;flex-direction:column;gap:12px">

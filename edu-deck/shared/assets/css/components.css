@@ -197,3 +197,17 @@
 .screen-cite .sc-date{font-size:24px;color:var(--soft)}
 .screen-cite .sc-gist{font-size:26px;line-height:1.45;color:var(--soft)}
 .screen-cite .sc-gist b{color:var(--accent-text);font-weight:800}
+
+/* ── 실화면 콜아웃·투명성 상태행 (사내 덱 관찰 원리 이식) ── */
+/* .ed-callout — 실화면·목업 위 지점을 짚는 흰 라벨 + 꼬리 화살표. tail 방향: data-tail="down|up|left|right" */
+.ed-callout{position:absolute;background:var(--paper);border:2px solid var(--line);border-radius:var(--r1);
+  padding:14px 22px;font-size:26px;font-weight:700;color:var(--ink);box-shadow:var(--shadow-1);z-index:3}
+.ed-callout::after{content:"";position:absolute;width:0;height:0}
+.ed-callout[data-tail="down"]::after{left:32px;bottom:-14px;border-left:12px solid transparent;border-right:12px solid transparent;border-top:14px solid var(--line)}
+.ed-callout[data-tail="up"]::after{left:32px;top:-14px;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:14px solid var(--line)}
+.ed-callout[data-tail="left"]::after{left:-14px;top:20px;border-top:12px solid transparent;border-bottom:12px solid transparent;border-right:14px solid var(--line)}
+.ed-callout[data-tail="right"]::after{right:-14px;top:20px;border-top:12px solid transparent;border-bottom:12px solid transparent;border-left:14px solid var(--line)}
+/* .ed-runline — 측정 조건을 각주가 아니라 본문 요소로: 모노스페이스·헤어라인 위 구분점 나열. 실측 수치만. */
+.ed-runline{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:22px;color:var(--soft);
+  border-top:1px solid var(--line);padding-top:14px;margin-top:8px;letter-spacing:0.5px;align-self:flex-start}
+.ed-runline b{color:var(--ink);font-weight:700}

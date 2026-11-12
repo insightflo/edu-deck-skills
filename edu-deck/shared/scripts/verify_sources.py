@@ -379,6 +379,80 @@ def fetch_and_compare(facts, ids, out: Out, research_path: Path, mark: bool):
     return fetched, tried
 
 
+# ── 글자 그대로 대조(--quotes)·금지어(--ban) ────────────────────────────────
+# ko-document-studio verify_source.py(© 2026 acc0mplish, MIT)의 설계를 우리 마크업 계약으로 재작성했다.
+# 저쪽은 section.ag-slide 기준, 우리는 #stage > .slide. "덱에 실렸는가" 판정 대상은
+# 코드 상자(.code pre — .p·.out·.c·.ph span은 복사에서 빠지므로 제외)와 복사 단추 텍스트다.
+
+
+def squeeze(text: str) -> str:
+    return re.sub(r"\s+", "", text)
+
+
+def first_mismatch(probe: str, src: str) -> int:
+    """probe의 앞부분이 src 안에 남아 있는 최장 길이 — 이진탐색."""
+    lo, hi = 0, len(probe)
+    while lo < hi:
+        mid = (lo + hi + 1) // 2
+        if probe[:mid] in src:
+            lo = mid
+        else:
+            hi = mid - 1
+    return lo
+
+
+def _deck_text(html_path: Path):
+    """(장 번호→화면 글자 집계, 복사 대상 글자) — 스크립트·노트·뷰어 크롬은 뺀다."""
+    from bs4 import BeautifulSoup
+    soup = BeautifulSoup(html_path.read_text(encoding="utf-8"), "html.parser")
+    for sel in ("script", "style", "aside.notes", ".ed-top", ".ed-bot", ".ed-reader-nav",
+                ".ed-zoom-hint", "#help", "[hidden]", ".sr-only"):
+        for el in soup.select(sel):
+            el.decompose()
+    slides, code = {}, []
+    for n, sec in enumerate(soup.select("#stage > .slide"), 1):
+        slides[str(n)] = sec.get_text()
+    for pre in soup.select(".code pre"):
+        for el in pre.select(".p, .out, .c, .ph"):
+            el.decompose()
+        code.append(pre.get_text())
+    return slides, "".join(code)
+
+
+def check_quotes(quotes: dict, src_text: str, html_path: Path, out: Out):
+    """축자 글이 ①원문에 있는가 ②덱의 코드·복사 대상에 그대로 실렸는가 이중 검사."""
+    slides, code_text = _deck_text(html_path)
+    src = squeeze(src_text)
+    screen = squeeze(code_text)
+    ok = 0
+    for name, text in quotes.items():
+        probe = squeeze(text)
+        if probe not in src:
+            at = first_mismatch(probe, src)
+            pos = src.find(probe[:at]) + at if at else src.find(probe[:4])
+            out.add("ERROR", "quotes", f"“{name}” 원문과 {at}글자까지 일치 — 덱: {probe[at:at+30]} | 원문: {src[max(pos,0):max(pos,0)+30]}")
+        elif probe not in screen:
+            out.add("ERROR", "quotes", f"“{name}” 원문에는 있지만 덱의 코드 상자에 그대로 실리지 않았습니다")
+        else:
+            ok += 1
+    out.add("INFO", "quotes", f"글자 그대로 대조: {ok}/{len(quotes)} 일치")
+
+
+def check_ban(words: list, html_path: Path, out: Out):
+    """지우기로 한 낱말이 덱 HTML(메타·설정 포함 raw)과 화면 글자에 남았는지 검사."""
+    slides, _ = _deck_text(html_path)
+    raw = html_path.read_text(encoding="utf-8")
+    import html as _html
+    plain = _html.unescape(raw)
+    for word in words:
+        n = plain.count(word)
+        where = [sid for sid, t in slides.items() if word in t]
+        if n:
+            out.add("ERROR", "ban", f"'{word}': HTML {n}곳, 장 {', '.join('#'+s for s in where) or '(메타·설정)'}")
+        else:
+            out.add("INFO", "ban", f"'{word}': HTML 0곳")
+
+
 def main(argv=None):
     """
     [목적] 명령줄 진입점. 덱 폴더 방식과 파일 지정 방식을 모두 받는다.
@@ -393,6 +467,9 @@ def main(argv=None):
     ap.add_argument("--fetch", action="store_true", help="출처 주소를 가져와 원문 대조")
     ap.add_argument("--all", action="store_true", help="--fetch 때 칩에 안 쓴 사실까지 모두 대조")
     ap.add_argument("--mark", action="store_true", help="인용·값이 모두 확인된 사실의 확인을 원문대조로 고쳐 씀")
+    ap.add_argument("--quotes", help='글자 그대로 옮길 글 {"이름": "글"} JSON 파일 — 덱의 .code 상자와 이중 대조')
+    ap.add_argument("--quotes-src", help="--quotes 원문 대조 파일(미지정 시 research.md)")
+    ap.add_argument("--ban", action="append", default=[], help="덱에 남아 있으면 안 되는 낱말(반복 가능)")
     ap.add_argument("--json", help="결과 JSON 저장 경로")
     args = ap.parse_args(argv)
     if args.deck_dir:
@@ -435,6 +512,26 @@ def main(argv=None):
     if args.fetch:
         ids = set(facts) if (args.all or not html) else cited
         fetched, tried = fetch_and_compare(facts, ids, out, research, args.mark)
+    if args.quotes:
+        if not html:
+            out.add("ERROR", "quotes", "--quotes 는 덱 HTML 이 필요합니다(--html 또는 deck.json 결과)")
+        else:
+            try:
+                qmap = json.loads(Path(args.quotes).read_text(encoding="utf-8-sig"))
+                qsrc = Path(args.quotes_src) if args.quotes_src else research
+                if not isinstance(qmap, dict):
+                    raise ValueError("quotes JSON은 객체여야 합니다")
+                if not qsrc.is_file():
+                    raise FileNotFoundError(qsrc)
+                check_quotes(qmap, qsrc.read_text(encoding="utf-8-sig"), html, out)
+            except (OSError, ValueError) as e:
+                print(f"ERROR  --quotes 처리 실패: {str(e)[:100]}", file=sys.stderr)
+                return 2
+    if args.ban:
+        if not html:
+            out.add("ERROR", "ban", "--ban 은 덱 HTML 이 필요합니다(--html 또는 deck.json 결과)")
+        else:
+            check_ban(args.ban, html, out)
     order = {"ERROR": 0, "WARN": 1, "INFO": 2}
     for sev, where, msg in sorted(out.rows, key=lambda r: (order[r[0]], r[1])):
         print(f"{sev:<6} [{where}] {msg}")

@@ -6,15 +6,15 @@
   <figure class="fig-slot">
 <svg class="dg" data-lint="svg-diagram" viewBox="0 0 1664 796" role="img" aria-label="하이브리드 클라우드 구성도. 온프렘 앱이 방화벽을 지나 VPN 으로 클라우드 게이트웨이에 닿고, 그 너머 오브젝트 저장소와 분석 워커로 이어진다. 신뢰 경계는 방화벽과 클라우드 게이트웨이 사이에 있다.">
 <title>하이브리드 클라우드 — 온프렘에서 클라우드로 건너가는 지점</title>
-<g transform="translate(554 185)">
+<g transform="translate(558.1 185)">
 <g data-arch-zone="onprem" data-zone-kind="zone">
 <polygon points="-283.2,-104 283.2,-104 283.2,232 -283.2,232" fill="var(--light)" fill-opacity=".9" stroke="var(--line)" stroke-width="2" stroke-dasharray="16 12" stroke-linejoin="round"/>
-<rect class="k-paper" x="-334.2" y="-157" width="102" height="36" style="rx:8px"/>
+<rect class="k-paper" x="-329.1" y="-157" width="91.9" height="36" style="rx:8px"/>
 <text class="t-l k-t-b" x="-283.2" y="-131" text-anchor="middle">온프렘</text>
 </g>
 <g data-arch-zone="trust" data-zone-kind="trust">
 <polygon points="-283.2,248 755.2,248 755.2,600 -283.2,600" fill="var(--light)" fill-opacity=".9" stroke="var(--accent)" stroke-width="2" stroke-dasharray="12 9" stroke-linejoin="round"/>
-<rect class="k-paper" x="620.2" y="195" width="270" height="36" style="rx:8px"/>
+<rect class="k-paper" x="633.5" y="195" width="243.4" height="36" style="rx:8px"/>
 <text class="t-l k-t-b" x="755.2" y="221" text-anchor="middle">신뢰 경계 · 클라우드</text>
 </g>
 <g data-step="1" data-arch-layer="edges"><path data-arch-edge="app--fw" class="k-ln-b" d="M 0 0 L 0 120" marker-end="url(#ah-b)"/></g>
@@ -28,7 +28,7 @@
 <polygon points="0,-33 59,0 0,33 -59,0" fill="var(--blue)" fill-opacity=".18" stroke="none"/>
 <g stroke="var(--paper)" stroke-opacity=".55" stroke-width="2.4" stroke-linecap="round" fill="none"><polyline points="11.8,38.1 50.7,17.2"/><polyline points="11.8,57 50.7,36.1"/></g>
 <circle cx="7.1" cy="41.6" r="3.2" fill="var(--success)"/>
-<rect class="k-paper" x="-70.9" y="86" width="141.8" height="38" style="rx:9px"/>
+<rect class="k-paper" x="-64.1" y="86" width="128.3" height="38" style="rx:9px"/>
 <text class="t-l" x="0" y="114" text-anchor="middle">온프렘 앱</text>
 </g><g data-arch-node="fw" data-kind="firewall" data-state="ok">
 <ellipse cx="0" cy="226" rx="64" ry="16.3" fill="var(--ink)" fill-opacity=".12"/>
@@ -38,7 +38,7 @@
 <polygon points="0,123 64,160 0,197 -64,160" fill="var(--blue)" fill-opacity=".18" stroke="none"/>
 <g stroke="var(--paper)" stroke-opacity=".55" stroke-width="2.4" stroke-linecap="round" fill="none"><polyline points="3.8,200.5 23,189.4"/><polyline points="30.7,185 49.9,173.9"/><polyline points="9,204.3 28.2,193.2"/><polyline points="35.8,188.8 55,177.7"/><polyline points="3.8,214 23,202.9"/><polyline points="30.7,198.5 49.9,187.4"/></g>
 <circle cx="7.7" cy="200.4" r="3.2" fill="var(--success)"/>
-<rect class="k-paper" x="-54" y="234" width="108" height="38" style="rx:9px"/>
+<rect class="k-paper" x="-48.9" y="234" width="97.9" height="38" style="rx:9px"/>
 <text class="t-l" x="0" y="262" text-anchor="middle">방화벽</text>
 </g></g>
 <g data-step="2" data-arch-layer="nodes"><g data-arch-node="cgw" data-kind="router" data-state="ok">
@@ -50,7 +50,7 @@
 <g stroke="var(--paper)" stroke-opacity=".55" stroke-width="2.4" stroke-linecap="round" fill="none"><polyline points="12.2,358.8 12.2,366.8"/><polyline points="26.7,350.5 26.7,358.5"/><polyline points="41.3,342.1 41.3,350.1"/><polyline points="55.8,333.8 55.8,341.8"/></g>
 <circle cx="8.2" cy="360.3" r="3.2" fill="var(--success)"/>
 <polyline points="0,304.4 0,335.6" stroke="var(--blue)" stroke-width="2.6" stroke-linecap="round"/><polyline points="27.2,320 -27.2,320" stroke="var(--blue)" stroke-width="2.6" stroke-linecap="round" opacity=".55"/>
-<rect class="k-paper" x="-85.5" y="390" width="170.9" height="38" style="rx:9px"/>
+<rect class="k-paper" x="-79.2" y="390" width="158.4" height="38" style="rx:9px"/>
 <text class="t-l" x="0" y="418" text-anchor="middle">클라우드 GW</text>
 </g></g>
 <g data-step="3" data-arch-layer="nodes"><g data-arch-node="obj" data-kind="storage" data-state="ok">
@@ -61,7 +61,7 @@
 <polygon points="472,284 535,320 472,356 409,320" fill="var(--blue)" fill-opacity=".18" stroke="none"/>
 <g stroke="var(--paper)" stroke-opacity=".55" stroke-width="2.4" stroke-linecap="round" fill="none"><polyline points="484.6,357.4 526.2,334.5"/><polyline points="484.6,371.2 526.2,348.3"/><polyline points="484.6,385 526.2,362.1"/></g>
 <circle cx="479.6" cy="365.5" r="3.2" fill="var(--success)"/>
-<rect class="k-paper" x="362.1" y="413" width="219.8" height="38" style="rx:9px"/>
+<rect class="k-paper" x="373.9" y="413" width="196.1" height="38" style="rx:9px"/>
 <text class="t-l" x="472" y="441" text-anchor="middle">오브젝트 저장소</text>
 </g><g data-arch-node="worker" data-kind="server1u" data-state="busy">
 <ellipse cx="0" cy="536" rx="59" ry="14.5" fill="var(--ink)" fill-opacity=".12"/>
@@ -71,7 +71,7 @@
 <polygon points="0,447 59,480 0,513 -59,480" fill="var(--blue)" fill-opacity=".18" stroke="none"/>
 <g stroke="var(--paper)" stroke-opacity=".55" stroke-width="2.4" stroke-linecap="round" fill="none"><polyline points="11.8,517.6 50.7,496.2"/></g>
 <circle cx="7.1" cy="515" r="3.2" fill="var(--accent)"/>
-<rect class="k-paper" x="-70.9" y="544" width="141.8" height="38" style="rx:9px"/>
+<rect class="k-paper" x="-64.1" y="544" width="128.3" height="38" style="rx:9px"/>
 <text class="t-l" x="0" y="572" text-anchor="middle">분석 워커</text>
 </g></g>
 </g>

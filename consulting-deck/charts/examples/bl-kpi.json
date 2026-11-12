@@ -1,0 +1,1 @@
+{"slide":{"title":"KPI 목표 대비 달성률","notes":"t"},"chart":{"type":"bullet","question":"목표 달성했나","measure":{"unit":"%","period":"2026"},"data":[{"label":"가동률","value":92,"target":90},{"label":"응답","value":78,"target":85}]},"source":{"text":"내부","asOf":"2026-10","synthetic":true}}

@@ -215,3 +215,26 @@
 .slide.consult-tech .c-metric{border-top-color:var(--line)}
 .slide.consult-tech .c-metric .m-v{font-family:var(--c-num-font)}
 .slide.consult-tech .c-sidecar .sc-v{font-family:var(--c-num-font)}
+
+/* .c-verdict — 판정의 시각화(사내 덱 관찰 원리 이식): 인용 카드 + 기울어진 아웃라인 스탬프 + ✓/✗ 쌍 카드.
+   스탬프는 상태가 아니라 서사 — 장당 1개. 축 카드는 헤어라인+상단 4px 룰만(consult 헤어라인 체계). */
+.c-verdict{display:flex;flex-direction:column;gap:40px}
+.c-verdict .v-quote{position:relative;border:1px solid var(--line);border-radius:var(--r2,16px);padding:48px 56px;background:var(--paper)}
+.c-verdict .v-quote .v-from{font-size:24px;font-weight:700;color:var(--soft);letter-spacing:1px;margin-bottom:16px}
+.c-verdict .v-quote .v-say{font-size:44px;font-weight:600;line-height:1.4;color:var(--ink)}
+.c-verdict .v-stamp{position:absolute;right:40px;top:32px;transform:rotate(-8deg);
+  border:4px solid var(--accent);border-radius:12px;padding:10px 26px;
+  font-size:38px;font-weight:800;letter-spacing:4px;color:var(--accent)}
+.c-verdict .v-stamp.reject{border-color:#dc2626;color:#dc2626}
+.c-verdict .v-stamp.hold{border-color:var(--muted);color:var(--muted)}
+.c-verdict .v-axes{display:flex;gap:32px}
+.c-verdict .v-axis{flex:1;border:1px solid var(--line);border-top:4px solid var(--blue);border-radius:var(--r2,16px);padding:28px 32px;background:var(--paper)}
+.c-verdict .v-axis.fail{border-top-color:#dc2626}
+.c-verdict .v-axis .v-k{font-size:26px;font-weight:800;color:var(--blue)}
+.c-verdict .v-axis.fail .v-k{color:#dc2626}
+.c-verdict .v-axis .v-r{font-size:30px;line-height:1.45;color:var(--soft);margin-top:10px}
+
+/* .c-runline — 투명성 마이크로 상태행: 측정 조건(시간·토큰·비용·횟수)을 본문 요소로. 실측 수치만 쓴다. */
+.c-runline{font-family:var(--c-num-font);font-size:20px;color:var(--soft);
+  border-top:1px solid var(--line);padding-top:12px;margin-top:6px;letter-spacing:0.4px}
+.c-runline b{color:var(--ink);font-weight:700}

@@ -1,0 +1,1 @@
+{"slide":{"title":"비용 구성","notes":"t"},"chart":{"type":"waffle","question":"구성 비율은","measure":{"unit":"%","period":"2026"},"data":[{"label":"인프라","value":55},{"label":"인력","value":30},{"label":"기타","value":15}]},"source":{"text":"내부","asOf":"2026-10","synthetic":true}}

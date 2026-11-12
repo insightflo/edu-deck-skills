@@ -46,6 +46,8 @@ body{
   display:flex;flex-direction:column;gap:16px;
 }
 .card h3{font-size:44px;font-weight:700;line-height:1.2}
+/* 강도 분리(glm-vs-ours §4-1): 시끄러운 것은 장에 하나. 조용한 상자는 헤어라인 하나로. */
+.card--quiet{border:1px solid var(--line);border-top:1px solid var(--line);box-shadow:none}
 .body{font-size:32px;color:var(--soft);line-height:1.45}
 .dark .body,.dark .small{color:var(--muted)}
 .small{font-size:28px;color:var(--soft);line-height:1.5}
@@ -65,6 +67,10 @@ ul.list li::marker{color:var(--accent)}
   padding:32px 48px;font-size:36px;font-weight:700;line-height:1.4;
 }
 .callout b{color:var(--accent-light)}
+/* 결론 띠를 카드 밖 한 줄로 내리는 조용한 변형 — 인라인 텍스트, 면·띠 없음 */
+.callout--inline{background:none;color:var(--soft);border-left:none;border-radius:0;
+  padding:0;font-size:28px;font-weight:600;line-height:1.5}
+.callout--inline b{color:var(--accent-text)}
 .ico{width:56px;height:56px;color:var(--accent)}
 .pill{
   background:var(--ink);color:var(--light);
@@ -184,6 +190,10 @@ ul.list li::marker{color:var(--accent)}
 
 /* ── 사실 칩·체크 행 ────────────────────────────────────── */
 .fact{font-size:23px;font-weight:700;color:var(--blue-text);background:var(--blue-soft);border-left:6px solid var(--blue);border-radius:0 var(--r1) var(--r1) 0;padding:10px 20px;align-self:flex-start;margin-top:8px}
+/* 출처를 본문과 경쟁시키지 않는 조용한 행 — 면·띠 없이 작은 글자만 남긴다 */
+.fact--quiet{font-size:23px;font-weight:400;color:var(--soft);background:none;border-left:none;
+  border-radius:0;padding:0;align-self:flex-start;margin-top:auto}
+.dark .fact--quiet{color:var(--light)}
 .todo{display:flex;align-items:center;gap:32px;background:var(--paper);border:2px solid var(--line);border-radius:var(--r2);padding:24px 32px;cursor:pointer}
 .todo h4{font-size:36px;font-weight:800}
 .todo p{font-size:28px;color:var(--soft)}

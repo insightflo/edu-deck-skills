@@ -32,7 +32,7 @@
   - **포커스 링·테두리 겹침은 더한다**: 바깥으로 두르는 링(focus ring·외곽 강조선)은 바깥 반경에 링 오프셋을 **더한** 값으로 쓴다(빼지 않는다).
   - **바닥값**: 감산 결과가 0 이하로 내려가면(안쪽 여백이 바깥 반경보다 큼) 바닥값(권장 4px)으로 클램프하고, 바깥이 각진(r=0) 면은 안쪽도 0으로 전파한다. 바닥에 걸렸으면 수학값 대신 광학 판단 — 아주 작은 안쪽 요소는 아예 각지게(0) 두는 게 더 깔끔할 수 있다.
 - 그림자: `shadow-1`(국소 강조), `shadow-2`(겹치는 큰 면). 추가 그림자 금지.
-- 선: 1px 또는 2px. SVG도 같은 굵기를 사용합니다.
+- 선: 1px 또는 2px. SVG도 같은 굵기를 사용합니다. 선 굵기 층위는 3단계 — 의미 경계 2px(인식 필수)·장식선 1px·헤어라인 0.5~1px(구분 보조). 아이콘은 본문 행 높이(.body 32px~제목 72px) 안에서 끝내고, 아이콘 상자가 아이콘보다 먼저 보이면 상자를 없앤다(glm-vs-ours §4-8).
 - 본문·일반 제목 굵기는 800 이하. 표지 제목·대형 숫자만 900 허용.
 - Pretendard Variable v1.3.9 원본 WOFF2를 HTML의 `@font-face`에 base64로 넣습니다. 외부 로딩·설치가 없습니다. 글꼴 2,057,688 bytes, base64 2,743,584 bytes이며 라스터 이미지 예산과 별개입니다.
 - 원본: https://raw.githubusercontent.com/orioncactus/pretendard/v1.3.9/packages/pretendard/dist/web/variable/woff2/PretendardVariable.woff2

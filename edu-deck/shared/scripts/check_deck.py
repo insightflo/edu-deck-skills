@@ -60,6 +60,8 @@ ARCHETYPES = {
     "route-tour", "waterfall", "mesh-network", "heatmap-grid", "swimlane", "cycle-ring",
     # TASK-arch-kit: 생성기(scripts/arch_layout.mjs) 산출 svg.dg 아키텍처 도식
     "arch-diagram",
+    # P3 visual-absorb: 판정 쌍 카드(53)·실물 진단(54)
+    "verdict", "diagnose",
 }
 # TASK-figslots: 본문 장의 시각/텍스트/고정 형식 분류 — references/layouts.md '텍스트 나열' 절과 짝.
 # 시각(도식·차트 03~14·18·31·33·34, 모형 15·16, 채팅 21, 구성도 37)과 .fig-slot·data-variant="fig" 은
@@ -74,7 +76,9 @@ VISUAL_ARCHS = {"timeline", "map", "mechanism", "traits-grid", "meter", "compare
                 "sankey-flow", "decision-tree", "kanban-board", "version-graph", "event-fanout",
                 "route-tour", "waterfall", "mesh-network", "heatmap-grid", "swimlane", "cycle-ring",
                 # TASK-arch-kit: 생성기 산출 svg.dg 도식 — 시각 장
-                "arch-diagram"}
+                "arch-diagram",
+                # P3 visual-absorb: 스탬프+쌍 카드·실화면+콜아웃 — 시각 장
+                "verdict", "diagnose"}
 FIXED_ARCHS = {"cover", "quiz-ab", "quiz-sort", "quiz-ox", "check", "sources", "closing",
                "explore", "detail-sheet", "part-divider"}
 TEXT_RUN_MIN = 5  # 본문 장 연속열에서 텍스트 계열만 이 수 이상 이어지면 WARN
