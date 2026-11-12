@@ -38,6 +38,8 @@ description: "Use when the user wants a consulting-style presentation deck as si
 
 ## 작업 순서
 
+**1단계 시작 전 — flint 감지(최초 1회)**: `python3 <이 스킬>/charts/flint_env.py check`를 실행한다. exit 0이면 넘어간다. 미설치(exit 1)이고 상태 파일의 `installAsked`가 false면 한 번만 묻는다 — "차트 도구 flint(MIT, Microsoft)를 함께 설치할까요? (~/.edu-deck/flint, 약 55MB)" → 답을 `flint_env.py state set installAsked true`·`state set useFlint …`로 기록하고 이후 재질문하지 않는다. 거절·node 없음(exit 2)이어도 진행한다(기본 엔진 chart_gen이 있으므로 차질 없음).
+
 ### 1. 요청 정리 → brief.md
 - **의사결정 질문 1개**를 문장으로 못 박는다("시장을 분석해라" → "X 세그먼트 진입 여부와 조건은"). 결정 주체·기한·범위 내외·성공 기준·제약을 적는다.
 - 저작 형태(위 표)를 정한다. 청중·발표 상황(회의실 발표인지 혼자 읽는 보고인지)을 적는다.
@@ -53,11 +55,14 @@ description: "Use when the user wants a consulting-style presentation deck as si
 - 통과 조건: **제목만 순서대로 읽으면 짧은 경영 메모처럼 읽힌다.** Exec Summary는 본문이 다 정해진 뒤 마지막에 쓴다(본문과 불일치 금지).
 
 ### 4. 차트 모델 → charts/*.json → src 조각 생성
-- 화면에 들어가는 **모든 분석 차트는 chart_gen.mjs로 만든다** — 수치를 조각 HTML에 직접 타이핑하지 않는다. 질문→차트 선택과 5층 구조: `references/analytical-charts.md`, 문법 원본: `charts/schema.md`.
+- **엔진 선택(덱당 1회)**: 스토리라인에 수치 비교·추세·구성·분포를 뒷받침하는 근거가 있으면 "차트 포함"으로 판단한다. 포함이고 flint가 설치돼 있으면(flint_env exit 0) `useFlintAsked`가 false일 때 한 번 묻는다 — "이번 덱 차트를 flint로 그릴까요?(유형 39종·테마 / 아니면 chart_gen 15종)". 답은 `deck.json`의 `"charts": {"engine": "flint"|"chart_gen"|"mixed", "asked": true}`에 기록하고 이후 재질문하지 않는다(덱별 기록은 매번 쓴다). 차트가 없으면 묻지 않는다.
+- 화면에 들어가는 **모든 분석 차트는 생성기로 만든다** — 수치를 조각 HTML에 직접 타이핑하지 않는다. 기본은 chart_gen.mjs(15종, 스키마 `charts/schema.md`); flint 선택 시 flint_gen.mjs(39종·테마, 스키마 `charts/flint-schema.md`, 모델은 `NN-이름.flint.json`). 혼합 허용 — 한 덱의 기본은 선택 엔진, 특수 유형만 다른 엔진으로 보충한다. 질문→차트 선택과 5층 구조: `references/analytical-charts.md`.
 ```bash
-node <이 스킬>/charts/chart_gen.mjs --in <작업 폴더>/charts/NN-이름.json -o <작업 폴더>/src/NN-이름.html
+node <이 스킬>/charts/chart_gen.mjs  --in <작업 폴더>/charts/NN-이름.json       -o <작업 폴더>/src/NN-이름.html
+node <이 스킬>/charts/flint_gen.mjs --in <작업 폴더>/charts/NN-이름.flint.json -o <작업 폴더>/src/NN-이름.html
 ```
-- 데이터 계산·합계·출처·가상 표기는 모델이 검증한다(expectTotal·source·synthetic). 재생성 검사: `python3 <이 스킬>/charts/regen.py --check <작업 폴더>`.
+- **flint 계약**: 정적 SVG 전용(인터랙티브·image-charts 경로 없음). 생성은 flint_gen.mjs — flint-chart-mcp는 저작 시각 확인용 선택이지 파이프라인이 아니다. 색·폰트는 `charts/flint-theme.json`의 `theme` 키로만(모델 임의 hex 금지 — 팔레트 게이트가 차단). flint가 없는 머신에서 regen하면 flint 조각이 FAIL로 보고된다 — 조용히 chart_gen으로 대체하지 않고 사용자에게 알린다. 마크별 순차 등장이 필요한 차트는 chart_gen을 쓴다.
+- 데이터 계산·합계·출처·가상 표기는 모델이 검증한다(expectTotal·source·synthetic). 재생성 검사: `python3 <이 스킬>/charts/regen.py --check <작업 폴더>`(.json/.flint.json 확장자 디스패치).
 
 ### 5. 슬라이드 저작 → src/
 - 장마다 역할(정의/주장/증명/비교/결정/동원)에 맞는 배치를 고른다 — 카탈로그: `references/consulting-layouts.md`(고정 템플릿이 아니라 목적별 후보다).
@@ -123,6 +128,10 @@ python3 <base>/scripts/capture_deck.py <작업 폴더>/<결과 파일> <작업 �
 | `references/quality-gates.md` | 6·7단계: 논리·데이터·시각·실행 게이트 — 자동 검사와 품질 승인의 구분 |
 | `references/reference-sources.md` | 2단계 및 인용 시: 오픈소스 이식 내역·펌 분석 근거·차단 기록·복제 경계 |
 | `charts/schema.md` | 4단계: 차트 모델 문법의 원본(타입별 데이터 계약·검증 규칙) |
+| `charts/flint-schema.md` | 4단계: flint 차트 모델 문법(engine·theme 화이트리스트·금지 필드·chart_gen 선택 안내) |
+| `charts/flint_env.py` | 1단계 전·4단계: flint 설치 감지(check)·핀 설치(install)·질문 이력(state) |
+| `charts/flint_gen.mjs` | 4단계: flint 정적 SVG → 슬라이드 조각 생성기(--check 재생성·팔레트 허용목록) |
+| `charts/flint-theme.json` | 4단계: flint 테마 SSOT(consult·consult-tech — consult.css 토큰값·팔레트 허용목록) |
 | `<base>/references/authoring.md` | 저작 권한·재료 4방식·검사와 품질의 구분 — 교육 덱과 동일 적용 |
 | `<base>/references/design.md`·`DESIGN_TOKENS.md`·`MOTION_LIBRARY.md` | 5단계: 공통 판단 기준·토큰·모션(컨설팅 문서는 이 위에 특화만 얹는다) |
 | `<base>/references/architecture.md` | 기술 아키텍처·전환 장 결합 시(Architecture Kit) |

@@ -51,3 +51,14 @@ catalog·shiraki 파생물은 반입하지 않았습니다.
 그 기준에 따른 것이며, 원본 코드·문구를 저장소에 포함하지 않았습니다.
 
 unslop 은 CC BY 4.0 으로 공개됩니다 (© Damir Sokolovsky).
+
+## flint-chart (도구 의존 — MIT, 저장소 밖 설치)
+
+컨설팅 덱의 선택적 차트 엔진으로 **flint-chart 1.0.1** (© Microsoft Corporation, MIT)
+`renderSvg()` 정적 SVG 경로를 사용합니다. vegalite 백엔드 렌더에는
+**vega 6.4.0**(BSD-3-Clause)·**vega-lite 6.5.0**(BSD-3-Clause)이 함께 필요합니다.
+`flint-chart-mcp`(MIT)는 저작 보조용 선택 도구입니다.
+
+- 설치는 저장소 밖 머신 로컬(`~/.edu-deck/flint/`, `flint_env.py install`) — 저장소에 npm 바이트 사본을 두지 않습니다.
+- 저장소 안의 연결 파일: `consulting-deck/charts/flint_env.py`(감지·설치·상태) · `flint-package.json`(버전 핀) · `flint_gen.mjs`(정적 SVG → 조각) · `flint-theme.json`(테마 SSOT) · `flint-schema.md`(모델 계약). 생성기·스키마·테마 값은 우리 계약으로 새로 작성했으며 flint 소스를 복제하지 않았습니다.
+- 라이선스 전문: `licenses/FLINT-CHART-MIT.txt` (flint-chart·flint-chart-mcp), `licenses/VEGA-BSD-3-CLAUSE.txt`, `licenses/VEGA-LITE-BSD-3-CLAUSE.txt`.

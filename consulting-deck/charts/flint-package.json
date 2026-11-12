@@ -1,0 +1,10 @@
+{
+  "name": "edu-deck-flint-home",
+  "private": true,
+  "description": "flint-chart 정적 SVG 경로용 핀 설치 — flint_env.py install 이 ~/.edu-deck/flint/ 로 복사해 npm ci 한다",
+  "dependencies": {
+    "flint-chart": "1.0.1",
+    "vega": "6.4.0",
+    "vega-lite": "6.5.0"
+  }
+}

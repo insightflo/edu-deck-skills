@@ -238,3 +238,7 @@
 .c-runline{font-family:var(--c-num-font);font-size:20px;color:var(--soft);
   border-top:1px solid var(--line);padding-top:12px;margin-top:6px;letter-spacing:0.4px}
 .c-runline b{color:var(--ink);font-weight:700}
+
+/* .c-fig — flint 정적 차트 그림 칸: svg는 칸에 맞춰 비율 유지 확대(중앙 정렬) */
+.slide .c-fig{display:flex;align-items:center;justify-content:center}
+.slide .c-fig svg{width:100%;height:100%;max-height:640px}

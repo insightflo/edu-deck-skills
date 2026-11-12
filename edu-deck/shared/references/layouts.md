@@ -222,6 +222,7 @@
 | 53 | arch-diagram | 아이소메트릭 3D 구성도: 장비 상자·영역 바닥면·연결선을 생성기(`scripts/iso_layout.mjs`)가 `svg.dg` 한 장으로 그린다 — 데이터센터·배포 위치·경계 | 단계 2~5 | **`data-archetype="arch-diagram"` 필수**(레시피 arch-trace 없으면 엔진이 아무것도 재생하지 않는다). `figure.fig-slot > svg.dg`, viewBox 폭 1664·높이 ≤840, 노드 ≤7·간선 ≤12·flow 링크 ≤3. 그림은 손으로 고치지 않고 시맨틱 JSON → 생성기로 다시 만든다. 링크 1개 = path 1개, 장식은 polygon/polyline 만. 시그니처 arch-trace(신규). 절차: references/architecture.md |
 | 54 | verdict | 판정 쌍 카드: 인용 + 기울인 외곽선 스탬프(반려·승인·보류) + ✓/✗ 두 카드 — 결정·승인·감사 결과 | 단계 2~4 | 인용 블록 + 우상 기울인 스탬프(outline만·채움 없음), ✓ 통과 카드와 ✗ 차단 카드 나란히. 스탬프 색: 반려 coral·승인 blue·보류 soft(대비 ≥3). 조각 53-verdict. 변형: rejected · approved · hold |
 | 55 | diagnose | 실물 진단: 실제 화면 위 `.ed-callout` 지점 라벨 + 우측 주장→왜→개념 3단 해설 — 도구·화면 결함 교육 | 단계 3~5 | 실화면은 사용자 제공 이미지만. `.ed-callout`은 화면 안 % 좌표 + `data-tail` 꼬리 방향, 장당 1~2개. 우측: 상태 라벨 카드(주장 인용) → 틴트 '왜' 박스 → 개념 카드 2. 조각 54-diagnose. 변형: screen3 |
+| — | chart-flint | flint 정적 SVG 차트(컨설팅 전용): `flint_gen.mjs`가 *.flint.json 모델 → 인라인 SVG 조각으로 굽는다 | 그림 전체 1단계 | `figure.fig-slot` + 인라인 SVG + `c-src` 출처 블록. 마크별 순차 등장 불가 — 단계 공개가 필요한 차트는 chart_gen. 색은 flint-theme.json 허용목록 안. 스키마: consulting-deck/charts/flint-schema.md |
 
 ## 표지 직접 설계 계약
 

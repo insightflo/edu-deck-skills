@@ -1,0 +1,219 @@
+{
+  "comment": "flint 테마 SSOT — flint_gen.mjs 만 읽는다. ink 값은 consult.css 토큰 hex와 동일(기본=.slide.consult, tech=.slide.consult-tech). allowlist는 --check 팔레트 게이트가 허용하는 전수 색상(테마 잉크+면·헤어라인 파생). #eeebe4·#eceef1은 Line 차트 플롯 배경 파생 음영(실측 열거).",
+  "presets": {
+    "consult": {
+      "extends": "mckinsey",
+      "ink": {
+        "surface": {
+          "canvas": "#fffdf9",
+          "plot": "#fffdf9",
+          "panel": "#f8f7f4"
+        },
+        "text": {
+          "primary": "#111822",
+          "secondary": "#4a5563",
+          "muted": "#4a5563"
+        },
+        "structure": {
+          "axis": "#9aa3ae",
+          "grid": "#e8e4dc",
+          "rule": "#9aa3ae",
+          "frame": "#9aa3ae",
+          "zero": "#4a5563",
+          "connector": "#8f99a6"
+        },
+        "series": {
+          "single": "#085a9e",
+          "categorical": [
+            "#085a9e",
+            "#4a6183",
+            "#8f99a6",
+            "#0f7a3d",
+            "#b3422e",
+            "#d9dee4"
+          ],
+          "categoricalWritten": [
+            "#085a9e",
+            "#3d5271",
+            "#4a5563",
+            "#0f7a3d",
+            "#b3422e",
+            "#4a5563"
+          ],
+          "minContrast": {
+            "fill": 1.25,
+            "stroke": 1.6
+          }
+        }
+      },
+      "type": {
+        "headline": {
+          "family": "Pretendard, sans-serif",
+          "weight": "bold",
+          "color": "#111822",
+          "size": 30
+        },
+        "deck": {
+          "family": "Pretendard, sans-serif",
+          "color": "#4a5563",
+          "size": 20
+        },
+        "axisLabel": {
+          "family": "Pretendard, sans-serif",
+          "color": "#4a5563",
+          "size": 20
+        },
+        "axisTitle": {
+          "family": "Pretendard, sans-serif",
+          "color": "#4a5563",
+          "size": 20
+        },
+        "valueLabel": {
+          "family": "Georgia, 'Times New Roman', serif",
+          "color": "#111822",
+          "size": 20
+        },
+        "keyLabel": {
+          "family": "Pretendard, sans-serif",
+          "color": "#4a5563",
+          "size": 20
+        },
+        "footnote": {
+          "family": "Pretendard, sans-serif",
+          "color": "#4a5563",
+          "size": 20
+        }
+      }
+    },
+    "consult-tech": {
+      "extends": "mckinsey",
+      "ink": {
+        "surface": {
+          "canvas": "#fafbfc",
+          "plot": "#fafbfc",
+          "panel": "#eef1f4"
+        },
+        "text": {
+          "primary": "#0f172a",
+          "secondary": "#4c5763",
+          "muted": "#4c5763"
+        },
+        "structure": {
+          "axis": "#aab4c0",
+          "grid": "#e6e9ed",
+          "rule": "#aab4c0",
+          "frame": "#aab4c0",
+          "zero": "#4c5763",
+          "connector": "#9aa3ae"
+        },
+        "series": {
+          "single": "#0b8fd8",
+          "categorical": [
+            "#0b8fd8",
+            "#5b6f8f",
+            "#9aa3ae",
+            "#0f7a54",
+            "#b3422e",
+            "#d5dae0"
+          ],
+          "categoricalWritten": [
+            "#0a6eb0",
+            "#46597a",
+            "#4c5763",
+            "#0f7a54",
+            "#b3422e",
+            "#4c5763"
+          ],
+          "minContrast": {
+            "fill": 1.25,
+            "stroke": 1.6
+          }
+        }
+      },
+      "type": {
+        "headline": {
+          "family": "Pretendard, sans-serif",
+          "weight": "bold",
+          "color": "#0f172a",
+          "size": 30
+        },
+        "deck": {
+          "family": "Pretendard, sans-serif",
+          "color": "#4c5763",
+          "size": 20
+        },
+        "axisLabel": {
+          "family": "ui-monospace, 'SF Mono', Menlo, Consolas, monospace",
+          "color": "#4c5763",
+          "size": 20
+        },
+        "axisTitle": {
+          "family": "Pretendard, sans-serif",
+          "color": "#4c5763",
+          "size": 20
+        },
+        "valueLabel": {
+          "family": "ui-monospace, 'SF Mono', Menlo, Consolas, monospace",
+          "color": "#0f172a",
+          "size": 20
+        },
+        "keyLabel": {
+          "family": "Pretendard, sans-serif",
+          "color": "#4c5763",
+          "size": 20
+        },
+        "footnote": {
+          "family": "Pretendard, sans-serif",
+          "color": "#4c5763",
+          "size": 20
+        }
+      }
+    }
+  },
+  "allowlist": {
+    "consult": [
+      "#111822",
+      "#fffdf9",
+      "#f8f7f4",
+      "#4a5563",
+      "#9aa3ae",
+      "#e8e4dc",
+      "#085a9e",
+      "#07487e",
+      "#d4e4f4",
+      "#4a6183",
+      "#3d5271",
+      "#eceef2",
+      "#d9dee4",
+      "#8f99a6",
+      "#0f7a3d",
+      "#b3422e",
+      "#d5dae0",
+      "#e9e6de",
+      "#ffffff",
+      "#eeebe4"
+    ],
+    "consult-tech": [
+      "#0f172a",
+      "#fafbfc",
+      "#eef1f4",
+      "#4c5763",
+      "#aab4c0",
+      "#e6e9ed",
+      "#0b8fd8",
+      "#0a6eb0",
+      "#cfe8fa",
+      "#5b6f8f",
+      "#46597a",
+      "#eef2f7",
+      "#d5dae0",
+      "#9aa3ae",
+      "#0f7a54",
+      "#b3422e",
+      "#cdd6de",
+      "#e3e8ee",
+      "#ffffff",
+      "#eceef1"
+    ]
+  }
+}

@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 """regen.py — 컨설팅 차트 모델 재생성 (arch-demo/regen.py 계약과 동일)
 
-  python3 regen.py <작업 폴더>            charts/*.json 전부 → chart_gen.mjs → src/ 덮어쓰기
+  python3 regen.py <작업 폴더>            charts/*.json·*.flint.json 전부 → src/ 덮어쓰기
   python3 regen.py --check <작업 폴더>    재생성 결과와 기존 파일 바이트 비교 — diff/실패 시 exit 1
 
-모델 파일명 → 조각 경로 규칙(SKILL.md 4단계): charts/NN-이름.json → src/NN-이름.html.
-같은 이름이 없으면 src/*-<stem>.html(NN- 접두사 변형)을 사전 순 첫 번째로 쓴다.
+디스패치는 모델 확장자로 한다: *.flint.json → flint_gen.mjs(flint 설치 필요),
+나머지 *.json → chart_gen.mjs. 모델 파일명 → 조각 경로 규칙(SKILL.md 4단계):
+charts/NN-이름.(flint.)json → src/NN-이름.html. 같은 이름이 없으면
+src/*-<stem>.html(NN- 접두사 변형)을 사전 순 첫 번째로 쓴다.
 """
 import subprocess
 import sys
@@ -13,6 +15,13 @@ import tempfile
 from pathlib import Path
 
 GEN = Path(__file__).resolve().parent / 'chart_gen.mjs'
+FGEN = Path(__file__).resolve().parent / 'flint_gen.mjs'
+
+
+def model_stem(model):
+    """charts/05-x.flint.json → 05-x · charts/05-x.json → 05-x"""
+    name = model.name
+    return name[:-len('.flint.json')] if name.endswith('.flint.json') else model.stem
 
 
 def slide_path(root, stem):
@@ -25,10 +34,12 @@ def slide_path(root, stem):
 
 
 def regenerate(root, model, tmp):
-    out = slide_path(root, model.stem)
-    tmp_out = Path(tmp) / (model.stem + '.html')
+    stem = model_stem(model)
+    out = slide_path(root, stem)
+    tmp_out = Path(tmp) / (stem + '.html')
+    gen = FGEN if model.name.endswith('.flint.json') else GEN
     p = subprocess.run(
-        ['node', str(GEN), '--in', str(model), '-o', str(tmp_out), '--quiet'],
+        ['node', str(gen), '--in', str(model), '-o', str(tmp_out), '--quiet'],
         capture_output=True, text=True)
     if p.returncode != 0:
         return out, None, (p.stderr or p.stdout).strip().splitlines()[-1] if (p.stderr or p.stdout).strip() else '생성 실패'
@@ -54,8 +65,10 @@ def main():
     (root / 'src').mkdir(exist_ok=True)
 
     same = diff = failed = 0
+    engines = {'chart_gen': 0, 'flint': 0}
     with tempfile.TemporaryDirectory(prefix='cregen-') as tmp:
         for model in models:
+            engines['flint' if model.name.endswith('.flint.json') else 'chart_gen'] += 1
             out, body, err = regenerate(root, model, tmp)
             rel = out.relative_to(root)
             if err:
@@ -74,7 +87,8 @@ def main():
                 out.write_bytes(body)
                 same += 1
                 print(f'OK    {model.name} → {rel}')
-    print(f'RESULT {"same" if check else "written"}={same} diff={diff} failed={failed} total={len(models)}')
+    tally = ' · '.join(f'{k}={v}' for k, v in engines.items() if v)
+    print(f'RESULT {"same" if check else "written"}={same} diff={diff} failed={failed} total={len(models)} ({tally})')
     return 1 if (diff or failed) else 0
 
 

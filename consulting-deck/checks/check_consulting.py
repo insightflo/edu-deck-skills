@@ -33,8 +33,9 @@ TAG_RE = re.compile(r'<[^>]+>')
 
 
 def norm_stem(stem):
-    """'01-cost-bridge' → 'cost-bridge' — NN- 접두사를 떼고 대조 키로 쓴다."""
-    return re.sub(r'^\d+-', '', stem)
+    """'01-cost-bridge' → 'cost-bridge' — NN- 접두사를 떼고 대조 키로 쓴다.
+    '05-x.flint.json' 의 stem 은 '05-x.flint' 이므로 .flint 꼬리도 뗀다."""
+    return re.sub(r'^\d+-', '', stem.removesuffix('.flint'))
 
 
 def numbers(text):
@@ -62,6 +63,16 @@ def nums_close(v, pool):
 
 def chart_values(model):
     """차트 모델 안의 '주요 값' — 타입별 수치 필드를 전부 긁는다."""
+    if model.get('engine') == 'flint':
+        # flint 모델: flint.data.values 행의 수치 필드 전수(근거 대조 대상)
+        rows = (((model.get('flint') or {}).get('data') or {}).get('values')) or []
+        vals = []
+        for r in rows:
+            if isinstance(r, dict):
+                for k, v in r.items():
+                    if isinstance(v, (int, float)) and not isinstance(v, bool):
+                        vals.append((f'values.{k}', v))
+        return vals
     ch = model.get('chart', {})
     vals = []
     data = ch.get('data')

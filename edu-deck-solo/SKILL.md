@@ -148,6 +148,7 @@ python3 <base>/scripts/verify_sources.py <작업 폴더> --fetch
 | `<base>/references/copyedit.md` | 5.5단계: 말투 교정 순서·되돌리기 규칙·스킬 없을 때 내장 체크리스트 |
 | `<base>/references/design-critique.md` | 6단계: 공통 심미 크리틱 — 독립 검수 6단계·9항목·Blocker/Major/Minor·캡처 도구·크리틱 에이전트 호출 |
 | `<base>/references/classes.md` | 4단계: 셸 클래스, 모형 창 6종 마크업, 단계 속성 |
+| `consulting-deck/charts/flint_env.py` | 참고: 컨설팅 덱 전용 flint 차트 엔진의 설치 감지·상태 도구(교육 덱은 스니펫 내장 차트 사용 — 파이프라인 미연결) |
 | `<base>/references/icons.md` | 4단계: 아이콘 85종 id 와 뜻 |
 | `<base>/references/diagrams.md` | 4단계(기본·팩 공통): 개념 SVG 도식의 설계 규칙·문법·함정 |
 | `<base>/assets/packs/` | 팩 덱의 디자인 catalog·flows·독립 CSS·템플릿 |

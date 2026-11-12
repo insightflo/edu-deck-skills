@@ -1,0 +1,9 @@
+{
+  "sources": [
+    {"source_id": "S01", "kind": "synthetic", "title": "가상 데모 데이터 — 클라우드 전환 비용 시나리오", "publisher": "consulting-deck 예시", "locator": "examples/consulting-demo/flint-demo/evidence.json", "published": "2026-11-13", "asOf": "2026-11-13", "accessed": "2026-11-13", "freshness": "current"}
+  ],
+  "claims": [
+    {"claim_id": "C01", "slide": "costmix", "statement": "올해 IT 운영비 100억 중 인프라 48·라이선스 27·인건비 19·기타 6이다", "value": "인프라 48 + 라이선스 27 + 인건비 19 + 기타 6 = 100억", "source_id": "S01", "original": "48, 27, 19, 6", "method": "구성 합계", "kind": "synthetic", "assumptions": ["가상 시나리오"], "contrary": [], "uncertainty": ""},
+    {"claim_id": "C02", "slide": "costtrend", "statement": "월별 IT 비용이 3월 13.1억 정점에서 9월 9.5억까지 내림세다", "value": "1월 12.4 · 2월 11.8 · 3월 13.1 · 4월 12.2 · 5월 11.5 · 6월 10.9 · 7월 10.4 · 8월 9.8 · 9월 9.5", "source_id": "S01", "original": "12.4, 11.8, 13.1, 12.2, 11.5, 10.9, 10.4, 9.8, 9.5", "method": "월별 시계열", "kind": "synthetic", "assumptions": ["가상 시나리오"], "contrary": [], "uncertainty": ""}
+  ]
+}

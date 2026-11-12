@@ -57,6 +57,10 @@ def main() -> None:
     print(f"PDF 대조: {'pdftotext 있음' if pdftotext else 'pdftotext 없음'} + pypdf {'있음' if module_ok('pypdf') else '없음'}"
           + ("" if pdftotext or module_ok("pypdf") else " → PDF 원문대조 불가"))
 
+    node = shutil.which("node")
+    print(f"node: {'있음 (' + node + ')' if node else '없음 → chart_gen·flint 생성 불가'}")
+    print("차트 flint: python3 consulting-deck/charts/flint_env.py check 로 확인(컨설팅 덱 차트 선택 엔진)")
+
     net_status = None
     try:
         req = urllib.request.Request(

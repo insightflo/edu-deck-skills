@@ -77,3 +77,9 @@ McKinsey MGI 2025 in Charts: playwright→Akamai 403 · curl→연결 차단 · 
   - 엄격한 경계: 원본 YAML(`style-theme/`) 및 내부 재작성본(`style-presets/`)은 재배포가 금지되어 있으므로 저장소에 단 한 파일도 포함하지 않으며, 헥스(hex) 색상값·문구·프리셋 파일명을 일절 복제하지 않았다. `edu-deck/shared/presets/`의 16종 프리셋(`seoul-editorial` 등)은 모두 `edu-deck` 맥락에서 독자 설계·창작한 고유 자산이다.
 - **`bookstyle-html` (사내 자체 제작 자산 편입)**:
   - 600×820 쪽 펼침 넘김 인사이트북 단일 HTML 스킬(`bookstyle-html/assets/kit/{book.css,shell.html,viewer.js}`, `scripts/{build_book,preview,og_image}.py`). 타사 라이선스·외부 코드 의존 없는 자체 제작 자산임을 전수 확인하고 최상위 스킬로 편입했다.
+
+## flint-chart (2026-11-13 추가 — 차트 엔진 도구 의존)
+
+- **대상**: microsoft/flint-chart — `flint-chart` 1.0.1(MIT)·`flint-chart-mcp` 1.0.1(MIT)·정적 렌더 피어 vega 6.4.0(BSD-3)·vega-lite 6.5.0(BSD-3).
+- **반영**: `renderSvg()` 정적 SVG 경로만 통합 — `charts/flint_gen.mjs`(모델 → 조각, chart_gen.mjs 병행 선택제)·`flint_env.py`(감지·핀 설치·질문 이력)·`flint-theme.json`(우리 consult.css 토큰값 ThemeSpec)·`flint-schema.md`. 인터랙티브·image-charts·echarts 경로는 기각(단일 HTML·결정성 계약).
+- **경계**: npm 설치는 저장소 밖(`~/.edu-deck/flint/`) — 저장소에 패키지 바이트 없음. 생성기·스키마·테마는 우리 계약으로 새로 작성했고 flint 소스·문구를 복제하지 않았다. flint 내장 저작 스킬 문서는 참고만. 라이선스 전문: `licenses/FLINT-CHART-MIT.txt`·`VEGA-BSD-3-CLAUSE.txt`·`VEGA-LITE-BSD-3-CLAUSE.txt`(flint-chart-mcp도 동일 MIT 라이선스 텍스트로 배포 — FLINT-CHART-MIT.txt와 동일 조항). 기록은 THIRD-PARTY-NOTICES.md에도 있다.

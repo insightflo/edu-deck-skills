@@ -81,6 +81,8 @@ body{
   display:flex;flex-direction:column;gap:16px;
 }
 .card h3{font-size:44px;font-weight:700;line-height:1.2}
+/* 강도 분리(glm-vs-ours §4-1): 시끄러운 것은 장에 하나. 조용한 상자는 헤어라인 하나로. */
+.card--quiet{border:1px solid var(--line);border-top:1px solid var(--line);box-shadow:none}
 .body{font-size:32px;color:var(--soft);line-height:1.45}
 .dark .body,.dark .small{color:var(--muted)}
 .small{font-size:28px;color:var(--soft);line-height:1.5}
@@ -100,6 +102,10 @@ ul.list li::marker{color:var(--accent)}
   padding:32px 48px;font-size:36px;font-weight:700;line-height:1.4;
 }
 .callout b{color:var(--accent-light)}
+/* 결론 띠를 카드 밖 한 줄로 내리는 조용한 변형 — 인라인 텍스트, 면·띠 없음 */
+.callout--inline{background:none;color:var(--soft);border-left:none;border-radius:0;
+  padding:0;font-size:28px;font-weight:600;line-height:1.5}
+.callout--inline b{color:var(--accent-text)}
 .ico{width:56px;height:56px;color:var(--accent)}
 .pill{
   background:var(--ink);color:var(--light);
@@ -219,6 +225,10 @@ ul.list li::marker{color:var(--accent)}
 
 /* ── 사실 칩·체크 행 ────────────────────────────────────── */
 .fact{font-size:23px;font-weight:700;color:var(--blue-text);background:var(--blue-soft);border-left:6px solid var(--blue);border-radius:0 var(--r1) var(--r1) 0;padding:10px 20px;align-self:flex-start;margin-top:8px}
+/* 출처를 본문과 경쟁시키지 않는 조용한 행 — 면·띠 없이 작은 글자만 남긴다 */
+.fact--quiet{font-size:23px;font-weight:400;color:var(--soft);background:none;border-left:none;
+  border-radius:0;padding:0;align-self:flex-start;margin-top:auto}
+.dark .fact--quiet{color:var(--light)}
 .todo{display:flex;align-items:center;gap:32px;background:var(--paper);border:2px solid var(--line);border-radius:var(--r2);padding:24px 32px;cursor:pointer}
 .todo h4{font-size:36px;font-weight:800}
 .todo p{font-size:28px;color:var(--soft)}
@@ -1750,6 +1760,20 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 .screen-cite .sc-date{font-size:24px;color:var(--soft)}
 .screen-cite .sc-gist{font-size:26px;line-height:1.45;color:var(--soft)}
 .screen-cite .sc-gist b{color:var(--accent-text);font-weight:800}
+
+/* ── 실화면 콜아웃·투명성 상태행 (사내 덱 관찰 원리 이식) ── */
+/* .ed-callout — 실화면·목업 위 지점을 짚는 흰 라벨 + 꼬리 화살표. tail 방향: data-tail="down|up|left|right" */
+.ed-callout{position:absolute;background:var(--paper);border:2px solid var(--line);border-radius:var(--r1);
+  padding:14px 22px;font-size:26px;font-weight:700;color:var(--ink);box-shadow:var(--shadow-1);z-index:3}
+.ed-callout::after{content:"";position:absolute;width:0;height:0}
+.ed-callout[data-tail="down"]::after{left:32px;bottom:-14px;border-left:12px solid transparent;border-right:12px solid transparent;border-top:14px solid var(--line)}
+.ed-callout[data-tail="up"]::after{left:32px;top:-14px;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:14px solid var(--line)}
+.ed-callout[data-tail="left"]::after{left:-14px;top:20px;border-top:12px solid transparent;border-bottom:12px solid transparent;border-right:14px solid var(--line)}
+.ed-callout[data-tail="right"]::after{right:-14px;top:20px;border-top:12px solid transparent;border-bottom:12px solid transparent;border-left:14px solid var(--line)}
+/* .ed-runline — 측정 조건을 각주가 아니라 본문 요소로: 모노스페이스·헤어라인 위 구분점 나열. 실측 수치만. */
+.ed-runline{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:22px;color:var(--soft);
+  border-top:1px solid var(--line);padding-top:14px;margin-top:8px;letter-spacing:0.5px;align-self:flex-start}
+.ed-runline b{color:var(--ink);font-weight:700}
 
 /* ---- theme-switch.css ---- */
 /* theme-switch.css — 저작 도구 테마 미리보기 패널(themes.js 가 만드는 #edThemes).
@@ -3441,7 +3465,9 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
     'event-fanout':'.ef','route-tour':'.rt','waterfall':'.wf','mesh-network':'.ms',
     'heatmap-grid':'.hm','swimlane':'.sl','cycle-ring':'.cy',
     // TASK-arch-kit: 생성기가 굽는 svg.dg 아키텍처 도식 — 단계 루트는 g[data-step]
-    'arch-diagram':'svg g[data-step]'
+    'arch-diagram':'svg g[data-step]',
+    // P3 visual-absorb: 판정 스탬프+쌍 카드·실화면 콜아웃 지점
+    'verdict':'.card,.ed-stamp','diagnose':'.ed-callout,.card'
   };
   const packTargets={atlas:'.atlas-origin,.atlas-source,.atlas-destination',briefing:'.briefing-row',casebook:'.casebook-narrative,.casebook-exhibit,.casebook-decision',editorial:'.editorial-story,.editorial-margin,.editorial-bottom',field:'.field-row',lab:'.lab-observation,.lab-evidence,.lab-next',seminar:'.seminar-turns span,.seminar-preparation,.seminar-invitation',workbook:'.workbook-read,.workbook-write,.workbook-reflection'};
   const packArch={atlas:'map',briefing:'compare-table',casebook:'before-after',editorial:'build-up',field:'sequence',lab:'mechanism',seminar:'hub',workbook:'frame-form'};
@@ -3520,6 +3546,8 @@ body.st-presenter .stack-fig .sf-group,body.st-presenter .stack-fig .sf-glw,body
     'cycle-ring':{name:'ring-circuit',frames:i=>['rotate(-14deg) scale(.94)','rotate(2deg) scale(1.01)','rotate(0deg) scale(1)'],draw:true},
     // TASK-arch-kit: 생성기 산출 svg.dg 아키텍처 — 단계 그룹이 아래에서 자리 잡고
     // 새로 드러난 선이 그려지며(draw) dash-flow 경로에 패킷 입자가 흐른다(design §4.11).
+    verdict:{name:'verdict-stamp',frames:i=>['scale(1.12) rotate(-5deg)','scale(.99) rotate(1deg)','scale(1) rotate(0deg)']},
+    diagnose:{name:'callout-pin',frames:i=>['translateY(-24px) scale(1.06)','translateY(0px) scale(1)']},
     'arch-diagram':{name:'arch-trace',frames:i=>['translateY(28px) scale(.98)','translateY(0px) scale(1)'],draw:true,particles:true}
   };
   // Wipe a prior result in-place: the mask and its content counter-translate,

@@ -1,0 +1,5 @@
+{
+  "title": "클라우드 비용 전환 효과 — flint 차트 데모 (가상 시나리오)",
+  "output": "flint-demo-consulting-deck.html",
+  "charts": { "engine": "flint", "asked": true }
+}
