@@ -39,6 +39,21 @@ SLIDE = '''<section class="slide" data-archetype="statement">
   <aside class="notes">''' + NOTES + '''</aside>
 </section>'''
 
+# 확인 문제 장 — .chk 마크업 + archetype check 로 판별. 정답 표식은 수동 단계와 무관한 부수 표식.
+QUIZ = '''<section class="slide" data-archetype="check">
+  <div class="head"><p class="eyebrow">확인</p><h2 class="title">퀴즈 장</h2></div>
+  <div class="chk">
+    <div class="chk-q"><span class="chk-n">1</span>어느 쪽이 맞나요?</div>
+    <div class="chk-opts">
+      <button class="chk-o" type="button">갑</button>
+      <button class="chk-o chk-right" type="button">을</button>
+    </div>
+    <div class="chk-why">해설</div>
+  </div>
+  <p class="big" data-step="1" style="font-size:40px">퀴즈 단계 1</p>
+  <p class="big" data-step="2" style="font-size:40px">퀴즈 단계 2</p>
+</section>'''
+
 
 def build_mini():
     SRC.mkdir(parents=True, exist_ok=True)
@@ -50,7 +65,19 @@ def build_mini():
     html = OUT / 'deck.html'
     build('키 모션 시험', srcs, [S / 'assets/css'],
           [S / 'assets/icons'], html)
-    return html
+    q = SRC / 'quiz-deck'
+    q.mkdir(exist_ok=True)
+    qsrcs = []
+    for name, body in (('01-a.html', SLIDE.format(n=1)),
+                       ('02-quiz.html', QUIZ),
+                       ('03-b.html', SLIDE.format(n=3))):
+        p = q / name
+        p.write_text(body, encoding='utf-8')
+        qsrcs.append(p)
+    html_quiz = OUT / 'deck-quiz.html'
+    build('키 모션 퀴즈 시험', qsrcs, [S / 'assets/css'],
+          [S / 'assets/icons'], html_quiz)
+    return html, html_quiz
 
 
 class KeyMotionTest(unittest.TestCase):
@@ -58,7 +85,7 @@ class KeyMotionTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.html = build_mini()
+        cls.html, cls.html_quiz = build_mini()
         cls._pw = sync_playwright().start()
         cls._browser = cls._pw.chromium.launch(channel='chrome')
 
@@ -67,10 +94,10 @@ class KeyMotionTest(unittest.TestCase):
         cls._browser.close()
         cls._pw.stop()
 
-    def _page(self):
+    def _page(self, html=None):
         ctx = self._browser.new_context(viewport={'width': 1920, 'height': 1080})
         pg = ctx.new_page()
-        pg.goto('file://' + str(self.html))
+        pg.goto('file://' + str(html or self.html))
         pg.wait_for_timeout(1500)
         return ctx, pg
 
@@ -148,6 +175,35 @@ class KeyMotionTest(unittest.TestCase):
             pg.wait_for_timeout(1200)
             self.assertEqual(self._info(pg)['step'], 0,
                              'deckGo 점프는 자동 완주를 일으키지 않는다')
+        finally:
+            ctx.close()
+
+    def test_m_stops_on_quiz_slide_and_resumes_after(self):
+        ctx, pg = self._page(self.html_quiz)
+        try:
+            pg.keyboard.press('m')            # 자동 완주 켬 — 장0(비퀴즈) 완주
+            pg.wait_for_timeout(3500)
+            self.assertEqual(self._info(pg)['step'], 4)
+            pg.keyboard.press('ArrowRight')   # 퀴즈 장 진입 — 자동 완주가 멈춘다
+            pg.wait_for_timeout(2000)
+            info = self._info(pg)
+            self.assertEqual(info['slide'], 1)
+            self.assertEqual(info['step'], 0,
+                             '확인 문제 장에서는 단계가 자동으로 열리면 안 된다')
+            toast = pg.evaluate("(document.querySelector('.ed-toast')||{textContent:''}).textContent")
+            self.assertIn('멈췄', toast)
+            pg.keyboard.press('ArrowRight')   # 수동으로는 단계가 열린다
+            pg.wait_for_timeout(300)
+            self.assertEqual(self._info(pg)['step'], 1)
+            pg.keyboard.press('ArrowRight')   # 장의 마지막 단계
+            pg.wait_for_timeout(300)
+            self.assertEqual(self._info(pg)['step'], 2)
+            pg.keyboard.press('ArrowRight')   # 다음 장 → 자동 완주 재개
+            pg.wait_for_timeout(3500)
+            info = self._info(pg)
+            self.assertEqual(info['slide'], 2)
+            self.assertEqual(info['step'], 4,
+                             '퀴즈 장을 지나면 자동 완주가 재개된다')
         finally:
             ctx.close()
 

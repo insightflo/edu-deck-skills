@@ -2388,7 +2388,7 @@ body.st-presenter #edThemes,html.ed-deck:not(.ed-ready) #edThemes{display:none!i
 <div id="progress"></div>
 <div id="dots"></div>
 <div id="counter"></div>
-<div id="help">→ 다음 (한 단계씩) · ← 이전 · F 전체화면 · N 발표자 노트 · S 자습 · P 인쇄 · G 끝까지 재생 · M 자동 완주(장 진입 시) · D 용어집 · A 자동 발표 · E 편집 · T 테마 미리보기 · H 도움말</div>
+<div id="help">→ 다음 (한 단계씩) · ← 이전 · F 전체화면 · N 발표자 노트 · S 자습 · P 인쇄 · G 끝까지 재생 · M 자동 완주(퀴즈 장은 멈춤) · D 용어집 · A 자동 발표 · E 편집 · T 테마 미리보기 · H 도움말</div>
 <div id="notes"><div class="h">발표자 노트 (N으로 닫기)</div><div id="notesText"></div></div>
 
 <script>/* Shared on-screen reader. It never owns lesson state: deckGo/step events and
@@ -4723,7 +4723,7 @@ try{
       document.dispatchEvent(new CustomEvent('deckslide',{detail:pos}));
       /* 자동 완주(M): instant 아님 = 사용자 넘김·첫 로드 — 도착한 장의 남은 단계를 순차 재생한다.
          deckGo·검사기(instant)는 영향 없고, toEnd 진입(←로 돌아가기)은 이미 끝 단계라 무동작 */
-      if(motionAuto&&!instant) finishSteps();
+      if(motionAuto&&!instant) autoFinish();
     }
     /* 이미 켜진 장이 있을 때만 전환 연출을 태운다 — 첫 표시는 즉시 그린다 */
     if(window.eduMotion&&!instant&&deckEl.querySelector('.slide.active')) window.eduMotion.navigate(commit,deckEl.dataset.dir);
@@ -4795,6 +4795,22 @@ try{
     };
     finishTimer=setTimeout(tick,gap);
   }
+  /* 확인 문제가 있는 장은 자동 완주가 멈춘다 — 정답·판정 단계가 스스로 열리면 안 된다.
+     판별은 확인 문제 마크업 계약(.chk·.qrow·.ox·.opt·.ans) 또는 장 archetype(check·quiz-*).
+     최종 상태 표면(st-self·인쇄 등 staticNow)은 기존 계약대로 전부 펼치고,
+     G 키·더블클릭은 사용자가 직접 부르는 finishSteps 라 그대로 둔다(수동 완주). */
+  function isQuizSlide(s){
+    if(!s) return false;
+    var a=(s.dataset&&s.dataset.archetype)||'';
+    return a==='check'||a.indexOf('quiz')===0||!!s.querySelector('.chk,.qrow,.ox,.opt,.ans');
+  }
+  function autoFinish(){
+    if(isQuizSlide(pages[pos])&&!staticNow()){
+      if(window.edToast) window.edToast('확인 문제 장 — 자동 완주가 멈췄습니다. 단계는 직접 넘겨 주세요');
+      return;
+    }
+    finishSteps();
+  }
   /* ---- 모션 재생 방식(M 토글): 장이 바뀔 때 자동 완주 ↔ 입력마다 한 단계 ----
      G 키는 dblclick 과 같은 finishSteps 를 부른다(마우스 없이 남은 단계 순차 재생).
      방식은 localStorage 'edeck-motion-auto' 에 남겨 다음 열람에서도 유지한다.
@@ -4812,7 +4828,7 @@ try{
     try{ localStorage.setItem(MODE_KEY,on?'1':'0'); }catch(eM){}
     if(window.edToast) window.edToast(on?'모션 자동 완주 켬 — 장이 바뀌면 그 장의 끝까지 재생합니다 (M 끄기)'
                                         :'모션 자동 완주 끔 — 클릭·키마다 한 단계씩 재생합니다 (M 켜기)');
-    if(on) finishSteps(); else cancelFinish();
+    if(on) autoFinish(); else cancelFinish();
   }
   document.addEventListener('dblclick',function(e){
     if(rootEl.classList.contains('ed-compact')) return;
