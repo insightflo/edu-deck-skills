@@ -267,7 +267,7 @@ legacy와 팩 모두 `assets/css/visual-motion.css`의 아래 공통 어휘를 �
 
 ## 강조 효과 (`data-fx`)
 
-요소에 `data-fx="<이름>"` 을 하나 붙이면 셸이 보이게 되는 순간 한 번 재생한다. 이름 8종·속성·발화 규칙·사용 원칙은 [MOTION_LIBRARY.md](MOTION_LIBRARY.md) 의 "강조 효과 data-fx" 절을 따른다. 조각 예는 `assets/snippets/patterns/fx.html`.
+요소에 `data-fx="<이름>"` 을 하나 붙이면 셸이 보이게 되는 순간 한 번 재생한다. 이름 17종·속성·발화 규칙·사용 원칙은 [MOTION_LIBRARY.md](MOTION_LIBRARY.md) 의 "강조 효과 data-fx" 절을 따른다. 조각 예는 `assets/snippets/patterns/fx.html`.
 
 | 클래스 | 모양 | 짝짓는 효과 |
 |---|---|---|

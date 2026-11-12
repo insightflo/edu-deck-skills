@@ -52,7 +52,7 @@
 
 JS는 CSS의 계산된 값을 읽습니다. 요소 지연은 `min(index,6) × m1/4`, 제목 글자 지연은 `min(index,16) × m1/8`입니다. 새 시간 상수가 아닙니다. 도움말 숨김·알림 수명은 움직임 시간이 아니라 UI 표시 시간입니다.
 
-기본 애니메이션 속성은 transform/opacity입니다. 승인 예외는 **제목의 6px 이하 blur, m2 이내**와 **국소 SVG stroke-dashoffset, m3 이내**, 그리고 공통 기법 3건 — **`slice-reveal`의 `clip-path` inset(m4 이내)·`rack-focus`의 `filter: blur()`(m3 이내·채점 순간 한정)·`weight-wave`의 `font-variation-settings` wght(m3×1.8+글자당 60ms·제목/핵심 어구 한정)** 입니다. 숫자는 원본 문장을 바꾸지 않는 장식용 숫자 릴을 transform으로 움직입니다. 무한 루프·SMIL·캔버스 rAF 채점은 사용하지 않습니다. 60fps는 설계 목표이며 실제 측정 없이 보장하지 않습니다.
+기본 애니메이션 속성은 transform/opacity입니다. 승인 예외는 **제목의 6px 이하 blur, m2 이내**와 **국소 SVG stroke-dashoffset, m3 이내**, 그리고 공통 기법 4건 — **`slice-reveal`·`blinds`의 `clip-path`(m4 이내)·`rack-focus`의 `filter: blur()`(m3 이내·채점 순간 한정)·`weight-wave`의 `font-variation-settings` wght(m3×1.8+글자당 60ms·제목/핵심 어구 한정)** 입니다. 숫자는 원본 문장을 바꾸지 않는 장식용 숫자 릴을 transform으로 움직입니다. 무한 루프·SMIL·캔버스 rAF 채점은 사용하지 않습니다. 60fps는 설계 목표이며 실제 측정 없이 보장하지 않습니다.
 
 ## 상·하단 크롬 막대
 

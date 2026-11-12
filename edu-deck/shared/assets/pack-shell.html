@@ -1873,7 +1873,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
   // becomes visible (slide entry when visible at step 0, or at the step whose
   // data-step/data-add/data-only reveals it). Static modes and revisited
   // (back) states show the authored final DOM — overlays stay, text is intact.
-  const FX={strike:'m3',stamp:'m3',mark:'m4',count:'m4',travel:'m4',block:'m4',type:1500,press:'m2','scatter-gather':'m4','slice-reveal':'m4','row-mask-rise':'m3','weight-wave':'m3','rack-focus':'m3','bar-grow':'m3','card-deal':'m3',blinds:'m4'};
+  const FX={strike:'m3',stamp:'m3',mark:'m4',count:'m4',travel:'m4',block:'m4',type:1500,press:'m2','scatter-gather':'m4','slice-reveal':'m4','row-mask-rise':'m3','weight-wave':'m3','rack-focus':'m3','bar-grow':'m3','card-deal':'m3',blinds:'m4',draft:2400};
   // A declared transform-reveal technique owns the element's own entrance: the
   // archetype signature must not stack a second transform animation on it.
   const FX_OWN_TRANSFORM=new Set(['bar-grow','card-deal']);
@@ -2063,6 +2063,164 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
     });
     animateMs(el,frames,duration(FX.blinds,el),'e-out',at);
   }
+  // ---- TASK-tech-reveal-absorb: draft — 래스터 이미지가 도면처럼 그려지는 등장 ----
+  // technical-reveal(MIT)의 "이미지를 CAD 도면으로 재구성한 뒤 실물 공개" 개념만 옮긴
+  // 우리 구현이다(원본 코드·문장 미복사 — 분석: workspace/absorb/tech-reveal-analysis.md).
+  // 2400ms 안에서 ① 옅은 격자·중심선이 페이드인(--soft/--line) 되고 ② 소벨 가장자리
+  // 런을 결정적 순서로 짧은 선분 플롯하며 치수 2~3개가 수치 카운트업(--accent, count 개념
+  // 차용)되고 ③ 실물 이미지가 크로스페이드 인·오버레이가 소멸한다. 캔버스는 aria-hidden
+  // 장식 — 끝나면(또는 취소되면) 즉시 지워 저작 <img> 만 남긴다. 정적 모드·애니메이션
+  // 미지원·재방문은 캔버스를 만들지 않는다(fxSweep·가드가 막는다).
+  // 같은 출처·data: URI 이미지만 읽을 수 있다 — getImageData 가 오염(cross-origin)으로
+  // SecurityError 를 던지면 효과 없이 이미지만 보이고 'fx-draft-degraded' 를 기록한다.
+  function draftEdges(img){
+    // 분석: 긴 변 ≤560px 다운스케일 → 소벨 크기 → 백분위 임계 → 스캔라인 런 수집.
+    // getImageData 예외는 여기서 삼키지 않는다 — 폴백은 호출부가 판단한다.
+    const iw=img.naturalWidth,ih=img.naturalHeight;
+    const k=Math.min(1,560/Math.max(iw,ih));
+    const aw=Math.max(2,Math.round(iw*k)),ah=Math.max(2,Math.round(ih*k));
+    const off=document.createElement('canvas');off.width=aw;off.height=ah;
+    const octx=off.getContext('2d',{willReadFrequently:true});
+    if(!octx)return{runs:[],aw,ah};
+    octx.drawImage(img,0,0,aw,ah);
+    const d=octx.getImageData(0,0,aw,ah).data;   // SecurityError 가능
+    const lum=new Float32Array(aw*ah);
+    for(let i=0,j=0;i<lum.length;i++,j+=4)lum[i]=d[j]*.2126+d[j+1]*.7152+d[j+2]*.0722;
+    const mag=new Float32Array(aw*ah),vals=[];
+    for(let y=1;y<ah-1;y++){const r=y*aw;
+      for(let x=1;x<aw-1;x++){const i=r+x;
+        const gx=-lum[i-aw-1]-2*lum[i-1]-lum[i+aw-1]+lum[i-aw+1]+2*lum[i+1]+lum[i+aw+1];
+        const gy=-lum[i-aw-1]-2*lum[i-aw]-lum[i-aw+1]+lum[i+aw-1]+2*lum[i+aw]+lum[i+aw+1];
+        const g=Math.abs(gx)+Math.abs(gy);if(g>0){mag[i]=g;vals.push(g);}}}
+    if(!vals.length)return{runs:[],aw,ah};
+    vals.sort((a,b)=>a-b);
+    const seg=Math.max(4,Math.round(aw/40));   // 플로터 획 길이 상한(분석 픽셀)
+    const collect=thr=>{
+      const out=[];
+      for(let y=1;y<ah-1;y++){let x0=-1;const r=y*aw;
+        const push=(a,b)=>{for(let s=a;s<b;s+=seg)out.push([s,y,Math.min(b,s+seg),y]);};
+        for(let x=1;x<aw-1;x++){
+          if(mag[r+x]>=thr){if(x0<0)x0=x;}
+          else if(x0>=0){push(x0,x);x0=-1;}}
+        if(x0>=0)push(x0,aw-2);}
+      return out;};
+    let runs=[];
+    for(const q of [.82,.88,.93]){           // 잡음 많은 사진도 상한 안으로
+      runs=collect(vals[Math.min(vals.length-1,Math.floor(vals.length*q))]);
+      if(runs.length<=1800)break;}
+    if(runs.length>1800){const st=Math.ceil(runs.length/1800),c=[];for(let i=0;i<runs.length;i+=st)c.push(runs[i]);runs=c;}
+    return{runs,aw,ah};
+  }
+  function fxDraft(el,at){
+    if(el.tagName!=='IMG'||typeof el.animate!=='function'||!window.requestAnimationFrame)return 'fx-draft';
+    const host=el.parentElement;
+    if(!host)return 'fx-draft';
+    const slide=el.closest('.slide')||host;
+    let dead=false,degraded=false,returned=false,raf=0,cv=null,go=null;
+    const oldOp=el.style.opacity,oldPos=host.style.position;
+    const finish=()=>{if(dead)return;dead=true;
+      if(raf)cancelAnimationFrame(raf);
+      if(go)el.removeEventListener('load',go);
+      if(cv)cv.remove();
+      el.style.opacity=oldOp;host.style.position=oldPos;
+      cleanups.delete(finish);};
+    cleanups.add(finish);
+    const build=()=>{
+      if(dead)return;
+      let runs,aw,ah;
+      try{({runs,aw,ah}=draftEdges(el));}
+      catch(e){ // 오염 캔버스(SecurityError) — 효과 생략, 이미지만 즉시 보인다
+        degraded=true;finish();
+        if(returned)logSig(slide,(window.deckInfo?window.deckInfo().step:0)||0,'fx-draft-degraded');
+        return;}
+      if(!runs.length){finish();return;}     // 가장자리 없는 단색 이미지 — 실물만
+      const H=host.getBoundingClientRect(),R=el.getBoundingClientRect();
+      const sc=H.width/(host.offsetWidth||H.width)||1;
+      const ow=el.offsetWidth||R.width,oh=el.offsetHeight||R.height;
+      if(!ow||!oh){finish();return;}
+      if(getComputedStyle(host).position==='static')host.style.position='relative';
+      const dpr=Math.min(3,(window.devicePixelRatio||1)*Math.max(1,sc));
+      cv=document.createElement('canvas');cv.className='ed-draft';cv.setAttribute('aria-hidden','true');
+      cv.width=Math.round(ow*dpr);cv.height=Math.round(oh*dpr);
+      Object.assign(cv.style,{position:'absolute',left:(R.left-H.left)/sc-host.clientLeft+'px',top:(R.top-H.top)/sc-host.clientTop+'px',width:ow+'px',height:oh+'px',pointerEvents:'none',opacity:'1'});
+      host.append(cv);
+      const ctx=cv.getContext('2d');ctx.scale(dpr,dpr);
+      const soft=token('--soft',el)||'#485660',line=token('--line',el)||'#7d888b',
+            acc=token('--accent',el)||'#a54716',paper=token('--paper',el)||'#fffdf8';
+      const iw=el.naturalWidth,ih=el.naturalHeight,sx=ow/aw,sy=oh/ah;
+      // 내부 치수: 가장자리 바운딩의 가로 폭을 자연 픽셀로 환산한다
+      let mx0=aw,mx1=0;for(const r of runs){if(r[0]<mx0)mx0=r[0];if(r[2]>mx1)mx1=r[2];}
+      const inner=mx1>mx0?Math.round((mx1-mx0)/aw*iw):0;
+      // 셔플: 같은 장 안 요소 인덱스가 씨드 — 결정적 플롯 순서
+      const peers=all('[data-fx="draft"]',slide),seed=1+Math.max(0,peers.indexOf(el));
+      let s0=(seed*2654435761)>>>0||1;
+      for(let i=runs.length-1;i>0;i--){s0=(s0*1664525+1013904223)>>>0;
+        const j=Math.floor(s0/4294967296*(i+1));const t=runs[i];runs[i]=runs[j];runs[j]=t;}
+      const T=FX.draft,G=350,P=1750,t0=performance.now()+Math.max(0,at);
+      const ease=x=>1-Math.pow(1-x,3),fs=Math.max(11,Math.round(oh/26));
+      el.style.opacity='0';
+      const tick=now=>{
+        if(dead)return;
+        if(staticMode()){finish();return;}    // 도중 정적 전환 — 즉시 제거·최종 모습
+        const tt=now-t0;
+        if(tt<0){raf=requestAnimationFrame(tick);return;}
+        if(tt>=T){finish();return;}
+        ctx.clearRect(0,0,ow,oh);
+        // ① 도면 시트: 옅은 종기+격자(--soft)·중심선(--line)이 앞 350ms 에 페이드인
+        const ga=Math.min(1,tt/G);
+        ctx.save();ctx.globalAlpha=ga*.5;ctx.fillStyle=paper;ctx.fillRect(0,0,ow,oh);
+        ctx.globalAlpha=ga*.28;ctx.strokeStyle=soft;ctx.lineWidth=1;
+        const gs=Math.max(24,Math.round(ow/14));
+        ctx.beginPath();
+        for(let x=gs;x<ow;x+=gs){ctx.moveTo(x,0);ctx.lineTo(x,oh);}
+        for(let y=gs;y<oh;y+=gs){ctx.moveTo(0,y);ctx.lineTo(ow,y);}
+        ctx.stroke();
+        ctx.globalAlpha=ga*.65;ctx.strokeStyle=line;ctx.setLineDash([7,7]);
+        ctx.beginPath();ctx.moveTo(ow/2,0);ctx.lineTo(ow/2,oh);ctx.moveTo(0,oh/2);ctx.lineTo(ow,oh/2);ctx.stroke();
+        ctx.restore();
+        // ② 가장자리 런 플롯 — 셔플된 결정적 순서로 짧은 선분이 번갈아 찍힌다
+        const n=Math.floor(ease(Math.min(1,Math.max(0,(tt-G)/(P-G))))*runs.length);
+        ctx.save();ctx.strokeStyle=soft;ctx.lineWidth=1.1;ctx.lineCap='round';ctx.beginPath();
+        for(let i=0;i<n;i++){const r=runs[i];ctx.moveTo(r[0]*sx,r[1]*sy);ctx.lineTo(r[2]*sx,r[3]*sy);}
+        ctx.stroke();ctx.restore();
+        // 치수 2~3개: 바운딩 폭·높이(+내부 1거리)를 --accent 수치 카운트업
+        const dq=Math.min(1,Math.max(0,(tt-700)/900));
+        if(dq>0){
+          const dn=ease(dq);
+          ctx.save();ctx.globalAlpha=Math.min(1,dq*2);ctx.strokeStyle=acc;ctx.fillStyle=acc;
+          ctx.lineWidth=1;ctx.font='700 '+fs+'px Pretendard Variable,Pretendard,sans-serif';
+          ctx.textAlign='center';ctx.textBaseline='bottom';
+          const wy=oh-6;
+          ctx.beginPath();ctx.moveTo(0,wy);ctx.lineTo(ow,wy);
+          ctx.moveTo(0,wy-4);ctx.lineTo(0,wy+4);ctx.moveTo(ow,wy-4);ctx.lineTo(ow,wy+4);ctx.stroke();
+          ctx.fillText(Math.round(iw*dn)+'px',ow/2,wy-6);
+          const hx=ow-6;
+          ctx.beginPath();ctx.moveTo(hx,0);ctx.lineTo(hx,oh);
+          ctx.moveTo(hx-4,0);ctx.lineTo(hx+4,0);ctx.moveTo(hx-4,oh);ctx.lineTo(hx+4,oh);ctx.stroke();
+          ctx.save();ctx.translate(ow-10,oh/2);ctx.rotate(-Math.PI/2);
+          ctx.fillText(Math.round(ih*dn)+'px',0,0);ctx.restore();
+          if(inner>0&&mx1-mx0<aw*.92){           // 내부 거리 — 바운딩보다 충분히 좁을 때만
+            const iy=8;
+            ctx.beginPath();ctx.moveTo(mx0*sx,iy);ctx.lineTo(mx1*sx,iy);
+            ctx.moveTo(mx0*sx,iy-4);ctx.lineTo(mx0*sx,iy+4);ctx.moveTo(mx1*sx,iy-4);ctx.lineTo(mx1*sx,iy+4);ctx.stroke();
+            ctx.textBaseline='top';
+            ctx.fillText(Math.round(inner*dn)+'px',(mx0+mx1)/2*sx,iy+6);
+          }
+          ctx.restore();
+        }
+        // ③ 크로스페이드: 실물 이미지 인 + 오버레이 아웃(keepLines=0 상당)
+        if(tt>P){const q=ease(Math.min(1,(tt-P)/(T-P)));el.style.opacity=String(q);cv.style.opacity=String(1-q);}
+        raf=requestAnimationFrame(tick);
+      };
+      raf=requestAnimationFrame(tick);
+    };
+    if(el.complete&&el.naturalWidth)build();
+    else{go=()=>build();
+      el.addEventListener('load',go,{once:true});
+      el.addEventListener('error',()=>{el.removeEventListener('load',go);},{once:true});}
+    returned=true;
+    return degraded?'fx-draft-degraded':'fx-draft';
+  }
   function fxFire(el){
     const name=el.dataset.fx;
     if(!FX[name])return false;
@@ -2087,6 +2245,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
       case 'bar-grow':fxBarGrow(el,at);break;
       case 'card-deal':fxDeal(el,at);break;
       case 'blinds':fxBlinds(el,at);break;
+      case 'draft':return fxDraft(el,at);
     }
     return 'fx-'+name;
   }

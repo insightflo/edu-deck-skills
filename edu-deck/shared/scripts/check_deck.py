@@ -100,7 +100,9 @@ FX_KINDS = {"strike": 500, "stamp": 500, "mark": 800, "count": 800,
             "scatter-gather": 800, "slice-reveal": 800, "row-mask-rise": 500,
             "weight-wave": 900, "rack-focus": 500,
             # TASK-fx-absorb 공통 기법 3종 — blinds 는 m4 한계 1회.
-            "bar-grow": 500, "card-deal": 500, "blinds": 800}
+            "bar-grow": 500, "card-deal": 500, "blinds": 800,
+            # TASK-tech-reveal-absorb: draft — 이미지 도면 드로잉(격자+플롯+치수+리빌).
+            "draft": 2400}
 # 라틴 단어(내부 .-' 허용)가 공백으로 이어져 6개 이상 = 외국어 문장으로 본다.
 FOREIGN_RUN = re.compile(
     r"[A-Za-z]+(?:[.,'\-’][A-Za-z]+)*(?:\s+[A-Za-z]+(?:[.,'\-’][A-Za-z]+)*){5,}")
@@ -641,6 +643,12 @@ def static_checks(html_text, soup, rep, allow_placeholders):
                     rep.add("WARN", i, "모션", f'data-fx-at="{at_v}" 는 0~2000ms 숫자여야 합니다', target=name)
             if el.has_attr("data-crayon"):
                 rep.add("WARN", i, "모션", "한 요소에 data-fx 와 data-crayon 이 함께 있습니다 (한 요소 한 효과)", target=name)
+            if name == "draft" and el.name == "img":
+                src_v = (el.get("src") or "").strip()
+                if EXTERNAL.match(src_v):
+                    rep.add("WARN", i, "캔버스",
+                            'data-fx="draft" 이미지가 외부 주소입니다 — 캔버스 오염으로 효과가 생략될 수 있습니다 (data: URI·같은 출처 파일만 안전합니다)',
+                            target=src_v[:40])
             fx_end = max(fx_end, at + FX_KINDS[name])
         if fx_end > 3000:
             rep.add("WARN", i, "모션 길이", f"data-fx 효과가 {fx_end:g}ms 까지 이어집니다 (3000ms 안에 끝내세요)")

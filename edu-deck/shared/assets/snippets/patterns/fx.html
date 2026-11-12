@@ -3,7 +3,10 @@
   쓰는 법: <span data-fx="이름">내용</span>. data-fx-at="400" 은 시작 시각(ms, 0~2000, 기본 0).
   이름: strike(글자 위로 취소선) · stamp(판정 도장 — .stamp 요소에, .ok/.no 변형) · mark(형광펜 채우기) ·
     count(data-from → 본문 숫자로 세기, 천 단위·소수·% 지원) · travel(--dx 거리만큼 들어와 자리 잡음) ·
-    block(들어오다 벽에 부딪혀 튕김) · type(한 자씩 드러남, data-fx-speed=글자당 ms) · press(키 눌림 — .kbd 에).
+    block(들어오다 벽에 부딪혀 튕김) · type(한 자씩 드러남, data-fx-speed=글자당 ms) · press(키 눌림 — .kbd 에) ·
+    draft(이미지가 도면처럼 그려지며 등장 — 표지·개념 hero 의 <img> 에만. src 는 data: URI·같은 출처
+    파일만 캔버스를 읽는다 — 외부 주소는 오염으로 효과 생략, check_deck 경고. 실물 화면 인용
+    screen-cite 증거 이미지에는 붙이지 않는다).
   규칙: 한 요소 한 효과. 한 장의 효과는 3초 안에 끝낸다(check_deck "모션 길이" 경고).
     정적 모드(인쇄·자습·움직임 줄이기)와 이미 지난 단계에서는 최종 모습만 보인다.
     캔버스 크레파스(data-crayon)와 한 요소에 함께 쓰지 않는다(check_deck 경고).

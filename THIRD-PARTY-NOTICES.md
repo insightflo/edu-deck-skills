@@ -62,3 +62,14 @@ unslop 은 CC BY 4.0 으로 공개됩니다 (© Damir Sokolovsky).
 - 설치는 저장소 밖 머신 로컬(`~/.edu-deck/flint/`, `flint_env.py install`) — 저장소에 npm 바이트 사본을 두지 않습니다.
 - 저장소 안의 연결 파일: `consulting-deck/charts/flint_env.py`(감지·설치·상태) · `flint-package.json`(버전 핀) · `flint_gen.mjs`(정적 SVG → 조각) · `flint-theme.json`(테마 SSOT) · `flint-schema.md`(모델 계약). 생성기·스키마·테마 값은 우리 계약으로 새로 작성했으며 flint 소스를 복제하지 않았습니다.
 - 라이선스 전문: `licenses/FLINT-CHART-MIT.txt` (flint-chart·flint-chart-mcp), `licenses/VEGA-BSD-3-CLAUSE.txt`, `licenses/VEGA-LITE-BSD-3-CLAUSE.txt`.
+
+## technical-reveal (개념 참조 — 코드 미복사, MIT)
+
+`data-fx="draft"`(래스터 이미지가 도면처럼 재구성되며 등장하는 공통 모션 기법)은
+**technical-reveal** (© 2026 Shiv, MIT — `workspace/refs/technical-reveal`, 라이선스 전문
+`licenses/TECHNICAL-REVEAL-MIT.txt`) 의 "하나의 이미지를 CAD 도면으로 다시 그린 뒤 실물을
+공개한다"는 시각 개념만 참조해 클린룸으로 재작성했습니다.
+원본의 코드·문장·팔레트·React/DialKit/녹화·PNG 수출 도구는 흡수하지 않았고,
+다운스케일 분석·가장자리 플롯·치수 주석·크로스페이드 공개는 모두 우리
+토큰(`--soft`/`--line`/`--accent`)과 2400ms 모션 예산으로 새로 구현했습니다
+(구현: `edu-deck/shared/assets/js/motion.js`, 분석: `workspace/absorb/tech-reveal-analysis.md`).
