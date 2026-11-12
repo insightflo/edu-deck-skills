@@ -234,7 +234,8 @@ ul.list li::marker{color:var(--accent)}
 #dots i{width:10px;height:10px;border-radius:3px;border:1px solid var(--soft);opacity:.5}
 #dots i.on{opacity:1;background:var(--accent);border-color:var(--accent)}
 #progress{position:fixed;left:0;bottom:0;height:4px;background:var(--accent);z-index:5}
-#help{position:fixed;right:20px;bottom:40px;background:var(--ink);color:var(--light);font-size:16px;border-radius:var(--r2);padding:16px 20px;opacity:.92;z-index:6}
+#help{position:fixed;right:20px;bottom:40px;background:var(--ink);color:var(--light);font-size:16px;border-radius:var(--r2);padding:16px 20px;opacity:.96;z-index:45;display:none;max-width:calc(100vw - 40px)}
+#help.on{display:block}
 #notes{position:fixed;left:0;right:0;bottom:0;max-height:38vh;overflow:auto;background:var(--ink);color:var(--light);font-size:20px;line-height:1.5;padding:20px 28px;border-top:4px solid var(--accent-light);display:none;z-index:7}
 #notes .h{font-size:16px;color:var(--muted);margin-bottom:8px}
 
@@ -474,6 +475,112 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   --s8:75px; --s10:94px; --s16:150px;
 }
 
+/* ============================================================
+   신규 8종 (2026-11-12) — 장르 확장. 값은 전부 이 저장소에서
+   새로 설계했다(workspace/absorb 원본 테마 값과 무관).
+   mono · brick · honey · mint · violet · coral · olive · espresso
+   ============================================================ */
+
+/* mono — 무채색 인쇄물. 규정·문서·활동지 계열. shape: .1/.25/.2/.1
+   회색은 순수 R=G=B 대신 스톤(웜) 편차를 둔다 — all-themes 원본 헥스 비겹침. */
+[data-theme="mono"]{
+  --ink:#201f1d; --paper:#fcfcf8; --light:#f0f0ea; --soft:#4d4c49; --line:#78766f;
+  --accent:#54524e; --accent-text:#3c3a37; --accent-light:#bab8b2;
+  --blue:#413f3b; --blue-text:#302f2c; --blue-soft:#e8e6e0;
+  --success:#2c5a40; --danger:#8e2523; --muted:#cbc9c2; --chip:#e2e2dc;
+  --r1:3px; --r2:10px; --r3:14px;
+  --m1:115ms; --m2:240ms; --m3:400ms; --m4:650ms;
+  --e-spring:cubic-bezier(.34,1.1,.64,1);
+  --s1:7px; --s2:14px; --s3:20px; --s4:27px; --s5:34px; --s6:41px;
+  --s8:54px; --s10:68px; --s16:109px;
+}
+
+/* brick — 테라코타 웜 에디토리얼. 인문·역사·독서 계열. shape: .25/.4/.6/.3 */
+[data-theme="brick"]{
+  --ink:#2e211a; --paper:#faf3ea; --light:#f2e7d9; --soft:#5d4e42; --line:#8a7a6b;
+  --accent:#b14d2e; --accent-text:#8e3c22; --accent-light:#e8a782;
+  --blue:#4e6478; --blue-text:#3d5064; --blue-soft:#e4e8ec;
+  --success:#2e5e42; --danger:#a12624; --muted:#d4c4b2; --chip:#eadfd0;
+  --r1:5px; --r2:12px; --r3:18px;
+  --m1:136ms; --m2:276ms; --m3:460ms; --m4:740ms;
+  --e-spring:cubic-bezier(.34,1.19,.64,1);
+  --s1:8px; --s2:17px; --s3:25px; --s4:34px; --s5:42px; --s6:50px;
+  --s8:67px; --s10:84px; --s16:134px;
+}
+
+/* honey — 머스터드 앰버. 레트로·친근·안내 계열. shape: .5/.55/.5/.6 */
+[data-theme="honey"]{
+  --ink:#2d2413; --paper:#fdf8e9; --light:#f5ebd2; --soft:#5f5339; --line:#8d8062;
+  --accent:#a96e08; --accent-text:#7d5205; --accent-light:#eec26a;
+  --blue:#4a6a80; --blue-text:#3a5568; --blue-soft:#e8ecdf;
+  --success:#2c5a3a; --danger:#9e2722; --muted:#d8cba8; --chip:#eee4c8;
+  --r1:8px; --r2:16px; --r3:24px;
+  --m1:157ms; --m2:312ms; --m3:520ms; --m4:830ms;
+  --e-spring:cubic-bezier(.34,1.32,.64,1);
+}
+
+/* mint — 파스텔 민트. 초등·건강·새싹 계열. shape: .8/.7/.6/.8 */
+[data-theme="mint"]{
+  --ink:#152821; --paper:#f1faf4; --light:#dff0e4; --soft:#40594c; --line:#6e8a7c;
+  --accent:#159169; --accent-text:#0f7051; --accent-light:#8fd8bb;
+  --blue:#3a6f9e; --blue-text:#2b5a7e; --blue-soft:#dcedf2;
+  --success:#1e6b3f; --danger:#a12624; --muted:#bcd8c9; --chip:#d6e9dd;
+  --r1:12px; --r2:21px; --r3:31px;
+  --m1:178ms; --m2:348ms; --m3:580ms; --m4:920ms;
+  --e-spring:cubic-bezier(.34,1.41,.64,1);
+  --s1:8px; --s2:17px; --s3:25px; --s4:34px; --s5:42px; --s6:50px;
+  --s8:67px; --s10:84px; --s16:134px;
+}
+
+/* violet — 차분한 보라. 창의·예술·진로 계열. shape: .6/.5/.5/.6 */
+[data-theme="violet"]{
+  --ink:#251d31; --paper:#f8f5fc; --light:#ece4f4; --soft:#554a66; --line:#7e7294;
+  --accent:#6f47a8; --accent-text:#583688; --accent-light:#c3a4e8;
+  --blue:#45598f; --blue-text:#374873; --blue-soft:#e3e6f2;
+  --success:#296045; --danger:#a12624; --muted:#cec4dc; --chip:#e4dbf0;
+  --r1:9px; --r2:18px; --r3:26px;
+  --m1:150ms; --m2:300ms; --m3:500ms; --m4:800ms;
+  --e-spring:cubic-bezier(.34,1.32,.64,1);
+}
+
+/* coral — 로즈 코랄. 응대·소통·온보딩 계열. shape: .7/.6/.5/.7
+   주색 H≈352°(로즈-살몬) — brick(H≈14°)과 ΔH≈22° 로 난색 축에서 분리. */
+[data-theme="coral"]{
+  --ink:#321c1c; --paper:#fdf3f1; --light:#f8e3de; --soft:#6a4a48; --line:#96736e;
+  --accent:#c24455; --accent-text:#9a3040; --accent-light:#f0a3ae;
+  --blue:#4d6b84; --blue-text:#3c566b; --blue-soft:#eae9e4;
+  --success:#2c5e40; --danger:#a12624; --muted:#dfc4c0; --chip:#f4dcd6;
+  --r1:10px; --r2:19px; --r3:29px;
+  --m1:164ms; --m2:324ms; --m3:540ms; --m4:860ms;
+  --e-spring:cubic-bezier(.34,1.37,.64,1);
+}
+
+/* olive — 잦아든 올리브. 야외·환경·매뉴얼 계열. shape: .45/.45/.6/.45 */
+[data-theme="olive"]{
+  --ink:#252a16; --paper:#f7f6ea; --light:#ebe9d6; --soft:#565c3e; --line:#82876a;
+  --accent:#6c7a20; --accent-text:#54600f; --accent-light:#c4cf7d;
+  --blue:#4a6b62; --blue-text:#3b564c; --blue-soft:#e3e8da;
+  --success:#29603a; --danger:#a12624; --muted:#cfccb0; --chip:#e5e3cc;
+  --r1:7px; --r2:15px; --r3:23px;
+  --m1:143ms; --m2:288ms; --m3:480ms; --m4:770ms;
+  --e-spring:cubic-bezier(.34,1.25,.64,1);
+  --s1:8px; --s2:17px; --s3:25px; --s4:34px; --s5:42px; --s6:50px;
+  --s8:67px; --s10:84px; --s16:134px;
+}
+
+/* espresso — 어두운 카페. 야간·감성·시사 계열. shape: .4/.5/.85/.4 */
+[data-theme="espresso"]{
+  --ink:#efe5d8; --paper:#241b14; --light:#1a130e; --soft:#b3a393; --line:#7d6c5c;
+  --accent:#d99a52; --accent-text:#d9a868; --accent-light:#7a5527;
+  --blue:#7ba4c0; --blue-text:#a2c4da; --blue-soft:#38302a;
+  --success:#7cb98d; --danger:#df8378; --muted:#54463a; --chip:#3d322a;
+  --r1:7px; --r2:14px; --r3:22px;
+  --m1:150ms; --m2:300ms; --m3:500ms; --m4:800ms;
+  --e-spring:cubic-bezier(.34,1.23,.64,1);
+  --s1:9px; --s2:19px; --s3:28px; --s4:38px; --s5:47px; --s6:56px;
+  --s8:75px; --s10:94px; --s16:150px;
+}
+
 /* Shared visual vocabulary. No timing or color literals outside canonical tokens. */
 body,.slide,.pack{font-family:'Pretendard Variable',sans-serif}
 .st-panel{--soft:var(--muted)}
@@ -543,6 +650,54 @@ body,.slide,.pack{font-family:'Pretendard Variable',sans-serif}
 .k-t-w{fill:var(--paper)}
 .k-t-o{fill:var(--accent-text)}
 .k-t-b{fill:var(--blue-text)}
+/* ── SI 블루프린트 확장(architecture overhaul) ──
+   존 솔리드 헤더·버스·HA·복합 노드·범례 바는 k-* 어휘를 잇는다.
+   k-t-eq·k-t-spec·k-t-qty 는 도식 내부 마이크로 타이포 계약(checker 허용 하한: 렌더링 12px) — 장비 spec·
+   포트·수량처럼 기호성 글자에만 쓰며, check_deck 의 18px 하한 예외는 이 세 클래스와
+   .arch-blueprint 범위로 국한된다(계약 근거: references/architecture.md). */
+.k-zface{fill:#fff;stroke:var(--line);stroke-width:1.5}
+.k-zface-t{fill:var(--blue-soft);fill-opacity:.45;stroke:var(--line);stroke-width:1.5}
+.k-zbar-n{fill:var(--bp-navy,#0f172a)}
+.k-zbar-b{fill:var(--bp-royal,#1d4ed8)}
+.k-t-zh{font-size:22px;font-weight:800;fill:#fff}
+.k-t-eq{font-size:16px;font-weight:700;fill:var(--ink)}
+.k-t-spec{font-size:15px;font-weight:600;fill:var(--soft)}
+.k-t-qty{font-size:15px;font-weight:800;fill:#fff}
+.k-qty circle{fill:var(--accent)}
+.k-clus{fill:#fff;stroke:var(--line);stroke-width:1.5}
+.k-clus-hd{fill:var(--blue);stroke:none}
+.k-chip{fill:var(--paper);stroke:var(--line);stroke-width:1}
+.k-res{fill:var(--muted);fill-opacity:.4}
+.k-res-f{fill:var(--blue)}
+.k-bus-trunk{fill:none;stroke:var(--blue);stroke-width:6;stroke-linecap:round}
+.k-bus-san{fill:none;stroke:var(--danger);stroke-width:5;stroke-linecap:round}
+.k-bus-lan{fill:none;stroke:var(--line);stroke-width:4;stroke-linecap:round}
+.k-bus-trunk-dot{fill:var(--blue)}
+.k-bus-san-dot{fill:var(--danger)}
+.k-bus-lan-dot{fill:var(--line)}
+.k-ha{stroke:var(--blue);stroke-width:2.5}
+.k-hab circle{fill:var(--blue)}
+.k-legbar{fill:var(--light);stroke:var(--line);stroke-width:1}
+/* theme:'blueprint' — 아키텍처 장 전용 쿨 화이트 계획도 면(warm beige 제거).
+   스코프 토큰 오버라이드라 다른 장·다른 덱에는 영향이 없다. */
+.slide.arch-blueprint{--paper:#ffffff;--light:#f8fafc;--ink:#0f172a;--soft:#334155;--line:#94a3b8;--blue:#1d4ed8;--blue-text:#1e40af;--blue-soft:#dbeafe;--accent:#d97706;--accent-text:#b45309;--accent-soft:color-mix(in srgb,#d97706 10%,#fff);--muted:#cbd5e1;--danger:#dc2626;--bp-navy:#0f172a;--bp-royal:#1d4ed8;background:#f8fafc}
+/* chrome:'blueprint' — 1행 컴팩트 헤더(일련번호·제목·아이브로) */
+.bp-head{display:flex;align-items:baseline;gap:18px;min-height:56px;border-bottom:2px solid var(--ink);padding-bottom:8px}
+.bp-head .title{margin:0;font-size:40px;line-height:1.2}
+.bp-serial{font-size:22px;font-weight:800;color:var(--blue);font-variant-numeric:tabular-nums}
+.bp-serial::before{content:"["}
+.bp-serial::after{content:"]"}
+.bp-eyebrow{margin-left:auto;font-size:18px;font-weight:700;color:var(--soft);letter-spacing:.08em}
+/* sidePanel — 도식 우측 스펙 시트 열(BOM·핵심 목록·스택 요약) */
+.arch-side{flex:0 0 280px;min-width:280px;box-sizing:border-box;display:flex;flex-direction:column;gap:14px;background:var(--paper);border:1.5px solid var(--line);border-radius:12px;padding:18px;overflow:hidden}
+.arch-side-t{margin:0;font-size:26px;font-weight:800;color:var(--ink)}
+.arch-side-blk{display:flex;flex-direction:column;gap:8px;min-height:0}
+.arch-side-h{margin:0;font-size:20px;font-weight:800;color:var(--blue-text)}
+.arch-side-tb{width:100%;border-collapse:collapse}
+.arch-side-tb th{text-align:left;font-size:18px;font-weight:800;color:var(--soft);border-bottom:2px solid var(--ink);padding:4px 6px}
+.arch-side-tb td{font-size:18px;color:var(--ink);border-bottom:1px solid var(--line);padding:5px 6px}
+.arch-side-ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:18px;line-height:1.45;color:var(--ink)}
+.arch-side-p{margin:0;font-size:18px;line-height:1.5;color:var(--soft)}
 /* 다크 슬라이드 "면 위가 아니라 슬라이드 바탕 위" 도식 글자 표식(k-ds) — .dark .eyebrow 와 같은
    어댑테이션. 밝은 도형(k-paper/k-blue/k-orange) 위의 잉크 글자는 표식하지 않는다. */
 .slide.dark .k-ds{fill:var(--light)}
@@ -824,6 +979,53 @@ html.ed-compact .ed-sch-in input{font-size:18px}
 html.ed-compact .ed-sch-item{min-height:56px}
 
 @media print{.ed-topbar,.ed-sch,.ed-toc,.ed-toast,.ed-pres{display:none!important}}
+
+/* theme-switch.css — 저작 도구 테마 미리보기 패널(themes.js 가 만드는 #edThemes).
+   기본은 숨김 — ?themes=1·H 키로만 연다(일반 시청자에게 보이지 않는다).
+   패널 자체도 테마 토큰으로 칠해지므로 미리보기 전환을 따라감 — ink/paper 대비가
+   매트릭스로 보장되므로 모든 테마에서 읽힌다. 인쇄·접촉판·발표자 보기에서는 숨긴다. */
+
+#edThemes{position:fixed;top:56px;right:14px;z-index:30;width:292px;max-height:calc(100vh - 76px);
+  display:none;flex-direction:column;background:var(--paper);color:var(--ink);
+  border:2px solid var(--line);border-radius:var(--r2);box-shadow:var(--shadow-2);
+  font:500 15px/1.45 'Pretendard Variable','Apple SD Gothic Neo','Malgun Gothic',sans-serif}
+#edThemes.on{display:flex}
+#edThemes .ed-th-head{flex:none;display:flex;align-items:center;justify-content:space-between;
+  padding:12px 16px;border-bottom:2px solid var(--line);font-size:16px;font-weight:800}
+#edThemes .ed-th-x{font:inherit;font-size:14px;font-weight:700;color:var(--soft);background:none;
+  border:1px solid var(--line);border-radius:var(--r1);padding:4px 12px;cursor:pointer}
+#edThemes .ed-th-x:hover{border-color:var(--accent);color:var(--accent-text)}
+#edThemes .ed-th-note{flex:none;padding:8px 16px;font-size:13px;line-height:1.5;color:var(--soft);
+  border-bottom:1px solid var(--line)}
+#edThemes .ed-th-note b{color:var(--accent-text)}
+#edThemes .ed-th-list{flex:1;min-height:0;overflow-y:auto;padding:6px}
+#edThemes .ed-th-item{display:flex;align-items:center;gap:10px;width:100%;text-align:left;
+  font:inherit;font-size:15px;font-weight:700;color:var(--ink);background:none;
+  border:2px solid transparent;border-radius:var(--r1);padding:8px 10px;min-height:40px;cursor:pointer}
+#edThemes .ed-th-item:hover{background:var(--light)}
+#edThemes .ed-th-item.on{border-color:var(--accent);background:var(--light)}
+#edThemes .ed-th-dots{display:inline-flex;gap:4px;flex:none}
+#edThemes .ed-th-dots i{width:11px;height:11px;border-radius:50%;border:1px solid var(--line)}
+#edThemes .ed-th-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#edThemes .ed-th-tag{flex:none;font-size:11px;font-weight:800;color:var(--accent-text);
+  background:var(--light);border:1px solid var(--accent-light);border-radius:999px;
+  padding:2px 8px;letter-spacing:.5px}
+#edThemes .ed-th-legend{font-size:11px;color:var(--soft);letter-spacing:.3px}
+#edThemes .ed-th-foot{flex:none;display:flex;align-items:center;gap:10px;
+  padding:10px 16px;border-top:1px solid var(--line)}
+#edThemes .ed-th-reset{font:inherit;font-size:14px;font-weight:700;color:var(--accent-text);
+  background:var(--light);border:2px solid var(--accent-light);border-radius:var(--r1);
+  padding:6px 12px;cursor:pointer}
+#edThemes .ed-th-reset:hover{border-color:var(--accent)}
+#edThemes .ed-th-kbd{margin-left:auto;font-size:11px;color:var(--soft);letter-spacing:.5px}
+
+/* 발표 타이머(ed-talk)가 켜진 덱은 상단바가 커진다 — 그 아래로 내려 겹치지 않게 한다 */
+html.ed-talk #edThemes{top:108px;max-height:calc(100vh - 124px)}
+
+/* 캡처·발표 화면에는 패널이 나오지 않는다 */
+html.is-sheet #edThemes,html.is-shot #edThemes,body.st-printing #edThemes,
+body.st-presenter #edThemes,html.ed-deck:not(.ed-ready) #edThemes{display:none!important}
+@media print{#edThemes{display:none!important}}
 
 </style>
 <style>
@@ -1461,6 +1663,54 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 .screen-cite .sc-gist{font-size:26px;line-height:1.45;color:var(--soft)}
 .screen-cite .sc-gist b{color:var(--accent-text);font-weight:800}
 
+/* ---- theme-switch.css ---- */
+/* theme-switch.css — 저작 도구 테마 미리보기 패널(themes.js 가 만드는 #edThemes).
+   기본은 숨김 — ?themes=1·H 키로만 연다(일반 시청자에게 보이지 않는다).
+   패널 자체도 테마 토큰으로 칠해지므로 미리보기 전환을 따라감 — ink/paper 대비가
+   매트릭스로 보장되므로 모든 테마에서 읽힌다. 인쇄·접촉판·발표자 보기에서는 숨긴다. */
+
+#edThemes{position:fixed;top:56px;right:14px;z-index:30;width:292px;max-height:calc(100vh - 76px);
+  display:none;flex-direction:column;background:var(--paper);color:var(--ink);
+  border:2px solid var(--line);border-radius:var(--r2);box-shadow:var(--shadow-2);
+  font:500 15px/1.45 'Pretendard Variable','Apple SD Gothic Neo','Malgun Gothic',sans-serif}
+#edThemes.on{display:flex}
+#edThemes .ed-th-head{flex:none;display:flex;align-items:center;justify-content:space-between;
+  padding:12px 16px;border-bottom:2px solid var(--line);font-size:16px;font-weight:800}
+#edThemes .ed-th-x{font:inherit;font-size:14px;font-weight:700;color:var(--soft);background:none;
+  border:1px solid var(--line);border-radius:var(--r1);padding:4px 12px;cursor:pointer}
+#edThemes .ed-th-x:hover{border-color:var(--accent);color:var(--accent-text)}
+#edThemes .ed-th-note{flex:none;padding:8px 16px;font-size:13px;line-height:1.5;color:var(--soft);
+  border-bottom:1px solid var(--line)}
+#edThemes .ed-th-note b{color:var(--accent-text)}
+#edThemes .ed-th-list{flex:1;min-height:0;overflow-y:auto;padding:6px}
+#edThemes .ed-th-item{display:flex;align-items:center;gap:10px;width:100%;text-align:left;
+  font:inherit;font-size:15px;font-weight:700;color:var(--ink);background:none;
+  border:2px solid transparent;border-radius:var(--r1);padding:8px 10px;min-height:40px;cursor:pointer}
+#edThemes .ed-th-item:hover{background:var(--light)}
+#edThemes .ed-th-item.on{border-color:var(--accent);background:var(--light)}
+#edThemes .ed-th-dots{display:inline-flex;gap:4px;flex:none}
+#edThemes .ed-th-dots i{width:11px;height:11px;border-radius:50%;border:1px solid var(--line)}
+#edThemes .ed-th-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#edThemes .ed-th-tag{flex:none;font-size:11px;font-weight:800;color:var(--accent-text);
+  background:var(--light);border:1px solid var(--accent-light);border-radius:999px;
+  padding:2px 8px;letter-spacing:.5px}
+#edThemes .ed-th-legend{font-size:11px;color:var(--soft);letter-spacing:.3px}
+#edThemes .ed-th-foot{flex:none;display:flex;align-items:center;gap:10px;
+  padding:10px 16px;border-top:1px solid var(--line)}
+#edThemes .ed-th-reset{font:inherit;font-size:14px;font-weight:700;color:var(--accent-text);
+  background:var(--light);border:2px solid var(--accent-light);border-radius:var(--r1);
+  padding:6px 12px;cursor:pointer}
+#edThemes .ed-th-reset:hover{border-color:var(--accent)}
+#edThemes .ed-th-kbd{margin-left:auto;font-size:11px;color:var(--soft);letter-spacing:.5px}
+
+/* 발표 타이머(ed-talk)가 켜진 덱은 상단바가 커진다 — 그 아래로 내려 겹치지 않게 한다 */
+html.ed-talk #edThemes{top:108px;max-height:calc(100vh - 124px)}
+
+/* 캡처·발표 화면에는 패널이 나오지 않는다 */
+html.is-sheet #edThemes,html.is-shot #edThemes,body.st-printing #edThemes,
+body.st-presenter #edThemes,html.ed-deck:not(.ed-ready) #edThemes{display:none!important}
+@media print{#edThemes{display:none!important}}
+
 /* ---- deck.css ---- */
 /* privacy-talk 덱 전용 보조 스타일.
    공통 셸 계약(색 토큰·모형 창·단계 속성) 안에서 크리틱 반영용 클래스만 정의한다. */
@@ -1614,6 +1864,22 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 <marker id="ah-b" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="var(--blue)"/></marker>
 <marker id="ah-n" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="var(--ink)"/></marker>
 <marker id="ah-open" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1.5 1L9 5L1.5 9" fill="none" stroke="var(--soft)" stroke-width="1.8"/></marker>
+<symbol id="i-si-rack" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"><rect x="14" y="16" width="72" height="28" rx="4"/><rect x="14" y="52" width="72" height="28" rx="4"/></g><g fill="currentColor"><rect x="20" y="22" width="34" height="16" rx="2" opacity=".22"/><rect x="20" y="58" width="34" height="16" rx="2" opacity=".22"/><circle cx="72" cy="30" r="4"/><circle cx="80" cy="30" r="4"/><circle cx="72" cy="66" r="4"/><circle cx="80" cy="66" r="4"/></g></symbol>
+<symbol id="i-si-switch" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"><rect x="12" y="30" width="76" height="40" rx="5"/></g><g fill="currentColor"><rect x="18" y="38" width="10" height="10" rx="1.5" opacity=".3"/><rect x="32" y="38" width="10" height="10" rx="1.5" opacity=".3"/><rect x="46" y="38" width="10" height="10" rx="1.5" opacity=".3"/><rect x="60" y="38" width="10" height="10" rx="1.5" opacity=".3"/><rect x="18" y="52" width="10" height="10" rx="1.5" opacity=".3"/><rect x="32" y="52" width="10" height="10" rx="1.5" opacity=".3"/><rect x="46" y="52" width="10" height="10" rx="1.5" opacity=".3"/><rect x="60" y="52" width="10" height="10" rx="1.5" opacity=".3"/><circle cx="78" cy="44" r="4"/></g></symbol>
+<symbol id="i-si-lb" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><rect x="30" y="36" width="40" height="30" rx="5"/><path d="M12 51H30M70 38L88 26M70 51H88M70 64L88 76"/></g><g fill="currentColor" opacity=".28"><rect x="30" y="36" width="40" height="30" rx="5"/></g><g fill="currentColor"><circle cx="88" cy="26" r="4"/><circle cx="88" cy="51" r="4"/><circle cx="88" cy="76" r="4"/></g></symbol>
+<symbol id="i-si-fw" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"><rect x="16" y="26" width="68" height="48" rx="5"/><path d="M16 42H84M16 58H84M40 26V42M64 26V42M28 42V58M52 42V58M76 42V58M40 58V74M64 58V74"/></g><g fill="currentColor" opacity=".18"><rect x="16" y="26" width="68" height="48" rx="5"/></g></symbol>
+<symbol id="i-si-san" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="5"><ellipse cx="50" cy="26" rx="28" ry="10"/><path d="M22 26V70C22 76 35 84 50 84C65 84 78 76 78 70V26"/><path d="M22 48C22 54 35 60 50 60C65 60 78 54 78 48"/></g><g fill="currentColor" opacity=".2"><ellipse cx="50" cy="26" rx="28" ry="10"/></g><g fill="currentColor"><circle cx="40" cy="72" r="3.5"/><circle cx="52" cy="75" r="3.5"/><circle cx="64" cy="71" r="3.5"/></g></symbol>
+<symbol id="i-si-nas" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"><rect x="24" y="16" width="52" height="68" rx="5"/><path d="M50 20V80"/></g><g fill="currentColor" opacity=".25"><rect x="30" y="24" width="14" height="52" rx="2"/><rect x="56" y="24" width="14" height="52" rx="2"/></g><g fill="currentColor"><rect x="40" y="30" width="4" height="10" rx="2"/><rect x="66" y="30" width="4" height="10" rx="2"/></g></symbol>
+<symbol id="i-si-k8s" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"><path d="M50 8L74 18L88 40L82 66L60 84L36 82L16 62L14 36L28 16Z"/><circle cx="50" cy="48" r="14"/><path d="M50 8V34M74 18L60 40M88 40L64 48M82 66L60 56M60 84L54 62M36 82L42 62M16 62L36 54M14 36L36 44M28 16L40 38"/></g><g fill="currentColor" opacity=".22"><circle cx="50" cy="48" r="14"/></g></symbol>
+<symbol id="i-si-db" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="5"><ellipse cx="34" cy="30" rx="18" ry="8"/><path d="M16 30V62C16 66 24 72 34 72C44 72 52 66 52 62V30"/><ellipse cx="66" cy="46" rx="18" ry="8"/><path d="M48 46V78C48 82 56 88 66 88C76 88 84 82 84 78V46"/><path d="M34 72V78" stroke-linecap="round"/></g><g fill="currentColor" opacity=".2"><ellipse cx="34" cy="30" rx="18" ry="8"/><ellipse cx="66" cy="46" rx="18" ry="8"/></g></symbol>
+<symbol id="i-si-cloud" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"><path d="M28 74C18 74 12 66 12 58C12 50 18 44 26 42C28 30 38 22 50 22C62 22 72 30 74 42C82 44 88 50 88 58C88 66 82 74 72 74Z"/></g><g fill="currentColor" opacity=".2"><path d="M28 74C18 74 12 66 12 58C12 50 18 44 26 42C28 30 38 22 50 22C62 22 72 30 74 42C82 44 88 50 88 58C88 66 82 74 72 74Z"/></g><circle cx="50" cy="56" r="6" fill="currentColor"/></symbol>
+<symbol id="i-si-mon" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="18" width="72" height="48" rx="5"/><path d="M38 84H62M50 66V84"/><path d="M24 46H36L42 34L50 56L56 42L62 46H76"/></g></symbol>
+<symbol id="i-si-ha" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="30" width="28" height="38" rx="4"/><rect x="58" y="30" width="28" height="38" rx="4"/><path d="M46 42H54M54 58H46" /><path d="M42 49H58M54 45L58 49L54 53"/></g><g fill="currentColor"><rect x="20" y="36" width="16" height="8" rx="2" opacity=".28"/><rect x="64" y="36" width="16" height="8" rx="2" opacity=".28"/><circle cx="24" cy="60" r="3"/><circle cx="68" cy="60" r="3"/></g></symbol>
+<symbol id="i-si-rt" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="32" width="68" height="36" rx="6"/><path d="M28 44L48 44L56 56L72 56"/><path d="M66 50L72 56L66 62"/><path d="M72 44L56 44L48 56L28 56"/><path d="M34 50L28 56L34 62" transform="translate(-6 -12)"/></g></symbol>
+<symbol id="i-si-waf" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"><path d="M50 12L78 22V48C78 68 66 80 50 88C34 80 22 68 22 48V22Z"/><path d="M34 44H66M34 56H66M42 34V44M58 34V44M42 56V66M58 56V66" stroke-width="4"/></g><g fill="currentColor" opacity=".18"><path d="M50 12L78 22V48C78 68 66 80 50 88C34 80 22 68 22 48V22Z"/></g></symbol>
+<symbol id="i-si-gw" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M24 84V38C24 24 36 14 50 14C64 14 76 24 76 38V84"/><path d="M12 56H64M56 48L64 56L56 64"/><path d="M76 44H88" opacity=".6"/></g><path d="M36 84V46C36 38 42 32 50 32C58 32 64 38 64 46V84" fill="currentColor" opacity=".2"/></symbol>
+<symbol id="i-si-vm" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"><rect x="18" y="18" width="64" height="64" rx="7"/><rect x="28" y="28" width="20" height="20" rx="3"/><rect x="54" y="28" width="20" height="20" rx="3"/><rect x="28" y="54" width="20" height="20" rx="3"/><rect x="54" y="54" width="20" height="20" rx="3"/></g><g fill="currentColor" opacity=".24"><rect x="28" y="28" width="20" height="20" rx="3"/><rect x="54" y="54" width="20" height="20" rx="3"/></g></symbol>
+<symbol id="i-si-bak" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"><rect x="16" y="24" width="68" height="52" rx="5"/><circle cx="36" cy="46" r="10"/><circle cx="64" cy="46" r="10"/><path d="M46 46H54" stroke-linecap="round"/><path d="M28 68H72" stroke-linecap="round"/></g><g fill="currentColor" opacity=".24"><rect x="16" y="24" width="68" height="52" rx="5"/></g><circle cx="36" cy="46" r="3.5" fill="currentColor"/><circle cx="64" cy="46" r="3.5" fill="currentColor"/></symbol>
 </defs></svg>
 <!-- ==== 01-cover.html ==== -->
 <section class="slide cx" data-archetype="cover" data-variant="diagram" id="cover" data-sec="30" style="padding:0">
@@ -2034,7 +2300,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 <div id="progress"></div>
 <div id="dots"></div>
 <div id="counter"></div>
-<div id="help">→ 다음 (한 단계씩) · ← 이전 · F 전체화면 · N 발표자 노트 · S 자습 · P 인쇄 · G 끝까지 재생 · M 자동 완주(장 진입 시) · D 용어집 · A 자동 발표 · E 편집</div>
+<div id="help" role="dialog" aria-label="도움말 — 키 안내">→ 다음 (한 단계씩) · ← 이전 · F 전체화면 · N 발표자 노트 · S 자습 · P 인쇄 · G 끝까지 재생 · M 자동 완주(장 진입 시) · D 용어집 · A 자동 발표 · E 편집 · T 테마 미리보기 · H 도움말</div>
 <div id="notes"><div class="h">발표자 노트 (N으로 닫기)</div><div id="notesText"></div></div>
 
 <script>/* Shared on-screen reader. It never owns lesson state: deckGo/step events and
@@ -3466,7 +3732,7 @@ function curInfo(){try{return window.deckInfo?deckInfo():{};}catch(e){return{};}
 function goTo(ent){if(!ent)return;if(ent.ep!=null&&SERIES())deckGo(ent.ep,ent.idx,0);else deckGo(ent.idx,0);}
 
 /* ---------- 상단 바 ---------- */
-var bar=null,searchBox=null,searchInput=null,searchList=null,tocBox=null,tocList=null,toastEl=null,toastT=null;
+var bar=null,searchBox=null,searchInput=null,searchList=null,tocBox=null,tocList=null,toastEl=null,toastT=null,helpEl=null,helpBtn=null;
 function el(tag,cls,txt){var e=doc.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;}
 function toast(msg){if(!toastEl){toastEl=el('div','ed-toast');body.appendChild(toastEl);}toastEl.textContent=msg;toastEl.classList.add('on');clearTimeout(toastT);toastT=setTimeout(function(){toastEl.classList.remove('on');},2600);}
 window.edToast=toast;
@@ -3557,19 +3823,27 @@ function fitTitles(){
 
 /* ---------- 키 ---------- */
 function typing(t){return t&&(t.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName));}
+function toggleHelp(on){if(!helpEl)return;helpEl.classList.toggle('on',on===undefined?!helpEl.classList.contains('on'):on);}
 window.addEventListener('keydown',function(e){
  var k=e.key;
  if(e.isComposing)return;
- var schOn=searchBox&&searchBox.classList.contains('on'),tocOn=tocBox&&tocBox.classList.contains('on');
- if(schOn||tocOn){
-  if(k==='Escape'){e.preventDefault();e.stopImmediatePropagation();(schOn?closeSearch:closeToc)();return;}
-  var inside=e.target&&e.target.closest&&(e.target.closest('.ed-sch')||e.target.closest('.ed-toc'));
+ var schOn=searchBox&&searchBox.classList.contains('on'),tocOn=tocBox&&tocBox.classList.contains('on'),
+     helpOn=helpEl&&helpEl.classList.contains('on');
+ if(schOn||tocOn||helpOn){
+  if(k==='Escape'){e.preventDefault();e.stopImmediatePropagation();(schOn?closeSearch:(tocOn?closeToc:function(){toggleHelp(false);}))();return;}
+  if(helpOn&&(k==='h'||k==='H'||k==='ㅗ')){e.preventDefault();e.stopImmediatePropagation();toggleHelp(false);return;}
+  var inside=e.target&&e.target.closest&&(e.target.closest('.ed-sch')||e.target.closest('.ed-toc')||e.target.closest('#help'));
   if(!inside)e.stopImmediatePropagation(); /* 대화상자 밖의 키가 엔진에 새지 않게 막는다 */
   return;}
  if((e.ctrlKey||e.metaKey)&&!e.altKey&&(k==='k'||k==='K')){if(typing(e.target))return;e.preventDefault();openSearch();return;}
  if(e.ctrlKey||e.metaKey||e.altKey)return;
- if(k==='/'&&!typing(e.target)){e.preventDefault();openSearch();return;}
- if((k==='o'||k==='O'||k==='ㅐ')&&!typing(e.target)){openToc();return;}
+ if(typing(e.target))return;
+ if(k==='/'){e.preventDefault();openSearch();return;}
+ if(k==='o'||k==='O'||k==='ㅐ'){openToc();return;}
+ /* H/ㅗ = 도움말 토글. 팩 덱의 #help 는 4초 뒤 사라지는 부트 힌트라 대상 아님 */
+ if(helpBtn&&(k==='h'||k==='H'||k==='ㅗ')){
+  if(doc.querySelector('.st-modal.st-show,.st-print.st-show'))return;
+  e.preventDefault();toggleHelp();return;}
 },true);
 
 /* ---------- 초기화 ---------- */
@@ -3581,7 +3855,16 @@ function init(){
  var bS=el('button','ed-tbtn','검색');bS.type='button';bS.setAttribute('aria-label','검색 (Ctrl+K)');
  bS.addEventListener('click',openSearch);
  var clock=el('span','ed-clock');clock.id='ed-clock';
- bar.appendChild(clock);bar.appendChild(bT);bar.appendChild(bS);body.appendChild(bar);
+ bar.appendChild(clock);bar.appendChild(bT);bar.appendChild(bS);
+ /* 도움말(H) — 검색 옆 세 번째 단추. 팩 덱 #help 는 부트 힌트라 이 단추는 legacy 전용 */
+ helpEl=doc.getElementById('help');
+ if(!doc.querySelector('meta[name="edu-deck-resource-pack"]')&&helpEl){
+  helpBtn=el('button','ed-tbtn');helpBtn.type='button';helpBtn.setAttribute('aria-label','도움말 (H)');
+  var ic=el('span',null,'?');ic.setAttribute('aria-hidden','true');ic.style.fontWeight='800';
+  helpBtn.appendChild(ic);helpBtn.appendChild(doc.createTextNode(' 도움말(H)'));
+  helpBtn.addEventListener('click',function(){toggleHelp();});
+  bar.appendChild(helpBtn);}
+ body.appendChild(bar);
 
  searchBox=el('div','ed-sch');var sb=el('div','ed-sch-box');
  var sin=el('div','ed-sch-in');searchInput=el('input');searchInput.type='text';searchInput.placeholder='슬라이드 검색…';searchInput.setAttribute('aria-label','슬라이드 검색');
@@ -3723,7 +4006,7 @@ window.addEventListener('keydown',function(e){
  if(e.ctrlKey||e.metaKey||e.altKey||e.isComposing)return;
  var t=e.target;if(t&&(t.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)))return;
  var k=e.key;
- if(k==='t'||k==='T'||k==='ㅅ'){e.preventDefault();timerToggle();}
+ if(k==='x'||k==='X'||k==='ㅌ'){e.preventDefault();timerToggle();}
  else if(k==='r'||k==='R'||k==='ㄱ'){e.preventDefault();timerReset();}
  else if((k==='v'||k==='V'||k==='ㅍ')&&!PRESENTER){e.preventDefault();openPresenter();}
 },true);
@@ -3740,7 +4023,7 @@ function init(){
  doc.addEventListener('deckstep',function(){if(!PRESENTER&&!applying)post();});
  /* 발표 키는 발표 덱일 때만 도움말에 단다(목차·검색은 viewer.js 가 항상 표기) */
  var help=doc.getElementById('help');
- if(help&&!PRESENTER)help.textContent=help.textContent.replace('N 발표자 노트','N 발표자 노트 · T 타이머 · R 리셋 · V 발표자 보기');
+ if(help&&!PRESENTER)help.textContent=help.textContent.replace('N 발표자 노트','N 발표자 노트 · X 타이머 · R 리셋 · V 발표자 보기');
  var nav=doc.querySelector('.ed-reader-nav');
  if(nav){var b=el('button',null,'타이머');b.type='button';b.addEventListener('click',function(){timerToggle();});
   nav.insertBefore(b,nav.querySelector('.ed-reader-status')||null);}
@@ -3771,6 +4054,133 @@ if(doc.readyState==='loading')doc.addEventListener('DOMContentLoaded',init);else
     var go=function(){ if(typeof window.deckGo==='function')window.deckGo(n);else setTimeout(go,30); };
     if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();
   }
+})();
+
+/* themes.js — 저작 도구: legacy 테마 실시간 미리보기 패널.
+   ?themes=1 또는 T 키로 패널을 연다(기본은 숨김 — 일반 시청자에게 보이지 않는다).
+   ?theme=<id> 는 패널 없이 바로 미리보기를 적용한다(classic 은 속성 제거).
+   전환은 <html data-theme> 교체 — themes.css 블록은 덱에 이미 임베드돼 있어
+   따로 CSS 를 주입하지 않는다. 덱 실제 테마는 deck.json 'theme' 이 정하고,
+   여기서 바꾼 것은 이 브라우저·이 파일의 localStorage('edu-theme-preview-<파일이름>')
+   에만 남는 세션 미리보기다. 팩 덱(resource_pack)·시리즈 포털(.deck[data-ep])은
+   자체 스타일 계층이라 비활성. */
+(function(){
+  var doc=document, root=doc.documentElement, body=doc.body;
+  if(doc.querySelector('meta[name="edu-deck-resource-pack"],.deck[data-ep]'))return;
+  var LS='edu-theme-preview-'+(decodeURIComponent(location.pathname.split('/').pop())||'deck');
+
+  /* 내장 17종 한글명 — 미등록 사용자 정의 [data-theme] 블록은 id 만 표시한다 */
+  var KR={classic:'기본',ocean:'청록 기술',cobalt:'코발트 격식',forest:'포레스트 자연',
+    solar:'솔라 현장',berry:'베리 서비스',cocoa:'코코아 실무',graphite:'그래파이트 절차',
+    midnight:'미드나잇 야간',mono:'무채 인쇄',brick:'벽돌 인문',honey:'앰버 안내',
+    mint:'민트 입문',violet:'보라 창의',coral:'코랄 소통',olive:'올리브 실무',espresso:'다크 카페'};
+  /* 스와치 4점: 지면 · 먹 · 주색 · 보조 — 라이트/다크 반전과 주·보조 색조를 함께 대표 */
+  var SW=['paper','ink','accent','accent-light'];
+
+  /* 페이지 안 실제 CSS 에서 [data-theme="id"] 블록을 찾아 목록과 대표 스와치를 만든다.
+     classic 은 블록이 없으므로 :root 값으로 맨 앞에 단다. */
+  function rulesOf(rule,acc){
+    var sel=rule.selectorText||'',m=/^\[data-theme="([\w-]+)"\]$/.exec(sel);
+    if(m)acc.list.push({id:m[1],st:rule.style});
+    else if(sel===':root')acc.rootSt=rule.style;
+    if(rule.cssRules)for(var i=0;i<rule.cssRules.length;i++)rulesOf(rule.cssRules[i],acc);
+  }
+  function collect(){
+    var acc={rootSt:null,list:[]};
+    [].slice.call(doc.styleSheets).forEach(function(sh){
+      var rs;try{rs=sh.cssRules;}catch(e){return;}
+      if(!rs)return;
+      for(var i=0;i<rs.length;i++)rulesOf(rs[i],acc);
+    });
+    var list=acc.list,found=acc;
+    var sw=function(st){var o={};SW.forEach(function(k){
+      o[k]=st?st.getPropertyValue('--'+k).trim():'';});return o;};
+    var items=list.map(function(t){return{id:t.id,sw:sw(t.st)};});
+    if(found.rootSt)items.unshift({id:'classic',sw:sw(found.rootSt)});
+    return items;
+  }
+
+  var items=collect();
+  if(!items.length)return;                      /* 테마 블록이 없는 문서에서는 무동작 */
+  var ids=items.map(function(t){return t.id;});
+  var built=root.getAttribute('data-theme')||'classic';  /* deck.json 이 정한 실제 테마 */
+
+  var panel=null;
+  function buildPanel(){
+    function el(tag,cls,txt){var e=doc.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;}
+    panel=el('div','','');panel.id='edThemes';panel.setAttribute('role','dialog');panel.setAttribute('aria-label','테마 미리보기 (저작 도구)');
+    var head=el('div','ed-th-head');head.appendChild(el('b',null,'테마 미리보기'));
+    var x=el('button','ed-th-x','닫기');x.type='button';x.addEventListener('click',function(){show(false);});head.appendChild(x);
+    var note=el('div','ed-th-note');
+    note.innerHTML='저작 도구 — 이 브라우저 미리보기만 바뀝니다. 실제 테마는 deck.json 의 theme 이 정합니다. 이 덱의 빌드 테마: <b>'+built+'</b><br><span class="ed-th-legend">스와치: 지면 · 먹 · 주색 · 보조</span>';
+    var list=el('div','ed-th-list');
+    items.forEach(function(t){
+      var b=el('button','ed-th-item');b.type='button';b.setAttribute('data-th',t.id);
+      b.setAttribute('aria-pressed','false');
+      var dots=el('span','ed-th-dots');dots.title='지면 · 먹 · 주색 · 보조';
+      SW.forEach(function(k){var d=el('i');d.style.background=t.sw[k]||'#999';dots.appendChild(d);});
+      b.appendChild(dots);
+      b.appendChild(el('span','ed-th-name',t.id+(KR[t.id]?' · '+KR[t.id]:'')));
+      if(t.id===built)b.appendChild(el('span','ed-th-tag','빌드'));
+      b.addEventListener('click',function(){apply(t.id,true);});
+      list.appendChild(b);
+    });
+    var foot=el('div','ed-th-foot');
+    var rs=el('button','ed-th-reset','빌드 테마로 되돌리기');rs.type='button';
+    rs.addEventListener('click',function(){apply(built,true);});
+    foot.appendChild(rs);foot.appendChild(el('span','ed-th-kbd','T 토글 · Esc 닫기'));
+    panel.appendChild(head);panel.appendChild(note);panel.appendChild(list);panel.appendChild(foot);
+    /* 패널 안 클릭이 장 넘김(엔진 document click)으로 번지지 않게 여기서 멈춘다 */
+    panel.addEventListener('click',function(e){e.stopPropagation();});
+    panel.addEventListener('dblclick',function(e){e.stopPropagation();});
+    panel.addEventListener('touchstart',function(e){e.stopPropagation();},{passive:true});
+    panel.addEventListener('touchend',function(e){e.stopPropagation();});
+    body.appendChild(panel);
+  }
+  function mark(){
+    if(!panel)return;
+    var cur=root.getAttribute('data-theme')||'classic';
+    [].slice.call(panel.querySelectorAll('.ed-th-item')).forEach(function(b){
+      var on=b.getAttribute('data-th')===cur;
+      b.classList.toggle('on',on);
+      b.setAttribute('aria-pressed',on?'true':'false');});
+  }
+  function apply(id,save){
+    if(ids.indexOf(id)<0)return;
+    if(id==='classic')root.removeAttribute('data-theme');else root.setAttribute('data-theme',id);
+    /* 빌드 테마로 되돌리면 키를 통째로 지운다 — 남겨 두면 추후 deck.json 테마 변경
+       재빌드 시 구버전 미리보기가 새 빌드를 덮어쓰는 잔류 버그가 된다 */
+    if(save)try{
+      if(id===built)localStorage.removeItem(LS);else localStorage.setItem(LS,id);
+    }catch(e){}
+    mark();
+    if(window.edToast)edToast('테마 미리보기: '+id+' — 이 브라우저에만 적용됩니다 (빌드: '+built+')');
+  }
+  function show(on){if(!panel)buildPanel();panel.classList.toggle('on',on);if(on)mark();}
+  function toggle(){show(!(panel&&panel.classList.contains('on')));}
+
+  /* 초기 적용: ?theme= 파라미터 > localStorage 미리보기 > 빌드 테마.
+     URL 파라미터는 저장하지 않는다(링크로 공유할 때 1회 미리보기). */
+  var P=new URLSearchParams(location.search);
+  var want=P.get('theme');
+  if(want!==null&&ids.indexOf(want)>=0)apply(want,false);
+  else{try{var s=localStorage.getItem(LS);if(s&&ids.indexOf(s)>=0&&s!==built)apply(s,false);}catch(e){}}
+  if(P.has('themes'))show(true);
+
+  window.addEventListener('keydown',function(e){
+    if(panel&&panel.classList.contains('on')&&e.key==='Escape'){
+      e.preventDefault();e.stopImmediatePropagation();show(false);return;}
+    if(e.ctrlKey||e.metaKey||e.altKey||e.isComposing)return;
+    var t=e.target;
+    if(t&&(t.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)))return;
+    /* 상위 모달·오버레이가 열려 있으면 패널은 모달 뒤에서 켜지면 안 된다 */
+    if(doc.querySelector('.st-modal.st-show,.st-print.st-show,.ed-sch.on,.ed-toc.on'))return;
+    /* 접촉판·캡처·인쇄·발표자 표면에서는 토글 입력 자체를 무시한다 */
+    if(root.classList.contains('is-sheet')||root.classList.contains('is-shot')||
+       body.classList.contains('st-printing')||body.classList.contains('st-presenter'))return;
+    if(e.key==='t'||e.key==='T'||e.key==='ㅅ'){e.preventDefault();toggle();}
+  },true);
+  window.eduThemePreview={apply:apply,toggle:toggle,built:function(){return built;},themes:ids};
 })();
 </script>
 <script>

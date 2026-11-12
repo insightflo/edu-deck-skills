@@ -234,7 +234,8 @@ ul.list li::marker{color:var(--accent)}
 #dots i{width:10px;height:10px;border-radius:3px;border:1px solid var(--soft);opacity:.5}
 #dots i.on{opacity:1;background:var(--accent);border-color:var(--accent)}
 #progress{position:fixed;left:0;bottom:0;height:4px;background:var(--accent);z-index:5}
-#help{position:fixed;right:20px;bottom:40px;background:var(--ink);color:var(--light);font-size:16px;border-radius:var(--r2);padding:16px 20px;opacity:.92;z-index:6}
+#help{position:fixed;right:20px;bottom:40px;background:var(--ink);color:var(--light);font-size:16px;border-radius:var(--r2);padding:16px 20px;opacity:.96;z-index:45;display:none;max-width:calc(100vw - 40px)}
+#help.on{display:block}
 #notes{position:fixed;left:0;right:0;bottom:0;max-height:38vh;overflow:auto;background:var(--ink);color:var(--light);font-size:20px;line-height:1.5;padding:20px 28px;border-top:4px solid var(--accent-light);display:none;z-index:7}
 #notes .h{font-size:16px;color:var(--muted);margin-bottom:8px}
 
@@ -467,6 +468,112 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   --accent:#d19a4a; --accent-text:#c99e63; --accent-light:#8a6420;
   --blue:#6e9cc4; --blue-text:#9dc0e0; --blue-soft:#2d3a4a;
   --success:#6cb08a; --danger:#d97a72; --muted:#4a5663; --chip:#323b46;
+  --r1:7px; --r2:14px; --r3:22px;
+  --m1:150ms; --m2:300ms; --m3:500ms; --m4:800ms;
+  --e-spring:cubic-bezier(.34,1.23,.64,1);
+  --s1:9px; --s2:19px; --s3:28px; --s4:38px; --s5:47px; --s6:56px;
+  --s8:75px; --s10:94px; --s16:150px;
+}
+
+/* ============================================================
+   신규 8종 (2026-11-12) — 장르 확장. 값은 전부 이 저장소에서
+   새로 설계했다(workspace/absorb 원본 테마 값과 무관).
+   mono · brick · honey · mint · violet · coral · olive · espresso
+   ============================================================ */
+
+/* mono — 무채색 인쇄물. 규정·문서·활동지 계열. shape: .1/.25/.2/.1
+   회색은 순수 R=G=B 대신 스톤(웜) 편차를 둔다 — all-themes 원본 헥스 비겹침. */
+[data-theme="mono"]{
+  --ink:#201f1d; --paper:#fcfcf8; --light:#f0f0ea; --soft:#4d4c49; --line:#78766f;
+  --accent:#54524e; --accent-text:#3c3a37; --accent-light:#bab8b2;
+  --blue:#413f3b; --blue-text:#302f2c; --blue-soft:#e8e6e0;
+  --success:#2c5a40; --danger:#8e2523; --muted:#cbc9c2; --chip:#e2e2dc;
+  --r1:3px; --r2:10px; --r3:14px;
+  --m1:115ms; --m2:240ms; --m3:400ms; --m4:650ms;
+  --e-spring:cubic-bezier(.34,1.1,.64,1);
+  --s1:7px; --s2:14px; --s3:20px; --s4:27px; --s5:34px; --s6:41px;
+  --s8:54px; --s10:68px; --s16:109px;
+}
+
+/* brick — 테라코타 웜 에디토리얼. 인문·역사·독서 계열. shape: .25/.4/.6/.3 */
+[data-theme="brick"]{
+  --ink:#2e211a; --paper:#faf3ea; --light:#f2e7d9; --soft:#5d4e42; --line:#8a7a6b;
+  --accent:#b14d2e; --accent-text:#8e3c22; --accent-light:#e8a782;
+  --blue:#4e6478; --blue-text:#3d5064; --blue-soft:#e4e8ec;
+  --success:#2e5e42; --danger:#a12624; --muted:#d4c4b2; --chip:#eadfd0;
+  --r1:5px; --r2:12px; --r3:18px;
+  --m1:136ms; --m2:276ms; --m3:460ms; --m4:740ms;
+  --e-spring:cubic-bezier(.34,1.19,.64,1);
+  --s1:8px; --s2:17px; --s3:25px; --s4:34px; --s5:42px; --s6:50px;
+  --s8:67px; --s10:84px; --s16:134px;
+}
+
+/* honey — 머스터드 앰버. 레트로·친근·안내 계열. shape: .5/.55/.5/.6 */
+[data-theme="honey"]{
+  --ink:#2d2413; --paper:#fdf8e9; --light:#f5ebd2; --soft:#5f5339; --line:#8d8062;
+  --accent:#a96e08; --accent-text:#7d5205; --accent-light:#eec26a;
+  --blue:#4a6a80; --blue-text:#3a5568; --blue-soft:#e8ecdf;
+  --success:#2c5a3a; --danger:#9e2722; --muted:#d8cba8; --chip:#eee4c8;
+  --r1:8px; --r2:16px; --r3:24px;
+  --m1:157ms; --m2:312ms; --m3:520ms; --m4:830ms;
+  --e-spring:cubic-bezier(.34,1.32,.64,1);
+}
+
+/* mint — 파스텔 민트. 초등·건강·새싹 계열. shape: .8/.7/.6/.8 */
+[data-theme="mint"]{
+  --ink:#152821; --paper:#f1faf4; --light:#dff0e4; --soft:#40594c; --line:#6e8a7c;
+  --accent:#159169; --accent-text:#0f7051; --accent-light:#8fd8bb;
+  --blue:#3a6f9e; --blue-text:#2b5a7e; --blue-soft:#dcedf2;
+  --success:#1e6b3f; --danger:#a12624; --muted:#bcd8c9; --chip:#d6e9dd;
+  --r1:12px; --r2:21px; --r3:31px;
+  --m1:178ms; --m2:348ms; --m3:580ms; --m4:920ms;
+  --e-spring:cubic-bezier(.34,1.41,.64,1);
+  --s1:8px; --s2:17px; --s3:25px; --s4:34px; --s5:42px; --s6:50px;
+  --s8:67px; --s10:84px; --s16:134px;
+}
+
+/* violet — 차분한 보라. 창의·예술·진로 계열. shape: .6/.5/.5/.6 */
+[data-theme="violet"]{
+  --ink:#251d31; --paper:#f8f5fc; --light:#ece4f4; --soft:#554a66; --line:#7e7294;
+  --accent:#6f47a8; --accent-text:#583688; --accent-light:#c3a4e8;
+  --blue:#45598f; --blue-text:#374873; --blue-soft:#e3e6f2;
+  --success:#296045; --danger:#a12624; --muted:#cec4dc; --chip:#e4dbf0;
+  --r1:9px; --r2:18px; --r3:26px;
+  --m1:150ms; --m2:300ms; --m3:500ms; --m4:800ms;
+  --e-spring:cubic-bezier(.34,1.32,.64,1);
+}
+
+/* coral — 로즈 코랄. 응대·소통·온보딩 계열. shape: .7/.6/.5/.7
+   주색 H≈352°(로즈-살몬) — brick(H≈14°)과 ΔH≈22° 로 난색 축에서 분리. */
+[data-theme="coral"]{
+  --ink:#321c1c; --paper:#fdf3f1; --light:#f8e3de; --soft:#6a4a48; --line:#96736e;
+  --accent:#c24455; --accent-text:#9a3040; --accent-light:#f0a3ae;
+  --blue:#4d6b84; --blue-text:#3c566b; --blue-soft:#eae9e4;
+  --success:#2c5e40; --danger:#a12624; --muted:#dfc4c0; --chip:#f4dcd6;
+  --r1:10px; --r2:19px; --r3:29px;
+  --m1:164ms; --m2:324ms; --m3:540ms; --m4:860ms;
+  --e-spring:cubic-bezier(.34,1.37,.64,1);
+}
+
+/* olive — 잦아든 올리브. 야외·환경·매뉴얼 계열. shape: .45/.45/.6/.45 */
+[data-theme="olive"]{
+  --ink:#252a16; --paper:#f7f6ea; --light:#ebe9d6; --soft:#565c3e; --line:#82876a;
+  --accent:#6c7a20; --accent-text:#54600f; --accent-light:#c4cf7d;
+  --blue:#4a6b62; --blue-text:#3b564c; --blue-soft:#e3e8da;
+  --success:#29603a; --danger:#a12624; --muted:#cfccb0; --chip:#e5e3cc;
+  --r1:7px; --r2:15px; --r3:23px;
+  --m1:143ms; --m2:288ms; --m3:480ms; --m4:770ms;
+  --e-spring:cubic-bezier(.34,1.25,.64,1);
+  --s1:8px; --s2:17px; --s3:25px; --s4:34px; --s5:42px; --s6:50px;
+  --s8:67px; --s10:84px; --s16:134px;
+}
+
+/* espresso — 어두운 카페. 야간·감성·시사 계열. shape: .4/.5/.85/.4 */
+[data-theme="espresso"]{
+  --ink:#efe5d8; --paper:#241b14; --light:#1a130e; --soft:#b3a393; --line:#7d6c5c;
+  --accent:#d99a52; --accent-text:#d9a868; --accent-light:#7a5527;
+  --blue:#7ba4c0; --blue-text:#a2c4da; --blue-soft:#38302a;
+  --success:#7cb98d; --danger:#df8378; --muted:#54463a; --chip:#3d322a;
   --r1:7px; --r2:14px; --r3:22px;
   --m1:150ms; --m2:300ms; --m3:500ms; --m4:800ms;
   --e-spring:cubic-bezier(.34,1.23,.64,1);
@@ -872,6 +979,53 @@ html.ed-compact .ed-sch-in input{font-size:18px}
 html.ed-compact .ed-sch-item{min-height:56px}
 
 @media print{.ed-topbar,.ed-sch,.ed-toc,.ed-toast,.ed-pres{display:none!important}}
+
+/* theme-switch.css — 저작 도구 테마 미리보기 패널(themes.js 가 만드는 #edThemes).
+   기본은 숨김 — ?themes=1·H 키로만 연다(일반 시청자에게 보이지 않는다).
+   패널 자체도 테마 토큰으로 칠해지므로 미리보기 전환을 따라감 — ink/paper 대비가
+   매트릭스로 보장되므로 모든 테마에서 읽힌다. 인쇄·접촉판·발표자 보기에서는 숨긴다. */
+
+#edThemes{position:fixed;top:56px;right:14px;z-index:30;width:292px;max-height:calc(100vh - 76px);
+  display:none;flex-direction:column;background:var(--paper);color:var(--ink);
+  border:2px solid var(--line);border-radius:var(--r2);box-shadow:var(--shadow-2);
+  font:500 15px/1.45 'Pretendard Variable','Apple SD Gothic Neo','Malgun Gothic',sans-serif}
+#edThemes.on{display:flex}
+#edThemes .ed-th-head{flex:none;display:flex;align-items:center;justify-content:space-between;
+  padding:12px 16px;border-bottom:2px solid var(--line);font-size:16px;font-weight:800}
+#edThemes .ed-th-x{font:inherit;font-size:14px;font-weight:700;color:var(--soft);background:none;
+  border:1px solid var(--line);border-radius:var(--r1);padding:4px 12px;cursor:pointer}
+#edThemes .ed-th-x:hover{border-color:var(--accent);color:var(--accent-text)}
+#edThemes .ed-th-note{flex:none;padding:8px 16px;font-size:13px;line-height:1.5;color:var(--soft);
+  border-bottom:1px solid var(--line)}
+#edThemes .ed-th-note b{color:var(--accent-text)}
+#edThemes .ed-th-list{flex:1;min-height:0;overflow-y:auto;padding:6px}
+#edThemes .ed-th-item{display:flex;align-items:center;gap:10px;width:100%;text-align:left;
+  font:inherit;font-size:15px;font-weight:700;color:var(--ink);background:none;
+  border:2px solid transparent;border-radius:var(--r1);padding:8px 10px;min-height:40px;cursor:pointer}
+#edThemes .ed-th-item:hover{background:var(--light)}
+#edThemes .ed-th-item.on{border-color:var(--accent);background:var(--light)}
+#edThemes .ed-th-dots{display:inline-flex;gap:4px;flex:none}
+#edThemes .ed-th-dots i{width:11px;height:11px;border-radius:50%;border:1px solid var(--line)}
+#edThemes .ed-th-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#edThemes .ed-th-tag{flex:none;font-size:11px;font-weight:800;color:var(--accent-text);
+  background:var(--light);border:1px solid var(--accent-light);border-radius:999px;
+  padding:2px 8px;letter-spacing:.5px}
+#edThemes .ed-th-legend{font-size:11px;color:var(--soft);letter-spacing:.3px}
+#edThemes .ed-th-foot{flex:none;display:flex;align-items:center;gap:10px;
+  padding:10px 16px;border-top:1px solid var(--line)}
+#edThemes .ed-th-reset{font:inherit;font-size:14px;font-weight:700;color:var(--accent-text);
+  background:var(--light);border:2px solid var(--accent-light);border-radius:var(--r1);
+  padding:6px 12px;cursor:pointer}
+#edThemes .ed-th-reset:hover{border-color:var(--accent)}
+#edThemes .ed-th-kbd{margin-left:auto;font-size:11px;color:var(--soft);letter-spacing:.5px}
+
+/* 발표 타이머(ed-talk)가 켜진 덱은 상단바가 커진다 — 그 아래로 내려 겹치지 않게 한다 */
+html.ed-talk #edThemes{top:108px;max-height:calc(100vh - 124px)}
+
+/* 캡처·발표 화면에는 패널이 나오지 않는다 */
+html.is-sheet #edThemes,html.is-shot #edThemes,body.st-printing #edThemes,
+body.st-presenter #edThemes,html.ed-deck:not(.ed-ready) #edThemes{display:none!important}
+@media print{#edThemes{display:none!important}}
 
 </style>
 <style>
@@ -1323,7 +1477,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 <div id="progress"></div>
 <div id="dots"></div>
 <div id="counter"></div>
-<div id="help">→ 다음 (한 단계씩) · ← 이전 · F 전체화면 · N 발표자 노트 · S 자습 · P 인쇄 · G 끝까지 재생 · M 자동 완주(장 진입 시) · D 용어집 · A 자동 발표 · E 편집</div>
+<div id="help" role="dialog" aria-label="도움말 — 키 안내">→ 다음 (한 단계씩) · ← 이전 · F 전체화면 · N 발표자 노트 · S 자습 · P 인쇄 · G 끝까지 재생 · M 자동 완주(장 진입 시) · D 용어집 · A 자동 발표 · E 편집 · T 테마 미리보기 · H 도움말</div>
 <div id="notes"><div class="h">발표자 노트 (N으로 닫기)</div><div id="notesText"></div></div>
 
 <script>/* Shared on-screen reader. It never owns lesson state: deckGo/step events and
@@ -2755,7 +2909,7 @@ function curInfo(){try{return window.deckInfo?deckInfo():{};}catch(e){return{};}
 function goTo(ent){if(!ent)return;if(ent.ep!=null&&SERIES())deckGo(ent.ep,ent.idx,0);else deckGo(ent.idx,0);}
 
 /* ---------- 상단 바 ---------- */
-var bar=null,searchBox=null,searchInput=null,searchList=null,tocBox=null,tocList=null,toastEl=null,toastT=null;
+var bar=null,searchBox=null,searchInput=null,searchList=null,tocBox=null,tocList=null,toastEl=null,toastT=null,helpEl=null,helpBtn=null;
 function el(tag,cls,txt){var e=doc.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;}
 function toast(msg){if(!toastEl){toastEl=el('div','ed-toast');body.appendChild(toastEl);}toastEl.textContent=msg;toastEl.classList.add('on');clearTimeout(toastT);toastT=setTimeout(function(){toastEl.classList.remove('on');},2600);}
 window.edToast=toast;
@@ -2846,19 +3000,27 @@ function fitTitles(){
 
 /* ---------- 키 ---------- */
 function typing(t){return t&&(t.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName));}
+function toggleHelp(on){if(!helpEl)return;helpEl.classList.toggle('on',on===undefined?!helpEl.classList.contains('on'):on);}
 window.addEventListener('keydown',function(e){
  var k=e.key;
  if(e.isComposing)return;
- var schOn=searchBox&&searchBox.classList.contains('on'),tocOn=tocBox&&tocBox.classList.contains('on');
- if(schOn||tocOn){
-  if(k==='Escape'){e.preventDefault();e.stopImmediatePropagation();(schOn?closeSearch:closeToc)();return;}
-  var inside=e.target&&e.target.closest&&(e.target.closest('.ed-sch')||e.target.closest('.ed-toc'));
+ var schOn=searchBox&&searchBox.classList.contains('on'),tocOn=tocBox&&tocBox.classList.contains('on'),
+     helpOn=helpEl&&helpEl.classList.contains('on');
+ if(schOn||tocOn||helpOn){
+  if(k==='Escape'){e.preventDefault();e.stopImmediatePropagation();(schOn?closeSearch:(tocOn?closeToc:function(){toggleHelp(false);}))();return;}
+  if(helpOn&&(k==='h'||k==='H'||k==='ㅗ')){e.preventDefault();e.stopImmediatePropagation();toggleHelp(false);return;}
+  var inside=e.target&&e.target.closest&&(e.target.closest('.ed-sch')||e.target.closest('.ed-toc')||e.target.closest('#help'));
   if(!inside)e.stopImmediatePropagation(); /* 대화상자 밖의 키가 엔진에 새지 않게 막는다 */
   return;}
  if((e.ctrlKey||e.metaKey)&&!e.altKey&&(k==='k'||k==='K')){if(typing(e.target))return;e.preventDefault();openSearch();return;}
  if(e.ctrlKey||e.metaKey||e.altKey)return;
- if(k==='/'&&!typing(e.target)){e.preventDefault();openSearch();return;}
- if((k==='o'||k==='O'||k==='ㅐ')&&!typing(e.target)){openToc();return;}
+ if(typing(e.target))return;
+ if(k==='/'){e.preventDefault();openSearch();return;}
+ if(k==='o'||k==='O'||k==='ㅐ'){openToc();return;}
+ /* H/ㅗ = 도움말 토글. 팩 덱의 #help 는 4초 뒤 사라지는 부트 힌트라 대상 아님 */
+ if(helpBtn&&(k==='h'||k==='H'||k==='ㅗ')){
+  if(doc.querySelector('.st-modal.st-show,.st-print.st-show'))return;
+  e.preventDefault();toggleHelp();return;}
 },true);
 
 /* ---------- 초기화 ---------- */
@@ -2870,7 +3032,16 @@ function init(){
  var bS=el('button','ed-tbtn','검색');bS.type='button';bS.setAttribute('aria-label','검색 (Ctrl+K)');
  bS.addEventListener('click',openSearch);
  var clock=el('span','ed-clock');clock.id='ed-clock';
- bar.appendChild(clock);bar.appendChild(bT);bar.appendChild(bS);body.appendChild(bar);
+ bar.appendChild(clock);bar.appendChild(bT);bar.appendChild(bS);
+ /* 도움말(H) — 검색 옆 세 번째 단추. 팩 덱 #help 는 부트 힌트라 이 단추는 legacy 전용 */
+ helpEl=doc.getElementById('help');
+ if(!doc.querySelector('meta[name="edu-deck-resource-pack"]')&&helpEl){
+  helpBtn=el('button','ed-tbtn');helpBtn.type='button';helpBtn.setAttribute('aria-label','도움말 (H)');
+  var ic=el('span',null,'?');ic.setAttribute('aria-hidden','true');ic.style.fontWeight='800';
+  helpBtn.appendChild(ic);helpBtn.appendChild(doc.createTextNode(' 도움말(H)'));
+  helpBtn.addEventListener('click',function(){toggleHelp();});
+  bar.appendChild(helpBtn);}
+ body.appendChild(bar);
 
  searchBox=el('div','ed-sch');var sb=el('div','ed-sch-box');
  var sin=el('div','ed-sch-in');searchInput=el('input');searchInput.type='text';searchInput.placeholder='슬라이드 검색…';searchInput.setAttribute('aria-label','슬라이드 검색');
@@ -3012,7 +3183,7 @@ window.addEventListener('keydown',function(e){
  if(e.ctrlKey||e.metaKey||e.altKey||e.isComposing)return;
  var t=e.target;if(t&&(t.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)))return;
  var k=e.key;
- if(k==='t'||k==='T'||k==='ㅅ'){e.preventDefault();timerToggle();}
+ if(k==='x'||k==='X'||k==='ㅌ'){e.preventDefault();timerToggle();}
  else if(k==='r'||k==='R'||k==='ㄱ'){e.preventDefault();timerReset();}
  else if((k==='v'||k==='V'||k==='ㅍ')&&!PRESENTER){e.preventDefault();openPresenter();}
 },true);
@@ -3029,7 +3200,7 @@ function init(){
  doc.addEventListener('deckstep',function(){if(!PRESENTER&&!applying)post();});
  /* 발표 키는 발표 덱일 때만 도움말에 단다(목차·검색은 viewer.js 가 항상 표기) */
  var help=doc.getElementById('help');
- if(help&&!PRESENTER)help.textContent=help.textContent.replace('N 발표자 노트','N 발표자 노트 · T 타이머 · R 리셋 · V 발표자 보기');
+ if(help&&!PRESENTER)help.textContent=help.textContent.replace('N 발표자 노트','N 발표자 노트 · X 타이머 · R 리셋 · V 발표자 보기');
  var nav=doc.querySelector('.ed-reader-nav');
  if(nav){var b=el('button',null,'타이머');b.type='button';b.addEventListener('click',function(){timerToggle();});
   nav.insertBefore(b,nav.querySelector('.ed-reader-status')||null);}
@@ -3060,6 +3231,133 @@ if(doc.readyState==='loading')doc.addEventListener('DOMContentLoaded',init);else
     var go=function(){ if(typeof window.deckGo==='function')window.deckGo(n);else setTimeout(go,30); };
     if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();
   }
+})();
+
+/* themes.js — 저작 도구: legacy 테마 실시간 미리보기 패널.
+   ?themes=1 또는 T 키로 패널을 연다(기본은 숨김 — 일반 시청자에게 보이지 않는다).
+   ?theme=<id> 는 패널 없이 바로 미리보기를 적용한다(classic 은 속성 제거).
+   전환은 <html data-theme> 교체 — themes.css 블록은 덱에 이미 임베드돼 있어
+   따로 CSS 를 주입하지 않는다. 덱 실제 테마는 deck.json 'theme' 이 정하고,
+   여기서 바꾼 것은 이 브라우저·이 파일의 localStorage('edu-theme-preview-<파일이름>')
+   에만 남는 세션 미리보기다. 팩 덱(resource_pack)·시리즈 포털(.deck[data-ep])은
+   자체 스타일 계층이라 비활성. */
+(function(){
+  var doc=document, root=doc.documentElement, body=doc.body;
+  if(doc.querySelector('meta[name="edu-deck-resource-pack"],.deck[data-ep]'))return;
+  var LS='edu-theme-preview-'+(decodeURIComponent(location.pathname.split('/').pop())||'deck');
+
+  /* 내장 17종 한글명 — 미등록 사용자 정의 [data-theme] 블록은 id 만 표시한다 */
+  var KR={classic:'기본',ocean:'청록 기술',cobalt:'코발트 격식',forest:'포레스트 자연',
+    solar:'솔라 현장',berry:'베리 서비스',cocoa:'코코아 실무',graphite:'그래파이트 절차',
+    midnight:'미드나잇 야간',mono:'무채 인쇄',brick:'벽돌 인문',honey:'앰버 안내',
+    mint:'민트 입문',violet:'보라 창의',coral:'코랄 소통',olive:'올리브 실무',espresso:'다크 카페'};
+  /* 스와치 4점: 지면 · 먹 · 주색 · 보조 — 라이트/다크 반전과 주·보조 색조를 함께 대표 */
+  var SW=['paper','ink','accent','accent-light'];
+
+  /* 페이지 안 실제 CSS 에서 [data-theme="id"] 블록을 찾아 목록과 대표 스와치를 만든다.
+     classic 은 블록이 없으므로 :root 값으로 맨 앞에 단다. */
+  function rulesOf(rule,acc){
+    var sel=rule.selectorText||'',m=/^\[data-theme="([\w-]+)"\]$/.exec(sel);
+    if(m)acc.list.push({id:m[1],st:rule.style});
+    else if(sel===':root')acc.rootSt=rule.style;
+    if(rule.cssRules)for(var i=0;i<rule.cssRules.length;i++)rulesOf(rule.cssRules[i],acc);
+  }
+  function collect(){
+    var acc={rootSt:null,list:[]};
+    [].slice.call(doc.styleSheets).forEach(function(sh){
+      var rs;try{rs=sh.cssRules;}catch(e){return;}
+      if(!rs)return;
+      for(var i=0;i<rs.length;i++)rulesOf(rs[i],acc);
+    });
+    var list=acc.list,found=acc;
+    var sw=function(st){var o={};SW.forEach(function(k){
+      o[k]=st?st.getPropertyValue('--'+k).trim():'';});return o;};
+    var items=list.map(function(t){return{id:t.id,sw:sw(t.st)};});
+    if(found.rootSt)items.unshift({id:'classic',sw:sw(found.rootSt)});
+    return items;
+  }
+
+  var items=collect();
+  if(!items.length)return;                      /* 테마 블록이 없는 문서에서는 무동작 */
+  var ids=items.map(function(t){return t.id;});
+  var built=root.getAttribute('data-theme')||'classic';  /* deck.json 이 정한 실제 테마 */
+
+  var panel=null;
+  function buildPanel(){
+    function el(tag,cls,txt){var e=doc.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;}
+    panel=el('div','','');panel.id='edThemes';panel.setAttribute('role','dialog');panel.setAttribute('aria-label','테마 미리보기 (저작 도구)');
+    var head=el('div','ed-th-head');head.appendChild(el('b',null,'테마 미리보기'));
+    var x=el('button','ed-th-x','닫기');x.type='button';x.addEventListener('click',function(){show(false);});head.appendChild(x);
+    var note=el('div','ed-th-note');
+    note.innerHTML='저작 도구 — 이 브라우저 미리보기만 바뀝니다. 실제 테마는 deck.json 의 theme 이 정합니다. 이 덱의 빌드 테마: <b>'+built+'</b><br><span class="ed-th-legend">스와치: 지면 · 먹 · 주색 · 보조</span>';
+    var list=el('div','ed-th-list');
+    items.forEach(function(t){
+      var b=el('button','ed-th-item');b.type='button';b.setAttribute('data-th',t.id);
+      b.setAttribute('aria-pressed','false');
+      var dots=el('span','ed-th-dots');dots.title='지면 · 먹 · 주색 · 보조';
+      SW.forEach(function(k){var d=el('i');d.style.background=t.sw[k]||'#999';dots.appendChild(d);});
+      b.appendChild(dots);
+      b.appendChild(el('span','ed-th-name',t.id+(KR[t.id]?' · '+KR[t.id]:'')));
+      if(t.id===built)b.appendChild(el('span','ed-th-tag','빌드'));
+      b.addEventListener('click',function(){apply(t.id,true);});
+      list.appendChild(b);
+    });
+    var foot=el('div','ed-th-foot');
+    var rs=el('button','ed-th-reset','빌드 테마로 되돌리기');rs.type='button';
+    rs.addEventListener('click',function(){apply(built,true);});
+    foot.appendChild(rs);foot.appendChild(el('span','ed-th-kbd','T 토글 · Esc 닫기'));
+    panel.appendChild(head);panel.appendChild(note);panel.appendChild(list);panel.appendChild(foot);
+    /* 패널 안 클릭이 장 넘김(엔진 document click)으로 번지지 않게 여기서 멈춘다 */
+    panel.addEventListener('click',function(e){e.stopPropagation();});
+    panel.addEventListener('dblclick',function(e){e.stopPropagation();});
+    panel.addEventListener('touchstart',function(e){e.stopPropagation();},{passive:true});
+    panel.addEventListener('touchend',function(e){e.stopPropagation();});
+    body.appendChild(panel);
+  }
+  function mark(){
+    if(!panel)return;
+    var cur=root.getAttribute('data-theme')||'classic';
+    [].slice.call(panel.querySelectorAll('.ed-th-item')).forEach(function(b){
+      var on=b.getAttribute('data-th')===cur;
+      b.classList.toggle('on',on);
+      b.setAttribute('aria-pressed',on?'true':'false');});
+  }
+  function apply(id,save){
+    if(ids.indexOf(id)<0)return;
+    if(id==='classic')root.removeAttribute('data-theme');else root.setAttribute('data-theme',id);
+    /* 빌드 테마로 되돌리면 키를 통째로 지운다 — 남겨 두면 추후 deck.json 테마 변경
+       재빌드 시 구버전 미리보기가 새 빌드를 덮어쓰는 잔류 버그가 된다 */
+    if(save)try{
+      if(id===built)localStorage.removeItem(LS);else localStorage.setItem(LS,id);
+    }catch(e){}
+    mark();
+    if(window.edToast)edToast('테마 미리보기: '+id+' — 이 브라우저에만 적용됩니다 (빌드: '+built+')');
+  }
+  function show(on){if(!panel)buildPanel();panel.classList.toggle('on',on);if(on)mark();}
+  function toggle(){show(!(panel&&panel.classList.contains('on')));}
+
+  /* 초기 적용: ?theme= 파라미터 > localStorage 미리보기 > 빌드 테마.
+     URL 파라미터는 저장하지 않는다(링크로 공유할 때 1회 미리보기). */
+  var P=new URLSearchParams(location.search);
+  var want=P.get('theme');
+  if(want!==null&&ids.indexOf(want)>=0)apply(want,false);
+  else{try{var s=localStorage.getItem(LS);if(s&&ids.indexOf(s)>=0&&s!==built)apply(s,false);}catch(e){}}
+  if(P.has('themes'))show(true);
+
+  window.addEventListener('keydown',function(e){
+    if(panel&&panel.classList.contains('on')&&e.key==='Escape'){
+      e.preventDefault();e.stopImmediatePropagation();show(false);return;}
+    if(e.ctrlKey||e.metaKey||e.altKey||e.isComposing)return;
+    var t=e.target;
+    if(t&&(t.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)))return;
+    /* 상위 모달·오버레이가 열려 있으면 패널은 모달 뒤에서 켜지면 안 된다 */
+    if(doc.querySelector('.st-modal.st-show,.st-print.st-show,.ed-sch.on,.ed-toc.on'))return;
+    /* 접촉판·캡처·인쇄·발표자 표면에서는 토글 입력 자체를 무시한다 */
+    if(root.classList.contains('is-sheet')||root.classList.contains('is-shot')||
+       body.classList.contains('st-printing')||body.classList.contains('st-presenter'))return;
+    if(e.key==='t'||e.key==='T'||e.key==='ㅅ'){e.preventDefault();toggle();}
+  },true);
+  window.eduThemePreview={apply:apply,toggle:toggle,built:function(){return built;},themes:ids};
 })();
 </script>
 <script>

@@ -15,14 +15,16 @@ def common_css():
         +(BASE/'css/themes.css').read_text(encoding='utf-8')+'\n'
         +(BASE/'css/visual-motion.css').read_text(encoding='utf-8')+'\n'
         +(BASE/'css/responsive.css').read_text(encoding='utf-8')+'\n'
-        +(BASE/'css/viewer.css').read_text(encoding='utf-8'))
+        +(BASE/'css/viewer.css').read_text(encoding='utf-8')+'\n'
+        +(BASE/'css/theme-switch.css').read_text(encoding='utf-8'))
 def motion_js():
     text=((BASE/'js/responsive.js').read_text(encoding='utf-8')+'\n'
           +(BASE/'js/motion.js').read_text(encoding='utf-8')+'\n'
           +(BASE/'js/patterns.js').read_text(encoding='utf-8')+'\n'
           +(BASE/'js/viewer.js').read_text(encoding='utf-8')+'\n'
           +(BASE/'js/talk.js').read_text(encoding='utf-8')+'\n'
-          +(BASE/'js/sheet.js').read_text(encoding='utf-8'))
+          +(BASE/'js/sheet.js').read_text(encoding='utf-8')+'\n'
+          +(BASE/'js/themes.js').read_text(encoding='utf-8'))
     if '</script' in text.lower():raise ValueError('motion.js cannot contain an HTML script closing tag')
     return text
 

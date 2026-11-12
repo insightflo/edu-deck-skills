@@ -80,6 +80,22 @@ THEMES = {
                  "shape": {"round": .2, "motion": .3, "density": .15, "spring": .15}},
     "midnight": {"axes": {"energy": .4, "playful": .3, "technical": .6, "serious": .8, "warm": .3, "formal": .9},
                  "shape": {"round": .4, "motion": .5, "density": .85, "spring": .4}},
+    "mono":     {"axes": {"energy": .2, "playful": .1, "technical": .6, "serious": .8, "warm": .2, "formal": .8},
+                 "shape": {"round": .1, "motion": .25, "density": .2, "spring": .1}},
+    "brick":    {"axes": {"energy": .3, "playful": .3, "technical": .3, "serious": .5, "warm": .8, "formal": .7},
+                 "shape": {"round": .25, "motion": .4, "density": .6, "spring": .3}},
+    "honey":    {"axes": {"energy": .6, "playful": .6, "technical": .2, "serious": .3, "warm": .85, "formal": .3},
+                 "shape": {"round": .5, "motion": .55, "density": .5, "spring": .6}},
+    "mint":     {"axes": {"energy": .7, "playful": .7, "technical": .3, "serious": .2, "warm": .6, "formal": .25},
+                 "shape": {"round": .8, "motion": .7, "density": .6, "spring": .8}},
+    "violet":   {"axes": {"energy": .4, "playful": .5, "technical": .4, "serious": .4, "warm": .5, "formal": .5},
+                 "shape": {"round": .6, "motion": .5, "density": .5, "spring": .6}},
+    "coral":    {"axes": {"energy": .6, "playful": .65, "technical": .2, "serious": .25, "warm": .9, "formal": .3},
+                 "shape": {"round": .7, "motion": .6, "density": .5, "spring": .7}},
+    "olive":    {"axes": {"energy": .45, "playful": .35, "technical": .5, "serious": .5, "warm": .55, "formal": .5},
+                 "shape": {"round": .45, "motion": .45, "density": .6, "spring": .45}},
+    "espresso": {"axes": {"energy": .35, "playful": .3, "technical": .5, "serious": .7, "warm": .7, "formal": .8},
+                 "shape": {"round": .4, "motion": .5, "density": .85, "spring": .4}},
 }
 # classic 만 CSS 블록이 없다(속성 미지정 시 :root 그대로). 나머지 id = themes.css 블록.
 THEME_CSS_IDS = tuple(t for t in THEMES if t != "classic")

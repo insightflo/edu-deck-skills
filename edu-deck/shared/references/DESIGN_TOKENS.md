@@ -12,7 +12,7 @@
 
 ## 이름있는 테마 (legacy 전용)
 
-`deck.json` 의 `"theme"` 키로 `classic`(기본, :root 그대로)과 `ocean` `cobalt` `forest` `solar` `berry` `cocoa` `graphite` `midnight` 중 하나를 고릅니다. 각 테마는 `assets/css/themes.css` 의 `[data-theme="<id>"]` 블록에 15개 의미 역할 전부를 정의하며(일부만 덮으면 대비 매트릭스가 깨집니다), 반경 `r1~3`·모션 `m1~4`·간격 `s*`·튐 `e-spring` 비색 토큰도 테마의 shape 축값 lerp 로 함께 바꿉니다. 색은 테마로만 바뀌고 비색은 축으로만 바뀌어 대비 보장이 유지됩니다 — 새 테마를 만들면 `check_deck.py --contrast-matrix` 의 `theme:<id>` 행으로 같은 기준을 통과해야 합니다. `theme` 을 쓰지 않거나 `classic` 이면 어떤 속성도 심지 않아 기존 덱과 결과가 같습니다.
+`deck.json` 의 `"theme"` 키로 `classic`(기본, :root 그대로)과 `ocean` `cobalt` `forest` `solar` `berry` `cocoa` `graphite` `midnight` `mono` `brick` `honey` `mint` `violet` `coral` `olive` `espresso` 중 하나를 고릅니다. 각 테마는 `assets/css/themes.css` 의 `[data-theme="<id>"]` 블록에 15개 의미 역할 전부를 정의하며(일부만 덮으면 대비 매트릭스가 깨집니다), 반경 `r1~3`·모션 `m1~4`·간격 `s*`·튐 `e-spring` 비색 토큰도 테마의 shape 축값 lerp 로 함께 바꿉니다. 색은 테마로만 바뀌고 비색은 축으로만 바뀌어 대비 보장이 유지됩니다 — 새 테마를 만들면 `check_deck.py --contrast-matrix` 의 `theme:<id>` 행으로 같은 기준을 통과해야 합니다. `theme` 을 쓰지 않거나 `classic` 이면 어떤 속성도 심지 않아 기존 덱과 결과가 같습니다.
 
 ## 장르 스타일 프리셋 계층 (`presets/*.yaml`)
 

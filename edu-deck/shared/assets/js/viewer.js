@@ -15,7 +15,7 @@ function curInfo(){try{return window.deckInfo?deckInfo():{};}catch(e){return{};}
 function goTo(ent){if(!ent)return;if(ent.ep!=null&&SERIES())deckGo(ent.ep,ent.idx,0);else deckGo(ent.idx,0);}
 
 /* ---------- 상단 바 ---------- */
-var bar=null,searchBox=null,searchInput=null,searchList=null,tocBox=null,tocList=null,toastEl=null,toastT=null;
+var bar=null,searchBox=null,searchInput=null,searchList=null,tocBox=null,tocList=null,toastEl=null,toastT=null,helpEl=null,helpBtn=null;
 function el(tag,cls,txt){var e=doc.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;}
 function toast(msg){if(!toastEl){toastEl=el('div','ed-toast');body.appendChild(toastEl);}toastEl.textContent=msg;toastEl.classList.add('on');clearTimeout(toastT);toastT=setTimeout(function(){toastEl.classList.remove('on');},2600);}
 window.edToast=toast;
@@ -106,19 +106,27 @@ function fitTitles(){
 
 /* ---------- 키 ---------- */
 function typing(t){return t&&(t.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName));}
+function toggleHelp(on){if(!helpEl)return;helpEl.classList.toggle('on',on===undefined?!helpEl.classList.contains('on'):on);}
 window.addEventListener('keydown',function(e){
  var k=e.key;
  if(e.isComposing)return;
- var schOn=searchBox&&searchBox.classList.contains('on'),tocOn=tocBox&&tocBox.classList.contains('on');
- if(schOn||tocOn){
-  if(k==='Escape'){e.preventDefault();e.stopImmediatePropagation();(schOn?closeSearch:closeToc)();return;}
-  var inside=e.target&&e.target.closest&&(e.target.closest('.ed-sch')||e.target.closest('.ed-toc'));
+ var schOn=searchBox&&searchBox.classList.contains('on'),tocOn=tocBox&&tocBox.classList.contains('on'),
+     helpOn=helpEl&&helpEl.classList.contains('on');
+ if(schOn||tocOn||helpOn){
+  if(k==='Escape'){e.preventDefault();e.stopImmediatePropagation();(schOn?closeSearch:(tocOn?closeToc:function(){toggleHelp(false);}))();return;}
+  if(helpOn&&(k==='h'||k==='H'||k==='ㅗ')){e.preventDefault();e.stopImmediatePropagation();toggleHelp(false);return;}
+  var inside=e.target&&e.target.closest&&(e.target.closest('.ed-sch')||e.target.closest('.ed-toc')||e.target.closest('#help'));
   if(!inside)e.stopImmediatePropagation(); /* 대화상자 밖의 키가 엔진에 새지 않게 막는다 */
   return;}
  if((e.ctrlKey||e.metaKey)&&!e.altKey&&(k==='k'||k==='K')){if(typing(e.target))return;e.preventDefault();openSearch();return;}
  if(e.ctrlKey||e.metaKey||e.altKey)return;
- if(k==='/'&&!typing(e.target)){e.preventDefault();openSearch();return;}
- if((k==='o'||k==='O'||k==='ㅐ')&&!typing(e.target)){openToc();return;}
+ if(typing(e.target))return;
+ if(k==='/'){e.preventDefault();openSearch();return;}
+ if(k==='o'||k==='O'||k==='ㅐ'){openToc();return;}
+ /* H/ㅗ = 도움말 토글. 팩 덱의 #help 는 4초 뒤 사라지는 부트 힌트라 대상 아님 */
+ if(helpBtn&&(k==='h'||k==='H'||k==='ㅗ')){
+  if(doc.querySelector('.st-modal.st-show,.st-print.st-show'))return;
+  e.preventDefault();toggleHelp();return;}
 },true);
 
 /* ---------- 초기화 ---------- */
@@ -130,7 +138,16 @@ function init(){
  var bS=el('button','ed-tbtn','검색');bS.type='button';bS.setAttribute('aria-label','검색 (Ctrl+K)');
  bS.addEventListener('click',openSearch);
  var clock=el('span','ed-clock');clock.id='ed-clock';
- bar.appendChild(clock);bar.appendChild(bT);bar.appendChild(bS);body.appendChild(bar);
+ bar.appendChild(clock);bar.appendChild(bT);bar.appendChild(bS);
+ /* 도움말(H) — 검색 옆 세 번째 단추. 팩 덱 #help 는 부트 힌트라 이 단추는 legacy 전용 */
+ helpEl=doc.getElementById('help');
+ if(!doc.querySelector('meta[name="edu-deck-resource-pack"]')&&helpEl){
+  helpBtn=el('button','ed-tbtn');helpBtn.type='button';helpBtn.setAttribute('aria-label','도움말 (H)');
+  var ic=el('span',null,'?');ic.setAttribute('aria-hidden','true');ic.style.fontWeight='800';
+  helpBtn.appendChild(ic);helpBtn.appendChild(doc.createTextNode(' 도움말(H)'));
+  helpBtn.addEventListener('click',function(){toggleHelp();});
+  bar.appendChild(helpBtn);}
+ body.appendChild(bar);
 
  searchBox=el('div','ed-sch');var sb=el('div','ed-sch-box');
  var sin=el('div','ed-sch-in');searchInput=el('input');searchInput.type='text';searchInput.placeholder='슬라이드 검색…';searchInput.setAttribute('aria-label','슬라이드 검색');

@@ -1,0 +1,46 @@
+/* theme-switch.css — 저작 도구 테마 미리보기 패널(themes.js 가 만드는 #edThemes).
+   기본은 숨김 — ?themes=1·H 키로만 연다(일반 시청자에게 보이지 않는다).
+   패널 자체도 테마 토큰으로 칠해지므로 미리보기 전환을 따라감 — ink/paper 대비가
+   매트릭스로 보장되므로 모든 테마에서 읽힌다. 인쇄·접촉판·발표자 보기에서는 숨긴다. */
+
+#edThemes{position:fixed;top:56px;right:14px;z-index:30;width:292px;max-height:calc(100vh - 76px);
+  display:none;flex-direction:column;background:var(--paper);color:var(--ink);
+  border:2px solid var(--line);border-radius:var(--r2);box-shadow:var(--shadow-2);
+  font:500 15px/1.45 'Pretendard Variable','Apple SD Gothic Neo','Malgun Gothic',sans-serif}
+#edThemes.on{display:flex}
+#edThemes .ed-th-head{flex:none;display:flex;align-items:center;justify-content:space-between;
+  padding:12px 16px;border-bottom:2px solid var(--line);font-size:16px;font-weight:800}
+#edThemes .ed-th-x{font:inherit;font-size:14px;font-weight:700;color:var(--soft);background:none;
+  border:1px solid var(--line);border-radius:var(--r1);padding:4px 12px;cursor:pointer}
+#edThemes .ed-th-x:hover{border-color:var(--accent);color:var(--accent-text)}
+#edThemes .ed-th-note{flex:none;padding:8px 16px;font-size:13px;line-height:1.5;color:var(--soft);
+  border-bottom:1px solid var(--line)}
+#edThemes .ed-th-note b{color:var(--accent-text)}
+#edThemes .ed-th-list{flex:1;min-height:0;overflow-y:auto;padding:6px}
+#edThemes .ed-th-item{display:flex;align-items:center;gap:10px;width:100%;text-align:left;
+  font:inherit;font-size:15px;font-weight:700;color:var(--ink);background:none;
+  border:2px solid transparent;border-radius:var(--r1);padding:8px 10px;min-height:40px;cursor:pointer}
+#edThemes .ed-th-item:hover{background:var(--light)}
+#edThemes .ed-th-item.on{border-color:var(--accent);background:var(--light)}
+#edThemes .ed-th-dots{display:inline-flex;gap:4px;flex:none}
+#edThemes .ed-th-dots i{width:11px;height:11px;border-radius:50%;border:1px solid var(--line)}
+#edThemes .ed-th-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#edThemes .ed-th-tag{flex:none;font-size:11px;font-weight:800;color:var(--accent-text);
+  background:var(--light);border:1px solid var(--accent-light);border-radius:999px;
+  padding:2px 8px;letter-spacing:.5px}
+#edThemes .ed-th-legend{font-size:11px;color:var(--soft);letter-spacing:.3px}
+#edThemes .ed-th-foot{flex:none;display:flex;align-items:center;gap:10px;
+  padding:10px 16px;border-top:1px solid var(--line)}
+#edThemes .ed-th-reset{font:inherit;font-size:14px;font-weight:700;color:var(--accent-text);
+  background:var(--light);border:2px solid var(--accent-light);border-radius:var(--r1);
+  padding:6px 12px;cursor:pointer}
+#edThemes .ed-th-reset:hover{border-color:var(--accent)}
+#edThemes .ed-th-kbd{margin-left:auto;font-size:11px;color:var(--soft);letter-spacing:.5px}
+
+/* 발표 타이머(ed-talk)가 켜진 덱은 상단바가 커진다 — 그 아래로 내려 겹치지 않게 한다 */
+html.ed-talk #edThemes{top:108px;max-height:calc(100vh - 124px)}
+
+/* 캡처·발표 화면에는 패널이 나오지 않는다 */
+html.is-sheet #edThemes,html.is-shot #edThemes,body.st-printing #edThemes,
+body.st-presenter #edThemes,html.ed-deck:not(.ed-ready) #edThemes{display:none!important}
+@media print{#edThemes{display:none!important}}

@@ -111,7 +111,7 @@ window.addEventListener('keydown',function(e){
  if(e.ctrlKey||e.metaKey||e.altKey||e.isComposing)return;
  var t=e.target;if(t&&(t.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)))return;
  var k=e.key;
- if(k==='t'||k==='T'||k==='ㅅ'){e.preventDefault();timerToggle();}
+ if(k==='x'||k==='X'||k==='ㅌ'){e.preventDefault();timerToggle();}
  else if(k==='r'||k==='R'||k==='ㄱ'){e.preventDefault();timerReset();}
  else if((k==='v'||k==='V'||k==='ㅍ')&&!PRESENTER){e.preventDefault();openPresenter();}
 },true);
@@ -128,7 +128,7 @@ function init(){
  doc.addEventListener('deckstep',function(){if(!PRESENTER&&!applying)post();});
  /* 발표 키는 발표 덱일 때만 도움말에 단다(목차·검색은 viewer.js 가 항상 표기) */
  var help=doc.getElementById('help');
- if(help&&!PRESENTER)help.textContent=help.textContent.replace('N 발표자 노트','N 발표자 노트 · T 타이머 · R 리셋 · V 발표자 보기');
+ if(help&&!PRESENTER)help.textContent=help.textContent.replace('N 발표자 노트','N 발표자 노트 · X 타이머 · R 리셋 · V 발표자 보기');
  var nav=doc.querySelector('.ed-reader-nav');
  if(nav){var b=el('button',null,'타이머');b.type='button';b.addEventListener('click',function(){timerToggle();});
   nav.insertBefore(b,nav.querySelector('.ed-reader-status')||null);}
