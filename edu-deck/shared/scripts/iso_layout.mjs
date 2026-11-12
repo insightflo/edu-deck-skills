@@ -498,7 +498,7 @@ function build(scene) {
   const title = scene.title || '아이소메트릭 구성도';
 
   const parts = [];
-  parts.push(`<svg class="dg" viewBox="0 0 ${VBW} ${VBH}" role="img" aria-label="${esc(aria)}">`);
+  parts.push(`<svg class="dg" data-lint="svg-diagram" viewBox="0 0 ${VBW} ${VBH}" role="img" aria-label="${esc(aria)}">`);
   parts.push(`<title>${esc(title)}</title>`);
   parts.push(`<g transform="translate(${round(tx)} ${round(ty)})">`);
   parts.push(zoneSvg.trimEnd());

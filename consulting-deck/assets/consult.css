@@ -98,7 +98,7 @@
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .c-sidecar-main{min-width:0;min-height:0;display:flex;flex-direction:column}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .c-sidecar-main .dg{width:100%;height:auto;max-height:100%;margin:auto 0}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .c-sidecar-panel{border-top:3px solid var(--accent);padding-top:var(--s3);display:flex;flex-direction:column;gap:var(--s3)}
-.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .sc-k{font-size:21px;font-weight:800;letter-spacing:2.5px;color:var(--accent-text)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .sc-k{font-size:21px;font-weight:700;letter-spacing:.02em;color:var(--accent-text)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .sc-v{font-size:64px;font-weight:800;line-height:1;color:var(--ink);font-family:var(--c-num-font);font-variant-numeric:tabular-nums}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .sc-v small{font-size:26px;font-weight:700;margin-left:4px}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sidecar .sc-h{font-size:26px;font-weight:800;line-height:1.35}
@@ -123,7 +123,7 @@
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sonw{display:grid;grid-template-columns:1fr 1fr;gap:var(--s4)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sonw>div{border-left:3px solid var(--blue);padding:var(--s2) 0 var(--s2) var(--s3)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sonw .nw{border-left-color:var(--accent)}
-.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sonw .s-k{font-size:22px;font-weight:800;letter-spacing:2px;color:var(--blue-text);margin-bottom:var(--s1)}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sonw .s-k{font-size:22px;font-weight:700;letter-spacing:.02em;color:var(--blue-text);margin-bottom:var(--s1)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sonw .nw .s-k{color:var(--accent-text)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-sonw p{font-size:27px;line-height:1.45;font-weight:600}
 

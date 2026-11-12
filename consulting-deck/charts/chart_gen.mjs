@@ -390,7 +390,7 @@ const unitTag = `    <text class="k-t-tag" x="0" y="42">(단위: ${esc(chart.mea
 
 function svgOpen(h, aria) {
   return [
-    `  <svg class="dg" viewBox="0 0 ${VBW} ${h}" role="img" aria-label="${esc(aria)}">`,
+    `  <svg class="dg" data-lint="svg-diagram" viewBox="0 0 ${VBW} ${h}" role="img" aria-label="${esc(aria)}">`,
     `    <title>${esc(slide.title)}</title>`,
   ];
 }
@@ -415,7 +415,7 @@ function section(svg, meta) {
       `    </svg>`,
       `    </div>`,
       `    <aside class="c-sidecar-panel" data-step="${last}">`,
-      `      <p class="sc-k">${esc(sidecar.k || 'SO WHAT')}</p>`,
+      `      <p class="sc-k">${esc(sidecar.k || '시사점')}</p>`,
       `      <p class="sc-v">${esc(sidecar.v)}${sidecar.unit ? `<small>${esc(sidecar.unit)}</small>` : ''}</p>`,
       ...(sidecar.h ? [`      <p class="sc-h">${escRich(sidecar.h)}</p>`] : []),
       `      <ul>`,

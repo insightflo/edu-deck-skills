@@ -37,7 +37,7 @@ consulting-deck/charts/chart_gen.mjs --in MODEL.json -o src/NN-이름.html
 | `measure.x` · `measure.y` | scatter · matrix-2x2 ● | 축 라벨 — 없으면 FAIL(좌표 차트는 축이 없으면 읽을 수 없다) |
 | `measure.axisBreak` | waterfall | 숫자 — 축 생략 하한값. `0 < axisBreak < 최소누적`이면 그 값으로 생략 구간을 정하고, 범위 밖이면 WARN 후 자동 규칙으로 돌아간다. 생략 활성 시 증감 막대는 18px 가시 하한을 적용한다(상단 누적 위치는 실값 유지, 라벨은 실측치) |
 | `canvas` | | `full`(기본) \| `sidecar` — `sidecar`면 차트 캔버스를 화면 약 68% 폭으로 굽는다(`chart.sidecar`와 짝, 아래). 불일치 시 WARN |
-| `sidecar` | | `{k?, v, unit?, h?, bullets[]}` — 차트 우측의 시사점 칼럼(`.c-sidecar` 방출). `v`=헤드라인 수치 필수 · bullets 1~3개(초과 FAIL) · `k` 생략 시 `SO WHAT` |
+| `sidecar` | | `{k?, v, unit?, h?, bullets[]}` — 차트 우측의 시사점 칼럼(`.c-sidecar` 방출). `v`=헤드라인 수치 필수 · bullets 1~3개(초과 FAIL) · `k` 생략 시 `시사점` |
 | `bridge` | stacked-bar | `total` \| `segment` — 두 막대 사이 다리. `total`=첫↔끝 총계를 계단 점선+캡슐 변화율(%, Δ절대값)로. `segment`=끝 막대의 선택 세그먼트에 브래킷+합계·비중 |
 | `bridgeSegments` | stacked-bar | 세그먼트 name 배열 — `bridge:"segment"`의 대상(name 해석 실패 → FAIL) |
 | `targetQuadrant` | matrix-2x2 | `tr`\|`tl`\|`br`\|`bl` — 목표 사분면을 옅은 초점색 틴트+굵은 라벨로 표시(값은 위치: 우상·좌상·우하·좌하) |
@@ -108,7 +108,7 @@ waterfall의 시작 막대가 최대값의 60% 이상이면 증감 막대가 너
   <div class="c-sidecar">
     <div class="c-sidecar-main"><svg class="dg" viewBox="0 0 1040 H">…</svg></div>
     <aside class="c-sidecar-panel" data-step="n">
-      <p class="sc-k">SO WHAT</p><p class="sc-v">«v»<small>«unit»</small></p>
+      <p class="sc-k">시사점</p><p class="sc-v">«v»<small>«unit»</small></p>
       <p class="sc-h">«h»</p>
       <ul><li>…</li></ul>                    <!-- bullets 1~3 -->
     </aside>

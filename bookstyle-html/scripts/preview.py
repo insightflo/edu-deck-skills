@@ -2,6 +2,7 @@
 """bookstyle-html 미리보기·점검.
 
   python3 preview.py check <결과.html>     # 넘침·잘림·깨진 그림 0건이어야 함
+  python3 preview.py check <결과.html> --release   # + 배포 게이트(외부 자원·alt·이미지 권리·TODO) 0건
   python3 preview.py sheet <결과.html> [-o 폴더]
   python3 preview.py shot  <결과.html> [-o 폴더] [--pages 1,2]
   python3 preview.py view  <결과.html>     # 1920×1080 화면을 가득 채운 뷰어 캡처(#p1)
@@ -15,6 +16,7 @@ import argparse
 import http.server
 import json
 import os
+import re
 import shutil
 import socket
 import subprocess
@@ -126,7 +128,95 @@ def run_chrome_dump(url: str, width: int, height: int) -> str:
     return r.stdout
 
 
-def cmd_check(html: Path) -> int:
+# ---------------------------------------------------------------- 배포 게이트 (--release)
+# 개념 출처: ko-document-studio © 2026 acc0mplish, MIT — engines/ko-doc/scripts/check_book.py
+# (외부 리소스·alt·경고도 실패) + build_book.py(assets[].rights·_todo 수집). 우리 계약으로 재작성.
+
+_EXTERNAL_RE = re.compile(r'(?:src|href)\s*=\s*"((?:https?:)?//[^"]+)"', re.I)
+_CSS_URL_RE = re.compile(r'url\(\s*["\']?((?:https?:)?//[^)"\']+)', re.I)
+_IMG_TAG_RE = re.compile(r"<img\b[^>]*>", re.I)
+_TODO_TEXT_RE = re.compile(r"TODO|TBD|\{\{|lorem ipsum|여기에 입력", re.I)
+RIGHTS_OK = {"own", "licensed", "public", "permission"}
+
+
+def _collect_todos(obj, path="root", out=None):
+    """book.json 안의 _todo 메모를 전부 모은다(미해결 사실은 배포 때 보고)."""
+    if out is None:
+        out = []
+    if isinstance(obj, dict):
+        for k, v in obj.items():
+            if k == "_todo":
+                out.append((path, str(v)))
+            else:
+                _collect_todos(v, f"{path}.{k}", out)
+    elif isinstance(obj, list):
+        for i, v in enumerate(obj):
+            _collect_todos(v, f"{path}[{i}]", out)
+    return out
+
+
+def release_static(html: Path) -> tuple[list[str], list[str], list[str]]:
+    """배포 게이트 정적 검사 — (오류, 경고, 정보). --release 없이도 돌리되 심각도가 낮다.
+
+    · 외부 자원: src/href·CSS url(http(s):/프로토콜 상대) → 외부 의존 금지
+    · 그림: alt 없음 오류, 빈 alt 경고(bgimg 장식 제외)
+    · 이미지 권리: book.json assets[] 의 rights 가 own/licensed/public/permission 밖이면 실패
+    · TODO: book.json _todo 메모 + 결과 HTML 의 자리 표시 글 수집
+    """
+    errors, warns, notes = [], [], []
+    text = html.read_text(encoding="utf-8")
+    ext = _EXTERNAL_RE.findall(text)
+    css_urls = _CSS_URL_RE.findall(text)
+    ext = sorted(set(ext + [f"CSS url({u[:80]})" for u in css_urls]))
+    if ext:
+        errors.append("외부 자원: " + ", ".join(e[:80] for e in ext[:5]) + (" …" if len(ext) > 5 else ""))
+    # 내용 그림은 #pages 안의 것만 본다 — 뷰어 크롬(라이트박스 등)의 동적 img 는 제외
+    pm = re.search(r'<main id="pages".*?</main>', text, re.S)
+    pages_html = pm.group(0) if pm else ""
+    page_imgs = _IMG_TAG_RE.findall(pages_html)
+    linked = [m for m in page_imgs if 'src="' in m and 'src="data:' not in m]
+    for tag in page_imgs:
+        src = (tag.split('src="')[1].split('"')[0] if 'src="' in tag else "?")[:60]
+        if 'alt="' not in tag and "alt='" not in tag:
+            errors.append(f"alt 속성 없는 이미지: {src}")
+        elif 'alt=""' in tag and "bgimg" not in tag:
+            warns.append(f"alt 가 빈 이미지(장식이 아니라면 설명 필요): {src}")
+    if linked:
+        errors.append(f"파일로 연결된 이미지 {len(linked)}개 — 배포본은 그림을 인라인(data:)으로 넣어야 합니다")
+    hit = _TODO_TEXT_RE.search(re.sub(r"data:[^\"')\s]+", "", text))
+    if hit:
+        warns.append(f"자리 표시 글({hit.group(0)})이 결과물에 남아 있습니다")
+    book = html.parent / "book.json"
+    if book.is_file():
+        try:
+            data = json.loads(book.read_text(encoding="utf-8"))
+            for i, a in enumerate(data.get("assets") or []):
+                src = str((a or {}).get("src", f"assets[{i}]"))[:60]
+                rights = (a or {}).get("rights")
+                if rights not in RIGHTS_OK:
+                    errors.append(f"이미지 권리 미확인: {src} — rights 를 own|licensed|public|permission 중 기록 (현재: {rights!r})")
+            for path, memo in _collect_todos(data):
+                warns.append(f"미해결 _todo {path}: {memo[:80]}")
+        except (json.JSONDecodeError, OSError) as e:
+            warns.append(f"book.json 을 읽지 못해 권리·TODO 를 확인하지 못했습니다: {e}")
+    else:
+        notes.append("book.json 이 없어 이미지 권리·_todo 를 확인하지 못했습니다")
+    return errors, warns, notes
+
+
+def cmd_check(html: Path, release: bool = False) -> int:
+    if release:
+        errors, warns, notes = release_static(html)
+        for m in notes:
+            print(f"[정보] {m}")
+        for m in warns:
+            print(f"[경고] {m}")
+        for m in errors:
+            print(f"[오류] {m}")
+        if errors or warns:  # 배포 게이트는 경고도 실패다(상류 --release 계약)
+            print(f"배포 검사 실패: 오류 {len(errors)} · 경고 {len(warns)}")
+            return 1
+        print("배포 검사 통과: 외부 자원·alt·이미지 권리·TODO 0건")
     port, _, httpd = serve(html.parent)
     try:
         url = f"http://127.0.0.1:{port}/{html.name}?check=1"
@@ -199,13 +289,15 @@ def main() -> int:
     ap.add_argument("html")
     ap.add_argument("-o", "--out", default=".")
     ap.add_argument("--pages", default="", help="쉼표로 구분한 쪽 번호(shot)")
+    ap.add_argument("--release", action="store_true",
+                    help="check 에 배포 게이트 추가 — 외부 자원·alt·이미지 권리(book.json assets[].rights)·TODO, 경고도 실패")
     a = ap.parse_args()
     html = Path(a.html).resolve()
     if not html.is_file():
         print(f"파일이 없습니다: {html}", file=sys.stderr)
         return 1
     if a.cmd == "check":
-        return cmd_check(html)
+        return cmd_check(html, release=a.release)
     pages = [int(x) for x in a.pages.split(",") if x.strip()] if a.pages else None
     return cmd_shot(html, Path(a.out).resolve(), pages, a.cmd)
 

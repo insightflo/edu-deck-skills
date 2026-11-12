@@ -192,9 +192,9 @@ class ConsultChartTest(unittest.TestCase):
             self.assertNotIn('<p class="small"', html, f'{src.name}: 구형 p.small 출처 블록 잔존')
             # 색은 토큰만 — hex 색 코드 금지
             self.assertIsNone(re.search(r'#[0-9a-fA-F]{3,8}\b', html), f'{src.name}: hex 색 발견')
-            # 모션은 엔진 속성뿐
+            # 모션은 엔진 속성뿐 — data-lint="svg-diagram" 은 도식 린트 표식(diagram_lint 계약)
             attrs = set(re.findall(r'\bdata-[a-z-]+', html))
-            self.assertTrue(attrs <= {'data-archetype', 'data-variant', 'data-step', 'data-fx', 'data-count'},
+            self.assertTrue(attrs <= {'data-archetype', 'data-variant', 'data-step', 'data-fx', 'data-count', 'data-lint'},
                             f'{src.name}: 예상 밖 속성 {attrs}')
 
     # ── 타입별 형태 ─────────────────────────────────────────────────
@@ -561,7 +561,7 @@ class ConsultChartTest(unittest.TestCase):
         out = self.tmp / 'sidecar-k.html'
         code, log = run(p, out)
         self.assertEqual(code, 0, log)
-        self.assertIn('>SO WHAT<', out.read_text(encoding='utf-8'))
+        self.assertIn('>시사점<', out.read_text(encoding='utf-8'))
 
     def test_sidecar_validation_rejected(self):
         # bullets 4개 → FAIL

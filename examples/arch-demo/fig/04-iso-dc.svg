@@ -1,4 +1,4 @@
-<svg class="dg" viewBox="0 0 1664 785" role="img" aria-label="아이소메트릭 데이터센터 구성도. 사용자가 로드밸런서를 거쳐 앱 서버 두 대에 들어가고, 코어 스위치를 거쳐 스토리지 두 대에 이어진다.">
+<svg class="dg" data-lint="svg-diagram" viewBox="0 0 1664 785" role="img" aria-label="아이소메트릭 데이터센터 구성도. 사용자가 로드밸런서를 거쳐 앱 서버 두 대에 들어가고, 코어 스위치를 거쳐 스토리지 두 대에 이어진다.">
 <title>아이소메트릭 데이터센터 — 사용자 요청이 서버·스토리지까지 가는 경로</title>
 <g transform="translate(993.6 -15)">
 <g data-arch-zone="dc" data-zone-kind="zone">

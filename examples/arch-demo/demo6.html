@@ -87,7 +87,7 @@ body{
 .label{font-size:28px;font-weight:700;color:var(--accent-text);letter-spacing:1px}
 ul.list{font-size:32px;line-height:1.65;padding-left:1.2em}
 ul.list li::marker{color:var(--accent)}
-.bar{width:240px;height:8px;background:linear-gradient(90deg,var(--accent) 0 62%,var(--accent-light) 62% 100%)}
+.bar{width:240px;height:8px;background:linear-gradient(90deg,var(--accent) 0 62%,var(--line) 62% 100%)}
 .notes{display:none}
 .num{font-size:96px;font-weight:800;color:var(--accent);line-height:1}
 .flow{display:flex;align-items:center;gap:24px}
@@ -234,7 +234,7 @@ ul.list li::marker{color:var(--accent)}
 #dots i{width:10px;height:10px;border-radius:3px;border:1px solid var(--soft);opacity:.5}
 #dots i.on{opacity:1;background:var(--accent);border-color:var(--accent)}
 #progress{position:fixed;left:0;bottom:0;height:4px;background:var(--accent);z-index:5}
-#help{position:fixed;right:20px;bottom:40px;background:var(--ink);color:var(--light);font-size:16px;border-radius:var(--r2);padding:16px 20px;opacity:.92;z-index:6}
+#help{position:fixed;right:20px;bottom:40px;background:var(--ink);color:var(--light);font-size:16px;border-radius:var(--r2);padding:16px 20px;opacity:.96;z-index:45;display:none;max-width:calc(100vw - 40px)}
 #notes{position:fixed;left:0;right:0;bottom:0;max-height:38vh;overflow:auto;background:var(--ink);color:var(--light);font-size:20px;line-height:1.5;padding:20px 28px;border-top:4px solid var(--accent-light);display:none;z-index:7}
 #notes .h{font-size:16px;color:var(--muted);margin-bottom:8px}
 
@@ -474,6 +474,112 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   --s8:75px; --s10:94px; --s16:150px;
 }
 
+/* ============================================================
+   신규 8종 (2026-11-12) — 장르 확장. 값은 전부 이 저장소에서
+   새로 설계했다(workspace/absorb 원본 테마 값과 무관).
+   mono · brick · honey · mint · violet · coral · olive · espresso
+   ============================================================ */
+
+/* mono — 무채색 인쇄물. 규정·문서·활동지 계열. shape: .1/.25/.2/.1
+   회색은 순수 R=G=B 대신 스톤(웜) 편차를 둔다 — all-themes 원본 헥스 비겹침. */
+[data-theme="mono"]{
+  --ink:#201f1d; --paper:#fcfcf8; --light:#f0f0ea; --soft:#4d4c49; --line:#78766f;
+  --accent:#54524e; --accent-text:#3c3a37; --accent-light:#bab8b2;
+  --blue:#413f3b; --blue-text:#302f2c; --blue-soft:#e8e6e0;
+  --success:#2c5a40; --danger:#8e2523; --muted:#cbc9c2; --chip:#e2e2dc;
+  --r1:3px; --r2:10px; --r3:14px;
+  --m1:115ms; --m2:240ms; --m3:400ms; --m4:650ms;
+  --e-spring:cubic-bezier(.34,1.1,.64,1);
+  --s1:7px; --s2:14px; --s3:20px; --s4:27px; --s5:34px; --s6:41px;
+  --s8:54px; --s10:68px; --s16:109px;
+}
+
+/* brick — 테라코타 웜 에디토리얼. 인문·역사·독서 계열. shape: .25/.4/.6/.3 */
+[data-theme="brick"]{
+  --ink:#2e211a; --paper:#faf3ea; --light:#f2e7d9; --soft:#5d4e42; --line:#8a7a6b;
+  --accent:#b14d2e; --accent-text:#8e3c22; --accent-light:#e8a782;
+  --blue:#4e6478; --blue-text:#3d5064; --blue-soft:#e4e8ec;
+  --success:#2e5e42; --danger:#a12624; --muted:#d4c4b2; --chip:#eadfd0;
+  --r1:5px; --r2:12px; --r3:18px;
+  --m1:136ms; --m2:276ms; --m3:460ms; --m4:740ms;
+  --e-spring:cubic-bezier(.34,1.19,.64,1);
+  --s1:8px; --s2:17px; --s3:25px; --s4:34px; --s5:42px; --s6:50px;
+  --s8:67px; --s10:84px; --s16:134px;
+}
+
+/* honey — 머스터드 앰버. 레트로·친근·안내 계열. shape: .5/.55/.5/.6 */
+[data-theme="honey"]{
+  --ink:#2d2413; --paper:#fdf8e9; --light:#f5ebd2; --soft:#5f5339; --line:#8d8062;
+  --accent:#a96e08; --accent-text:#7d5205; --accent-light:#eec26a;
+  --blue:#4a6a80; --blue-text:#3a5568; --blue-soft:#e8ecdf;
+  --success:#2c5a3a; --danger:#9e2722; --muted:#d8cba8; --chip:#eee4c8;
+  --r1:8px; --r2:16px; --r3:24px;
+  --m1:157ms; --m2:312ms; --m3:520ms; --m4:830ms;
+  --e-spring:cubic-bezier(.34,1.32,.64,1);
+}
+
+/* mint — 파스텔 민트. 초등·건강·새싹 계열. shape: .8/.7/.6/.8 */
+[data-theme="mint"]{
+  --ink:#152821; --paper:#f1faf4; --light:#dff0e4; --soft:#40594c; --line:#6e8a7c;
+  --accent:#159169; --accent-text:#0f7051; --accent-light:#8fd8bb;
+  --blue:#3a6f9e; --blue-text:#2b5a7e; --blue-soft:#dcedf2;
+  --success:#1e6b3f; --danger:#a12624; --muted:#bcd8c9; --chip:#d6e9dd;
+  --r1:12px; --r2:21px; --r3:31px;
+  --m1:178ms; --m2:348ms; --m3:580ms; --m4:920ms;
+  --e-spring:cubic-bezier(.34,1.41,.64,1);
+  --s1:8px; --s2:17px; --s3:25px; --s4:34px; --s5:42px; --s6:50px;
+  --s8:67px; --s10:84px; --s16:134px;
+}
+
+/* violet — 차분한 보라. 창의·예술·진로 계열. shape: .6/.5/.5/.6 */
+[data-theme="violet"]{
+  --ink:#251d31; --paper:#f8f5fc; --light:#ece4f4; --soft:#554a66; --line:#7e7294;
+  --accent:#6f47a8; --accent-text:#583688; --accent-light:#c3a4e8;
+  --blue:#45598f; --blue-text:#374873; --blue-soft:#e3e6f2;
+  --success:#296045; --danger:#a12624; --muted:#cec4dc; --chip:#e4dbf0;
+  --r1:9px; --r2:18px; --r3:26px;
+  --m1:150ms; --m2:300ms; --m3:500ms; --m4:800ms;
+  --e-spring:cubic-bezier(.34,1.32,.64,1);
+}
+
+/* coral — 로즈 코랄. 응대·소통·온보딩 계열. shape: .7/.6/.5/.7
+   주색 H≈352°(로즈-살몬) — brick(H≈14°)과 ΔH≈22° 로 난색 축에서 분리. */
+[data-theme="coral"]{
+  --ink:#321c1c; --paper:#fdf3f1; --light:#f8e3de; --soft:#6a4a48; --line:#96736e;
+  --accent:#c24455; --accent-text:#9a3040; --accent-light:#f0a3ae;
+  --blue:#4d6b84; --blue-text:#3c566b; --blue-soft:#eae9e4;
+  --success:#2c5e40; --danger:#a12624; --muted:#dfc4c0; --chip:#f4dcd6;
+  --r1:10px; --r2:19px; --r3:29px;
+  --m1:164ms; --m2:324ms; --m3:540ms; --m4:860ms;
+  --e-spring:cubic-bezier(.34,1.37,.64,1);
+}
+
+/* olive — 잦아든 올리브. 야외·환경·매뉴얼 계열. shape: .45/.45/.6/.45 */
+[data-theme="olive"]{
+  --ink:#252a16; --paper:#f7f6ea; --light:#ebe9d6; --soft:#565c3e; --line:#82876a;
+  --accent:#6c7a20; --accent-text:#54600f; --accent-light:#c4cf7d;
+  --blue:#4a6b62; --blue-text:#3b564c; --blue-soft:#e3e8da;
+  --success:#29603a; --danger:#a12624; --muted:#cfccb0; --chip:#e5e3cc;
+  --r1:7px; --r2:15px; --r3:23px;
+  --m1:143ms; --m2:288ms; --m3:480ms; --m4:770ms;
+  --e-spring:cubic-bezier(.34,1.25,.64,1);
+  --s1:8px; --s2:17px; --s3:25px; --s4:34px; --s5:42px; --s6:50px;
+  --s8:67px; --s10:84px; --s16:134px;
+}
+
+/* espresso — 어두운 카페. 야간·감성·시사 계열. shape: .4/.5/.85/.4 */
+[data-theme="espresso"]{
+  --ink:#efe5d8; --paper:#241b14; --light:#1a130e; --soft:#b3a393; --line:#7d6c5c;
+  --accent:#d99a52; --accent-text:#d9a868; --accent-light:#7a5527;
+  --blue:#7ba4c0; --blue-text:#a2c4da; --blue-soft:#38302a;
+  --success:#7cb98d; --danger:#df8378; --muted:#54463a; --chip:#3d322a;
+  --r1:7px; --r2:14px; --r3:22px;
+  --m1:150ms; --m2:300ms; --m3:500ms; --m4:800ms;
+  --e-spring:cubic-bezier(.34,1.23,.64,1);
+  --s1:9px; --s2:19px; --s3:28px; --s4:38px; --s5:47px; --s6:56px;
+  --s8:75px; --s10:94px; --s16:150px;
+}
+
 /* Shared visual vocabulary. No timing or color literals outside canonical tokens. */
 body,.slide,.pack{font-family:'Pretendard Variable',sans-serif}
 .st-panel{--soft:var(--muted)}
@@ -644,7 +750,7 @@ body.st-self *,body.st-self *::before,body.st-self *::after,body.st-printing *{a
 .code pre{flex:1;min-height:0;margin:0;padding:24px 32px;overflow:auto;font-size:24px;line-height:1.55;color:var(--light);letter-spacing:.3px;font-variant-numeric:tabular-nums}
 .code pre .p{color:var(--accent-light);font-weight:700}
 .code pre .out{color:var(--muted)}
-.code pre .c{color:color-mix(in srgb,var(--muted) 75%,var(--ink));font-style:italic}
+.code pre .c{color:color-mix(in srgb,var(--muted) 75%,var(--ink))}
 .code pre .ph{color:var(--accent-light);font-weight:700;background:color-mix(in srgb,var(--accent) 22%,transparent);border-radius:var(--r1);padding:0 4px}
 .tabs{display:flex;flex-direction:column;min-width:0;align-self:stretch}
 .tab-bar{display:flex;flex-wrap:wrap;gap:8px}
@@ -774,8 +880,9 @@ html.ed-slidefit .ed-reader-status{grid-column:1/-1;font-size:16px;line-height:1
 }
 @media print{.ed-reader-nav,.ed-zoom,.ed-zoom-hint{display:none!important}}
 
-/* viewer.css — A1 검색, A2 목차, A3 엔진 실패 연속 보기, D 발표 타이머·발표자 보기.
-   시리즈 포털에는 html.ed-deck 가 없으므로 아래 규칙은 자동 비활성이다. */
+/* viewer.css — A1 검색, A2 목차, A3 엔진 실패 연속 보기, D 발표 타이머·발표자 보기,
+   상·하단 크롬(.ed-top 헤더·.ed-bot 푸터). 시리즈 포털에는 html.ed-deck 가 없으므로
+   아래 규칙은 자동 비활성이다. */
 
 /* ---------- A3: 엔진 미준비/실패 시 모든 장을 폭에 맞춰 이어 붙여 보여 준다 ---------- */
 html.ed-deck:not(.ed-ready) body,html.ed-deck.ed-fail body{overflow:auto;height:auto}
@@ -792,21 +899,89 @@ html.ed-deck:not(.ed-ready) #stage>.slide *,html.ed-deck.ed-fail #stage>.slide *
  @media (min-width:1440px){html.ed-deck:not(.ed-ready) #stage,html.ed-deck.ed-fail #stage{--ed-s:.75}}
  @media (min-width:1900px){html.ed-deck:not(.ed-ready) #stage,html.ed-deck.ed-fail #stage{--ed-s:.98}}
 }
-html.ed-deck:not(.ed-ready) :is(#progress,#dots,#counter,#help,#notes,.ed-reader-nav,.ed-topbar,.st-panel,.st-modal,.st-print,.st-toast,.chk-back,.ed-sch,.ed-toc),
-html.ed-deck.ed-fail :is(#progress,#dots,#counter,#help,#notes,.ed-reader-nav,.ed-topbar,.st-panel,.st-modal,.st-print,.st-toast,.chk-back,.ed-sch,.ed-toc){display:none!important}
+html.ed-deck:not(.ed-ready) :is(#progress,#dots,#counter,#help,#notes,.ed-reader-nav,.ed-topbar,.ed-top,.ed-bot,.ed-chrome-pop,.ed-help-modal,.st-panel,.st-modal,.st-print,.st-toast,.chk-back,.ed-sch,.ed-toc),
+html.ed-deck.ed-fail :is(#progress,#dots,#counter,#help,#notes,.ed-reader-nav,.ed-topbar,.ed-top,.ed-bot,.ed-chrome-pop,.ed-help-modal,.st-panel,.st-modal,.st-print,.st-toast,.chk-back,.ed-sch,.ed-toc){display:none!important}
 .ed-nojs{display:none;box-sizing:border-box;width:100%;background:var(--ink);color:var(--paper);font:600 15px/1.5 sans-serif;text-align:center;padding:10px 16px}
 html.ed-deck.ed-fail .ed-nojs{display:block}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
 
-/* ---------- 상단 바(목차·검색·시계) ---------- */
-.ed-topbar{position:fixed;top:12px;right:14px;z-index:8;display:flex;align-items:center;gap:8px;font-family:inherit}
-.ed-tbtn{font:inherit;font-size:15px;font-weight:700;color:var(--paper);background:color-mix(in srgb,var(--ink) 72%,transparent);border:1px solid color-mix(in srgb,var(--paper) 22%,transparent);border-radius:var(--r3);padding:8px 14px;min-height:36px;cursor:pointer;opacity:.6;transition:opacity var(--m2) var(--e-out)}
-.ed-tbtn:hover,.ed-tbtn:focus-visible,.ed-topbar:focus-within .ed-tbtn{opacity:1}
-.ed-clock{display:none;font:700 16px/1 sans-serif;color:var(--paper);background:color-mix(in srgb,var(--ink) 78%,transparent);border:1px solid color-mix(in srgb,var(--paper) 22%,transparent);border-radius:var(--r3);padding:10px 14px;opacity:.85;font-variant-numeric:tabular-nums}
-html.ed-talk .ed-clock{display:block}
-.ed-clock.is-run{border-color:var(--accent)}
-.ed-clock.is-late{color:var(--danger);border-color:var(--danger)}
-.ed-clock .plan{opacity:.6;font-weight:400}
-body.in-hub .ed-topbar{display:none}
+/* ---------- 상·하단 크롬: 무대 위 오버레이, 유휴 시 자동 숨김(body.ed-chrome-on) ---------- */
+.ed-top,.ed-bot{position:fixed;left:0;right:0;display:flex;align-items:center;box-sizing:border-box;
+ background:color-mix(in srgb,var(--ink) 88%,transparent);color:var(--paper);font-family:inherit;
+ transition:opacity var(--m2) var(--e-out)}
+.ed-top{top:0;height:44px;gap:16px;padding:0 16px;border-bottom:1px solid color-mix(in srgb,var(--paper) 18%,transparent);z-index:30}
+.ed-bot{bottom:0;height:48px;gap:20px;padding:0 12px 0 20px;border-top:1px solid color-mix(in srgb,var(--paper) 18%,transparent);z-index:8}
+body:not(.ed-chrome-on) .ed-top,body:not(.ed-chrome-on) .ed-bot{opacity:0;visibility:hidden;pointer-events:none;transition:opacity var(--m2) var(--e-out),visibility 0s var(--m2)}
+.ed-brand{display:flex;align-items:baseline;gap:12px;min-width:0;flex:1;white-space:nowrap;overflow:hidden}
+.ed-brand b{font-size:15px;font-weight:800;color:var(--paper)}
+.ed-crumb{font-size:14px;color:color-mix(in srgb,var(--paper) 75%,transparent);overflow:hidden;text-overflow:ellipsis}
+/* 도구 띠: 넘치면 JS 가 뒤 버튼부터 .ed-chrome-pop 으로 옮긴다 */
+.ed-topbar{display:flex;align-items:center;gap:4px;flex:0 1 auto;min-width:0;overflow:hidden;justify-content:flex-end;font-family:inherit}
+.ed-sep{width:1px;align-self:stretch;margin:10px 6px;background:color-mix(in srgb,var(--paper) 18%,transparent);flex:none}
+.ed-tool,.ed-more{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border:0;border-radius:6px;background:none;color:var(--paper);font:inherit;font-size:15px;font-weight:600;cursor:pointer;white-space:nowrap;opacity:1}
+.ed-tool:hover,.ed-tool:focus-visible,.ed-more:hover,.ed-more:focus-visible{background:color-mix(in srgb,var(--paper) 16%,transparent)}
+.ed-tool:focus-visible,.ed-more:focus-visible,.ed-btn:focus-visible,.ed-page:focus-visible{outline:2px solid var(--paper);outline-offset:1px}
+.ed-tool[aria-pressed="true"]{background:color-mix(in srgb,var(--paper) 16%,transparent);color:var(--accent-light)}
+.ed-ic{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ed-kbd{padding:1px 6px;border:1px solid color-mix(in srgb,var(--paper) 30%,transparent);border-radius:4px;font-family:inherit;font-size:12px;color:color-mix(in srgb,var(--paper) 75%,transparent)}
+.ed-more{flex:none}
+/* 발표 타이머 버튼(#ed-clock): talk 덱에서만 보이고, 내용은 talk.js 가 칠한다.
+   계획 누적은 .ed-clock-plan — 팩 덱의 카드 컴포넌트 .plan 과 이름이 겹치지 않게 따로 둔다 */
+.ed-clock{display:none;font-variant-numeric:tabular-nums}
+html.ed-talk .ed-clock{display:inline-flex}
+.ed-clock.is-run{color:var(--accent-light)}
+.ed-clock.is-late{color:var(--danger)}
+.ed-clock .ed-clock-plan{opacity:.6;font-weight:400}
+/* 더보기 팝오버 */
+.ed-chrome-pop{position:fixed;top:48px;right:12px;z-index:31;display:none;flex-direction:column;gap:2px;padding:8px;min-width:180px;box-sizing:border-box;
+ background:color-mix(in srgb,var(--ink) 94%,transparent);border:1px solid color-mix(in srgb,var(--paper) 22%,transparent);border-radius:var(--r2);box-shadow:var(--shadow-2)}
+.ed-chrome-pop.on{display:flex}
+.ed-chrome-pop .ed-tool{justify-content:flex-start;width:100%;font-size:15px;padding:10px 12px}
+.ed-chrome-pop .ed-tl{display:inline}
+.ed-chrome-pop .ed-sep{display:none}
+/* 하단 막대: 진행 세그먼트·단계 점·쪽 입력·이전/다음 */
+.ed-prog-track{flex:1;display:flex;align-items:center;min-width:0;height:6px;border-radius:3px;background:color-mix(in srgb,var(--paper) 18%,transparent);overflow:hidden}
+.ed-bot #progress{position:static;flex:1;height:6px;transform-origin:0 50%;background:var(--accent-light)}
+.ed-bot #progress.is-segs{transform:none!important;background:none;display:flex;gap:6px}
+.ed-seg{position:relative;flex:1;height:6px;padding:0;border:0;border-radius:3px;background:color-mix(in srgb,var(--paper) 18%,transparent);overflow:hidden;cursor:pointer}
+.ed-seg i{position:absolute;left:0;top:0;bottom:0;width:0;display:block;background:var(--accent-light);transition:width .3s var(--e-out)}
+.ed-seg.is-past i{background:color-mix(in srgb,var(--paper) 55%,transparent)}
+.ed-seg:focus-visible{outline:2px solid var(--paper);outline-offset:1px}
+.ed-bot #dots{position:static;display:flex;gap:6px;flex:none;align-items:center}
+.ed-bot #dots i{width:10px;height:10px;border-radius:50%;border:0;background:color-mix(in srgb,var(--paper) 26%,transparent);opacity:1;cursor:pointer}
+.ed-bot #dots i.on{background:var(--accent-light)}
+.ed-bot #dots i:focus-visible{outline:2px solid var(--paper);outline-offset:2px}
+.ed-pagebox{display:flex;align-items:center;gap:8px;flex:none;font-size:13px;color:color-mix(in srgb,var(--paper) 75%,transparent)}
+.ed-bot #counter{position:static;font:inherit;font-size:13px;color:inherit;opacity:1}
+.ed-page{width:56px;height:32px;box-sizing:border-box;border:1px solid color-mix(in srgb,var(--paper) 28%,transparent);border-radius:6px;background:color-mix(in srgb,var(--ink) 40%,transparent);color:var(--paper);font:inherit;font-size:14px;font-weight:700;text-align:center}
+.ed-nav{display:flex;gap:8px;flex:none}
+.ed-btn{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 14px;border:1px solid color-mix(in srgb,var(--paper) 28%,transparent);border-radius:8px;background:none;color:var(--paper);font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.ed-btn:disabled{opacity:.35;cursor:default}
+.ed-btn:not(:disabled):hover{background:color-mix(in srgb,var(--paper) 16%,transparent)}
+.ed-btn .ed-ic{width:16px;height:16px}
+/* 발표자 노트 패널은 하단 막대 위에 붙는다(compact 는 .ed-bot 없음 → 기존 위치) */
+html:not(.ed-compact) #notes{bottom:48px}
+body.in-hub .ed-top,body.in-hub .ed-bot{display:none}
+body.st-self .ed-bot{display:none}
+@media (prefers-reduced-motion:reduce){
+ .ed-top,.ed-bot,.ed-seg i{transition:none!important}
+}
+/* 뷰포트 폭 <1280: 라벨·크럼브는 시각 숨김(sr-only — 스크린리더엔 유지), 아이콘만 */
+@media (max-width:1279px){
+ .ed-tool,.ed-more{font-size:13px}
+ .ed-tool .ed-tl,.ed-tool .ed-kbd,.ed-crumb,.ed-btn .ed-tl{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+ .ed-chrome-pop .ed-tl{position:static;width:auto;height:auto;overflow:visible;clip:auto;clip-path:none;white-space:normal}
+}
+/* coarse 포인터: 탭 대상 44px(세그먼트·점은 시각 표식이라 대상만 키운다) */
+@media (pointer:coarse){
+ .ed-tool,.ed-more,.ed-btn{min-height:44px;min-width:44px;justify-content:center}
+}
+html.ed-compact .ed-topbar{display:none}
+html.ed-compact .ed-bot{display:none}
+/* slide-fit(좁은 가로)도 하단 크롬은 한 벌 — .ed-reader-nav(≈143px)를 남기고 .ed-bot 은 숨긴다 */
+html.ed-slidefit .ed-bot{display:none}
+html.ed-slidefit #notes{bottom:150px}
+html.ed-compact .ed-brand b{font-size:16px}
 
 /* ---------- 검색(Ctrl+K / /) ---------- */
 .ed-sch{position:fixed;inset:0;z-index:40;display:none;align-items:flex-start;justify-content:center;background:color-mix(in srgb,var(--ink) 55%,transparent);padding:8vh 16px 16px}
@@ -828,7 +1003,7 @@ body.in-hub .ed-topbar{display:none}
 .ed-toc.on{display:flex}
 .ed-toc-box{width:min(640px,100%);max-height:80vh;background:var(--ink);border:2px solid color-mix(in srgb,var(--paper) 26%,transparent);border-radius:var(--r3);box-shadow:var(--shadow-2);overflow:hidden;display:flex;flex-direction:column}
 .ed-toc-h{flex:none;display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid color-mix(in srgb,var(--paper) 16%,transparent);font-size:18px;font-weight:800;color:var(--paper)}
-.ed-toc-x{font:inherit;font-size:15px;color:var(--soft);background:none;border:1px solid color-mix(in srgb,var(--paper) 24%,transparent);border-radius:var(--r2);padding:8px 14px;min-width:44px;min-height:44px;cursor:pointer}
+.ed-toc-x{font:inherit;font-size:15px;color:var(--paper);background:none;border:1px solid color-mix(in srgb,var(--paper) 24%,transparent);border-radius:var(--r2);padding:8px 14px;min-width:44px;min-height:44px;cursor:pointer}
 .ed-toc-list{overflow:auto;padding:8px 0}
 .ed-toc-g{padding:10px 18px 4px;font-size:13px;font-weight:800;letter-spacing:1.5px;color:var(--accent-light)}
 .ed-toc-item{display:flex;align-items:baseline;gap:12px;width:100%;text-align:left;font:inherit;color:var(--paper);background:none;border:none;padding:12px 18px;min-height:48px;cursor:pointer;font-size:17px}
@@ -837,6 +1012,18 @@ body.in-hub .ed-topbar{display:none}
 .ed-toc-item.is-cur{color:var(--accent-light);font-weight:800}
 .ed-toc-item.is-cur .n{color:var(--accent-light)}
 
+/* ---------- 도움말 모달(H): #help 문구의 2열 단축키 시트 ---------- */
+.ed-help-modal{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;background:color-mix(in srgb,var(--ink) 55%,transparent)}
+.ed-help-modal.on{display:flex}
+.ed-hm-box{width:min(560px,calc(100vw - 32px));max-height:80vh;overflow:auto;background:var(--ink);border:2px solid color-mix(in srgb,var(--paper) 26%,transparent);border-radius:var(--r3);box-shadow:var(--shadow-2);padding:20px 24px;color:var(--paper);box-sizing:border-box}
+.ed-hm-h{display:flex;align-items:center;justify-content:space-between;padding-bottom:12px;border-bottom:1px solid color-mix(in srgb,var(--paper) 16%,transparent);margin-bottom:12px}
+.ed-hm-t{font-size:18px;font-weight:800}
+.ed-hm-x{font:inherit;font-size:15px;color:var(--paper);background:none;border:1px solid color-mix(in srgb,var(--paper) 24%,transparent);border-radius:var(--r2);padding:8px 14px;min-height:44px;cursor:pointer}
+.ed-hm-list{display:grid;grid-template-columns:1fr 1fr;gap:8px 24px}
+.ed-hm-row{display:flex;align-items:baseline;gap:8px;font-size:14px;color:var(--paper)}
+.ed-hm-d{color:color-mix(in srgb,var(--paper) 78%,transparent)}
+@media (max-width:640px){.ed-hm-list{grid-template-columns:1fr}}
+
 /* ---------- 토스트(팝업 차단 안내 등) ---------- */
 .ed-toast{position:fixed;left:50%;bottom:88px;transform:translateX(-50%);z-index:60;background:var(--ink);color:var(--paper);font:600 17px/1.5 sans-serif;padding:14px 24px;border-radius:var(--r3);border:2px solid var(--accent);box-shadow:var(--shadow-2);opacity:0;pointer-events:none;transition:opacity var(--m2) var(--e-out)}
 .ed-toast.on{opacity:1}
@@ -844,7 +1031,7 @@ body.in-hub .ed-topbar{display:none}
 /* ---------- 발표자 보기(?presenter) ---------- */
 body.st-presenter{overflow:hidden}
 body.st-presenter #stage{position:absolute;left:31%;top:37%;transform:translate(-50%,-50%) scale(var(--pres-s,.3))!important}
-body.st-presenter :is(#progress,#dots,#counter,#help,#notes,.ed-reader-nav,.ed-topbar,.ed-sch,.ed-toc,.st-panel,.st-modal,.st-print,.st-toast,.chk-back){display:none!important}
+body.st-presenter :is(#progress,#dots,#counter,#help,#notes,.ed-reader-nav,.ed-topbar,.ed-top,.ed-bot,.ed-chrome-pop,.ed-help-modal,.ed-sch,.ed-toc,.st-panel,.st-modal,.st-print,.st-toast,.chk-back){display:none!important}
 .ed-pres{position:fixed;left:64%;top:0;bottom:0;right:0;z-index:9;display:none;flex-direction:column;gap:14px;padding:20px 22px;background:var(--ink);color:var(--paper);font-family:inherit;box-sizing:border-box}
 body.st-presenter .ed-pres{display:flex}
 .ed-pres-clock{display:flex;align-items:baseline;gap:12px;font-variant-numeric:tabular-nums}
@@ -866,12 +1053,60 @@ body.st-presenter #stage,body.st-presenter #stage *,body.st-presenter .ed-pres-n
 
 /* 읽기 모드에서도 대화상자의 작은 글자는 16px 아래로 내리지 않는다 */
 html.ed-compact .ed-tbtn,html.ed-compact .ed-sch-item .s,html.ed-compact .ed-sch-in .kbd,
-html.ed-compact .ed-toc-g,html.ed-compact .ed-toc-item .n,html.ed-compact .ed-toc-x{font-size:16px}
+html.ed-compact .ed-toc-g,html.ed-compact .ed-toc-item .n,html.ed-compact .ed-toc-x,
+html.ed-compact .ed-chrome-pop .ed-tool,html.ed-compact .ed-hm-x{font-size:16px}
 html.ed-compact .ed-toc-item{font-size:18px}
 html.ed-compact .ed-sch-in input{font-size:18px}
 html.ed-compact .ed-sch-item{min-height:56px}
 
-@media print{.ed-topbar,.ed-sch,.ed-toc,.ed-toast,.ed-pres{display:none!important}}
+@media print{.ed-topbar,.ed-top,.ed-bot,.ed-chrome-pop,.ed-help-modal,.ed-sch,.ed-toc,.ed-toast,.ed-pres{display:none!important}}
+
+/* theme-switch.css — 저작 도구 테마 미리보기 패널(themes.js 가 만드는 #edThemes).
+   기본은 숨김 — ?themes=1·H 키로만 연다(일반 시청자에게 보이지 않는다).
+   패널 자체도 테마 토큰으로 칠해지므로 미리보기 전환을 따라감 — ink/paper 대비가
+   매트릭스로 보장되므로 모든 테마에서 읽힌다. 인쇄·접촉판·발표자 보기에서는 숨긴다. */
+
+#edThemes{position:fixed;top:56px;right:14px;z-index:30;width:292px;max-height:calc(100vh - 76px);
+  display:none;flex-direction:column;background:var(--paper);color:var(--ink);
+  border:2px solid var(--line);border-radius:var(--r2);box-shadow:var(--shadow-2);
+  font:500 15px/1.45 'Pretendard Variable','Apple SD Gothic Neo','Malgun Gothic',sans-serif}
+#edThemes.on{display:flex}
+#edThemes .ed-th-head{flex:none;display:flex;align-items:center;justify-content:space-between;
+  padding:12px 16px;border-bottom:2px solid var(--line);font-size:16px;font-weight:800}
+#edThemes .ed-th-x{font:inherit;font-size:14px;font-weight:700;color:var(--soft);background:none;
+  border:1px solid var(--line);border-radius:var(--r1);padding:4px 12px;cursor:pointer}
+#edThemes .ed-th-x:hover{border-color:var(--accent);color:var(--accent-text)}
+#edThemes .ed-th-note{flex:none;padding:8px 16px;font-size:13px;line-height:1.5;color:var(--soft);
+  border-bottom:1px solid var(--line)}
+#edThemes .ed-th-note b{color:var(--accent-text)}
+#edThemes .ed-th-list{flex:1;min-height:0;overflow-y:auto;padding:6px}
+#edThemes .ed-th-item{display:flex;align-items:center;gap:10px;width:100%;text-align:left;
+  font:inherit;font-size:15px;font-weight:700;color:var(--ink);background:none;
+  border:2px solid transparent;border-radius:var(--r1);padding:8px 10px;min-height:40px;cursor:pointer}
+#edThemes .ed-th-item:hover{background:var(--light)}
+#edThemes .ed-th-item.on{border-color:var(--accent);background:var(--light)}
+#edThemes .ed-th-dots{display:inline-flex;gap:4px;flex:none}
+#edThemes .ed-th-dots i{width:11px;height:11px;border-radius:50%;border:1px solid var(--line)}
+#edThemes .ed-th-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#edThemes .ed-th-tag{flex:none;font-size:11px;font-weight:800;color:var(--accent-text);
+  background:var(--light);border:1px solid var(--accent-light);border-radius:999px;
+  padding:2px 8px;letter-spacing:.5px}
+#edThemes .ed-th-legend{font-size:11px;color:var(--soft);letter-spacing:.3px}
+#edThemes .ed-th-foot{flex:none;display:flex;align-items:center;gap:10px;
+  padding:10px 16px;border-top:1px solid var(--line)}
+#edThemes .ed-th-reset{font:inherit;font-size:14px;font-weight:700;color:var(--accent-text);
+  background:var(--light);border:2px solid var(--accent-light);border-radius:var(--r1);
+  padding:6px 12px;cursor:pointer}
+#edThemes .ed-th-reset:hover{border-color:var(--accent)}
+#edThemes .ed-th-kbd{margin-left:auto;font-size:11px;color:var(--soft);letter-spacing:.5px}
+
+/* 발표 타이머(ed-talk)가 켜진 덱은 상단바가 커진다 — 그 아래로 내려 겹치지 않게 한다 */
+html.ed-talk #edThemes{top:108px;max-height:calc(100vh - 124px)}
+
+/* 캡처·발표 화면에는 패널이 나오지 않는다 */
+html.is-sheet #edThemes,html.is-shot #edThemes,body.st-printing #edThemes,
+body.st-presenter #edThemes,html.ed-deck:not(.ed-ready) #edThemes{display:none!important}
+@media print{#edThemes{display:none!important}}
 
 </style>
 <style>
@@ -961,17 +1196,24 @@ body{font-family:'Pretendard Variable','Apple SD Gothic Neo','Malgun Gothic','�
 /* 자습 패널: 화면 아래 고정. 먹색 바탕에 주황 레일 — 무대는 --st-top/--st-sc 로 위에 맞춘다 */
 body.st-self #stage{top:var(--st-top,50%) !important;transform:translate(-50%,-50%) scale(var(--st-sc,1)) !important}
 body.st-self .st-panel{display:block}
-body.st-self #progress,body.st-self #dots,body.st-self #counter,body.st-self #help{display:none}
+body.st-self #progress,body.st-self #dots,body.st-self #counter,body.st-self #help,body.st-self .ed-bot{display:none}
 
-/* 저자 검수 뷰어 모드(?sheet·?shot — assets/js/sheet.js): URL 파라미터로만 켜진다.
+/* 저자 검수 뷰어 모드(?check·?sheet·?shot — assets/js/sheet.js): URL 파라미터로만 켜진다.
+   ?check 는 검사기 표면 — 막대·부동 UI를 숨겨 check_deck(QUIET_CSS)이 보는 상태와 맞춘다.
    접촉판(?sheet)은 전 장을 3단 그리드(1/3 축소)로 늘어놓고 번호표를 단다 — diagrams.md 의
    “전 장 축소판을 직접 본다”를 URL 하나로. ?shot=N 은 한 장만 깨끗하게(캡처용).
    인쇄·발표 동작은 건드리지 않는다(파라미터 없으면 어떤 규칙도 걸리지 않는다). */
 @media screen{
+html.is-check :is(#progress,#dots,#counter,#help,.ed-top,.ed-bot,.ed-topbar,.ed-reader-nav,.ed-chrome-pop,.ed-help-modal,.ed-toast){display:none!important}
 html.is-sheet body,html.is-shot body{overflow:auto;height:auto;background:var(--paper)}
 html.is-sheet #progress,html.is-sheet #dots,html.is-sheet #counter,html.is-sheet #help,
 html.is-shot #progress,html.is-shot #dots,html.is-shot #counter,html.is-shot #help,
-html.is-sheet .ed-reader-nav,html.is-shot .ed-reader-nav{display:none}
+html.is-sheet .ed-reader-nav,html.is-shot .ed-reader-nav,
+html.is-sheet .ed-top,html.is-sheet .ed-bot,html.is-sheet .ed-chrome-pop,html.is-sheet .ed-help-modal,
+html.is-shot .ed-top,html.is-shot .ed-bot,html.is-shot .ed-chrome-pop,html.is-shot .ed-help-modal,
+/* 크롬 안에 들어간 요소도 개별 display:none 유지(검사 도구가 자식 computed 값을 읽는다 — .is-segs 전시보다 구체적으로) */
+html.is-sheet .ed-bot :is(#progress,#dots,#counter),
+html.is-shot .ed-bot :is(#progress,#dots,#counter){display:none}
 body.st-sheet .step-hide{visibility:visible !important} /* 인쇄와 같은 정적 완결 */
 html.is-sheet #stage{position:static !important;transform:none !important;left:auto;top:auto;
   width:max-content;display:grid;grid-template-columns:repeat(var(--sheet-cols,3),640px);gap:16px;padding:16px;
@@ -1186,7 +1428,7 @@ body.st-fold .st-ph{padding-bottom:0}
   #stage{position:static;transform:none !important;width:1920px;height:auto}
   .slide{position:relative;display:flex !important;break-after:page;page-break-after:always}
   .step-hide{visibility:visible !important}
-  #progress,#dots,#counter,#help,#notes{display:none !important}
+  #progress,#dots,#counter,#help,#notes,.ed-top,.ed-bot,.ed-chrome-pop,.ed-help-modal{display:none !important}
   /* 인쇄 창에서 '배경 그래픽'을 꺼도 어두운·주황 바탕과 칩 색을 남긴다 */
   *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
   /* 표지를 한 번도 열지 않고 인쇄하면 등장 애니메이션 전 상태(투명)로 찍히므로 바로 보이게 한다 */
@@ -1412,7 +1654,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 
 /* ── 수준 카드 ─────────────────────────────────────────── */
 .lv{display:flex;flex-direction:column;gap:8px;background:var(--paper);border:2px solid var(--line);border-left:8px solid var(--line);border-radius:var(--r1);padding:16px 24px}
-.lv-bar{height:10px;border-radius:var(--r1);background:linear-gradient(90deg,var(--accent),var(--accent-light))}
+.lv-bar{height:10px;border-radius:var(--r1);background:var(--accent)}
 .lv h4{font-size:30px;font-weight:700}
 .lv p{font-size:25px;color:var(--soft)}
 
@@ -1508,6 +1750,54 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 .screen-cite .sc-date{font-size:24px;color:var(--soft)}
 .screen-cite .sc-gist{font-size:26px;line-height:1.45;color:var(--soft)}
 .screen-cite .sc-gist b{color:var(--accent-text);font-weight:800}
+
+/* ---- theme-switch.css ---- */
+/* theme-switch.css — 저작 도구 테마 미리보기 패널(themes.js 가 만드는 #edThemes).
+   기본은 숨김 — ?themes=1·H 키로만 연다(일반 시청자에게 보이지 않는다).
+   패널 자체도 테마 토큰으로 칠해지므로 미리보기 전환을 따라감 — ink/paper 대비가
+   매트릭스로 보장되므로 모든 테마에서 읽힌다. 인쇄·접촉판·발표자 보기에서는 숨긴다. */
+
+#edThemes{position:fixed;top:56px;right:14px;z-index:30;width:292px;max-height:calc(100vh - 76px);
+  display:none;flex-direction:column;background:var(--paper);color:var(--ink);
+  border:2px solid var(--line);border-radius:var(--r2);box-shadow:var(--shadow-2);
+  font:500 15px/1.45 'Pretendard Variable','Apple SD Gothic Neo','Malgun Gothic',sans-serif}
+#edThemes.on{display:flex}
+#edThemes .ed-th-head{flex:none;display:flex;align-items:center;justify-content:space-between;
+  padding:12px 16px;border-bottom:2px solid var(--line);font-size:16px;font-weight:800}
+#edThemes .ed-th-x{font:inherit;font-size:14px;font-weight:700;color:var(--soft);background:none;
+  border:1px solid var(--line);border-radius:var(--r1);padding:4px 12px;cursor:pointer}
+#edThemes .ed-th-x:hover{border-color:var(--accent);color:var(--accent-text)}
+#edThemes .ed-th-note{flex:none;padding:8px 16px;font-size:13px;line-height:1.5;color:var(--soft);
+  border-bottom:1px solid var(--line)}
+#edThemes .ed-th-note b{color:var(--accent-text)}
+#edThemes .ed-th-list{flex:1;min-height:0;overflow-y:auto;padding:6px}
+#edThemes .ed-th-item{display:flex;align-items:center;gap:10px;width:100%;text-align:left;
+  font:inherit;font-size:15px;font-weight:700;color:var(--ink);background:none;
+  border:2px solid transparent;border-radius:var(--r1);padding:8px 10px;min-height:40px;cursor:pointer}
+#edThemes .ed-th-item:hover{background:var(--light)}
+#edThemes .ed-th-item.on{border-color:var(--accent);background:var(--light)}
+#edThemes .ed-th-dots{display:inline-flex;gap:4px;flex:none}
+#edThemes .ed-th-dots i{width:11px;height:11px;border-radius:50%;border:1px solid var(--line)}
+#edThemes .ed-th-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#edThemes .ed-th-tag{flex:none;font-size:11px;font-weight:800;color:var(--accent-text);
+  background:var(--light);border:1px solid var(--accent-light);border-radius:999px;
+  padding:2px 8px;letter-spacing:.5px}
+#edThemes .ed-th-legend{font-size:11px;color:var(--soft);letter-spacing:.3px}
+#edThemes .ed-th-foot{flex:none;display:flex;align-items:center;gap:10px;
+  padding:10px 16px;border-top:1px solid var(--line)}
+#edThemes .ed-th-reset{font:inherit;font-size:14px;font-weight:700;color:var(--accent-text);
+  background:var(--light);border:2px solid var(--accent-light);border-radius:var(--r1);
+  padding:6px 12px;cursor:pointer}
+#edThemes .ed-th-reset:hover{border-color:var(--accent)}
+#edThemes .ed-th-kbd{margin-left:auto;font-size:11px;color:var(--soft);letter-spacing:.5px}
+
+/* 발표 타이머(ed-talk)가 켜진 덱은 상단바가 커진다 — 그 아래로 내려 겹치지 않게 한다 */
+html.ed-talk #edThemes{top:108px;max-height:calc(100vh - 124px)}
+
+/* 캡처·발표 화면에는 패널이 나오지 않는다 */
+html.is-sheet #edThemes,html.is-shot #edThemes,body.st-printing #edThemes,
+body.st-presenter #edThemes,html.ed-deck:not(.ed-ready) #edThemes{display:none!important}
+@media print{#edThemes{display:none!important}}
 
 </style>
 </head>
@@ -1630,7 +1920,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 <!-- ==== 01-microservices.html ==== -->
 <section class="slide" data-archetype="arch-diagram" style="gap:20px">
   <div class="head"><p class="eyebrow">가상 예시 · 아키텍처 1/4 — Microservices</p><h2 class="title">마이크로서비스: 동기 호출과 이벤트가 공존하는 길</h2></div>
-  <svg class="dg" viewBox="0 0 1664 724" role="img" aria-label="가상 예시 마이크로서비스 구성도: 클라이언트가 게이트웨이와 인증을 거쳐 앱과 검색에 닿고, 이벤트 버스를 통해 워커와 알림이 데이터 저장소에 쓴다">
+  <svg class="dg" data-lint="svg-diagram" viewBox="0 0 1664 724" role="img" aria-label="가상 예시 마이크로서비스 구성도: 클라이언트가 게이트웨이와 인증을 거쳐 앱과 검색에 닿고, 이벤트 버스를 통해 워커와 알림이 데이터 저장소에 쓴다">
   <title>마이크로서비스 — 가상 예시</title>
   <g data-step="1">
     <rect class="k-frame" x="303" y="30" width="468" height="608" style="rx:12px"/>
@@ -1782,7 +2072,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 <!-- ==== 02-layered.html ==== -->
 <section class="slide" data-archetype="arch-diagram" style="gap:20px">
   <div class="head"><p class="eyebrow">가상 예시 · 아키텍처 2/4 — Layered</p><h2 class="title">레이어드 아키텍처: 위층이 아래층만 부른다</h2></div>
-  <svg class="dg" viewBox="0 0 1664 736" role="img" aria-label="가상 예시 레이어드 아키텍처: 표현층 웹·API·관리자가 응용층 주문·결제·도메인을 부르고, 응용층이 데이터층 DB·캐시를 부르며 로깅은 횡단 관심사로 둔다">
+  <svg class="dg" data-lint="svg-diagram" viewBox="0 0 1664 736" role="img" aria-label="가상 예시 레이어드 아키텍처: 표현층 웹·API·관리자가 응용층 주문·결제·도메인을 부르고, 응용층이 데이터층 DB·캐시를 부르며 로깅은 횡단 관심사로 둔다">
   <title>레이어드 아키텍처 — 가상 예시</title>
   <g data-step="1">
     <rect class="k-frame" x="508" y="30" width="648" height="208" style="rx:12px"/>
@@ -1901,7 +2191,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 <!-- ==== 03-topology.html ==== -->
 <section class="slide" data-archetype="arch-diagram" style="gap:20px">
   <div class="head"><p class="eyebrow">가상 예시 · 아키텍처 3/4 — Network Topology</p><h2 class="title">네트워크 토폴로지: 인입부터 DB까지의 물리 경로</h2></div>
-  <svg class="dg" viewBox="0 0 1664 508" role="img" aria-label="가상 예시 네트워크 토폴로지: 인터넷 트래픽이 방화벽과 로드밸런서를 지나 이중 스위치와 웹 서버 두 대로 퍼지고 두 서버가 데이터베이스에 접속한다">
+  <svg class="dg" data-lint="svg-diagram" viewBox="0 0 1664 508" role="img" aria-label="가상 예시 네트워크 토폴로지: 인터넷 트래픽이 방화벽과 로드밸런서를 지나 이중 스위치와 웹 서버 두 대로 퍼지고 두 서버가 데이터베이스에 접속한다">
   <title>네트워크 토폴로지 — 가상 예시</title>
   <g data-step="1">
     <rect class="k-frame" x="284" y="30" width="476" height="392" style="rx:12px"/>
@@ -2014,7 +2304,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 <section class="slide" data-archetype="arch-diagram" style="gap:20px">
   <div class="head"><p class="eyebrow">아이소메트릭 · Deployment</p><h2 class="title">요청 한 건이 데이터센터 안에서 지나는 세 개의 층</h2></div>
   <figure class="fig-slot">
-<svg class="dg" viewBox="0 0 1664 785" role="img" aria-label="아이소메트릭 데이터센터 구성도. 사용자가 로드밸런서를 거쳐 앱 서버 두 대에 들어가고, 코어 스위치를 거쳐 스토리지 두 대에 이어진다.">
+<svg class="dg" data-lint="svg-diagram" viewBox="0 0 1664 785" role="img" aria-label="아이소메트릭 데이터센터 구성도. 사용자가 로드밸런서를 거쳐 앱 서버 두 대에 들어가고, 코어 스위치를 거쳐 스토리지 두 대에 이어진다.">
 <title>아이소메트릭 데이터센터 — 사용자 요청이 서버·스토리지까지 가는 경로</title>
 <g transform="translate(993.6 -15)">
 <g data-arch-zone="dc" data-zone-kind="zone">
@@ -2110,7 +2400,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 <!-- ==== 05-ha.html ==== -->
 <section class="slide" data-archetype="arch-diagram" style="gap:20px">
   <div class="head"><p class="eyebrow">가상 예시 · 아키텍처 4/4 — High Availability</p><h2 class="title">고가용성: Active–Standby 페일오버 6단계</h2></div>
-  <svg class="dg" viewBox="0 0 1664 508" role="img" aria-label="가상 예시 고가용성 구성도: 활성 앱과 대기 앱이 로드밸런서 뒤에 있고, 헬스체크가 장애를 감지하면 대기 앱과 복제 DB로 승격된다">
+  <svg class="dg" data-lint="svg-diagram" viewBox="0 0 1664 508" role="img" aria-label="가상 예시 고가용성 구성도: 활성 앱과 대기 앱이 로드밸런서 뒤에 있고, 헬스체크가 장애를 감지하면 대기 앱과 복제 DB로 승격된다">
   <title>HA 페일오버 — 가상 예시</title>
   <g data-step="1">
     <rect class="k-frame" x="704" y="30" width="776" height="392" style="rx:12px"/>
@@ -2222,7 +2512,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 <section class="slide" data-archetype="arch-diagram" style="gap:20px">
   <div class="head"><p class="eyebrow">아이소메트릭 · Context</p><h2 class="title">온프렘과 클라우드를 가르는 선은 방화벽 옆에 있다</h2></div>
   <figure class="fig-slot">
-<svg class="dg" viewBox="0 0 1664 796" role="img" aria-label="하이브리드 클라우드 구성도. 온프렘 앱이 방화벽을 지나 VPN 으로 클라우드 게이트웨이에 닿고, 그 너머 오브젝트 저장소와 분석 워커로 이어진다. 신뢰 경계는 방화벽과 클라우드 게이트웨이 사이에 있다.">
+<svg class="dg" data-lint="svg-diagram" viewBox="0 0 1664 796" role="img" aria-label="하이브리드 클라우드 구성도. 온프렘 앱이 방화벽을 지나 VPN 으로 클라우드 게이트웨이에 닿고, 그 너머 오브젝트 저장소와 분석 워커로 이어진다. 신뢰 경계는 방화벽과 클라우드 게이트웨이 사이에 있다.">
 <title>하이브리드 클라우드 — 온프렘에서 클라우드로 건너가는 지점</title>
 <g transform="translate(554 185)">
 <g data-arch-zone="onprem" data-zone-kind="zone">
@@ -2304,7 +2594,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 <div id="progress"></div>
 <div id="dots"></div>
 <div id="counter"></div>
-<div id="help">→ 다음 (한 단계씩) · ← 이전 · F 전체화면 · N 발표자 노트 · S 자습 · P 인쇄 · G 끝까지 재생 · M 자동 완주(장 진입 시) · D 용어집 · A 자동 발표 · E 편집</div>
+<div id="help">→ 다음 (한 단계씩) · ← 이전 · F 전체화면 · N 발표자 노트 · S 자습 · P 인쇄 · G 끝까지 재생 · M 자동 완주(퀴즈 장은 멈춤) · D 용어집 · A 자동 발표 · E 편집 · T 테마 미리보기 · H 도움말</div>
 <div id="notes"><div class="h">발표자 노트 (N으로 닫기)</div><div id="notesText"></div></div>
 
 <script>/* Shared on-screen reader. It never owns lesson state: deckGo/step events and
@@ -2401,7 +2691,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
   /* 화면 위·아래를 가리는 고정 크롬의 실측 경계. 위쪽 막대가 비어 있거나 둘 다
      숨겨졌으면 그쪽 화면 가장자리를 쓴다(장 맞춤·배율의 세로 여유 기준). */
   function chrome(){
-    var tb=document.querySelector('.ed-topbar'),nv=document.querySelector('.ed-reader-nav');
+    var tb=document.querySelector('.ed-top')||document.querySelector('.ed-topbar'),nv=document.querySelector('.ed-reader-nav');
     return {
       top:(tb&&tb.getClientRects().length)?tb.getBoundingClientRect().bottom:0,
       bot:(nv&&nv.getClientRects().length)?nv.getBoundingClientRect().top:window.innerHeight
@@ -3719,8 +4009,17 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
   window.eduPatterns={};
 })();
 
-/* viewer.js — 검색(Ctrl+K·/), 목차(O·상단 단추), data-fit 제목 맞춤, 엔진 준비 표시.
-   solo·pack·series 포털에 공통 탑재. series 에서는 편 안(.deck.on) 기준으로 동작한다. */
+/* viewer.js — 검색(Ctrl+K·/), 목차(O·상단 단추), 상·하단 크롬(.ed-top/.ed-bot),
+   data-fit 제목 맞춤, 엔진 준비 표시.
+   solo·pack·series 포털에 공통 탑재. series 에서는 편 안(.deck.on) 기준으로 동작한다.
+
+   크롬 계약:
+   - .ed-top(44px)·.ed-bot(48px)은 무대 위 오버레이 — 유휴 2.5s 후 자동 숨김,
+     가장자리 접근·키·터치·포커스로 복귀, 핀 버튼(localStorage ed-chrome-pin)으로 고정.
+   - 기존 id 계약 유지: .ed-topbar(도구 띠) · #ed-clock · #progress · #dots · #counter · #help.
+     #progress/#dots/#counter 는 .ed-bot 안으로 옮겨진다(엔진이 계속 갱신한다).
+   - #help 는 DOM 에만 남는 문구 소스(display:none). 시각 표시는 .ed-help-modal 단축키 시트.
+   - ?sheet/?shot/인쇄/발표자/허브/미준비 표면은 CSS 가 막대를 숨긴다(무대 치수 불변). */
 (function(){
 var doc=document, root=doc.documentElement, body=doc.body;
 var SERIES=function(){return !!window.seriesInfo;};
@@ -3732,14 +4031,54 @@ function slideEntries(){ /* [{ep,idx,el,eyebrow,title,text}] — series 면 모�
  else{slidesOf(doc.getElementById('stage')).forEach(function(s,i){out.push({ep:null,idx:i,el:s});});}
  return out;
 }
-function curInfo(){try{return window.deckInfo?deckInfo():{};}catch(e){return{};}}
+function curInfo(){try{return window.deckInfo?deckInfo():{};}catch(e){return{}};}
 function goTo(ent){if(!ent)return;if(ent.ep!=null&&SERIES())deckGo(ent.ep,ent.idx,0);else deckGo(ent.idx,0);}
 
-/* ---------- 상단 바 ---------- */
-var bar=null,searchBox=null,searchInput=null,searchList=null,tocBox=null,tocList=null,toastEl=null,toastT=null;
+/* ---------- 상·하단 크롬 ---------- */
+var bar=null,topEl=null,botEl=null,crumbEl=null,brandTxt='',pageInput=null,pageEcho=null,
+    searchBox=null,searchInput=null,searchList=null,tocBox=null,tocList=null,toastEl=null,toastT=null,
+    helpEl=null,helpBtn=null,helpModal=null,helpLastFocus=null,
+    prevBtn=null,nextBtn=null,moreBtn=null,morePop=null,pinBtn=null,
+    segBox=null,chromePin=false,chromeT=null,chromeHover=false;
 function el(tag,cls,txt){var e=doc.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;}
 function toast(msg){if(!toastEl){toastEl=el('div','ed-toast');body.appendChild(toastEl);}toastEl.textContent=msg;toastEl.classList.add('on');clearTimeout(toastT);toastT=setTimeout(function(){toastEl.classList.remove('on');},2600);}
 window.edToast=toast;
+function press(k){doc.dispatchEvent(new KeyboardEvent('keydown',{key:k,bubbles:true,cancelable:true}));}
+
+/* 24 viewBox 윤곽 아이콘(윤곽선: fill none·stroke currentColor·width 2·round). 라벨은 .ed-tl span. */
+var IC={
+ toc:'<path d="M3 5h.01M3 12h.01M3 19h.01M8 5h13M8 12h13M8 19h13"/>',
+ search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+ notes:'<path d="M4 4h16v12H8l-4 4z"/><path d="M8 9h8M8 12h5"/>',
+ terms:'<path d="M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2z"/><path d="M22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z"/>',
+ study:'<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>',
+ clock:'<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5"/><path d="M9 2h6"/>',
+ theme:'<circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18v0"/><circle cx="8.5" cy="10" r="1.1"/><circle cx="12" cy="8" r="1.1"/><circle cx="15.5" cy="10" r="1.1"/>',
+ print:'<path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/>',
+ help:'<circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>',
+ full:'<path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"/>',
+ pin:'<path d="M12 17v5"/><path d="M8 3h8l-1 7 3 3v2H6v-2l3-3z"/>',
+ more:'<circle cx="5" cy="12" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="19" cy="12" r="1.7"/>',
+ prev:'<path d="M15 18l-6-6 6-6"/>',
+ next:'<path d="M9 18l6-6-6-6"/>'
+};
+function ic(name){
+ var s=doc.createElementNS('http://www.w3.org/2000/svg','svg');
+ s.setAttribute('viewBox','0 0 24 24');s.setAttribute('class','ed-ic');s.setAttribute('aria-hidden','true');
+ s.innerHTML=IC[name];return s;
+}
+/* 도구 버튼: 아이콘+라벨(+선택 kbd). label·title·aria-label·aria-keyshortcuts 일치 */
+function toolBtn(icon,label,key,onclick,kbdTxt){
+ var b=el('button','ed-tbtn ed-tool');b.type='button';
+ var a=label+(key?' ('+key+')':'');
+ b.setAttribute('aria-label',a);b.title=a;
+ if(key)b.setAttribute('aria-keyshortcuts',key);
+ b.appendChild(ic(icon));
+ b.appendChild(el('span','ed-tl',label));
+ if(kbdTxt)b.appendChild(el('kbd','ed-kbd',kbdTxt));
+ b.addEventListener('click',function(e){e.stopPropagation();onclick();});
+ return b;
+}
 
 /* ---------- 검색 ---------- */
 var INDEX=null;
@@ -3814,6 +4153,326 @@ function tocKeys(e){
  else if(e.key==='Escape'){e.preventDefault();e.stopPropagation();closeToc();}
 }
 
+/* ---------- 도움말 모달: #help 의 문구를 2열 단축키 시트로 시각화한다 ---------- */
+function buildHelp(){
+ if(helpModal)return;
+ helpModal=el('div','ed-help-modal');helpModal.setAttribute('role','dialog');
+ helpModal.setAttribute('aria-modal','true');helpModal.setAttribute('aria-label','도움말 — 키 안내');
+ var box=el('div','ed-hm-box'),head=el('div','ed-hm-h');
+ head.appendChild(el('span','ed-hm-t','도움말'));
+ var x=el('button','ed-hm-x','닫기 (Esc)');x.type='button';
+ x.addEventListener('click',function(){toggleHelpModal(false);});
+ head.appendChild(x);box.appendChild(head);
+ var list=el('div','ed-hm-list');
+ /* #help 의 "키 설명 · 키 설명 …" 문자열을 kbd·설명 쌍으로 나눈다(talk 덱은 talk.js 가 뒤에 덧붙인다) */
+ var src=(helpEl?helpEl.textContent:'').replace(/\s+/g,' ').trim();
+ src.split('·').forEach(function(item){
+  item=item.trim();if(!item)return;
+  var m=item.match(/^(\S+)\s+(.+)$/);
+  var row=el('div','ed-hm-row'),kk=el('span','ed-hm-k');
+  kk.appendChild(el('kbd','ed-kbd',m?m[1]:item));
+  row.appendChild(kk);
+  row.appendChild(el('span','ed-hm-d',m?m[2]:''));
+  list.appendChild(row);
+ });
+ box.appendChild(list);helpModal.appendChild(box);body.appendChild(helpModal);
+ helpModal.addEventListener('click',function(e){if(e.target===helpModal)toggleHelpModal(false);});
+ helpModal.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){e.preventDefault();e.stopPropagation();toggleHelpModal(false);return;}
+  if(e.key==='Tab'){ /* 대화상자 안에서 포커스 순환 */
+   var f=[].slice.call(helpModal.querySelectorAll('button'));if(!f.length)return;
+   var i=f.indexOf(doc.activeElement);
+   if(e.shiftKey&&i<=0){e.preventDefault();f[f.length-1].focus();}
+   else if(!e.shiftKey&&i===f.length-1){e.preventDefault();f[0].focus();}
+  }
+ });
+}
+function toggleHelpModal(on){
+ buildHelp();
+ var opening=on===undefined?!helpModal.classList.contains('on'):on;
+ if(opening){
+  helpLastFocus=doc.activeElement;
+  helpModal.classList.add('on');reveal();clearTimeout(chromeT);
+  var f=helpModal.querySelector('button');if(f)f.focus();
+ }else{
+  helpModal.classList.remove('on');
+  if(helpLastFocus&&helpLastFocus.focus)helpLastFocus.focus();helpLastFocus=null;
+  arm();
+ }
+}
+
+/* ---------- 크롬 자동 숨김(핀 고정 시 상시) ---------- */
+var HIDING_LAYER='.ed-sch.on,.ed-toc.on,.ed-help-modal.on,.st-modal.st-show,.st-print.st-show';
+function focusInBars(){var a=doc.activeElement;return a&&((topEl&&topEl.contains(a))||(botEl&&botEl.contains(a)));}
+function reveal(){body.classList.add('ed-chrome-on');[topEl,botEl].forEach(function(b){if(b)b.inert=false;});}
+function arm(){clearTimeout(chromeT);if(chromePin)return;chromeT=setTimeout(hide,2500);}
+function hide(){
+ if(chromePin||chromeHover||focusInBars()){arm();return;}
+ if(doc.querySelector(HIDING_LAYER)){arm();return;}
+ body.classList.remove('ed-chrome-on');
+ [topEl,botEl].forEach(function(b){if(b)b.inert=true;});
+}
+function poke(){reveal();arm();}
+function setPin(on){
+ chromePin=on;try{localStorage.setItem('ed-chrome-pin',on?'1':'0');}catch(e){}
+ if(pinBtn)pinBtn.setAttribute('aria-pressed',on?'true':'false');
+ if(on){reveal();clearTimeout(chromeT);}else arm();
+}
+
+/* ---------- 진행 세그먼트·단계 점·쪽 번호 ---------- */
+function currentEnts(){
+ var ents=slideEntries(),info=curInfo();
+ if(SERIES()&&info.ep!=null)ents=ents.filter(function(e){return String(e.ep)===String(info.ep);});
+ return ents;
+}
+function buildSegs(){
+ var info=curInfo(),ents=currentEnts(),prog=doc.getElementById('progress');
+ if(!prog)return;
+ prog.innerHTML='';
+ if(ents.length>60){prog.classList.remove('is-segs');return;} /* 과밀: 연속 막대 폴백(엔진 scaleX) */
+ prog.classList.add('is-segs');
+ ents.forEach(function(ent,i){
+  var b=el('button','ed-seg');b.type='button';
+  var t=ent.el.querySelector('.title,.big,h2,h1');
+  b.setAttribute('aria-label',(i+1)+'장 '+(t?t.textContent.trim():''));
+  b.title=(i+1)+'장';b.appendChild(el('i'));
+  (function(k){b.addEventListener('click',function(e){e.stopPropagation();goTo(currentEnts()[k]);});})(i);
+  prog.appendChild(b);
+ });
+}
+function paintSegs(){
+ var info=curInfo(),prog=doc.getElementById('progress');
+ if(!prog||!prog.classList.contains('is-segs'))return;
+ var segs=prog.children,frac;
+ for(var i=0;i<segs.length;i++){
+  var f=segs[i].querySelector('i');
+  if(i<info.slide)frac=1;
+  else if(i===info.slide)frac=info.maxStep?(info.step/info.maxStep):1;
+  else frac=0;
+  f.style.width=(frac*100)+'%';
+  segs[i].classList.toggle('is-past',i<info.slide);
+  segs[i].setAttribute('aria-current',i===info.slide?'true':'false');
+ }
+}
+function paintPage(){
+ var info=curInfo(),c=doc.getElementById('counter');
+ if(pageInput)pageInput.value=(info.slide+1);
+ if(c){c.textContent='/ '+(info.count||0);c.setAttribute('data-text',(info.slide+1)+' / '+(info.count||0));}
+ if(pageEcho)pageEcho.textContent=(info.slide+1)+' / '+(info.count||0);
+ if(prevBtn){var atFirst=info.slide===0&&info.step===0;prevBtn.disabled=atFirst;prevBtn.setAttribute('aria-disabled',atFirst?'true':'false');}
+ if(nextBtn){var atLast=info.slide===info.count-1&&info.step>=info.maxStep;nextBtn.disabled=atLast;nextBtn.setAttribute('aria-disabled',atLast?'true':'false');}
+ if(crumbEl){
+  var ents=currentEnts(),ent=ents[info.slide];
+  if(ent){var eb=(ent.el.querySelector('.eyebrow')||{}).textContent||'',t=ent.el.querySelector('.title,.big,h2,h1');
+   var txt=((eb.trim()?eb.trim()+' · ':'')+(t?t.textContent.trim():'')).replace(/\s+/g,' ').trim();
+   /* 크럼브가 덱 제목과 같으면(보통 표지) 브랜드와 문구가 겹치니 생략한다 */
+   crumbEl.textContent=(txt===brandTxt)?'':txt;}
+ }
+}
+/* 엔진이 쓰는 <i> 단계 점을 접근 가능한 버튼으로 승격한다(내용은 엔진 소유) */
+function upgradeDots(){
+ var pips=doc.getElementById('dots');if(!pips)return;
+ [].slice.call(pips.querySelectorAll('i')).forEach(function(x,i){
+  if(x.getAttribute('role'))return;
+  x.setAttribute('role','button');x.setAttribute('tabindex','0');
+  x.setAttribute('aria-label','단계 '+(i+1));
+ });
+}
+function gotoStepDot(dot){
+ var pips=doc.getElementById('dots');if(!pips||!window.deckGo)return;
+ var i=[].slice.call(pips.children).indexOf(dot);if(i<0)return;
+ var info=curInfo();
+ if(SERIES()&&info.ep!=null)deckGo(info.ep,info.slide,i+1);else deckGo(info.slide,i+1);
+}
+
+/* ---------- 더보기 ⋯ 팝오버(좁은 창·compact) ---------- */
+var toolOrder=[];
+function closePop(){if(morePop)morePop.classList.remove('on');if(moreBtn)moreBtn.setAttribute('aria-expanded','false');}
+function togglePop(){if(!morePop)return;var on=!morePop.classList.contains('on');morePop.classList.toggle('on',on);moreBtn.setAttribute('aria-expanded',on?'true':'false');}
+function refitChrome(){
+ if(!bar||!morePop)return;
+ /* 전부 도구 띠로 되돌린 뒤 넘치는 만큼 뒤에서부터 팝오버로 옮긴다 */
+ while(morePop.firstChild)bar.appendChild(morePop.firstChild);
+ toolOrder.forEach(function(node){bar.appendChild(node);});
+ var compact=root.classList.contains('ed-compact');
+ if(compact){toolOrder.forEach(function(n){morePop.appendChild(n);});return;}
+ var guard=60;
+ while(guard-->0&&bar.scrollWidth>bar.clientWidth&&bar.children.length){
+  var last=bar.lastElementChild;if(!last)break;
+  morePop.insertBefore(last,morePop.firstChild);
+ }
+}
+window.addEventListener('resize',function(){refitChrome();});
+
+/* ---------- 크롬 조립 ---------- */
+function buildChrome(){
+ var PACK=!!doc.querySelector('meta[name="edu-deck-resource-pack"]');
+ var isSheet=root.classList.contains('is-sheet')||root.classList.contains('is-shot');
+ try{chromePin=localStorage.getItem('ed-chrome-pin')==='1';}catch(e){}
+
+ topEl=el('div','ed-top');
+ var brand=el('div','ed-brand'),t=el('b',null,(doc.title||'').replace(/\s+/g,' ').trim());
+ brandTxt=t.textContent;
+ crumbEl=el('span','ed-crumb');
+ brand.appendChild(t);brand.appendChild(crumbEl);topEl.appendChild(brand);
+ bar=el('nav','ed-topbar');bar.setAttribute('aria-label','도구');
+
+ function sep(){var s=el('i','ed-sep');s.setAttribute('aria-hidden','true');return s;}
+ var groups=[],g;
+
+ g=[];
+ g.push(toolBtn('toc','목차','O',openToc));
+ g.push(toolBtn('search','검색','Ctrl+K',openSearch,'/'));
+ groups.push(g);
+
+ g=[];
+ if(doc.querySelector('.slide .notes, .slide aside.notes')){
+  var bn=toolBtn('notes','노트','N',function(){press('n');});
+  bn.setAttribute('aria-pressed','false');g.push(bn);
+  new MutationObserver(function(){
+   var n=doc.getElementById('notes');
+   bn.setAttribute('aria-pressed',n&&n.style.display==='block'?'true':'false');
+  }).observe(doc.getElementById('notes'),{attributes:true,attributeFilter:['style']});
+ }
+ var DATA=window.EDU_STUDY||{};
+ if(Array.isArray(DATA.glossary)&&DATA.glossary.length){
+  g.push(toolBtn('terms','용어','D',function(){press('d');}));
+ }
+ if(window.EDU_STUDY){
+  var bs=toolBtn('study','자습','S',function(){press('s');});
+  bs.setAttribute('aria-pressed','false');g.push(bs);
+  new MutationObserver(function(){
+   bs.setAttribute('aria-pressed',body.classList.contains('st-self')?'true':'false');
+  }).observe(body,{attributes:true,attributeFilter:['class']});
+ }
+ /* 발표 타이머: #ed-clock 을 도구 버튼으로 승격(내용은 talk.js 가 칠한다).
+    발표 덱(EDU_STUDY.talk)이나 ?presenter 에서만 만든다 — 기능 없는 덱엔 버튼 자체가 없다 */
+ var _pp=new URLSearchParams(location.search);
+ if((window.EDU_STUDY&&window.EDU_STUDY.talk)||_pp.has('presenter')){
+  var clock=el('button','ed-tbtn ed-tool ed-clock');clock.id='ed-clock';clock.type='button';
+  clock.setAttribute('aria-label','타이머 시작·멈춤 (X)');clock.title='타이머 시작·멈춤 (X) · 처음부터 (R · Shift+클릭)';
+  clock.setAttribute('aria-keyshortcuts','X');
+  clock.appendChild(ic('clock'));clock.appendChild(el('span','t'));
+  g.push(clock);
+ }
+ if(g.length)groups.push(g);
+
+ var P=new URLSearchParams(location.search);
+ if(P.has('themes')&&window.eduThemePreview){
+  var bt=toolBtn('theme','테마','T',function(){if(window.eduThemePreview)window.eduThemePreview.toggle();});
+  groups.push([bt]);
+ }
+
+ g=[];
+ g.push(toolBtn('print','인쇄','P',function(){press('p');}));
+ g.push(toolBtn('full','전체','F',function(){press('f');}));
+ if(!PACK&&helpEl){
+  helpBtn=toolBtn('help','도움말','H',function(){toggleHelpModal();},'H');
+  g.push(helpBtn);
+ }
+ pinBtn=toolBtn('pin','핀',null,function(){setPin(!chromePin);});
+ pinBtn.classList.add('ed-pin');
+ pinBtn.setAttribute('aria-pressed',chromePin?'true':'false');
+ pinBtn.title='막대 항상 표시 고정';
+ g.push(pinBtn);
+ groups.push(g);
+
+ groups.forEach(function(gr,i){
+  if(i>0)bar.appendChild(sep());
+  gr.forEach(function(b){bar.appendChild(b);});
+ });
+ toolOrder=[].slice.call(bar.children);
+ topEl.appendChild(bar);
+
+ moreBtn=el('button','ed-more');moreBtn.type='button';
+ moreBtn.setAttribute('aria-label','도구 더보기');moreBtn.setAttribute('aria-expanded','false');
+ moreBtn.appendChild(ic('more'));
+ moreBtn.addEventListener('click',function(e){e.stopPropagation();togglePop();});
+ topEl.appendChild(moreBtn);
+ morePop=el('div','ed-chrome-pop');
+ body.appendChild(topEl);body.appendChild(morePop);
+
+ /* 하단 막대: 기존 #progress·#dots·#counter 를 옮겨 담는다(엔진이 계속 갱신) */
+ botEl=el('div','ed-bot');
+ var track=el('div','ed-prog-track');
+ var prog=doc.getElementById('progress');if(prog)track.appendChild(prog);
+ botEl.appendChild(track);
+ var pips=doc.getElementById('dots');
+ if(pips){
+  pips.removeAttribute('aria-hidden');
+  pips.addEventListener('click',function(e){
+   var d=e.target.closest&&e.target.closest('i');if(d){e.stopPropagation();gotoStepDot(d);}
+  });
+  pips.addEventListener('keydown',function(e){
+   if(e.key!=='Enter'&&e.key!==' ')return;
+   var d=e.target.closest&&e.target.closest('i');if(d){e.preventDefault();e.stopPropagation();gotoStepDot(d);}
+  });
+  new MutationObserver(upgradeDots).observe(pips,{childList:true});
+  botEl.appendChild(pips);
+ }
+ var pagebox=el('div','ed-pagebox');
+ pageInput=el('input','ed-page');pageInput.id='edPage';pageInput.type='text';
+ pageInput.setAttribute('inputmode','numeric');pageInput.setAttribute('aria-label','쪽 번호');
+ pageInput.addEventListener('keydown',function(e){
+  e.stopPropagation();
+  if(e.key==='Enter'){
+   e.preventDefault();
+   var n=parseInt(pageInput.value,10),info=curInfo();
+   if(isFinite(n)){n=Math.max(1,Math.min(info.count||1,n));
+    if(SERIES()&&info.ep!=null)deckGo(info.ep,n-1,0);else deckGo(n-1,0);}
+   pageInput.value=(curInfo().slide+1);pageInput.blur();
+  }else if(e.key==='Escape'){e.preventDefault();pageInput.value=(curInfo().slide+1);pageInput.blur();}
+ });
+ pageInput.addEventListener('input',function(){pageInput.value=pageInput.value.replace(/[^0-9]/g,'');});
+ pagebox.appendChild(pageInput);
+ var c=doc.getElementById('counter');
+ if(c){c.setAttribute('aria-live','polite');c.setAttribute('aria-atomic','true');pagebox.appendChild(c);}
+ botEl.appendChild(pagebox);
+ var nav=el('div','ed-nav');
+ prevBtn=el('button','ed-btn');prevBtn.type='button';
+ prevBtn.setAttribute('aria-label','이전 장 (←)');prevBtn.title='이전 장 (←)';
+ prevBtn.appendChild(ic('prev'));prevBtn.appendChild(el('span','ed-tl','이전'));
+ prevBtn.addEventListener('click',function(e){e.stopPropagation();if(!prevBtn.disabled)press('ArrowLeft');});
+ nextBtn=el('button','ed-btn');nextBtn.type='button';
+ nextBtn.setAttribute('aria-label','다음 단계·장 (→)');nextBtn.title='다음 단계·장 (→)';
+ nextBtn.appendChild(el('span','ed-tl','다음'));nextBtn.appendChild(ic('next'));
+ nextBtn.addEventListener('click',function(e){e.stopPropagation();if(!nextBtn.disabled)press('ArrowRight');});
+ nav.appendChild(prevBtn);nav.appendChild(nextBtn);botEl.appendChild(nav);
+ body.appendChild(botEl);
+
+ /* 막대 숨김 중에도 쪽수는 스크린리더에 읽힌다(시각 숨김은 opacity·inert) */
+ pageEcho=el('span','sr');pageEcho.setAttribute('aria-live','polite');body.appendChild(pageEcho);
+
+ /* 자동 숨김 트리거 */
+ doc.addEventListener('mousemove',function(e){
+  if(e.clientY<40||e.clientY>window.innerHeight-40)poke();
+ });
+ [topEl,botEl].forEach(function(b){
+  b.addEventListener('mouseenter',function(){chromeHover=true;poke();});
+  b.addEventListener('mouseleave',function(){chromeHover=false;arm();});
+ });
+ doc.addEventListener('touchstart',function(){poke();},{passive:true});
+ doc.addEventListener('focusin',function(e){if(focusInBars())poke();},true);
+ doc.addEventListener('focusout',function(e){arm();},true);
+ doc.addEventListener('click',function(e){
+  if(morePop&&morePop.classList.contains('on')&&!morePop.contains(e.target)&&e.target!==moreBtn)closePop();
+ });
+
+ buildSegs();upgradeDots();
+ doc.addEventListener('deckslide',function(){buildSegsIfEp();paintSegs();paintPage();});
+ doc.addEventListener('deckstep',function(){paintSegs();paintPage();upgradeDots();});
+ paintPage();
+
+ if(chromePin){reveal();}else{reveal();arm();}
+ refitChrome();
+ if(!isSheet)requestAnimationFrame(refitChrome);
+}
+var lastEp=null;
+function buildSegsIfEp(){
+ var info=curInfo(),ep=(info&&info.ep!=null)?String(info.ep):null;
+ if(SERIES()&&ep!==lastEp){lastEp=ep;buildSegs();}
+}
+
 /* ---------- data-fit: 제목을 1(또는 지정)줄 안에 최대 20% 줄여 맞춘다 ---------- */
 function fitTitles(){
  doc.querySelectorAll('.title[data-fit]').forEach(function(t){
@@ -3824,34 +4483,40 @@ function fitTitles(){
   if(t.offsetHeight>lh()*maxL+2)t.style.fontSize=min+'px';
  });
 }
-
 /* ---------- 키 ---------- */
 function typing(t){return t&&(t.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName));}
 window.addEventListener('keydown',function(e){
  var k=e.key;
  if(e.isComposing)return;
- var schOn=searchBox&&searchBox.classList.contains('on'),tocOn=tocBox&&tocBox.classList.contains('on');
- if(schOn||tocOn){
-  if(k==='Escape'){e.preventDefault();e.stopImmediatePropagation();(schOn?closeSearch:closeToc)();return;}
-  var inside=e.target&&e.target.closest&&(e.target.closest('.ed-sch')||e.target.closest('.ed-toc'));
+ var schOn=searchBox&&searchBox.classList.contains('on'),tocOn=tocBox&&tocBox.classList.contains('on'),
+     hmOn=helpModal&&helpModal.classList.contains('on');
+ if(schOn||tocOn||hmOn){
+  if(k==='Escape'){e.preventDefault();e.stopImmediatePropagation();(schOn?closeSearch:(tocOn?closeToc:function(){toggleHelpModal(false);}))();return;}
+  if(hmOn&&(k==='h'||k==='H'||k==='ㅗ')){e.preventDefault();e.stopImmediatePropagation();toggleHelpModal(false);return;}
+  var inside=e.target&&e.target.closest&&(e.target.closest('.ed-sch')||e.target.closest('.ed-toc')||e.target.closest('.ed-help-modal'));
   if(!inside)e.stopImmediatePropagation(); /* 대화상자 밖의 키가 엔진에 새지 않게 막는다 */
-  return;}
+  return;
+ }
  if((e.ctrlKey||e.metaKey)&&!e.altKey&&(k==='k'||k==='K')){if(typing(e.target))return;e.preventDefault();openSearch();return;}
  if(e.ctrlKey||e.metaKey||e.altKey)return;
- if(k==='/'&&!typing(e.target)){e.preventDefault();openSearch();return;}
- if((k==='o'||k==='O'||k==='ㅐ')&&!typing(e.target)){openToc();return;}
+ if(typing(e.target))return;
+ if(k==='/'){e.preventDefault();openSearch();return;}
+ if(k==='o'||k==='O'||k==='ㅐ'){openToc();return;}
+ /* F6 = 막대로 포커스 이동(숨겨진 포커스 방지 — 막대는 숨김 상태에서 inert) */
+ if(k==='F6'){e.preventDefault();reveal();arm();var f=bar&&bar.querySelector('button');if(f)f.focus();return;}
+ /* H/ㅗ/? = 도움말 모달 토글. 팩 덱의 #help 는 4초 뒤 사라지는 부트 힌트라 대상 아님 */
+ if(helpBtn&&(k==='h'||k==='H'||k==='ㅗ'||k==='?')){
+  if(doc.querySelector('.st-modal.st-show,.st-print.st-show'))return;
+  e.preventDefault();toggleHelpModal();return;}
 },true);
+/* 모든 키 입력은 막대를 복귀시킨다(실제 단축키 처리는 위 리스너가 순서대로 맡는다) */
+window.addEventListener('keydown',function(){poke();},true);
 
 /* ---------- 초기화 ---------- */
 function init(){
  if(root.classList.contains('ed-nojs'))return;
- bar=el('div','ed-topbar');
- var bT=el('button','ed-tbtn','목차');bT.type='button';bT.setAttribute('aria-label','목차 열기 (O)');
- bT.addEventListener('click',openToc);
- var bS=el('button','ed-tbtn','검색');bS.type='button';bS.setAttribute('aria-label','검색 (Ctrl+K)');
- bS.addEventListener('click',openSearch);
- var clock=el('span','ed-clock');clock.id='ed-clock';
- bar.appendChild(clock);bar.appendChild(bT);bar.appendChild(bS);body.appendChild(bar);
+ helpEl=doc.getElementById('help');
+ buildChrome();
 
  searchBox=el('div','ed-sch');var sb=el('div','ed-sch-box');
  var sin=el('div','ed-sch-in');searchInput=el('input');searchInput.type='text';searchInput.placeholder='슬라이드 검색…';searchInput.setAttribute('aria-label','슬라이드 검색');
@@ -3910,8 +4575,8 @@ var clockEl=null;
 function paintClock(){
  var i=(function(){try{return deckInfo().slide||0;}catch(e){return 0;}})();
  var plan=planEnd[i]||0,t=TALK();
- if(clockEl){clockEl.innerHTML='';clockEl.appendChild(doc.createTextNode(fmt(elapsed)+' '));
-  var pl=el('span','plan','/ '+fmt(plan));clockEl.appendChild(pl);
+ if(clockEl){var tt=clockEl.querySelector('.t')||clockEl;tt.innerHTML='';tt.appendChild(doc.createTextNode(fmt(elapsed)+' '));
+  var pl=el('span','ed-clock-plan','/ '+fmt(plan));tt.appendChild(pl);
   clockEl.classList.toggle('is-run',running);clockEl.classList.toggle('is-late',running&&plan>0&&elapsed>plan);}
  if(presClock){presClock.querySelector('.t').textContent=fmt(elapsed);
   var r=t?(t.total||0)-elapsed:0;
@@ -3993,7 +4658,7 @@ window.addEventListener('keydown',function(e){
  if(e.ctrlKey||e.metaKey||e.altKey||e.isComposing)return;
  var t=e.target;if(t&&(t.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)))return;
  var k=e.key;
- if(k==='t'||k==='T'||k==='ㅅ'){e.preventDefault();timerToggle();}
+ if(k==='x'||k==='X'||k==='ㅌ'){e.preventDefault();timerToggle();}
  else if(k==='r'||k==='R'||k==='ㄱ'){e.preventDefault();timerReset();}
  else if((k==='v'||k==='V'||k==='ㅍ')&&!PRESENTER){e.preventDefault();openPresenter();}
 },true);
@@ -4004,13 +4669,14 @@ function init(){
  root.classList.add('ed-talk');
  buildPlan();
  clockEl=doc.getElementById('ed-clock');
+ if(clockEl)clockEl.addEventListener('click',function(e){e.stopPropagation();if(e.shiftKey)timerReset();else timerToggle();});
  if(PRESENTER){body.classList.add('st-presenter');presFit();buildPresDom();post({type:'req'});}
  paintClock();paintNotesHead();
  doc.addEventListener('deckslide',function(){paintClock();paintNotesHead();if(PRESENTER)paintPres();else if(!applying)post();});
  doc.addEventListener('deckstep',function(){if(!PRESENTER&&!applying)post();});
  /* 발표 키는 발표 덱일 때만 도움말에 단다(목차·검색은 viewer.js 가 항상 표기) */
  var help=doc.getElementById('help');
- if(help&&!PRESENTER)help.textContent=help.textContent.replace('N 발표자 노트','N 발표자 노트 · T 타이머 · R 리셋 · V 발표자 보기');
+ if(help&&!PRESENTER)help.textContent=help.textContent.replace('N 발표자 노트','N 발표자 노트 · X 타이머 · R 리셋 · V 발표자 보기');
  var nav=doc.querySelector('.ed-reader-nav');
  if(nav){var b=el('button',null,'타이머');b.type='button';b.addEventListener('click',function(){timerToggle();});
   nav.insertBefore(b,nav.querySelector('.ed-reader-status')||null);}
@@ -4018,13 +4684,18 @@ function init(){
 if(doc.readyState==='loading')doc.addEventListener('DOMContentLoaded',init);else init();
 })();
 
-/* 저자 검수 뷰어 모드 — ?sheet(전 장 축소판·접촉판)과 ?shot=N(한 장 캡처).
+/* 저자 검수 뷰어 모드 — ?check(검사기 표면)·?sheet(전 장 축소판·접촉판)·?shot=N(한 장 캡처).
    덱 결과물 하나를 URL 만으로 검수·캡처에 쓴다. 수업·발표 동작은 바꾸지 않는다:
    파라미터가 없으면 아무 일도 하지 않는다. 단계·애니메이션의 주인은 기존 엔진이고
    여기서는 클래스만 단다(st-sheet 는 motion.js 정적 판정에 합류해 전 장 완성 상태). */
 (function(){
   'use strict';
   var P=new URLSearchParams(location.search);
+  /* ?check = 검사기 표면 미리보기 — 막대·부동 UI를 숨겨 check_deck 이 보는 상태로 둔다 */
+  if(P.has('check')){
+    document.documentElement.classList.add('is-check');
+    return;
+  }
   if(P.has('sheet')){
     document.documentElement.classList.add('is-sheet');
     document.body.classList.add('st-sheet'); /* 전 장 정적 완결(motion.js staticMode) */
@@ -4041,6 +4712,133 @@ if(doc.readyState==='loading')doc.addEventListener('DOMContentLoaded',init);else
     var go=function(){ if(typeof window.deckGo==='function')window.deckGo(n);else setTimeout(go,30); };
     if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();
   }
+})();
+
+/* themes.js — 저작 도구: legacy 테마 실시간 미리보기 패널.
+   ?themes=1 또는 T 키로 패널을 연다(기본은 숨김 — 일반 시청자에게 보이지 않는다).
+   ?theme=<id> 는 패널 없이 바로 미리보기를 적용한다(classic 은 속성 제거).
+   전환은 <html data-theme> 교체 — themes.css 블록은 덱에 이미 임베드돼 있어
+   따로 CSS 를 주입하지 않는다. 덱 실제 테마는 deck.json 'theme' 이 정하고,
+   여기서 바꾼 것은 이 브라우저·이 파일의 localStorage('edu-theme-preview-<파일이름>')
+   에만 남는 세션 미리보기다. 팩 덱(resource_pack)·시리즈 포털(.deck[data-ep])은
+   자체 스타일 계층이라 비활성. */
+(function(){
+  var doc=document, root=doc.documentElement, body=doc.body;
+  if(doc.querySelector('meta[name="edu-deck-resource-pack"],.deck[data-ep]'))return;
+  var LS='edu-theme-preview-'+(decodeURIComponent(location.pathname.split('/').pop())||'deck');
+
+  /* 내장 17종 한글명 — 미등록 사용자 정의 [data-theme] 블록은 id 만 표시한다 */
+  var KR={classic:'기본',ocean:'청록 기술',cobalt:'코발트 격식',forest:'포레스트 자연',
+    solar:'솔라 현장',berry:'베리 서비스',cocoa:'코코아 실무',graphite:'그래파이트 절차',
+    midnight:'미드나잇 야간',mono:'무채 인쇄',brick:'벽돌 인문',honey:'앰버 안내',
+    mint:'민트 입문',violet:'보라 창의',coral:'코랄 소통',olive:'올리브 실무',espresso:'다크 카페'};
+  /* 스와치 4점: 지면 · 먹 · 주색 · 보조 — 라이트/다크 반전과 주·보조 색조를 함께 대표 */
+  var SW=['paper','ink','accent','accent-light'];
+
+  /* 페이지 안 실제 CSS 에서 [data-theme="id"] 블록을 찾아 목록과 대표 스와치를 만든다.
+     classic 은 블록이 없으므로 :root 값으로 맨 앞에 단다. */
+  function rulesOf(rule,acc){
+    var sel=rule.selectorText||'',m=/^\[data-theme="([\w-]+)"\]$/.exec(sel);
+    if(m)acc.list.push({id:m[1],st:rule.style});
+    else if(sel===':root')acc.rootSt=rule.style;
+    if(rule.cssRules)for(var i=0;i<rule.cssRules.length;i++)rulesOf(rule.cssRules[i],acc);
+  }
+  function collect(){
+    var acc={rootSt:null,list:[]};
+    [].slice.call(doc.styleSheets).forEach(function(sh){
+      var rs;try{rs=sh.cssRules;}catch(e){return;}
+      if(!rs)return;
+      for(var i=0;i<rs.length;i++)rulesOf(rs[i],acc);
+    });
+    var list=acc.list,found=acc;
+    var sw=function(st){var o={};SW.forEach(function(k){
+      o[k]=st?st.getPropertyValue('--'+k).trim():'';});return o;};
+    var items=list.map(function(t){return{id:t.id,sw:sw(t.st)};});
+    if(found.rootSt)items.unshift({id:'classic',sw:sw(found.rootSt)});
+    return items;
+  }
+
+  var items=collect();
+  if(!items.length)return;                      /* 테마 블록이 없는 문서에서는 무동작 */
+  var ids=items.map(function(t){return t.id;});
+  var built=root.getAttribute('data-theme')||'classic';  /* deck.json 이 정한 실제 테마 */
+
+  var panel=null;
+  function buildPanel(){
+    function el(tag,cls,txt){var e=doc.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;}
+    panel=el('div','','');panel.id='edThemes';panel.setAttribute('role','dialog');panel.setAttribute('aria-label','테마 미리보기 (저작 도구)');
+    var head=el('div','ed-th-head');head.appendChild(el('b',null,'테마 미리보기'));
+    var x=el('button','ed-th-x','닫기');x.type='button';x.addEventListener('click',function(){show(false);});head.appendChild(x);
+    var note=el('div','ed-th-note');
+    note.innerHTML='저작 도구 — 이 브라우저 미리보기만 바뀝니다. 실제 테마는 deck.json 의 theme 이 정합니다. 이 덱의 빌드 테마: <b>'+built+'</b><br><span class="ed-th-legend">스와치: 지면 · 먹 · 주색 · 보조</span>';
+    var list=el('div','ed-th-list');
+    items.forEach(function(t){
+      var b=el('button','ed-th-item');b.type='button';b.setAttribute('data-th',t.id);
+      b.setAttribute('aria-pressed','false');
+      var dots=el('span','ed-th-dots');dots.title='지면 · 먹 · 주색 · 보조';
+      SW.forEach(function(k){var d=el('i');d.style.background=t.sw[k]||'#999';dots.appendChild(d);});
+      b.appendChild(dots);
+      b.appendChild(el('span','ed-th-name',t.id+(KR[t.id]?' · '+KR[t.id]:'')));
+      if(t.id===built)b.appendChild(el('span','ed-th-tag','빌드'));
+      b.addEventListener('click',function(){apply(t.id,true);});
+      list.appendChild(b);
+    });
+    var foot=el('div','ed-th-foot');
+    var rs=el('button','ed-th-reset','빌드 테마로 되돌리기');rs.type='button';
+    rs.addEventListener('click',function(){apply(built,true);});
+    foot.appendChild(rs);foot.appendChild(el('span','ed-th-kbd','T 토글 · Esc 닫기'));
+    panel.appendChild(head);panel.appendChild(note);panel.appendChild(list);panel.appendChild(foot);
+    /* 패널 안 클릭이 장 넘김(엔진 document click)으로 번지지 않게 여기서 멈춘다 */
+    panel.addEventListener('click',function(e){e.stopPropagation();});
+    panel.addEventListener('dblclick',function(e){e.stopPropagation();});
+    panel.addEventListener('touchstart',function(e){e.stopPropagation();},{passive:true});
+    panel.addEventListener('touchend',function(e){e.stopPropagation();});
+    body.appendChild(panel);
+  }
+  function mark(){
+    if(!panel)return;
+    var cur=root.getAttribute('data-theme')||'classic';
+    [].slice.call(panel.querySelectorAll('.ed-th-item')).forEach(function(b){
+      var on=b.getAttribute('data-th')===cur;
+      b.classList.toggle('on',on);
+      b.setAttribute('aria-pressed',on?'true':'false');});
+  }
+  function apply(id,save){
+    if(ids.indexOf(id)<0)return;
+    if(id==='classic')root.removeAttribute('data-theme');else root.setAttribute('data-theme',id);
+    /* 빌드 테마로 되돌리면 키를 통째로 지운다 — 남겨 두면 추후 deck.json 테마 변경
+       재빌드 시 구버전 미리보기가 새 빌드를 덮어쓰는 잔류 버그가 된다 */
+    if(save)try{
+      if(id===built)localStorage.removeItem(LS);else localStorage.setItem(LS,id);
+    }catch(e){}
+    mark();
+    if(window.edToast)edToast('테마 미리보기: '+id+' — 이 브라우저에만 적용됩니다 (빌드: '+built+')');
+  }
+  function show(on){if(!panel)buildPanel();panel.classList.toggle('on',on);if(on)mark();}
+  function toggle(){show(!(panel&&panel.classList.contains('on')));}
+
+  /* 초기 적용: ?theme= 파라미터 > localStorage 미리보기 > 빌드 테마.
+     URL 파라미터는 저장하지 않는다(링크로 공유할 때 1회 미리보기). */
+  var P=new URLSearchParams(location.search);
+  var want=P.get('theme');
+  if(want!==null&&ids.indexOf(want)>=0)apply(want,false);
+  else{try{var s=localStorage.getItem(LS);if(s&&ids.indexOf(s)>=0&&s!==built)apply(s,false);}catch(e){}}
+  if(P.has('themes'))show(true);
+
+  window.addEventListener('keydown',function(e){
+    if(panel&&panel.classList.contains('on')&&e.key==='Escape'){
+      e.preventDefault();e.stopImmediatePropagation();show(false);return;}
+    if(e.ctrlKey||e.metaKey||e.altKey||e.isComposing)return;
+    var t=e.target;
+    if(t&&(t.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)))return;
+    /* 상위 모달·오버레이가 열려 있으면 패널은 모달 뒤에서 켜지면 안 된다 */
+    if(doc.querySelector('.st-modal.st-show,.st-print.st-show,.ed-sch.on,.ed-toc.on'))return;
+    /* 접촉판·캡처·인쇄·발표자 표면에서는 토글 입력 자체를 무시한다 */
+    if(root.classList.contains('is-sheet')||root.classList.contains('is-shot')||
+       body.classList.contains('st-printing')||body.classList.contains('st-presenter'))return;
+    if(e.key==='t'||e.key==='T'||e.key==='ㅅ'){e.preventDefault();toggle();}
+  },true);
+  window.eduThemePreview={apply:apply,toggle:toggle,built:function(){return built;},themes:ids};
 })();
 </script>
 <script>
@@ -4131,7 +4929,7 @@ try{
       document.dispatchEvent(new CustomEvent('deckslide',{detail:pos}));
       /* 자동 완주(M): instant 아님 = 사용자 넘김·첫 로드 — 도착한 장의 남은 단계를 순차 재생한다.
          deckGo·검사기(instant)는 영향 없고, toEnd 진입(←로 돌아가기)은 이미 끝 단계라 무동작 */
-      if(motionAuto&&!instant) finishSteps();
+      if(motionAuto&&!instant) autoFinish();
     }
     /* 이미 켜진 장이 있을 때만 전환 연출을 태운다 — 첫 표시는 즉시 그린다 */
     if(window.eduMotion&&!instant&&deckEl.querySelector('.slide.active')) window.eduMotion.navigate(commit,deckEl.dataset.dir);
@@ -4203,6 +5001,22 @@ try{
     };
     finishTimer=setTimeout(tick,gap);
   }
+  /* 확인 문제가 있는 장은 자동 완주가 멈춘다 — 정답·판정 단계가 스스로 열리면 안 된다.
+     판별은 확인 문제 마크업 계약(.chk·.qrow·.ox·.opt·.ans) 또는 장 archetype(check·quiz-*).
+     최종 상태 표면(st-self·인쇄 등 staticNow)은 기존 계약대로 전부 펼치고,
+     G 키·더블클릭은 사용자가 직접 부르는 finishSteps 라 그대로 둔다(수동 완주). */
+  function isQuizSlide(s){
+    if(!s) return false;
+    var a=(s.dataset&&s.dataset.archetype)||'';
+    return a==='check'||a.indexOf('quiz')===0||!!s.querySelector('.chk,.qrow,.ox,.opt,.ans');
+  }
+  function autoFinish(){
+    if(isQuizSlide(pages[pos])&&!staticNow()){
+      if(window.edToast) window.edToast('확인 문제 장 — 자동 완주가 멈췄습니다. 단계는 직접 넘겨 주세요');
+      return;
+    }
+    finishSteps();
+  }
   /* ---- 모션 재생 방식(M 토글): 장이 바뀔 때 자동 완주 ↔ 입력마다 한 단계 ----
      G 키는 dblclick 과 같은 finishSteps 를 부른다(마우스 없이 남은 단계 순차 재생).
      방식은 localStorage 'edeck-motion-auto' 에 남겨 다음 열람에서도 유지한다.
@@ -4220,7 +5034,7 @@ try{
     try{ localStorage.setItem(MODE_KEY,on?'1':'0'); }catch(eM){}
     if(window.edToast) window.edToast(on?'모션 자동 완주 켬 — 장이 바뀌면 그 장의 끝까지 재생합니다 (M 끄기)'
                                         :'모션 자동 완주 끔 — 클릭·키마다 한 단계씩 재생합니다 (M 켜기)');
-    if(on) finishSteps(); else cancelFinish();
+    if(on) autoFinish(); else cancelFinish();
   }
   document.addEventListener('dblclick',function(e){
     if(rootEl.classList.contains('ed-compact')) return;

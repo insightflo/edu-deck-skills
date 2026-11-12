@@ -152,7 +152,7 @@ TASTE_KINDS = {
     "제목", "제목 줄 수", "단계", "분량", "말투", "목록", "카드", "카드 나열",
     "사실 칩", "증거 띠", "실물 화면", "확인 문제", "발표자 노트", "모션", "모션 길이",
     "외국어 문장", "흐름", "표지", "예상 시간", "시간 합계", "대본 분량", "시각 짝",
-    "무성 장", "글자 크기", "글자 겹침",
+    "무성 장", "글자 크기", "글자 겹침", "디자인 린트",
 }
 
 
@@ -1233,6 +1233,116 @@ TITLE_JS = r"""
 """
 
 
+# 디자인 린트 5규칙(취향=INFO 기본, --style 에서 WARN 상세) — ko-document-studio
+# © 2026 acc0mplish, MIT engines/ko-slide/assets/kit/deck.js designLint·skeletonOf 포팅.
+# 원 규칙 출처: huashu-design design_lint.py(MIT, 골격 지문)·ppt-master visual-review.md
+# (MIT, S2 빈 상자·S5 격자 불균일·H3)·blcaptain(강조선 장당 1곳 — 아이디어만).
+# 우리 DOM 으로 각색: 슬라이드=#stage>.slide, 머리=.head, 스킵 셀렉터=뷰어 크롬·notes.
+DESIGN_LINT_JS = r"""
+([idx]) => {
+  const s = document.querySelectorAll('#stage > .slide')[idx];
+  if (!s) return {notes: [], skel: null};
+  const SKIP = 'svg, svg *, canvas, .ed-top, .ed-top *, .ed-bot, .ed-bot *, .ed-reader-nav, .ed-reader-nav *, .ed-zoom-hint, #help, aside.notes, .notes, .script, [hidden], .sr-only, .is-print-only';
+  const $$ = (sel, r) => Array.from(r.querySelectorAll(sel));
+  const sc = s.getBoundingClientRect().width / 1920 || 1;
+  const rgbaOf = (() => {
+    const cv = document.createElement('canvas'); cv.width = cv.height = 1;
+    const cx = cv.getContext('2d', {willReadFrequently: true}); const memo = {};
+    return (c) => {
+      if (!c || c === 'transparent') return [0, 0, 0, 0];
+      if (memo[c]) return memo[c];
+      cx.clearRect(0, 0, 1, 1); cx.fillStyle = '#000'; cx.fillStyle = c; cx.fillRect(0, 0, 1, 1);
+      const d = cx.getImageData(0, 0, 1, 1).data;
+      const m = /\(([^)]*)\)/.exec(c); const parts = m ? m[1].split(/[\s,/]+/).filter(Boolean) : [];
+      let a = 1; if (m && (m[1].includes('/') || (/^rgba|^hsla/.test(c) && parts.length === 4))) { const r = parts[parts.length - 1]; a = r.endsWith('%') ? parseFloat(r) / 100 : parseFloat(r); }
+      return (memo[c] = [d[0], d[1], d[2], a]);
+    };
+  })();
+  const ownText = (el) => Array.from(el.childNodes).filter((n) => n.nodeType === 3).map((n) => n.textContent).join('').replace(/\s+/g, ' ').trim();
+  const shown = (el) => {
+    const r = el.getBoundingClientRect(); const cs = getComputedStyle(el);
+    if (!(r.width > 0 && r.height > 0 && cs.visibility !== 'hidden' && parseFloat(cs.opacity) > 0.05)) return false;
+    for (let e = el.parentElement; e && e !== s; e = e.parentElement) {
+      const ec = getComputedStyle(e);
+      if (/hidden|clip/.test(ec.overflow + ec.overflowX + ec.overflowY)) { const q = e.getBoundingClientRect(); if (r.bottom <= q.top + 1 || r.top >= q.bottom - 1 || r.right <= q.left + 1 || r.left >= q.right - 1) return false; }
+    }
+    return true;
+  };
+  const notes = [];
+  // ① 강조색 한쪽 선: 한쪽만 3px↑ 색 선(--line·바탕색 제외)이 장 안에 2곳 이상
+  const line = rgbaOf(getComputedStyle(s).getPropertyValue('--line').trim() || 'transparent').slice(0, 3).join();
+  let bars = 0;
+  $$('*', s).forEach((el) => {
+    if (el.closest(SKIP) || !shown(el) || el.closest('.head') || /^(TABLE|THEAD|TBODY|TR|TH|TD)$/.test(el.tagName)) return;
+    const cs = getComputedStyle(el), r = el.getBoundingClientRect();
+    if (r.width < 120 * sc || r.height < 40 * sc) return;
+    const sides = ['Top', 'Right', 'Bottom', 'Left'].filter((k) => cs[`border${k}Style`] !== 'none' && parseFloat(cs[`border${k}Width`]) >= 3);
+    const paper = (() => { for (let e = el.parentElement; e && e !== s; e = e.parentElement) { const c = rgbaOf(getComputedStyle(e).backgroundColor); if (c[3] > 0.9) return c; } return rgbaOf(getComputedStyle(s).backgroundColor); })().slice(0, 3).join();
+    const colored = sides.filter((k) => { const c = rgbaOf(cs[`border${k}Color`]); const cc = c.slice(0, 3).join(); return c[3] > 0.5 && cc !== line && cc !== paper; });
+    if (colored.length === 1) bars += 1;
+    const be = getComputedStyle(el, '::before');
+    if (be.content !== 'none' && be.position === 'absolute' && rgbaOf(be.backgroundColor)[3] > 0.5 && (parseFloat(be.width) <= 12 || parseFloat(be.height) <= 12) && (parseFloat(be.width) >= 40 || parseFloat(be.height) >= 40)) bars += 1;
+  });
+  if (bars >= 2) notes.push(`강조색 한쪽 선이 ${bars}곳(장마다 한 곳까지 — 카드 테두리 선 대신 여백·크기로 구분)`);
+  // ② 글만 있는 카드: 같은 부모 아래 .card 3장↑이 그림·도식·큰 숫자 없이 글만 담음
+  const cardParents = new Map();
+  $$('.card', s).forEach((c) => { if (shown(c) && !c.closest(SKIP)) cardParents.set(c.parentElement, (cardParents.get(c.parentElement) || 0) + 1); });
+  cardParents.forEach((n, p) => {
+    if (n < 3) return;
+    const cards = Array.from(p.children).filter((c) => c.classList && c.classList.contains('card') && shown(c));
+    const plain = cards.filter((c) => !c.querySelector('.viz, .fig-slot, figure, img, svg, canvas, .kpi-v, .num, .big, .bigstat, .term, video'));
+    if (plain.length >= 3) notes.push(`글만 있는 카드 ${plain.length}장 — 그림판(.viz·.fig-slot)이나 숫자로 내용을 보이게`);
+  });
+  // ③ 격자 불균일: 한 줄에 놓인 같은 클래스 상자 3개↑의 폭이 10% 넘게 다르다
+  const rows = new Set();
+  $$('*', s).forEach((p) => {
+    if (p.closest(SKIP) || rows.has(p)) return;
+    if (/^(TABLE|THEAD|TBODY|TR|UL|OL|DL)$/.test(p.tagName)) return;
+    const boxedK = (k) => { const c = getComputedStyle(k); return rgbaOf(c.backgroundColor)[3] > 0.5 || parseFloat(c.borderTopWidth) > 0; };
+    const kids = Array.from(p.children).filter((k) => shown(k) && k.className && !/arrow|join|chip|tok|connector/.test(k.className) && boxedK(k) && k.getBoundingClientRect().width >= 150 * sc);
+    if (kids.length < 3) return;
+    const cls = kids[0].className, same = kids.filter((k) => k.className === cls);
+    if (same.length < 3) return;
+    const top = same[0].getBoundingClientRect().top;
+    if (!same.every((k) => Math.abs(k.getBoundingClientRect().top - top) < 4)) return;
+    const ws = same.map((k) => k.getBoundingClientRect().width), mx = Math.max(...ws), mn = Math.min(...ws);
+    if (mx > 0 && (mx - mn) / mx > 0.1) { rows.add(p); notes.push(`한 줄 ${same.length}개의 폭이 들쭉날쭉(${Math.round(mn / sc)}~${Math.round(mx / sc)}px) .${String(cls).split(' ')[0]}`); }
+  });
+  // ④ 빈 상자: 바탕·테두리가 있는 큰 상자에서 내용이 높이의 45%도 안 참
+  $$('*', s).forEach((el) => {
+    if (el.closest(SKIP) || !shown(el) || el === s || el.matches('.lv-step, .lv-trap, .lv-rung, .qd-cell, .cover-art, .fig-slot, [data-lint-shape]')) return;
+    const cs = getComputedStyle(el), r = el.getBoundingClientRect();
+    if (r.height < 260 * sc || r.width < 160 * sc) return;
+    if (rgbaOf(cs.backgroundColor)[3] < 0.5 && parseFloat(cs.borderTopWidth) === 0) return;
+    const kids = Array.from(el.children).filter(shown);
+    if (!kids.length || kids.some((k) => /^(IMG|SVG|CANVAS|FIGURE)$/.test(k.tagName) || k.querySelector('img, svg, canvas'))) return;
+    const used = kids.reduce((a, k) => a + k.getBoundingClientRect().height, 0);
+    if (used / r.height < 0.45) notes.push(`빈 상자 .${String(el.className).split(' ')[0]}: 높이 ${Math.round(r.height / sc)}px 중 내용 ${Math.round(used / r.height * 100)}%`);
+  });
+  // ⑤ 배치 골격 지문: 내용 상자를 32×18 칸에 칠한 점유 격자(덱 단위 상관은 호출부가 잰다)
+  let skel = null;
+  const arch = s.getAttribute('data-archetype') || '';
+  if (!/^(cover|closing|section)$/.test(arch)) {
+    const R = s.getBoundingClientRect(), W = 32, H = 18, g = new Float32Array(W * H);
+    $$('*', s).forEach((el) => {
+      if (el.closest(SKIP) || !shown(el)) return;
+      const cs = getComputedStyle(el);
+      const boxed = rgbaOf(cs.backgroundColor)[3] > 0.5 || parseFloat(cs.borderTopWidth) > 0 || /^(IMG|CANVAS)$/.test(el.tagName) || ownText(el).length > 1;
+      if (!boxed) return;
+      const r = el.getBoundingClientRect();
+      const x0 = Math.max(0, Math.floor((r.left - R.left) / R.width * W)), x1 = Math.min(W - 1, Math.floor((r.right - R.left - 1) / R.width * W));
+      const y0 = Math.max(0, Math.floor((r.top - R.top) / R.height * H)), y1 = Math.min(H - 1, Math.floor((r.bottom - R.top - 1) / R.height * H));
+      for (let y = y0; y <= y1; y += 1) for (let x = x0; x <= x1; x += 1) g[y * W + x] += 1;
+    });
+    const v = Array.from(g, (x) => Math.min(x, 4)), mu = v.reduce((a, b) => a + b, 0) / v.length;
+    const sd = Math.sqrt(v.reduce((a, b) => a + (b - mu) ** 2, 0) / v.length) || 1;
+    skel = v.map((x) => (x - mu) / sd);
+  }
+  return {notes: [...new Set(notes)].slice(0, 5), skel};
+}
+"""
+
+
 def parse_slide_filter(spec, total):
     """'3,5-7' 형식을 1부터 시작하는 슬라이드 번호 집합으로 바꾼다. 비어 있으면 전체."""
     if not spec:
@@ -1408,6 +1518,7 @@ def render_checks(path, rep, slide_filter, sheets_dir, shots_dir):
             chosen = parse_slide_filter(slide_filter, total)
             talk = page.evaluate("((window.EDU_STUDY||{}).talk)||null")
             img_skipped = 0
+            skels = {}
             for n in sorted(chosen):
                 info = page.evaluate(f"(window.deckGo({n - 1}, 0), window.deckInfo())")
                 # 단계 값이 정수가 아니면 엔진이 NaN·실수를 돌려준다. 정적 검사가 이미 ERROR 로 알렸으니 0단계만 잰다
@@ -1428,6 +1539,12 @@ def render_checks(path, rep, slide_filter, sheets_dir, shots_dir):
                                         target=f["target"], step=s)
                             continue
                         rep.add(f["sev"], n, f["kind"], f["msg"], target=f["target"], step=s)
+                    if s == top:
+                        dl = page.evaluate(DESIGN_LINT_JS, [n - 1]) or {}
+                        for m in dl.get("notes") or []:
+                            rep.add("WARN", n, "디자인 린트", m)
+                        if dl.get("skel"):
+                            skels[n] = dl["skel"]
                     if s == 0:
                         for t in page.evaluate(TITLE_JS, [n - 1]):
                             if t["fit"] and t["lines"] > t["need"]:
@@ -1438,6 +1555,16 @@ def render_checks(path, rep, slide_filter, sheets_dir, shots_dir):
                                 rep.add("WARN", n, "제목 줄 수",
                                         f"발표 덱 제목이 {t['lines']}줄입니다 (1줄 원칙). data-fit 을 검토하세요",
                                         target=t["text"])
+            # 배치 골격 상관: 바로 앞 본문 장과 지문이 거의 같으면(0.8↑) 같은 모양 연속으로 알린다
+            prev_n = None
+            for n in sorted(skels):
+                if prev_n is not None:
+                    a, b = skels[prev_n], skels[n]
+                    corr = sum(x * y for x, y in zip(a, b)) / len(a)
+                    if corr > 0.8:
+                        rep.add("WARN", n, "디자인 린트",
+                                f"앞 장({prev_n}쪽)과 배치 골격이 거의 같음(상관 {corr:.2f}) — 다른 배치로 리듬을 바꾸세요")
+                prev_n = n
             if img_skipped:
                 rep.add("INFO", None, "대비", f"배경 이미지 위 글자 {img_skipped}개는 측정하지 못함 (스크린샷 불가 환경)")
             if sheets_dir or shots_dir:
@@ -1545,6 +1672,23 @@ def main(argv=None):
             rep.slide_meta[i] = (sec.get("data-archetype", "?"), slide_title(sec))
     else:
         static_checks(html_text, soup, rep, args.allow_placeholders)
+    # 표식 도식(data-lint="svg-diagram") 린트 — 벤더 svg-lint 어댑터(diagram_lint.py).
+    # 표식이 없는 덱은 비용 0으로 건너뛴다.
+    try:
+        from diagram_lint import check_diagrams
+        class _LintRep:
+            def __init__(self):
+                self.errors, self.warnings, self.notes = [], [], []
+        lr = _LintRep()
+        check_diagrams(html_text, path.parent, lr)
+        for m in lr.errors:
+            rep.add("ERROR", None, "도식", m)
+        for m in lr.warnings:
+            rep.add("WARN", None, "도식", m)
+        for m in lr.notes:
+            rep.add("INFO", None, "도식", m)
+    except Exception as exc:
+        rep.add("ERROR", None, "도식", f"도식 검사를 끝내지 못했습니다(내부 오류: {type(exc).__name__})")
     render = "SKIPPED"
     if not args.no_render:
         render = "RUN" if render_checks(path, rep, args.slides, args.sheets, args.shots) else "NOT_RUN"

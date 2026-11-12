@@ -52,7 +52,7 @@ body{
 .label{font-size:28px;font-weight:700;color:var(--accent-text);letter-spacing:1px}
 ul.list{font-size:32px;line-height:1.65;padding-left:1.2em}
 ul.list li::marker{color:var(--accent)}
-.bar{width:240px;height:8px;background:linear-gradient(90deg,var(--accent) 0 62%,var(--accent-light) 62% 100%)}
+.bar{width:240px;height:8px;background:linear-gradient(90deg,var(--accent) 0 62%,var(--line) 62% 100%)}
 .notes{display:none}
 .num{font-size:96px;font-weight:800;color:var(--accent);line-height:1}
 .flow{display:flex;align-items:center;gap:24px}

@@ -157,6 +157,27 @@ def main():
     htmls = sorted(src_dir.glob('*.html')) if src_dir.is_dir() else []
     models = sorted(charts_dir.glob('*.json')) if charts_dir.is_dir() else []
 
+    # 표식 도식(data-lint="svg-diagram") 린트 — shared/scripts/diagram_lint.py.
+    # 표식 없는 파일은 비용 0으로 건너뛴다.
+    try:
+        import sys as _sys
+        _sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'edu-deck' / 'shared' / 'scripts'))
+        from diagram_lint import check_diagrams
+
+        class _LintRep:
+            def __init__(self):
+                self.errors, self.warnings, self.notes = [], [], []
+
+        for hp in htmls:
+            lr = _LintRep()
+            check_diagrams(hp.read_text(encoding='utf-8'), root, lr)
+            for m in lr.errors:
+                fail(f'{hp.name}: 도식 {m}')
+            for m in lr.warnings:
+                warn(f'{hp.name}: 도식 {m}')
+    except Exception as e:
+        fail(f'도식 검사를 끝내지 못했습니다(내부 오류: {type(e).__name__})')
+
     # ── 2·3·4. 차트 모델 대조 ───────────────────────────────────────
     for mp in models:
         key = norm_stem(mp.stem)

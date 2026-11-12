@@ -764,7 +764,7 @@ const legendMarkup = (items) => {
   }).join('\n    ')}</g>`;
 };
 
-const svg = `<svg class="dg" viewBox="0 0 ${VBW} ${Math.ceil(H)}" role="img" aria-label="${esc(model.ariaLabel || model.title || '아키텍처 구성도')}">
+const svg = `<svg class="dg" data-lint="svg-diagram" viewBox="0 0 ${VBW} ${Math.ceil(H)}" role="img" aria-label="${esc(model.ariaLabel || model.title || '아키텍처 구성도')}">
   <title>${esc(model.titleSvg || model.title || '아키텍처 구성도')}</title>
   ${zones.map(zoneMarkup).join('\n  ')}${bounds.length ? '\n  ' + bounds.map(boundMarkup).join('\n  ') : ''}
   ${edges.map(edgeMarkup).join('\n  ')}

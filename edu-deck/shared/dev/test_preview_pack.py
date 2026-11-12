@@ -73,7 +73,7 @@ class PreviewFixture(unittest.TestCase):
                 TEMPLATE.replace('__DESIGN__', design), encoding='utf-8')
             (pack_dir / 'style.css').write_text(
                 f'.slide.pack-{design}{{gap:24px}}\n.{design}-box{{border:2px solid var(--accent)}}\n', encoding='utf-8')
-        for name in ('check_deck.py', 'resource_packs.py'):
+        for name in ('check_deck.py', 'resource_packs.py', 'diagram_lint.py'):
             shutil.copy(SHARED / 'scripts' / name, self.shared / 'scripts' / name)
         self.original_shared = preview_pack.SHARED
         preview_pack.SHARED = self.shared
