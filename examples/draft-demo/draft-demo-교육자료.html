@@ -61,7 +61,7 @@ body{
 
 /* ── 제목·본문 규모 ─────────────────────────────────────── */
 .head{display:flex;flex-direction:column;gap:16px}
-.eyebrow{font-size:28px;font-weight:700;color:var(--accent-text);letter-spacing:3px}
+.eyebrow{font-size:28px;font-weight:700;color:var(--part-tone,var(--soft));letter-spacing:3px}
 .eyebrow::before{content:"";display:inline-block;width:36px;height:5px;background:var(--part-tone,currentColor);margin-right:18px;vertical-align:.18em}
 .dark .eyebrow,.dark .num{color:var(--accent-light)}
 .dark.center{--accent:var(--accent-light)}
@@ -352,7 +352,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 --r1:8px;--r2:16px;--r3:24px;--s1:8px;--s2:16px;--s3:24px;--s4:32px;--s5:40px;--s6:48px;--s8:64px;--s10:80px;--s16:128px;
 --shadow-1:0 8px 24px color-mix(in srgb,var(--ink) 12%,transparent);--shadow-2:0 24px 64px color-mix(in srgb,var(--ink) 24%,transparent)}
 /* 파트 톤: 파트 구분 장의 data-tone="1..7" 이 고르는 강조색 7종 — 라이트 페이퍼 위 4.5:1 이상.
-   소비는 var(--part-tone,…폴백) 형태로만(파트 구분 강조·eyebrow 바·아젠다 항목색 3곳). */
+   소비는 var(--part-tone,…폴백) 형태로만(파트 구분 강조·eyebrow·아젠다 항목·구분 장 톤 선·색면). */
 :root{--tone-1:var(--accent-text);--tone-2:var(--blue-text);--tone-3:var(--success);--tone-4:var(--danger);
 --tone-5:color-mix(in srgb,var(--blue-text) 50%,var(--danger));
 --tone-6:color-mix(in srgb,var(--blue-text) 50%,var(--success));
@@ -1800,7 +1800,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 /* ── 파트 톤(38-part-divider data-tone + build_deck data-part-tone 전파) ── */
 /* 조각 안에서 data-tone="1..7" 을 달면 그 요소 이하의 --part-tone 이 해당 톤으로 잠긴다.
    build_deck 이 파트 구분 장의 data-tone 을 다음 파트까지 data-part-tone="N" 으로 퍼뜨린다.
-   소비처는 3곳뿐(파트 구분 강조·.eyebrow::before 바·02-agenda 항목색) — 전부 var(--part-tone,기존색). */
+   소비처는 전부 var(--part-tone,기존색) — 파트 구분 강조·.eyebrow·02-agenda 항목·구분 장 장식(톤 선·색면). */
 [data-tone="1"],[data-part-tone="1"]{--part-tone:var(--tone-1)}
 [data-tone="2"],[data-part-tone="2"]{--part-tone:var(--tone-2)}
 [data-tone="3"],[data-part-tone="3"]{--part-tone:var(--tone-3)}
@@ -1816,6 +1816,13 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 :is(.dark,.orange)[data-tone="5"],:is(.dark,.orange) [data-tone="5"],:is(.dark,.orange)[data-part-tone="5"],:is(.dark,.orange) [data-part-tone="5"]{--part-tone:color-mix(in srgb,var(--tone-5) 30%,var(--paper))}
 :is(.dark,.orange)[data-tone="6"],:is(.dark,.orange) [data-tone="6"],:is(.dark,.orange)[data-part-tone="6"],:is(.dark,.orange) [data-part-tone="6"]{--part-tone:color-mix(in srgb,var(--tone-6) 30%,var(--paper))}
 :is(.dark,.orange)[data-tone="7"],:is(.dark,.orange) [data-tone="7"],:is(.dark,.orange)[data-part-tone="7"],:is(.dark,.orange) [data-part-tone="7"]{--part-tone:color-mix(in srgb,var(--tone-7) 30%,var(--paper))}
+/* 파트 구분 장 장식: 위쪽 6px 톤 선 + 라이트 장 배경 옅은 톤 색면(color-mix 6% — 파트마다 온기가 바뀐다).
+   다크·주황 전면 장은 위의 보정 톤이 톤 선에 그대로 쓰이고, 색면은 씌우지 않는다(전면 색 계약 유지). */
+.slide:is([data-archetype="part-divider"],[data-variant="part-divider"])[data-part-tone]::before{content:"";position:absolute;top:0;left:0;right:0;height:6px;background:var(--part-tone)}
+.slide:is([data-archetype="part-divider"],[data-variant="part-divider"])[data-part-tone]:not(.dark):not(.orange){background-color:color-mix(in srgb,var(--part-tone) 6%,var(--paper))}
+/* .dots-bg — 은은한 점 격자 텍스처(radial-gradient 점 패턴 전용 — 그라데이션 워시가 아니라 표면 질감).
+   표지·파트 구분 장처럼 여백이 넓은 장에 선택 사용한다. 점 색은 currentColor 9% — 다크 장에도 맞춰진다. */
+.dots-bg{background-image:radial-gradient(circle,color-mix(in srgb,currentColor 9%,transparent) 1.5px,transparent 1.6px);background-size:32px 32px}
 
 /* ── 실화면 콜아웃·투명성 상태행 (사내 덱 관찰 원리 이식) ── */
 /* .ed-callout — 실화면·목업 위 지점을 짚는 흰 라벨 + 꼬리 화살표. tail 방향: data-tail="down|up|left|right" */

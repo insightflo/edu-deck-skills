@@ -167,7 +167,7 @@ TASTE_KINDS = {
     "제목", "제목 줄 수", "단계", "분량", "말투", "목록", "카드", "카드 나열",
     "사실 칩", "증거 띠", "실물 화면", "확인 문제", "발표자 노트", "모션", "모션 길이",
     "외국어 문장", "흐름", "표지", "예상 시간", "시간 합계", "대본 분량", "시각 짝",
-    "무성 장", "글자 크기", "글자 겹침", "디자인 린트",
+    "무성 장", "글자 크기", "글자 겹침", "디자인 린트", "골격 반복",
 }
 
 
@@ -286,6 +286,17 @@ def is_pack_slide(sec):
     """Treat partial pack markup as an attempted pack, never as a legacy escape hatch."""
     classes = sec.get("class", [])
     return sec.has_attr("data-design") or "pack" in classes or any(c.startswith("pack-") for c in classes)
+
+
+def slide_fingerprint(sec):
+    """장의 구조 지문 — data-archetype·data-variant·직속 자식의 '태그.첫클래스' 목록(정렬).
+
+    자식 순서를 바꿔도 같은 지문이 나와야 골격 반복만 잡는다 — 내용·글자는 보지 않는다.
+    """
+    kids = sorted(
+        (f"{c.name}.{c['class'][0]}" if c.get("class") else c.name)
+        for c in sec.find_all(recursive=False))
+    return "|".join([sec.get("data-archetype") or "", sec.get("data-variant") or ""] + kids)
 
 
 def pack_checks(soup, slides, rep):
@@ -751,6 +762,18 @@ def static_checks(html_text, soup, rep, allow_placeholders):
         run = run + 1 if archs[i] == archs[i - 1] and archs[i] != "worked-example" else 1
         if run == 4:
             rep.add("WARN", i + 1, "흐름", f"같은 아키타입 '{archs[i]}' 이 4장 넘게 이어집니다")
+    # 골격 반복(취향): 구조 지문(아키타입+변형+직속 자식 태그·첫 클래스)이 3장 연속 같으면
+    # 구성 리듬이 단조하다는 신호 — quiz-* 계열은 같은 골격 반복이 정상이라 제외한다.
+    fps = [slide_fingerprint(s) for s in slides]
+    run = 1
+    for i in range(1, len(fps)):
+        if (slides[i].get("data-archetype") or "").startswith("quiz-"):
+            run = 0
+            continue
+        run = run + 1 if fps[i] == fps[i - 1] else 1
+        if run == 3:
+            rep.add("WARN", i + 1, "골격 반복",
+                    "같은 골격이 3장 연속입니다 — 구성 리듬 점검(숨고르기 장·다른 계열)")
     talk_checks(html_text, slides, rep)
     # 직접 설계 표지(data-variant="custom"/"custom-…") 계약 — layouts.md "표지 직접 설계 계약".
     # 카탈로그 id(orbit·split·…)에는 적용하지 않는다.

@@ -25,7 +25,7 @@ body{
 
 /* ── 제목·본문 규모 ─────────────────────────────────────── */
 .head{display:flex;flex-direction:column;gap:16px}
-.eyebrow{font-size:28px;font-weight:700;color:var(--accent-text);letter-spacing:3px}
+.eyebrow{font-size:28px;font-weight:700;color:var(--part-tone,var(--soft));letter-spacing:3px}
 .eyebrow::before{content:"";display:inline-block;width:36px;height:5px;background:var(--part-tone,currentColor);margin-right:18px;vertical-align:.18em}
 .dark .eyebrow,.dark .num{color:var(--accent-light)}
 .dark.center{--accent:var(--accent-light)}

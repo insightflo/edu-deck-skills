@@ -1,0 +1,14 @@
+<!-- 계열 조합 실례: 37-arch-flow 도식(.stack-fig 시맨틱 SVG)을 55-window-frame(.win-frame)
+     앱 창 래퍼 안에 넣은 장 — '흐름 도식 계열 × 창 래퍼 계열'. 창 제목은 내용과 일치시키고,
+     도식의 해설은 .wf-foot 요점 줄에 둔다. -->
+<section class="slide" data-archetype="arch-flow" data-variant="steps" data-sec="90" style="gap:24px">
+  <div class="head"><p class="eyebrow">결정의 뼈대</p><h2 class="title">합의는 세 칸을 지나면 끝납니다</h2></div>
+  <div class="win-frame" style="flex:1;min-height:0">
+    <div class="wf-bar"><span class="wf-dots"><i></i><i></i><i></i></span><span class="wf-title">decision-board — 팀 합의 보드</span><span class="wf-tag">3+1 칸</span></div>
+    <div class="wf-body">
+      <div class="stack-fig" data-c="stack" role="img" aria-label="제안·검토·결정 세 칸과 기록으로 이어지는 의사결정 흐름도" data-d='{"nodes":[{"id":"a","name":"제안","icon":"clipboard-list","row":0,"col":0,"role":"한 줄로 올림","badge":1},{"id":"b","name":"검토","icon":"file-search","row":0,"col":1,"role":"24h 안에 반박","badge":2},{"id":"c","name":"결정","icon":"gavel","row":0,"col":2,"role":"담당자가 찍음","tone":"brand","badge":3},{"id":"d","name":"기록","icon":"file-text","row":0,"col":3,"role":"한 장에 남김","badge":4}],"edges":[{"from":"a","to":"b"},{"from":"b","to":"c"},{"from":"c","to":"d"},{"from":"b","to":"a","label":"보완","kind":"dash"}]}'></div>
+    </div>
+    <div class="wf-foot"><p data-step="1"><b>검토 칸</b> — 마감이 없으면 결정이 영원히 머무는 곳</p><p data-step="2"><b>보완 화살표</b> — 되돌아가도 괜찮다, 기록만 남기면</p></div>
+  </div>
+  <aside class="notes">먼저 창 제목을 읽어 '이것은 팀 합의 보드라는 도구의 화면이다'라고 잡게 합니다 — 도식이 창 안에 들어 있어 추상 절차가 '화면'으로 읽힙니다. 제안→검토→결정 세 칸을 손으로 따라간 뒤, 결정에서 기록으로 이어지는 네 번째 칸을 짚습니다. 하단 요점 두 줄을 단계로 공개합니다 — 검토 칸에 마감을 두는 이유와, 되돌아가는 보완 화살표가 실패가 아니라 정상 루트임을 말합니다. 다음 장에서 이 뼈대가 숫자로 어떻게 나타나는지 봅니다.</aside>
+</section>

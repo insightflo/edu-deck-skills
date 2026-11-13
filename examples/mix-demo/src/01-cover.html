@@ -1,0 +1,54 @@
+<!-- 조합 방식: 01-cover-bento 뼈대(좌 타이틀 패널 + 우 3×3 벤토 격자)는 그대로 두고,
+     장식 두 겹을 바꿔 낀 변형 — ① 카드 강조색 --bc 를 의미 토큰 대신 파트 톤 팔레트
+     (--tone-1..6)로 갈아 이 덱의 톤 어휘를 표지에서 미리 보여 주고,
+     ② 배경에 .dots-bg 점 격자(P4-b)를 얹어 종이 표면에 질감을 준다.
+     '카탈로그 복사'가 아니라 '뼈대 유지 + 팔레트·텍스처 교체'의 조합 실례. -->
+<section class="slide cx dots-bg" data-archetype="cover" data-variant="bento" id="cover-bento" data-sec="30" style="padding:0;background-color:var(--paper)">
+
+<div class="row" style="position:absolute;inset:0;padding:60px 72px;gap:56px;align-items:stretch">
+<div class="col" style="width:740px;flex:none;justify-content:center;gap:24px">
+<p class="cx-eyebrow" style="font-size:27px;letter-spacing:4px;color:var(--soft);font-weight:800">조합 예제 덱</p>
+<h1 class="cx-title" style="position:static;min-height:0;font-size:96px;line-height:1.14;letter-spacing:-3px;color:var(--ink)"><span data-text="작은 팀의" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret"></span><br><span style="color:var(--accent-text)">의사결정 리듬</span></h1>
+<p class="cx-sub" style="font-size:34px;color:var(--soft)">회의를 줄이고 합의를 빠르게 — 작은 팀의 결정 습관</p>
+<p style="font-size:28px;margin:0;color:var(--ink)"><b>오늘 얻어 가는 것: 결정이 스스로 굴러가는 리듬</b></p>
+<div class="row" style="gap:16px;margin-top:8px">
+<div class="card" style="flex:1;padding:20px 24px;gap:4px"><p class="num" style="font-size:44px;margin:0">9장</p><p class="small" style="font-size:22px;margin:0">덱 구성</p></div>
+<div class="card" style="flex:1;padding:20px 24px;gap:4px"><p class="num" style="font-size:44px;margin:0;color:var(--blue-text)">4가지</p><p class="small" style="font-size:22px;margin:0">학습 질문</p></div>
+<div class="card" style="flex:1;padding:20px 24px;gap:4px"><p class="num" style="font-size:44px;margin:0;color:var(--success)">3+1칸</p><p class="small" style="font-size:22px;margin:0">결정 절차</p></div>
+</div>
+</div>
+
+<div style="flex:1;min-width:0;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:18px;align-content:center">
+<div class="card" style="--bc:var(--tone-2);grid-column:span 2;display:flex;flex-direction:column;justify-content:center;gap:10px;padding:26px 30px;border-top:8px solid var(--bc)">
+<svg viewBox="0 0 100 100" style="width:56px;height:56px" aria-hidden="true"><use href="#i-search" width="96" height="96" x="2" y="2" style="color:var(--bc)"/></svg>
+<h3 style="font-size:30px;margin:0">느려지는 자리</h3><p class="small" style="font-size:22px;margin:0">파트 1 — 의지가 아니라 구조</p>
+</div>
+<div class="card" style="--bc:var(--tone-1);display:flex;flex-direction:column;justify-content:center;gap:10px;padding:26px 30px;border-top:8px solid var(--bc)">
+<svg viewBox="0 0 100 100" style="width:56px;height:56px" aria-hidden="true"><use href="#i-flag" width="96" height="96" x="2" y="2" style="color:var(--bc)"/></svg>
+<h3 style="font-size:30px;margin:0">세 칸 뼈대</h3><p class="small" style="font-size:22px;margin:0">제안→검토→결정</p>
+</div>
+<div class="card" style="--bc:var(--tone-3);display:flex;flex-direction:column;justify-content:center;gap:10px;padding:26px 30px;border-top:8px solid var(--bc)">
+<svg viewBox="0 0 100 100" style="width:56px;height:56px" aria-hidden="true"><use href="#i-tool" width="96" height="96" x="2" y="2" style="color:var(--bc)"/></svg>
+<h3 style="font-size:30px;margin:0">도구·습관</h3><p class="small" style="font-size:22px;margin:0">리듬 장치들</p>
+</div>
+<div class="card" style="--bc:var(--tone-4);display:flex;flex-direction:column;justify-content:center;gap:10px;padding:26px 30px;border-top:8px solid var(--bc)">
+<svg viewBox="0 0 100 100" style="width:56px;height:56px" aria-hidden="true"><use href="#i-doc-check" width="96" height="96" x="2" y="2" style="color:var(--bc)"/></svg>
+<h3 style="font-size:30px;margin:0">기록과 확인</h3><p class="small" style="font-size:22px;margin:0">남는 합의</p>
+</div>
+<div class="card" style="--bc:var(--tone-5);display:flex;flex-direction:column;justify-content:center;gap:10px;padding:26px 30px;border-top:8px solid var(--bc)">
+<svg viewBox="0 0 100 100" style="width:56px;height:56px" aria-hidden="true"><use href="#i-scale" width="96" height="96" x="2" y="2" style="color:var(--bc)"/></svg>
+<h3 style="font-size:30px;margin:0">퀴즈로 점검</h3><p class="small" style="font-size:22px;margin:0">감으로 확인</p>
+</div>
+<div class="card" style="--bc:var(--tone-6);display:flex;flex-direction:column;justify-content:center;gap:10px;padding:26px 30px;border-top:8px solid var(--bc)">
+<svg viewBox="0 0 100 100" style="width:56px;height:56px" aria-hidden="true"><use href="#i-stamp" width="96" height="96" x="2" y="2" style="color:var(--bc)"/></svg>
+<h3 style="font-size:30px;margin:0">선언 배너</h3><p class="small" style="font-size:22px;margin:0">한 방 마무리</p>
+</div>
+<div class="card" style="--bc:var(--tone-1);grid-column:span 2;display:flex;flex-direction:column;justify-content:center;gap:10px;padding:26px 30px;border-top:8px solid var(--bc)">
+<svg viewBox="0 0 100 100" style="width:56px;height:56px" aria-hidden="true"><use href="#i-trophy" width="96" height="96" x="2" y="2" style="color:var(--bc)"/></svg>
+<h3 style="font-size:30px;margin:0">기록이 결정이다</h3><p class="small" style="font-size:22px;margin:0">이 덱의 선언 한 줄</p>
+</div>
+</div>
+</div>
+<p class="cover-date" style="z-index:3;color:var(--soft)">예시 · 2026-11</p>
+<aside class="notes">왼쪽 제목이 타이핑되며 시작합니다 — '작은 팀의' 다음 강조색 '의사결정 리듬'을 짚어 줍니다. 오른쪽 벤토 격자는 오늘 덱의 지도인데, 카드 색이 임의색이 아니라 이 덱 전체에 걸쳐 쓰일 파트 톤 팔레트임을 말해 줍니다 — 같은 색이 뒤의 구분 장과 배너에 다시 나옵니다. 바탕의 은은한 점 격자는 표지와 구분 장에만 쓰는 텍스처입니다. 순서 장으로 넘어갑니다.</aside>
+</section>

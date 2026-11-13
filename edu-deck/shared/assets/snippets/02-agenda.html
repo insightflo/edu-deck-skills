@@ -5,7 +5,7 @@
   단계: 파트마다 1단계, 마지막 단계에 정리 문장
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
   자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
-  파트 톤: 기본 변형의 각 rm-col 에 data-tone="1..7" 을 달면 그 항목의 번호·노드·아이콘 색이
+  파트 톤: 기본 변형의 각 rm-col 에 data-tone="1..7" 을 달면 그 항목의 번호·노드·아이콘·이름 색이
     var(--tone-N) 으로 바뀐다(파트 구분 장의 data-tone 과 같은 번호 — 중간 아젠다에서 이번 파트를
     짚을 때 쓴다). 아젠다 장이 파트 전파 범위 안에 있으면 모든 항목이 그 톤으로 물든다. 미지정 시 동일.
   배치 설명: references/layouts.md · 클래스: references/classes.md
@@ -17,31 +17,31 @@
     <div class="rm-col" data-fx="row-mask-rise" data-step="1">
       <p class="rm-num" style="color:var(--part-tone,var(--blue))">01</p>
       <div class="rm-node" style="--c:var(--part-tone,var(--blue))"><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-flag" width="96" height="96" x="2" y="2" style="color:var(--part-tone,var(--blue))"/></svg></div>
-      <h3 class="rm-h">«파트 이름 ≤9자»</h3>
+      <h3 class="rm-h" style="color:var(--part-tone,var(--ink))">«파트 이름 ≤9자»</h3>
       <p class="rm-q">«학습자 질문 ≤16자»</p>
     </div>
     <div class="rm-col" data-fx="row-mask-rise" data-step="2">
       <p class="rm-num" style="color:var(--part-tone,var(--blue))">02</p>
       <div class="rm-node" style="--c:var(--part-tone,var(--blue))"><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-folder" width="96" height="96" x="2" y="2" style="color:var(--part-tone,var(--blue))"/></svg></div>
-      <h3 class="rm-h">«파트 이름 ≤10자»</h3>
+      <h3 class="rm-h" style="color:var(--part-tone,var(--ink))">«파트 이름 ≤10자»</h3>
       <p class="rm-q">«학습자 질문 ≤16자»</p>
     </div>
     <div class="rm-col" data-fx="row-mask-rise" data-step="3">
       <p class="rm-num" style="color:var(--part-tone,var(--blue))">03</p>
       <div class="rm-node" style="--c:var(--part-tone,var(--blue))"><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-people" width="96" height="96" x="2" y="2" style="color:var(--part-tone,var(--blue))"/></svg></div>
-      <h3 class="rm-h">«파트 이름 ≤9자»</h3>
+      <h3 class="rm-h" style="color:var(--part-tone,var(--ink))">«파트 이름 ≤9자»</h3>
       <p class="rm-q">«학습자 질문 ≤17자»</p>
     </div>
     <div class="rm-col" data-fx="row-mask-rise" data-step="4">
       <p class="rm-num" style="color:var(--part-tone,var(--accent))">04</p>
       <div class="rm-node" style="--c:var(--part-tone,var(--accent))"><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-tool" width="96" height="96" x="2" y="2" style="color:var(--part-tone,var(--accent))"/></svg></div>
-      <h3 class="rm-h">«파트 이름 ≤6자»</h3>
+      <h3 class="rm-h" style="color:var(--part-tone,var(--ink))">«파트 이름 ≤6자»</h3>
       <p class="rm-q">«학습자 질문 ≤17자»</p>
     </div>
     <div class="rm-col" data-fx="row-mask-rise" data-step="5">
       <p class="rm-num" style="color:var(--part-tone,var(--accent-text))">05</p>
       <div class="rm-node" style="--c:var(--part-tone,var(--accent-text))"><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-trophy" width="96" height="96" x="2" y="2" style="color:var(--part-tone,var(--accent-text))"/></svg></div>
-      <h3 class="rm-h">«파트 이름 ≤9자»</h3>
+      <h3 class="rm-h" style="color:var(--part-tone,var(--ink))">«파트 이름 ≤9자»</h3>
       <p class="rm-q">«학습자 질문 ≤14자»</p>
     </div>
   </div>

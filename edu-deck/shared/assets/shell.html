@@ -61,7 +61,7 @@ body{
 
 /* ── 제목·본문 규모 ─────────────────────────────────────── */
 .head{display:flex;flex-direction:column;gap:16px}
-.eyebrow{font-size:28px;font-weight:700;color:var(--accent-text);letter-spacing:3px}
+.eyebrow{font-size:28px;font-weight:700;color:var(--part-tone,var(--soft));letter-spacing:3px}
 .eyebrow::before{content:"";display:inline-block;width:36px;height:5px;background:var(--part-tone,currentColor);margin-right:18px;vertical-align:.18em}
 .dark .eyebrow,.dark .num{color:var(--accent-light)}
 .dark.center{--accent:var(--accent-light)}
@@ -352,7 +352,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 --r1:8px;--r2:16px;--r3:24px;--s1:8px;--s2:16px;--s3:24px;--s4:32px;--s5:40px;--s6:48px;--s8:64px;--s10:80px;--s16:128px;
 --shadow-1:0 8px 24px color-mix(in srgb,var(--ink) 12%,transparent);--shadow-2:0 24px 64px color-mix(in srgb,var(--ink) 24%,transparent)}
 /* 파트 톤: 파트 구분 장의 data-tone="1..7" 이 고르는 강조색 7종 — 라이트 페이퍼 위 4.5:1 이상.
-   소비는 var(--part-tone,…폴백) 형태로만(파트 구분 강조·eyebrow 바·아젠다 항목색 3곳). */
+   소비는 var(--part-tone,…폴백) 형태로만(파트 구분 강조·eyebrow·아젠다 항목·구분 장 톤 선·색면). */
 :root{--tone-1:var(--accent-text);--tone-2:var(--blue-text);--tone-3:var(--success);--tone-4:var(--danger);
 --tone-5:color-mix(in srgb,var(--blue-text) 50%,var(--danger));
 --tone-6:color-mix(in srgb,var(--blue-text) 50%,var(--success));

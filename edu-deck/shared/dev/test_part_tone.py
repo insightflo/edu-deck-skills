@@ -6,8 +6,10 @@
        ② build_deck.propagate_part_tones 가 파트 구분 장의 data-tone 을 다음 구분 장 전까지
          data-part-tone 으로 퍼뜨리고, 톤 없는 구분 장에서 끊고, 저작자의 data-part-tone 은 존중하며,
          톤이 하나도 없으면 원문을 그대로 돌려준다.
-       ③ 소비처 3곳(38-part-divider·core .eyebrow::before·02-agenda)이 var(--part-tone,폴백)을 쓴다.
+       ③ 소비처(38-part-divider·core .eyebrow·02-agenda·구분 장 톤 선·색면)가 var(--part-tone,폴백)을 쓴다.
        ④ classic 테마에서 --tone-1..7 과 --paper 의 대비가 4.5:1 이상이다(본문 글자 수준).
+       ⑤ P1 확장 회귀 — eyebrow 글자·아젠다 라벨·구분 장 6px 톤 선, P4 무드(색면·점 격자·선언 배너),
+          톤 미지정 시 폴백색이 그대로 쓰인다.
 [입력] shared/assets/css/*.css 원본 + build_deck.propagate_part_tones. 브라우저 없음.
 [출력] 없음(단정문).
 """
@@ -26,6 +28,7 @@ COMPONENTS = (S / 'assets/css/components.css').read_text(encoding='utf-8')
 CORE = (S / 'assets/css/core.css').read_text(encoding='utf-8')
 AGENDA = (S / 'assets/snippets/02-agenda.html').read_text(encoding='utf-8')
 DIVIDER = (S / 'assets/snippets/38-part-divider.html').read_text(encoding='utf-8')
+VERDICT = (S / 'assets/snippets/53-verdict.html').read_text(encoding='utf-8')
 THEMES = (S / 'assets/css/themes.css').read_text(encoding='utf-8')
 
 
@@ -50,6 +53,50 @@ class ToneTokens(unittest.TestCase):
         self.assertIn('.eyebrow::before', CORE)
         self.assertIn('var(--part-tone,currentColor)', CORE, '눈금 표시 막대')
         self.assertIn('var(--part-tone,', AGENDA, '아젠다 항목색')
+
+    # ---------- P1 확장 소비 3곳 ----------
+    def test_eyebrow_text_consumes_part_tone(self):
+        # 점(::before)만이 아니라 eyebrow 글자 자체가 톤을 쓴다 — 미지정 시 --soft 폴백.
+        self.assertIn('color:var(--part-tone,var(--soft))', CORE, 'eyebrow 글자색')
+
+    def test_agenda_label_consumes_part_tone(self):
+        # 점·번호만이 아니라 항목 라벨(.rm-h) 글자도 톤을 쓴다 — 미지정 시 --ink 폴백.
+        self.assertIn('var(--part-tone,var(--ink))', AGENDA, '아젠다 라벨색')
+
+    def test_divider_top_tone_line(self):
+        # 파트 구분 장 위쪽 6px 톤 선 — 톤이 있을 때만(::before + data-part-tone 계약).
+        sel = '.slide:is([data-archetype="part-divider"],[data-variant="part-divider"])[data-part-tone]::before'
+        self.assertIn(sel, COMPONENTS, '구분 장 상단 톤 선 선택자')
+        self.assertIn('height:6px;background:var(--part-tone)', COMPONENTS, '6px 톤 선')
+
+    # ---------- P4 무드 장치 ----------
+    def test_divider_tone_wash(self):
+        # 라이트 파트 구분 장 배경을 톤 6% + 종이로 옅게 — 다크·주황은 제외.
+        self.assertIn('color-mix(in srgb,var(--part-tone) 6%,var(--paper))', COMPONENTS, '톤 색면')
+        self.assertIn(':not(.dark):not(.orange)', COMPONENTS, '전면 장은 색면 제외')
+
+    def test_dots_bg_texture(self):
+        # 점 격자 텍스처 — radial-gradient 점 패턴 전용(워시 그라데이트가 아니다).
+        self.assertIn('.dots-bg{', COMPONENTS)
+        self.assertIn('radial-gradient(circle,', COMPONENTS)
+
+    def test_verdict_banner_variant(self):
+        # 마무리 선언 배너 — data-variant="banner", 단색 색면, 그라데이션 없음.
+        self.assertIn('data-variant="banner"', VERDICT)
+        banner = VERDICT.split('data-variant="banner"', 1)[1].split('</section>')[0]
+        self.assertNotIn('gradient', banner, '배너 색면에 그라데이션 금지')
+        self.assertIn('background:var(--part-tone,var(--accent))', banner, '단색 색면(파트 톤 또는 accent)')
+
+    # ---------- 계약: data-tone 미지정 시 폴백 그대로 ----------
+    def test_untoned_fallbacks_unchanged(self):
+        # 새 소비처가 모두 var(--part-tone,기존색) 꼴 — --part-tone 이 없으면 기존 색 그대로.
+        for css, frag in ((CORE, 'var(--part-tone,var(--soft))'),
+                          (CORE, 'var(--part-tone,currentColor)'),
+                          (AGENDA, 'var(--part-tone,var(--ink))')):
+            self.assertIn(frag, css)
+        # 색면·톤 선은 data-part-tone 속성 자체가 없으면 선택되지 않는다(선택자 계약).
+        self.assertIn('[data-part-tone]::before', COMPONENTS)
+        self.assertIn('[data-part-tone]:not(.dark):not(.orange)', COMPONENTS)
 
 
 class Propagation(unittest.TestCase):

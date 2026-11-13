@@ -4,7 +4,7 @@
 --r1:8px;--r2:16px;--r3:24px;--s1:8px;--s2:16px;--s3:24px;--s4:32px;--s5:40px;--s6:48px;--s8:64px;--s10:80px;--s16:128px;
 --shadow-1:0 8px 24px color-mix(in srgb,var(--ink) 12%,transparent);--shadow-2:0 24px 64px color-mix(in srgb,var(--ink) 24%,transparent)}
 /* 파트 톤: 파트 구분 장의 data-tone="1..7" 이 고르는 강조색 7종 — 라이트 페이퍼 위 4.5:1 이상.
-   소비는 var(--part-tone,…폴백) 형태로만(파트 구분 강조·eyebrow 바·아젠다 항목색 3곳). */
+   소비는 var(--part-tone,…폴백) 형태로만(파트 구분 강조·eyebrow·아젠다 항목·구분 장 톤 선·색면). */
 :root{--tone-1:var(--accent-text);--tone-2:var(--blue-text);--tone-3:var(--success);--tone-4:var(--danger);
 --tone-5:color-mix(in srgb,var(--blue-text) 50%,var(--danger));
 --tone-6:color-mix(in srgb,var(--blue-text) 50%,var(--success));

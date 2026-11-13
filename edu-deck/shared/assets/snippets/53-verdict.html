@@ -77,3 +77,16 @@
   <p class="fact fact--quiet" data-src="«F01»">«심사 근거 ≤45자»</p>
   <aside class="notes">«발표자 노트 110~450자»</aside>
 </section>
+
+<!-- banner: 마무리 선언 '한 방' — 단색 색면(그라디언트 금지) + 대형 타이포.
+     색면은 파트 톤 범위 안이면 그 파트의 깊은 톤(--part-tone), 아니면 --accent 단색.
+     구역 2개(선언·부기)만 두어 선언이 모든 시선을 먹는다. 제목 없이 .big 이 제목 역할을 한다. -->
+<section class="slide" data-archetype="verdict" data-variant="banner" style="padding:0;background:var(--part-tone,var(--accent))">
+  <div class="col" style="flex:1;min-height:0;justify-content:center;align-items:center;gap:44px;text-align:center;padding:0 var(--s16)">
+    <p style="font-size:32px;font-weight:700;letter-spacing:8px;color:var(--paper)">«파트 표시 ≤12자»</p>
+    <h2 class="big" style="font-size:150px;line-height:1.05;color:var(--paper)">«선언 한 줄 ≤8자»</h2>
+    <div style="width:160px;height:6px;background:var(--paper)"></div>
+    <p style="font-size:34px;font-weight:700;color:var(--paper)">«한 줄 부기 ≤20자»</p>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자»</aside>
+</section>
