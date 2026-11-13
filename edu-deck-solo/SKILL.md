@@ -69,6 +69,7 @@ python3 <solo>/scripts/preview_pack.py record <작업 폴더> --design <ID> \
 - 시리즈(edu-deck-series)는 이 선택을 시리즈 제작 전 1회만 한다(편마다 반복하지 않고 모든 편이 같은 선택을 공유한다). 기존 덱을 수정할 때는 다시 묻지 않는다.
 
 ### 4. 슬라이드 조각 → src/
+- **속도 규칙(`<base>/references/authoring.md` 8절)을 따른다** — 턴당 모델 지연이 수십 초라 턴 수가 총 시간을 결정한다: 조각은 한 턴에 3~5개씩 연속 작성·명령은 한 줄로 묶고(cd … && build && check)·게이트는 저작 마친 뒤 1회(수정 시 `--slides 변경장 --no-render` 부분 검사)·references/PDF 는 필요 절만 발췌해 읽는다.
 - [공통 반응형 계약](../edu-deck/shared/references/responsive.md)을 읽는다. 배치만 바꾸며 단계·노트·퀴즈 내용은 한 벌로 유지한다. 좁은 화면은 원본 배치를 축소해 보여 주며 재배치·글꼴 하한을 두지 않는다.
 - 두 경로 모두 `<base>/references/DESIGN_TOKENS.md`·`MOTION_LIBRARY.md`를 적용한다. 15색 의미 토큰, 3반경·2그림자·8px 간격·1/2px 선, 임베드 Pretendard를 사용한다. 본문 굵기 상한은 800, 표지 제목·대형 숫자만 900이다.
 - 장마다 의미별 임팩트를 하나 이상 둔다. `data-archetype`는 내용에 맞게 고르고 비유·예시에는 인라인 SVG 도식·일러스트·업무 장면을 짝짓는다. 개념 SVG 도식의 설계 규칙·문법·함정은 `<base>/references/diagrams.md`를 따른다(기본·팩 경로 공통). 라스터는 꼭 필요할 때만 base64로 넣고 합계 1.5MB를 넘기지 않는다. 외부 로딩은 금지한다.
