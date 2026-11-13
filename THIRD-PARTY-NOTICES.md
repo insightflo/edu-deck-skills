@@ -63,6 +63,28 @@ unslop 은 CC BY 4.0 으로 공개됩니다 (© Damir Sokolovsky).
 - 저장소 안의 연결 파일: `consulting-deck/charts/flint_env.py`(감지·설치·상태) · `flint-package.json`(버전 핀) · `flint_gen.mjs`(정적 SVG → 조각) · `flint-theme.json`(테마 SSOT) · `flint-schema.md`(모델 계약). 생성기·스키마·테마 값은 우리 계약으로 새로 작성했으며 flint 소스를 복제하지 않았습니다.
 - 라이선스 전문: `licenses/FLINT-CHART-MIT.txt` (flint-chart·flint-chart-mcp), `licenses/VEGA-BSD-3-CLAUSE.txt`, `licenses/VEGA-LITE-BSD-3-CLAUSE.txt`.
 
+## codex-ppt-skill (스타일 자산 사본 — MIT)
+
+`edu-deck/shared/assets/style-sheets/` 안의 12종 스타일 명세(중문 `.md`)·미리보기 PNG 는
+**ningzimu/codex-ppt-skill** (© 2026 ningzimu) 저장소 `references/`·`assets/style-previews/` 의 사본입니다.
+스킬 폴더 자체는 장 전체를 생성 이미지로 만드는 비편집 방식이라 "편집 가능한 최종 PPTX" 요구에
+맞지 않아 채택하지 않았습니다(편집 가능 경로는 아래 ppt-master).
+
+edu-deck 의 승인 게이트(구성안 승인·대표 샘플 승인)와 "한 덱 한 스타일" 절은
+`docs/workflow-gates-and-progress.md` 의 절차 개념만 참조해 우리말로 재작성했으며,
+원문 문구를 복제하지 않았습니다.
+
+라이선스 전문은 `licenses/CODEX-PPT-SKILL-MIT.txt` 에 있습니다.
+
+## ppt-master (스킬 폴더 바이트 사본 — MIT)
+
+`ppt-master/` 는 **hugohe3/ppt-master** (© 2025-2026 Hugo He, v6.9.0) 저장소
+`skills/ppt-master/` 의 사본입니다(파일 헤더·저작권 보존, 내용 무수정).
+네이티브 DrawingML PPTX 생성 경로이며, `edu-deck/shared/references/design.md` 의
+"회상 색인 → 판단 → 경계" 골격과 장 리듬 개념도 이 프로젝트의 craft 규칙을
+슬라이드에 맞게 각용해 직접 작성한 것입니다(design.md 머리말 표기 참조).
+라이선스 전문은 `licenses/PPT-MASTER-MIT.txt` 에 있습니다.
+
 ## technical-reveal (개념 참조 — 코드 미복사, MIT)
 
 `data-fx="draft"`(래스터 이미지가 도면처럼 재구성되며 등장하는 공통 모션 기법)은

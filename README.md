@@ -102,6 +102,7 @@ git clone https://github.com/insightflo/edu-deck-skills.git ~/.pi/agent/skills/e
 
 - "신입 직원용 개인정보 보호 교육자료 만들어줘" → `edu-deck-solo` (한 주제 한 덱)
 - "안전 교육 6편 시리즈로 만들어, 진도 관리되게" → `edu-deck-series` (시리즈 + 포털)
+- "이 자료를 PPT(.pptx) 파일로 만들어줘" → `ppt-master` (네이티브 편집 가능 PPTX — 도형·데이터 차트·표·슬라이드 마스터)
 
 저작은 기본이 **자유 모드**입니다. 재료(조각·템플릿·카탈로그·표지 변형)는 그대로 쓰거나 변형·조합·새로 설계해도 모두 정상 저작이고, 선택은 에이전트가 판단합니다(`shared/references/authoring.md`). 막히거나 지시받으면 가이드 문서로 전환합니다(3회 실패 자동·지시 지정·위임자 판단). 모델 이름으로 갈리지 않습니다.
 
