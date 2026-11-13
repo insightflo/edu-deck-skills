@@ -41,7 +41,7 @@ description: "Use when the user wants a multi-episode education or training seri
 - 허브와 편 모두 [공통 반응형 계약](../edu-deck/shared/references/responsive.md)을 따른다. 공통 계층을 편 CSS에 복제하지 않는다. 기존 포털은 다시 조립해야 반영된다.
 - 모든 편에 `<base>/references/DESIGN_TOKENS.md`·`MOTION_LIBRARY.md`를 적용한다. 공통 Pretendard·15색 의미 토큰·단계 시그니처는 포털에 한 번 포함된다. 모션을 편 CSS나 조각에 복제하지 않는다.
 - 비유·예시에는 도식·일러스트·장면 모형을 짝짓고 인라인 SVG를 우선한다. 개념 SVG 도식의 설계 규칙·문법·함정은 `<base>/references/diagrams.md`를 따른다(기본·팩 경로 공통). 라스터는 편당 합계 1.5MB 이내 base64만 사용한다. 외부 로딩은 금지한다. 자습·인쇄·움직임 줄이기에서 현재 의미 단계의 정적 완결을 확인한다.
-각 편 폴더 `<작업 폴더>/<NN>-<편-이름>/` 에서 edu-deck-solo 의 3~6단계(구성 → 조각 → 조립 → 말투 교정 → 검사)를 그대로 밟는다:
+각 편 폴더 `<작업 폴더>/<NN>-<편-이름>/` 에서 edu-deck-solo 의 3~6단계(구성 → 조각 → 말투 교정(4.5) → 조립 → 검사)를 그대로 밟는다:
 - 새 편의 `deck.json`에는 `title`·`output`을 넣는다. 팩 편일 때만 `resource_pack`을 명시한다: `{"design":"workbook","flow":"follow","activities":[]}` — 디자인·주흐름은 시리즈에서 한 번 고른 선택을 모든 편이 공유한다. 선택 키 `summary`·`glossary`는 series.md 5절대로 편별로 작성한다. 기본 경로 편은 `resource_pack`을 넣지 않는다.
 - 새 편은 solo 4단계를 따른다. 기본(legacy) 경로는 snippets·아이콘·개념 SVG 도식으로 직접 저작하고, 팩 경로는 `<base>/references/resource-packs.md`의 init→직접 저작 경로를 따른다(init은 비어 있는 폴더에만 실행). 생성된 안내·자동 노트를 조사된 교육 내용과 실제 110~450자 노트로 교체하고, 같은 디자인 안에서 여러 배치 변형을 만든다. 각 편을 고정 cover→why→how로 만들지 않는다.
 - 팩 편도 공통 아이콘 묶음(icons.svg의 `i-*`·화살촉)과 개념 SVG 도식(`diagrams.md`)은 쓸 수 있다. 다만 legacy snippets·배치 클래스·CSS는 팩 편에 섞지 않는다. 확인 문제 `.chk`·자습·단계 공개 계약은 유지한다. 크레파스 저작 속성은 공통 모션 엔진의 캔버스 크레파스 표시로 연결한다. 기본 경로 편은 layouts·expression·classes·icons의 배치 규칙을 쓴다. 조각에 id가 있어도 된다(조립기가 편마다 id 접두를 붙여 충돌을 막는다).
@@ -51,7 +51,7 @@ description: "Use when the user wants a multi-episode education or training seri
 - 사용자 `src/*.css`는 편 내부 클래스 선택자(예: `.lesson-panel`)로 작성한다. `:root`, `html`, `body`, 루트 ID나 편 밖 조상에 의존하는 선택자는 쓰지 않는다. 공통 제공 자산의 `:root{` 토큰만 조립기가 편의 `:scope`로 변환한다. 사용자 CSS에 같은 변환을 기대하지 않는다(`<base>/references/resource-packs.md` 5절).
 - 각 편의 확인 문제(check 장)는 **같은 편 안의 장**을 다시 보기 대상으로 잡는다(data-review ↔ data-key 가 편 안에서 짝).
 - 편 단위 검사: `python3 <base>/scripts/build_deck.py <편 폴더>` → `python3 <base>/scripts/check_deck.py <편 폴더>/<output> …` — 편마다 PASS 나올 때까지(solo 6단계 기준).
-- 편 단위 말투 교정: 3단계 포털 조립 전에 각 편이 solo 5.5단계(`<base>/references/copyedit.md`)를 끝낸다. 어느 편이든 교정을 건너뛰면 그 사실을 보고한다.
+- 편 단위 말투 교정: 3단계 포털 조립 전에 각 편이 solo 4.5단계 대본 검토 게이트(`<base>/references/copyedit.md`·`<base>/skills/{red-pen,humanize-korean}`)를 끝낸다. 어느 편이든 교정을 건너뛰면 그 사실을 보고한다.
 
 ### 3. series.json → 포털 조립
 - `<작업 폴더>/series.json` 을 series.md 4절 양식으로 쓴다: 시리즈 제목·소개·허브 유형(map 은 단계 묶음 groups)·편 목록(폴더·라벨·제목·소개·색·태그)·시리즈 공통 용어집(선택).

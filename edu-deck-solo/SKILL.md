@@ -94,7 +94,8 @@ python3 <base>/scripts/build_deck.py <작업 폴더>
 ```
 - ERROR 면 메시지대로 고친다. `자리표시 «…» N개` 경고가 남으면 4단계로 돌아간다.
 
-### 5.5 말투 교정 (필수)
+### 4.5 말투 교정 (필수 — 대본 검토 게이트)
+- **시점(2026-11-13 변경)**: 4단계에서 화면 글·노트(대본)를 다 쓴 직후, **5단계 조립 전에 반드시 1회** 돌린다 — 어색한 글은 제작(조립·검사·크리틱) 들어가기 전에 잡는다. 이후 화면 글·노트를 크게 고쳤으면 다시 돌린다.
 첫 조립이 깨끗이 끝난 뒤, 6단계 검사 전에 반드시 거친다. 절차·내장 체크리스트는 `<base>/references/copyedit.md` 를 따른다.
 1. `python3 <base>/scripts/extract_copy.py <작업 폴더>` → `qa/copy/copy.md`
 2. red-pen 으로 진단 → `qa/copy/feedback.md` (구조·표현·군더더기 중심)
@@ -146,7 +147,9 @@ python3 <base>/scripts/verify_sources.py <작업 폴더> --fetch
 | `<base>/references/composition.md` | 3단계: 기본(legacy)/팩 분기, 공통 노트·자습 데이터; 고정 줄거리·유형표는 기본 경로 |
 | `<base>/references/layouts.md` | 4단계(기본 경로): 아키타입 34종 조각과 배치·단계·주의 |
 | `<base>/references/expression.md` | 4단계: 문장, 글자 수 한도, 색 의미, 글자 크기, 단계 등장, 피할 것 |
-| `<base>/references/copyedit.md` | 5.5단계: 말투 교정 순서·되돌리기 규칙·스킬 없을 때 내장 체크리스트 |
+| `<base>/references/copyedit.md` | 4.5단계: 말투 교정(대본 검토 게이트) 순서·되돌리기 규칙·내장 체크리스트 |
+| `<base>/skills/red-pen/SKILL.md` | 4.5단계 진단 — 편집장 16기준(Bone/F Flesh/Soul) 문서형 스킬(repo 로컬) |
+| `<base>/skills/humanize-korean/SKILL.md` | 4.5단계 윤문 — 10대 카테고리 70패턴 분류 문서형 스킬(repo 로컬, shim 부재 시 문서 기준 적용) |
 | `<base>/references/design-critique.md` | 6단계: 공통 심미 크리틱 — 독립 검수 6단계·9항목·Blocker/Major/Minor·캡처 도구·크리틱 에이전트 호출 |
 | `<base>/references/classes.md` | 4단계: 셸 클래스, 모형 창 6종 마크업, 단계 속성 |
 | `consulting-deck/charts/flint_env.py` | 참고: 컨설팅 덱 전용 flint 차트 엔진의 설치 감지·상태 도구(교육 덱은 스니펫 내장 차트 사용 — 파이프라인 미연결) |

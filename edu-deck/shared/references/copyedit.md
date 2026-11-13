@@ -1,4 +1,4 @@
-> **로드 시점**: 4단계 조각 작성을 마치고 첫 조립이 깨끗이 끝난 직후 — 6단계 최종 검사 전에 반드시 거친다. 이후 화면 글·노트를 크게 고쳤을 때도 다시 거친다.
+> **로드 시점**: 4단계에서 화면 글·노트(대본)를 다 쓴 직후, **5단계 조립 전에 반드시 1회**(대본 검토 게이트 — 어색한 글은 제작 전에 잡는다). 이후 화면 글·노트를 크게 고쳤을 때도 다시 거친다.
 
 # 말투 교정(필수)
 
@@ -13,8 +13,8 @@
 ## 2. 순서
 
 1. **추출** — `extract_copy.py` 로 `qa/copy/copy.md` 생성.
-2. **진단 — red-pen 스킬** — copy.md 를 넣고 구조·표현·군더더기 중심으로 진단 → `qa/copy/feedback.md` 저장. '감정·여운' 같은 산문 기준은 슬라이드 글에 맞지 않으므로 화면에는 적용하지 않고 노트에만 가볍게 참고한다.
-3. **윤문 — humanize-korean 스킬** — 진단을 반영해 화면 글과 노트를 모두 고쳐 `qa/copy/copy.edited.md` 생성. 숫자·이름·인용·사실 칩·코드·메뉴명(의미 앵커)은 그대로 둔다.
+2. **진단 — red-pen(`<base>/skills/red-pen/SKILL.md`)** — repo 로컬 문서형 스킬을 읽어 16기준(구조 Bone·표현 Flesh·영혼 Soul)으로 copy.md 진단 → `qa/copy/feedback.md` 저장. '감정·여운' 같은 산문 기준은 슬라이드 글에 맞지 않으므로 화면에는 적용하지 않고 노트에만 가볍게 참고한다.
+3. **윤문 — humanize-korean(`<base>/skills/humanize-korean/SKILL.md`)** — repo 로컬 문서형 스킬의 10대 카테고리 70패턴 기준(references/ai-tell-taxonomy.md)으로 진단을 반영해 화면 글과 노트를 고쳐 `qa/copy/copy.edited.md` 생성. (실행 shim 스크립트는 미동재 — 문서 기준 적용이 정상 경로다.) 숫자·이름·인용·사실 칩·코드·메뉴명(의미 앵커)은 그대로 둔다.
 4. **마무리 점검 — im-human 스킬** — 쉬운 존댓말인지, 전문 용어가 노트에서 처음 나올 때 한 줄 풀이가 있는지, 없는 사실을 넣지 않았는지 확인한다. 화면 글 길이 한도(`expression.md` 2절)는 유지한다.
 5. **되돌리기·재검사** — `extract_copy.py --apply qa/copy/copy.edited.md` → `build_deck.py` 재조립 → `check_deck.py` + `verify_sources.py` 다시 통과 → `apply-report.md` 를 qa 폴더에 보존한다.
 6. **보고** — 완료 보고에 교정 결과를 적는다: 바뀐 줄 수, 보류 줄(위치·이유), 실행 못 한 스킬.
