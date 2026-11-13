@@ -1,5 +1,13 @@
 # edu-deck skills — 프롬프트 하나로 한국어 교육 자료
 
+<!-- gitreels:start -->
+<p align="center">
+  <a href="https://gitreels.com/insightflo/edu-deck-skills"><img src="https://gitreels.com/insightflo/edu-deck-skills.webp?lang=ko" alt="insightflo/edu-deck-skills in 15 seconds" width="100%"></a>
+  <br>
+  <a href="https://gitreels.com"><img src="https://gitreels.com/badge.svg" alt="Made with GitReels" height="24"></a>
+</p>
+<!-- gitreels:end -->
+
 [![30초 소개 쇼](docs/intro-cover.webp)](https://insightflo.github.io/edu-deck-skills/)
 
 <sub>이전 녹화물: [30초](docs/edu-deck-skills-30-v1.0.0.mp4) · [15초](docs/edu-deck-skills-15-v1.0.0.mp4) · [GIF](docs/reel-loop.gif)</sub>
