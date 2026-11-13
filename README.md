@@ -17,8 +17,6 @@
 [![Assets](https://img.shields.io/badge/%EC%9E%A5%20%EB%B0%B0%EC%B9%98-52%EA%B3%84%EC%97%B4%20253%EB%B3%80%ED%98%95-e8772e?style=flat-square)](docs/gallery.html)
 [![Tests](https://img.shields.io/badge/%ED%9A%8C%EA%B7%80-384%20tests%20%C2%B7%20pack%2064%2F64-59c3d6?style=flat-square)](#5-검증--검사기는-계약-품질-판단은-사람)
 
-![데모](docs/demo-quiz.gif)
-
 **[예시 4종](#1-예시-4종--실물)** · **[도식 3장](#2-한눈에-보는-구성)** · **[자산 갤러리](#3-자산-갤러리--재료-전부)** · **[사용법](#4-사용법)**
 
 > 덱 파일은 폰트를 품은 단일 HTML(~3MB)이라 GitHub 내장 뷰어가 못 엽니다. **▶ 버튼(원본 서빙 링크)으로 바로 열어** 보세요. 다운로드는 카드의 `소스` 링크에서.
@@ -64,17 +62,19 @@
 
 **무엇을 만들 수 있나 — 지원 범위** (수치는 저장소 회귀로 검증)
 
-<img src="docs/diagrams/diagram-scope.png" width="100%" alt="지원 범위 도식 — 규모 1편/N편, legacy 테마 8종·arc 5종·조각 52계열 253변형·표지 16종, 팩 8설계×8흐름 64조합, 덱 유형 4종, 기본 포함 기능">
+<img src="docs/diagrams/diagram-scope.png" width="100%" alt="지원 범위 도식 — 진입 판별 1편 edu-deck-solo/N편 edu-deck-series, legacy 테마 17종(기본 classic 포함)·arc 6종·표지 변형 16종·조각 52계열 253변형, 팩 설계 8×흐름 8=64조합, 전문 도식 생성기 3종·컨설팅 차트 15유형·600×820px 인사이트북, 덱 유형 4종, 기본 포함·품질 계약 단일 HTML">
 
 **어떻게 만들어지나 — 요청부터 검사까지** (실선=코드 강제, 점선=에이전트 수행)
 
-<img src="docs/diagrams/diagram-pipeline.png" width="46%" alt="저작 파이프라인 도식 — 요청→라우팅→legacy/팩 경로→조립→검사"> <img src="docs/diagrams/diagram-cross.png" width="52.6%" alt="완성 덱 단면 도식 — 슬라이드·단계공개·노트·퀴즈·자습·출처 층위">
+<img src="docs/diagrams/diagram-pipeline.png" width="100%" alt="저작 파이프라인 도식 — 요청→라우팅→조사·원장→저작→조립→2중 검수→단일 HTML">
 
-**완성 덱 하나의 단면** — 파일 하나에 교육 자료 전체 층위: 슬라이드(253변형·8테마·모션 실행 이름 42종+기법 5종) / 단계 공개 / 발표자 노트(60자 이상 검사) / 확인 문제·퀴즈 / 자습 모드·용어집·검색 / 출처·검증 층. [**▶ 자산 갤러리에서 실물 378점 보기**](https://insightflo.github.io/edu-deck-skills/docs/gallery.html)
+<img src="docs/diagrams/diagram-cross.png" width="100%" alt="완성 덱 단면 도식 — 슬라이드·진행·발표·학습·신뢰 5개 층">
+
+**완성 덱 하나의 단면** — 파일 하나에 교육 자료 전체 층위: 슬라이드(253변형·테마 17종·모션 실행 이름 42종+공통 기법 9종) / 단계 공개 / 발표자 노트(60자 이상 검사) / 확인 문제·퀴즈 / 자습 모드·용어집·검색 / 출처·검증 층. [**▶ 자산 갤러리에서 실물 378점 보기**](https://insightflo.github.io/edu-deck-skills/docs/gallery.html)
 
 ## 3. 자산 갤러리 — 재료 전부
 
-스킬이 조립에 쓰는 재료를 실제 빌드 파이프라인으로 렌더해 전시합니다 — 다양함의 원천이 무엇인지 솔직하게: 눈에 보이는 다양함은 **설계 8종·배치 조각 253변형·테마 8종**이 만들고, 흐름은 수업 구성을 바꿉니다.
+스킬이 조립에 쓰는 재료를 실제 빌드 파이프라인으로 렌더해 전시합니다 — 다양함의 원천이 무엇인지 솔직하게: 눈에 보이는 다양함은 **설계 8종·배치 조각 253변형·테마 17종**이 만들고, 흐름은 수업 구성을 바꿉니다.
 
 **[▶ 갤러리 열기 (설계 필터·라이트박스)](https://insightflo.github.io/edu-deck-skills/docs/gallery.html)** · [▶ 장 배치 63종 전체 덱으로 넘겨 보기](https://insightflo.github.io/edu-deck-skills/docs/gallery-archetypes.html)
 
