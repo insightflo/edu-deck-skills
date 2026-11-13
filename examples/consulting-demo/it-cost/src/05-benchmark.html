@@ -1,44 +1,15 @@
-<!-- consulting chart — ranked-bar-h
-     모델: examples/consulting-demo/it-cost/charts/05-benchmark.json · 생성: node consulting-deck/charts/chart_gen.mjs --in examples/consulting-demo/it-cost/charts/05-benchmark.json -o <이 파일>
-     질문: 우리 IT 비용 수준은 비교 집단 어디에 위치하나
-     손으로 고치지 않는다. 모델을 고치고 다시 생성한다. -->
-<section class="slide consult" data-archetype="chart-bar" data-variant="ranked" style="gap:18px">
+<!-- consulting chart — flint:Bar Chart (theme consult)
+     모델: charts/05-benchmark.flint.json · 생성: node consulting-deck/charts/flint_gen.mjs --in charts/05-benchmark.flint.json -o <이 파일>
+     flint-chart 1.0.1 renderSvg 정적 산출물 무손실 삽입 — 손으로 고치지 않는다. -->
+<section class="slide consult" data-archetype="chart-flint" style="gap:18px">
   <div class="head"><p class="eyebrow">IT 비용 매출 비율 벤치마크 · FY25</p><h2 class="title">IT 비용은 매출의 4.1% — 비교 5사 중 두 번째로 높다</h2></div>
   <div class="c-sidecar">
     <div class="c-sidecar-main">
-  <svg class="dg" data-lint="svg-diagram" viewBox="0 0 1040 536" role="img" aria-label="동종 제조 5사의 IT 비용 매출 비율: C사 3.4, B사 3.6, A사 3.9, 우리 회사 4.1, D사 4.5퍼센트">
-    <title>IT 비용은 매출의 4.1% — 비교 5사 중 두 번째로 높다</title>
-    <text class="k-t-tag" x="0" y="42">(단위: %)</text>
-    <line x1="320" y1="56" x2="320" y2="454" stroke="var(--line)" stroke-width="2.5"/>
-    <line x1="320" y1="492" x2="980" y2="492" stroke="var(--line)" stroke-width="2.5"/>
-    <g data-step="1">
-      <text x="300" y="106" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">경쟁 D사</text>
-      <rect x="320" y="70" width="580" height="56" rx="8" fill="var(--track)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
-      <text x="916" y="106" font-size="28" font-weight="800" fill="var(--ink)">4.5</text>
-    </g>
-    <g data-step="2">
-      <text x="300" y="188" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">우리 회사</text>
-      <rect x="320" y="152" width="528.44" height="56" rx="8" fill="var(--accent)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
-      <text x="864.44" y="188" font-size="28" font-weight="800" fill="var(--ink)">4.1</text>
-    </g>
-    <g data-step="3">
-      <text x="300" y="270" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">경쟁 A사</text>
-      <rect x="320" y="234" width="502.67" height="56" rx="8" fill="var(--track)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
-      <text x="838.67" y="270" font-size="28" font-weight="800" fill="var(--ink)">3.9</text>
-    </g>
-    <g data-step="4">
-      <text x="300" y="352" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">경쟁 B사</text>
-      <rect x="320" y="316" width="464" height="56" rx="8" fill="var(--track)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
-      <text x="800" y="352" font-size="28" font-weight="800" fill="var(--ink)">3.6</text>
-    </g>
-    <g data-step="5">
-      <text x="300" y="434" text-anchor="end" font-size="26" font-weight="700" fill="var(--ink)">경쟁 C사</text>
-      <rect x="320" y="398" width="438.22" height="56" rx="8" fill="var(--track)" data-fx="bar-grow" style="transform-box:fill-box;transform-origin:left center"/>
-      <text x="774.22" y="434" font-size="28" font-weight="800" fill="var(--ink)">3.4</text>
-    </g>
-    </svg>
+  <figure class="c-fig" role="img" aria-label="동종 제조 5사의 IT 비용 매출 비율 가로 막대: C사 3.4, B사 3.6, A사 3.9, 우리 회사 4.1, D사 4.5퍼센트" data-step="1" style="margin:0;flex:1;min-height:0">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="marks" width="1174" height="758" viewBox="0 0 1174 758"><rect width="1174" height="758" fill="#fffdf9"/><g fill="none" stroke-miterlimit="4" transform="translate(139,256)"><g class="mark-group role-frame root" role="graphics-object" aria-roledescription="group mark container"><g transform="translate(0,0)"><path class="background" aria-hidden="true" d="M0,0h983v465h-983Z"/><g><g class="mark-group role-axis"><g transform="translate(0.5,465.5)"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z" pointer-events="none"/><g/><path class="foreground" aria-hidden="true" d="" pointer-events="none" display="none"/></g></g><g class="mark-group role-axis" role="graphics-symbol" aria-roledescription="axis" aria-label="Y-axis for a discrete scale with 5 values: 우리 회사, 경쟁 C사, 경쟁 B사, 경쟁 A사, 경쟁 D사"><g transform="translate(0.5,0.5)"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z" pointer-events="none"/><g><g class="mark-text role-axis-label" pointer-events="none"><text text-anchor="end" transform="translate(-7,52.999999999999986)" font-family="Pretendard, sans-serif" font-size="24px" fill="#4a5563" opacity="1">우리 회사</text><text text-anchor="end" transform="translate(-7,146)" font-family="Pretendard, sans-serif" font-size="24px" fill="#4a5563" opacity="1">경쟁 C사</text><text text-anchor="end" transform="translate(-7,239)" font-family="Pretendard, sans-serif" font-size="24px" fill="#4a5563" opacity="1">경쟁 B사</text><text text-anchor="end" transform="translate(-7,332)" font-family="Pretendard, sans-serif" font-size="24px" fill="#4a5563" opacity="1">경쟁 A사</text><text text-anchor="end" transform="translate(-7,425)" font-family="Pretendard, sans-serif" font-size="24px" fill="#4a5563" opacity="1">경쟁 D사</text></g></g><path class="foreground" aria-hidden="true" d="" pointer-events="none" display="none"/></g></g><g class="mark-rect role-mark layer_0_marks" role="graphics-object" aria-roledescription="rect mark container"><path aria-label="비율: 4.1; 사: 우리 회사; 구분: 우리 회사" role="graphics-symbol" aria-roledescription="bar" d="M0,13.949999999999989h854.6222222222221v65.1h-854.6222222222221Z" fill="#085a9e" stroke="#fffdf9" stroke-width="0.6"/><path aria-label="비율: 3.4; 사: 경쟁 C사; 구분: 경쟁사" role="graphics-symbol" aria-roledescription="bar" d="M0,106.94999999999999h708.7111111111111v65.1h-708.7111111111111Z" fill="#4a6183" stroke="#fffdf9" stroke-width="0.6"/><path aria-label="비율: 3.6; 사: 경쟁 B사; 구분: 경쟁사" role="graphics-symbol" aria-roledescription="bar" d="M0,199.95h750.4000000000001v65.1h-750.4000000000001Z" fill="#4a6183" stroke="#fffdf9" stroke-width="0.6"/><path aria-label="비율: 3.9; 사: 경쟁 A사; 구분: 경쟁사" role="graphics-symbol" aria-roledescription="bar" d="M0,292.95h812.9333333333334v65.1h-812.9333333333334Z" fill="#4a6183" stroke="#fffdf9" stroke-width="0.6"/><path aria-label="비율: 4.5; 사: 경쟁 D사; 구분: 경쟁사" role="graphics-symbol" aria-roledescription="bar" d="M0,385.95h938v65.1h-938Z" fill="#4a6183" stroke="#fffdf9" stroke-width="0.6"/></g><g class="mark-text role-mark layer_1_marks" role="graphics-object" aria-roledescription="text mark container"><text aria-label="비율: 4.1; 사: 우리 회사" role="graphics-symbol" aria-roledescription="text mark" text-anchor="start" transform="translate(858.6222222222221,53.499999999999986)" font-family="Georgia, 'Times New Roman', serif" font-size="24px" font-weight="600" fill="#111822">4.1</text><text aria-label="비율: 3.4; 사: 경쟁 C사" role="graphics-symbol" aria-roledescription="text mark" text-anchor="start" transform="translate(712.7111111111111,146.5)" font-family="Georgia, 'Times New Roman', serif" font-size="24px" font-weight="600" fill="#111822">3.4</text><text aria-label="비율: 3.6; 사: 경쟁 B사" role="graphics-symbol" aria-roledescription="text mark" text-anchor="start" transform="translate(754.4000000000001,239.5)" font-family="Georgia, 'Times New Roman', serif" font-size="24px" font-weight="600" fill="#111822">3.6</text><text aria-label="비율: 3.9; 사: 경쟁 A사" role="graphics-symbol" aria-roledescription="text mark" text-anchor="start" transform="translate(816.9333333333334,332.5)" font-family="Georgia, 'Times New Roman', serif" font-size="24px" font-weight="600" fill="#111822">3.9</text><text aria-label="비율: 4.5; 사: 경쟁 D사" role="graphics-symbol" aria-roledescription="text mark" text-anchor="start" transform="translate(942,425.5)" font-family="Georgia, 'Times New Roman', serif" font-size="24px" font-weight="600" fill="#111822">4.5</text></g><g class="mark-rule role-mark layer_2_marks" role="graphics-symbol" aria-roledescription="rule mark container"><line transform="translate(0,0)" x2="0" y2="465" stroke="#9aa3ae" stroke-width="1"/></g><g class="mark-group role-legend" role="graphics-symbol" aria-roledescription="legend" aria-label="Symbol legend titled '구분' for fill color with 2 values: 우리 회사, 경쟁사"><g transform="translate(0,-102)"><path class="background" aria-hidden="true" d="M0,0h272v24h-272Z" pointer-events="none"/><g><g class="mark-group role-legend-entry"><g transform="translate(53,0)"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z" pointer-events="none"/><g><g class="mark-group role-scope" role="graphics-object" aria-roledescription="group mark container"><g transform="translate(0,0)"><path class="background" aria-hidden="true" d="M0,0h124v24h-124Z" pointer-events="none" opacity="1"/><g><g class="mark-symbol role-legend-symbol" pointer-events="none"><path transform="translate(12,12)" d="M-5,-5h10v10h-10Z" fill="#085a9e" stroke="#fffdf9" stroke-width="1.5" opacity="1"/></g><g class="mark-text role-legend-label" pointer-events="none"><text aria-label="우리 회사" role="graphics-symbol" aria-roledescription="text mark" text-anchor="start" transform="translate(28,19)" font-family="Pretendard, sans-serif" font-size="24px" fill="#4a5563" opacity="1">우리 회사</text></g></g><path class="foreground" aria-hidden="true" d="" pointer-events="none" display="none"/></g><g transform="translate(134,0)"><path class="background" aria-hidden="true" d="M0,0h85v24h-85Z" pointer-events="none" opacity="1"/><g><g class="mark-symbol role-legend-symbol" pointer-events="none"><path transform="translate(12,12)" d="M-5,-5h10v10h-10Z" fill="#4a6183" stroke="#fffdf9" stroke-width="1.5" opacity="1"/></g><g class="mark-text role-legend-label" pointer-events="none"><text aria-label="경쟁사" role="graphics-symbol" aria-roledescription="text mark" text-anchor="start" transform="translate(28,19)" font-family="Pretendard, sans-serif" font-size="24px" fill="#4a5563" opacity="1">경쟁사</text></g></g><path class="foreground" aria-hidden="true" d="" pointer-events="none" display="none"/></g></g></g><path class="foreground" aria-hidden="true" d="" pointer-events="none" display="none"/></g></g><g class="mark-text role-legend-title" pointer-events="none"><text text-anchor="start" transform="translate(0,19)" font-family="Pretendard, sans-serif" font-size="24px" font-weight="700" fill="#4a5563" opacity="1">구분</text></g></g><path class="foreground" aria-hidden="true" d="" pointer-events="none" display="none"/></g></g><g class="mark-group role-title"><g transform="translate(-103,-219)"><path class="background" aria-hidden="true" d="M0,0h0v0h0Z" pointer-events="none"/><g><g class="mark-text role-title-text" role="graphics-symbol" aria-roledescription="title" aria-label="Title text 'IT 비용 매출 비율(%)'" pointer-events="none"><text text-anchor="start" transform="translate(0,28)" font-family="Pretendard, sans-serif" font-size="36px" font-weight="700" fill="#111822" opacity="1">IT 비용 매출 비율(%)</text></g><g class="mark-text role-title-subtitle" role="graphics-symbol" aria-roledescription="subtitle" aria-label="Subtitle text '비율'" pointer-events="none"><text text-anchor="start" transform="translate(0,80)" font-family="Pretendard, sans-serif" font-size="24px" fill="#4a5563" opacity="1">비율</text></g></g><path class="foreground" aria-hidden="true" d="" pointer-events="none" display="none"/></g></g></g><path class="foreground" aria-hidden="true" d="" display="none"/></g></g></g></svg>
+  </figure>
     </div>
-    <aside class="c-sidecar-panel" data-step="5">
+    <aside class="c-sidecar-panel" data-step="2">
       <p class="sc-k">시사점</p>
       <p class="sc-v">4.1<small>%</small></p>
       <p class="sc-h">IT 비용 매출 비 — 비교 5사 중 두 번째로 높다</p>
@@ -49,8 +20,8 @@
       </ul>
     </aside>
   </div>
-  <p class="c-note" data-step="5"><b>방법론·한계</b> — 매출 규모 보정: 5사 모두 매출 8천억~1조 2천억 원 대역, IT 비용=운영비 기준(CAPEX 제외)</p>
-  <div class="c-src" data-step="5">
+  <p class="c-note" data-step="2"><b>방법론·한계</b> — 매출 규모 보정: 5사 모두 매출 8천억~1조 2천억 원 대역, IT 비용=운영비 기준(CAPEX 제외)</p>
+  <div class="c-src" data-step="2">
     <p>Source: consulting-deck 예시 — 가상 시나리오 · 기준 FY25 결산 기준</p>
     <p class="s-syn">가상 데이터</p>
   </div>

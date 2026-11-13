@@ -58,6 +58,7 @@ const quiet = has('--quiet');
 const warn = (m) => console.error(`WARN  ${m}`);
 const fail = (m) => { console.error(`FAIL  ${m}`); process.exit(1); };
 const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const escRich = (s) => esc(s).replace(/&lt;(\/?b)&gt;/g, '<$1>');
 
 /* ── 모델 검증(스키마 수준) ──────────────────────────────────── */
 const slide = model.slide || {};
@@ -79,6 +80,18 @@ if (!source || !source.text) fail('source.text 누락 — 출처 없는 수치�
 if (typeof source.synthetic !== 'boolean') fail('source.synthetic 은 true/false 명시 필수 — 가상 데이터는 반드시 표기한다');
 if (!source.asOf) warn('source.asOf(기준일) 없음 — 출처 블록에 기준일이 빠진다');
 if (!slide.notes) warn('slide.notes 없음 — 발표 노트를 권장한다');
+const sidecar = slide.sidecar;
+if (sidecar != null) {
+  if (typeof sidecar !== 'object' || Array.isArray(sidecar)) fail('slide.sidecar 는 {k,v,unit?,h?,bullets[]} 객체여야 한다');
+  if (sidecar.v == null || sidecar.v === '') fail('slide.sidecar.v(헤드라인 수치) 누락');
+  if (!Array.isArray(sidecar.bullets) || !sidecar.bullets.length || sidecar.bullets.length > 3) fail('slide.sidecar.bullets 는 1~3개 문자열 배열');
+  sidecar.bullets.forEach((b, i) => { if (typeof b !== 'string' || !b.trim()) fail(`slide.sidecar.bullets[${i}] 빈 문자열`); });
+}
+const statline = slide.statline;
+if (statline != null) {
+  if (!Array.isArray(statline) || !statline.length || statline.length > 6) fail('slide.statline 은 1~6개 문자열 배열 — <b>수치</b> 라벨 형태');
+  statline.forEach((s, i) => { if (typeof s !== 'string' || !s.trim()) fail(`slide.statline[${i}] 빈 문자열`); });
+}
 
 /* ── FLINT_HOME 해석 → flint 로딩 ───────────────────────────── */
 const home = process.env.FLINT_HOME || path.join(os.homedir(), '.edu-deck', 'flint');
@@ -94,7 +107,16 @@ const installed = JSON.parse(fs.readFileSync(path.join(home, 'node_modules', 'fl
 if (model.flintVersion && model.flintVersion !== installed) warn(`flintVersion ${model.flintVersion} ≠ 설치 ${installed} — 바이트 diff 가능`);
 
 /* ── 검증 → 렌더(정적 vegalite 경로만) ───────────────────────── */
-input.theme_spec = themes.presets[themeKey];
+const deepMerge = (a, b) => {
+  const out = { ...a };
+  for (const k of Object.keys(b)) {
+    out[k] = b[k] && typeof b[k] === 'object' && !Array.isArray(b[k]) && a[k] && typeof a[k] === 'object' && !Array.isArray(a[k])
+      ? deepMerge(a[k], b[k]) : b[k];
+  }
+  return out;
+};
+input.theme_spec = input.theme_patch ? deepMerge(themes.presets[themeKey], input.theme_patch) : themes.presets[themeKey];
+delete input.theme_patch;
 const verdict = validateChart(input, 'vegalite');
 (verdict.errors || []).forEach((e) => console.error(`  validate[${e.severity || 'error'}] ${e.code || ''} ${e.message}`));
 if (!verdict.valid || (verdict.errors || []).some((e) => (e.severity || 'error') === 'error')) fail('validateChart 오류 — 위 메시지대로 모델을 고친다');
@@ -113,18 +135,44 @@ if (stray.length) fail(`팔레트 허용목록 밖 색 ${stray.join(', ')} — �
 const extraCls = typeof slide.class === 'string' ? slide.class.trim().replace(/[^a-z0-9 -]/gi, '') : '';
 const eyebrow = slide.eyebrow || '데이터';
 const aria = slide.ariaLabel || slide.title;
+const srcStep = sidecar ? '2' : '1';
 const srcBlock = [
-  ...(source.note ? [`  <p class="c-note" data-step="1"><b>방법론·한계</b> — ${esc(source.note)}</p>`] : []),
-  `  <div class="c-src" data-step="1">`,
+  ...(source.note ? [`  <p class="c-note" data-step="${srcStep}"><b>방법론·한계</b> — ${esc(source.note)}</p>`] : []),
+  `  <div class="c-src" data-step="${srcStep}">`,
   `    <p>Source: ${esc(source.text)}${source.asOf ? ` · 기준 ${esc(source.asOf)}` : ''}</p>`,
   ...(source.synthetic ? ['    <p class="s-syn">가상 데이터</p>'] : []),
   `  </div>`,
 ];
-const body = [
+const figure = [
   `  <figure class="c-fig" role="img" aria-label="${esc(aria)}" data-step="1" style="margin:0;flex:1;min-height:0">`,
   svg,
   `  </figure>`,
 ];
+/* statline — flint SVG에 못 넣는 값 라벨(폭포 다리 등)을 그림 아래 HTML 주석으로 둔다. */
+const statlineRow = statline
+  ? [`  <ul class="c-statline" data-step="1">`,
+     ...(statline.map((s) => `    <li>${escRich(s)}</li>`)),
+     `  </ul>`]
+  : [];
+/* 사이드카 — chart_gen 과 같은 좌표: 차트 68% + 시사점 칼럼 32%(sc-k/sc-v/sc-h/불릿 ≤3). */
+const body = sidecar
+  ? [
+    `  <div class="c-sidecar">`,
+    `    <div class="c-sidecar-main">`,
+    ...figure,
+    ...statlineRow,
+    `    </div>`,
+    `    <aside class="c-sidecar-panel" data-step="2">`,
+    `      <p class="sc-k">${esc(sidecar.k || '시사점')}</p>`,
+    `      <p class="sc-v">${esc(sidecar.v)}${sidecar.unit ? `<small>${esc(sidecar.unit)}</small>` : ''}</p>`,
+    ...(sidecar.h ? [`      <p class="sc-h">${esc(sidecar.h)}</p>`] : []),
+    `      <ul>`,
+    ...(sidecar.bullets || []).map((b) => `        <li>${escRich(b)}</li>`),
+    `      </ul>`,
+    `    </aside>`,
+    `  </div>`,
+  ]
+  : [...figure, ...statlineRow];
 const section = [
   `<section class="slide${extraCls ? ' ' + extraCls : ''}" data-archetype="chart-flint" style="gap:18px">`,
   `  <div class="head"><p class="eyebrow">${esc(eyebrow)}</p><h2 class="title">${esc(slide.title)}</h2></div>`,

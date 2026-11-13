@@ -1,0 +1,59 @@
+{
+  "engine": "flint",
+  "flintVersion": "1.0.1",
+  "theme": "consult",
+  "slide": {
+    "eyebrow": "구성 비중",
+    "title": "상위 3개 제품이 라이선스 지출의 83%를 차지한다",
+    "notes": "가상 시나리오. 도넛 조각 비중을 본다 — ERP·협업·보안 세 제품이 라이선스 지출 53억 중 44억, 83%다. flint Donut Chart, 조각 순서는 데이터 순.",
+    "ariaLabel": "라이선스 지출 구성 도넛 차트 — ERP 21·협업 14·보안 9·기타 9억, 상위 3개 83%",
+    "class": "consult"
+  },
+  "flint": {
+    "data": {
+      "values": [
+        {
+          "제품": "ERP",
+          "금액": 21
+        },
+        {
+          "제품": "협업",
+          "금액": 14
+        },
+        {
+          "제품": "보안",
+          "금액": 9
+        },
+        {
+          "제품": "기타",
+          "금액": 9
+        }
+      ]
+    },
+    "semantic_types": {
+      "제품": "Category",
+      "금액": "Amount"
+    },
+    "chart_spec": {
+      "chartType": "Donut Chart",
+      "encodings": {
+        "size": {
+          "field": "금액"
+        },
+        "color": {
+          "field": "제품"
+        }
+      },
+      "title": "",
+      "baseSize": {
+        "width": 1280,
+        "height": 560
+      }
+    }
+  },
+  "source": {
+    "text": "consulting-deck 예시 — 가상 시나리오",
+    "asOf": "2026-11",
+    "synthetic": true
+  }
+}

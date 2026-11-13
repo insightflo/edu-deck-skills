@@ -160,8 +160,10 @@ class AuthoringContractTest(unittest.TestCase):
         if not REAL_DECK or not Path(REAL_DECK).is_file():
             self.skipTest('EDU_DECK_TEST_DECK 미지정 — 실덱 회귀 검사 생략')
         text = Path(REAL_DECK).read_text(encoding='utf-8')
-        self.assertNotIn('data-fx="draft"', text,
-                         '기존 실덱에 draft 가 있으면 회귀 영향이 생긴다')
+        # 슬라이드 조각의 실제 속성 사용만 잡는다 — 셸에 내장된 motion.js 의
+        # '[data-fx="draft"]' 셀렉터 문자열은 모든 덱이 공유하므로 제외한다.
+        self.assertNotRegex(text, r'<[a-zA-Z][^>]*\sdata-fx="draft"',
+                            '기존 실덱에 draft 가 있으면 회귀 영향이 생긴다')
 
 
 class FiringContractTest(unittest.TestCase):

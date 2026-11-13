@@ -21,7 +21,9 @@
     "title": "주장형 제목 — 필수",
     "notes": "발표 노트(권장)",
     "ariaLabel": "스크린리더용 차트 설명(생략 시 title)",
-    "class": "consult-tech"           // 덱 방향 클래스(선택, theme 과 맞춘다)
+    "class": "consult-tech",          // 덱 방향 클래스(선택, theme 과 맞춘다)
+    "sidecar": { "k": "시사점", "v": "69", "unit": "%", "h": "한 줄 헤드라인", "bullets": ["불릿 ≤3"] }, // 선택 — 차트 68%+시사점 칼럼 32%
+    "statline": ["<b>−142</b> 라이선스 정비"]  // 선택 ≤6 — SVG에 못 넣는 값 라벨을 그림 아래 HTML 띠로
   },
   "flint": {                          // ChartAssemblyInput 그대로
     "data": { "values": [ { "항목": "인프라", "금액": 48 } ] },   // 인라인 필수 — 근거 대조
@@ -32,6 +34,9 @@
       "title": "차트 내부 제목",
       "baseSize": { "width": 900, "height": 420 },   // 시작값 — 슬롯은 viewBox+CSS로 맞춘다
       "canvasSize": { "width": 1200, "height": 560 } // 상한 2000×1200
+    },
+    "theme_patch": {                   // 선택 — 선택한 프리셋에 deep-merge로 겹친다
+      "marks": { "strokeWeight": 4 }   // 색·배경이 아닌 "시각 강도"만 패치 대상
     }
   },
   "source": {                          // chart_gen과 동일 계약
@@ -42,6 +47,23 @@
   }
 }
 ```
+
+## 선 굵기·점 마커 보정
+
+꺾은선·면적·슬로프 계열은 기본 프리셋만으로 존재감이 약하다. 아래 순서로 보정한다.
+
+1. **테마 수준 기본값(권장)** — `flint-theme.json` 프리셋의 `marks.strokeWeight`(선 굵기 px, consult=3)·`marks.point`(presence/size/fill)가 덱 전체 일관성을 담당한다. 모든 선 차트가 약하면 모델을 건드리지 말고 프리셋을 보정한다.
+2. **모델별 `flint.theme_patch`** — 한 장만 예외로 두껍게/마커 있게 할 때. 프리셋 복사본이 아니라 겹칠 부분만 쓴다:
+   ```jsonc
+   "theme_patch": {
+     "marks": { "strokeWeight": 4 },
+     "marks": { "point": { "presence": "always", "size": 110 } }
+   }
+   ```
+   flint_gen이 선택 프리셋에 deep-merge한 뒤 validateChart/렌더로 보낸다 — 패치는 실제 렌더 입력에서 제거되므로 검증 대상은 여전히 순수 ChartAssemblyInput이다.
+3. **인코딩/데이터 수준** — 점이 드문 시계열(분기·연간 등 표본 ≤ 12)은 `point.presence: "always"`를 켠다. 매달·주간 등 촘촘한 계열은 마커가 겹치므로 테마 기본(있을 때만)을 둔다. `strokeWeight`는 3~5 범위가 실측에서 18px 글자 계약과 균형이 좋다(값은 최종 px — 슬롯 축소비율에 함께 줄어든다).
+
+한계 주의: 일부 템플릿은 라벨·마커 크기가 템플릿에 고정돼 테마가 안 통한다(예: Slope Chart 끝점 라벨 11px·Waterfall 값 라벨 8~10px 하드코딩 — 18px 계약에 실패하면 다른 유형으로 바꾸거나 `slide.statline`으로 HTML 주석 라벨을 둔다). 팔레트 보정은 금지 — `theme_patch`에 색·배경을 넣으면 허용목록 게이트가 FAIL한다.
 
 ## 금지·제한
 

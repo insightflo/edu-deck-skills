@@ -1,9 +1,137 @@
 {
   "sources": [
-    {"source_id": "S01", "kind": "synthetic", "title": "가상 데모 데이터 — 클라우드 전환 비용 시나리오", "publisher": "consulting-deck 예시", "locator": "examples/consulting-demo/flint-demo/evidence.json", "published": "2026-11-13", "asOf": "2026-11-13", "accessed": "2026-11-13", "freshness": "current"}
+    {
+      "source_id": "S01",
+      "kind": "synthetic",
+      "title": "가상 데모 데이터 — 클라우드 전환 비용 시나리오",
+      "publisher": "consulting-deck 예시",
+      "locator": "examples/consulting-demo/flint-demo/evidence.json",
+      "published": "2026-11-13",
+      "asOf": "2026-11-13",
+      "accessed": "2026-11-13",
+      "freshness": "current"
+    }
   ],
   "claims": [
-    {"claim_id": "C01", "slide": "costmix", "statement": "올해 IT 운영비 100억 중 인프라 48·라이선스 27·인건비 19·기타 6이다", "value": "인프라 48 + 라이선스 27 + 인건비 19 + 기타 6 = 100억", "source_id": "S01", "original": "48, 27, 19, 6", "method": "구성 합계", "kind": "synthetic", "assumptions": ["가상 시나리오"], "contrary": [], "uncertainty": ""},
-    {"claim_id": "C02", "slide": "costtrend", "statement": "월별 IT 비용이 3월 13.1억 정점에서 9월 9.5억까지 내림세다", "value": "1월 12.4 · 2월 11.8 · 3월 13.1 · 4월 12.2 · 5월 11.5 · 6월 10.9 · 7월 10.4 · 8월 9.8 · 9월 9.5", "source_id": "S01", "original": "12.4, 11.8, 13.1, 12.2, 11.5, 10.9, 10.4, 9.8, 9.5", "method": "월별 시계열", "kind": "synthetic", "assumptions": ["가상 시나리오"], "contrary": [], "uncertainty": ""}
+    {
+      "claim_id": "C01",
+      "slide": "costmix",
+      "statement": "올해 IT 운영비 100억 중 인프라 48·라이선스 27·인건비 19·기타 6이다",
+      "value": "인프라 48 + 라이선스 27 + 인건비 19 + 기타 6 = 100억",
+      "source_id": "S01",
+      "original": "48, 27, 19, 6",
+      "method": "구성 합계",
+      "kind": "synthetic",
+      "assumptions": [
+        "가상 시나리오"
+      ],
+      "contrary": [],
+      "uncertainty": ""
+    },
+    {
+      "claim_id": "C02",
+      "slide": "division",
+      "statement": "제조 부문만 비용이 늘어 FY24 42억에서 FY25 47억이다",
+      "value": "제조 42→47 · 유통 31→28 · 금융 24→21 · 물류 18→16",
+      "source_id": "S01",
+      "original": "42, 47, 31, 28, 24, 21, 18, 16",
+      "method": "부문별 비교",
+      "kind": "synthetic",
+      "assumptions": [
+        "가상 시나리오"
+      ],
+      "contrary": [],
+      "uncertainty": ""
+    },
+    {
+      "claim_id": "C03",
+      "slide": "trend",
+      "statement": "월 비용이 3월 13.1억 정점에서 9월 9.5억까지 3분기 연속 하락이다",
+      "value": "13.1 → 9.5 (−3.6억, −27%)",
+      "source_id": "S01",
+      "original": "월별 12.4, 11.8, 13.1, 12.2, 11.5, 10.9, 10.4, 9.8, 9.5",
+      "method": "시계열 기울기 — 3월 정점 13.1에서 9월 9.5까지",
+      "kind": "synthetic",
+      "assumptions": [
+        "가상 시나리오"
+      ],
+      "contrary": [],
+      "uncertainty": ""
+    },
+    {
+      "claim_id": "C04",
+      "slide": "cumulative",
+      "statement": "누적 절감액이 7월부터 가팔라져 9월 7.9억이다",
+      "value": "7월 5.6 · 8월 6.9 · 9월 7.9",
+      "source_id": "S01",
+      "original": "월별 누적 0.4, 0.9, 1.5, 2.3, 3.2, 4.3, 5.6, 6.9, 7.9",
+      "method": "누적 합계",
+      "kind": "synthetic",
+      "assumptions": [
+        "가상 시나리오"
+      ],
+      "contrary": [],
+      "uncertainty": ""
+    },
+    {
+      "claim_id": "C05",
+      "slide": "scatter",
+      "statement": "사용률 30% 미만 서비스가 고비용 대역(월 2.2~3.9억)에 몰려 있다",
+      "value": "사용률 18~31% 구간 월비용 2.2~3.9",
+      "source_id": "S01",
+      "original": "사용률 18, 22, 27, 31, 38, 45, 52, 58, 64, 71, 77, 84 / 월비용 3.9, 3.1, 2.8, 2.2, 1.9, 1.7, 1.4, 1.2, 1.0, 0.9, 0.7, 0.5",
+      "method": "교차 대조",
+      "kind": "synthetic",
+      "assumptions": [
+        "가상 시나리오"
+      ],
+      "contrary": [],
+      "uncertainty": ""
+    },
+    {
+      "claim_id": "C06",
+      "slide": "share",
+      "statement": "상위 3개 제품(ERP 21·협업 14·보안 9)이 라이선스 지출의 83%(44/53)를 차지한다",
+      "value": "(21+14+9)/53 = 83%",
+      "source_id": "S01",
+      "original": "21, 14, 9, 9, 44, 53, 83",
+      "method": "구성 비중",
+      "kind": "synthetic",
+      "assumptions": [
+        "가상 시나리오"
+      ],
+      "contrary": [],
+      "uncertainty": ""
+    },
+    {
+      "claim_id": "C07",
+      "slide": "mix",
+      "statement": "인프라+라이선스 비중이 FY22 66%에서 FY25 69%로 커졌다",
+      "value": "FY22 (340+252)/892=66% · FY25 (480+380)/1240=69%",
+      "source_id": "S01",
+      "original": "FY22 340+252+212+88=892 · FY25 480+380+260+120=1240 · 비중 66→69",
+      "method": "비중 계산",
+      "kind": "synthetic",
+      "assumptions": [
+        "가상 시나리오"
+      ],
+      "contrary": [],
+      "uncertainty": ""
+    },
+    {
+      "claim_id": "C08",
+      "slide": "savings",
+      "statement": "네 절감 다리 합계 398억으로 FY25 1240억이 FY27 842억이 된다",
+      "value": "142+118+86+52=398 · 1240−398=842",
+      "source_id": "S01",
+      "original": "142, 118, 86, 52, 1240, 842",
+      "method": "폭포 합계",
+      "kind": "synthetic",
+      "assumptions": [
+        "가상 시나리오"
+      ],
+      "contrary": [],
+      "uncertainty": ""
+    }
   ]
 }

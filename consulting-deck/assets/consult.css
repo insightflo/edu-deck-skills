@@ -138,6 +138,9 @@
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-table td.col-rec b{color:var(--accent-text)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-tag{display:inline-block;font-size:19px;font-weight:800;color:var(--paper);background:var(--accent);border-radius:var(--r1);padding:4px 14px;margin-left:12px;letter-spacing:2px;vertical-align:.14em;white-space:nowrap;font-family:var(--c-num-font)}
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-note{font-size:18px;color:var(--soft);line-height:1.4}
+/* flint 차트의 HTML 값 주석 — SVG 안에 못 넣는 수치 라벨(폭포 다리 등)을 그림 아래 띠로 둔다 */
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-statline{display:flex;flex-wrap:wrap;gap:8px 26px;margin:0;padding:12px 18px;list-style:none;border:1px solid var(--line);border-radius:var(--r2);background:var(--paper);font-size:20px;color:var(--soft);line-height:1.35}
+.slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-statline b{font-family:var(--c-num-font);font-variant-numeric:tabular-nums;font-weight:800;color:var(--ink);margin-right:8px;white-space:nowrap}
 
 /* 권고 명령형 마감 — 덱 전체에서 다크 필은 이 블록 계열에만 허용한다(면 채움 절제 규칙) */
 .slide:is(.consult,.consult-dense,.consult-editorial,.consult-tech) .c-do{display:flex;gap:var(--s3);align-items:flex-start;background:var(--ink);color:var(--paper);border-radius:var(--r2);padding:var(--s3) var(--s4)}
@@ -241,4 +244,8 @@
 
 /* .c-fig — flint 정적 차트 그림 칸: svg는 칸에 맞춰 비율 유지 확대(중앙 정렬) */
 .slide .c-fig{display:flex;align-items:center;justify-content:center}
-.slide .c-fig svg{width:100%;height:100%;max-height:640px}
+.slide .c-fig svg{max-width:100%;max-height:640px}
+.slide .c-sidecar{min-height:0}
+/* 사이드카 안 flint 그림 칸 — 68% 칼럼을 채운다 */
+.slide .c-sidecar .c-sidecar-main .c-fig{flex:1;width:100%}
+.slide .c-sidecar .c-sidecar-main .c-fig svg{max-height:100%;margin:auto}

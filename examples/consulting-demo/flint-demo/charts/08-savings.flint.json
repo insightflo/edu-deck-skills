@@ -1,0 +1,83 @@
+{
+  "engine": "flint",
+  "flintVersion": "1.0.1",
+  "theme": "consult",
+  "slide": {
+    "eyebrow": "절감 경로 · FY25→FY27",
+    "title": "절감안 398억 — 네 다리가 모두 확인됐다",
+    "notes": "가상 시나리오. 폭포의 하강 다리만 읽으면 된다 — 라이선스 정비 −142·클라우드 최적화 −118·레거시 전환 −86·외주 재협상 −52, 합계 398억으로 FY27 목표 842억에 도달한다. flint Waterfall Chart — 시작·끝 값은 자동으로 기둥이 되고 중간은 누적 부동 막대가 된다. 범례가 영문으로 고정되는 flint 한계가 보인다.",
+    "ariaLabel": "FY25 1240억에서 네 절감 단계를 거쳐 FY27 842억으로 내려가는 폭포 차트",
+    "class": "consult",
+    "statline": [
+      "<b>−142</b> 라이선스 정비",
+      "<b>−118</b> 클라우드 최적화",
+      "<b>−86</b> 레거시 전환",
+      "<b>−52</b> 외주 재협상",
+      "<b>−398</b> 합계 · FY27 목표 <b>842</b>"
+    ]
+  },
+  "flint": {
+    "data": {
+      "values": [
+        {
+          "단계": "FY25 비용",
+          "값": 1240
+        },
+        {
+          "단계": "라이선스 정비",
+          "값": -142
+        },
+        {
+          "단계": "클라우드 최적화",
+          "값": -118
+        },
+        {
+          "단계": "레거시 전환",
+          "값": -86
+        },
+        {
+          "단계": "외주 재협상",
+          "값": -52
+        },
+        {
+          "단계": "FY27 목표",
+          "값": 842
+        }
+      ]
+    },
+    "semantic_types": {
+      "단계": "Category",
+      "값": "Amount"
+    },
+    "chart_spec": {
+      "chartType": "Waterfall Chart",
+      "encodings": {
+        "x": {
+          "field": "단계"
+        },
+        "y": {
+          "field": "값"
+        }
+      },
+      "title": "",
+      "baseSize": {
+        "width": 1400,
+        "height": 560
+      },
+      "showTextLabels": true
+    },
+    "theme_patch": {
+      "dataLabels": {
+        "show": "always"
+      },
+      "legend": {
+        "show": "never"
+      }
+    }
+  },
+  "source": {
+    "text": "consulting-deck 예시 — 가상 시나리오",
+    "asOf": "2026-11",
+    "synthetic": true
+  }
+}

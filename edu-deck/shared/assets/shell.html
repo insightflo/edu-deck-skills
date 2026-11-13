@@ -25,7 +25,8 @@ var deckRoot=document.documentElement;
 deckRoot.classList.add('ed-js');
 window.addEventListener('error',function(ev){
   if(deckRoot.classList.contains('ed-ready'))return;
-  var text=String((ev&&ev.message)||ev);
+  if(!ev||!ev.message)return;   // <img> 등 리소스 로딩 실패는 엔진 실패가 아니다
+  var text=String(ev.message);
   if(/ResizeObserver/.test(text))return;
   deckRoot.classList.add('ed-fail');
 },true);

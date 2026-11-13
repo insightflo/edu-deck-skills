@@ -83,6 +83,14 @@
           "color": "#4a5563",
           "size": 20
         }
+      },
+      "marks": {
+        "strokeWeight": 3,
+        "point": {
+          "presence": "full",
+          "size": 64,
+          "fill": "solid"
+        }
       }
     },
     "consult-tech": {
@@ -166,6 +174,14 @@
           "family": "Pretendard, sans-serif",
           "color": "#4c5763",
           "size": 20
+        }
+      },
+      "marks": {
+        "strokeWeight": 3,
+        "point": {
+          "presence": "full",
+          "size": 64,
+          "fill": "solid"
         }
       }
     }

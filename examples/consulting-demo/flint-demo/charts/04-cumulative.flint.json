@@ -1,0 +1,79 @@
+{
+  "engine": "flint",
+  "flintVersion": "1.0.1",
+  "theme": "consult-tech",
+  "slide": {
+    "eyebrow": "누적 효과",
+    "title": "절감 효과는 7월부터 누적 곡선이 가팔라진다",
+    "notes": "가상 시나리오. 면적 아래 누적 곡선의 기울기 변화를 본다 — 상반기 완만하던 누적 절감이 7월 이후 가팔라진다. flint Area Chart, 점 마커로 월별 확인점을 둔다.",
+    "ariaLabel": "월별 누적 절감액 면적 차트 — 1월 0.4억에서 9월 7.9억 누적",
+    "class": "consult-tech"
+  },
+  "flint": {
+    "data": {
+      "values": [
+        {
+          "월": "1월",
+          "누적": 0.4
+        },
+        {
+          "월": "2월",
+          "누적": 0.9
+        },
+        {
+          "월": "3월",
+          "누적": 1.5
+        },
+        {
+          "월": "4월",
+          "누적": 2.3
+        },
+        {
+          "월": "5월",
+          "누적": 3.2
+        },
+        {
+          "월": "6월",
+          "누적": 4.3
+        },
+        {
+          "월": "7월",
+          "누적": 5.6
+        },
+        {
+          "월": "8월",
+          "누적": 6.9
+        },
+        {
+          "월": "9월",
+          "누적": 7.9
+        }
+      ]
+    },
+    "semantic_types": {
+      "월": "Category",
+      "누적": "Amount"
+    },
+    "chart_spec": {
+      "chartType": "Area Chart",
+      "encodings": {
+        "x": {
+          "field": "월"
+        },
+        "y": {
+          "field": "누적"
+        }
+      },
+      "title": "",
+      "baseSize": {
+        "width": 1280,
+        "height": 560
+      }
+    }
+  },
+  "source": {
+    "text": "consulting-deck 예시 — 가상 시나리오",
+    "asOf": "2026-11",
+    "synthetic": true
+  }
+}
