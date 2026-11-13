@@ -85,6 +85,16 @@ edu-deck 의 승인 게이트(구성안 승인·대표 샘플 승인)와 "한 �
 슬라이드에 맞게 각용해 직접 작성한 것입니다(design.md 머리말 표기 참조).
 라이선스 전문은 `licenses/PPT-MASTER-MIT.txt` 에 있습니다.
 
+## line-art-animation (스킬 폴더 바이트 사본 — MIT)
+
+`line-art-animation/` 는 **JDhruv14/line-art-animation** (© 2026 JDhruv14, v0.1.0,
+MIT) 저장소의 사본입니다(`.git` 제외 전 파일 무수정 — SKILL.md·lib 4종 TS·references 6종·
+examples 2종(walker·village)·scripts 3종·media). 얇은 잉크 선 일러스트 애니메이션
+(걷는 인물·마을 씬·하루 흐름) 라이브러리이며, 의존성 없는 `lib/*.ts` 4파일과
+Vite+TypeScript 예시로 구성됩니다. 라우팅: edu-deck 0단계 "라인아트/손그림 장면" →
+`../line-art-animation/SKILL.md`.
+라이선스 전문은 `licenses/LINE-ART-ANIMATION-MIT.txt` 에 있습니다.
+
 ## technical-reveal (개념 참조 — 코드 미복사, MIT)
 
 `data-fx="draft"`(래스터 이미지가 도면처럼 재구성되며 등장하는 공통 모션 기법)은
