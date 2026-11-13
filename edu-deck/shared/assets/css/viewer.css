@@ -50,6 +50,7 @@ html.ed-talk .ed-clock{display:inline-flex}
 .ed-clock.is-run{color:var(--accent-light)}
 .ed-clock.is-late{color:var(--danger)}
 .ed-clock .ed-clock-plan{opacity:.6;font-weight:400}
+.ed-clock .ed-clock-auto{opacity:.75;font-weight:700}
 /* 더보기 팝오버 */
 .ed-chrome-pop{position:fixed;top:48px;right:12px;z-index:31;display:none;flex-direction:column;gap:2px;padding:8px;min-width:180px;box-sizing:border-box;
  background:color-mix(in srgb,var(--ink) 94%,transparent);border:1px solid color-mix(in srgb,var(--paper) 22%,transparent);border-radius:var(--r2);box-shadow:var(--shadow-2)}

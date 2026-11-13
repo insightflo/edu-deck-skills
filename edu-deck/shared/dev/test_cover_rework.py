@@ -7,7 +7,7 @@
        ③ 주제 비특정 장식 자리는 .cover-art 자리표시 그림이고, «…» 잔류는
        --allow-placeholders 없이 ERROR, 허용 시 조용하다.
        ④ 시안 10종은 고정 hex 0개·토큰만·외부 자원 0개다.
-       ⑤ tone_router.COVERS 가 16종과 정확히 일치하고 변형 총수는 231이다.
+       ⑤ tone_router.COVERS 가 17종과 정확히 일치하고 변형 총수는 263이다.
 [입력] assets/snippets/01-cover*.html + manifest 슬러그 목록 + 정적 조각 fixture.
 [출력] 없음(단정문).
 """
@@ -30,7 +30,8 @@ BASE_SIX = ('bigstat', 'center', 'diagram', 'mosaic', 'split', 'stripes')
 CONCEPT_TEN = ('editorial-lab', 'bold-poster', 'blueprint', 'monograph',
                'learning-path', 'paper-collage', 'workbook-notes',
                'future-portal', 'bauhaus', 'modular-cards')
-ALL_SIXTEEN = BASE_SIX + CONCEPT_TEN
+# TASK-style-absorb: 벤토 격자 표지(카탈로그 17번째)
+ALL_SEVENTEEN = BASE_SIX + CONCEPT_TEN + ('bento',)
 
 # 주제 비특정 장식 자리를 .cover-art 로 연 카탈로그 변형(4종)
 ART_CONVERTED = ('center', 'diagram', 'mosaic', 'split')
@@ -76,24 +77,24 @@ class CatalogShapeTest(unittest.TestCase):
 
     def test_exactly_sixteen_cover_files(self):
         files = sorted(SNIPPETS.glob('01-cover*.html'))
-        self.assertEqual(len(files), 16, [f.name for f in files])
+        self.assertEqual(len(files), 17, [f.name for f in files])
 
     def test_router_covers_match_catalog(self):
-        self.assertEqual(set(tone_router.COVERS), set(ALL_SIXTEEN))
+        self.assertEqual(set(tone_router.COVERS), set(ALL_SEVENTEEN))
 
     def test_total_variant_count_260(self):
         n = 0
         for f in SNIPPETS.glob('*.html'):
             n += len(BeautifulSoup(
                 f.read_text(encoding='utf-8'), 'html.parser').select('section.slide'))
-        self.assertEqual(n, 260)
+        self.assertEqual(n, 263)
 
 
 class CoverContractTest(unittest.TestCase):
     """표지 계약: 아키타입·변형·제목 훅·노트·자리표시·외부 자원 금지."""
 
     def test_archetype_variant_hooks(self):
-        for slug in ALL_SIXTEEN:
+        for slug in ALL_SEVENTEEN:
             with self.subTest(slug=slug):
                 path, sec = section_of(slug)
                 self.assertEqual(sec.get('data-archetype'), 'cover', slug)
@@ -107,7 +108,7 @@ class CoverContractTest(unittest.TestCase):
                 self.assertIn('«', text, slug)
 
     def test_no_scripts_or_external_resources(self):
-        for slug in ALL_SIXTEEN:
+        for slug in ALL_SEVENTEEN:
             with self.subTest(slug=slug):
                 path, sec = section_of(slug)
                 for tag in ('script', 'link', 'img', 'animate'):
@@ -121,19 +122,19 @@ class CoverContractTest(unittest.TestCase):
                 self.assertFalse(re.search(r'url\((?!#)', text), slug)
 
     def test_no_fixed_hex_anywhere(self):
-        for slug in ALL_SIXTEEN:
+        for slug in ALL_SEVENTEEN:
             with self.subTest(slug=slug):
                 text = (SNIPPETS / f'01-cover-{slug}.html').read_text(encoding='utf-8')
                 self.assertFalse(HEX.search(text), HEX.findall(text))
 
     def test_tokens_used(self):
-        for slug in ALL_SIXTEEN:
+        for slug in ALL_SEVENTEEN:
             with self.subTest(slug=slug):
                 text = (SNIPPETS / f'01-cover-{slug}.html').read_text(encoding='utf-8')
                 self.assertTrue(TOKEN.search(text), slug)
 
     def test_decorative_svgs_aria_hidden(self):
-        for slug in ALL_SIXTEEN:
+        for slug in ALL_SEVENTEEN:
             with self.subTest(slug=slug):
                 _, sec = section_of(slug)
                 for svg in sec.find_all('svg'):

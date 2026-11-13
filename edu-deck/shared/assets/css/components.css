@@ -197,6 +197,44 @@
 .screen-cite .sc-date{font-size:24px;color:var(--soft)}
 .screen-cite .sc-gist{font-size:26px;line-height:1.45;color:var(--soft)}
 .screen-cite .sc-gist b{color:var(--accent-text);font-weight:800}
+/* 텍스트 인용 모드(P4): 화면 캡처 대신 원문 발췌를 싣는 변형 — 같은 .screen-cite 골격·같은 캡션 규율 */
+.screen-cite .sc-tag{flex:none;align-self:flex-start;margin:16px 20px 0;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:20px;font-weight:700;color:var(--accent-text);background:var(--accent-soft);border:1.5px solid var(--accent-light);border-radius:var(--r1);padding:6px 14px}
+.screen-cite .sc-quote{flex:1;min-height:0;margin:16px 20px;padding:32px 40px;background:var(--light);border:2px solid var(--line);border-left:8px solid var(--accent);border-radius:var(--r1);display:flex;align-items:center;font-size:34px;line-height:1.55;color:var(--ink)}
+.screen-cite .sc-quote b,.screen-cite .sc-quote mark{color:var(--accent-text);font-weight:800;background:none}
+
+/* ── 창 프레임(55-window-frame): 콘텐츠 한 덩어리를 애플리케이션 창처럼 감싸는 래퍼 ── */
+.win-frame{display:flex;flex-direction:column;min-width:0;min-height:0;background:var(--paper);border:2px solid var(--ink);border-radius:var(--r2);overflow:hidden;box-shadow:var(--shadow-2)}
+.win-frame .wf-bar{flex:none;display:flex;align-items:center;gap:16px;padding:14px 24px;background:var(--ink)}
+.win-frame .wf-dots{display:flex;gap:8px;flex:none}
+.win-frame .wf-dots i{display:block;width:12px;height:12px;border-radius:50%;background:color-mix(in srgb,var(--paper) 40%,transparent)}
+.win-frame .wf-dots i:first-child{background:var(--accent-light)}
+.win-frame .wf-title{flex:1;min-width:0;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:22px;font-weight:600;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.win-frame .wf-tag{flex:none;font-size:20px;font-weight:700;color:var(--ink);background:var(--muted);border-radius:999px;padding:5px 16px}
+.win-frame .wf-body{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:28px 32px;background:var(--light)}
+.win-frame .wf-body>:only-child{flex:1;min-width:0}
+.win-frame .wf-foot{flex:none;display:flex;flex-wrap:wrap;gap:8px 40px;padding:14px 28px;border-top:2px solid var(--line);background:var(--paper)}
+.win-frame .wf-foot p{margin:0;font-size:24px;line-height:1.45;font-weight:700;color:var(--ink)}
+.win-frame .wf-foot p b{color:var(--accent-text);font-weight:800}
+
+/* ── 파트 톤(38-part-divider data-tone + build_deck data-part-tone 전파) ── */
+/* 조각 안에서 data-tone="1..7" 을 달면 그 요소 이하의 --part-tone 이 해당 톤으로 잠긴다.
+   build_deck 이 파트 구분 장의 data-tone 을 다음 파트까지 data-part-tone="N" 으로 퍼뜨린다.
+   소비처는 3곳뿐(파트 구분 강조·.eyebrow::before 바·02-agenda 항목색) — 전부 var(--part-tone,기존색). */
+[data-tone="1"],[data-part-tone="1"]{--part-tone:var(--tone-1)}
+[data-tone="2"],[data-part-tone="2"]{--part-tone:var(--tone-2)}
+[data-tone="3"],[data-part-tone="3"]{--part-tone:var(--tone-3)}
+[data-tone="4"],[data-part-tone="4"]{--part-tone:var(--tone-4)}
+[data-tone="5"],[data-part-tone="5"]{--part-tone:var(--tone-5)}
+[data-tone="6"],[data-part-tone="6"]{--part-tone:var(--tone-6)}
+[data-tone="7"],[data-part-tone="7"]{--part-tone:var(--tone-7)}
+/* 다크·주황 전면 장은 라이트 기준 톤이 묻히므로 같은 톤을 paper 방향으로 자동 보정. */
+:is(.dark,.orange)[data-tone="1"],:is(.dark,.orange) [data-tone="1"],:is(.dark,.orange)[data-part-tone="1"],:is(.dark,.orange) [data-part-tone="1"]{--part-tone:color-mix(in srgb,var(--tone-1) 30%,var(--paper))}
+:is(.dark,.orange)[data-tone="2"],:is(.dark,.orange) [data-tone="2"],:is(.dark,.orange)[data-part-tone="2"],:is(.dark,.orange) [data-part-tone="2"]{--part-tone:color-mix(in srgb,var(--tone-2) 30%,var(--paper))}
+:is(.dark,.orange)[data-tone="3"],:is(.dark,.orange) [data-tone="3"],:is(.dark,.orange)[data-part-tone="3"],:is(.dark,.orange) [data-part-tone="3"]{--part-tone:color-mix(in srgb,var(--tone-3) 30%,var(--paper))}
+:is(.dark,.orange)[data-tone="4"],:is(.dark,.orange) [data-tone="4"],:is(.dark,.orange)[data-part-tone="4"],:is(.dark,.orange) [data-part-tone="4"]{--part-tone:color-mix(in srgb,var(--tone-4) 30%,var(--paper))}
+:is(.dark,.orange)[data-tone="5"],:is(.dark,.orange) [data-tone="5"],:is(.dark,.orange)[data-part-tone="5"],:is(.dark,.orange) [data-part-tone="5"]{--part-tone:color-mix(in srgb,var(--tone-5) 30%,var(--paper))}
+:is(.dark,.orange)[data-tone="6"],:is(.dark,.orange) [data-tone="6"],:is(.dark,.orange)[data-part-tone="6"],:is(.dark,.orange) [data-part-tone="6"]{--part-tone:color-mix(in srgb,var(--tone-6) 30%,var(--paper))}
+:is(.dark,.orange)[data-tone="7"],:is(.dark,.orange) [data-tone="7"],:is(.dark,.orange)[data-part-tone="7"],:is(.dark,.orange) [data-part-tone="7"]{--part-tone:color-mix(in srgb,var(--tone-7) 30%,var(--paper))}
 
 /* ── 실화면 콜아웃·투명성 상태행 (사내 덱 관찰 원리 이식) ── */
 /* .ed-callout — 실화면·목업 위 지점을 짚는 흰 라벨 + 꼬리 화살표. tail 방향: data-tail="down|up|left|right" */

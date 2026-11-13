@@ -11,6 +11,10 @@
   배치·모션: 기본 변형은 mapping 호스트(좌 실물 화면 + 우 번호 카드), 비교 변형(data-variant="screens")은
     compare-2 호스트(좌우 실물 화면 + 정리). data-archetype 은 호스트 것을 쓰고 모션도 호스트의 기존
     시그니처(paired-connection · opposed-faces)가 발화한다 — 이 그림 자체는 새 시그니처를 갖지 않는다.
+  텍스트 인용(data-variant="quote-text"): 화면 이미지 대신 문서·코드의 원문 발췌를 싣는 변형이다.
+    인용 판(.sc-quote) 안의 문장은 원문 그대로 베낀다 — 다듬거나 요약하지 않는다(조사·맞춤법도 원문 유지).
+    모노스페이스 꼬리표 .sc-tag 에 '원문 표현: "…"' 형태로 무엇을 베꼈는지 밝히고, 캡션 3요소는 화면
+    인용과 같은 규율로 단다(출처 data-src 사실 id 필수 — check_deck 이 똑같이 잡는다).
   단계: 기본 = 번호 카드마다 1(그림은 항상 보임), 비교 = 왼쪽 → 오른쪽 → 정리
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
     «사용자가 제공한 화면 이미지…» 자리에는 사용자가 준 화면 이미지 파일을 base64 로 인코딩해 넣는다.
@@ -78,6 +82,26 @@
       <div class="b-view"><img class="b-shot" src="«사용자가 제공한 화면 이미지(data:image/…;base64,…)»" alt="«이 화면의 요지를 설명 ≤34자»"></div>
       <figcaption class="sc-cap"><p class="sc-line"><span class="sc-src" data-src="«F02»"><b>«도메인 ≤12자»</b>, 「«문서명 ≤18자»」</span><span class="sc-date">«조회일 2026-11-03»</span></p><p class="sc-gist"><b>이 화면이 증명하는 것</b> — «요지 ≤24자»</p></figcaption></figure></div></div>
   <aside class="notes">«발표자 노트 110~450자: 화면의 핵심을 설명하고 단계별 공개 순서와 학습자 활동을 안내한 뒤 다음 내용으로 연결합니다.»</aside>
+</section>
+
+<!-- quote-text: 화면 이미지 대신 원문 발췌 — 문장은 원문 그대로(다듬기·요약 금지), 출처 표기 필수 -->
+<section class="slide" data-archetype="mapping" data-variant="quote-text" style="gap:32px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤14자»</p><h2 class="title">«제목: 한 문장 ≤26자»</h2></div>
+  <div class="row" style="flex:1;min-height:0">
+    <figure class="screen-cite f3">
+      <span class="sc-tag">원문 표현: "«주제 ≤10자»"</span>
+      <blockquote class="sc-quote">«원문을 그대로 베낀 표현 ≤56자 — 조사·맞춤법까지 원문 유지, 다듬기·요약 금지»</blockquote>
+      <figcaption class="sc-cap">
+        <p class="sc-line"><span class="sc-src" data-src="«F01»"><b>«출처 ≤16자»</b>, 「«문서명 ≤20자»」 «위치 p.·절 ≤12자»</span><span class="sc-date">«조회일 2026-11-03»</span></p>
+        <p class="sc-gist"><b>이 문장이 증명하는 것</b> — «요지 한 줄 ≤30자»</p>
+      </figcaption>
+    </figure>
+    <div class="col f2" style="gap:16px">
+      <div class="card" data-step="1" style="padding:24px 32px;gap:0"><p class="label"><span class="mk">1</span> «라벨 ≤6자»</p><h3 style="font-size:34px">«핵심 낱말 ≤16자»</h3><p class="small">«원문 속 의미 ≤28자»</p></div>
+      <div class="card" data-step="2" style="padding:24px 32px;gap:0"><p class="label" style="color:var(--blue)"><span class="mk" style="background:var(--blue)">2</span> «라벨 ≤6자»</p><h3 style="font-size:34px">«우리 일과 연결 ≤16자»</h3><p class="small">«적용 지점 ≤28자»</p></div>
+    </div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 원문을 소리 내어 읽는다 → 꼬리표가 가리키는 표현을 짚는다 → 오른쪽 카드로 우리 일과 연결 → 다음 장 연결»</aside>
 </section>
 
 <section class="slide" data-archetype="mapping" data-variant="caption-strip" style="gap:32px">

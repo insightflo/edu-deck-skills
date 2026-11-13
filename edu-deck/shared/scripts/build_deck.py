@@ -156,6 +156,48 @@ def collect_slides(files):
     return "\n".join(parts), count
 
 
+SEC_TAG = re.compile(r'<section\b[^>]*\bclass="slide[\s"][^>]*>')
+TONE_RE = re.compile(r'\bdata-tone="([1-7])"')
+DIVIDER_RE = re.compile(r'\bdata-(?:archetype|variant)="part-divider"')
+
+
+def propagate_part_tones(slides_html):
+    """
+    [목적] 파트 구분 장의 data-tone="1..7" 을 그 장부터 다음 파트 구분 장 직전까지
+      data-part-tone="N" 으로 퍼뜨린다 — 파트 색이 본문 장의 eyebrow·아젠다 항목색에 이어진다.
+    [입력] 이어 붙인 슬라이드 HTML
+    [출력] 속성을 심은 HTML (data-tone 사용 장이 하나도 없으면 원문 그대로 — 무조작)
+    [주의] 파트 구분 판정은 data-archetype="part-divider" 우선 + data-variant="part-divider" 도 인정.
+      톤 없는 구분 장이 나오면 전파를 끊는다. data-tone 은 작가가 단 속성으로 지우지 않는다.
+    """
+    out, pos, cur, touched = [], 0, None, False
+    for m in SEC_TAG.finditer(slides_html):
+        tag = m.group(0)
+        if cur is not None:
+            out.append(slides_html[pos:m.start()])
+            # 작가가 직접 단 값은 존중 — 톤 없는 새 구분 장은 이전 파트 톤을 물려받지 않는다
+            if 'data-part-tone="' in tag or (DIVIDER_RE.search(tag) and not TONE_RE.search(tag)):
+                out.append(tag)
+            else:
+                out.append(tag[:-1] + f' data-part-tone="{cur}">')
+            pos = m.end()
+        if DIVIDER_RE.search(tag):
+            tm = TONE_RE.search(tag)
+            cur = tm.group(1) if tm else None
+            if cur is not None:
+                if not touched:
+                    out.append(slides_html[pos:m.start()])
+                    out.append(tag[:-1] + f' data-part-tone="{cur}">')
+                    pos = m.end()
+                elif 'data-part-tone="' not in tag:
+                    out[-1] = tag[:-1] + f' data-part-tone="{cur}">'
+                touched = True
+    if not touched:
+        return slides_html
+    out.append(slides_html[pos:])
+    return "".join(out)
+
+
 def build(title, slide_files, css_dirs, icon_dirs, out_path, study=None, resource_pack=None,
           theme=None, arc=None, font=None):
     """
@@ -200,6 +242,7 @@ def build(title, slide_files, css_dirs, icon_dirs, out_path, study=None, resourc
     except ValueError as exc:
         raise BuildError(str(exc)) from exc
     slides_html, count = collect_slides(slide_files)
+    slides_html = propagate_part_tones(slides_html)
     stack_on = 'data-c="stack"' in strip_comments(slides_html)
     if stack_on:
         # 구성도·업무 흐름 부품: 도식이 있는 덱에만 kit 자산을 싣는다(없는 덱은 바이트가 늘지 않는다).

@@ -122,6 +122,8 @@ COVERS = {
     "future-portal":   {"axes": {"energy": .7, "playful": .4, "technical": .7, "serious": .6, "warm": .4, "formal": .5}},
     "bauhaus":         {"axes": {"energy": .6, "playful": .7, "technical": .5, "serious": .4, "warm": .4, "formal": .5}},
     "modular-cards":   {"axes": {"energy": .5, "playful": .4, "technical": .7, "serious": .5, "warm": .4, "formal": .6}},
+    # TASK-style-absorb: 벤토 격자 표지(17번째 카탈로그 변형)
+    "bento":           {"axes": {"energy": .5, "playful": .5, "technical": .6, "serious": .5, "warm": .5, "formal": .6}},
 }
 
 # 줄거리(arc) 시그니처와 첫 장 규칙. opens = 표지 다음에 올 수 있는 아키타입(check_deck 흐름 규칙).

@@ -417,6 +417,17 @@ function buildChrome(){
  var c=doc.getElementById('counter');
  if(c){c.setAttribute('aria-live','polite');c.setAttribute('aria-atomic','true');pagebox.appendChild(c);}
  botEl.appendChild(pagebox);
+ /* 자동 발표 칩: 셸의 window.eduAuto 가 있으면 하단 막대에 A 토글과 이 장 남은 시간 칩을 단다.
+    켜짐 표시·갱신은 셸 스크립트(html.ed-auto·#edAutoClock)가 맡고 여기서는 자리만 만든다.
+    발표자 보기(?presenter)는 조작 불가 계약이라 칩을 만들지 않는다 */
+ if(window.eduAuto&&!_pp.has('presenter')){
+  var ab=el('button',null,'A');ab.id='edAutoBtn';ab.type='button';
+  ab.setAttribute('aria-label','자동 발표 시작·정지 (A)');ab.title='자동 발표 (A)';
+  ab.setAttribute('aria-pressed','false');
+  ab.addEventListener('click',function(e){e.stopPropagation();if(window.eduAuto.on())window.eduAuto.stop();else window.eduAuto.start();});
+  botEl.appendChild(ab);
+  var ac=el('span',null);ac.id='edAutoClock';botEl.appendChild(ac);
+ }
  var nav=el('div','ed-nav');
  prevBtn=el('button','ed-btn');prevBtn.type='button';
  prevBtn.setAttribute('aria-label','이전 장 (←)');prevBtn.title='이전 장 (←)';

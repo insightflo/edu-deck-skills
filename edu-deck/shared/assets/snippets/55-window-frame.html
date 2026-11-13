@@ -1,0 +1,33 @@
+<!--
+  창 프레임 (.win-frame) — 호스트 아키타입 안에 붙여 넣는 래퍼 조각
+  언제: 콘텐츠 한 덩어리(도식·목업·코드·표)를 애플리케이션 창처럼 감싸 "이것은 어떤 화면/도구의
+    모습이다" 라고 말할 때. .screen-cite(32)가 '실물 증거'라면 .win-frame 은 '개념적 창' — 이미지
+    규칙·캡션 규율은 없고 어떤 콘텐츠든 감쌀 수 있다.
+  구조: 상단 바(.wf-bar — 점 3(.wf-dots) + 고정폭 창 제목(.wf-title) + 오른쪽 꼬리표(.wf-tag)) +
+    본문(.wf-body — 감싼 내용) + 하단 요점 줄(.wf-foot, 문장 1~2개). 창 제목은 감싼 내용과 일치시킨다.
+  단계: 프레임 자체는 단계 없음 — 안의 내용에 data-step 을 달 수 있다(이 예시는 하단 요점에 둠).
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+    .wf-body 안의 예시 도식(svg.dg)은 지우고 자기 내용을 넣는다 — 카드·표·코드 블록도 그대로 들어간다.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+<section class="slide" data-archetype="mapping" style="gap:28px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤14자»</p><h2 class="title">«제목: 한 문장 ≤24자»</h2></div>
+  <div class="win-frame" style="flex:1;min-height:0">
+    <div class="wf-bar"><span class="wf-dots"><i></i><i></i><i></i></span><span class="wf-title">«창 제목 — 내용과 일치 ≤28자»</span><span class="wf-tag">«꼬리표 ≤10자»</span></div>
+    <div class="wf-body">
+      <svg class="dg" viewBox="0 0 720 360" role="img" aria-label="«도식 설명: 입력이 처리를 거쳐 출력으로»">
+        <path class="k-ln-o" d="M190 100H340" marker-end="url(#ah-o)"/>
+        <path class="k-ln-o" d="M510 100H640" marker-end="url(#ah-o)"/>
+        <path class="k-ln-o" d="M190 260H340L430 160" marker-end="url(#ah-o)"/>
+        <g><rect class="k-blue" x="60" y="60" width="130" height="80" rx="12"/><text class="t-l b" text-anchor="middle" x="125" y="108">«입력 ≤4자»</text></g>
+        <g><rect class="k-orange" x="360" y="60" width="150" height="80" rx="12"/><text class="t-l o" text-anchor="middle" x="435" y="108">«처리 ≤4자»</text></g>
+        <g><rect class="k-blue" x="640" y="60" width="70" height="80" rx="12" style="display:none"/></g>
+        <g><circle class="k-blue" cx="655" cy="100" r="42"/><text class="t-l b" text-anchor="middle" x="655" y="108">«출력 ≤3자»</text></g>
+        <g><rect class="k-soft" x="60" y="220" width="130" height="80" rx="12"/><text class="t-l" text-anchor="middle" x="125" y="268">«보조 ≤4자»</text></g>
+      </svg>
+    </div>
+    <div class="wf-foot"><p data-step="1"><b>«요점 앞 ≤6자»</b> «하단 요점 한 줄 ≤30자»</p><p data-step="2"><b>«요점 앞 ≤6자»</b> «둘째 요점 한 줄 ≤30자»</p></div>
+  </div>
+  <aside class="notes">«발표자 노트 110~450자: 창 제목을 먼저 읽어 학습자가 '무엇의 화면'인지 잡게 한다 → 본문 도식을 따라간다 → 하단 요점을 읽는다 → 다음 장 연결»</aside>
+</section>

@@ -1,0 +1,9 @@
+{
+  "title": "스타일 흡수 시연 — 자동 발표·파트 톤·창 프레임·텍스트 인용",
+  "output": "style-demo-교육자료.html",
+  "theme": "classic",
+  "talk": {
+    "total": 510,
+    "rate": 300
+  }
+}

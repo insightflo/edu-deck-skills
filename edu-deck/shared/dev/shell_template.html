@@ -368,6 +368,16 @@ body.st-fold .st-ph{padding-bottom:0}
 /* ---------- 도구 층: 자동 발표 표시 · 편집 표시줄 · 탐색 위젯 · 사이드 시트 · 차트 ---------- */
 #edAuto{position:fixed;right:28px;bottom:72px;z-index:9;display:none;background:var(--accent);color:var(--paper);font:700 17px/1 'Pretendard Variable','Apple SD Gothic Neo','Malgun Gothic',sans-serif;padding:10px 16px;border-radius:var(--r2);box-shadow:var(--shadow-1)}
 html.ed-auto #edAuto{display:block}
+/* 하단 막대의 자동 발표 칩(#edAutoBtn)과 이 장 남은 시간(#edAutoClock): 자리는 viewer.js 가 만든다 */
+#edAutoBtn{flex:none;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;border:2px solid color-mix(in srgb,var(--paper) 40%,transparent);border-radius:50%;background:transparent;color:color-mix(in srgb,var(--paper) 75%,transparent);font:800 12px/1 'Pretendard Variable','Apple SD Gothic Neo','Malgun Gothic',sans-serif;cursor:pointer;padding:0}
+#edAutoBtn:hover{border-color:var(--accent-light);color:var(--paper)}
+html.ed-auto #edAutoBtn{background:var(--accent);border-color:var(--accent-light);color:var(--paper)}
+#edAutoClock{flex:none;display:none;font:700 13px/1 ui-monospace,SFMono-Regular,Menlo,monospace;font-variant-numeric:tabular-nums;color:color-mix(in srgb,var(--paper) 75%,transparent)}
+html.ed-auto #edAutoClock{display:inline-block}
+#edAutoClock.is-red{color:color-mix(in srgb,var(--danger) 42%,var(--paper))}
+#edAutoClock.is-blink{animation:edAutoBlink 1s steps(2,start) infinite}
+@keyframes edAutoBlink{50%{opacity:.2}}
+@media (prefers-reduced-motion:reduce){#edAutoClock.is-blink{animation:none}}
 #edEdit{position:fixed;left:50%;top:18px;transform:translateX(-50%);z-index:9;display:none;align-items:center;gap:16px;background:var(--ink);color:var(--light);font:600 16px/1.3 'Pretendard Variable','Apple SD Gothic Neo','Malgun Gothic',sans-serif;padding:10px 18px;border-radius:var(--r2);box-shadow:var(--shadow-2)}
 body.ed-edit #edEdit{display:flex}
 #edEdit .ed-reset{font:inherit;font-size:15px;font-weight:700;color:var(--paper);background:var(--accent);border:none;border-radius:var(--r1);padding:6px 14px;cursor:pointer}
@@ -493,7 +503,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
 <div id="progress"></div>
 <div id="dots"></div>
 <div id="counter"></div>
-<div id="help">→ 다음 (한 단계씩) · ← 이전 · F 전체화면 · N 발표자 노트 · S 자습 · P 인쇄 · G 끝까지 재생 · M 자동 완주(퀴즈 장은 멈춤) · D 용어집 · A 자동 발표 · E 편집 · T 테마 미리보기 · H 도움말</div>
+<div id="help">→ 다음 (한 단계씩) · ← 이전 · F 전체화면 · N 발표자 노트 · S 자습 · P 인쇄 · G 끝까지 재생 · M 자동 완주(퀴즈 장은 멈춤) · D 용어집 · A 자동 발표(남은 시간 표시) · E 편집 · T 테마 미리보기 · H 도움말</div>
 <div id="notes"><div class="h">발표자 노트 (N으로 닫기)</div><div id="notesText"></div></div>
 
 <script>/*MOTION_JS*/</script>
@@ -755,6 +765,8 @@ try{
     그 장의 data-sec 초(없으면 6초)만큼 머물고 다음 장으로 간다. 마지막 장이면 끝.
     아무 키 입력으로 정지한다. T·R 타이머와는 독립이고 deckGo 로 움직이므로
     발표자 보기(?presenter) 동기에는 그대로 실린다. 인쇄·reduced-motion 에는 영향 없음.
+    하단 막대의 A 칩으로도 켜고 끄고, 켜진 동안 옆 칩이 이 장의 남은 시간을 mm:ss 로
+    보여 준다(≤15초 빨강·≤5초 깜빡 — 동작 줄이기면 깜빡임 대신 점등 상태).
   [편집] E 키로 켜고 끈다. 제목·문단·표 칸·목록 같은 글자 요소만 contenteditable —
     상호작용 요소(.chk·.todo·버튼·링크·노트·자습·시트 패널)는 제외하고 줄바꿈(Enter)은 막아
     요소를 새로 만들지 못한다(텍스트만). 수정본은 localStorage 'edeck-edit-<파일이름>' 에
@@ -767,25 +779,39 @@ var doc=document,root=doc.documentElement,body=doc.body;
 function slides(){return [].slice.call(doc.querySelectorAll('#stage>.slide'));}
 
 /* ---- 자동 발표 ---- */
-var autoTimer=null,autoOn=false;
-function autoStop(){autoOn=false;if(autoTimer){clearTimeout(autoTimer);autoTimer=null;}root.classList.remove('ed-auto');}
+var autoTimer=null,autoOn=false,autoEnd=0,autoTick=null;
+/* 이 장의 홀드 시간(data-sec, 없으면 6 · 최소 2초) — 카운트다운과 자동 진행이 같이 쓴다 */
+function holdSec(pg){var sec=parseFloat(pg&&pg.getAttribute('data-sec'))||6;return Math.max(2,sec);}
+/* 이 장 전체 잔여(남은 단계×800ms + 홀드) — 진입·전환 순간에도 카운트다운이 참값을 보인다 */
+function autoWhole(info){var pg=slides()[info.slide];var st=Math.max(0,(info.maxStep||0)-(info.step||0));return st*800+holdSec(pg)*1000;}
+/* 막대 칩 갱신: A 버튼 눌림 표시 + 이 장 남은 시간 mm:ss(≤15초 빨강·≤5초 깜빡) */
+function autoChip(){
+  var btn=doc.getElementById('edAutoBtn'),ck=doc.getElementById('edAutoClock');
+  if(btn)btn.setAttribute('aria-pressed',autoOn?'true':'false');
+  if(!ck)return;
+  if(!autoOn){ck.classList.remove('is-red','is-blink');ck.textContent='';return;}
+  var left=Math.max(0,Math.ceil((autoEnd-Date.now())/1000));
+  ck.textContent=('0'+Math.floor(left/60)).slice(-2)+':'+('0'+left%60).slice(-2);
+  ck.classList.toggle('is-red',left<=15);ck.classList.toggle('is-blink',left<=5);
+}
+function autoStop(){autoOn=false;autoEnd=0;if(autoTimer){clearTimeout(autoTimer);autoTimer=null;}if(autoTick){clearInterval(autoTick);autoTick=null;}root.classList.remove('ed-auto');autoChip();}
 function autoStep(){
   if(!autoOn)return;
   var info=window.deckInfo?deckInfo():null;
   if(!info){autoStop();return;}
   var pg=slides()[info.slide];
-  if(info.step<info.maxStep){deckGo(info.slide,info.step+1);autoTimer=setTimeout(autoStep,800);return;}
-  var sec=parseFloat(pg&&pg.getAttribute('data-sec'))||6;
-  sec=Math.max(2,sec);
+  if(info.step<info.maxStep){autoEnd=Date.now()+(info.maxStep-info.step)*800+holdSec(pg)*1000;deckGo(info.slide,info.step+1);autoTimer=setTimeout(autoStep,800);return;}
+  var sec=holdSec(pg);
+  autoEnd=Date.now()+sec*1000;
   autoTimer=setTimeout(function(){
     if(!autoOn)return;
     var i2=window.deckInfo?deckInfo():null;
-    if(i2&&i2.slide<i2.count-1){deckGo(i2.slide+1,0);autoTimer=setTimeout(autoStep,700);}
+    if(i2&&i2.slide<i2.count-1){deckGo(i2.slide+1,0);var i3=window.deckInfo?deckInfo():null;autoEnd=Date.now()+(i3?autoWhole(i3):700);autoTimer=setTimeout(autoStep,700);}
     else autoStop();
   },sec*1000);
 }
-function autoStart(){if(autoOn)return;autoOn=true;root.classList.add('ed-auto');autoTimer=setTimeout(autoStep,700);}
-window.eduAuto={start:autoStart,stop:autoStop,on:function(){return autoOn;}};
+function autoStart(){if(autoOn)return;autoOn=true;var i0=window.deckInfo?deckInfo():null;autoEnd=Date.now()+(i0?autoWhole(i0):700);root.classList.add('ed-auto');autoTick=setInterval(autoChip,250);autoChip();autoTimer=setTimeout(autoStep,700);}
+window.eduAuto={start:autoStart,stop:autoStop,on:function(){return autoOn;},left:function(){return autoOn?Math.max(0,autoEnd-Date.now()):0;}};
 
 /* ---- 화면 편집 ---- */
 var EDIT_SEL='.slide h1,.slide h2,.slide h3,.slide h4,.slide p,.slide li,.slide td,.slide th,.slide figcaption,.slide summary';

@@ -7,6 +7,9 @@ var STUDY=function(){return window.EDU_STUDY||{};};
 var TALK=function(){var t=STUDY().talk;return (t&&typeof t==='object')?t:null;};
 function slides(){return [].slice.call(doc.querySelectorAll('#stage>.slide'));}
 function fmt(s){s=Math.max(0,Math.round(s));var m=Math.floor(s/60),x=s%60;return m+':'+('0'+x).slice(-2);}
+/* 셸 자동 발표(window.eduAuto) 상태 읽기 — 본창은 진행 엔진을 직접 묻고, 발표자 창은 post 페이로드를 본다 */
+function autoOn(){return !!(window.eduAuto&&window.eduAuto.on&&window.eduAuto.on());}
+function autoLeft(){return autoOn()?Math.round(window.eduAuto.left()/1000):0;}
 function el(tag,cls,txt){var e=doc.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;}
 
 if(PRESENTER){doc.addEventListener('DOMContentLoaded',function(){body.classList.add('st-presenter');});body&&body.classList.add('st-presenter');}
@@ -30,10 +33,11 @@ function paintClock(){
  var plan=planEnd[i]||0,t=TALK();
  if(clockEl){var tt=clockEl.querySelector('.t')||clockEl;tt.innerHTML='';tt.appendChild(doc.createTextNode(fmt(elapsed)+' '));
   var pl=el('span','ed-clock-plan','/ '+fmt(plan));tt.appendChild(pl);
+  if(autoOn())tt.appendChild(el('span','ed-clock-auto',' · A '+fmt(autoLeft())));
   clockEl.classList.toggle('is-run',running);clockEl.classList.toggle('is-late',running&&plan>0&&elapsed>plan);}
  if(presClock){presClock.querySelector('.t').textContent=fmt(elapsed);
   var r=t?(t.total||0)-elapsed:0;
-  presClock.querySelector('.r').textContent=t?('남은 시간 '+fmt(Math.abs(r))+(r<0?' 초과':'')):'';
+  presClock.querySelector('.r').textContent=(t?('남은 시간 '+fmt(Math.abs(r))+(r<0?' 초과':'')):'')+(aPeer?(' · 자동 '+fmt(aLeftPeer)):'');
   presClock.classList.toggle('is-run',running);presClock.classList.toggle('is-late',running&&plan>0&&elapsed>plan);}
 }
 
@@ -47,7 +51,8 @@ function paintNotesHead(){
 /* ---------- 동기 채널: BroadcastChannel + storage 예비(두 채널로 보내고 id로 중복을 버림) ---------- */
 var UID=Math.random().toString(36).slice(2),MID=0,SEEN={},BUSK='edtalk'+location.pathname;
 var bc=(window.BroadcastChannel)?new BroadcastChannel(BUSK):null;
-function post(msg){var m=Object.assign({_u:UID,_i:++MID,type:'state',slide:curSlide(),step:curStep(),el:elapsed,run:running,total:(TALK()||{}).total||0},msg||{});
+var aPeer=false,aLeftPeer=0;
+function post(msg){var m=Object.assign({_u:UID,_i:++MID,type:'state',slide:curSlide(),step:curStep(),el:elapsed,run:running,total:(TALK()||{}).total||0,auto:autoOn(),aleft:autoLeft()},msg||{});
  if(bc)try{bc.postMessage(m);}catch(e){}
  try{localStorage.setItem(BUSK,JSON.stringify(m));}catch(e){}}
 function curSlide(){try{return deckInfo().slide||0;}catch(e){return 0;}}
@@ -56,7 +61,7 @@ var applying=false;
 function onMsg(m){
  if(!m||typeof m!=='object'||!m._u)return;
  var k=m._u+':'+m._i;if(SEEN[k])return;SEEN[k]=1;
- if(m.type==='state'&&PRESENTER){elapsed=m.el||0;running=!!m.run;
+ if(m.type==='state'&&PRESENTER){elapsed=m.el||0;running=!!m.run;aPeer=!!m.auto;aLeftPeer=m.aleft||0;
   if(!applying&&(curSlide()!==m.slide||curStep()!==m.step)){applying=true;try{deckGo(m.slide,m.step);}finally{applying=false;}}
   paintPres();}
  if(m.type==='go'&&!PRESENTER){if(curSlide()!==m.slide||curStep()!==m.step)deckGo(m.slide,m.step);}
@@ -114,6 +119,7 @@ window.addEventListener('keydown',function(e){
  if(k==='x'||k==='X'||k==='ㅌ'){e.preventDefault();timerToggle();}
  else if(k==='r'||k==='R'||k==='ㄱ'){e.preventDefault();timerReset();}
  else if((k==='v'||k==='V'||k==='ㅍ')&&!PRESENTER){e.preventDefault();openPresenter();}
+ else if((k==='a'||k==='A'||k==='ㅁ')&&PRESENTER){e.preventDefault();e.stopPropagation();}
 },true);
 
 /* ---------- 초기화 ---------- */
@@ -127,6 +133,8 @@ function init(){
  paintClock();paintNotesHead();
  doc.addEventListener('deckslide',function(){paintClock();paintNotesHead();if(PRESENTER)paintPres();else if(!applying)post();});
  doc.addEventListener('deckstep',function(){if(!PRESENTER&&!applying)post();});
+ /* 자동 발표가 켜진 동안만 남은 시간을 주기적으로 다시 칠한다(본창 시계 꼬리표·발표자 창 상태) */
+ setInterval(function(){if(autoOn()||aPeer)paintClock();},500);
  /* 발표 키는 발표 덱일 때만 도움말에 단다(목차·검색은 viewer.js 가 항상 표기) */
  var help=doc.getElementById('help');
  if(help&&!PRESENTER)help.textContent=help.textContent.replace('N 발표자 노트','N 발표자 노트 · X 타이머 · R 리셋 · V 발표자 보기');

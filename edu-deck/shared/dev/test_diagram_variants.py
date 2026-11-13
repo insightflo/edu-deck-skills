@@ -29,7 +29,9 @@ PENDING_B = {'02': 1, '17': 2, '20': 4, '30': 2,
              '42': 2, '43': 2, '44': 2, '45': 2, '46': 2, '47': 2,
              '48': 2, '49': 2, '50': 2, '51': 2, '52': 2,
              # P3 visual-absorb: 판정(53)=3변형 · 실물 진단(54)=1변형
-             '53': 3, '54': 1}
+             '53': 3, '54': 1,
+             # TASK-style-absorb: 창 프레임(55)=1변형 — 새 아키타입 대신 도식 호스트를 쓴다
+             '55': 1}
 LEGACY_VARIANTS = {'15': {'tour', 'cases'}, '19': {'form', 'rules'}, '32': {None, 'screens'}}
 A_SIGNATURE = {'15': 'spotlight-pin', '16': 'selection-track', '19': 'outline-then-fill',
                '23': 'choice-verdict', '24': 'classification-lanes', '25': 'judgment-stamp',
@@ -62,7 +64,7 @@ class DiagramVariantsTest(unittest.TestCase):
         cls.groups = families()
 
     def test_each_discovered_family_has_the_required_variants(self):
-        self.assertEqual(set(self.groups), {f'{n:02}' for n in range(1, 55)})
+        self.assertEqual(set(self.groups), {f'{n:02}' for n in range(1, 56)})
         all_complete = os.environ.get('EDU_DECK_ALL_VARIANTS_COMPLETE') == '1'
         for family, variants in self.groups.items():
             required = 5 if all_complete else PENDING_B.get(family, 5)
@@ -80,6 +82,7 @@ class DiagramVariantsTest(unittest.TestCase):
                     if family == '01': expected = {'cover'}
                     elif family == '22': expected = {'worked-example'}
                     elif family == '32': expected = {'mapping', 'compare-2'}
+                    elif family == '55': expected = {'mapping'}
                     else: expected = {path.stem[3:]}
                     self.assertIn(sec.get('data-archetype'), expected)
 

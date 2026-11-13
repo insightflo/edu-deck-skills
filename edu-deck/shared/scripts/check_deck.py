@@ -555,7 +555,17 @@ def static_checks(html_text, soup, rep, allow_placeholders):
         cite_img, _deck_raster = cite_budgets()
         for fig in sec.select(".screen-cite"):
             img = fig.select_one("img")
-            if img is None:
+            quote = fig.select_one(".sc-quote")
+            if quote is not None:
+                # 텍스트 인용 모드(P4): 화면 이미지 대신 원문 발췌 — 아래 캡션 3요소·data-src 규율은 같다
+                if img is not None:
+                    rep.add("ERROR", i, "실물 화면", "텍스트 인용(.sc-quote)과 화면 이미지를 한 그림에 섞지 않습니다")
+                if not text_of(quote):
+                    rep.add("ERROR", i, "실물 화면", "인용 판(.sc-quote)이 비었습니다 — 원문을 다듬지 않고 그대로 옮깁니다")
+                tag = fig.select_one(".sc-tag")
+                if tag is None or not text_of(tag):
+                    rep.add("ERROR", i, "실물 화면", '텍스트 인용에는 모노스페이스 꼬리표(.sc-tag)가 필요합니다 — \'원문 표현: "…"\' 형태')
+            elif img is None:
                 rep.add("ERROR", i, "실물 화면", "이미지가 없는 빈 프레임입니다 — 사용자가 제공한 화면 이미지가 없으면 이 조각을 쓰지 않습니다",
                         target=text_of(fig.select_one(".sc-src") or fig)[:24])
             else:
@@ -774,6 +784,31 @@ def talk_config(html_text):
     return talk if isinstance(talk, dict) else None
 
 
+# data-sec 어림 권장 상수: 장 종류별 고정값, 본문 장은 내용 신호로 가중한 뒤 70~180초에 눌러 담는다.
+SEC_COVER, SEC_PART, SEC_CLOSING = 30, 15, 45
+SEC_BODY_MIN, SEC_BODY_MAX = 70, 180
+
+
+def estimate_sec(s):
+    """data-sec 어림 추천값(초). 장 종류 우선, 본문 장은 보이는 글자·코드 블록·그림으로 가중.
+
+    본문 = 보이는 글자 ÷12자/초 + 코드 1블록 25초 + 그림(figure 또는 figure 밖 img) 하나 5초,
+    5초 단위로 반올림하고 70~180초 범위에 눌러 담는다. 노트 글자는 보이는 글자가 아니므로 뺀다.
+    """
+    arch = (s.get("data-archetype") or "").strip()
+    if arch == "cover":
+        return SEC_COVER
+    if arch == "part-divider" or s.get("data-variant") == "part-divider":
+        return SEC_PART
+    if arch == "closing":
+        return SEC_CLOSING
+    notes = s.select_one(".notes")
+    chars = len(text_of(s)) - len(text_of(notes))
+    secs = max(chars, 0) / 12 + 25 * len(s.select("pre")) + 5 * (
+        len(s.select("figure")) + len([i for i in s.select("img") if not i.find_parent("figure")]))
+    return int(min(SEC_BODY_MAX, max(SEC_BODY_MIN, round(secs / 5) * 5)))
+
+
 def talk_checks(html_text, slides, rep):
     """발표 덱(deck.json talk)만의 정적 경고: data-sec 누락·합계 어긋남·대본 분량."""
     talk = talk_config(html_text)
@@ -788,7 +823,8 @@ def talk_checks(html_text, slides, rep):
             secs.append(0.0)
             missing.append(i)
     for i in missing:
-        rep.add("WARN", i, "예상 시간", "발표 덱 슬라이드에 data-sec(예상 초)가 없습니다")
+        rep.add("WARN", i, "예상 시간",
+                f"발표 덱 슬라이드에 data-sec(예상 초)가 없습니다 — 어림 {estimate_sec(slides[i - 1])}초 권장 (장 종류·글자·코드·그림 기준)")
     total = talk.get("total")
     if isinstance(total, (int, float)) and total > 0:
         ssum = sum(secs)
@@ -1067,7 +1103,7 @@ RENDER_JS = r"""
   const shown = (e) => { if (!e.getClientRects().length) return false; const v = st(e).visibility; return v !== 'hidden' && v !== 'collapse'; };
   const ownText = (e) => { for (const n of e.childNodes) if (n.nodeType === 3 && n.textContent.trim()) return true; return false; };
   const positioned = (e, stop) => { for (let x = e; x && x !== stop && x !== slide; x = x.parentElement) { const p = st(x).position; if (p === 'absolute' || p === 'fixed') return true; } return false; };
-  const color = (s) => { const m = /rgba?\(([^)]+)\)/.exec(s || ''); if (!m) return null; const p = m[1].split(/[\s,\/]+/).filter(Boolean).map(parseFloat); return [p[0], p[1], p[2], p.length > 3 ? p[3] : 1]; };
+  const color = (s) => { let m = /rgba?\(([^)]+)\)/.exec(s || ''); if (m) { const p = m[1].split(/[\s,\/]+/).filter(Boolean).map(parseFloat); return [p[0], p[1], p[2], p.length > 3 ? p[3] : 1]; } m = /^color\(\s*srgb\s+([^)]+)\)/.exec(s || ''); if (!m) return null; const q = m[1].split(/[\s,\/]+/).filter(Boolean).map(parseFloat); return [q[0] * 255, q[1] * 255, q[2] * 255, q.length > 3 ? q[3] : 1]; };
   const opac = (e) => { let o = 1; for (let x = e; x && x !== slide.parentElement; x = x.parentElement) o *= parseFloat(st(x).opacity); return o; };
   const isBox = (e) => {
     if (e === slide || e instanceof SVGElement) return false;

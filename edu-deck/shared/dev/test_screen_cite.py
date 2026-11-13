@@ -210,10 +210,19 @@ class SnippetMarkupTest(unittest.TestCase):
         figs = self.soup.select('.screen-cite')
         self.assertGreaterEqual(len(figs), 3)  # 기본 1 + 비교 2
         for fig in figs:
-            img = fig.select_one('img.b-shot')
-            self.assertIsNotNone(img, '이미지 없는 빈 조각이면 안 된다')
-            self.assertIn('사용자가 제공한', img.get('src', ''))
-            self.assertRegex(img.get('alt', ''), r'^«이 화면의 요지')
+            quote = fig.select_one('.sc-quote')
+            if quote is not None:
+                # 텍스트 인용(check_deck 과 같은 .sc-quote 판별): 화면 이미지 대신 원문 발췌 판 + 모노스페이스 꼬리표
+                self.assertIsNone(fig.select_one('img.b-shot'), '텍스트 인용에 화면 이미지를 섞지 않는다')
+                self.assertTrue(quote.get_text(strip=True))
+                tag = fig.select_one('.sc-tag')
+                self.assertIsNotNone(tag, '원문 표현 꼬리표가 없으면 안 된다')
+                self.assertIn('원문 표현', tag.get_text())
+            else:
+                img = fig.select_one('img.b-shot')
+                self.assertIsNotNone(img, '이미지 없는 빈 조각이면 안 된다')
+                self.assertIn('사용자가 제공한', img.get('src', ''))
+                self.assertRegex(img.get('alt', ''), r'^«이 화면의 요지')
             self.assertRegex(fig.select_one('.sc-src').get('data-src', ''), r'^«F\d{2,3}»$')
             for cls in ('.sc-src', '.sc-date', '.sc-gist'):
                 el = fig.select_one(cls)

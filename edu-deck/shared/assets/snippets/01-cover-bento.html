@@ -1,0 +1,64 @@
+<!--
+  아키타입 cover (변형: bento)
+  언제: 표지. 왼쪽은 제목·요약·수치, 오른쪽은 주제 미리보기를 담은 벤토 격자 — 차근차근
+    조각을 보여 주는 도시락판. 커리큘럼이 넓은 교육·온보딩·제품 소개에 어울린다.
+  단계: 단계 없음
+  쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  이 변형은 오른쪽 벤토 격자가 정체성 — 카드마다 --bc(강조색)를 갈아 끼우고 아이콘·이름·한 줄 설명을 채운다.
+    넓은 카드(grid-column:span 2)가 적어도 하나는 있어야 도시락판 리듬이 산다.
+  배치 설명: references/layouts.md · 클래스: references/classes.md
+-->
+<section class="slide cx" data-archetype="cover" data-variant="bento" id="cover-bento" style="padding:0;background:var(--paper)">
+
+<div class="row" style="position:absolute;inset:0;padding:60px 72px;gap:56px;align-items:stretch">
+<div class="col" style="width:740px;flex:none;justify-content:center;gap:24px">
+<p class="cx-eyebrow" style="font-size:27px;letter-spacing:4px;color:var(--soft);font-weight:800">«교육 이름 ≤10자»</p>
+<h1 class="cx-title" style="position:static;min-height:0;font-size:96px;line-height:1.14;letter-spacing:-3px;color:var(--ink)"><span data-text="«표지 제목 ≤9자»" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret"></span><br><span style="color:var(--accent-text)">«강조 ≤5자»</span></h1>
+<p class="cx-sub" style="font-size:34px;color:var(--soft)">«부제 한 문장 ≤30자»</p>
+<p style="font-size:28px;margin:0;color:var(--ink)"><b>«오늘 얻어 가는 것 한 줄 ≤30자»</b></p>
+<div class="row" style="gap:16px;margin-top:8px">
+<div class="card" style="flex:1;padding:20px 24px;gap:4px"><p class="num" style="font-size:44px;margin:0">«수 ≤4자»</p><p class="small" style="font-size:22px;margin:0">«라벨 ≤7자»</p></div>
+<div class="card" style="flex:1;padding:20px 24px;gap:4px"><p class="num" style="font-size:44px;margin:0;color:var(--blue-text)">«수 ≤4자»</p><p class="small" style="font-size:22px;margin:0">«라벨 ≤7자»</p></div>
+<div class="card" style="flex:1;padding:20px 24px;gap:4px"><p class="num" style="font-size:44px;margin:0;color:var(--success)">«수 ≤4자»</p><p class="small" style="font-size:22px;margin:0">«라벨 ≤7자»</p></div>
+</div>
+</div>
+
+<div style="flex:1;min-width:0;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:18px;align-content:center">
+<div class="card" style="--bc:var(--blue);grid-column:span 2;display:flex;flex-direction:column;justify-content:center;gap:10px;padding:26px 30px;border-top:8px solid var(--bc)">
+<svg viewBox="0 0 100 100" style="width:56px;height:56px" aria-hidden="true"><use href="#i-flag" width="96" height="96" x="2" y="2" style="color:var(--bc)"/></svg>
+<h3 style="font-size:30px;margin:0">«벤토 항목 ≤9자»</h3><p class="small" style="font-size:22px;margin:0">«한 줄 설명 ≤24자»</p>
+</div>
+<div class="card" style="--bc:var(--accent);display:flex;flex-direction:column;justify-content:center;gap:10px;padding:26px 30px;border-top:8px solid var(--bc)">
+<svg viewBox="0 0 100 100" style="width:56px;height:56px" aria-hidden="true"><use href="#i-folder" width="96" height="96" x="2" y="2" style="color:var(--bc)"/></svg>
+<h3 style="font-size:30px;margin:0">«항목 ≤7자»</h3><p class="small" style="font-size:22px;margin:0">«설명 ≤14자»</p>
+</div>
+<div class="card" style="--bc:var(--success);display:flex;flex-direction:column;justify-content:center;gap:10px;padding:26px 30px;border-top:8px solid var(--bc)">
+<svg viewBox="0 0 100 100" style="width:56px;height:56px" aria-hidden="true"><use href="#i-people" width="96" height="96" x="2" y="2" style="color:var(--bc)"/></svg>
+<h3 style="font-size:30px;margin:0">«항목 ≤7자»</h3><p class="small" style="font-size:22px;margin:0">«설명 ≤14자»</p>
+</div>
+<div class="card" style="--bc:var(--blue-text);display:flex;flex-direction:column;justify-content:center;gap:10px;padding:26px 30px;border-top:8px solid var(--bc)">
+<svg viewBox="0 0 100 100" style="width:56px;height:56px" aria-hidden="true"><use href="#i-search" width="96" height="96" x="2" y="2" style="color:var(--bc)"/></svg>
+<h3 style="font-size:30px;margin:0">«항목 ≤7자»</h3><p class="small" style="font-size:22px;margin:0">«설명 ≤14자»</p>
+</div>
+<div class="card" style="--bc:var(--ink);display:flex;flex-direction:column;justify-content:center;gap:10px;padding:26px 30px;border-top:8px solid var(--bc)">
+<svg viewBox="0 0 100 100" style="width:56px;height:56px" aria-hidden="true"><use href="#i-check" width="96" height="96" x="2" y="2" style="color:var(--bc)"/></svg>
+<h3 style="font-size:30px;margin:0">«항목 ≤7자»</h3><p class="small" style="font-size:22px;margin:0">«설명 ≤14자»</p>
+</div>
+<div class="card" style="--bc:var(--accent-text);display:flex;flex-direction:column;justify-content:center;gap:10px;padding:26px 30px;border-top:8px solid var(--bc)">
+<svg viewBox="0 0 100 100" style="width:56px;height:56px" aria-hidden="true"><use href="#i-bolt" width="96" height="96" x="2" y="2" style="color:var(--bc)"/></svg>
+<h3 style="font-size:30px;margin:0">«항목 ≤7자»</h3><p class="small" style="font-size:22px;margin:0">«설명 ≤14자»</p>
+</div>
+<div class="card" style="--bc:var(--blue);grid-column:span 2;display:flex;flex-direction:column;justify-content:center;gap:10px;padding:26px 30px;border-top:8px solid var(--bc)">
+<svg viewBox="0 0 100 100" style="width:56px;height:56px" aria-hidden="true"><use href="#i-trophy" width="96" height="96" x="2" y="2" style="color:var(--bc)"/></svg>
+<h3 style="font-size:30px;margin:0">«벤토 항목 ≤9자»</h3><p class="small" style="font-size:22px;margin:0">«한 줄 설명 ≤24자»</p>
+</div>
+<div class="card" style="--bc:var(--soft);display:flex;flex-direction:column;justify-content:center;gap:10px;padding:26px 30px;border-top:8px solid var(--bc)">
+<svg viewBox="0 0 100 100" style="width:56px;height:56px" aria-hidden="true"><use href="#i-book" width="96" height="96" x="2" y="2" style="color:var(--bc)"/></svg>
+<h3 style="font-size:30px;margin:0">«항목 ≤7자»</h3><p class="small" style="font-size:22px;margin:0">«설명 ≤14자»</p>
+</div>
+</div>
+</div>
+<p class="cover-date" style="z-index:3;color:var(--soft)">«날짜 YYYY. MM. DD ≤15자»</p>
+<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 오른쪽 벤토 한 칸씩 훑어 주며 오늘 범위 예고 → 진행 지시 → 다음 장 연결»</aside>
+</section>
