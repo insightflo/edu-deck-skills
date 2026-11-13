@@ -95,3 +95,13 @@ edu-deck 의 승인 게이트(구성안 승인·대표 샘플 승인)와 "한 �
 다운스케일 분석·가장자리 플롯·치수 주석·크로스페이드 공개는 모두 우리
 토큰(`--soft`/`--line`/`--accent`)과 2400ms 모션 예산으로 새로 구현했습니다
 (구현: `edu-deck/shared/assets/js/motion.js`, 분석: `workspace/absorb/tech-reveal-analysis.md`).
+
+### draft v2·draft-loop 2차 개념 참조 (2026-11-13)
+
+`draft` v2(윤곽 체인 플롯·구성선·플로터 헤드·브러시 마스크 리빌)와
+`draft-loop`(표지 순환 변형)는 위 개념을 더 깊게 구현한 제3자 파생 덱
+`~/Downloads/loop-cover-deck.html`(technical-reveal 계열, 2026-11-13 사용자 제공)의
+**행동 개념만** 추가 참조해 클린룸으로 작성했습니다(코드·팔레트·식별자 0복사,
+소스 코드 미열람 — 분석: `workspace/absorb/loop-cover-analysis.md`).
+Sobel·NMS·히스테레시스·RDP·3점 원 피팅은 표준 알고리즘이며 색은 덱 토큰만
+사용합니다. 근원 라이선스는 위 technical-reveal MIT 기록을 따릅니다.

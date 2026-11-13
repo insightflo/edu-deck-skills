@@ -126,7 +126,7 @@
 2. **의미 있는 단계** — 단계는 읽는 순서·정보 덩어리 단위로만 나눈다. 장식용·시간 끌기용 단계는 만들지 않는다.
 3. **시각적 안정성** — 어느 단계에서 멈춰도 넘침·잘림·겹침이 없어야 한다(검사가 모든 단계에서 잰다). 등장 전 상태와 마지막 상태 둘 다 완성된 화면이어야 한다.
 
-**모션은 셸 한 곳에서 소유합니다.** `data-archetype`에 따라 42개 실행 시그니처를 선택하며 52 조각 계열·253 변형을 지원하고, `data-fx`로 부르는 공통 기법 9종(scatter-gather·slice-reveal·row-mask-rise·weight-wave·rack-focus·bar-grow·card-deal·blinds·draft)이 덧붙습니다. 장 전환·공유 제목·단계 재생·정적 대체는 [MOTION_LIBRARY.md](MOTION_LIBRARY.md)를 따릅니다. 조각에는 CSS 애니메이션·SMIL·스크립트를 넣지 않습니다. 기본은 transform/opacity, 승인된 예외는 제목 blur·SVG 선 드로잉에 더해 slice-reveal·blinds의 clip-path·rack-focus의 filter blur·weight-wave의 가변 wght, 그리고 draft의 캔버스 드로잉(aria-hidden 오버레이, 유한 2400ms, 종료·취소 시 제거 — 최종 모습은 저작 이미지 그대로)입니다. reduced-motion·인쇄·자습에서는 현재 의미 단계의 정적 완성 화면을 보입니다. 속도·대비·넘침은 실제 검사로 확인하며 GPU 속성만으로 성능을 보장하지 않습니다.
+**모션은 셸 한 곳에서 소유합니다.** `data-archetype`에 따라 42개 실행 시그니처를 선택하며 52 조각 계열·253 변형을 지원하고, `data-fx`로 부르는 공통 기법 10종(scatter-gather·slice-reveal·row-mask-rise·weight-wave·rack-focus·bar-grow·card-deal·blinds·draft·draft-loop)이 덧붙습니다. 장 전환·공유 제목·단계 재생·정적 대체는 [MOTION_LIBRARY.md](MOTION_LIBRARY.md)를 따릅니다. 조각에는 CSS 애니메이션·SMIL·스크립트를 넣지 않습니다. 기본은 transform/opacity, 승인된 예외는 제목 blur·SVG 선 드로잉에 더해 slice-reveal·blinds의 clip-path·rack-focus의 filter blur·weight-wave의 가변 wght, 그리고 draft·draft-loop의 캔버스 드로잉(aria-hidden 오버레이, 스텝 원샷 2400ms·표지 순환 draft-loop, 종료·취소 시 제거 — 최종 모습은 저작 이미지 그대로)입니다. reduced-motion·인쇄·자습에서는 현재 의미 단계의 정적 완성 화면을 보입니다. 속도·대비·넘침은 실제 검사로 확인하며 GPU 속성만으로 성능을 보장하지 않습니다.
 
 강조 효과 `data-fx` 도 같은 엔진의 저작 속성입니다([MOTION_LIBRARY.md](MOTION_LIBRARY.md) "강조 효과 data-fx" 절):
 

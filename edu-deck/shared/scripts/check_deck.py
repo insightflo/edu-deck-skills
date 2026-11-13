@@ -102,7 +102,12 @@ FX_KINDS = {"strike": 500, "stamp": 500, "mark": 800, "count": 800,
             # TASK-fx-absorb 공통 기법 3종 — blinds 는 m4 한계 1회.
             "bar-grow": 500, "card-deal": 500, "blinds": 800,
             # TASK-tech-reveal-absorb: draft — 이미지 도면 드로잉(격자+플롯+치수+리빌).
-            "draft": 2400}
+            "draft": 2400,
+            # TASK-draft-v2: draft-loop — 표지 전용 순환 도면 드로잉(8000 드로잉+2500 홀드 반복).
+            "draft-loop": 8000}
+# 루프 종류 — 표지·개념 hero 전용으로 슬라이드 활성 동안 순환 재생되므로 끝나는 시각이 없다.
+# 이 이름들은 아래 "모션 길이"(장당 효과 3000ms 상한) WARN 계산에서 면제한다(TASK-draft-v2).
+LOOP_FX = {"draft-loop"}
 # 라틴 단어(내부 .-' 허용)가 공백으로 이어져 6개 이상 = 외국어 문장으로 본다.
 FOREIGN_RUN = re.compile(
     r"[A-Za-z]+(?:[.,'\-’][A-Za-z]+)*(?:\s+[A-Za-z]+(?:[.,'\-’][A-Za-z]+)*){5,}")
@@ -643,13 +648,14 @@ def static_checks(html_text, soup, rep, allow_placeholders):
                     rep.add("WARN", i, "모션", f'data-fx-at="{at_v}" 는 0~2000ms 숫자여야 합니다', target=name)
             if el.has_attr("data-crayon"):
                 rep.add("WARN", i, "모션", "한 요소에 data-fx 와 data-crayon 이 함께 있습니다 (한 요소 한 효과)", target=name)
-            if name == "draft" and el.name == "img":
+            if name in ("draft", "draft-loop") and el.name == "img":
                 src_v = (el.get("src") or "").strip()
                 if EXTERNAL.match(src_v):
                     rep.add("WARN", i, "캔버스",
-                            'data-fx="draft" 이미지가 외부 주소입니다 — 캔버스 오염으로 효과가 생략될 수 있습니다 (data: URI·같은 출처 파일만 안전합니다)',
+                            f'data-fx="{name}" 이미지가 외부 주소입니다 — 캔버스 오염으로 효과가 생략될 수 있습니다 (data: URI·같은 출처 파일만 안전합니다)',
                             target=src_v[:40])
-            fx_end = max(fx_end, at + FX_KINDS[name])
+            if name not in LOOP_FX:  # 루프 종류는 표지 순환 전용 — 종료 시각 없이 면제
+                fx_end = max(fx_end, at + FX_KINDS[name])
         if fx_end > 3000:
             rep.add("WARN", i, "모션 길이", f"data-fx 효과가 {fx_end:g}ms 까지 이어집니다 (3000ms 안에 끝내세요)")
         # 외국어 문장: 보이는 본문 텍스트에 라틴 단어가 6개 이상 연속되면 한국어 옮김을 권한다.

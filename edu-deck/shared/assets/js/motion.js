@@ -451,7 +451,7 @@
   // becomes visible (slide entry when visible at step 0, or at the step whose
   // data-step/data-add/data-only reveals it). Static modes and revisited
   // (back) states show the authored final DOM — overlays stay, text is intact.
-  const FX={strike:'m3',stamp:'m3',mark:'m4',count:'m4',travel:'m4',block:'m4',type:1500,press:'m2','scatter-gather':'m4','slice-reveal':'m4','row-mask-rise':'m3','weight-wave':'m3','rack-focus':'m3','bar-grow':'m3','card-deal':'m3',blinds:'m4',draft:2400};
+  const FX={strike:'m3',stamp:'m3',mark:'m4',count:'m4',travel:'m4',block:'m4',type:1500,press:'m2','scatter-gather':'m4','slice-reveal':'m4','row-mask-rise':'m3','weight-wave':'m3','rack-focus':'m3','bar-grow':'m3','card-deal':'m3',blinds:'m4',draft:2400,'draft-loop':8000};
   // A declared transform-reveal technique owns the element's own entrance: the
   // archetype signature must not stack a second transform animation on it.
   const FX_OWN_TRANSFORM=new Set(['bar-grow','card-deal']);
@@ -641,58 +641,162 @@
     });
     animateMs(el,frames,duration(FX.blinds,el),'e-out',at);
   }
-  // ---- TASK-tech-reveal-absorb: draft — 래스터 이미지가 도면처럼 그려지는 등장 ----
-  // technical-reveal(MIT)의 "이미지를 CAD 도면으로 재구성한 뒤 실물 공개" 개념만 옮긴
-  // 우리 구현이다(원본 코드·문장 미복사 — 분석: workspace/absorb/tech-reveal-analysis.md).
-  // 2400ms 안에서 ① 옅은 격자·중심선이 페이드인(--soft/--line) 되고 ② 소벨 가장자리
-  // 런을 결정적 순서로 짧은 선분 플롯하며 치수 2~3개가 수치 카운트업(--accent, count 개념
-  // 차용)되고 ③ 실물 이미지가 크로스페이드 인·오버레이가 소멸한다. 캔버스는 aria-hidden
-  // 장식 — 끝나면(또는 취소되면) 즉시 지워 저작 <img> 만 남긴다. 정적 모드·애니메이션
-  // 미지원·재방문은 캔버스를 만들지 않는다(fxSweep·가드가 막는다).
-  // 같은 출처·data: URI 이미지만 읽을 수 있다 — getImageData 가 오염(cross-origin)으로
-  // SecurityError 를 던지면 효과 없이 이미지만 보이고 'fx-draft-degraded' 를 기록한다.
-  function draftEdges(img){
-    // 분석: 긴 변 ≤560px 다운스케일 → 소벨 크기 → 백분위 임계 → 스캔라인 런 수집.
+  // ---- TASK-tech-reveal-absorb · TASK-draft-v2: draft — 래스터 이미지가 도면처럼 그려지는 등장 ----
+  // technical-reveal(MIT)의 "이미지를 CAD 도면으로 재구성한 뒤 실물 공개" 개념과, 그것을 더 깊게
+  // 구현한 표지 루프 덱의 개념(윤곽 체인·구성선·플로터 헤드·브러시 리빌·순환 재생)만 옮긴 우리
+  // 구현이다(코드·팔레트·식별자 미복사 — 분석: workspace/absorb/tech-reveal-analysis.md,
+  // loop-cover-analysis.md). Sobel·NMS·히스테레시스·RDP·3점 원 피팅은 표준 알고리즘이다.
+  // 위상(2400ms 비율 윈도, 겹침 허용): ① 시트 0–.14 옅은 종이+격자+구성선 페이드인
+  // ② 윤곽 체인 .08–.62 체인별 누적 길이 비율 부분 트레이스 ③ 치수 .28–.75 폭·높이+R/내부거리
+  // 카운트업 ④ 리빌 .55–.9 −45° 브러시 마스크(선 완전 소멸) ⑤ 플로터 헤드 .08–.55 십자+X/Y.
+  // draft 는 스텝 원샷(종료·취소·정적 전환 시 캔버스 즉시 제거 후 저작 <img>), draft-loop 은
+  // 표지·개념 hero 전용 순환(8000ms 드로잉+2500ms 홀드, 홀드 동안 라인 잔류 13% 알파).
+  // 캔버스는 aria-hidden 장식 — 분석 1회, 완료 체인은 오프스크린 캐시에 굽고 클럭은 dt 누적.
+  // getImageData 오염(SecurityError) 시 효과 없이 이미지만 보이고 'fx-draft(-loop)-degraded' 기록.
+  function draftAnalyze(img){
+    // 다운스케일(장변 ≤720) → 알파 인지 회색조 → 약한 평활 → 소벨 → NMS →
+    // 이중 임계+히스테레시스 → 직진 선호 체인 트레이스 → RDP 단순화(ε≥1px) →
+    // 길이 내림차순, 상한 700체인(초과분 균등 생략). 부산물: 행·열 피크, 원 피팅.
     // getImageData 예외는 여기서 삼키지 않는다 — 폴백은 호출부가 판단한다.
     const iw=img.naturalWidth,ih=img.naturalHeight;
-    const k=Math.min(1,560/Math.max(iw,ih));
+    const k=Math.min(1,720/Math.max(iw,ih));
     const aw=Math.max(2,Math.round(iw*k)),ah=Math.max(2,Math.round(ih*k));
+    const empty={chains:[],peaks:{rows:[],cols:[]},circle:null,aw,ah,totalLen:0};
     const off=document.createElement('canvas');off.width=aw;off.height=ah;
     const octx=off.getContext('2d',{willReadFrequently:true});
-    if(!octx)return{runs:[],aw,ah};
+    if(!octx)return empty;
     octx.drawImage(img,0,0,aw,ah);
     const d=octx.getImageData(0,0,aw,ah).data;   // SecurityError 가능
     const lum=new Float32Array(aw*ah);
-    for(let i=0,j=0;i<lum.length;i++,j+=4)lum[i]=d[j]*.2126+d[j+1]*.7152+d[j+2]*.0722;
-    const mag=new Float32Array(aw*ah),vals=[];
+    for(let i=0,j=0;i<lum.length;i++,j+=4){
+      const a=d[j+3]/255;                        // 알파 인지 — 투명분은 종이색으로 합성
+      lum[i]=(d[j]*.2126+d[j+1]*.7152+d[j+2]*.0722)*a+245*(1-a);}
+    const bl=new Float32Array(lum);
     for(let y=1;y<ah-1;y++){const r=y*aw;
       for(let x=1;x<aw-1;x++){const i=r+x;
-        const gx=-lum[i-aw-1]-2*lum[i-1]-lum[i+aw-1]+lum[i-aw+1]+2*lum[i+1]+lum[i+aw+1];
-        const gy=-lum[i-aw-1]-2*lum[i-aw]-lum[i-aw+1]+lum[i+aw-1]+2*lum[i+aw]+lum[i+aw+1];
-        const g=Math.abs(gx)+Math.abs(gy);if(g>0){mag[i]=g;vals.push(g);}}}
-    if(!vals.length)return{runs:[],aw,ah};
+        bl[i]=(lum[i-aw-1]+lum[i-aw]+lum[i-aw+1]+lum[i-1]+lum[i]+lum[i+1]+lum[i+aw-1]+lum[i+aw]+lum[i+aw+1])/9;}}
+    const mag=new Float32Array(aw*ah),dir=new Uint8Array(aw*ah);
+    for(let y=1;y<ah-1;y++){const r=y*aw;
+      for(let x=1;x<aw-1;x++){const i=r+x;
+        const gx=-bl[i-aw-1]-2*bl[i-1]-bl[i+aw-1]+bl[i-aw+1]+2*bl[i+1]+bl[i+aw+1];
+        const gy=-bl[i-aw-1]-2*bl[i-aw]-bl[i-aw+1]+bl[i+aw-1]+2*bl[i+aw]+bl[i+aw+1];
+        const g=Math.hypot(gx,gy);if(g<=0)continue;
+        mag[i]=g;
+        const a=Math.atan2(gy,gx)*57.2958,aa=((a%180)+180)%180;
+        dir[i]=aa<22.5||aa>=157.5?0:aa<67.5?1:aa<112.5?2:3;}}
+    const nms=new Float32Array(aw*ah),vals=[],rowP=new Float32Array(ah),colP=new Float32Array(aw);
+    for(let y=1;y<ah-1;y++){const r=y*aw;
+      for(let x=1;x<aw-1;x++){const i=r+x,g=mag[i];
+        if(!g)continue;
+        const o=dir[i],j=o===0?i-1:o===1?i-aw+1:o===2?i-aw:i-aw-1,
+              u=o===0?i+1:o===1?i+aw-1:o===2?i+aw:i+aw+1;
+        if(g>=mag[j]&&g>=mag[u]){nms[i]=g;vals.push(g);rowP[y]+=g;colP[x]+=g;}}}
+    if(!vals.length)return empty;
     vals.sort((a,b)=>a-b);
-    const seg=Math.max(4,Math.round(aw/40));   // 플로터 획 길이 상한(분석 픽셀)
-    const collect=thr=>{
+    const edge=new Uint8Array(aw*ah);
+    let chains=[];
+    for(const q of [.9,.8,.7]){                  // 히스토그램 이중 임계+히스테레시스
+      edge.fill(0);
+      const hi=vals[Math.min(vals.length-1,Math.floor(vals.length*q))],lo=hi*.35,seed=[];
+      for(let i=0;i<nms.length;i++)if(nms[i]>=hi){edge[i]=1;seed.push(i);}
+      for(let s=0;s<seed.length;s++){const i=seed[s];
+        for(const n of [i-aw-1,i-aw,i-aw+1,i-1,i+1,i+aw-1,i+aw,i+aw+1])
+          if(!edge[n]&&nms[n]>=lo){edge[n]=1;seed.push(n);}}
+      chains=draftTrace(edge,aw,ah);
+      if(chains.length)break;}
+    if(!chains.length)return empty;
+    const eps=Math.max(1,Math.max(aw,ah)*.004);
+    let total=0,mx0=aw,mx1=0;
+    const list=[];
+    for(const pts of chains){
+      const p=draftSimplify(pts,eps);
+      if(p.length<2)continue;
+      const cum=[0];let L=0;
+      for(let i=1;i<p.length;i++){L+=Math.hypot(p[i][0]-p[i-1][0],p[i][1]-p[i-1][1]);cum.push(L);}
+      if(L<3)continue;
+      for(const q of p){if(q[0]<mx0)mx0=q[0];if(q[0]>mx1)mx1=q[0];}
+      list.push({pts:p,cum,len:L,closed:Math.hypot(p[0][0]-p[p.length-1][0],p[0][1]-p[p.length-1][1])<3});
+      total+=L;}
+    list.sort((a,b)=>b.len-a.len);
+    let keep=list;
+    if(list.length>700){keep=[];const st=list.length/700;
+      for(let i=0;i<700;i++)keep.push(list[Math.floor(i*st)]);total=0;for(const c of keep)total+=c.len;}
+    const pick=(prof,limit)=>{
+      let mx=0;for(const v of prof)if(v>mx)mx=v;if(!mx)return[];
+      const cand=[];
+      for(let i=1;i<prof.length-1;i++)
+        if(prof[i]>=mx*.3&&prof[i]>=prof[i-1]&&prof[i]>=prof[i+1])cand.push(i);
+      cand.sort((a,b)=>prof[b]-prof[a]);
       const out=[];
-      for(let y=1;y<ah-1;y++){let x0=-1;const r=y*aw;
-        const push=(a,b)=>{for(let s=a;s<b;s+=seg)out.push([s,y,Math.min(b,s+seg),y]);};
-        for(let x=1;x<aw-1;x++){
-          if(mag[r+x]>=thr){if(x0<0)x0=x;}
-          else if(x0>=0){push(x0,x);x0=-1;}}
-        if(x0>=0)push(x0,aw-2);}
+      for(const i of cand){if(out.every(j=>Math.abs(j-i)>=8)){out.push(i);if(out.length>=limit)break;}}
       return out;};
-    let runs=[];
-    for(const q of [.82,.88,.93]){           // 잡음 많은 사진도 상한 안으로
-      runs=collect(vals[Math.min(vals.length-1,Math.floor(vals.length*q))]);
-      if(runs.length<=1800)break;}
-    if(runs.length>1800){const st=Math.ceil(runs.length/1800),c=[];for(let i=0;i<runs.length;i+=st)c.push(runs[i]);runs=c;}
-    return{runs,aw,ah};
+    const peaks={rows:pick(rowP,2),cols:pick(colP,2)};
+    // 원 피팅 — 3점 원 + 체인 전체 반경 오차 검증(최대 반경 장변×0.6)
+    const maxR=Math.max(aw,ah)*.6;
+    let circle=null,bestErr=1e9;
+    for(const c of keep){
+      const p=c.pts;if(p.length<6||c.len<50)continue;
+      const a=p[0],b=p[p.length>>1],d2=p[p.length-1];
+      const den=2*(a[0]*(b[1]-d2[1])+b[0]*(d2[1]-a[1])+d2[0]*(a[1]-b[1]));
+      if(Math.abs(den)<1e-4)continue;
+      const a2=a[0]*a[0]+a[1]*a[1],b2=b[0]*b[0]+b[1]*b[1],c2=d2[0]*d2[0]+d2[1]*d2[1];
+      const cx=(a2*(b[1]-d2[1])+b2*(d2[1]-a[1])+c2*(a[1]-b[1]))/den,
+            cy=(a2*(d2[0]-b[0])+b2*(a[0]-d2[0])+c2*(b[0]-a[0]))/den,
+            r=Math.hypot(a[0]-cx,a[1]-cy);
+      if(r>maxR||r<6)continue;
+      let err=0;for(const q of p)err+=Math.abs(Math.hypot(q[0]-cx,q[1]-cy)-r);
+      err/=p.length;
+      if(err<r*.09&&err<bestErr){bestErr=err;circle={cx,cy,r};}
+    }
+    return{chains:keep,peaks,circle,aw,ah,totalLen:total,mx0,mx1};
   }
-  function fxDraft(el,at){
-    if(el.tagName!=='IMG'||typeof el.animate!=='function'||!window.requestAnimationFrame)return 'fx-draft';
+  // 직진 선호 8이웃 체인 트레이스 — 교차점은 먼저 온 체인이 가져간다
+  function draftTrace(edge,aw,ah){
+    const seen=new Uint8Array(aw*ah),out=[];
+    const NB=[1,0, 1,1, 0,1, -1,1, -1,0, -1,-1, 0,-1, 1,-1];
+    for(let y=1;y<ah-1;y++)for(let x=1;x<aw-1;x++){
+      const i=y*aw+x;
+      if(!edge[i]||seen[i])continue;
+      seen[i]=1;
+      const pts=[[x,y]];let cx=x,cy=y,px=x,py=y;
+      while(true){
+        let bx=0,by=0,bs=-2,found=false;
+        for(let n=0;n<8;n++){
+          const nx2=cx+NB[n*2],ny=cy+NB[n*2+1];
+          if(nx2<0||ny<0||nx2>=aw||ny>=ah)continue;
+          const ni=ny*aw+nx2;
+          if(!edge[ni]||seen[ni])continue;
+          const vx=cx-px,vy=cy-py,dx=NB[n*2],dy=NB[n*2+1];
+          const sc=(dx*vx+dy*vy)/(Math.hypot(dx,dy)*Math.hypot(vx,vy)||1);
+          if(sc>bs){bs=sc;bx=nx2;by=ny;found=true;}}
+        if(!found)break;
+        px=cx;py=cy;cx=bx;cy=by;seen[cy*aw+cx]=1;pts.push([cx,cy]);}
+      if(pts.length>=3)out.push(pts);}
+    return out;
+  }
+  // RDP 단순화 — 직교거리 ε 이상인 점만 남긴다
+  function draftSimplify(pts,eps){
+    if(pts.length<=2)return pts;
+    const keep=new Uint8Array(pts.length);keep[0]=keep[pts.length-1]=1;
+    const stack=[[0,pts.length-1]];
+    while(stack.length){
+      const[a,b]=stack.pop(),ax=pts[a][0],ay=pts[a][1],dx=pts[b][0]-ax,dy=pts[b][1]-ay,len=Math.hypot(dx,dy);
+      if(len<.001){const m=a+((b-a)>>1);keep[m]=1;stack.push([a,m],[m,b]);continue;}
+      let mi=-1,md=0;
+      for(let i=a+1;i<b;i++){const dd=Math.abs((pts[i][0]-ax)*dy-(pts[i][1]-ay)*dx)/len;
+        if(dd>md){md=dd;mi=i;}}
+      if(md>eps&&mi>0){keep[mi]=1;stack.push([a,mi],[mi,b]);}}
+    return pts.filter((p,i)=>keep[i]);
+  }
+  // draft-loop 수동 완주 — 뷰어의 dblclick/G키 finishSteps 와 같은 가드·같은 영역에서
+  // 순환을 멈추고 완료 프레임(실물 이미지)에 정착한다(뷰어 수정 금지 — motion.js 안에서 해결).
+  const draftLoops=new Set();
+  const draftLoopSettle=()=>{for(const f of [...draftLoops])f();};
+  function fxDraftCore(el,at,loop){
+    const sig=loop?'fx-draft-loop':'fx-draft';
+    if(el.tagName!=='IMG'||typeof el.animate!=='function'||!window.requestAnimationFrame)return sig;
     const host=el.parentElement;
-    if(!host)return 'fx-draft';
+    if(!host)return sig;
     const slide=el.closest('.slide')||host;
     let dead=false,degraded=false,returned=false,raf=0,cv=null,go=null;
     const oldOp=el.style.opacity,oldPos=host.style.position;
@@ -701,95 +805,228 @@
       if(go)el.removeEventListener('load',go);
       if(cv)cv.remove();
       el.style.opacity=oldOp;host.style.position=oldPos;
+      if(el._edDraft)delete el._edDraft;
+      draftLoops.delete(finish);
       cleanups.delete(finish);};
     cleanups.add(finish);
+    if(loop)draftLoops.add(finish);
     const build=()=>{
       if(dead)return;
-      let runs,aw,ah;
-      try{({runs,aw,ah}=draftEdges(el));}
+      let an;
+      try{an=draftAnalyze(el);}
       catch(e){ // 오염 캔버스(SecurityError) — 효과 생략, 이미지만 즉시 보인다
         degraded=true;finish();
-        if(returned)logSig(slide,(window.deckInfo?window.deckInfo().step:0)||0,'fx-draft-degraded');
+        if(returned)logSig(slide,(window.deckInfo?window.deckInfo().step:0)||0,
+          loop?'fx-draft-loop-degraded':'fx-draft-degraded');
         return;}
-      if(!runs.length){finish();return;}     // 가장자리 없는 단색 이미지 — 실물만
+      if(!an.chains.length){finish();return;}     // 가장자리 없는 단색 이미지 — 실물만
       const H=host.getBoundingClientRect(),R=el.getBoundingClientRect();
       const sc=H.width/(host.offsetWidth||H.width)||1;
       const ow=el.offsetWidth||R.width,oh=el.offsetHeight||R.height;
       if(!ow||!oh){finish();return;}
       if(getComputedStyle(host).position==='static')host.style.position='relative';
       const dpr=Math.min(3,(window.devicePixelRatio||1)*Math.max(1,sc));
-      cv=document.createElement('canvas');cv.className='ed-draft';cv.setAttribute('aria-hidden','true');
+      cv=document.createElement('canvas');cv.className=loop?'ed-draft ed-draft-loop':'ed-draft';
+      cv.setAttribute('aria-hidden','true');
       cv.width=Math.round(ow*dpr);cv.height=Math.round(oh*dpr);
       Object.assign(cv.style,{position:'absolute',left:(R.left-H.left)/sc-host.clientLeft+'px',top:(R.top-H.top)/sc-host.clientTop+'px',width:ow+'px',height:oh+'px',pointerEvents:'none',opacity:'1'});
       host.append(cv);
       const ctx=cv.getContext('2d');ctx.scale(dpr,dpr);
       const soft=token('--soft',el)||'#485660',line=token('--line',el)||'#7d888b',
             acc=token('--accent',el)||'#a54716',paper=token('--paper',el)||'#fffdf8';
-      const iw=el.naturalWidth,ih=el.naturalHeight,sx=ow/aw,sy=oh/ah;
-      // 내부 치수: 가장자리 바운딩의 가로 폭을 자연 픽셀로 환산한다
-      let mx0=aw,mx1=0;for(const r of runs){if(r[0]<mx0)mx0=r[0];if(r[2]>mx1)mx1=r[2];}
-      const inner=mx1>mx0?Math.round((mx1-mx0)/aw*iw):0;
-      // 셔플: 같은 장 안 요소 인덱스가 씨드 — 결정적 플롯 순서
-      const peers=all('[data-fx="draft"]',slide),seed=1+Math.max(0,peers.indexOf(el));
+      const iw=el.naturalWidth,ih=el.naturalHeight,sx=ow/an.aw,sy=oh/an.ah,ai=iw/an.aw;
+      const mk=w=>{const c=document.createElement('canvas');c.width=cv.width;c.height=cv.height;
+        const x=c.getContext('2d');x.scale(dpr,dpr);return[c,x];};
+      const[ink,ictx]=mk();                          // 완료 체인 증분 캐시 레이어
+      const[imgCv]=mk();imgCv.getContext('2d').drawImage(el,0,0,ow,oh);   // 실물 레이어
+      const[rv,rctx]=mk();                           // 리빌 합성 레이어
+      const mw=Math.max(8,Math.round(ow*.28)),mh=Math.max(8,Math.round(oh*.28));
+      const mask=document.createElement('canvas');mask.width=mw;mask.height=mh;
+      const mctx=mask.getContext('2d',{willReadFrequently:true});         // ≤0.3배 오프스크린 마스크
+      const mkx=mw/ow,mky=mh/oh;
+      ictx.strokeStyle=soft;ictx.lineWidth=1.1;ictx.lineCap='round';ictx.lineJoin='round';
+      // 플롯 순서: 긴 체인 우선 + 요소 인덱스 씨드 결정적 인터리브(버킷 셔플 — 기존 셔플 정신)
+      const peers=all('[data-fx="'+(loop?'draft-loop':'draft')+'"]',slide),seed=1+Math.max(0,peers.indexOf(el));
       let s0=(seed*2654435761)>>>0||1;
-      for(let i=runs.length-1;i>0;i--){s0=(s0*1664525+1013904223)>>>0;
-        const j=Math.floor(s0/4294967296*(i+1));const t=runs[i];runs[i]=runs[j];runs[j]=t;}
-      const T=FX.draft,G=350,P=1750,t0=performance.now()+Math.max(0,at);
-      const ease=x=>1-Math.pow(1-x,3),fs=Math.max(11,Math.round(oh/26));
-      el.style.opacity='0';
-      const tick=now=>{
-        if(dead)return;
-        if(staticMode()){finish();return;}    // 도중 정적 전환 — 즉시 제거·최종 모습
-        const tt=now-t0;
-        if(tt<0){raf=requestAnimationFrame(tick);return;}
-        if(tt>=T){finish();return;}
-        ctx.clearRect(0,0,ow,oh);
-        // ① 도면 시트: 옅은 종기+격자(--soft)·중심선(--line)이 앞 350ms 에 페이드인
-        const ga=Math.min(1,tt/G);
-        ctx.save();ctx.globalAlpha=ga*.5;ctx.fillStyle=paper;ctx.fillRect(0,0,ow,oh);
-        ctx.globalAlpha=ga*.28;ctx.strokeStyle=soft;ctx.lineWidth=1;
+      const rnd=()=>((s0=(s0*1664525+1013904223)>>>0)/4294967296);
+      const order=an.chains.slice(),B=Math.max(2,Math.ceil(order.length/10));
+      for(let b=0;b<order.length;b+=B){const en=Math.min(order.length,b+B);
+        for(let i=en-1;i>b;i--){const j=b+Math.floor(rnd()*(i-b+1)),t=order[i];order[i]=order[j];order[j]=t;}}
+      const cum=[];let total=0;for(const c of order){cum.push(total);total+=c.len;}
+      // 세 번째 치수용 내부 거리(원 피팅이 없을 때)
+      const inner=an.mx1>an.mx0?Math.round((an.mx1-an.mx0)/an.aw*iw):0;
+      // −45° 스윕 브러시: 프런트 방향 u, 진행 법선 n, 폭 = 짧은 변×0.18
+      const diag=Math.hypot(ow,oh),bw=Math.min(ow,oh)*.18;
+      const ux=Math.SQRT1_2,uy=-Math.SQRT1_2,nx=Math.SQRT1_2,ny=Math.SQRT1_2;
+      const ext=diag/2+bw,cxn=ow/2,cyn=oh/2,nB=3+Math.floor(rnd()*3);
+      mctx.strokeStyle='#fff';mctx.lineCap='round';mctx.lineWidth=Math.max(1,bw*.13*mkx);
+      const ease=x=>1-Math.pow(1-x,3),fs=Math.max(12,Math.round(oh/26)),fs2=Math.max(12,Math.round(oh/30));
+      const num=v=>loop?v.toFixed(1):String(Math.round(v));
+      const pad=(cx,by,t)=>{const w=ctx.measureText(t).width;
+        ctx.save();ctx.fillStyle=paper;ctx.globalAlpha=.85;ctx.fillRect(cx-w/2-3,by-2,w+6,fs+5);ctx.restore();};
+      const chainPath=(c,to,ct2)=>{
+        const p=c.pts;ct2.beginPath();ct2.moveTo(p[0][0]*sx,p[0][1]*sy);
+        if(to>=c.len){for(let i=1;i<p.length;i++)ct2.lineTo(p[i][0]*sx,p[i][1]*sy);}
+        else{let i=1;while(i<p.length&&c.cum[i]<=to){ct2.lineTo(p[i][0]*sx,p[i][1]*sy);i++;}
+          if(i<p.length){const f=(to-c.cum[i-1])/(c.cum[i]-c.cum[i-1]||1);
+            ct2.lineTo((p[i-1][0]+(p[i][0]-p[i-1][0])*f)*sx,(p[i-1][1]+(p[i][1]-p[i-1][1])*f)*sy);}}
+        if(c.closed&&to>=c.len)ct2.closePath();
+        ct2.stroke();};
+      const chainPoint=(c,to)=>{
+        if(to>=c.len)return c.pts[c.pts.length-1];
+        let i=1;while(i<c.pts.length&&c.cum[i]<to)i++;
+        if(i>=c.pts.length)return c.pts[c.pts.length-1];
+        const p=c.pts,f=(to-c.cum[i-1])/(c.cum[i]-c.cum[i-1]||1);
+        return[p[i-1][0]+(p[i][0]-p[i-1][0])*f,p[i-1][1]+(p[i][1]-p[i-1][1])*f];};
+      const head={x:ow/2,y:oh/2};
+      const drawSheet=a=>{
+        ctx.save();
+        ctx.globalAlpha=a*.5;ctx.fillStyle=paper;ctx.fillRect(0,0,ow,oh);
+        ctx.globalAlpha=a*.28;ctx.strokeStyle=soft;ctx.lineWidth=1;
         const gs=Math.max(24,Math.round(ow/14));
         ctx.beginPath();
         for(let x=gs;x<ow;x+=gs){ctx.moveTo(x,0);ctx.lineTo(x,oh);}
         for(let y=gs;y<oh;y+=gs){ctx.moveTo(0,y);ctx.lineTo(ow,y);}
         ctx.stroke();
-        ctx.globalAlpha=ga*.65;ctx.strokeStyle=line;ctx.setLineDash([7,7]);
-        ctx.beginPath();ctx.moveTo(ow/2,0);ctx.lineTo(ow/2,oh);ctx.moveTo(0,oh/2);ctx.lineTo(ow,oh/2);ctx.stroke();
-        ctx.restore();
-        // ② 가장자리 런 플롯 — 셔플된 결정적 순서로 짧은 선분이 번갈아 찍힌다
-        const n=Math.floor(ease(Math.min(1,Math.max(0,(tt-G)/(P-G))))*runs.length);
-        ctx.save();ctx.strokeStyle=soft;ctx.lineWidth=1.1;ctx.lineCap='round';ctx.beginPath();
-        for(let i=0;i<n;i++){const r=runs[i];ctx.moveTo(r[0]*sx,r[1]*sy);ctx.lineTo(r[2]*sx,r[3]*sy);}
-        ctx.stroke();ctx.restore();
-        // 치수 2~3개: 바운딩 폭·높이(+내부 1거리)를 --accent 수치 카운트업
-        const dq=Math.min(1,Math.max(0,(tt-700)/900));
-        if(dq>0){
-          const dn=ease(dq);
-          ctx.save();ctx.globalAlpha=Math.min(1,dq*2);ctx.strokeStyle=acc;ctx.fillStyle=acc;
-          ctx.lineWidth=1;ctx.font='700 '+fs+'px Pretendard Variable,Pretendard,sans-serif';
-          ctx.textAlign='center';ctx.textBaseline='bottom';
-          const wy=oh-6;
-          ctx.beginPath();ctx.moveTo(0,wy);ctx.lineTo(ow,wy);
-          ctx.moveTo(0,wy-4);ctx.lineTo(0,wy+4);ctx.moveTo(ow,wy-4);ctx.lineTo(ow,wy+4);ctx.stroke();
-          ctx.fillText(Math.round(iw*dn)+'px',ow/2,wy-6);
-          const hx=ow-6;
-          ctx.beginPath();ctx.moveTo(hx,0);ctx.lineTo(hx,oh);
-          ctx.moveTo(hx-4,0);ctx.lineTo(hx+4,0);ctx.moveTo(hx-4,oh);ctx.lineTo(hx+4,oh);ctx.stroke();
-          ctx.save();ctx.translate(ow-10,oh/2);ctx.rotate(-Math.PI/2);
-          ctx.fillText(Math.round(ih*dn)+'px',0,0);ctx.restore();
-          if(inner>0&&mx1-mx0<aw*.92){           // 내부 거리 — 바운딩보다 충분히 좁을 때만
-            const iy=8;
-            ctx.beginPath();ctx.moveTo(mx0*sx,iy);ctx.lineTo(mx1*sx,iy);
-            ctx.moveTo(mx0*sx,iy-4);ctx.lineTo(mx0*sx,iy+4);ctx.moveTo(mx1*sx,iy-4);ctx.lineTo(mx1*sx,iy+4);ctx.stroke();
-            ctx.textBaseline='top';
-            ctx.fillText(Math.round(inner*dn)+'px',(mx0+mx1)/2*sx,iy+6);
-          }
-          ctx.restore();
+        ctx.globalAlpha=a*.65;ctx.strokeStyle=line;ctx.setLineDash([7,7]);
+        ctx.beginPath();
+        ctx.moveTo(ow/2,0);ctx.lineTo(ow/2,oh);ctx.moveTo(0,oh/2);ctx.lineTo(ow,oh/2);
+        for(const r of an.peaks.rows){const y=r*sy;if(Math.abs(y-oh/2)>8){ctx.moveTo(0,y);ctx.lineTo(ow,y);}}
+        for(const c of an.peaks.cols){const x=c*sx;if(Math.abs(x-ow/2)>8){ctx.moveTo(x,0);ctx.lineTo(x,oh);}}
+        ctx.stroke();ctx.restore();};
+      const drawDims=dq=>{
+        const dn=ease(dq);
+        ctx.save();ctx.globalAlpha=Math.min(1,dq*2);ctx.strokeStyle=acc;ctx.fillStyle=acc;
+        ctx.lineWidth=1;ctx.font='700 '+fs+'px Pretendard Variable,Pretendard,sans-serif';
+        ctx.textAlign='center';ctx.textBaseline='bottom';
+        const wy=oh-6,wTxt=num(iw*dn)+'px';
+        ctx.beginPath();ctx.moveTo(0,wy);ctx.lineTo(ow,wy);
+        ctx.moveTo(0,wy-4);ctx.lineTo(0,wy+4);ctx.moveTo(ow,wy-4);ctx.lineTo(ow,wy+4);ctx.stroke();
+        pad(ow/2,wy-6-fs,wTxt);ctx.fillText(wTxt,ow/2,wy-6);
+        const hx=ow-6;
+        ctx.beginPath();ctx.moveTo(hx,0);ctx.lineTo(hx,oh);
+        ctx.moveTo(hx-4,0);ctx.lineTo(hx+4,0);ctx.moveTo(hx-4,oh);ctx.lineTo(hx+4,oh);ctx.stroke();
+        ctx.save();ctx.translate(ow-10,oh/2);ctx.rotate(-Math.PI/2);
+        const hTxt=num(ih*dn)+'px';pad(0,-fs,hTxt);ctx.fillText(hTxt,0,0);ctx.restore();
+        if(an.circle){                              // 원 피팅 호 — R 치수
+          const cc=an.circle,cxp=cc.cx*sx,cyp=cc.cy*sy,rr=cc.r*sx;
+          const ex=cxp+rr*.707,ey=cyp-rr*.707;
+          ctx.beginPath();ctx.moveTo(cxp,cyp);ctx.lineTo(ex,ey);ctx.stroke();
+          const rTxt='R '+num(cc.r*ai*dn)+'px';
+          const lx=Math.min(ow-30,Math.max(30,ex+8)),ly=Math.max(fs+4,Math.min(oh-4,ey-4));
+          pad(lx,ly-fs,rTxt);ctx.fillText(rTxt,lx,ly);
+        }else if(inner>0&&an.mx1-an.mx0<an.aw*.92){   // 내부 거리 — 바운딩보다 충분히 좁을 때만
+          const iy=8;
+          ctx.beginPath();ctx.moveTo(an.mx0*sx,iy);ctx.lineTo(an.mx1*sx,iy);
+          ctx.moveTo(an.mx0*sx,iy-4);ctx.lineTo(an.mx0*sx,iy+4);ctx.moveTo(an.mx1*sx,iy-4);ctx.lineTo(an.mx1*sx,iy+4);ctx.stroke();
+          const iTxt=num(inner*dn)+'px';ctx.textBaseline='top';
+          pad((an.mx0+an.mx1)/2*sx,iy+6,iTxt);ctx.fillText(iTxt,(an.mx0+an.mx1)/2*sx,iy+6);
         }
-        // ③ 크로스페이드: 실물 이미지 인 + 오버레이 아웃(keepLines=0 상당)
-        if(tt>P){const q=ease(Math.min(1,(tt-P)/(T-P)));el.style.opacity=String(q);cv.style.opacity=String(1-q);}
-        raf=requestAnimationFrame(tick);
+        ctx.restore();};
+      const drawHead=(x,y,a)=>{
+        if(a<=0)return;
+        ctx.save();ctx.globalAlpha=a;ctx.strokeStyle=acc;ctx.lineWidth=1.2;
+        ctx.beginPath();ctx.moveTo(x-9,y);ctx.lineTo(x+9,y);ctx.moveTo(x,y-9);ctx.lineTo(x,y+9);ctx.stroke();
+        ctx.beginPath();ctx.arc(x,y,1.8,0,6.2832);ctx.fillStyle=acc;ctx.fill();
+        ctx.font='700 '+fs2+'px Pretendard Variable,Pretendard,sans-serif';
+        ctx.textAlign='left';ctx.textBaseline='bottom';
+        const t1='X '+Math.round(x/sx*ai),t2='Y '+Math.round(y/sy*ai),
+              w=Math.max(ctx.measureText(t1).width,ctx.measureText(t2).width)+10;
+        let lx=x+14;if(lx+w>ow-4)lx=x-14-w;if(lx<4)lx=4;
+        let ly=y-14;if(ly-fs2*2-10<4)ly=y+16;
+        ctx.fillStyle=paper;ctx.globalAlpha=a*.85;ctx.fillRect(lx-3,ly-fs2*2-8,w,fs2*2+10);
+        ctx.globalAlpha=a;ctx.fillStyle=acc;
+        ctx.fillText(t1,lx,ly-fs2-4);ctx.fillText(t2,lx,ly-4);
+        ctx.restore();};
+      const drawHud=(label,done,tot)=>{
+        ctx.save();ctx.font='700 '+fs2+'px Pretendard Variable,Pretendard,sans-serif';
+        const t1=label,t2='ENT '+String(done).padStart(4,'0')+'/'+String(tot).padStart(4,'0'),
+              w=Math.max(ctx.measureText(t1).width,ctx.measureText(t2).width)+14,x=10,y=oh-10,h2=fs2*2+12;
+        ctx.fillStyle=paper;ctx.globalAlpha=.78;ctx.fillRect(x,y-h2,w,h2);
+        ctx.globalAlpha=.9;ctx.fillStyle=acc;ctx.textAlign='left';ctx.textBaseline='bottom';
+        ctx.fillText(t1,x+7,y-fs2-6);ctx.fillText(t2,x+7,y-4);
+        ctx.restore();};
+      const brushTo=F=>{                            // 프런트 위치까지 −45° 스윕을 찍는다
+        const wob=Math.sin(F*.05)*bw*.08,cx=cxn+nx*(F+wob),cy=cyn+ny*(F+wob),L=diag,K=diag*2;
+        mctx.fillStyle='#fff';
+        mctx.beginPath();
+        mctx.moveTo((cx-ux*L)*mkx,(cy-uy*L)*mky);mctx.lineTo((cx+ux*L)*mkx,(cy+uy*L)*mky);
+        mctx.lineTo((cx+ux*L-nx*K)*mkx,(cy+uy*L-ny*K)*mky);mctx.lineTo((cx-ux*L-nx*K)*mkx,(cy-uy*L-ny*K)*mky);
+        mctx.fill();
+        for(let j=0;j<nB;j++){                      // 병렬 털 3~5개 — 건조한 리딩 에지
+          const o=j*bw/(nB-1)+(rnd()-.5)*bw*.18;
+          mctx.beginPath();
+          mctx.moveTo((cx+nx*o-ux*L)*mkx,(cy+ny*o-uy*L)*mky);
+          mctx.lineTo((cx+nx*o+ux*L)*mkx,(cy+ny*o+uy*L)*mky);
+          mctx.stroke();}};
+      let ci=0;
+      const drawFrame=p=>{
+        ctx.clearRect(0,0,ow,oh);
+        const reveal=Math.min(1,Math.max(0,(p-.55)/(.9-.55))),
+              keepLines=1-reveal;                     // 리빌 동안 윤곽·구성선은 완전 소멸
+        drawSheet(Math.min(1,p/.14));
+        // 윤곽 체인 플롯 — 완료 체인은 ink 에 굽고 활성 체인만 실시간 부분 트레이스
+        const cq=Math.min(1,Math.max(0,(p-.08)/(.62-.08))),target=ease(cq)*total;
+        while(ci<order.length&&cum[ci]+order[ci].len<=target){chainPath(order[ci],1e9,ictx);ci++;}
+        if(keepLines>0){
+          ctx.save();ctx.globalAlpha=keepLines;ctx.drawImage(ink,0,0,ow,oh);ctx.restore();
+          if(ci<order.length&&target>cum[ci]){
+            const c=order[ci],rem=target-cum[ci];
+            ctx.save();ctx.globalAlpha=keepLines;ctx.strokeStyle=soft;ctx.lineWidth=1.1;ctx.lineCap='round';ctx.lineJoin='round';
+            chainPath(c,rem,ctx);
+            const hp=chainPoint(c,rem);head.x=hp[0]*sx;head.y=hp[1]*sy;
+            ctx.restore();}
+          // 치수(폭·높이 + R/내부거리) — --accent 수치 카운트업, 종이색 녹아웃
+          const dq=Math.min(1,Math.max(0,(p-.28)/(.75-.28)));
+          if(dq>0){ctx.save();ctx.globalAlpha=keepLines;drawDims(dq);ctx.restore();}
+          const headA=p<.08?0:p<.55?1:Math.max(0,1-(p-.55)/.06);
+          if(headA>0&&cq>0)drawHead(head.x,head.y,headA*keepLines);
+        }
+        // 브러시 마스크 리빌 — 임계값화한 마스크로 실물 노출 영역 합성
+        if(reveal>0){
+          brushTo(-ext+reveal*(ext*2+bw*1.2));
+          if(reveal>=1)mctx.fillRect(0,0,mw,mh);
+          const id=mctx.getImageData(0,0,mw,mh),md=id.data;
+          for(let i=3;i<md.length;i+=4)md[i]=md[i]>38?255:0;
+          mctx.putImageData(id,0,0);
+          rctx.clearRect(0,0,ow,oh);
+          rctx.drawImage(imgCv,0,0,ow,oh);
+          rctx.globalCompositeOperation='destination-in';
+          rctx.drawImage(mask,0,0,ow,oh);
+          rctx.globalCompositeOperation='source-over';
+          ctx.drawImage(rv,0,0,ow,oh);}
       };
+      const drawHold=()=>{                          // 홀드 — 실물 위에 도면 라인 잔류
+        ctx.clearRect(0,0,ow,oh);
+        ctx.drawImage(imgCv,0,0,ow,oh);
+        ctx.save();ctx.globalAlpha=.13;ctx.drawImage(ink,0,0,ow,oh);ctx.restore();};
+      const T=loop?8000:FX.draft,HOLD=loop?2500:0,CYC=T+HOLD;
+      const phase=p=>p<.08?'SHEET':p<.18?'CONSTRUCT':p<.55?'LINE':p<.75?'DIM':'RENDER';
+      let elapsed=-Math.max(0,at),last=0,prevPh=0,cycle=0;
+      el.style.opacity='0';
+      el._edDraft={an,cycle:0,phase:'SHEET'};
+      const tick=now=>{
+        if(dead)return;
+        if(staticMode()){finish();return;}          // 도중 정적 전환 — 즉시 제거·최종 모습
+        const dt=last?Math.min(100,now-last):16.7;last=now;
+        elapsed+=dt;                                // dt 누적 클럭 — 탭 비가시 시 점프 없음
+        if(elapsed<0){raf=requestAnimationFrame(tick);return;}
+        if(loop){
+          const ph=elapsed%CYC;
+          if(ph<prevPh){ictx.clearRect(0,0,ow,oh);mctx.clearRect(0,0,mw,mh);ci=0;cycle++;
+            if(el._edDraft)el._edDraft.cycle=cycle;}
+          prevPh=ph;
+          if(ph<T){const p=ph/T;drawFrame(p);
+            if(el._edDraft)el._edDraft.phase=phase(p);
+            drawHud(phase(p),ci,order.length);}
+          else{drawHold();
+            if(el._edDraft)el._edDraft.phase='DONE';
+            drawHud('DONE',order.length,order.length);}
+        }else{
+          if(elapsed>=T){finish();return;}
+          const p=elapsed/T;drawFrame(p);
+          if(el._edDraft)el._edDraft.phase=phase(p);}
+        raf=requestAnimationFrame(tick);};
       raf=requestAnimationFrame(tick);
     };
     if(el.complete&&el.naturalWidth)build();
@@ -797,8 +1034,10 @@
       el.addEventListener('load',go,{once:true});
       el.addEventListener('error',()=>{el.removeEventListener('load',go);},{once:true});}
     returned=true;
-    return degraded?'fx-draft-degraded':'fx-draft';
+    return degraded?sig+'-degraded':sig;
   }
+  function fxDraft(el,at){return fxDraftCore(el,at,false);}
+  function fxDraftLoop(el,at){return fxDraftCore(el,at,true);}
   function fxFire(el){
     const name=el.dataset.fx;
     if(!FX[name])return false;
@@ -824,6 +1063,7 @@
       case 'card-deal':fxDeal(el,at);break;
       case 'blinds':fxBlinds(el,at);break;
       case 'draft':return fxDraft(el,at);
+      case 'draft-loop':return fxDraftLoop(el,at);
     }
     return 'fx-'+name;
   }
@@ -942,6 +1182,17 @@
   }
   window.eduMotion={navigate,mark,unmark,verdict,settle,signatures:Object.keys(recipes),sigLog};
   document.addEventListener('deckslide',schedule);document.addEventListener('deckstep',schedule);
+  // draft-loop 완주 — 뷰어 finishSteps(dblclick·G키)와 같은 가드·같은 영역에서
+  // 순환을 멈추고 완료 프레임(실물 이미지)에 정착한다(뷰어 수정 없이 여기서 해결).
+  document.addEventListener('dblclick',e=>{
+    if(document.documentElement.classList.contains('ed-compact')||document.body.classList.contains('in-hub'))return;
+    if(e.target.closest&&e.target.closest('a,button,.todo,.chk,.code,.tabs,.faq,.pin-shot,.pin-list,.st-panel,.st-modal,.st-print,.expl,.dsheet'))return;
+    if(e.clientX<window.innerWidth/3)return;
+    draftLoopSettle();});
+  document.addEventListener('keydown',e=>{
+    const t=e.target;
+    if(t&&(t.isContentEditable||(t.closest&&t.closest('a[href],button,input,textarea,select,summary,.code,.tabs,.faq,.pin-shot,.pin-list'))))return;
+    if(e.key==='g'||e.key==='G'||e.key==='ㅎ')draftLoopSettle();});
   // Interactive patterns may reveal content between steps (e.g. a tab pane opened
   // without a deckstep): any data-fx inside it is due the moment it shows.
   document.addEventListener('edpattern',()=>{const s=current();if(s)fxSweep(s,(window.deckInfo&&window.deckInfo().step)||0,false);});
