@@ -86,6 +86,10 @@ VISUAL_ARCHS = {"timeline", "map", "mechanism", "traits-grid", "meter", "compare
 FIXED_ARCHS = {"cover", "quiz-ab", "quiz-sort", "quiz-ox", "check", "sources", "closing",
                "explore", "detail-sheet", "part-divider"}
 TEXT_RUN_MIN = 5  # 본문 장 연속열에서 텍스트 계열만 이 수 이상 이어지면 WARN
+# 텍스트 나열 계산의 시각 요소 — 조각 클래스 + 실사용 마크업(그림·사진·인라인 도식·저작자 선언
+# data-visual)도 시각 계열로 인정한다(실사용 피드백 B3 — 팩 덱 gd-* 커스텀 그림을 못 보던 오탐).
+VISUAL_CONTENT_SEL = ('.fig-slot, .vflow, .vpills, img, figure, '
+                      'svg:not(.ico):not([aria-hidden="true"]), [data-visual]')
 STAT_NUM_CLASS = "stat-num"          # 숫자 증거 띠 큰 숫자(numbers() 숫자 릴 대상)
 STAT_BUDGETS = (12, 16)              # catalog.json 을 못 읽을 때의 폴백 예산(숫자, 라벨)
 CITE_IMG_BUDGET = 700 * 1024         # 실물 화면 이미지 1장 권장(지시문 P1-2) — catalog screen_image_kb 우선
@@ -390,7 +394,8 @@ def static_checks(html_text, soup, rep, allow_placeholders):
         archs.append(arch)
         if arch in FIXED_ARCHS:  # 고정 형식은 아키타입으로 확정 — 내부 시각 요소가 있어도 연속열에서 뺀다
             slide_kinds.append("fixed")
-        elif arch in VISUAL_ARCHS or sec.get("data-variant") == "fig" or sec.select_one(".fig-slot, .vflow, .vpills"):
+        elif (arch in VISUAL_ARCHS or sec.get("data-variant") == "fig"
+              or sec.has_attr("data-visual") or sec.select_one(VISUAL_CONTENT_SEL)):
             slide_kinds.append("visual")
         else:
             slide_kinds.append("text")

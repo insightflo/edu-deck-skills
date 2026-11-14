@@ -56,6 +56,37 @@ NUMBER_FACT = re.compile(
     r"|\d{4}\s?[.\-/]\s?\d{1,2}\s?[.\-/]\s?\d{1,2})"
 )
 
+# 근거 없는 수치 어림 검사에서 아예 빼는 장 계열(아키타입 화이트리스트) — 실사용 피드백 B4-①.
+# 출처·표지는 원래 제외였고, part-divider·check·closing 은 활동 시간·운영 표기("활동 5분",
+# "산출물 1곳")가 주를 이루는 장이라 어림 경고를 내지 않는다. 칩·참고 자료 검사는 그대로 한다.
+LOOSE_SKIP_ARCHS = {"sources", "cover", "part-divider", "check", "closing"}
+# 메타·키커 줄(eyebrow·kicker·이름에 meta 가 들어가는 클래스) 안의 수치는 장 운영 정보다 —
+# "대상 교육 · 25–30분 · 22장", "구글 내부 사례 4종"(실사용 피드백 B4).
+LOOSE_META = re.compile(r"kicker|eyebrow|meta", re.I)
+# 같은 문맥 블록에 '예시'·'가상' 마커가 있으면 그 수치는 예시 값이다(실사용 피드백 B4-②).
+LOOSE_EXAMPLE = ("예시", "가상")
+LOOSE_BLOCK = ("p", "li", "dt", "dd", "td", "th", "figcaption", "blockquote",
+               "h1", "h2", "h3", "h4", "h5", "h6", "summary", "button", "label")
+
+
+def loose_exempt(t, sec):
+    """어림 수치 스캔에서 빼는 글자 노드인가 (실사용 피드백 B4).
+    ① 칩을 단 구성 요소 안의 수치 — 노드를 품은 장 최상위 블록에 .fact 칩이 있으면
+       그 출처 표시의 일부(보조 라벨·단위)로 본다. .win 제외와 같은 구조 완화다.
+    ② eyebrow·kicker·*meta* 줄의 수치 — 장 운영 정보(대상·분량·구성 수).
+    ③ 같은 문맥 블록에 '예시'·'가상' 마커가 있는 수치 — 저작자가 예시 값이라 밝힌 것."""
+    e = t.parent
+    while e is not None and e is not sec:
+        if e.parent is sec:
+            if e.select_one(".fact"):
+                return True
+            break
+        e = e.parent
+    if t.find_parent(class_=LOOSE_META):
+        return True
+    blk = t.find_parent(LOOSE_BLOCK)
+    return blk is not None and any(m in blk.get_text() for m in LOOSE_EXAMPLE)
+
 
 class Out:
     """결과 줄 모음. sev 는 ERROR / WARN / INFO."""
@@ -200,7 +231,7 @@ def check_html(html_path: Path, facts, out: Out):
                     out.add("ERROR", fid, f"#{n} 칩에 쓰였지만 확인 단계가 '{lvl}' 입니다 (원문대조·두출처일치만 화면에 씁니다)")
                 if "(2차)" in facts[fid].get("출처", ""):
                     out.add("ERROR", fid, f"#{n} 칩이 2차 출처를 인용합니다. 2차 출처는 노트에만 씁니다. 공식 원문을 찾아 바꾸세요")
-        if sec.get("data-archetype") in ("sources", "cover"):
+        if sec.get("data-archetype") in LOOSE_SKIP_ARCHS:
             continue
         # 칩 밖에 나온 수치 중 같은 슬라이드의 어떤 칩에도 없는 것 → 근거 확인 필요
         chips = " ".join(norm(c.get_text(" ", strip=True)) for c in sec.select(".fact"))
@@ -208,7 +239,8 @@ def check_html(html_path: Path, facts, out: Out):
         for t in sec.find_all(string=True):
             if (isinstance(t, Comment) or t.find_parent(["aside", "script", "style"])
                     or t.find_parent(class_="win") or t.find_parent(class_="fact")
-                    or t.find_parent(class_="stat-strip") or t.find_parent(class_="screen-cite")):
+                    or t.find_parent(class_="stat-strip") or t.find_parent(class_="screen-cite")
+                    or loose_exempt(t, sec)):
                 continue
             texts.append(t)
         found = sorted(set(m.group(0).strip() for m in NUMBER_FACT.finditer(" ".join(texts))))

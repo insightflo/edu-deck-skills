@@ -810,7 +810,7 @@ body.st-self *,body.st-self *::before,body.st-self *::after,body.st-printing *{a
  html.ed-compact #stage>.deck.on{display:flex;flex-direction:column;align-items:center;width:100%}
  /* 모든 장을 한 줄 스크롤로 나열한다. 각 장은 원래 1920×1080 배치 그대로이고
     transform 으로만 축소된다(단계는 스크롤이 지나며 자동으로 열린다). */
- html.ed-compact #stage .slide{position:relative;inset:auto;display:flex;flex:none;width:1920px;height:1080px;transform:translateX(var(--ed-x,0px)) scale(var(--ed-s,1));transform-origin:0 0;margin:0 auto calc(1080px*(var(--ed-s,1) - 1)) auto}
+ html.ed-compact #stage .slide{position:relative;inset:auto;display:flex;flex:none;flex-direction:column;width:1920px;height:1080px;transform:translateX(var(--ed-x,0px)) scale(var(--ed-s,1));transform-origin:0 0;margin:0 auto calc(1080px*(var(--ed-s,1) - 1)) auto}
  html.ed-compact #stage .slide+.slide{margin-top:12px}
  html.ed-compact #homebtn{display:none!important}
  html.ed-compact :is(#counter,#dots,#help){display:none}
@@ -895,7 +895,9 @@ html.ed-slidefit .ed-reader-status{grid-column:1/-1;font-size:16px;line-height:1
  html.ed-compact #notes{bottom:88px}
  html.ed-compact .chk-back{bottom:88px}
 }
-@media print{.ed-reader-nav,.ed-zoom,.ed-zoom-hint{display:none!important}}
+/* 인쇄는 전 장을 한 장씩 세로로 펼친다. 팩 런타임은 flex-direction 을 .slide.active 에만
+   두므로 비활성 장이 가로(row)로 무너지는 것을 여기서 막는다(실사용 피드백 A1). */
+@media print{.ed-reader-nav,.ed-zoom,.ed-zoom-hint{display:none!important}.slide{flex-direction:column!important}}
 
 /* viewer.css — A1 검색, A2 목차, A3 엔진 실패 연속 보기, D 발표 타이머·발표자 보기,
    상·하단 크롬(.ed-top 헤더·.ed-bot 푸터). 시리즈 포털에는 html.ed-deck 가 없으므로
