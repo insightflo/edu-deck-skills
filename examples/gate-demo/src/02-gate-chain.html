@@ -1,0 +1,53 @@
+<!-- 56-gate-chain 실사 — 수강 신청이 네 관문을 지나는 거르는 서사.
+     자리표시는 모두 실제 내용으로 바꾼 상태(관문 4개 구성). -->
+<section class="slide" data-archetype="mapping" data-sec="90" style="gap:16px">
+  <div class="head"><p class="eyebrow">관문 흐름</p><h2 class="title">신청이 네 관문을 지나 확정됩니다</h2></div>
+  <svg class="dg" viewBox="0 0 1600 620" role="img" aria-label="수강 신청이 기본 정보·선수 과목·정원 여유·결재 완료 네 관문을 지나 수강 확정에 이르고, 각 관문의 아니오는 아래 담당자 검토·보류 행으로 빠지는 게이트 도식">
+    <rect x="30" y="110" width="180" height="140" rx="18" class="k-paper"/>
+    <text x="120" y="168" class="t-l" text-anchor="middle">수강 신청</text>
+    <text x="120" y="208" class="t-s" text-anchor="middle">신청서 접수</text>
+    <path d="M214 180H276" class="k-ln-b" marker-end="url(#ah-b)"/>
+    <text x="245" y="158" class="t-s" text-anchor="middle">제출</text>
+    <rect x="1400" y="110" width="170" height="140" rx="18" class="k-solid-b"/>
+    <text x="1485" y="168" class="t-badge" text-anchor="middle">수강 확정</text>
+    <text x="1485" y="208" class="t-badge" text-anchor="middle">전부 통과</text>
+    <g data-step="1">
+      <path d="M385 254V468" class="k-ln-g" marker-end="url(#ahg)"/><text x="403" y="360" class="t-s">아니오</text>
+      <rect x="280" y="110" width="210" height="140" rx="20" class="k-blue"/>
+      <circle cx="385" cy="110" r="21" class="k-solid-b"/><text x="385" y="119" class="t-badge" text-anchor="middle">1</text>
+      <text x="385" y="166" class="t-l" text-anchor="middle">기본 정보</text>
+      <text x="385" y="208" class="t-s" text-anchor="middle">필수 항목 기재</text>
+      <path d="M494 180H556" class="k-ln-b" marker-end="url(#ah-b)"/><text x="525" y="158" class="t-s b" text-anchor="middle">예</text>
+    </g>
+    <g data-step="2">
+      <path d="M665 254V468" class="k-ln-g" marker-end="url(#ahg)"/><text x="683" y="360" class="t-s">아니오</text>
+      <rect x="560" y="110" width="210" height="140" rx="20" class="k-blue"/>
+      <circle cx="665" cy="110" r="21" class="k-solid-b"/><text x="665" y="119" class="t-badge" text-anchor="middle">2</text>
+      <text x="665" y="166" class="t-l" text-anchor="middle">선수 과목</text>
+      <text x="665" y="208" class="t-s" text-anchor="middle">이수 증빙 확인</text>
+      <path d="M774 180H836" class="k-ln-b" marker-end="url(#ah-b)"/><text x="805" y="158" class="t-s b" text-anchor="middle">예</text>
+    </g>
+    <g data-step="3">
+      <path d="M945 254V468" class="k-ln-g" marker-end="url(#ahg)"/><text x="963" y="360" class="t-s">아니오</text>
+      <rect x="840" y="110" width="210" height="140" rx="20" class="k-blue"/>
+      <circle cx="945" cy="110" r="21" class="k-solid-b"/><text x="945" y="119" class="t-badge" text-anchor="middle">3</text>
+      <text x="945" y="166" class="t-l" text-anchor="middle">정원 여유</text>
+      <text x="945" y="208" class="t-s" text-anchor="middle">잔여석 확인</text>
+      <path d="M1054 180H1116" class="k-ln-b" marker-end="url(#ah-b)"/><text x="1085" y="158" class="t-s b" text-anchor="middle">예</text>
+    </g>
+    <g data-step="4">
+      <path d="M1225 254V468" class="k-ln-g" marker-end="url(#ahg)"/><text x="1243" y="360" class="t-s">아니오</text>
+      <rect x="1120" y="110" width="210" height="140" rx="20" class="k-blue"/>
+      <circle cx="1225" cy="110" r="21" class="k-solid-b"/><text x="1225" y="119" class="t-badge" text-anchor="middle">4</text>
+      <text x="1225" y="166" class="t-l" text-anchor="middle">결재 완료</text>
+      <text x="1225" y="208" class="t-s" text-anchor="middle">부서장 승인</text>
+      <path d="M1334 180H1396" class="k-ln-b" marker-end="url(#ah-b)"/><text x="1365" y="158" class="t-s b" text-anchor="middle">예</text>
+    </g>
+    <g data-step="5">
+      <rect x="280" y="470" width="1290" height="92" rx="18" class="k-gray"/>
+      <text x="320" y="528" class="t-l">담당자 검토·보류</text>
+      <text x="1530" y="528" class="t-s" text-anchor="end">서류 보완·대기 안내</text>
+    </g>
+  </svg>
+  <aside class="notes">왼쪽의 수강 신청이 오른쪽 수강 확정까지 가는 길에 관문 네 개를 지납니다. → 누를 때마다 관문이 하나씩 나타나고, 각 관문의 '예'는 다음 관문으로, '아니오'는 아래쪽으로 떨어집니다. 관문 1은 필수 항목 기재, 2는 선수 과목 이수 증빙, 3은 잔여석, 4는 부서장 승인입니다. 마지막에 나타나는 아래 행은 어느 관문에서든 아니오가 나면 도착하는 공통 탈락 행 — 담당자가 서류 보완을 요청하거나 대기 명단에 올리는 곳입니다. 이 내용을 표로 그렸다면 행이 다섯 개인 기준표가 됐을 것이고, 거르는 서사는 사라졌을 겁니다. 마지막 순서 장에서 이 형태를 언제 쓰는지 정리합니다.</aside>
+</section>

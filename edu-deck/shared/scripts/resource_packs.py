@@ -17,6 +17,14 @@ BASE = Path(__file__).resolve().parent.parent
 DESIGNS = ('editorial', 'lab', 'field', 'casebook', 'atlas', 'workbook', 'briefing', 'seminar')
 FLOWS = ('problem', 'case', 'follow', 'inquiry', 'compare', 'diagnose', 'discussion', 'project')
 
+# Author-facing guidance prepended to each generated src/*.html: procedural
+# stages must not settle for a table or card grid before considering a
+# sequence form (step rails, 13-sequence, 56-gate-chain snippets).
+FORM_GUIDE = (
+    '<!-- 형태 안내: 절차·단계·순서 내용은 표·카드 그리드로 끝내기 전에 시퀀스 형태'
+    '(세로·가로 단계 레일, 13-sequence·56-gate-chain 조각) 후보를 먼저 검토합니다. -->\n'
+)
+
 
 class PackError(ValueError):
     """An invalid selection or incomplete installed pack; no output should be written."""
@@ -94,7 +102,7 @@ def init_deck(out: Path, design: str, flow: str, title: str) -> Path:
         rendered = re.sub(r'\{\{([A-Z_]+)\}\}', replace_token, template)
         if re.search(r'\{\{[A-Z_]+\}\}', rendered):
             raise PackError('unknown template token')
-        sources.append(rendered)
+        sources.append(FORM_GUIDE + rendered)
     cfg = {'title': title.strip(), 'output': 'deck.html', 'resource_pack': selection}
     (out / 'src').mkdir(parents=True, exist_ok=True)
     for index, source in enumerate(sources, 1):

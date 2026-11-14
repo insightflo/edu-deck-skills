@@ -1,0 +1,65 @@
+<!--
+  관문 게이트 체인 — 호스트 아키타입 mapping 안에 넣는 도식 조각(55-window-frame 선례 재사용)
+  언제: 기준·자격·검사 목록에서 "거르는 서사"(통과 못 하면 떨어지는 이야기)가 있을 때 표 대신.
+    좌측 [후보/요청]이 관문 N개를 차례로 지나고, 각 관문의 '아니오'는 아래 공통 [사람 검토/보류]
+    행으로 탈락 분기한다. 모두 통과하면 우측 [승인/맡김]에 이른다.
+  형태 원칙: 정형 형태(표·카드 그리드·2패널)는 고르기 쉬운 선택지일 뿐 — 최후의 수단.
+    형태 선택 서열: ①내용 고유 형태(서사·은유·실물) → ②도식 계열(게이트·시퀀스·퍼널·대조) → ③정형.
+  단계: 관문마다 1단계(관문 + '예' 통과 화살표 + '아니오' 탈락선이 함께 등장) · 탈락 행은 마지막 단계.
+  쓰는 법: section 을 덱 src/NN-이름.html 로 복사하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
+    관문은 3~5개 — g[data-step] 블록을 같은 간격(x축 280px)으로 지우거나 복사한 뒤, 우측 승인
+    상자·마지막 '예' 화살표·탈락 행의 x 도 함께 옮기고 check_deck.py 로 넘침·겹침을 확인한다.
+  자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함).
+  SVG 문법: references/diagrams.md(k-* 도형·t-* 글자·ah-* 화살촉) · 배치: references/layouts.md
+-->
+<section class="slide" data-archetype="mapping" style="gap:16px">
+  <div class="head"><p class="eyebrow">«파트 표시 ≤14자»</p><h2 class="title">«제목: 한 문장 ≤24자»</h2></div>
+  <svg class="dg" viewBox="0 0 1600 620" role="img" aria-label="«그림 설명: 요청이 관문들을 지나 승인에 이르고, 아니오는 아래 사람 검토 행으로 빠지는 도식»">
+    <rect x="30" y="110" width="180" height="140" rx="18" class="k-paper"/>
+    <text x="120" y="168" class="t-l" text-anchor="middle">«후보·요청 ≤5자»</text>
+    <text x="120" y="208" class="t-s" text-anchor="middle">«들어오는 것 ≤6자»</text>
+    <path d="M214 180H276" class="k-ln-b" marker-end="url(#ah-b)"/>
+    <text x="245" y="158" class="t-s" text-anchor="middle">«제출 ≤4자»</text>
+    <rect x="1400" y="110" width="170" height="140" rx="18" class="k-solid-b"/>
+    <text x="1485" y="168" class="t-badge" text-anchor="middle">«승인 ≤4자»</text>
+    <text x="1485" y="208" class="t-badge" text-anchor="middle">«전부 통과 ≤5자»</text>
+    <g data-step="1">
+      <path d="M385 254V468" class="k-ln-g" marker-end="url(#ahg)"/><text x="403" y="360" class="t-s">아니오</text>
+      <rect x="280" y="110" width="210" height="140" rx="20" class="k-blue"/>
+      <circle cx="385" cy="110" r="21" class="k-solid-b"/><text x="385" y="119" class="t-badge" text-anchor="middle">1</text>
+      <text x="385" y="166" class="t-l" text-anchor="middle">«관문 ≤5자»</text>
+      <text x="385" y="208" class="t-s" text-anchor="middle">«통과 기준 ≤9자»</text>
+      <path d="M494 180H556" class="k-ln-b" marker-end="url(#ah-b)"/><text x="525" y="158" class="t-s b" text-anchor="middle">예</text>
+    </g>
+    <g data-step="2">
+      <path d="M665 254V468" class="k-ln-g" marker-end="url(#ahg)"/><text x="683" y="360" class="t-s">아니오</text>
+      <rect x="560" y="110" width="210" height="140" rx="20" class="k-blue"/>
+      <circle cx="665" cy="110" r="21" class="k-solid-b"/><text x="665" y="119" class="t-badge" text-anchor="middle">2</text>
+      <text x="665" y="166" class="t-l" text-anchor="middle">«관문 ≤5자»</text>
+      <text x="665" y="208" class="t-s" text-anchor="middle">«통과 기준 ≤9자»</text>
+      <path d="M774 180H836" class="k-ln-b" marker-end="url(#ah-b)"/><text x="805" y="158" class="t-s b" text-anchor="middle">예</text>
+    </g>
+    <g data-step="3">
+      <path d="M945 254V468" class="k-ln-g" marker-end="url(#ahg)"/><text x="963" y="360" class="t-s">아니오</text>
+      <rect x="840" y="110" width="210" height="140" rx="20" class="k-blue"/>
+      <circle cx="945" cy="110" r="21" class="k-solid-b"/><text x="945" y="119" class="t-badge" text-anchor="middle">3</text>
+      <text x="945" y="166" class="t-l" text-anchor="middle">«관문 ≤5자»</text>
+      <text x="945" y="208" class="t-s" text-anchor="middle">«통과 기준 ≤9자»</text>
+      <path d="M1054 180H1116" class="k-ln-b" marker-end="url(#ah-b)"/><text x="1085" y="158" class="t-s b" text-anchor="middle">예</text>
+    </g>
+    <g data-step="4">
+      <path d="M1225 254V468" class="k-ln-g" marker-end="url(#ahg)"/><text x="1243" y="360" class="t-s">아니오</text>
+      <rect x="1120" y="110" width="210" height="140" rx="20" class="k-blue"/>
+      <circle cx="1225" cy="110" r="21" class="k-solid-b"/><text x="1225" y="119" class="t-badge" text-anchor="middle">4</text>
+      <text x="1225" y="166" class="t-l" text-anchor="middle">«관문 ≤5자»</text>
+      <text x="1225" y="208" class="t-s" text-anchor="middle">«통과 기준 ≤9자»</text>
+      <path d="M1334 180H1396" class="k-ln-b" marker-end="url(#ah-b)"/><text x="1365" y="158" class="t-s b" text-anchor="middle">예</text>
+    </g>
+    <g data-step="5">
+      <rect x="280" y="470" width="1290" height="92" rx="18" class="k-gray"/>
+      <text x="320" y="528" class="t-l">«사람 검토·보류 ≤8자»</text>
+      <text x="1530" y="528" class="t-s" text-anchor="end">«탈락 후 처리 ≤10자»</text>
+    </g>
+  </svg>
+  <aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+</section>

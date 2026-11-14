@@ -167,7 +167,7 @@ TASTE_KINDS = {
     "제목", "제목 줄 수", "단계", "분량", "말투", "목록", "카드", "카드 나열",
     "사실 칩", "증거 띠", "실물 화면", "확인 문제", "발표자 노트", "모션", "모션 길이",
     "외국어 문장", "흐름", "표지", "예상 시간", "시간 합계", "대본 분량", "시각 짝",
-    "무성 장", "글자 크기", "글자 겹침", "디자인 린트", "골격 반복",
+    "무성 장", "글자 크기", "글자 겹침", "디자인 린트", "골격 반복", "표 비중",
 }
 
 
@@ -774,6 +774,12 @@ def static_checks(html_text, soup, rep, allow_placeholders):
         if run == 3:
             rep.add("WARN", i + 1, "골격 반복",
                     "같은 골격이 3장 연속입니다 — 구성 리듬 점검(숨고르기 장·다른 계열)")
+    # 표 비중(취향, TASK-form-fit): <table> 을 쓴 장이 전체의 1/3 을 넘으면 절차·기준·단계가
+    # 정형 표로 끝났을 가능성 — 도식 형태를 먼저 검토하라는 신호. 골격 반복과 같은 등급(INFO).
+    n_table = sum(1 for s in slides if s.find("table"))
+    if n_table * 3 > len(slides):
+        rep.add("WARN", None, "표 비중",
+                f"표 비중 {n_table}/{len(slides)} — 절차·기준·단계는 도식 형태(13-sequence·56-gate-chain 등) 후보를 먼저 검토")
     talk_checks(html_text, slides, rep)
     # 직접 설계 표지(data-variant="custom"/"custom-…") 계약 — layouts.md "표지 직접 설계 계약".
     # 카탈로그 id(orbit·split·…)에는 적용하지 않는다.

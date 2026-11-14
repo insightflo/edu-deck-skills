@@ -87,7 +87,7 @@ class CatalogShapeTest(unittest.TestCase):
         for f in SNIPPETS.glob('*.html'):
             n += len(BeautifulSoup(
                 f.read_text(encoding='utf-8'), 'html.parser').select('section.slide'))
-        self.assertEqual(n, 264)
+        self.assertEqual(n, 265)
 
 
 class CoverContractTest(unittest.TestCase):
