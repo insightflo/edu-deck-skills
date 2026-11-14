@@ -118,6 +118,111 @@ def check_items(img_src, fx='draft'):
     return rep.items
 
 
+def _fit_slide(img_style, fx='draft'):
+    """object-fit 계약용 슬라이드 — img 에 임의 박스 크기·object-fit 을 직접 준다."""
+    attr = f' data-fx="{fx}"' if fx else ''
+    return ('<section class="slide" data-archetype="statement"><div class="pad">'
+            '<h2 class="title">피트 계약</h2>'
+            f'<img src="{IMG}" alt="피트 시험 도형" style="display:block;{img_style}"{attr}>'
+            f'<aside class="notes">{NOTES}</aside></div></section>')
+
+
+def build_fit(name='deck-fit.html'):
+    """contain 레터박스·cover 크롭·fill·draft-loop contain 네 장 + 빈 장 미니덱."""
+    SRC.mkdir(parents=True, exist_ok=True)
+    slides = (
+        _fit_slide('width:760px;height:340px;object-fit:contain'),                  # 0
+        _fit_slide('width:500px;height:200px;object-fit:cover'),                   # 1
+        _fit_slide('width:640px;height:400px'),                                    # 2 fill 기본값
+        _fit_slide('width:760px;height:340px;object-fit:contain', fx='draft-loop'),  # 3
+        _slide('', fx=None),                                                       # 4 이동 목적지
+    )
+    srcs = []
+    for i, body in enumerate(slides):
+        p = SRC / f'{i:02d}-fit.html'
+        p.write_text(body, encoding='utf-8')
+        srcs.append(p)
+    html = OUT / name
+    build('fx draft fit 시험', srcs, [S / 'assets/css'], [S / 'assets/icons'], html)
+    return html
+
+
+def _ed_expr(idx, fx='draft'):
+    return (f"(()=>{{const i=document.querySelectorAll('img[data-fx=\"{fx}\"]')[{idx}];"
+            "return i&&i._edDraft&&i._edDraft.an.chains.length>0})()")
+
+
+def _rect_fit(pg, idx, fx='draft'):
+    return pg.evaluate(
+        f"(()=>{{const i=document.querySelectorAll('img[data-fx=\"{fx}\"]')[{idx}];"
+        "const d=i._edDraft;return{r:d.rect,f:d.fit}})()")
+
+
+def _decode_png(data):
+    """8비트 비인터레이스 PNG(RGB/RGBA/회색) → (w, h, RGBA 바이트열). 필터 0~4."""
+    assert data[:8] == b'\x89PNG\r\n\x1a\n', 'PNG 시그니처가 아니다'
+    pos, idat, w, h, ct = 8, b'', 0, 0, 6
+    while pos < len(data):
+        ln, = struct.unpack('>I', data[pos:pos + 4])
+        typ = data[pos + 4:pos + 8]
+        if typ == b'IHDR':
+            w, h, bd, ct = struct.unpack('>IIBB', data[pos + 8:pos + 18])
+            assert bd == 8, '8비트 PNG 만 지원'
+        elif typ == b'IDAT':
+            idat += data[pos + 8:pos + 8 + ln]
+        pos += 12 + ln
+    raw = zlib.decompress(idat)
+    ch = {6: 4, 2: 3, 0: 1}[ct]
+    stride = w * ch + 1
+    out = bytearray(w * h * 4)
+    prev = bytearray(w * ch)
+    for y in range(h):
+        f = raw[y * stride]
+        line = bytearray(raw[y * stride + 1:(y + 1) * stride])
+        for i in range(len(line)):
+            a = line[i - ch] if i >= ch else 0
+            b = prev[i]
+            c = prev[i - ch] if i >= ch else 0
+            if f == 1:
+                line[i] = (line[i] + a) & 255
+            elif f == 2:
+                line[i] = (line[i] + b) & 255
+            elif f == 3:
+                line[i] = (line[i] + (a + b) // 2) & 255
+            elif f == 4:
+                p = a + b - c
+                pa, pb, pc = abs(p - a), abs(p - b), abs(p - c)
+                pr = a if pa <= pb and pa <= pc else b if pb <= pc else c
+                line[i] = (line[i] + pr) & 255
+        prev = line
+        for x in range(w):
+            i = x * ch
+            o = (y * w + x) * 4
+            if ch == 4:
+                out[o:o + 4] = line[i:i + 4]
+            elif ch == 3:
+                out[o:o + 3] = line[i:i + 3]
+                out[o + 3] = 255
+            else:
+                v = line[i]
+                out[o:o + 4] = bytes((v, v, v, 255))
+    return w, h, bytes(out)
+
+
+def _img_diff(a, b):
+    """두 RGBA 바이트열 → (채널 최대 절대차 평균, 24 초과 픽셀 비율)."""
+    assert len(a) == len(b), '픽셀 수 불일치'
+    tot, big = 0, 0
+    for i in range(0, len(a), 4):
+        d = max(abs(a[i] - b[i]), abs(a[i + 1] - b[i + 1]),
+                abs(a[i + 2] - b[i + 2]))
+        tot += d
+        if d > 24:
+            big += 1
+    n = len(a) // 4
+    return tot / n, big / n
+
+
 # 시간 시뮬레이션 — rAF 를 큐에 넣고 __step(ms) 으로 프레임을 정확히 진행시킨다.
 # __probe 는 오버레이 캔버스의 픽셀을 부류별로 센다.
 MOCK_JS = """
@@ -548,6 +653,158 @@ class DraftV2ContractTest(unittest.TestCase):
             sigs = [e['sig'] for e in pg.evaluate('window.eduMotion.sigLog')]
             self.assertIn('fx-draft-loop-degraded', sigs,
                           'sigLog 에 fx-draft-loop-degraded 없음')
+        finally:
+            ctx.close()
+
+
+class ObjectFitContractTest(unittest.TestCase):
+    """TASK-draft-fit — object-fit 콘텐츠 박스 계약.
+
+    요소 박스와 실물 표시 영역이 다른 이미지(object-fit:contain 레터박스·cover
+    중심 크롭)에서 오버레이 캔버스의 드로잉·실물 목적지가 콘텐츠 박스와 일치하고,
+    fx 종료 전후로 저작 이미지와 시각적 불연속이 없어야 한다. fill(기본값)은
+    요소 박스 전체를 쓰는 기존 동작을 회귀 잠금한다.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.html = build_fit()
+        cls._pw = sync_playwright().start()
+        cls._browser = cls._pw.chromium.launch(channel='chrome')
+
+    @classmethod
+    def tearDownClass(cls):
+        cls._browser.close()
+        cls._pw.stop()
+
+    def _page(self, init=None, **ctx_kw):
+        ctx = self._browser.new_context(
+            viewport={'width': 1920, 'height': 1080}, **ctx_kw)
+        if init:
+            ctx.add_init_script(init)
+        pg = ctx.new_page()
+        pg.goto('file://' + str(self.html))
+        return ctx, pg
+
+    def _clip(self, pg, idx, fx='draft'):
+        box = pg.evaluate(
+            f"document.querySelectorAll('img[data-fx=\"{fx}\"]')[{idx}]"
+            ".getBoundingClientRect()")
+        return {'x': box['x'], 'y': box['y'],
+                'width': box['width'], 'height': box['height']}
+
+    def _settle_shot(self, pg, clip):
+        """캔버스 최종 프레임과 제거 후 화면을 찍어 픽셀 차를 돌려준다."""
+        before = _decode_png(pg.screenshot(clip=clip))
+        pg.evaluate('window.__step(400)')            # >2400 — 제거·정착
+        self.assertEqual(pg.evaluate(
+            "document.querySelectorAll('.ed-draft').length"), 0,
+            '오버레이가 계약 시간 안에 제거되지 않았다')
+        after = _decode_png(pg.screenshot(clip=clip))
+        self.assertEqual(before[:2], after[:2], '캡처 크기 불일치')
+        return _img_diff(before[2], after[2])
+
+    def test_contain_letterbox_content_rect_and_continuity(self):
+        ctx, pg = self._page(init=MOCK_JS)
+        try:
+            pg.wait_for_function(_ed_expr(0), polling=100)
+            d = _rect_fit(pg, 0)
+            self.assertEqual(d['f'], 'contain')
+            for k, v in {'x': 210, 'y': 0, 'w': 340, 'h': 340}.items():
+                self.assertAlmostEqual(d['r'][k], v, delta=1,
+                                       msg=f'콘텐츠 박스 {k} 불일치')
+            # 시작 프레임 — 실물 목적지가 콘텐츠 박스와 일치(레터박스는 그리지 않는다)
+            pg.evaluate('window.__step(400)')         # 시트+체인 초반
+            lb = pg.evaluate('window.__probe(5,5,195,330)')
+            cb = pg.evaluate('window.__probe(215,5,330,330)')
+            self.assertEqual(lb['a'], 0,
+                             '레터박스 영역에 그려졌다(요소 박스 누수)')
+            self.assertGreater(cb['a'], 0, '콘텐츠 박스가 비어 있다')
+            # 중간 프레임(리빌 진행) — 같은 계약
+            pg.evaluate('window.__step(1300)')        # ~1700ms — 리빌 중반
+            lb = pg.evaluate('window.__probe(5,5,195,330)')
+            self.assertEqual(lb['a'], 0, '리빌이 레터박스로 샜다')
+            pg.evaluate('window.__step(600)')         # ~2300ms — 리빌 완료 직전
+            mean, big = self._settle_shot(pg, self._clip(pg, 0))
+            self.assertLessEqual(mean, 2.0,
+                                 f'종료 전후 평균 픽셀 차 {mean:.2f} — 시각 불연속')
+            self.assertLessEqual(big, 0.005,
+                                 f'큰 차이 픽셀 비율 {big:.4f} — 늘어남→줄어듦')
+            sigs = [e['sig'] for e in pg.evaluate('window.eduMotion.sigLog')]
+            self.assertIn('fx-draft', sigs)
+        finally:
+            ctx.close()
+
+    def test_fill_uses_element_box_regression(self):
+        ctx, pg = self._page(init=MOCK_JS)
+        try:
+            pg.evaluate('deckGo(2)')
+            pg.wait_for_function(_ed_expr(2), polling=100)
+            d = _rect_fit(pg, 2)
+            self.assertEqual(d['f'], 'fill')
+            for k, v in {'x': 0, 'y': 0, 'w': 640, 'h': 400}.items():
+                self.assertAlmostEqual(d['r'][k], v, delta=1,
+                                       msg=f'fill 콘텐츠 박스 {k} 가 요소 박스와 다르다')
+            pg.evaluate('window.__step(400)')
+            p = pg.evaluate('window.__probe(0,0,640,400)')
+            self.assertGreater(p['a'], 0, 'fill 요소 박스 전체가 채워지지 않았다')
+            pg.evaluate('window.__step(2300)')
+            self.assertEqual(pg.evaluate(
+                "document.querySelectorAll('.ed-draft').length"), 0)
+            self.assertIn(pg.evaluate(
+                "document.querySelectorAll('img[data-fx=\"draft\"]')[2]"
+                ".style.opacity"), ('', '1'))
+        finally:
+            ctx.close()
+
+    def test_cover_center_crop_contract(self):
+        ctx, pg = self._page(init=MOCK_JS)
+        try:
+            pg.evaluate('deckGo(1)')
+            pg.wait_for_function(_ed_expr(1), polling=100)
+            d = _rect_fit(pg, 1)
+            self.assertEqual(d['f'], 'cover')
+            # 중심 크롭 — 콘텐츠 박스가 요소 박스를 덮고 위아래로 넘친다
+            for k, v in {'x': 0, 'y': -150, 'w': 500, 'h': 500}.items():
+                self.assertAlmostEqual(d['r'][k], v, delta=1,
+                                       msg=f'cover 콘텐츠 박스 {k} 불일치')
+            pg.evaluate('window.__step(400)')
+            p = pg.evaluate('window.__probe(0,0,500,200)')
+            self.assertGreater(p['a'], 0, 'cover 크롭 영역이 비어 있다')
+            pg.evaluate('window.__step(1900)')        # ~2300ms — 리빌 완료 직전
+            mean, big = self._settle_shot(pg, self._clip(pg, 1))
+            self.assertLessEqual(mean, 2.0,
+                                 f'cover 종료 전후 평균 픽셀 차 {mean:.2f}')
+            self.assertLessEqual(big, 0.005,
+                                 f'cover 큰 차이 픽셀 비율 {big:.4f}')
+            self.assertIn(pg.evaluate(
+                "document.querySelectorAll('img[data-fx=\"draft\"]')[1]"
+                ".style.opacity"), ('', '1'))
+        finally:
+            ctx.close()
+
+    def test_loop_contain_shares_content_rect(self):
+        ctx, pg = self._page(init=MOCK_JS)
+        try:
+            pg.evaluate('deckGo(3)')
+            pg.wait_for_function(
+                "(()=>{const i=document.querySelector('img[data-fx=\"draft-loop\"]');"
+                "return i&&i._edDraft&&i._edDraft.an.chains.length>0})()",
+                polling=100)
+            d = _rect_fit(pg, 0, fx='draft-loop')
+            self.assertEqual(d['f'], 'contain')
+            for k, v in {'x': 210, 'y': 0, 'w': 340, 'h': 340}.items():
+                self.assertAlmostEqual(d['r'][k], v, delta=1,
+                                       msg=f'draft-loop 콘텐츠 박스 {k} 불일치')
+            pg.evaluate('window.__step(1000)')        # 순환 중 한 프레임
+            lb = pg.evaluate('window.__probe(5,5,195,330)')
+            self.assertEqual(lb['a'], 0, 'draft-loop 이 레터박스에 그렸다')
+            pg.evaluate('deckGo(4)')                  # 이탈 시 정리
+            self.assertEqual(pg.evaluate(
+                "document.querySelectorAll('.ed-draft').length"), 0)
+            self.assertIn(pg.evaluate(
+                "document.querySelector('img[data-fx=\"draft-loop\"]')"
+                ".style.opacity"), ('', '1'))
         finally:
             ctx.close()
 

@@ -146,7 +146,7 @@
 
 발화 규칙: 한 요소의 효과는 그 요소가 처음 보이는 순간 한 번만 재생합니다. 지나간 단계로 되돌아가거나 다시 보는 장면에서는 재생 없이 최종 모습을 보입니다. 인쇄·자습·움직임 줄이기(정적 모드)는 처음부터 최종 모습입니다. 탭 패널을 열어 새로 보이는 효과도 그때 발화합니다. 발화한 효과는 sigLog 에 `fx-<이름>` 으로 기록됩니다.
 
-검사(check_deck): 모르는 이름은 ERROR, `data-fx-at` 형식 어긋남·`data-fx` 와 `data-crayon` 한 요소 중복은 WARN, 한 장의 효과가 3000ms 를 넘으면 "모션 길이" WARN 입니다(단 `draft-loop` 같은 루프 종류는 표지 순환 전용으로 종료 시각이 없어 면제입니다). `<img data-fx="draft">`·`<img data-fx="draft-loop">` 의 src 가 외부 http(s) 주소면 "캔버스" WARN 입니다(캔버스 오염으로 효과가 생략됩니다 — data: URI·같은 출처 파일만 안전합니다).
+검사(check_deck): 모르는 이름은 ERROR, `data-fx-at` 형식 어긋남·`data-fx` 와 `data-crayon` 한 요소 중복은 WARN, 한 장의 효과가 3000ms 를 넘으면 "모션 길이" WARN 입니다(단 `draft-loop` 같은 루프 종류는 표지 순환 전용으로 종료 시각이 없어 면제입니다). `draft`·`draft-loop` 이미지는 요소 박스 비율을 원본 비율과 일치시켜 저작한다(max-width+height:auto — object-fit:contain 등 레터박스는 분석·리빌이 콘텐츠 박스 기준으로 보정되지만 일치가 가장 깨끗하다). `<img data-fx="draft">`·`<img data-fx="draft-loop">` 의 src 가 외부 http(s) 주소면 "캔버스" WARN 입니다(캔버스 오염으로 효과가 생략됩니다 — data: URI·같은 출처 파일만 안전합니다).
 
 사용 원칙:
 

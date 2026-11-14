@@ -117,6 +117,8 @@ screen-cite 의 텍스트 인용 모드. 실물 이미지 대신 문서·코드�
 
 ## 확인 문제 `.chk` (아키타입 check)
 
+- **chk × data-step 혼용**(2026-11-14 실사용 함정): data-step 없는 chk는 0단계부터 보인다 — 같은 장에 data-step 블록이 있으면 chk에 더 늦은 단계를 부여해 등장 순서=읽기 순서를 지킨다.
+
 ```html
 <div class="chk" data-review="heat-index">
   <p class="chk-q"><span class="chk-n">1</span>체감온도 31℃면 어느 단계인가요?</p>

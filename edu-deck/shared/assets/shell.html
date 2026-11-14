@@ -2643,6 +2643,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
   // 표지·개념 hero 전용 순환(8000ms 드로잉+2500ms 홀드, 홀드 동안 라인 잔류 13% 알파).
   // 캔버스는 aria-hidden 장식 — 분석 1회, 완료 체인은 오프스크린 캐시에 굽고 클럭은 dt 누적.
   // getImageData 오염(SecurityError) 시 효과 없이 이미지만 보이고 'fx-draft(-loop)-degraded' 기록.
+  // object-fit 레터박스·크롭 요소는 콘텐츠 박스(실물 표시 영역) 기준으로만 그린다(TASK-draft-fit).
   function draftAnalyze(img){
     // 다운스케일(장변 ≤720) → 알파 인지 회색조 → 약한 평활 → 소벨 → NMS →
     // 이중 임계+히스테레시스 → 직진 선호 체인 트레이스 → RDP 단순화(ε≥1px) →
@@ -2824,16 +2825,37 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
       const ctx=cv.getContext('2d');ctx.scale(dpr,dpr);
       const soft=token('--soft',el)||'#485660',line=token('--line',el)||'#7d888b',
             acc=token('--accent',el)||'#a54716',paper=token('--paper',el)||'#fffdf8';
-      const iw=el.naturalWidth,ih=el.naturalHeight,sx=ow/an.aw,sy=oh/an.ah,ai=iw/an.aw;
+      const iw=el.naturalWidth,ih=el.naturalHeight;if(!iw||!ih){finish();return;}
+      // 콘텐츠 박스(TASK-draft-fit) — object-fit 이 만드는 실물 표시 영역. 캔버스
+      // 크기는 요소 박스 그대로 두고 체인·격자·치수·헤드·리빌·실물 목적지만 옮긴다.
+      // fill(기본)·알 수 없는 값 = 요소의 CSS 콘텐츠 박스 — 기존 동작과 동일하다.
+      const cst=getComputedStyle(el),
+            pl=parseFloat(cst.paddingLeft)||0,pt=parseFloat(cst.paddingTop)||0,
+            cbx=el.clientLeft+pl,cby=el.clientTop+pt,
+            cbw=el.clientWidth-pl-(parseFloat(cst.paddingRight)||0),
+            cbh=el.clientHeight-pt-(parseFloat(cst.paddingBottom)||0),
+            ofit=cst.objectFit||'fill';
+      let rw=cbw,rh=cbh;
+      if(ofit==='contain'||(ofit==='scale-down'&&(iw>cbw||ih>cbh))){
+        const s2=Math.min(cbw/iw,cbh/ih);rw=iw*s2;rh=ih*s2;}
+      else if(ofit==='cover'){const s2=Math.max(cbw/iw,cbh/ih);rw=iw*s2;rh=ih*s2;}
+      else if(ofit==='none'||ofit==='scale-down'){rw=iw;rh=ih;}
+      const opos=(cst.objectPosition||'').trim().split(/\s+/),
+            poff=(box,con,tok)=>tok&&tok.endsWith('%')?(box-con)*parseFloat(tok)/100
+              :tok==='left'||tok==='top'?0:tok==='right'||tok==='bottom'?box-con
+              :isFinite(parseFloat(tok))?parseFloat(tok):(box-con)/2,
+            rx=cbx+poff(cbw,rw,opos[0]),ry=cby+poff(cbh,rh,opos[1]);
+      if(!(rw>0&&rh>0)){finish();return;}           // 실물 표시 영역이 없는 퇴화 사례
+      const sx=rw/an.aw,sy=rh/an.ah,ai=iw/an.aw;
       const mk=w=>{const c=document.createElement('canvas');c.width=cv.width;c.height=cv.height;
         const x=c.getContext('2d');x.scale(dpr,dpr);return[c,x];};
       const[ink,ictx]=mk();                          // 완료 체인 증분 캐시 레이어
-      const[imgCv]=mk();imgCv.getContext('2d').drawImage(el,0,0,ow,oh);   // 실물 레이어
+      const[imgCv]=mk();imgCv.getContext('2d').drawImage(el,rx,ry,rw,rh); // 실물 레이어
       const[rv,rctx]=mk();                           // 리빌 합성 레이어
-      const mw=Math.max(8,Math.round(ow*.28)),mh=Math.max(8,Math.round(oh*.28));
+      const mw=Math.max(8,Math.round(rw*.28)),mh=Math.max(8,Math.round(rh*.28));
       const mask=document.createElement('canvas');mask.width=mw;mask.height=mh;
       const mctx=mask.getContext('2d',{willReadFrequently:true});         // ≤0.3배 오프스크린 마스크
-      const mkx=mw/ow,mky=mh/oh;
+      const mkx=mw/rw,mky=mh/rh;
       ictx.strokeStyle=soft;ictx.lineWidth=1.1;ictx.lineCap='round';ictx.lineJoin='round';
       // 플롯 순서: 긴 체인 우선 + 요소 인덱스 씨드 결정적 인터리브(버킷 셔플 — 기존 셔플 정신)
       const peers=all('[data-fx="'+(loop?'draft-loop':'draft')+'"]',slide),seed=1+Math.max(0,peers.indexOf(el));
@@ -2845,21 +2867,21 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
       const cum=[];let total=0;for(const c of order){cum.push(total);total+=c.len;}
       // 세 번째 치수용 내부 거리(원 피팅이 없을 때)
       const inner=an.mx1>an.mx0?Math.round((an.mx1-an.mx0)/an.aw*iw):0;
-      // −45° 스윕 브러시: 프런트 방향 u, 진행 법선 n, 폭 = 짧은 변×0.18
-      const diag=Math.hypot(ow,oh),bw=Math.min(ow,oh)*.18;
+      // −45° 스윕 브러시: 프런트 방향 u, 진행 법선 n, 폭 = 짧은 변×0.18 (콘텐츠 박스 기준)
+      const diag=Math.hypot(rw,rh),bw=Math.min(rw,rh)*.18;
       const ux=Math.SQRT1_2,uy=-Math.SQRT1_2,nx=Math.SQRT1_2,ny=Math.SQRT1_2;
-      const ext=diag/2+bw,cxn=ow/2,cyn=oh/2,nB=3+Math.floor(rnd()*3);
+      const ext=diag/2+bw,cxn=rw/2,cyn=rh/2,nB=3+Math.floor(rnd()*3);
       mctx.strokeStyle='#fff';mctx.lineCap='round';mctx.lineWidth=Math.max(1,bw*.13*mkx);
-      const ease=x=>1-Math.pow(1-x,3),fs=Math.max(12,Math.round(oh/26)),fs2=Math.max(12,Math.round(oh/30));
+      const ease=x=>1-Math.pow(1-x,3),fs=Math.max(12,Math.round(rh/26)),fs2=Math.max(12,Math.round(rh/30));
       const num=v=>loop?v.toFixed(1):String(Math.round(v));
       const pad=(cx,by,t)=>{const w=ctx.measureText(t).width;
         ctx.save();ctx.fillStyle=paper;ctx.globalAlpha=.85;ctx.fillRect(cx-w/2-3,by-2,w+6,fs+5);ctx.restore();};
       const chainPath=(c,to,ct2)=>{
-        const p=c.pts;ct2.beginPath();ct2.moveTo(p[0][0]*sx,p[0][1]*sy);
-        if(to>=c.len){for(let i=1;i<p.length;i++)ct2.lineTo(p[i][0]*sx,p[i][1]*sy);}
-        else{let i=1;while(i<p.length&&c.cum[i]<=to){ct2.lineTo(p[i][0]*sx,p[i][1]*sy);i++;}
+        const p=c.pts;ct2.beginPath();ct2.moveTo(rx+p[0][0]*sx,ry+p[0][1]*sy);
+        if(to>=c.len){for(let i=1;i<p.length;i++)ct2.lineTo(rx+p[i][0]*sx,ry+p[i][1]*sy);}
+        else{let i=1;while(i<p.length&&c.cum[i]<=to){ct2.lineTo(rx+p[i][0]*sx,ry+p[i][1]*sy);i++;}
           if(i<p.length){const f=(to-c.cum[i-1])/(c.cum[i]-c.cum[i-1]||1);
-            ct2.lineTo((p[i-1][0]+(p[i][0]-p[i-1][0])*f)*sx,(p[i-1][1]+(p[i][1]-p[i-1][1])*f)*sy);}}
+            ct2.lineTo(rx+(p[i-1][0]+(p[i][0]-p[i-1][0])*f)*sx,ry+(p[i-1][1]+(p[i][1]-p[i-1][1])*f)*sy);}}
         if(c.closed&&to>=c.len)ct2.closePath();
         ct2.stroke();};
       const chainPoint=(c,to)=>{
@@ -2868,49 +2890,49 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
         if(i>=c.pts.length)return c.pts[c.pts.length-1];
         const p=c.pts,f=(to-c.cum[i-1])/(c.cum[i]-c.cum[i-1]||1);
         return[p[i-1][0]+(p[i][0]-p[i-1][0])*f,p[i-1][1]+(p[i][1]-p[i-1][1])*f];};
-      const head={x:ow/2,y:oh/2};
+      const head={x:rx+rw/2,y:ry+rh/2};
       const drawSheet=a=>{
         ctx.save();
-        ctx.globalAlpha=a*.5;ctx.fillStyle=paper;ctx.fillRect(0,0,ow,oh);
+        ctx.globalAlpha=a*.5;ctx.fillStyle=paper;ctx.fillRect(rx,ry,rw,rh);
         ctx.globalAlpha=a*.28;ctx.strokeStyle=soft;ctx.lineWidth=1;
-        const gs=Math.max(24,Math.round(ow/14));
+        const gs=Math.max(24,Math.round(rw/14));
         ctx.beginPath();
-        for(let x=gs;x<ow;x+=gs){ctx.moveTo(x,0);ctx.lineTo(x,oh);}
-        for(let y=gs;y<oh;y+=gs){ctx.moveTo(0,y);ctx.lineTo(ow,y);}
+        for(let x=rx+gs;x<rx+rw;x+=gs){ctx.moveTo(x,ry);ctx.lineTo(x,ry+rh);}
+        for(let y=ry+gs;y<ry+rh;y+=gs){ctx.moveTo(rx,y);ctx.lineTo(rx+rw,y);}
         ctx.stroke();
         ctx.globalAlpha=a*.65;ctx.strokeStyle=line;ctx.setLineDash([7,7]);
         ctx.beginPath();
-        ctx.moveTo(ow/2,0);ctx.lineTo(ow/2,oh);ctx.moveTo(0,oh/2);ctx.lineTo(ow,oh/2);
-        for(const r of an.peaks.rows){const y=r*sy;if(Math.abs(y-oh/2)>8){ctx.moveTo(0,y);ctx.lineTo(ow,y);}}
-        for(const c of an.peaks.cols){const x=c*sx;if(Math.abs(x-ow/2)>8){ctx.moveTo(x,0);ctx.lineTo(x,oh);}}
+        ctx.moveTo(rx+rw/2,ry);ctx.lineTo(rx+rw/2,ry+rh);ctx.moveTo(rx,ry+rh/2);ctx.lineTo(rx+rw,ry+rh/2);
+        for(const r of an.peaks.rows){const y=ry+r*sy;if(Math.abs(y-(ry+rh/2))>8){ctx.moveTo(rx,y);ctx.lineTo(rx+rw,y);}}
+        for(const c of an.peaks.cols){const x=rx+c*sx;if(Math.abs(x-(rx+rw/2))>8){ctx.moveTo(x,ry);ctx.lineTo(x,ry+rh);}}
         ctx.stroke();ctx.restore();};
       const drawDims=dq=>{
         const dn=ease(dq);
         ctx.save();ctx.globalAlpha=Math.min(1,dq*2);ctx.strokeStyle=acc;ctx.fillStyle=acc;
         ctx.lineWidth=1;ctx.font='700 '+fs+'px Pretendard Variable,Pretendard,sans-serif';
         ctx.textAlign='center';ctx.textBaseline='bottom';
-        const wy=oh-6,wTxt=num(iw*dn)+'px';
-        ctx.beginPath();ctx.moveTo(0,wy);ctx.lineTo(ow,wy);
-        ctx.moveTo(0,wy-4);ctx.lineTo(0,wy+4);ctx.moveTo(ow,wy-4);ctx.lineTo(ow,wy+4);ctx.stroke();
-        pad(ow/2,wy-6-fs,wTxt);ctx.fillText(wTxt,ow/2,wy-6);
-        const hx=ow-6;
-        ctx.beginPath();ctx.moveTo(hx,0);ctx.lineTo(hx,oh);
-        ctx.moveTo(hx-4,0);ctx.lineTo(hx+4,0);ctx.moveTo(hx-4,oh);ctx.lineTo(hx+4,oh);ctx.stroke();
-        ctx.save();ctx.translate(ow-10,oh/2);ctx.rotate(-Math.PI/2);
+        const wy=ry+rh-6,wTxt=num(iw*dn)+'px';
+        ctx.beginPath();ctx.moveTo(rx,wy);ctx.lineTo(rx+rw,wy);
+        ctx.moveTo(rx,wy-4);ctx.lineTo(rx,wy+4);ctx.moveTo(rx+rw,wy-4);ctx.lineTo(rx+rw,wy+4);ctx.stroke();
+        pad(rx+rw/2,wy-6-fs,wTxt);ctx.fillText(wTxt,rx+rw/2,wy-6);
+        const hx=rx+rw-6;
+        ctx.beginPath();ctx.moveTo(hx,ry);ctx.lineTo(hx,ry+rh);
+        ctx.moveTo(hx-4,ry);ctx.lineTo(hx+4,ry);ctx.moveTo(hx-4,ry+rh);ctx.lineTo(hx+4,ry+rh);ctx.stroke();
+        ctx.save();ctx.translate(rx+rw-10,ry+rh/2);ctx.rotate(-Math.PI/2);
         const hTxt=num(ih*dn)+'px';pad(0,-fs,hTxt);ctx.fillText(hTxt,0,0);ctx.restore();
         if(an.circle){                              // 원 피팅 호 — R 치수
-          const cc=an.circle,cxp=cc.cx*sx,cyp=cc.cy*sy,rr=cc.r*sx;
+          const cc=an.circle,cxp=rx+cc.cx*sx,cyp=ry+cc.cy*sy,rr=cc.r*sx;
           const ex=cxp+rr*.707,ey=cyp-rr*.707;
           ctx.beginPath();ctx.moveTo(cxp,cyp);ctx.lineTo(ex,ey);ctx.stroke();
           const rTxt='R '+num(cc.r*ai*dn)+'px';
-          const lx=Math.min(ow-30,Math.max(30,ex+8)),ly=Math.max(fs+4,Math.min(oh-4,ey-4));
+          const lx=Math.min(rx+rw-30,Math.max(rx+30,ex+8)),ly=Math.max(ry+fs+4,Math.min(ry+rh-4,ey-4));
           pad(lx,ly-fs,rTxt);ctx.fillText(rTxt,lx,ly);
         }else if(inner>0&&an.mx1-an.mx0<an.aw*.92){   // 내부 거리 — 바운딩보다 충분히 좁을 때만
-          const iy=8;
-          ctx.beginPath();ctx.moveTo(an.mx0*sx,iy);ctx.lineTo(an.mx1*sx,iy);
-          ctx.moveTo(an.mx0*sx,iy-4);ctx.lineTo(an.mx0*sx,iy+4);ctx.moveTo(an.mx1*sx,iy-4);ctx.lineTo(an.mx1*sx,iy+4);ctx.stroke();
+          const iy=ry+8;
+          ctx.beginPath();ctx.moveTo(rx+an.mx0*sx,iy);ctx.lineTo(rx+an.mx1*sx,iy);
+          ctx.moveTo(rx+an.mx0*sx,iy-4);ctx.lineTo(rx+an.mx0*sx,iy+4);ctx.moveTo(rx+an.mx1*sx,iy-4);ctx.lineTo(rx+an.mx1*sx,iy+4);ctx.stroke();
           const iTxt=num(inner*dn)+'px';ctx.textBaseline='top';
-          pad((an.mx0+an.mx1)/2*sx,iy+6,iTxt);ctx.fillText(iTxt,(an.mx0+an.mx1)/2*sx,iy+6);
+          pad(rx+(an.mx0+an.mx1)/2*sx,iy+6,iTxt);ctx.fillText(iTxt,rx+(an.mx0+an.mx1)/2*sx,iy+6);
         }
         ctx.restore();};
       const drawHead=(x,y,a)=>{
@@ -2920,10 +2942,11 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
         ctx.beginPath();ctx.arc(x,y,1.8,0,6.2832);ctx.fillStyle=acc;ctx.fill();
         ctx.font='700 '+fs2+'px Pretendard Variable,Pretendard,sans-serif';
         ctx.textAlign='left';ctx.textBaseline='bottom';
-        const t1='X '+Math.round(x/sx*ai),t2='Y '+Math.round(y/sy*ai),
+        const t1='X '+Math.round((x-rx)/sx*ai),t2='Y '+Math.round((y-ry)/sy*ai),
               w=Math.max(ctx.measureText(t1).width,ctx.measureText(t2).width)+10;
-        let lx=x+14;if(lx+w>ow-4)lx=x-14-w;if(lx<4)lx=4;
-        let ly=y-14;if(ly-fs2*2-10<4)ly=y+16;
+        let lx=x+14;if(lx+w>Math.min(ow-4,rx+rw-4))lx=x-14-w;
+        const lx0=Math.max(4,rx+4);if(lx<lx0)lx=lx0;
+        let ly=y-14;if(ly-fs2*2-10<Math.max(4,ry+4))ly=y+16;
         ctx.fillStyle=paper;ctx.globalAlpha=a*.85;ctx.fillRect(lx-3,ly-fs2*2-8,w,fs2*2+10);
         ctx.globalAlpha=a;ctx.fillStyle=acc;
         ctx.fillText(t1,lx,ly-fs2-4);ctx.fillText(t2,lx,ly-4);
@@ -2931,7 +2954,8 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
       const drawHud=(label,done,tot)=>{
         ctx.save();ctx.font='700 '+fs2+'px Pretendard Variable,Pretendard,sans-serif';
         const t1=label,t2='ENT '+String(done).padStart(4,'0')+'/'+String(tot).padStart(4,'0'),
-              w=Math.max(ctx.measureText(t1).width,ctx.measureText(t2).width)+14,x=10,y=oh-10,h2=fs2*2+12;
+              w=Math.max(ctx.measureText(t1).width,ctx.measureText(t2).width)+14,
+              x=Math.max(4,rx+10),y=Math.min(oh-10,ry+rh-10),h2=fs2*2+12;
         ctx.fillStyle=paper;ctx.globalAlpha=.78;ctx.fillRect(x,y-h2,w,h2);
         ctx.globalAlpha=.9;ctx.fillStyle=acc;ctx.textAlign='left';ctx.textBaseline='bottom';
         ctx.fillText(t1,x+7,y-fs2-6);ctx.fillText(t2,x+7,y-4);
@@ -2964,7 +2988,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
             const c=order[ci],rem=target-cum[ci];
             ctx.save();ctx.globalAlpha=keepLines;ctx.strokeStyle=soft;ctx.lineWidth=1.1;ctx.lineCap='round';ctx.lineJoin='round';
             chainPath(c,rem,ctx);
-            const hp=chainPoint(c,rem);head.x=hp[0]*sx;head.y=hp[1]*sy;
+            const hp=chainPoint(c,rem);head.x=rx+hp[0]*sx;head.y=ry+hp[1]*sy;
             ctx.restore();}
           // 치수(폭·높이 + R/내부거리) — --accent 수치 카운트업, 종이색 녹아웃
           const dq=Math.min(1,Math.max(0,(p-.28)/(.75-.28)));
@@ -2982,7 +3006,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
           rctx.clearRect(0,0,ow,oh);
           rctx.drawImage(imgCv,0,0,ow,oh);
           rctx.globalCompositeOperation='destination-in';
-          rctx.drawImage(mask,0,0,ow,oh);
+          rctx.drawImage(mask,rx,ry,rw,rh);
           rctx.globalCompositeOperation='source-over';
           ctx.drawImage(rv,0,0,ow,oh);}
       };
@@ -2994,7 +3018,7 @@ body.st-self .fc-front,body.st-self .fc-back,body.st-sheet .fc-front,body.st-she
       const phase=p=>p<.08?'SHEET':p<.18?'CONSTRUCT':p<.55?'LINE':p<.75?'DIM':'RENDER';
       let elapsed=-Math.max(0,at),last=0,prevPh=0,cycle=0;
       el.style.opacity='0';
-      el._edDraft={an,cycle:0,phase:'SHEET'};
+      el._edDraft={an,cycle:0,phase:'SHEET',rect:{x:rx,y:ry,w:rw,h:rh},fit:ofit};
       const tick=now=>{
         if(dead)return;
         if(staticMode()){finish();return;}          // 도중 정적 전환 — 즉시 제거·최종 모습

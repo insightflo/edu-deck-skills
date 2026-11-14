@@ -119,6 +119,8 @@ python3 <base>/scripts/resource_packs.py init <빈-덱-폴더> --design casebook
 
 ## 5. 실행 기능과 표현 계약
 
+- **출처 장 통합 data-src 패턴**(2026-11-14 실사용): 개별 행마다 출처 호스트를 넣지 않아도, 통합 항목(예: URL 줄)에 `data-src="F01,…,F27"`을 부여하고 개별 행은 사람용 색인으로 둔다 — 사실 수만큼 WARN이 나는 것을 막는다.
+
 팩 덱은 기존 교육 실행 기능을 재사용하지만 legacy 배치 클래스에 의존하지 않는다.
 
 - 장 루트는 `section.slide.pack.pack-<design>`과 `data-design="<design>"`, 내용에 맞는 `data-archetype`입니다. 새 템플릿에는 기본 이름이 있고 기존 이름 없는 팩은 공통 엔진이 연결합니다. 단계 공개는 기존 `data-step`, 노트는 `aside.notes`, 복습 대상은 `data-key` 계약을 유지한다. 선택한 팩의 루트 클래스는 각 장에서 유지한다.
