@@ -115,3 +115,25 @@ Vite+TypeScript 예시로 구성됩니다. 라우팅: edu-deck 0단계 "라인�
 소스 코드 미열람 — 분석: `workspace/absorb/loop-cover-analysis.md`).
 Sobel·NMS·히스테레시스·RDP·3점 원 피팅은 표준 알고리즘이며 색은 덱 토큰만
 사용합니다. 근원 라이선스는 위 technical-reveal MIT 기록을 따릅니다.
+
+## awesome-showreels (개념 참조 — 코드 미복사, MIT)
+
+**awesomezun/awesome-showreels** (© 2026 AwesomeZun, MIT — `https://github.com/awesomezun/awesome-showreels`,
+분석 시점 HEAD `cb1d5e3`) 의 "스타일은 재료에서 측정한다"는 절차 개념만 참조해 아래 항목을
+이 저장소에서 새로 작성했습니다(파일·함수·식별자·문장 0복사 · 분석:
+`workspace/absorb/showreel-analysis.md`).
+
+- `edu-deck/shared/scripts/extract_style.py` — 소스(레포·URL·폴더·파일) 실측 → `src/preset.css`.
+  원본 `tools/extract_style.py`(5001줄·numpy/PyMuPDF/Playwright 의존)를 이식하지 않고, 표준
+  라이브러리만으로 근거 ID·톤 축·대비 보정 파이프라인을 우리 토큰 계약(`CONTRAST_GATES` 16쌍 +
+  `check_deck` 행렬 5쌍 = 21쌍)에 맞춰 재작성했습니다.
+- `edu-deck/shared/scripts/capture_cli.py` — 실제 CLI 출력 캡처 → `.win-frame`/`.code` 조각(표준 라이브러리만).
+- `edu-deck/shared/scripts/capture_ui.mjs` — 저자가 지정한 URL·파일만 Chromium 으로 캡처 → PNG +
+  `.win-frame` `<img>` 조각(Playwright 필요, 설치 강행 없음).
+  원본 `tools/capture_cli.py`·`capture_ui.mjs` 를 이식하지 않은 자체 구현이며 **임의 웹 수집은
+  열지 않았습니다**(`.screen-cite` 는 사용자 제공 화면 전용 계약 유지, 크롤링·검색 후 캡처 금지 불변).
+- 문서: `edu-deck-solo/SKILL.md`(1단계 소스 실측 팔레트·금지어 기록, 3단계 구성안 상단 3요소)와
+  `edu-deck/shared/references/authoring.md` 3절 "실물 캐리어 규율 — 1장 1히어로".
+
+원본의 영상 엔진(MP4·BPM·오디오·내레이션)은 흡수하지 않았습니다.
+본 저장소에 원본 파일 사본은 없으며, 상류 라이선스(MIT)를 따릅니다.

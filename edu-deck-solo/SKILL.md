@@ -33,6 +33,8 @@ description: "Use when the user gives a topic and wants education or training ma
 - **팩 경로**: brief 의 제목·청중·교육 뒤 할 수 있어야 하는 것으로 라우터를 돌린다: `python3 <base>/scripts/pack_router.py --title "<제목>" --outcomes "<할 수 있어야 하는 것>" --audience "<청중>" [--recent <최근 쓴 디자인>] [--emit-command]`. 출력의 후보 3종·추천·흐름은 시작점이다. `<base>/references/resource-packs.md` 를 읽고 청중 → 수행 행동 → 완료 증거 → 흐름 → 디자인으로 확인해 디자인 1종·주흐름 1종을 확정하고(필요하면 주흐름과 다른 보조활동 최대 2종) 선택 이유를 brief 에 남긴다. 같은 입력은 같은 결과이며 같은 주제를 다르게 다시 만들 때만 `--seed` 를 바꾼다.
 - **legacy 경로**: `<base>/references/composition.md` 의 유형표·줄거리, `<base>/references/layouts.md` 의 아키타입·`<base>/assets/snippets/`·공통 아이콘·개념 SVG 도식(`<base>/references/diagrams.md`)으로 장을 만든다. 같은 얼굴이 반복되지 않게 `deck.json` 에 `theme`+`arc` 를 둔다: `python3 <base>/scripts/tone_router.py --title "…" --outcomes "…" --audience "…" [--recent-theme ID] [--recent-cover ID] [--recent-arc ID] [--seed N]` 의 추천을 시작점으로 잡는다. 표지는 `<base>/references/authoring.md` 3절 4방식(그대로·변형·조합·새로 설계) 중 내용에 맞는 방식으로 만든다(카탈로그 변형 17종은 출발점 재료이지 폴백이 아니다). 방향 3안 비교는 선택적 기법이다(authoring.md 5절) — 쓰기로 했으면 방향 3안(각 한 줄의 구성·기조)과 채택한 안·근거를 brief 에 적고, 3안은 이름·메모만 다른 것이 아니라 구성·기조가 디자인으로 달라야 한다(ppt-master 3방향 규칙 각용). theme·arc 등을 모두 생략하면 기존과 같은 classic·standard 결과다(`<base>/references/composition.md` 1-0절·`<base>/references/DESIGN_TOKENS.md` 테마 절).
 - `outline.md` 초안에 파트와 파트별 조사 질문을 적는다(`<base>/references/research.md` 1절). 슬라이드 표는 3단계에서 채운다. 팩 덱은 주흐름 단계·단계별 학습자 행동·확인할 증거를 함께 적는다.
+- **금지어 기록**: brief 에 `금지어: …`(소스·조직 규정·감수가 금지한 표현)를 한 줄로 적는다. 등재분만 검사되므로 **기록이 곧 검사 범위**다 — 말투 교정(4.5) 뒤 `verify_sources.py --ban "<낱말>"`(반복 가능, 발견 시 HTML 위치·장 번호까지 ERROR)로 전수 확인한다.
+- **소스 실측 팔레트(선택적 기법)**: 재료가 레포·웹·문서처럼 고유한 색을 가졌으면 눈대중 대신 **소스에 적힌 값을 근거**로 삼는다 — `python3 <base>/scripts/extract_style.py --source <레포 URL|웹 URL|폴더|파일> --deck <작업 폴더> --board --md --json` 이 팔레트·톤을 실측해 `src/preset.css` 와 근거 보고(`qa/`)를 만든다(표준 라이브러리만·Pillow 선택, HTML/CSS/MD/JSON 포함, PDF 는 미지원). 실측 결과가 기존 프리셋 16종 중 하나에 가까우면 `style_preset.py --apply <id> --deck <폴더>` 로 그 프리셋을 쓰고 어긋나는 역할만 덮는다. 대비 판정은 `style_preset.py --verify`(4.5:1·밤 무대 7.0:1)가 한다 — 실측값도 이 게이트를 통과해야 쓴다.
 - 내려받은 자료·임시 파일·검사 출력은 모두 작업 폴더 안(`research/raw/`, `qa/`)에 둔다. `/tmp` 같은 바깥 폴더에 흩어 두지 않는다.
 
 ### 2. 조사 → research.md
@@ -43,6 +45,7 @@ description: "Use when the user gives a topic and wants education or training ma
   → `원문대조`·`두출처일치` 사실만 화면 숫자로 쓸 수 있다.
 
 ### 3. 구성안 확정 → outline.md
+- **구성안 상단 3요소(고정)**: `한 문장`(무엇이고 왜 중요한가, 20단어 이내) · `한 장면`(사람이 기억할 대표 장 1개 — 3.6 대표 샘플과 같은 장) · `한 메시지`(사람이 따라 말할 마무리 선언). 아래 모든 장 행은 한 문장을 섬긴다. 3요소가 덱과 어긋나면 장을 고치기 전에 3요소를 먼저 바로잡는다.
 - 조사 결과로 `outline.md`의 슬라이드 표를 채운다(기본 경로는 `composition.md` 7절 양식, 팩 덱은 `<base>/references/resource-packs.md`의 outline 표): 장별 아키타입·배치 변형·핵심 질문·사실 ID에 리듬(앵커·밀집·숨고르기 — 장의 역할과 밀도를 한 단어로) 열을 함께 채운다. 팩 덱은 흐름 단계·학습자 행동·평가 증거까지 적고, 단계 하나가 여러 장이 될 수 있으며 활동 시간도 수업 시간에 넣는다. 고정 cover→why→how 순서를 강제하지 않는다. 슬라이드 표의 01 표지 행은 만든 방식을 적는다: `cover (직접 설계)` 또는 `cover (카탈로그 <id> 변형)`.
 - `<base>/references/composition.md`의 공통 내용 원칙과 6·8절을 적용한다. 기본(legacy) 경로는 1~5·7절의 줄거리·유형표를 참고해 구성한다(가이드 모드·고정 형식 요청 때는 그대로 따른다), 팩 덱은 쓰지 않는다.
 - 통과 조건: 장마다 아키타입·핵심 메시지·어떤 도식이 어디에 들어가는지, 덱 전체로는 **시각 어휘**(쓸 도식 계열 3종 이상·같은 계열 3장 연속 없음·파트 톤·아이콘 색 리듬)와 **숨고르기**(7~9장마다 파트 구분 장, 또는 그 사유)가 정해져 있다. 팩 덱은 선택 이유와 실제 흐름이 일치하고 단계별 성과를 확인할 활동·자료·배치 변형이 정해져 있어야 한다. 점검 목록을 통과해야 다음 단계로 간다.
