@@ -244,6 +244,7 @@
 카탈로그 표지의 주제 비특정 장식·일러스트 자리는 `class="cover-art"` 로 표시된 **자리표시 그림**이다 — 파선 틀 + `«그림: …»` 안내. 저작자는 안내를 지우고 주제에 맞게 다시 그린다:
 
 - 자리(위치·면적)는 변형이 유지한다. 안에는 `k-*`/`t-*` 도식 문법(diagrams.md) 또는 표지용 기하(도형·아이콘 조합)로 주제 일러스트를 그린다. `aria-hidden` 유지, 색은 `var(--…)` 토큰만.
+- **생성형 제도 표지(ko-cover)** — 그림 자리를 주제 소재 이미지 하나로 채우는 방식: `<figure class="ko-cover" data-cover='{"preset":"…","keepLines":0|1}'><img class="ko-cover-img" src="…" alt="…"><canvas class="ko-cover-canvas" aria-hidden="true"></canvas></figure>`. 엔진(쓴 덱에만 인라인)이 소재를 실측해 그 덱만의 제도 드로잉→실물 리빌을 순환 재생하고, 인쇄·자습·무JS·엔진 실패에서는 소재 이미지 그대로 완결된다. 팔레트 8종(ink·graphite·drafting·blueline·blueprint·retro·amber·phosphor — 밝은 4종 흰 도면지·어두운 4종 컬러 도판), 표지 전면 배경은 `ko-cover-bleed` 를 함께 단다(글자 색은 팔레트 바탕에 맞춘다). 소재가 다르면 표지도 달라지므로 카탈로그 반복감의 근본 대책이다. 시연: `examples/cover-art-demo/`, 원천: THIRD-PARTY-NOTICES 'ko-document-studio'.
 - 자리표시 그림(`«…»`)이 그대로 남으면 «…» 텍스트 자리와 같은 검사 ERROR(`--allow-placeholders` 에서만 묵음).
 - 뼈대가 곧 변형 정체성인 구성(블루프린트 격자·바우하스 기하·학습 경로·노트 판형·포털·카드 스택·bigstat/stripes 타이포 장식)은 자리가 아니다 — 그대로 쓰고 글자 자리표시만 채운다.
 

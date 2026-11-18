@@ -244,6 +244,8 @@ def build(title, slide_files, css_dirs, icon_dirs, out_path, study=None, resourc
     slides_html, count = collect_slides(slide_files)
     slides_html = propagate_part_tones(slides_html)
     stack_on = 'data-c="stack"' in strip_comments(slides_html)
+    # 표지 아키텍트(ko-cover): 조각이 .ko-cover figure 나 data-cover 속성을 쓸 때만 엔진을 싣는다.
+    cover_art_on = re.search(r'class="[^"]*\bko-cover\b|data-cover=', strip_comments(slides_html)) is not None
     if stack_on:
         # 구성도·업무 흐름 부품: 도식이 있는 덱에만 kit 자산을 싣는다(없는 덱은 바이트가 늘지 않는다).
         # data-d 형태 오류는 빌드 실패 — stack_schema.py 가 형식·배치 규칙의 주인이다.
@@ -277,6 +279,13 @@ def build(title, slide_files, css_dirs, icon_dirs, out_path, study=None, resourc
         out = out.replace("</body>",
                           '<script type="application/json" id="ppt-stack-icons">'
                           + icons + "</script>\n<script>" + js + "</script>\n</body>", 1)
+    if cover_art_on:
+        # 표지 아키텍트 엔진(assets/js/cover-art.js, ko-document-studio MIT 이식) — 쓴 덱에만
+        # 인라인한다(약 85KB). 자가 기동 마운트라 셸 스크립트와 순서·계약 무관하다.
+        cover_js = read_utf8(assets / "js" / "cover-art.js")
+        if "</script" in cover_js.lower():
+            raise BuildError("cover-art.js 에 </script 가 있어 인라인할 수 없습니다")
+        out = out.replace("</body>", "<script>\n" + cover_js + "\n</script>\n</body>", 1)
     if resource_pack is not None:
         metadata = html.escape(json.dumps(pack, ensure_ascii=False), quote=True)
         out = out.replace('</head>', f'<meta name="edu-deck-resource-pack" content="{metadata}">\n</head>', 1)

@@ -796,6 +796,26 @@ body.st-self *,body.st-self *::before,body.st-self *::after,body.st-printing *{a
 .pin-list>li.on::before{background:var(--accent);color:var(--paper)}
 .pin-list>li:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
+/* ---- ko-cover · 표지 아키텍트(cover architect) — 생성형 제도 표지. 엔진: assets/js/cover-art.js ----
+   저작 계약(자가 기동 — data-fx 불필요):
+   <figure class="ko-cover" data-cover='{"preset":"auto","keepLines":0}'>
+     <img class="ko-cover-img" src="…" alt="…">          ← 인쇄·무JS 폴백이자 엔진의 소재
+     <canvas class="ko-cover-canvas" aria-hidden="true"></canvas>
+   </figure>
+   캔버스는 재생이 시작된 뒤에만(live) 그림을 대신한다. 인쇄·정적 모드·엔진 실패는 원본 이미지로 완결. */
+.ko-cover{position:relative;width:100%}
+.ko-cover-img{display:block;width:100%;height:auto}
+.ko-cover-canvas{position:absolute;inset:0;width:100%;height:100%}
+@media print{.ko-cover-canvas{display:none}}
+@media screen{.ko-cover.ko-cover-live .ko-cover-img{visibility:hidden}}
+/* 전면 배치 — 표지 장 배경으로 쓸 때: figure 에 ko-cover-bleed 를 함께 달고 section 직속 첫 요소로 둔다.
+   글자는 자연 문서 순서(뒤 요소)로 위에 얹는다. 소재가 밝으면 어두운 톤 표지와 함께 쓴다. */
+.slide .ko-cover-bleed{position:absolute;inset:0;width:100%;height:100%}
+.slide .ko-cover-bleed .ko-cover-img{width:100%;height:100%;object-fit:cover}
+/* 정적 완결(자습S·인쇄·시트·발표자) — 캔버스를 접고 라이브 표지라도 폴백 이미지를 되살려 손실 없이 완결한다(motion.js staticMode 와 같은 판정). */
+body.st-self .ko-cover-canvas,body.st-printing .ko-cover-canvas,body.st-sheet .ko-cover-canvas,body.st-presenter .ko-cover-canvas{display:none}
+body.st-self .ko-cover.ko-cover-live .ko-cover-img,body.st-printing .ko-cover.ko-cover-live .ko-cover-img,body.st-sheet .ko-cover.ko-cover-live .ko-cover-img,body.st-presenter .ko-cover.ko-cover-live .ko-cover-img{visibility:visible}
+
 /* Compact reading is the 1920×1080 stage scaled down, not a reflowed layout.
    Every slide keeps its authored placement; the reader reserves 1080×scale of
    flow height per slide and stacks them in one continuous scroll. 배치가 뜻을

@@ -30,6 +30,7 @@ effective-html 은 MIT 라이선스로 배포됩니다 (Copyright (c) 2026 plann
   (원 규칙 출처: huashu-design MIT, ppt-master MIT — `licenses/DESIGN-LINT-HUASHU-MIT.txt`, `licenses/DESIGN-LINT-PPT-MASTER-MIT.txt`)
 - `bookstyle-html/tests/viewer_smoke.mjs` — `engines/ko-doc/tests/viewer_smoke.mjs` 를 우리 뷰어 셀렉터로 각색
 - `bookstyle-html/scripts/preview.py` 의 `--release` 검사 — `engines/ko-doc/scripts/check_book.py` 의 규칙 개념을 우리 book.json 계약으로 재작성
+- `edu-deck/shared/assets/js/cover-art.js` — ko-slide 견본 `ko-cover-regression.html`(2026-11-18 확보)에 포함된 **표지 아키텍트(ko-cover) 리빌 엔진+마운트**를 그대로 이식(원문의 "프로젝트 custom.js" 표시 줄만 제외, 본문 바이트 동일 — `dev/test_cover_art.py` 로 잠금). 저작 계약은 layouts.md "표지 그림 자리", 기준 샘플은 `edu-deck/shared/references/samples/ko-cover-regression.html` 로 verbatim 보존(sha256 고정)
 
 라이선스 전문은 `licenses/KO-DOCUMENT-MIT.txt` 에 있습니다.
 catalog·shiraki 파생물은 반입하지 않았습니다.

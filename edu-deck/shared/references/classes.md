@@ -317,6 +317,7 @@ legacy와 팩 모두 `assets/css/visual-motion.css`의 아래 공통 어휘를 �
 | `.tabs` | `.tabs > .tab-bar > button` ↔ `.tab-pane` 1:1 | 첫 탭이 기본. 클릭·←/→·Home/End 로 전환하고 role·aria 는 셸이 채운다. 인쇄·자습·움직임 줄이기(정적 모드)에서는 모든 패널이 탭 이름(`.tab-pane-label`)과 함께 펼쳐 보인다 |
 | `.faq` | `.faq > details > summary`(질문) + `p`(답) | 네이티브 details 토글. 정적 모드에서는 전부 펼쳐진다. 첫 항목을 미리 열어 두려면 `<details open>` |
 | `.pin-shot` + `.pin-list` | `.pin-shot > .pin-frame > img` + `button.pin[data-k]`(left·top 은 이미지 기준 %) ↔ 같은 장 `.pin-list li[data-k]` | 같은 `data-k` 짝이 마우스·포커스·클릭 때 함께 `.on` 이 된다. 핀에 `data-step` 을 붙이면 그 단계에 나타난다. 이미지는 사용자 제공 base64 `data:` URI 만 — 없거나 외부 주소면 check_deck ERROR |
+| `figure.ko-cover` | `.ko-cover > .ko-cover-img` + `.ko-cover-canvas`(+ `data-cover` 약칭 JSON `{"preset":"…","keepLines":0\|1}`, 전면 배경은 `ko-cover-bleed`) | 생성형 제도 표지(표지 아키텍트). 엔진이 장 노출 시 소재를 실측해 제도 드로잉→실물 리빌을 순환 재생한다(자가 기동 — data-fx 불필요). 인쇄·자습·시트·발표자·무JS·엔진 실패에서는 캔버스가 접히고 소재 이미지로 완결. 팔레트 8종·계약은 layouts.md "표지 그림 자리", 시연 `examples/cover-art-demo/` |
 | `.go` | `button.go[data-go="N"][data-tab="M"]` | N번 장으로 가서 M번 탭을 열어 준다 |
 
 - 핀 짝은 같은 장 안에서 맞춘다. 그림·목록 배치 자체는 호스트 아키타입이 정한다.
