@@ -1,12 +1,38 @@
 <section class="slide pack pack-lab" data-design="lab" data-archetype="mechanism">
-  <header class="pack-topline"><p class="pack-topic">{{TITLE}}</p><span class="pack-mark">LAB / 탐구 기록</span></header>
+  <header class="pack-topline lab-head">
+    <div class="lab-id">
+      <span class="lab-ico" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18.5 5h11"/><path d="M21 5v11.5L9.8 37.6A4 4 0 0 0 13.3 43h21.4a4 4 0 0 0 3.5-5.4L27 16.5V5"/><path d="M14.5 30h19"/><path d="M19.5 36.5h.01M24.5 39.5h.01M29.5 35.5h.01" stroke-width="3.6"/></svg></span>
+      <span class="lab-idtext"><span class="lab-logtag">실험 로그</span><span class="lab-logsub">LAB RECORD · 탐구 기록</span></span>
+    </div>
+    <p class="pack-topic">{{TITLE}}</p>
+    <p class="pack-kicker lab-pill">{{KICKER}}</p>
+  </header>
   <!-- t2 2톤 문법: 핵심 어절(주로 마지막 어절, 문장당 1회·1~2 어절)을 <em class="t2">…</em>로 감싸면 강조색이 붙는다. flows.json 토큰 값엔 태그를 넣지 않는다(이스케이프됨). 규칙: references/expression.md 1절 -->
-  <div class="lab-question"><p class="pack-kicker">{{KICKER}}</p><h1 class="pack-prompt">{{PROMPT}}</h1></div>
-  <div class="lab-log">
-    <article class="lab-observation"><div class="lab-tab"><span class="pack-index">01</span><span>관찰 · 설명</span></div><p class="pack-body">{{BODY}}</p></article>
-    <aside class="lab-evidence"><div class="lab-tab"><span class="pack-index">02</span><span>검증할 자료</span></div><p class="pack-evidence">{{EVIDENCE}}</p><div class="lab-cycle" aria-label="관찰에서 검증으로, 검증에서 수정으로"><span>관찰</span><b aria-hidden="true">→</b><span>검증</span><b aria-hidden="true">→</b><span>수정</span></div></aside>
+  <div class="lab-question"><h1 class="pack-prompt">{{PROMPT}}</h1></div>
+  <div class="lab-pipe">
+    <article class="lab-card lab-observation">
+      <header class="lab-cardhead"><span class="lab-badge">01</span><span class="lab-stage">관찰 · 설명</span></header>
+      <p class="pack-body">{{BODY}}</p>
+      <div class="lab-field"><span class="lab-field-tag">기록</span><span class="lab-fl" aria-hidden="true"></span><span class="lab-fl" aria-hidden="true"></span></div>
+    </article>
+    <svg class="lab-join" viewBox="0 0 72 96" aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="48" r="5" stroke-width="3"/><path d="M18 48h30" stroke-width="4" stroke-dasharray="0.5 11"/><path d="M46 36 62 48 46 60" stroke-width="3.5"/></svg>
+    <aside class="lab-card lab-evidence">
+      <header class="lab-cardhead"><span class="lab-badge">02</span><span class="lab-stage">검증 근거</span></header>
+      <p class="pack-evidence">{{EVIDENCE}}</p>
+      <div class="lab-field"><span class="lab-field-tag">기록</span><span class="lab-fl" aria-hidden="true"></span><span class="lab-fl" aria-hidden="true"></span></div>
+    </aside>
+    <svg class="lab-join" viewBox="0 0 72 96" aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="48" r="5" stroke-width="3"/><path d="M18 48h30" stroke-width="4" stroke-dasharray="0.5 11"/><path d="M46 36 62 48 46 60" stroke-width="3.5"/></svg>
+    <div class="lab-card lab-next">
+      <header class="lab-cardhead"><span class="lab-badge">03</span><span class="lab-stage">수정 · 실행</span></header>
+      <p class="pack-action">{{ACTION}}</p>
+      <div class="lab-field"><span class="lab-field-tag">기록</span><span class="lab-fl" aria-hidden="true"></span><span class="lab-fl" aria-hidden="true"></span></div>
+    </div>
   </div>
-  <footer class="pack-footer lab-next"><span class="pack-index">03</span><div><span class="pack-label">다음 시도</span><p class="pack-action">{{ACTION}}</p></div></footer>
+  <footer class="pack-footer lab-memo">
+    <span class="lab-memo-tag">실험 메모</span>
+    <span class="lab-memo-line" aria-hidden="true"></span>
+    <p class="pack-hint">관찰한 사실과 미검증 가정을 구분해 기록하고, 다음 시도로 이어지는 순환을 유지합니다.</p>
+  </footer>
   <aside class="notes">{{KICKER}}
 관찰한 사실과 아직 확인하지 않은 가정을 구분해 설명하세요. 자료가 결론을 지지하는지 학습자에게 물어보세요.
 {{BODY}}

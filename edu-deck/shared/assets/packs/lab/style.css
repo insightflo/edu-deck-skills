@@ -1,8 +1,44 @@
-/* Laboratory notebook: ruled observation ledger and an explicit revision loop. */
-.slide.pack-lab{background-image:linear-gradient(color-mix(in srgb,var(--success) 6%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--success) 6%,transparent) 1px,transparent 1px);background-size:32px 32px;padding-left:112px;border-left:2px solid var(--success);gap:32px}
-.lab-question{display:grid;grid-template-columns:300px 1fr;gap:40px;border-top:2px solid var(--ink);padding-top:24px}.lab-question .pack-kicker{padding-top:16px}.lab-question .pack-prompt{font-size:50px}
-.lab-log{display:grid;grid-template-columns:1.25fr 1fr;gap:0;border:2px solid var(--line);background:var(--paper)}
-.lab-observation,.lab-evidence{padding:24px 32px 32px}.lab-observation{border-right:2px solid var(--line)}
-.lab-tab{display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:24px;font-size:23px;font-weight:700}.lab-tab .pack-index{color:var(--accent)}
-.lab-cycle{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:32px;padding-top:16px;border-top:1px dashed var(--line);font-size:25px}.lab-cycle span{border-bottom:2px solid var(--accent);padding:0 8px 8px}.lab-cycle b{font-weight:400}
-.lab-next{display:flex;align-items:start;gap:32px;border-top:2px solid var(--accent);padding:24px 0 0}.lab-next>.pack-index{padding-top:0px;color:var(--accent)}.lab-next .pack-label{margin-bottom:8px}
+/* 실험 노트형 — 정밀 연구실 로그북.
+   8px/48px 정밀 모눈 위 로그 헤더 + 밝은 카드 3단계 파이프라인(관찰→검증→수정·실행) + 실험 메모. */
+.slide.pack-lab{gap:28px}
+.slide.pack-lab:has(.lab-head){
+  background-image:
+    linear-gradient(color-mix(in srgb,var(--accent) 9%,transparent) 1px,transparent 1px),
+    linear-gradient(90deg,color-mix(in srgb,var(--accent) 9%,transparent) 1px,transparent 1px),
+    linear-gradient(color-mix(in srgb,var(--accent) 4.5%,transparent) 1px,transparent 1px),
+    linear-gradient(90deg,color-mix(in srgb,var(--accent) 4.5%,transparent) 1px,transparent 1px);
+  background-size:48px 48px,48px 48px,8px 8px,8px 8px;
+}
+/* 실험 로그 헤더 — 플라스크 배지 + 로그 태그 + 주제 + 단계 알약, 이중 먹줄 밑줄 */
+.lab-head{display:flex;align-items:center;gap:32px;padding-bottom:22px;border-bottom:2px solid var(--ink);box-shadow:0 7px 0 -5px color-mix(in srgb,var(--line) 60%,transparent)}
+.lab-id{display:flex;align-items:center;gap:18px;flex:none}
+.lab-ico{width:74px;height:74px;flex:none;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--paper);border:2px solid var(--accent);color:var(--accent-text);box-shadow:var(--shadow-1)}
+.lab-ico svg{width:42px;height:42px}
+.lab-idtext{display:flex;flex-direction:column;gap:3px}
+.lab-logtag{font-size:27px;font-weight:800;letter-spacing:-.01em;line-height:1.15}
+.lab-logsub{font-size:20px;font-weight:700;letter-spacing:.14em;color:var(--soft);white-space:nowrap}
+.lab-head .pack-topic{flex:1;min-width:0;text-align:right}
+.lab-head .lab-pill{flex:none;max-width:560px;display:inline-flex;align-items:center;gap:11px;padding:12px 26px;background:color-mix(in srgb,var(--accent-soft) 30%,var(--paper));color:var(--accent-text);border:1.5px solid color-mix(in srgb,var(--accent) 42%,transparent);border-radius:var(--pill-r);font-size:24px}
+.lab-pill::before{content:"";width:9px;height:9px;flex:none;background:var(--accent);border-radius:2px;transform:rotate(45deg)}
+/* 대형 질문 — 액센트 레일 + 54px/800, 질문 영역이 남는 세로를 흡수해 카드는 내용 높이로 */
+.lab-question{flex:1;min-height:0;display:flex;align-items:center}
+.lab-question .pack-prompt{font-size:54px;font-weight:800;line-height:1.25;padding-left:30px;border-left:8px solid var(--accent);border-radius:3px}
+/* 3단계 파이프라인 — 밝은 카드 3열 + 점선 화살표 커넥터, 03은 액센트 강조 띠 */
+.lab-pipe{display:grid;grid-template-columns:1fr 72px 1fr 72px 1fr;align-items:stretch}
+.lab-card{position:relative;display:flex;flex-direction:column;gap:22px;min-width:0;padding:30px 34px;background:var(--paper);border:1.5px solid color-mix(in srgb,var(--line) 40%,transparent);border-radius:var(--card-r,var(--r2));box-shadow:0 16px 36px color-mix(in srgb,var(--ink) 9%,transparent),0 3px 10px color-mix(in srgb,var(--ink) 6%,transparent)}
+.lab-cardhead{display:flex;align-items:center;gap:16px;padding-bottom:18px;border-bottom:1px solid color-mix(in srgb,var(--line) 42%,transparent)}
+.lab-badge{width:54px;height:54px;flex:none;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--accent-text);color:var(--paper);font-family:var(--pack-mono);font-size:24px;font-weight:800;font-variant-numeric:tabular-nums;box-shadow:0 0 0 5px color-mix(in srgb,var(--accent) 12%,transparent)}
+.lab-stage{font-size:24px;font-weight:800;letter-spacing:.01em}
+.lab-card .pack-body{font-size:28px}
+.lab-card .pack-evidence,.lab-card .pack-action{font-size:27px}
+.lab-join{align-self:center;justify-self:center;width:72px;height:96px;color:var(--accent)}
+.lab-next{border-color:color-mix(in srgb,var(--accent) 55%,transparent);padding-top:46px;box-shadow:0 16px 36px color-mix(in srgb,var(--ink) 10%,transparent),inset 0 14px 0 var(--accent)}
+/* 카드 안 로그북 기록란 — 태그 + 점선 쓰기줄 2개, 아래로 밀착 */
+.lab-field{margin-top:auto;display:flex;flex-direction:column;gap:24px;padding-top:16px;border-top:1px solid color-mix(in srgb,var(--line) 45%,transparent)}
+.lab-field-tag{font-size:20px;font-weight:800;letter-spacing:.12em;color:var(--soft)}
+.lab-fl{height:24px;border-bottom:2px dashed color-mix(in srgb,var(--line) 58%,transparent)}
+/* 하단 실험 메모 푸터 — 태그 + 로그북 점선 쓰기란 */
+.lab-memo{display:flex;align-items:center;gap:26px;padding-top:22px;border-top:1.5px solid color-mix(in srgb,var(--line) 45%,transparent)}
+.lab-memo-tag{flex:none;font-size:22px;font-weight:800;letter-spacing:.05em;color:var(--accent-text)}
+.lab-memo-line{flex:1;height:24px;border-bottom:2px dashed color-mix(in srgb,var(--line) 62%,transparent)}
+.lab-memo .pack-hint{flex:none;max-width:820px}

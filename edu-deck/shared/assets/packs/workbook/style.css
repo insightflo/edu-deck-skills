@@ -1,6 +1,34 @@
-/* Facing workbook pages: source on the left, practice space on the right. */
-.slide.pack-workbook{gap:32px}
-.workbook-head{display:flex;align-items:center;gap:32px;padding-bottom:16px;border-bottom:2px solid var(--line)}.workbook-head .pack-topic{flex:1}.workbook-head .pack-kicker{max-width:470px}.workbook-binding{font-size:24px;letter-spacing:10px;color:var(--accent)}
-.workbook-pages{display:grid;grid-template-columns:1.05fr 1fr;gap:56px;flex:1;min-height:0}.workbook-read{padding-right:48px;border-right:2px solid var(--line)}.workbook-read>.pack-label{color:var(--accent)}.workbook-read .pack-prompt{font-size:45px;line-height:1.35;margin-bottom:24px}.workbook-read .pack-body{font-size:29px;line-height:1.6}.workbook-reference{margin-top:24px;border-top:1px solid var(--line);padding-top:16px}.workbook-reference .pack-evidence{font-size:25px;line-height:1.55}
-.workbook-write{display:flex;flex-direction:column;padding:32px 32px;background:var(--light);border-top:2px solid var(--accent)}.workbook-write>.pack-label{color:var(--accent)}.workbook-write>.pack-action{font-size:34px;line-height:1.5;font-weight:600}
-.workbook-answer{position:relative;margin-top:32px;padding-top:24px;border-top:1px solid var(--accent)}.workbook-answer h2{font-size:28px;font-weight:600;margin-bottom:8px}.workbook-pencil{position:absolute;right:0;top:12px;font-size:42px;color:var(--accent)}.workbook-lines{display:grid;gap:40px;margin-top:40px}.workbook-lines span{border-bottom:1px solid var(--accent)}.workbook-reflection{font-size:25px;line-height:1.6;margin-top:auto;padding-top:24px;color:var(--accent-text)}
+/* Workbook spread: reading page and practice page bound by center spiral rings. */
+.slide.pack-workbook{gap:28px;background:var(--light)}
+.workbook-head{display:flex;align-items:center;gap:28px;padding-bottom:6px}
+.workbook-word{display:inline-flex;align-items:center;gap:14px;flex:none;font-size:23px;font-weight:800;letter-spacing:.16em;color:var(--accent-text);white-space:nowrap}
+.workbook-word svg{width:34px;height:34px;flex:none}
+.workbook-head .pack-topic{flex:1;font-size:25px}
+.workbook-head .pack-kicker{flex:none;background:color-mix(in srgb,var(--accent) 13%,var(--paper));color:var(--accent-text);border-radius:999px;padding:10px 26px;font-size:22px;font-weight:800;white-space:nowrap}
+.workbook-spread{flex:1;min-height:0;display:grid;grid-template-columns:1fr 72px 1fr}
+.workbook-read,.workbook-write{background:var(--paper);box-shadow:var(--shadow-1);display:flex;flex-direction:column}
+.workbook-read{border-radius:var(--r3) 0 0 var(--r3);padding:44px 64px 44px 52px}
+.workbook-write{border-radius:0 var(--r3) var(--r3) 0;padding:44px 52px 44px 64px}
+.workbook-binding{display:flex;justify-content:center}
+.workbook-binding svg{width:72px;height:100%;overflow:visible}
+.workbook-binding .wb-holes circle{fill:var(--light)}
+.workbook-binding .wb-rings ellipse{fill:none;stroke:var(--soft);stroke-width:5}
+.workbook-side{color:var(--accent-text)}
+.workbook-read .pack-prompt{min-height:150px;font-size:50px;line-height:1.36;font-weight:800;letter-spacing:-.02em;margin-top:24px}
+.workbook-read .pack-body{font-size:32px;line-height:1.7;margin-top:26px}
+.workbook-reference{margin-top:auto;padding:30px 32px;border-radius:var(--r2);background:color-mix(in srgb,var(--accent) 8%,var(--paper))}
+.workbook-reference .pack-label{color:var(--accent-text);margin-bottom:12px}
+.workbook-reference .pack-evidence{font-size:28px;line-height:1.65}
+.workbook-write-head{display:flex;align-items:center;gap:18px}
+.workbook-write-head svg{width:46px;height:46px;color:var(--accent);flex:none}
+.workbook-write-head .workbook-side{margin:0}
+.workbook-write .pack-action{font-size:30px;line-height:1.55;font-weight:600;margin-top:26px}
+.workbook-answer{flex:1;min-height:0;display:flex;flex-direction:column;margin-top:28px;padding-top:26px;border-top:2px solid color-mix(in srgb,var(--accent) 40%,var(--paper))}
+.workbook-answer-t{font-size:28px;font-weight:700}
+.workbook-lines{flex:1;display:flex;flex-direction:column;justify-content:space-evenly;padding:26px 0 10px}
+.workbook-lines span{display:block;height:2px;background:color-mix(in srgb,var(--accent) 28%,var(--paper))}
+.workbook-reflection{margin-top:22px;font-size:25px;line-height:1.55;color:var(--accent-text)}
+@media print{
+  .workbook-spread{grid-template-columns:1fr;gap:24px}
+  .workbook-binding{display:none}
+}

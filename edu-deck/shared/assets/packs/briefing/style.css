@@ -1,6 +1,31 @@
-/* Decision briefing: aligned evidence ledger, not decorative synthetic charts. */
-.slide.pack-briefing{gap:24px;padding-top:56px}
-.briefing-header{display:flex;align-items:baseline;justify-content:space-between;gap:40px;border-bottom:2px solid var(--ink);padding-bottom:16px}.briefing-header .pack-topic{max-width:1080px;text-align:right}
-.briefing-thesis{display:grid;grid-template-columns:275px 1fr;gap:40px;padding:8px 0 8px}.briefing-thesis .pack-kicker{padding-top:8px}.briefing-thesis .pack-prompt{font-size:50px}
-.briefing-ledger{border-top:2px solid var(--ink)}.briefing-row{display:grid;grid-template-columns:245px 1fr 225px;gap:32px;padding:32px 24px;border-bottom:1px solid var(--line);align-items:start}.briefing-row dt{font-size:25px;font-weight:700;display:flex;gap:24px;align-items:baseline}.briefing-row .pack-index{font-size:21px;color:var(--soft)}.briefing-row .pack-body{font-size:30px;line-height:1.6}.briefing-readout{border-left:1px solid var(--line);padding-left:24px;color:var(--soft);font-size:23px;line-height:1.65}
-.briefing-decision{background:var(--blue-soft);border-bottom:2px solid var(--accent)}.briefing-decision dt{color:var(--accent)}.briefing-decision .briefing-readout{color:var(--ink)}.briefing-decision .pack-action{font-weight:650}.briefing-footnote{display:flex;justify-content:space-between;gap:32px;font-size:22px;color:var(--soft)}.briefing-footnote>span{font-weight:700;color:var(--accent)}
+/* Executive intelligence board: dark ink header, pill thesis, three banded medal cards. */
+.slide.pack-briefing{gap:28px}
+.briefing-header{display:flex;align-items:center;justify-content:space-between;gap:48px;margin:-64px -80px 0;padding:24px 80px;background:var(--ink);color:var(--paper)}
+.briefing-brand{display:flex;align-items:center;gap:20px;flex:none}
+.briefing-header .briefing-ico{width:44px;height:44px;color:var(--accent-light)}
+.briefing-ico *{stroke:currentColor;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.briefing-header .pack-mark{color:var(--accent-light);border:1.5px solid var(--accent-light);border-radius:999px;padding:9px 26px}
+.briefing-header .pack-topic{color:var(--paper);max-width:1140px;text-align:right}
+.briefing-thesis{display:flex;flex-direction:column;align-items:flex-start;gap:20px;padding-top:8px}
+.briefing-thesis .pack-kicker{display:inline-flex;align-items:center;gap:12px;background:var(--light);color:var(--accent-text);border-radius:999px;padding:10px 28px}
+.briefing-thesis .pack-kicker::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--accent)}
+.briefing-thesis .pack-prompt{font-size:52px;font-weight:800}
+.briefing-ledger{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;flex:1;min-height:0}
+.briefing-row{display:flex;flex-direction:column;gap:22px;background:#fff;border-radius:var(--r2);padding:34px 36px 30px;box-shadow:inset 0 6px 0 var(--blue),0 10px 28px rgba(32,43,50,.09)}
+.briefing-row:nth-child(2){box-shadow:inset 0 6px 0 var(--line),0 10px 28px rgba(32,43,50,.09)}
+.briefing-decision{background:var(--accent-soft);box-shadow:inset 0 6px 0 var(--accent),0 10px 28px rgba(32,43,50,.12)}
+.briefing-row dt{display:flex;align-items:center;gap:22px}
+.briefing-medal{width:76px;height:76px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;background:var(--blue-soft);color:var(--blue-text)}
+.briefing-medal svg{width:40px;height:40px;stroke:currentColor;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.briefing-row:nth-child(2) .briefing-medal{background:var(--light);color:var(--soft)}
+.briefing-decision .briefing-medal{background:var(--accent);color:#fff}
+.briefing-dt{display:flex;flex-direction:column;gap:5px;font-size:26px;font-weight:750;line-height:1.3}
+.briefing-dt .pack-index{color:var(--accent-text);font-size:21px}
+.briefing-row:nth-child(2) .briefing-dt .pack-index{color:var(--soft)}
+.briefing-row .pack-body{font-size:29px;line-height:1.6}
+.briefing-row .pack-evidence{font-size:28px;line-height:1.6}
+.briefing-decision .pack-action{color:var(--accent-text);font-weight:650}
+.briefing-readout{margin-top:auto;padding-left:18px;color:var(--soft);font-size:22px;line-height:1.55}
+.briefing-footnote{display:flex;justify-content:space-between;align-items:center;gap:40px;background:var(--light);border-radius:12px;padding:16px 36px;font-size:22px;color:var(--soft)}
+.briefing-footnote>span{font-weight:700;color:var(--accent-text);white-space:nowrap}
+.briefing-footnote>p{text-align:right}

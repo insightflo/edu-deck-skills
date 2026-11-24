@@ -1,8 +1,35 @@
-/* Case dossier: running tab, narrative record, documentary exhibit, decision. */
-.slide.pack-casebook{gap:32px}
-.casebook-tab{display:flex;align-items:baseline;gap:32px;border-bottom:2px solid var(--ink);padding-bottom:16px}.casebook-tab .pack-mark{background:var(--ink);color:var(--paper);padding:16px 24px}.casebook-tab .pack-topic{flex:1}.casebook-tab .pack-kicker{max-width:450px;text-align:right}
-.casebook-question{font-family:var(--pack-serif);font-size:54px!important;max-width:1600px}
-.casebook-file{display:grid;grid-template-columns:1.35fr 1fr;gap:48px;align-items:stretch}
-.casebook-narrative{padding:24px 0 0 32px;border-left:2px solid var(--line)}.casebook-narrative .pack-body{font-size:32px;line-height:1.7}
-.casebook-exhibit{padding:32px 32px;background:var(--light);border:1px solid var(--line)}.casebook-stamp{display:inline-block;border:2px solid var(--accent);color:var(--accent);font-size:22px;padding:8px 16px;margin-bottom:16px;font-weight:700;letter-spacing:.06em}.casebook-caution{font-family:var(--pack-serif);font-size:25px;line-height:1.5;color:var(--soft);margin-top:32px;border-top:1px solid var(--line);padding-top:16px}
-.casebook-decision{display:flex;align-items:start;gap:32px;padding-top:24px;border-top:2px solid var(--ink)}.casebook-bracket{font-size:66px;line-height:1;color:var(--accent)}.casebook-decision .pack-label{color:var(--accent);margin-bottom:8px}
+/* Case dossier: protruding folder tab + manila document headrow, paper record
+   card with accent spine, tinted exhibit card with clip badge, ink decision band.
+   All surfaces ride on family tokens (paper/ink/accent/light/soft/line + tint/chip),
+   so the deck recolors itself under every data-family. */
+.slide.pack-casebook{gap:26px}
+
+/* Folder header — tab protrudes into the top margin, headrow is the folder body. */
+.casebook-dossier{display:flex;flex-direction:column;margin-top:-14px}
+.casebook-fold{align-self:flex-start;display:inline-flex;align-items:center;gap:14px;margin:0 0 -1px 14px;padding:14px 34px 12px;background:var(--light);border:1px solid var(--line);border-bottom:none;border-radius:18px 18px 0 0;box-shadow:0 -10px 22px color-mix(in srgb,var(--ink) 9%,transparent);color:var(--ink)}
+.casebook-fold-ic{width:34px;height:34px;color:var(--accent-text)}
+.casebook-fold .pack-mark{font-family:var(--pack-mono);font-size:22px;font-weight:800;letter-spacing:.18em}
+.casebook-headrow{display:flex;align-items:baseline;gap:32px;background:var(--light);border:1px solid var(--line);border-radius:0 22px 22px 22px;padding:22px 36px;box-shadow:0 14px 36px color-mix(in srgb,var(--ink) 10%,transparent)}
+.casebook-headrow .pack-topic{flex:1;min-width:0;color:var(--ink);font-weight:700}
+.casebook-headrow .pack-kicker{flex:none;max-width:520px;border:2px solid var(--accent-text);color:var(--accent-text);border-radius:10px;padding:8px 18px;font-size:20px;letter-spacing:.08em}
+
+/* Question row. */
+.casebook-question{font-family:var(--pack-serif);font-size:52px;line-height:1.3;font-weight:800;max-width:1620px}
+
+/* Two records — paper narrative card (accent spine) + tinted exhibit card (clip badge). */
+.casebook-file{display:grid;grid-template-columns:1.32fr 1fr;gap:40px;align-items:stretch;flex:1;min-height:0}
+.casebook-narrative{background:color-mix(in srgb,var(--paper) 55%,#ffffff);border-left:10px solid var(--accent);border-radius:var(--r3);box-shadow:0 16px 40px color-mix(in srgb,var(--ink) 12%,transparent),0 3px 10px color-mix(in srgb,var(--ink) 7%,transparent);padding:40px 46px 36px 48px}
+.casebook-narrative .pack-label{color:var(--accent-text);margin-bottom:18px}
+.casebook-narrative .pack-body{font-size:30px;line-height:1.72}
+.casebook-exhibit{position:relative;background:var(--accent-soft);border-radius:var(--r3);padding:40px 44px 34px;box-shadow:0 16px 40px color-mix(in srgb,var(--ink) 12%,transparent),0 3px 10px color-mix(in srgb,var(--ink) 7%,transparent)}
+.casebook-clip{position:absolute;top:20px;right:22px;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--paper);box-shadow:0 6px 16px color-mix(in srgb,var(--ink) 15%,transparent);color:var(--accent-text)}
+.casebook-clip svg{width:30px;height:30px}
+.casebook-stamp{display:inline-block;border:2px solid var(--accent-text);color:var(--accent-text);font-family:var(--pack-mono);font-size:20px;font-weight:700;letter-spacing:.1em;border-radius:8px;padding:8px 18px;margin-bottom:20px}
+.casebook-exhibit .pack-evidence{font-size:26px;line-height:1.65}
+.casebook-caution{font-size:22px;line-height:1.5;color:var(--soft);margin-top:26px;border-top:1px solid color-mix(in srgb,var(--ink) 18%,transparent);padding-top:16px}
+
+/* Decision band — deep ink strip with check-roundel. */
+.casebook-decision{display:flex;align-items:center;gap:28px;background:var(--ink);border-radius:20px;padding:26px 40px;color:var(--paper);box-shadow:0 16px 40px color-mix(in srgb,var(--ink) 26%,transparent)}
+.casebook-check{width:58px;height:58px;flex:none;color:var(--accent-light)}
+.casebook-decision .pack-label{color:var(--accent-light);margin:0 0 6px}
+.casebook-decision .pack-action{color:var(--paper);font-size:27px}

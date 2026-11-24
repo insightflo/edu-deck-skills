@@ -1,12 +1,12 @@
 <section class="slide pack pack-casebook" data-design="casebook" data-archetype="before-after">
-  <header class="casebook-tab"><span class="pack-mark">CASEBOOK</span><p class="pack-topic">{{TITLE}}</p><p class="pack-kicker">{{KICKER}}</p></header>
+  <header class="casebook-dossier"><div class="casebook-fold"><svg class="casebook-fold-ic" viewBox="0 0 40 40" role="img" aria-label="서류철 폴더 아이콘"><path d="M9 5h14l8 8v19a3 3 0 0 1-3 3H9a3 3 0 0 1-3-3V8a3 3 0 0 1 3-3Z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/><path d="M23 5v8h8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/><path d="M12 21h14M12 27h10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg><span class="pack-mark">CASE FILE</span></div><div class="casebook-headrow"><p class="pack-topic">{{TITLE}}</p><p class="pack-kicker">{{KICKER}}</p></div></header>
   <!-- t2 2톤 문법: 핵심 어절(주로 마지막 어절, 문장당 1회·1~2 어절)을 <em class="t2">…</em>로 감싸면 강조색이 붙는다. flows.json 토큰 값엔 태그를 넣지 않는다(이스케이프됨). 규칙: references/expression.md 1절 -->
   <h1 class="pack-prompt casebook-question">{{PROMPT}}</h1>
   <div class="casebook-file">
     <article class="casebook-narrative"><span class="pack-label">기록 A · 상황과 맥락</span><p class="pack-body">{{BODY}}</p></article>
-    <aside class="casebook-exhibit"><div class="casebook-stamp">기록 B / 근거</div><p class="pack-evidence">{{EVIDENCE}}</p><p class="casebook-caution">기록된 사실과<br>나의 해석을 구분합니다.</p></aside>
+    <aside class="casebook-exhibit"><span class="casebook-clip" aria-hidden="true"><svg viewBox="0 0 36 36"><path d="m23 7-9.5 9.5a4.3 4.3 0 0 0 6.1 6.1l9-9a2.9 2.9 0 0 0-4.1-4.1l-9 9a1.6 1.6 0 0 0 2.3 2.3l7.2-7.2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="casebook-stamp">EXHIBIT · 기록 B / 근거</span><p class="pack-evidence">{{EVIDENCE}}</p><p class="casebook-caution">기록된 사실과 나의 해석을 구분합니다.</p></aside>
   </div>
-  <footer class="pack-footer casebook-decision"><span class="casebook-bracket" aria-hidden="true">↳</span><div><span class="pack-label">이 사례에서 내릴 판단</span><p class="pack-action">{{ACTION}}</p></div></footer>
+  <footer class="pack-footer casebook-decision"><svg class="casebook-check" viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="18" fill="none" stroke="currentColor" stroke-width="3"/><path d="M13 22.5 19.5 29 32 16" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div><span class="pack-label">이 사례에서 내릴 판단</span><p class="pack-action">{{ACTION}}</p></div></footer>
   <aside class="notes">{{KICKER}}
 상황을 읽은 뒤 바로 정답을 설명하지 마세요. 학습자가 기록된 사실과 해석을 구분하고 판단의 근거를 말하게 하세요.
 {{BODY}}

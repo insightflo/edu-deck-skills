@@ -1,7 +1,23 @@
-/* Seminar: generous question floor with a quieter preparation rail. */
-.slide.pack-seminar{gap:32px}
-.pack-seminar>.pack-topline{padding-bottom:24px;border-bottom:1px solid var(--line)}
-.seminar-room{display:grid;grid-template-columns:1.18fr 1fr;gap:72px;align-items:start}.seminar-floor{position:relative;padding-right:24px}.seminar-floor .pack-kicker{margin-bottom:16px}.seminar-quote{display:block;height:80px;font-family:var(--pack-serif);font-size:145px;line-height:1;color:var(--soft)}.seminar-floor .pack-prompt{font-family:var(--pack-serif);font-size:57px;line-height:1.4;font-weight:600;letter-spacing:-.03em}
-.seminar-turns{display:flex;align-items:center;gap:24px;margin-top:32px;padding-top:24px;border-top:1px solid var(--line);font-size:24px;color:var(--accent)}.seminar-turns b{color:var(--line);font-weight:400}
-.seminar-preparation{border-left:2px solid var(--line);padding:8px 0 8px 40px}.seminar-preparation .pack-body{font-size:30px;line-height:1.65}.seminar-source{margin-top:32px;padding-top:24px;border-top:1px solid var(--line)}.seminar-source .pack-evidence{font-size:27px;line-height:1.6}
-.seminar-invitation{display:flex;gap:32px;align-items:start;border-top:2px solid var(--accent);padding:24px 32px;background:var(--light)}.seminar-signal{font-size:58px;line-height:1;color:var(--accent)}.seminar-invitation .pack-label{color:var(--accent);margin-bottom:8px}
+/* Seminar dialogue floor: minimal header, large quiet quote hero, reference rail and speaking card. */
+.slide.pack-seminar{gap:34px}
+.pack-seminar>.pack-topline{display:flex;align-items:center;gap:40px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.pack-seminar .pack-topline .pack-mark{flex:none}
+.pack-seminar .pack-topline .pack-topic{flex:1;min-width:0}
+.pack-seminar .pack-kicker{display:inline-flex;align-items:center;gap:11px;flex:none;background:var(--light);color:var(--accent-text);border-radius:999px;padding:9px 26px;white-space:nowrap}
+.pack-seminar .pack-kicker::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--accent)}
+.seminar-room{flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0}
+.seminar-floor{display:flex;flex-direction:column;gap:24px}
+.seminar-quote{width:110px;height:82px;color:var(--accent);opacity:.14}
+.seminar-quote path{fill:currentColor}
+.seminar-floor .pack-prompt{font-family:var(--pack-serif);font-size:56px;line-height:1.38;font-weight:750;letter-spacing:-.03em;max-width:1580px}
+.seminar-floor .pack-body{font-size:30px;line-height:1.65;color:var(--soft);max-width:1360px}
+.seminar-turns{display:flex;align-items:center;gap:26px;margin-top:14px;font-size:24px;color:var(--accent-text)}
+.seminar-turns b{color:var(--line);font-weight:400}
+.seminar-preparation{display:grid;grid-template-columns:.9fr 1.1fr;gap:32px;align-items:stretch}
+.seminar-source{display:flex;flex-direction:column;background:var(--light);border-radius:var(--r1);box-shadow:inset 4px 0 0 var(--accent);padding:28px 40px}
+.seminar-source .pack-evidence{font-size:26px;line-height:1.6;color:var(--ink)}
+.seminar-invitation{display:flex;align-items:center;gap:30px;background:#fff;border-radius:var(--r2);box-shadow:0 12px 32px rgba(32,43,50,.10);padding:28px 42px}
+.seminar-invitation .seminar-bubble{width:66px;height:66px;flex:none;color:var(--accent)}
+.seminar-bubble .b-b{stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.seminar-bubble .b-d{fill:currentColor}
+.seminar-invitation .pack-label{color:var(--accent-text);margin-bottom:8px}

@@ -1,10 +1,36 @@
 <section class="slide pack pack-atlas" data-design="atlas" data-archetype="map">
-  <header class="pack-topline"><p class="pack-topic">{{TITLE}}</p><span class="pack-mark">ATLAS / 개념의 위치</span></header>
+  <header class="pack-topline atlas-head">
+    <div class="atlas-id">
+      <span class="atlas-ico" aria-hidden="true"><svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="28" cy="28" r="22"/><path d="M28 6v6M28 44v6M6 28h6M44 28h6"/><path d="M28 14l5.5 14-5.5 14-5.5-14z" fill="currentColor" stroke="none" opacity=".9"/><circle cx="28" cy="28" r="3.2" stroke-width="2.2"/></svg></span>
+      <span class="atlas-idtext"><span class="atlas-word">ATLAS</span><span class="atlas-sub">개념의 위치 · 좌표도</span></span>
+    </div>
+    <p class="pack-topic">{{TITLE}}</p>
+  </header>
   <!-- t2 2톤 문법: 핵심 어절(주로 마지막 어절, 문장당 1회·1~2 어절)을 <em class="t2">…</em>로 감싸면 강조색이 붙는다. flows.json 토큰 값엔 태그를 넣지 않는다(이스케이프됨). 규칙: references/expression.md 1절 -->
-  <div class="atlas-heading"><p class="pack-kicker">{{KICKER}}</p><h1 class="pack-prompt">{{PROMPT}}</h1></div>
+  <div class="atlas-heading">
+    <div class="atlas-kicker"><svg class="atlas-cross" viewBox="0 0 26 26" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="13" cy="13" r="7.5"/><path d="M13 1v5M13 20v5M1 13h5M20 13h5"/></svg><p class="pack-kicker">{{KICKER}}</p></div>
+    <h1 class="pack-prompt">{{PROMPT}}</h1>
+  </div>
   <div class="atlas-map">
-    <svg class="atlas-route" viewBox="0 0 1760 610" preserveAspectRatio="none" aria-hidden="true"><path d="M 650 200 H 800 Q 860 200 860 260 V 460 H 980" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="10 9"/><path d="M 650 200 H 1050" fill="none" stroke="currentColor" stroke-width="2"/><path d="m 1034 190 16 10 -16 10 M 964 450 l 16 10 -16 10" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+    <svg class="atlas-contours" viewBox="0 0 1688 560" preserveAspectRatio="none" aria-hidden="true" fill="none" stroke="currentColor">
+      <path d="M-40 118 C 240 40, 540 196, 880 122 S 1480 62, 1730 132" stroke-width="1.6" opacity=".30"/>
+      <path d="M-40 192 C 280 112, 580 252, 920 184 S 1520 122, 1730 202" stroke-width="1.6" opacity=".24"/>
+      <path d="M-40 428 C 280 348, 620 486, 940 416 S 1540 354, 1730 436" stroke-width="1.6" opacity=".27"/>
+      <path d="M-40 506 C 320 436, 660 542, 1010 486 S 1560 434, 1730 510" stroke-width="1.6" opacity=".2"/>
+      <circle cx="1460" cy="96" r="27" stroke-width="1.4" opacity=".3"/>
+      <circle cx="1460" cy="96" r="42" stroke-width="1.4" opacity=".18"/>
+      <path d="M214 62v20M204 72h20M1474 478v20M1464 488h20" stroke-width="1.6" opacity=".35"/>
+    </svg>
     <article class="atlas-origin"><span class="atlas-coordinate">A · 개념</span><p class="pack-body">{{BODY}}</p></article>
+    <svg class="atlas-route" viewBox="0 0 220 560" preserveAspectRatio="none" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path class="rb" d="M8 280 C 116 280 116 140 208 140"/>
+      <path class="ra" d="M8 280 C 116 280 116 420 208 420"/>
+      <path class="rb ah" d="M194 128 212 140 194 152"/>
+      <path class="ra ah" d="M194 408 212 420 194 432"/>
+      <circle class="wp wpb" cx="118" cy="210" r="7"/>
+      <circle class="wp wpa" cx="118" cy="350" r="7"/>
+      <circle class="port" cx="8" cy="280" r="8"/>
+    </svg>
     <aside class="atlas-source"><span class="atlas-coordinate">B · 근거와 연결</span><p class="pack-evidence">{{EVIDENCE}}</p></aside>
     <div class="atlas-destination"><span class="atlas-coordinate">C · 적용할 곳</span><p class="pack-action">{{ACTION}}</p></div>
   </div>
