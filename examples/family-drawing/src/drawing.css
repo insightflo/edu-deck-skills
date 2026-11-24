@@ -1,0 +1,116 @@
+/* family-drawing — 드로잉 계열 예시 덱 전용 배치 CSS.
+   부품 모양은 parts.css(.pt-*)와 families.css 토큰이 정한다 — 여기서는 장별
+   위치·크기와 덱 고유 선화·도판 좌표만 둔다(direction-d3 좌표). */
+.slide{padding:0;gap:0}
+.pt-pill.pos{position:absolute}
+.serif{font-family:var(--font-title);font-weight:400}
+.tnum{font-variant-numeric:tabular-nums}
+
+/* ── T1 표지(.g8 도면 격자) ── */
+.s1-tag{position:absolute;left:120px;top:188px}
+.s1-bar{position:absolute;left:120px;top:272px;width:6px;height:300px;background:var(--accent)}
+.s1-title{position:absolute;left:172px;top:262px;width:728px;font-size:120px;line-height:1.2;
+  font-family:var(--font-title);font-weight:400;color:var(--ink)}
+.s1-lead{position:absolute;left:172px;top:622px;width:720px;font-size:36px;line-height:1.45;
+  font-family:var(--font-title);color:var(--ink)}
+.s1-body{position:absolute;left:172px;top:702px;width:700px;font-size:27px;line-height:1.6;
+  color:var(--ink)}
+.s1-stamp{position:absolute;left:752px;top:798px;width:150px;height:150px}
+.s1-art{position:absolute;left:980px;top:120px}
+.s1-tb{position:absolute;left:980px;top:840px;width:820px;height:150px;
+  grid-template-columns:250px 1fr 290px 190px;grid-template-rows:75px 75px}
+.s1-tb .c1{grid-row:1;grid-column:1;justify-content:flex-start}
+.s1-tb .c2{grid-row:1;grid-column:2/5}
+.s1-tb .c3{grid-row:2;grid-column:1}
+.s1-tb .c4{grid-row:2;grid-column:2/4}
+.s1-tb .c5{grid-row:2;grid-column:4}
+.s1-tb .big{font-family:var(--font-title);font-size:28px}
+
+/* ── T2 개념 ── */
+.s2-tag{position:absolute;left:120px;top:106px}
+.s2-title{position:absolute;left:120px;top:162px;width:770px;font-size:72px;line-height:1.28;
+  font-family:var(--font-title);font-weight:400;color:var(--ink)}
+.s2 .pt-hangnum{position:absolute;left:120px;width:60px}
+.s2-it{position:absolute;left:212px;font-size:27px;font-weight:600}
+.s2-ds{position:absolute;left:212px;width:648px;font-size:26px;line-height:1.6}
+.s2-hr{position:absolute;left:120px;width:760px;height:1px;background:var(--line-faint)}
+.s2-fig{position:absolute;left:940px;top:110px;width:860px;height:870px}
+.s2-foot{position:absolute;left:940px;top:1016px;font-size:19px;color:var(--soft);
+  white-space:nowrap}
+
+/* ── T3 수치 ── */
+.s3-tag{position:absolute;left:120px;top:106px}
+.s3-title{position:absolute;left:120px;top:162px;width:1400px;font-size:72px;line-height:1.4;
+  font-family:var(--font-title);font-weight:400;color:var(--ink)}
+.s3-wf{position:absolute;left:120px;top:330px}
+.s3-tcap{position:absolute;left:1180px;top:312px}
+.s3-bom{position:absolute;left:1180px;top:350px;width:620px}
+.s3-bom td:nth-child(2),.s3-bom th:nth-child(2){text-align:right;font-weight:700;
+  font-variant-numeric:tabular-nums}
+.s3-bom td{height:84px;box-sizing:border-box}
+.s3-keys{position:absolute;left:120px;top:908px;font-size:26px}
+.s3-keys b{font-weight:600}
+.s3-close{position:absolute;left:120px;top:960px;font-size:27px;font-family:var(--font-title)}
+.s3-close span{border-bottom:3px solid var(--accent);padding-bottom:7px}
+
+/* ── T4 흐름 — 곡선 경로 위 명조 키워드 ── */
+.s4-tag{position:absolute;left:120px;top:106px}
+.s4-title{position:absolute;left:120px;top:162px;width:1400px;font-size:72px;line-height:1.4;
+  font-family:var(--font-title);font-weight:400;color:var(--ink)}
+.s4-path{position:absolute;left:120px;top:350px;width:1680px;height:220px}
+.s4-no{position:absolute;width:350px;text-align:center;font-size:22px;font-weight:600;
+  letter-spacing:.1em;font-variant-numeric:tabular-nums}
+.s4-kw{position:absolute;width:350px;text-align:center;font-size:42px;line-height:1.4;
+  font-family:var(--font-title)}
+.s4-qs{position:absolute;width:340px;text-align:center;font-size:26px;line-height:1.35}
+.s4-comp{position:absolute;left:1744px;top:378px}
+.s4-box{position:absolute;left:120px;top:790px;width:1680px;height:170px}
+
+/* ── T5 퀴즈 — .chk 계약 안에 선 패널 두 장 + 정답 마진 상자 ── */
+.s5 .pt-pill.tq{left:120px;top:106px}
+.s5 .chk{position:absolute;inset:0;padding:0;border:none;background:none;box-shadow:none}
+.s5 .chk-q{position:absolute;left:120px;top:162px;width:900px;font-size:72px;line-height:1.3;
+  font-family:var(--font-title);font-weight:400;color:var(--ink);margin:0}
+.s5 .chk-opts{position:absolute;left:120px;top:440px;display:flex;gap:40px}
+.s5 .chk-o{position:relative;width:820px;height:420px;text-align:left;padding:0;
+  font-family:inherit;cursor:pointer;gap:0}
+.s5 .chk-o .pt-qb{position:absolute;left:56px;top:174px}
+.s5 .chk-o .txt{position:absolute;left:172px;top:0;width:600px;height:100%;display:flex;
+  align-items:center;font-size:32px;line-height:1.65;word-break:keep-all;color:var(--ink)}
+.s5 .chk-o .ex{font-size:22px;color:var(--soft)}
+.s5 .chk-o:hover:not(:disabled){background:rgba(28,37,48,.03)}
+.s5 .chk-o:disabled{cursor:default}
+.s5 .chk-o.chk-right{border:2px solid var(--accent)}
+.s5 .chk-o.chk-picked:not(.chk-right){border:1px solid var(--line)}
+.s5 .chk-done .chk-o:not(.chk-right):not(.chk-picked){opacity:.55}
+.s5-tick{position:absolute;right:26px;top:30px;transform:rotate(-6deg);display:none}
+.s5 .chk-o.chk-right .s5-tick{display:block}
+.s5-memo{position:absolute;left:980px;top:886px;width:820px;height:114px;padding:14px 26px}
+.s5-memo .h{font-family:var(--font-title);font-size:32px;line-height:1.3;color:var(--accent-text)}
+.s5-memo .b{font-size:26px;line-height:1.35;margin-top:7px;color:var(--ink)}
+.s5-stem{position:absolute;left:1390px;top:860px;width:1px;height:26px;background:var(--ink)}
+.s5 .chk-why{display:none}
+
+/* ── T6 선언(먹 전판 + 흰 격자 — .dark 가 이미 칠한다) ── */
+.s6-tag{position:absolute;left:120px;top:150px}
+.s6-big{position:absolute;left:120px;top:282px;width:1100px;font-size:128px;line-height:1.4;
+  font-family:var(--font-title);font-weight:400;color:#fff}
+.s6-big span{color:#F58F6C}
+.s6-sub{position:absolute;left:120px;font-size:34px;line-height:1.5;
+  font-family:var(--font-title);color:rgba(255,255,255,.85)}
+.s6-art{position:absolute;left:1180px;top:230px}
+
+/* ── T7 실천 — 헤치 달력 + 표제란식 체크 행 ── */
+.s7-tag{position:absolute;left:120px;top:116px}
+.s7-title{position:absolute;left:120px;top:196px;width:700px;font-size:72px;line-height:1.25;
+  font-family:var(--font-title);font-weight:400;color:var(--ink)}
+.s7-cal{position:absolute;left:120px;top:456px}
+.s7-list{position:absolute;left:820px;top:120px;width:980px;height:840px;
+  border-top:2px solid var(--ink);border-bottom:2px solid var(--ink)}
+.s7-row{position:relative;height:210px}
+.s7-row+.s7-row{border-top:1px solid var(--line-faint)}
+.s7-row .pt-check{position:absolute;left:76px;top:87px}
+.s7-row .no{position:absolute;left:156px;top:16px;font-size:40px;
+  font-family:var(--font-title);font-variant-numeric:tabular-nums}
+.s7-row .kw{position:absolute;left:262px;top:60px;font-size:36px;font-family:var(--font-title)}
+.s7-row .ds{position:absolute;left:262px;top:122px;width:700px;font-size:26px;line-height:1.5}

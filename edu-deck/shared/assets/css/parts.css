@@ -1,0 +1,413 @@
+/* parts.css — 계열 공용 부품 .pt-* (P1)
+   .pt-* 는 장 안에서 쓰는 레시피 부품이다. 토큰(--card-r/--card-sh/--card-bd/--card-band,
+   --pill-r/--tile-r/--node-r/--win-r/--arrow-w/--label-track, 색 역할)만 소비하므로
+   어느 계열에서든 그 계열 표정으로 그려진다. 기본 정의는 classic 표정(값만 다름)이고,
+   [data-family="…"] 블록이 계열별 변형을 덮는다.
+   엔진 계약 클래스(.card/.pill/.win/.opt/.chk…)를 대체하지 않는다 — 새 클래스다. */
+
+/* ── 기본(classic) ────────────────────────────────────────────
+   classic 표정: 먹줄 띠+직선 가장자리, 얇은 선 구분. family 미지정 덱에서도
+   쓸 수 있지만 classic 조각은 기존 클래스를 그대로 쓰는 게 맞다. */
+.pt-card{
+  background:var(--paper);color:var(--ink);
+  border:var(--card-bd);border-top:var(--card-band);
+  border-radius:var(--card-r);box-shadow:var(--card-sh);
+  padding:36px 40px;display:flex;flex-direction:column;gap:16px;
+}
+.pt-pill{
+  display:inline-flex;align-items:center;gap:12px;
+  background:var(--ink);color:var(--light);
+  border-radius:var(--pill-r);padding:14px 32px;
+  font-size:28px;font-weight:500;line-height:1.3;white-space:nowrap;
+}
+.pt-pill::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--accent-light);flex:none}
+.pt-tile{
+  width:88px;height:88px;border-radius:var(--tile-r);flex:none;
+  background:var(--accent-soft);color:var(--accent-text);
+  display:flex;align-items:center;justify-content:center;
+}
+.pt-tile svg{width:48px;height:48px;stroke:currentColor;fill:none;
+  stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.pt-win{
+  background:var(--paper);color:var(--ink);
+  border:2px solid var(--ink);border-radius:var(--win-r);
+  overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow-2);
+}
+.pt-win-bar{
+  height:52px;flex:none;display:flex;align-items:center;gap:10px;
+  padding:0 20px;background:var(--ink);color:var(--light);
+}
+.pt-win-bar .pt-dots{display:flex;gap:8px;flex:none}
+.pt-win-bar .pt-dots i{width:12px;height:12px;border-radius:4px;
+  background:color-mix(in srgb,var(--paper) 32%,transparent)}
+.pt-win-bar .pt-wt{flex:1;text-align:center;font-size:22px;font-weight:500;
+  color:var(--muted)}
+.pt-win-body{flex:1;display:flex;flex-direction:column;min-height:0;padding:32px}
+.pt-fig{display:flex;flex-direction:column;gap:12px}
+.pt-fig>figcaption,.pt-fig .pt-cap{font-size:22px;color:var(--soft)}
+.pt-node{
+  background:var(--paper);color:var(--ink);
+  border:2px solid var(--accent);border-radius:var(--node-r);
+  padding:20px 28px;display:flex;flex-direction:column;gap:6px;
+}
+.pt-node .pt-nn{font-size:28px;font-weight:700;line-height:1.2}
+.pt-node .pt-nd{font-size:22px;color:var(--soft)}
+.pt-note{
+  border-radius:var(--r1);padding:20px 28px;
+  background:var(--accent-soft);color:var(--ink);
+  font-size:26px;line-height:1.5;display:flex;align-items:center;gap:20px;
+}
+.pt-waterfall{display:flex;align-items:flex-end;gap:24px}
+.pt-table{width:100%;border-collapse:collapse;font-size:26px}
+.pt-table th{font-weight:700;text-align:left;padding:14px 20px;
+  border-bottom:2px solid var(--ink)}
+.pt-table td{padding:14px 20px;border-bottom:1px solid var(--line);color:var(--soft)}
+.pt-quiz{
+  background:var(--paper);color:var(--ink);
+  border:2px solid var(--line);border-radius:var(--card-r);
+  padding:28px 32px;display:flex;flex-direction:column;gap:14px;
+}
+.pt-quiz .pt-qb{width:64px;height:64px;border-radius:50%;flex:none;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--accent-soft);color:var(--accent-text);
+  font-size:30px;font-weight:800}
+.pt-check{display:flex;align-items:center;gap:24px;
+  background:var(--paper);border:2px solid var(--line);
+  border-radius:var(--card-r);padding:22px 30px}
+.pt-check .pt-box{width:48px;height:48px;flex:none;border:2px solid var(--soft);
+  border-radius:10px;display:flex;align-items:center;justify-content:center}
+.pt-check.done .pt-box{background:var(--accent);border-color:var(--accent)}
+.pt-check.done .pt-box::after{content:"✓";color:var(--paper);font-size:30px;font-weight:800}
+.pt-flow{display:flex;align-items:center;gap:24px}
+.pt-arrow{flex:none;width:0;height:0;
+  border-top:calc(var(--arrow-w) * 2.5) solid transparent;
+  border-bottom:calc(var(--arrow-w) * 2.5) solid transparent;
+  border-left:calc(var(--arrow-w) * 4) solid var(--accent)}
+.pt-badge{
+  display:inline-flex;align-items:center;gap:10px;align-self:flex-start;
+  font-size:24px;font-weight:800;letter-spacing:var(--label-track);
+  color:var(--paper);background:var(--blue);
+  border-radius:var(--r1);padding:8px 20px;
+}
+
+/* ── studio 변형 ── direction-d1 부품표.
+   흰 카드 r20+soft shadow·테두리 없음, 알약=tint 바탕+색 글자+왼쪽 점,
+   타일 88 r18 tint, 창틀 r22+48px 상단바+교통등 3점, 노드 r16 2px 색 테두리. */
+[data-family="studio"] .pt-card{
+  border:none;border-top:none;
+  border-radius:var(--card-r);box-shadow:var(--card-sh);
+}
+[data-family="studio"] .pt-pill{
+  background:var(--pill-bg,var(--tint-blue));
+  color:var(--pill-fg,var(--blue-text));
+  font-size:22px;font-weight:600;padding:10px 22px;gap:11px;
+}
+[data-family="studio"] .pt-pill::before{
+  width:8px;height:8px;background:var(--pill-dot,var(--blue));
+}
+[data-family="studio"] .pt-pill.p-o{--pill-bg:var(--tint-orange);--pill-fg:var(--accent-text);--pill-dot:var(--accent)}
+[data-family="studio"] .pt-pill.p-g{--pill-bg:var(--tint-green);--pill-fg:var(--success-text);--pill-dot:var(--success)}
+[data-family="studio"] .pt-pill.p-r{--pill-bg:var(--tint-red);--pill-fg:var(--danger-text);--pill-dot:var(--danger)}
+[data-family="studio"] .pt-pill.p-v{--pill-bg:var(--tint-violet);--pill-fg:var(--violet-text);--pill-dot:var(--violet)}
+[data-family="studio"] .pt-pill.p-y{--pill-bg:var(--tint-gold);--pill-fg:var(--gold-text);--pill-dot:var(--gold)}
+[data-family="studio"] .pt-pill.p-solid{background:var(--blue);color:#fff}
+[data-family="studio"] .pt-pill.p-solid::before{background:#fff}
+[data-family="studio"] .pt-tile{
+  border-radius:var(--tile-r);
+  background:var(--tile-bg,var(--tint-blue));color:var(--tile-fg,var(--blue));
+}
+[data-family="studio"] .pt-tile.t-o{--tile-bg:var(--tint-orange);--tile-fg:var(--accent)}
+[data-family="studio"] .pt-tile.t-g{--tile-bg:var(--tint-green);--tile-fg:var(--success)}
+[data-family="studio"] .pt-tile.t-r{--tile-bg:var(--tint-red);--tile-fg:var(--danger)}
+[data-family="studio"] .pt-tile.t-v{--tile-bg:var(--tint-violet);--tile-fg:var(--violet)}
+[data-family="studio"] .pt-tile.t-y{--tile-bg:var(--tint-gold);--tile-fg:var(--gold)}
+[data-family="studio"] .pt-win{
+  border:none;border-radius:var(--win-r);box-shadow:var(--card-sh);
+}
+[data-family="studio"] .pt-win-bar{
+  height:48px;padding:0 18px;background:var(--paper);color:var(--ink);
+  border-bottom:1px solid rgba(31,42,68,.08);
+}
+[data-family="studio"] .pt-win-bar .pt-dots i{border-radius:50%}
+[data-family="studio"] .pt-win-bar .pt-dots i:nth-child(1){background:#FF5F57}
+[data-family="studio"] .pt-win-bar .pt-dots i:nth-child(2){background:#FEBC2E}
+[data-family="studio"] .pt-win-bar .pt-dots i:nth-child(3){background:#28C840}
+[data-family="studio"] .pt-win-bar .pt-wt{color:var(--ink);font-weight:600}
+[data-family="studio"] .pt-node{
+  border:2px solid var(--node-c,var(--blue));border-radius:var(--node-r);
+  background:var(--node-bg,#fff);box-shadow:var(--card-sh);
+}
+[data-family="studio"] .pt-node .pt-nn{color:var(--node-tc,var(--ink))}
+[data-family="studio"] .pt-node .pt-nd{color:var(--soft)}
+[data-family="studio"] .pt-note{
+  border-radius:14px;background:var(--note-bg,var(--tint-blue));
+  font-size:26px;font-weight:600;color:var(--ink);
+}
+[data-family="studio"] .pt-note.n-w{background:#fff;box-shadow:var(--card-sh)}
+[data-family="studio"] .pt-quiz{
+  border:none;box-shadow:var(--card-sh);
+}
+[data-family="studio"] .pt-quiz.ok{border:3px solid var(--success)}
+[data-family="studio"] .pt-quiz .pt-qb{background:var(--qb-bg,var(--tint-blue));color:var(--qb-fg,var(--blue-text))}
+[data-family="studio"] .pt-check{
+  border:none;box-shadow:var(--card-sh);
+}
+[data-family="studio"] .pt-check .pt-box{border-color:var(--blue);border-radius:10px}
+[data-family="studio"] .pt-check.done .pt-box{background:var(--blue);border-color:var(--blue)}
+[data-family="studio"] .pt-badge{
+  border-radius:var(--pill-r);font-weight:700;
+  background:var(--badge-bg,var(--blue));color:#fff;
+}
+
+/* ── vivid 변형 ── direction-d2 부품표.
+   흰 카드 r16+6px 상단 밴드·soft shadow(토큰만으로 결정 — 규칙 추가 없음),
+   알약=tint 바탕+색 글자, 메달=tint 원+선 아이콘, 번호링=파랑 채움 원,
+   요점 띠=남색 면, 표=남색 헤드+밴딩 행, 흐름=점선 커넥터. */
+[data-family="vivid"] .pt-pill{
+  background:var(--pill-bg,var(--tint-orange));
+  color:var(--pill-fg,var(--accent-text));
+  font-size:24px;font-weight:700;padding:12px 26px;gap:11px;
+}
+[data-family="vivid"] .pt-pill::before{
+  width:9px;height:9px;background:var(--pill-dot,var(--gr-orange));
+}
+[data-family="vivid"] .pt-pill.p-o{--pill-bg:var(--tint-orange);--pill-fg:var(--accent-text);--pill-dot:var(--gr-orange)}
+[data-family="vivid"] .pt-pill.p-g{--pill-bg:var(--tint-green);--pill-fg:var(--success);--pill-dot:var(--gr-green)}
+[data-family="vivid"] .pt-pill.p-r{--pill-bg:var(--tint-red);--pill-fg:var(--danger);--pill-dot:var(--gr-red)}
+[data-family="vivid"] .pt-pill.p-b{--pill-bg:var(--tint-blue);--pill-fg:var(--blue-text);--pill-dot:var(--gr-blue)}
+[data-family="vivid"] .pt-pill.p-v{--pill-bg:#EFEBF7;--pill-fg:#5E4297;--pill-dot:#7C5CBF}
+[data-family="vivid"] .pt-pill.p-solid{background:var(--accent-text);color:#fff}
+[data-family="vivid"] .pt-pill.p-solid::before{background:#fff}
+/* 어두운 면의 알약은 유리 면(시안 dark 슬라이드 chip). */
+[data-family="vivid"] .slide.dark .pt-pill{background:rgba(246,244,239,.10);color:var(--ink)}
+[data-family="vivid"] .slide.dark .pt-pill::before{background:var(--accent)}
+[data-family="vivid"] .pt-tile{
+  border-radius:var(--tile-r);
+  background:var(--tile-bg,var(--tint-blue));color:var(--tile-fg,var(--blue-text));
+}
+[data-family="vivid"] .pt-tile.t-o{--tile-bg:var(--tint-orange);--tile-fg:var(--accent-text)}
+[data-family="vivid"] .pt-tile.t-g{--tile-bg:var(--tint-green);--tile-fg:var(--success)}
+[data-family="vivid"] .pt-tile.t-r{--tile-bg:var(--tint-red);--tile-fg:var(--danger)}
+[data-family="vivid"] .pt-tile.t-v{--tile-bg:#EFEBF7;--tile-fg:#7C5CBF}
+[data-family="vivid"] .pt-tile.t-y{--tile-bg:#F9F3DD;--tile-fg:#8A6B12}
+/* 메달 — tint 원+선 아이콘(d96). .m-ring = 흰 면+색 링(흐름 장 큰 메달). */
+[data-family="vivid"] .pt-medal{
+  width:96px;height:96px;border-radius:50%;flex:none;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--medal-bg,var(--tint-blue));color:var(--medal-fg,var(--blue-text));
+  border:var(--medal-bd,none);box-shadow:var(--medal-sh,none);
+}
+[data-family="vivid"] .pt-medal svg{width:48px;height:48px;stroke:currentColor;fill:none;
+  stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+[data-family="vivid"] .pt-medal.m-ring{--medal-bg:#fff;--medal-bd:3px solid var(--medal-fg);--medal-sh:var(--card-sh)}
+[data-family="vivid"] .pt-medal.m-o{--medal-bg:var(--tint-orange);--medal-fg:var(--accent-text)}
+[data-family="vivid"] .pt-medal.m-g{--medal-bg:var(--tint-green);--medal-fg:var(--success)}
+[data-family="vivid"] .pt-medal.m-r{--medal-bg:var(--tint-red);--medal-fg:var(--danger)}
+[data-family="vivid"] .pt-medal.m-v{--medal-bg:#EFEBF7;--medal-fg:#7C5CBF}
+/* 번호링 — 파랑 채움 원+흰 번호(d72, 흐름 장 노드 머리). */
+[data-family="vivid"] .pt-numring{
+  width:72px;height:72px;border-radius:50%;flex:none;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--numring-bg,var(--gr-blue));color:#fff;
+  font-family:var(--num-font);font-size:28px;font-weight:800;
+  font-variant-numeric:tabular-nums;
+}
+[data-family="vivid"] .pt-win{
+  border:none;border-radius:var(--win-r);box-shadow:var(--card-sh);
+}
+[data-family="vivid"] .pt-win-bar{
+  height:48px;padding:0 18px;background:#1B2433;color:#F6F4EF;
+}
+[data-family="vivid"] .pt-win-bar .pt-dots i{border-radius:50%}
+[data-family="vivid"] .pt-win-bar .pt-dots i:nth-child(1){background:#FF5F57}
+[data-family="vivid"] .pt-win-bar .pt-dots i:nth-child(2){background:#FEBC2E}
+[data-family="vivid"] .pt-win-bar .pt-dots i:nth-child(3){background:#28C840}
+[data-family="vivid"] .pt-win-bar .pt-wt{color:#B9C2D6}
+/* 도식 부품은 부드러운 광택 — 파랑 글로우(어두운 면 위 빛나는 표). */
+[data-family="vivid"] .pt-fig{filter:drop-shadow(0 12px 26px rgba(27,36,51,.16))}
+[data-family="vivid"] .pt-node{
+  border:none;border-radius:var(--node-r);
+  box-shadow:var(--card-sh),0 0 30px rgba(64,130,255,.20);
+}
+[data-family="vivid"] .pt-waterfall>*{
+  box-shadow:0 0 32px rgba(64,130,255,.28);
+}
+[data-family="vivid"] .pt-note{
+  border-radius:16px;background:var(--note-bg,#0E1A33);
+  color:var(--note-fg,#F6F4EF);font-size:28px;font-weight:600;
+}
+[data-family="vivid"] .pt-table{
+  border-radius:var(--card-r);overflow:hidden;
+  background:#fff;box-shadow:var(--card-sh);border-collapse:separate;border-spacing:0;
+}
+[data-family="vivid"] .pt-table th{
+  background:#1B2433;color:#F6F4EF;border-bottom:none;padding:16px 22px;
+}
+[data-family="vivid"] .pt-table td{
+  padding:16px 22px;border-bottom:1px solid #EDEAE0;color:var(--ink);
+}
+[data-family="vivid"] .pt-table tr:nth-child(even) td{background:#F9F7F1}
+[data-family="vivid"] .slide.dark .pt-table{background:var(--paper);box-shadow:none}
+[data-family="vivid"] .slide.dark .pt-table th{background:var(--chip);color:var(--ink)}
+[data-family="vivid"] .slide.dark .pt-table td{color:var(--ink);border-bottom-color:var(--chip)}
+[data-family="vivid"] .slide.dark .pt-table tr:nth-child(even) td{background:#1B2B52}
+[data-family="vivid"] .pt-quiz{
+  border:none;box-shadow:var(--card-sh);
+  border-top:6px solid var(--quiz-band,var(--gr-blue));
+}
+[data-family="vivid"] .pt-quiz.ok{box-shadow:var(--card-sh),inset 0 0 0 3px var(--gr-green)}
+[data-family="vivid"] .pt-quiz .pt-qb{
+  width:96px;height:96px;background:var(--qb-bg,var(--gr-blue));color:#fff;
+  font-size:44px;font-weight:800;
+}
+[data-family="vivid"] .pt-check{
+  border:none;box-shadow:var(--card-sh);border-radius:var(--card-r);
+}
+[data-family="vivid"] .pt-check .pt-box{border-color:var(--blue);border-radius:12px}
+[data-family="vivid"] .pt-check.done .pt-box{background:var(--gr-blue);border-color:var(--gr-blue)}
+[data-family="vivid"] .pt-arrow{
+  width:110px;height:0;border:none;
+  border-top:3px dashed rgba(27,36,51,.35);position:relative;
+}
+[data-family="vivid"] .pt-arrow::after{
+  content:"";position:absolute;right:-2px;top:-9px;
+  border-top:7px solid transparent;border-bottom:7px solid transparent;
+  border-left:11px solid rgba(27,36,51,.35);
+}
+[data-family="vivid"] .pt-badge{
+  border-radius:var(--pill-r);font-weight:700;
+  background:var(--badge-bg,var(--blue));color:#fff;
+}
+
+/* ── drawing 변형 ── direction-d3 부품표.
+   헤어라인 상자(무채움·각진), 추적 라벨 알약, d28 번호링, 격자 도판,
+   BOM 표(2px 헤드 규칙), 선 패널 퀴즈, 2px 네모+버밀리언 체크.
+   추가로 이 계열 전용 부품 6종: 치수선·주석·항번호·스탬프·표시란·경로. */
+[data-family="drawing"] .pt-card{
+  background:transparent;
+}
+[data-family="drawing"] .pt-pill{
+  background:none;border:none;border-radius:0;padding:0;
+  font-size:22px;font-weight:600;letter-spacing:var(--label-track);color:var(--ink);
+}
+[data-family="drawing"] .pt-pill::before{content:none}
+[data-family="drawing"] .pt-numring{
+  width:28px;height:28px;border-radius:50%;flex:none;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:#fff;border:1px solid var(--ink);color:var(--ink);
+  font-family:var(--num-font);font-size:15px;font-weight:700;
+  font-variant-numeric:tabular-nums;
+}
+[data-family="drawing"] .pt-fig{
+  border:1px solid var(--line-faint);padding:28px;
+  background-color:var(--paper);
+  background-image:linear-gradient(var(--grid-major) 1px,transparent 1px),
+                   linear-gradient(90deg,var(--grid-major) 1px,transparent 1px),
+                   linear-gradient(var(--grid-minor) 1px,transparent 1px),
+                   linear-gradient(90deg,var(--grid-minor) 1px,transparent 1px);
+  background-size:64px 64px,64px 64px,8px 8px,8px 8px;
+}
+[data-family="drawing"] .pt-table{
+  border:1px solid var(--line-faint);font-size:24px;
+}
+[data-family="drawing"] .pt-table th{
+  padding:13px 16px;font-size:22px;font-weight:600;letter-spacing:.06em;
+  border-bottom:2px solid var(--ink);
+}
+[data-family="drawing"] .pt-table td{
+  padding:13px 16px;border-bottom:1px solid var(--line-faint);color:var(--ink);
+}
+[data-family="drawing"] .pt-quiz{
+  background:transparent;border:1px solid var(--line-faint);
+  border-radius:0;box-shadow:none;
+}
+[data-family="drawing"] .pt-quiz.ok{border:2px solid var(--accent)}
+[data-family="drawing"] .pt-quiz .pt-qb{
+  width:72px;height:72px;background:transparent;
+  border:2px solid var(--ink);color:var(--ink);
+  font-family:var(--font-title);font-weight:400;font-size:40px;
+}
+[data-family="drawing"] .pt-check{
+  background:transparent;border:none;border-radius:0;padding:0;gap:20px;
+}
+[data-family="drawing"] .pt-check .pt-box{
+  width:36px;height:36px;border:2px solid var(--ink);border-radius:0;
+}
+[data-family="drawing"] .pt-check.done .pt-box{background:transparent;border-color:var(--ink)}
+[data-family="drawing"] .pt-check.done .pt-box::after{content:"✓";color:var(--accent);font-size:26px;font-weight:700}
+[data-family="drawing"] .pt-note{
+  background:transparent;border:1px solid var(--line-faint);
+  border-radius:0;color:var(--ink);
+}
+[data-family="drawing"] .pt-arrow{
+  border-top-width:8px;border-bottom-width:8px;
+  border-left:11px solid var(--ink);
+}
+/* 치수선 — 양 끝 눈금+가운데 빈틈 숫자(.pt-dim-t). */
+[data-family="drawing"] .pt-dim{
+  position:relative;border-top:1px solid var(--ink);
+}
+[data-family="drawing"] .pt-dim::before,[data-family="drawing"] .pt-dim::after{
+  content:"";position:absolute;top:-5px;width:1px;height:11px;background:var(--ink);
+}
+[data-family="drawing"] .pt-dim::before{left:0}
+[data-family="drawing"] .pt-dim::after{right:0}
+[data-family="drawing"] .pt-dim .pt-dim-t{
+  position:absolute;left:50%;top:-13px;transform:translateX(-50%);
+  background:var(--light);padding:0 10px;white-space:nowrap;
+  font-size:22px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink);
+}
+/* 주석 상자 — 추적 머리(.pt-co-h)+명조 본문(.pt-co-b), 마진 메모용. */
+[data-family="drawing"] .pt-callout{
+  border:1px solid var(--line-faint);background:var(--paper);
+}
+[data-family="drawing"] .pt-callout .pt-co-h{
+  padding:20px 30px 0;font-size:22px;font-weight:600;
+  letter-spacing:var(--label-track);color:var(--ink);
+}
+[data-family="drawing"] .pt-callout .pt-co-b{
+  padding:10px 30px 22px;font-family:var(--font-title);
+  font-size:30px;line-height:1.5;color:var(--ink);
+}
+/* 항 번호 — 왼쪽 마진에 매다는 명조 번호(버밀리언 계열 글자색). */
+[data-family="drawing"] .pt-hangnum{
+  font-family:var(--font-title);font-size:46px;line-height:1;
+  color:var(--accent-text);font-variant-numeric:tabular-nums;
+}
+/* 스탬프 — 기울인 원형/네모 도장(.sq = 네모). */
+[data-family="drawing"] .pt-stamp{
+  display:inline-flex;align-items:center;justify-content:center;
+  border:2px solid var(--accent);color:var(--accent-text);
+  border-radius:50%;padding:18px;
+  font-size:22px;font-weight:700;transform:rotate(-7deg);
+  white-space:nowrap;font-variant-numeric:tabular-nums;
+}
+[data-family="drawing"] .pt-stamp.sq{border-radius:0}
+/* 도면 표시란 — 칸 나눈 표제란. 칸 안 .pt-tb-k(항목)+.pt-tb-v(값). */
+[data-family="drawing"] .pt-titleblock{
+  display:grid;border:1px solid var(--line-faint);background:var(--paper);
+}
+[data-family="drawing"] .pt-titleblock>*{
+  border:1px solid var(--line-faint);
+  display:flex;align-items:center;gap:12px;padding:0 18px;min-width:0;
+}
+[data-family="drawing"] .pt-titleblock .pt-tb-k{
+  font-size:22px;font-weight:600;letter-spacing:.08em;color:var(--soft);
+  white-space:nowrap;
+}
+[data-family="drawing"] .pt-titleblock .pt-tb-v{
+  font-size:24px;font-weight:600;font-variant-numeric:tabular-nums;
+  color:var(--ink);white-space:nowrap;
+}
+/* 곡선 경로 — 절대 좌표 경유지 점(.pt-wp). 선 자체는 덱 SVG 가 그린다. */
+[data-family="drawing"] .pt-path{position:relative}
+[data-family="drawing"] .pt-path .pt-wp{
+  position:absolute;width:34px;height:34px;border-radius:50%;
+  transform:translate(-50%,-50%);
+  border:2px solid var(--ink);background:var(--paper);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;font-weight:700;font-variant-numeric:tabular-nums;
+}
+[data-family="drawing"] .pt-path .pt-wp.on{
+  border-color:var(--accent);background:var(--accent);color:#fff;
+}

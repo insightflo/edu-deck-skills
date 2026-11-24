@@ -21,6 +21,36 @@
 - 자동 추천 연동: `scripts/tone_router.py` 실행 시 기존 `theme`·`cover`·`arc` 출력은 그대로 유지하면서, 6축(`AXES`) 거리 기반으로 선택적 오버레이 후보인 `"preset"` 추천 1종·후보 3종·근거 문장(축 근접+신호어)을 함께 반환합니다(`--recent-preset` 감점 지원, `PRESETS` id 는 `style_preset.py --list` 16종과 1:1 계약).
 - 대비 검증: 모든 프리셋은 `style_preset.py --verify` 및 `dev/test_style_presets.py` 에서 전경/배경 핵심 쌍의 WCAG 4.5:1(본문/어두운 무대 주 텍스트는 7.0:1) 이상 대비를 통과해야 합니다. (개념 참조: shiraki.design — 재배포 금지로 원본 값·문구 미복제, 전수 자체 창작)
 
+## 스타일 계열 (family)
+
+`deck.json` 의 `"family"` 키로 `studio`·`vivid`·`drawing` 중 하나를 고릅니다(미지정 = classic, 어떤 속성도 심지 않아 기존 덱과 결과가 같습니다). 빌드가 `<html data-family="id">` 를 심으면 `assets/css/families.css` 의 `[data-family="id"]` 블록이 `:root` 의 15역할·비색 토큰을 덮어씁니다 — 계열은 테마·프리셋 위의 더 큰 층으로, 색만이 아니라 면의 재질(테두리 유무·그림자·반경·무대 배경)까지 바꿉니다.
+
+- `family` 와 `theme` 은 상호배타입니다(함께 쓰면 빌드 오류). `family` + `resource_pack` 은 허용 — `[data-family="id"] .slide.pack` 스코프가 팩 토큰을 계열 표정으로 누릅니다.
+- classic 프리셋(계열 표식 없는 `preset.css`)을 계열 덱에 적용하면 `style_preset.py --apply` 가 거부하고, 역방향 조립도 `build_deck`·`build_series` 가 거부합니다.
+- 새 계열 추가 = `families.css` 에 `[data-family]` 블록 + `tone_router.py` FAMILY 행 두 곳을 함께 맞춥니다(계열 명부는 tone_router.FAMILIES 단일 기준 — check_deck.py 는 거기서 읽습니다). `check_deck.py --contrast-matrix` 의 `family:<id>` 행으로 같은 기준을 통과해야 합니다. 계열이 어두운 면(.slide.dark)·팩 면(.slide.pack)·팩 어두운 면(.slide.pack.dark) 스코프도 정의하면 각각 `family:<id>.dark`·`family:<id>.pack`·`family:<id>.pack.dark` 행으로 채점되며, 모든 스코프 블록은 15개 역할 전부를 정의해야 합니다.
+
+### 레시피 토큰 (계열이 덮는 비색 값)
+
+| 토큰 | 뜻 | classic | studio |
+|---|---|---|---|
+| `--card-r` `--card-sh` `--card-bd` `--card-band` | 카드 반경·그림자·테두리·상단 띠 | 기존 card 모양 | 20px · soft shadow · none · none |
+| `--pill-r` | 알약 반경 | pill 모양 | 999px |
+| `--tile-r` | 아이콘 타일 반경 | — | 18px |
+| `--node-r` | 도식 노드 반경 | — | 16px |
+| `--win-r` | 창 틀 반경 | — | 22px |
+| `--arrow-w` | 흐름 화살 두께 | — | 5px |
+| `--label-track` | 라벨 자간 | — | 1.5px |
+| `--title-weight` `--font-title` `--num-font` | 제목 굵기·글꼴 패밀리·숫자 글꼴 | Pretendard | Pretendard(studio 는 글꼴 미사용) |
+| `--tint-blue` 등 `--tint-*` | 색면(tint) 바탕 — 부품이 `var(--tint-*)` 로 소비 | — | 시안 합성 hex |
+| `--gr-orange` 등 `--gr-*` | 그래픽 면 채움 전용 원색 — 글자·테두리 역할 금지 | — | #E8772E·#2E9E6B·#D64550 |
+| `--soft2` | 24px 미만 보조 문구(점 격자 위 4.5 확보) | — | #4E5870 |
+
+칩·배지 바탕으로 쓰는 계열 토큰은 순수 hex 만 둡니다(`color-mix` 금지 — 검사기 백드롭 추정 한계, families.css 상단 주석).
+
+### `.pt-*` 부품과 계열 표정
+
+`assets/css/parts.css` 의 `.pt-*` 부품(`.pt-card`·`.pt-pill`·`.pt-tile`·`.pt-win`·`.pt-node`·`.pt-note`·`.pt-quiz`·`.pt-check`·`.pt-badge` …)은 역할·레시피 토큰만 소비하므로 같은 마크업이 계열마다 다른 표정으로 그려집니다. 기본 정의는 classic 표정이고 `[data-family]` 블록이 변형을 덮습니다 — 사용 표는 `classes.md` ".pt-* 계열 부품" 절. 엔진 계약 클래스(`.chk`·`.win`·`.opt` 등)와 이름이 다른 새 클래스라 계약을 대체하지 않습니다.
+
 ## 기하와 글꼴
 
 - 간격: 8px 배수. 토큰 `s1/s2/s3/s4/s5/s6/s8/s10/s16` = 8/16/24/32/40/48/64/80/128px. SVG 좌표·글자 크기·인쇄용 mm/pt는 간격 토큰의 대상이 아닙니다.

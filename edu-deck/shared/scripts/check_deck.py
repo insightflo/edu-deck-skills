@@ -36,9 +36,10 @@ from pathlib import Path
 from resource_packs import PackError, validate_selection
 
 try:
-    from tone_router import ARCS
-except ImportError:  # tone_router 없이 check_deck 만 단독 배포된 경우 arc 판정만 끈다
+    from tone_router import ARCS, FAMILIES
+except ImportError:  # tone_router 없이 check_deck 만 단독 배포된 경우 arc·계열 판정만 끈다
     ARCS = {}
+    FAMILIES = ("studio", "vivid", "drawing")  # tone_router.FAMILIES 와 같은 집합
 
 ARCHETYPES = {
     "cover", "agenda", "timeline", "map", "mechanism", "traits-grid", "meter", "compare-2", "compare-table",
@@ -384,7 +385,20 @@ def static_checks(html_text, soup, rep, allow_placeholders):
         for m in re.finditer(r"url\(\s*['\"]?((?:https?:)?//[^)'\"]+)|@import\s+[^;]+", css, re.I):
             rep.add("ERROR", None, "외부 자원", f"CSS 가 외부 자원을 부릅니다: {m.group(0)[:60]}", target=m.group(0))
 
+    # 계열 표식(P1): 조립기가 <html data-family="…"> 로 심는다. 허용값은 tone_router.FAMILIES.
+    # theme(classic 경로 전용)과의 공존은 오류, 자원팩과의 공존은 허용(팩 스코프 토큰이 받는다).
+    root_tag = soup.find("html")
+    family_attr = (root_tag.get("data-family") or "").strip() if root_tag else ""
+    theme_attr = (root_tag.get("data-theme") or "").strip() if root_tag else ""
+    if family_attr and family_attr not in FAMILIES:
+        rep.add("ERROR", None, "계열", f"알 수 없는 data-family '{family_attr}' 입니다 (가능: {', '.join(FAMILIES)})")
+    if family_attr and theme_attr:
+        rep.add("ERROR", None, "계열",
+                f"data-family '{family_attr}' 와 data-theme '{theme_attr}' 는 함께 쓸 수 없습니다 (theme 은 classic 전용)")
     pack = pack_checks(soup, slides, rep)
+    if family_attr and pack:
+        rep.add("INFO", None, "계열",
+                f"data-family '{family_attr}' 와 resource_pack '{pack.get('design')}' 공존 — 팩 면은 families.css 팩 스코프 토큰이 칠합니다")
     archs = []
     slide_kinds = []  # TASK-figslots 텍스트 나열 계산용: 'visual'·'fixed'·'text'
     for i, sec in enumerate(slides, 1):
@@ -743,30 +757,32 @@ def static_checks(html_text, soup, rep, allow_placeholders):
     # 팩은 검증된 학습 흐름을 따른다. 공통 품질 검사는 위에서 그대로 수행한다.
     if pack:
         return slides
-    # legacy 줄거리(arc): deck.json arc → 조립기가 심은 meta. 지정 덱은 arc 의 opens
-    # 아키타입으로 시작해야 하고, 미지정 덱은 기존 agenda 규칙을 그대로 적용한다.
-    arc_m = re.search(r'<meta\s+name="edu-deck-arc"\s+content="([^"]+)"', html_text)
-    arc = arc_m.group(1) if arc_m else None
-    body = [a for a in archs if a != "cover"]
-    if arc is not None:
-        if not ARCS:
-            rep.add("WARN", None, "흐름", f"arc '{arc}' 를 검사할 수 없습니다 (tone_router 미설치)")
-        elif arc not in ARCS:
-            rep.add("WARN", None, "흐름", f"알 수 없는 arc '{arc}' 입니다 (가능: {', '.join(ARCS)})")
-        elif body and body[0] not in ARCS[arc]["opens"]:
-            rep.add("WARN", None, "흐름",
-                    f"arc '{arc}' 는 표지 다음이 {' · '.join(ARCS[arc]['opens'])} 여야 합니다 (지금: {body[0]})")
-    elif body and body[0] != "agenda":
-        rep.add("WARN", None, "흐름", "표지 다음 슬라이드가 순서(agenda)가 아닙니다")
-    if archs and archs[-1] != "closing":
-        rep.add("WARN", None, "흐름", "마지막 슬라이드가 마무리(closing)가 아닙니다 (참고 자료는 마무리 바로 앞)")
-    if len(slides) >= 15 and not any(a.startswith("quiz-") for a in archs):
-        rep.add("WARN", None, "흐름", "15장 이상인데 퀴즈(quiz-*)가 없습니다")
-    run = 1
-    for i in range(1, len(archs)):
-        run = run + 1 if archs[i] == archs[i - 1] and archs[i] != "worked-example" else 1
-        if run == 4:
-            rep.add("WARN", i + 1, "흐름", f"같은 아키타입 '{archs[i]}' 이 4장 넘게 이어집니다")
+    # legacy 줄거리(arc)·고전 흐름 규칙: deck.json arc → 조립기가 심은 meta. 지정 덱은 arc 의
+    # opens 아키타입으로 시작해야 하고, 미지정 덱은 기존 agenda 규칙을 그대로 적용한다.
+    # 계열 덱(data-family)은 계열 지시서가 장 구성·순서를 정하므로 legacy 흐름 규칙을 건너뛴다.
+    if not family_attr:
+        arc_m = re.search(r'<meta\s+name="edu-deck-arc"\s+content="([^"]+)"', html_text)
+        arc = arc_m.group(1) if arc_m else None
+        body = [a for a in archs if a != "cover"]
+        if arc is not None:
+            if not ARCS:
+                rep.add("WARN", None, "흐름", f"arc '{arc}' 를 검사할 수 없습니다 (tone_router 미설치)")
+            elif arc not in ARCS:
+                rep.add("WARN", None, "흐름", f"알 수 없는 arc '{arc}' 입니다 (가능: {', '.join(ARCS)})")
+            elif body and body[0] not in ARCS[arc]["opens"]:
+                rep.add("WARN", None, "흐름",
+                        f"arc '{arc}' 는 표지 다음이 {' · '.join(ARCS[arc]['opens'])} 여야 합니다 (지금: {body[0]})")
+        elif body and body[0] != "agenda":
+            rep.add("WARN", None, "흐름", "표지 다음 슬라이드가 순서(agenda)가 아닙니다")
+        if archs and archs[-1] != "closing":
+            rep.add("WARN", None, "흐름", "마지막 슬라이드가 마무리(closing)가 아닙니다 (참고 자료는 마무리 바로 앞)")
+        if len(slides) >= 15 and not any(a.startswith("quiz-") for a in archs):
+            rep.add("WARN", None, "흐름", "15장 이상인데 퀴즈(quiz-*)가 없습니다")
+        run = 1
+        for i in range(1, len(archs)):
+            run = run + 1 if archs[i] == archs[i - 1] and archs[i] != "worked-example" else 1
+            if run == 4:
+                rep.add("WARN", i + 1, "흐름", f"같은 아키타입 '{archs[i]}' 이 4장 넘게 이어집니다")
     # 골격 반복(취향): 구조 지문(아키타입+변형+직속 자식 태그·첫 클래스)이 3장 연속 같으면
     # 구성 리듬이 단조하다는 신호 — quiz-* 계열은 같은 골격 반복이 정상이라 제외한다.
     fps = [slide_fingerprint(s) for s in slides]
@@ -886,6 +902,7 @@ def talk_checks(html_text, slides, rep):
 PACK_ORDER = ("atlas", "briefing", "casebook", "editorial", "field", "lab", "seminar", "workbook")
 TOKENS_CSS = Path(__file__).resolve().parents[1] / "assets" / "css" / "tokens.css"
 THEMES_CSS = Path(__file__).resolve().parents[1] / "assets" / "css" / "themes.css"
+FAMILIES_CSS = Path(__file__).resolve().parents[1] / "assets" / "css" / "families.css"
 SEMANTIC_ROLES = ("ink", "paper", "light", "soft", "line", "accent", "accent-text", "accent-light",
                   "blue", "blue-text", "blue-soft", "success", "danger", "muted", "chip")
 # (행 키, 전경 토큰, 배경 토큰, 기준, 라벨). 기준: 본문 4.5 / 큰 글자(≥24px 또는 ≥18.66px bold)·
@@ -1004,19 +1021,77 @@ def parse_theme_tokens(css_text):
     return themes
 
 
-def build_matrix(base, packs, themes=None):
-    """기본(:root) + 8팩 + legacy 테마 환경마다 MATRIX_ROWS 전 쌍을 sRGB 합성해 채점한다.
+def parse_family_tokens(css_text):
+    """families.css 의 계열 토큰을 두 층으로 나눈다.
+
+    [출력] (families, family_packs):
+      families[fid]     = [data-family="fid"]{…} 블록의 {역할: 값}
+      family_packs[fid] = [data-family="fid"] .slide.pack{…} 팩 스코프 블록의 {역할: 값}
+    빈 자리 블록(주석만 있는 vivid·drawing)은 잡히지 않는다 — 블록이 없으면 행도 없다.
+    """
+    families, family_packs, family_darks, family_pack_darks = {}, {}, {}, {}
+    for fid, body in re.findall(r'\[data-family="([\w-]+)"\]\s*\{([^}]*)\}', css_text, re.S):
+        roles = {k: v.strip() for k, v in re.findall(r"--([\w-]+)\s*:\s*([^;]+)", body)}
+        if roles:
+            families[fid] = roles
+    # .slide.pack.dark 를 .slide.pack/.slide.dark 보다 먼저 잡는다 —
+    # pack 의 정귀식은 'pack' 바로 뒤에 '{' 가 와야 하므로 겹치지 않지만, 읽기 순서를 명확히 둔다.
+    for fid, body in re.findall(r'\[data-family="([\w-]+)"\]\s*\.slide\.pack\.dark\s*\{([^}]*)\}', css_text, re.S):
+        roles = {k: v.strip() for k, v in re.findall(r"--([\w-]+)\s*:\s*([^;]+)", body)}
+        if roles:
+            family_pack_darks[fid] = roles
+    for fid, body in re.findall(r'\[data-family="([\w-]+)"\]\s*\.slide\.dark\s*\{([^}]*)\}', css_text, re.S):
+        roles = {k: v.strip() for k, v in re.findall(r"--([\w-]+)\s*:\s*([^;]+)", body)}
+        if roles:
+            family_darks[fid] = roles
+    for fid, body in re.findall(r'\[data-family="([\w-]+)"\]\s*\.slide\.pack\s*\{([^}]*)\}', css_text, re.S):
+        roles = {k: v.strip() for k, v in re.findall(r"--([\w-]+)\s*:\s*([^;]+)", body)}
+        if roles:
+            family_packs[fid] = roles
+    return families, family_packs, family_darks, family_pack_darks
+
+
+def build_matrix(base, packs, themes=None, families=None, family_packs=None,
+                 family_darks=None, family_pack_darks=None):
+    """기본(:root) + 8팩 + legacy 테마 + 스타일 계열 환경마다 MATRIX_ROWS 전 쌍을 sRGB 합성해 채점한다.
 
     [출력] 행 dict 목록: pack,row,fg,bg,fg_hex,bg_hex,label,need,ratio,pass.
     팩 환경은 :root 값을 덮어쓴 팩 오버라이드 4개(accent,accent-text,paper,light)만 반영하고,
     테마 환경은 [data-theme] 블록의 15역할 덮어쓰기를 반영한다(행 이름 'theme:<id>').
+    계열 환경은 [data-family] 블록 덮어쓰기('family:<id>')와 스코프 블록을 얹은
+    'family:<id>.dark'(어두운 면)·'family:<id>.pack'(팩 면)·'family:<id>.pack.dark'(팩 어두운 면)
+    을 반영한다 — 브라우저 캐스케이드와 같은 순서(기본 → dark → pack → pack.dark)로 얹는다.
     """
     rows = []
     theme_ids = tuple(themes) if themes else ()
-    for pack in ("base",) + PACK_ORDER + tuple(f"theme:{t}" for t in theme_ids):
+    family_ids = tuple(families) if families else ()
+    family_darks = family_darks or {}
+    family_pack_darks = family_pack_darks or {}
+    env_names = (("base",) + PACK_ORDER + tuple(f"theme:{t}" for t in theme_ids)
+                 + tuple(f"family:{f}" for f in family_ids)
+                 + tuple(f"family:{f}.dark" for f in family_ids if f in family_darks)
+                 + tuple(f"family:{f}.pack" for f in family_ids if f in (family_packs or {}))
+                 + tuple(f"family:{f}.pack.dark" for f in family_ids if f in family_pack_darks))
+    for pack in env_names:
         env = dict(base)
         if pack.startswith("theme:"):
             env.update(themes[pack[6:]])
+        elif pack.startswith("family:"):
+            fid = pack[7:]
+            if fid.endswith(".pack.dark"):
+                stem = fid[:-10]
+                env.update(families[stem])
+                env.update(family_darks.get(stem, {}))
+                env.update(family_packs.get(stem, {}))
+                env.update(family_pack_darks[stem])
+            elif fid.endswith(".dark"):
+                env.update(families[fid[:-5]])
+                env.update(family_darks[fid[:-5]])
+            elif fid.endswith(".pack"):
+                env.update(families[fid[:-5]])
+                env.update(family_packs[fid[:-5]])
+            else:
+                env.update(families[fid])
         elif pack != "base":
             env.update(packs.get(pack, {}))
         # 크롬 막대 합성 토큰: 배경 = ink 88% over paper, 보조 글 = paper 75%, 지난 장 = paper 55%.
@@ -1048,7 +1123,7 @@ def matrix_markdown(rows):
              "",
              "기준: 본문 ≥4.5:1 · 큰 글자(≥24px 또는 ≥18.66px bold)·의미 있는 그래픽·경계 ≥3:1 (WCAG 1.4.3/1.4.11)",
              "",
-             "base = 팩 오버라이드 없는 :root 값(구형 덱). .slide.pack-* = 8팩 오버라이드 반영 값, theme:* = legacy 테마(themes.css) 15역할 반영 값.",
+             "base = 팩 오버라이드 없는 :root 값(구형 덱). .slide.pack-* = 8팩 오버라이드 반영 값, theme:* = legacy 테마(themes.css) 15역할 반영 값, family:* = 스타일 계열(families.css) 역할 반영 값(뒤에 .pack 은 계열 덱 팩 면 스코프까지 얹은 환경).",
              "",
              "| 팩 | 행 | 전경 | 배경 | 전경색 | 배경색 | 비율 | 기준 | 판정 |",
              "|---|---|---|---|---|---|---|---|---|"]
@@ -1084,11 +1159,27 @@ def contrast_matrix_main(args):
             if short:
                 theme_errors.append(
                     f"테마 '{tid}' 에 의미 역할 토큰이 빠졌습니다: {', '.join('--' + k for k in short)}")
+    families_path = Path(getattr(args, "families", None) or FAMILIES_CSS)
+    families, family_packs = {}, {}
+    family_darks, family_pack_darks = {}, {}
+    if families_path.is_file():
+        families, family_packs, family_darks, family_pack_darks = parse_family_tokens(
+            families_path.read_text(encoding="utf-8"))
+        scope_blocks = [(f"계열 '{fid}'", roles) for fid, roles in families.items()]
+        scope_blocks += [(f"계열 '{fid}' 어두운 면", roles) for fid, roles in family_darks.items()]
+        scope_blocks += [(f"계열 '{fid}' 팩 스코프", roles) for fid, roles in family_packs.items()]
+        scope_blocks += [(f"계열 '{fid}' 팩 어두운 면", roles) for fid, roles in family_pack_darks.items()]
+        for label, roles in scope_blocks:
+            short = [k for k in SEMANTIC_ROLES if k not in roles]
+            if short:
+                theme_errors.append(
+                    f"{label}에 의미 역할 토큰이 빠졌습니다: {', '.join('--' + k for k in short)}")
     for msg in theme_errors:
         print(f"ERROR  {msg}", file=sys.stderr)
     if theme_errors:
         return 1
-    rows = build_matrix(base, packs, themes)
+    rows = build_matrix(base, packs, themes, families, family_packs,
+                        family_darks, family_pack_darks)
     rep = Report()
     for r in rows:
         if not r["pass"]:
@@ -1737,6 +1828,7 @@ def main(argv=None):
     ap.add_argument("--matrix-dir", metavar="DIR", help="매트릭스 모드에서 matrix-table.md/.json 저장 폴더")
     ap.add_argument("--tokens", metavar="FILE", help="매트릭스에 쓸 tokens.css 경로 (기본: shared/assets/css/tokens.css)")
     ap.add_argument("--themes", metavar="FILE", help="매트릭스에 쓸 themes.css 경로 (기본: shared/assets/css/themes.css)")
+    ap.add_argument("--families", metavar="FILE", help="매트릭스에 쓸 families.css 경로 (기본: shared/assets/css/families.css)")
     args = ap.parse_args(argv)
     if args.contrast_matrix:
         return contrast_matrix_main(args)

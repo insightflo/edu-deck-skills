@@ -8,14 +8,17 @@
 
 [주요 흐름]
   1. 정적: <title>, 표식 잔여, id 중복, 아이콘 참조, 외부 자원, 허브 카드와 편 목록 일치,
-     각 편 슬라이드에 목차 칩(.sr) 존재, window.EDU_STUDY 편 메타 일치.
+     각 편 슬라이드에 목차 칩(.sr) 존재, window.EDU_STUDY 편 메타 일치,
+     <html data-family> 계열 표식과 편 래퍼 data-ep-family 일치(한 시리즈 한 계열).
   2. 편마다 check_deck.static_checks 재사용 — 편 안 슬라이드를 가짜 #stage 에 넣어 검사.
-  3. 렌더: Chrome 으로 열어 시작 화면(목차) 확인, 각 편의 모든 장·단계를 window.deckGo(편,장,단계) 로
-     방문하며 check_deck.RENDER_JS(선택자만 편 버전으로 바꿈)로 넘침·글자 크기·대비·겹침을 잰다.
+  3. 렌더: Chrome 으로 열어 시작 화면(목차) 확인, 계열 스킨 포털은 허브 글자 대비 ≥4.5:1 도 잰다.
+     각 편의 모든 장·단계를 window.deckGo(편,장,단계) 로 방문하며
+     check_deck.RENDER_JS(선택자만 편 버전으로 바꿈)로 넘침·글자 크기·대비·겹침을 잰다.
+     계열 포털(studio/vivid/drawing)은 렌더가 NOT_RUN 이면 통과시키지 않는다.
 
 [외부 연결]
   입력: 포털 HTML 경로. 필요: beautifulsoup4(정적), playwright + Chrome(화면).
-  없으면 설치하지 않고 WARN(NOT_RUN) 으로 알린다. --json 으로 결과 저장.
+  없으면 설치하지 않고 NOT_RUN 으로 알린다(classic 은 WARN, 계열 포털은 FAIL). --json 으로 결과 저장.
 
 [수정시 주의]
   check_deck.py 의 함수·RENDER_JS 를 가져다 쓴다(복사하지 않는다). shared 가 이동하면 경로를 함께 고친다.
@@ -38,6 +41,14 @@ import check_deck  # noqa: E402
 
 Report = check_deck.Report
 MARKERS = ("{{", "/*CORE_CSS*/", "/*EXTRA_CSS*/", "<!--ICONS-->", "<!--HUB-->", "<!--EPISODES-->", "<!--STUDY_DATA-->", "/*STUDY_JS*/")
+# build_series.SERIES_FAMILIES 와 같은 집합 — 검사기는 빌더를 import 하지 않고 독립 유지한다.
+SERIES_FAMILIES = ("studio", "vivid", "drawing", "classic")
+
+
+def portal_family(soup):
+    """<html data-family> 값을 돌려준다. 표식이 없으면 classic(속성 없는 포털이 곧 classic)."""
+    root = soup.find("html")
+    return ((root.get("data-family") or "").strip() if root else "") or "classic"
 
 
 def ep_label(deck):
@@ -96,6 +107,20 @@ def static_checks(html_text, soup, rep):
         for i, s in enumerate(slides, 1):
             if not s.find(class_="sr", recursive=False) and "sr" not in (s.get("class") or []):
                 rep.add("WARN", i, "목차 칩", f"편 {d.get('data-ep')} {i}번째 슬라이드에 목차 칩(.sr)이 없습니다")
+
+    # 3단 검증 ② 결과물 재확인: <html data-family> 와 편 래퍼 data-ep-family 가 한 계열을 가리키는지 본다.
+    # 빌드가 거부한 조합을 완성 HTML 에서 다시 확인해, 손으로 고친 결과물의 변조를 잡는다.
+    fam = portal_family(soup)
+    if fam != "classic" and fam not in SERIES_FAMILIES:
+        rep.add("ERROR", None, "계열", f'<html data-family="{fam}"> 은 없는 계열입니다 (허용: {", ".join(SERIES_FAMILIES)})')
+        fam = "classic"
+    for d in decks:
+        epf = (d.get("data-ep-family") or "").strip()
+        if epf and epf not in SERIES_FAMILIES:
+            rep.add("ERROR", None, "계열", f'편 {d.get("data-ep")} 의 data-ep-family="{epf}" 는 없는 계열입니다')
+        elif (epf or "classic") != fam:
+            rep.add("ERROR", None, "계열",
+                    f'편 {d.get("data-ep")} 의 계열 표식({epf or "없음=classic"})이 포털 계열({fam})과 다릅니다 — 결과물 변조 가능성')
 
     if hub is not None and decks:
         hub_eps = [c.get("data-ep") for c in hub.select(".mn[data-ep], .books .bk[data-ep], .hub-table tr[data-ep]")]
@@ -166,6 +191,52 @@ RENDER_JS_SERIES = check_deck.RENDER_JS.replace(
 )
 
 
+# 허브(map·shelf·list 어떤 유형이든) 글자 쌍 대비 ≥4.5:1 측정 — 계열 스킨(data-family)이 있는
+# 포털만 돌린다. classic 은 기존 스킨 그대로라 이 검사가 없던 상태를 유지한다(회귀 방지).
+HUB_CONTRAST_JS = """(() => {
+  if (!document.documentElement.getAttribute('data-family')) return [];
+  const SELS = [
+    '.hub-title', '.hub-sub', '.hub-eyebrow', '.hub-upd', '.hub-btn', '.hub-total', '.hub-reset',
+    '.map-sh', '.map-sh span',
+    '.mn-no', '.mn-title', '.mn-met', '.mn-cnt', '.mn-in', '.mn-ring i',
+    '.bk-no', '.bk-title', '.bk-fin', '.shelf-gap span',
+    '.pv-no', '.pv-tag', '.pv-met', '.pv-title', '.pv-sub', '.pv-meta', '.pv-tno',
+    '.pv-open', '.pv-resume', '.pv-pbtn',
+    '.hub-table th', '.lt-no', '.lt-t', '.lt-s', '.lt-n', '.lt-tx', '.lt-open'
+  ];
+  const lum = c => {
+    const f = v => { v /= 255; return v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4); };
+    return .2126 * f(c[0]) + .7152 * f(c[1]) + .0722 * f(c[2]);
+  };
+  const parse = s => {
+    const m = (s || '').match(/rgba?\\(([^)]+)\\)/); if (!m) return null;
+    const p = m[1].split(',').map(Number); return [p[0], p[1], p[2], p.length > 3 ? p[3] : 1];
+  };
+  const bgOf = el => {
+    for (let n = el; n && n !== document.documentElement; n = n.parentElement) {
+      const c = parse(getComputedStyle(n).backgroundColor);
+      if (c && c[3] > 0) return c;
+    }
+    return parse(getComputedStyle(document.body).backgroundColor) || [0, 0, 0, 1];
+  };
+  const seen = new Set(), failed = new Set(), out = [];
+  for (const sel of SELS) for (const el of document.querySelectorAll('#hub ' + sel)) {
+    if (seen.has(el) || failed.has(sel) || !el.getClientRects().length) continue;
+    seen.add(el);
+    const text = (el.textContent || '').trim(); if (!text) continue;
+    const fg = parse(getComputedStyle(el).color); if (!fg) continue;
+    const bg = bgOf(el);
+    const ratio = (Math.max(lum(fg), lum(bg)) + .05) / (Math.min(lum(fg), lum(bg)) + .05);
+    if (ratio < 4.5) {
+      failed.add(sel);
+      out.push({ sel, text: text.slice(0, 20), ratio: +ratio.toFixed(2),
+                 fg: getComputedStyle(el).color, bg: 'rgb(' + bg.slice(0, 3).join(',') + ')' });
+    }
+  }
+  return out;
+})()"""
+
+
 def render_checks(path, rep, sheets_dir, shots_dir):
     """브라우저로 목차 시작·편 이동·모든 장 렌더를 검사한다."""
     try:
@@ -212,6 +283,14 @@ def render_checks(path, rep, sheets_dir, shots_dir):
             page.goto(url)
             page.add_style_tag(content=check_deck.QUIET_CSS)
             page.wait_for_timeout(400)
+            # 허브 유형별 글자 대비 — 계열 스킨이 있는 포털만 JS 안에서 걸러 잰다.
+            try:
+                for f in page.evaluate(HUB_CONTRAST_JS):
+                    rep.add("ERROR", None, "허브 대비",
+                            f'{f["sel"]} "{f["text"]}" 대비 {f["ratio"]}:1 < 4.5:1 (글자 {f["fg"]} / 배경 {f["bg"]})',
+                            target=f["sel"])
+            except Exception as e:
+                rep.add("ERROR", None, "검사기 오류", f"허브 대비 측정 중 멈췄습니다: {str(e).splitlines()[0][:160]}")
             for ep in eps:
                 total = page.evaluate(f"(window.deckGo({ep!r},0), window.deckInfo().count)")
                 if not total:
@@ -245,7 +324,7 @@ def main(argv=None):
     ap.add_argument("--json", help="검사 결과 JSON 저장 경로")
     ap.add_argument("--sheets", help="목차 화면 PNG 저장 폴더")
     ap.add_argument("--shots", help="편 마지막 장 PNG 저장 폴더")
-    ap.add_argument("--no-render", action="store_true", help="화면 검사 건너뛰기(정적만)")
+    ap.add_argument("--no-render", action="store_true", help="화면 검사 건너뛰기(정적만, 계열 포털은 FAIL 처리)")
     args = ap.parse_args(argv)
 
     path = Path(args.html)
@@ -260,6 +339,13 @@ def main(argv=None):
     render = "NOT_RUN"
     if not args.no_render:
         render = "RUN" if render_checks(path, rep, args.sheets, args.shots) else "NOT_RUN"
+    # 계열 포털은 허브 스킨·글꼴이 실제로 그려지는지 화면 검증이 필수다(family-design.md §11).
+    # --no-render 이든 브라우저 기동 실패든 NOT_RUN 이면 통과시키지 않는다.
+    fam = portal_family(soup)
+    if fam in SERIES_FAMILIES and fam != "classic" and render == "NOT_RUN":
+        rep.add("ERROR", None, "계열 검증",
+                f"계열 포털({fam})은 화면 렌더 검증이 필수인데 render=NOT_RUN 입니다 "
+                "(--no-render 이거나 브라우저를 시작하지 못했습니다)")
     n_err, n_warn = rep.count("ERROR"), rep.count("WARN")
     slides_total = len(soup.select("#stage .deck > .slide"))
     for line in rep.lines():

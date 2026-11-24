@@ -43,6 +43,22 @@ from build_deck import collect_css
 from visual_assets import common_css, motion_js
 
 HUB_TYPES = ("map", "shelf", "list")
+# series.json 의 family 허용값 — classic 은 '계열을 고르지 않음'과 같은 뜻이라 명시해도 된다.
+SERIES_FAMILIES = ("studio", "vivid", "drawing", "classic")
+
+
+def deck_families():
+    """편 deck.json 의 family 허용값 — tone_router.FAMILIES(P1)와 같은 집합.
+
+    통합 전 스냅샷(tone_router 에 FAMILIES 가 아직 없는 상태)에서도 동작하도록
+    없으면 설계 명세의 동일 값으로 폴백한다. classic 은 deck.json 에서 값으로 쓸 수 없다
+    (family 미지정이 곧 classic).
+    """
+    try:
+        from tone_router import FAMILIES
+        return tuple(FAMILIES)
+    except Exception:
+        return ("studio", "vivid", "drawing")
 
 
 class BuildError(Exception):
@@ -99,8 +115,12 @@ def inject_sr(html, label, title):
     return re.sub(r'(<section\b[^>]*>)', rep, html)
 
 
-def load_episode(base, spec, idx):
-    """편 하나를 읽어 (편 번호, 라벨, 제목, 슬라이드 수, 합친 HTML, deck.json 데이터) 를 돌려준다."""
+def load_episode(base, spec, idx, series_family="classic"):
+    """편 하나를 읽어 (편 번호, 라벨, 제목, 슬라이드 수, 합친 HTML, deck.json 데이터) 를 돌려준다.
+
+    series_family: 시리즈가 요구하는 계열 — 편 deck.json 의 family 와 다르면 거부한다
+    (한 시리즈 한 계열, family-design.md §10 ①).
+    """
     folder = base / spec.get("folder", "")
     if not folder.is_dir():
         raise BuildError(f"{idx+1}번째 편 폴더가 없습니다: {spec.get('folder')!r} (series.json 의 episodes[].folder)")
@@ -117,6 +137,18 @@ def load_episode(base, spec, idx):
             raise BuildError(f"{cfg_path}: 'theme' 은 다음 중 하나입니다: {', '.join(THEMES)}")
         if "resource_pack" in cfg:
             raise BuildError(f"{cfg_path}: 'theme' 은 legacy 경로 전용입니다 (resource_pack 과 함께 쓸 수 없습니다)")
+    if cfg.get("family") is not None:
+        family = cfg["family"]
+        if not isinstance(family, str) or family not in deck_families():
+            raise BuildError(f"{cfg_path}: 'family' 은 다음 중 하나입니다: {', '.join(deck_families())}")
+        if cfg.get("theme") is not None:
+            raise BuildError(f"{cfg_path}: 'theme' 은 classic 경로 전용입니다 (family 와 함께 쓸 수 없습니다)")
+    # 한 시리즈 한 계열: 편의 유효 계열(family 미지정 = classic)이 시리즈 계열과 같아야 한다.
+    ep_family = cfg.get("family") or "classic"
+    if ep_family != series_family:
+        raise BuildError(
+            f"{cfg_path}: 편 계열 '{ep_family}' 이(가) 시리즈 계열 '{series_family}' 과 다릅니다 "
+            "(한 시리즈에는 한 계열만 — series.json 의 family 와 맞추세요)")
     frags = sorted((folder / "src").glob("*.html"), key=frag_sort_key) if (folder / "src").is_dir() else []
     if not frags:
         raise BuildError(f"편 조각이 없습니다: {folder/'src'} (*.html)")
@@ -130,12 +162,21 @@ def load_episode(base, spec, idx):
             raise BuildError(f"{p.name}: 슬라이드 조각에 <script> 가 있으면 안 됩니다")
         t = prefix_ids(t, ep)
         parts.append(inject_sr(t, label, title))
+    ep_css = collect_css([folder / "src"])
+    # 프리셋/계열 불일치 방어(P1): classic 프리셋 생성물(preset-css 표식, 계열 표식 없음)이
+    # 계열 편의 src/ 에 있으면 거부한다 — 편 덱을 단독 조립할 때와 같은 규칙.
+    if cfg.get("family") is not None and "preset-css" in ep_css:
+        m = re.search(r"preset-css[^\n]*?family\s*=\s*\"?([\w-]+)", ep_css)
+        if (m.group(1) if m else "classic") != cfg["family"]:
+            raise BuildError(
+                f"{cfg_path}: classic 전용 프리셋 CSS(src 의 preset-css 생성물)는 "
+                f"family '{cfg['family']}' 편에 쓸 수 없습니다")
     return {
         "ep": ep, "label": label, "title": title,
         "sub": str(spec.get("sub") or ""), "tag": str(spec.get("tag") or ""),
         "met": str(spec.get("met") or ""), "color": str(spec.get("color") or "var(--blue)"),
         "count": len(frags), "html": "\n".join(parts), "cfg": cfg,
-        "css": collect_css([folder / "src"]),
+        "css": ep_css,
     }
 
 
@@ -286,7 +327,27 @@ def scoped_css(css, selector):
     return f'@scope ({selector}) {{\n' + css.replace(':root{', ':scope{') + '\n}'
 
 
-def load_assets(eps):
+def drawing_font_css():
+    """drawing 계열용 GowunBatang @font-face 등록 블록만 만든다(본문 스택 덮어쓰기 없음).
+
+    §4.3: 제목만 'Gowun Batang', 본문·숫자는 Pretendard — font_css() 는 body/.slide/.pack
+    스택까지 덮어쓰므로 쓸 수 없다. visual_assets 에 등록 전용 함수(P2a font_face_css)가
+    있으면 그것을 쓰고, 없으면 font_css() 산출물에서 라이선스 주석 + @font-face 블록만
+    추출하는 안전 폴백을 쓴다(이 worktree 에는 아직 등록 함수가 없다).
+    """
+    import visual_assets
+    reg = getattr(visual_assets, "font_face_css", None) or getattr(visual_assets, "register_font_face_css", None)
+    if reg is not None:
+        return reg("gowun-batang")
+    css = visual_assets.font_css("gowun-batang")
+    head, _, rest = css.partition("@font-face")
+    m = re.match(r"\s*(\{[^}]*\})", rest)      # 첫 블록이 @font-face — 뒤의 본문 덮어쓰기는 버린다
+    if not m:
+        raise BuildError("font_css('gowun-batang') 에서 @font-face 블록을 찾지 못했습니다")
+    return head + "@font-face" + m.group(1) + "\n"
+
+
+def load_assets(eps, series_family="classic"):
     legacy = any("resource_pack" not in e["cfg"] for e in eps)
     assets = SHARED / "assets"
     runtime = (assets / "css" / "pack-runtime.css").read_text(encoding="utf-8") if any("resource_pack" in e["cfg"] for e in eps) else ""
@@ -305,6 +366,10 @@ def load_assets(eps):
         if local:
             comp += '\n' + scoped_css(local, f'#series-episode-{index}')
     css = css + '\n' + common_css()
+    # drawing 계열: 편 덱이 build_deck 를 거치지 않으므로 GowunBatang @font-face 등록을
+    # 이 경로(load_assets)에서 조건부 인라인한다(§10). 포털 허브 제목도 이 글꼴을 쓴다.
+    if series_family == "drawing":
+        css += '\n' + drawing_font_css()
     study = motion_js() + '\n' + (SHARED / "assets" / "js" / "study.js").read_text(encoding="utf-8")
     if "</script" in study:
         raise BuildError("study.js 안에 </script> 가 있어 인라인 주입이 불가능합니다")
@@ -317,10 +382,16 @@ def assemble(base, hub_override=None, out_override=None):
     s = read_json(base / "series.json")
     if not str(s.get("title") or "").strip():
         raise BuildError("series.json 의 title 이 비었습니다")
+    # 시리즈 계열(선택): 미지정·'classic' 이면 classic. 한 시리즈 한 계열(§10) —
+    # 각 편 deck.json 의 유효 계열과의 일치는 load_episode 에서 거부한다.
+    series_family = s.get("family")
+    if series_family is not None and (not isinstance(series_family, str) or series_family not in SERIES_FAMILIES):
+        raise BuildError(f"series.json 의 'family' 는 다음 중 하나입니다: {', '.join(SERIES_FAMILIES)}")
+    series_family = series_family or "classic"
     specs = s.get("episodes") or []
     if len(specs) < 2:
         raise BuildError(f"시리즈는 편이 2개 이상이어야 합니다 (지금 {len(specs)}개). 한 편이면 edu-deck-solo 로 단일 덱을 만드세요")
-    eps = [load_episode(base, spec, i) for i, spec in enumerate(specs)]
+    eps = [load_episode(base, spec, i, series_family) for i, spec in enumerate(specs)]
     ids = [e["ep"] for e in eps]
     if len(set(ids)) != len(ids):
         raise BuildError(f"편 번호(ep) 가 겹칩니다: {ids}")
@@ -334,8 +405,12 @@ def assemble(base, hub_override=None, out_override=None):
         # legacy 편 테마: themes.css 의 [data-theme] 블록이 이 편 요소 아래로만 상속된다.
         theme = e["cfg"].get("theme")
         e["theme_attr"] = f' data-theme="{escape(theme, quote=True)}"' if theme and theme != "classic" else ''
+        # 3단 검증 ② 결과물 흔적: 완성 HTML 만으로 각 편 계열을 재확인할 수 있게 래퍼에 남긴다.
+        # classic(family 미지정) 편은 심지 않는다 — check_series 는 '표식 없음'을 classic 으로 읽는다.
+        e["family_attr"] = f' data-ep-family="{escape(e["cfg"]["family"], quote=True)}"' if e["cfg"].get("family") else ''
     decks = "\n".join(
-        f'<div class="deck" id="series-episode-{index}"{e["pack_attr"]}{e["theme_attr"]} data-ep="{e["ep"]}" data-label="{escape(e["label"])}" '
+        f'<div class="deck" id="series-episode-{index}"{e["pack_attr"]}{e["theme_attr"]} data-ep="{e["ep"]}"'
+        f'{e["family_attr"]} data-label="{escape(e["label"])}" '
         f'data-title="{escape(e["title"])}" data-tag="{escape(e["tag"])}" data-met="{escape(e["met"])}" '
         f'data-sub="{escape(e["sub"])}" data-color="{e["color"]}">\n{e["html"]}\n</div>'
         for index, e in enumerate(eps)
@@ -358,7 +433,7 @@ def assemble(base, hub_override=None, out_override=None):
     study_data = {"summaries": summaries, "glossary": glossary, "meta": meta}
     data_js = "window.EDU_STUDY = " + json.dumps(study_data, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/") + ";"
 
-    css, comp, icons, study = load_assets(eps)
+    css, comp, icons, study = load_assets(eps, series_family)
     tpl = TEMPLATE.read_text(encoding="utf-8")
     for marker in ("{{TITLE}}", "/*CORE_CSS*/", "/*EXTRA_CSS*/", "<!--ICONS-->", "<!--HUB-->", "<!--EPISODES-->", "<!--STUDY_DATA-->", "/*STUDY_JS*/"):
         if marker not in tpl:
@@ -373,6 +448,12 @@ def assemble(base, hub_override=None, out_override=None):
         .replace("<!--STUDY_DATA-->", "<script>\n" + data_js + "\n</script>")
         .replace("/*STUDY_JS*/", study)
     )
+    # 포털 루트 계열 표식(§10 ②): classic 은 심지 않는다 — 속성 없는 포털이 곧 classic.
+    # 스킨 CSS 는 [data-family] 선택자라 속성이 없으면 한 줄도 적용되지 않는다(렌더 동일).
+    if series_family != "classic":
+        out_html, n = re.subn(r'<html\b([^>]*)>', rf'<html\1 data-family="{series_family}">', out_html, count=1)
+        if n != 1:
+            raise BuildError("portal_template.html 의 <html> 태그에 data-family 를 심지 못했습니다")
     for marker in ("{{", "/*CORE_CSS*/", "/*EXTRA_CSS*/", "<!--ICONS-->", "<!--HUB-->", "<!--EPISODES-->", "<!--STUDY_DATA-->", "/*STUDY_JS*/"):
         if marker in out_html:
             raise BuildError(f"채우지 못한 표식이 남았습니다: {marker}")

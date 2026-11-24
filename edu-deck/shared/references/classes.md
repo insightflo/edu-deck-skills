@@ -49,6 +49,69 @@
 | `dash-flow` | 설명 흐름의 정적 점선. 셸이 필요한 순간에만 선/입자를 재생합니다(`<path class="dash-flow" stroke="var(--accent)" …/>`) |
 | `todo` > `h4` + `p` + `tbox` | 누르면 체크되는 실천 항목(체크 칸은 오른쪽) |
 
+## `.pt-*` 계열 부품
+
+계열 덱(`deck.json` `"family"`)에서 쓰는 공용 부품. 역할·레시피 토큰만 소비하므로 같은 마크업이 계열마다 다른 표정으로 그려진다 — 기본 정의는 classic 표정, `[data-family]` 블록이 변형(실물: `examples/family-studio/`). 위의 `card`·`pill`·`win` 같은 기존 계약 클래스를 대체하지 않는다 — 이름이 다르며 계열 덱은 `.pt-*` 쪽이 자연스럽다.
+
+| 클래스 | 뜻 | studio 변형 |
+|---|---|---|
+| `.pt-card` | 면 카드(안쪽 36/40, flex 열) | 흰 r20·soft shadow·테두리 없음 |
+| `.pt-pill` | 알약 칩(점+짧은 라벨) | tint 바탕+색 글자+왼쪽 점. 색 변형 `.p-o`(주황)·`.p-g`(초록)·`.p-r`(빨강)·`.p-v`(보라)·`.p-y`(노랑)·`.p-solid`(파랑 면) |
+| `.pt-tile` | 88px 아이콘 타일 | r18 tint 바탕+색 선. 색 변형 `.t-o`·`.t-g`·`.t-r`·`.t-v`·`.t-y` |
+| `.pt-win` > `.pt-win-bar` + 내용 | 창 틀 | r22·흰 상단바 48px·교통등 점 3. `.pt-win-bar` 안 `.pt-dots`(`<i>`3)·`.pt-wt`(창 제목) |
+| `.pt-fig` | 그림+캡션 묶음(`.pt-cap`) | — |
+| `.pt-node` > `.pt-nn` + `.pt-nd` | 도식 노드(이름+설명) | r16·2px 색 테두리·tint/흰 면. `--node-c`·`--node-bg`·`--node-tc` 로 색 지정 |
+| `.pt-note` | 요점 띠(tint 면 한 줄) | r14·`--note-bg`로 tint 지정. `.n-w` = 흰 면+그림자 |
+| `.pt-waterfall` | 누적 폭포 막대 묶음 | 색막대+soft shadow(배치는 덱 전용 CSS) |
+| `.pt-table` | 표(제목줄 먹선·행 헤어라인) | — |
+| `.pt-quiz` > `.pt-qb` + 보기 | 보기 카드 | `.pt-quiz.ok` 초록 3px 테두리. `.pt-qb` A·B 원 배지(`--qb-bg`/`--qb-fg`) |
+| `.pt-check` > `.pt-box` + 내용 | 체크리스트 행 | `.done` 체크 칸 파랑 채움+✓ |
+| `.pt-flow` + `.pt-arrow` | 가로 흐름 + 삼각 화살 | — |
+| `.pt-badge` | 라벨 배지 | 알약형·`--badge-bg` 로 색 지정 |
+
+### vivid 변형 (실물: `examples/family-vivid/`)
+
+| 클래스 | vivid 표정 |
+|---|---|
+| `.pt-card` | 흰 r16·6px 상단 밴드(`--card-band` 로 색 지정)·soft shadow — 규칙 추가 없이 토큰만 |
+| `.pt-pill` | tint 바탕+색 글자+왼쪽 점. `.p-b` 추가. 어두운 면은 유리 면 |
+| `.pt-tile` | r20 tint 바탕+색 선 |
+| `.pt-win` | 남색 상단바+교통등·r18·soft shadow |
+| `.pt-medal` | d96 tint 원+선 아이콘. `.m-ring` = 흰 면+색 링(흐름 장 큰 메달), `.m-o/g/r/v` 색 변형 |
+| `.pt-numring` | d72 파랑 채움 원+흰 번호 |
+| `.pt-fig`/`.pt-node`/`.pt-waterfall` | 부드러운 파랑 글로우 |
+| `.pt-note` | 남색 면(`#0E1A33`)+크림 글자 |
+| `.pt-table` | 남색 헤드·밴딩 행·r16 카드 면. 어두운 면 변형 함께 정의 |
+| `.pt-quiz` | 밴딩 카드+`.pt-qb` d96 색면 A·B 배지 |
+| `.pt-check` | 카드 면+r12 파랑 네모, `.done` 파랑 채움 |
+| `.pt-arrow` | 3px 점선 커넥터+삼각 끝 |
+| `.pt-badge` | 알약형 |
+
+### drawing 변형 (실물: `examples/family-drawing/`)
+
+| 클래스 | drawing 표정 |
+|---|---|
+| `.pt-card` | 무채움 헤어라인 상자(격자 비침)·각진 모서리 |
+| `.pt-pill` | 무채움 추적 라벨(자간 .14em) — 점·배경 없음 |
+| `.pt-numring` | d28 흰 채움+먹 선 번호 원 |
+| `.pt-fig` | 헤어라인 틀 안 64px+8px 도면 격자 |
+| `.pt-table` | BOM 표 — 헤어라인 틀+제목줄 2px 먹선 |
+| `.pt-quiz` | 선 패널+`.pt-qb` d72 명조 알파벳 원, `.ok` 버밀리언 2px 테두리 |
+| `.pt-check` | 2px 네모, `.done` 버밀리언 ✓(채움 없음) |
+| `.pt-note` | 헤어라인 주석 상자 |
+| `.pt-arrow` | 가는 먹 화살 |
+| `.pt-dim` > `.pt-dim-t` | 치수선(양 끝 눈금+가운데 빈틈 숫자) — 전용 |
+| `.pt-callout` > `.pt-co-h` + `.pt-co-b` | 주석 상자(추적 머리+명조 본문) — 전용 |
+| `.pt-hangnum` | 마진에 매다는 명조 항 번호 — 전용 |
+| `.pt-stamp` | 기울인 원형 도장(`.sq` = 네모) — 전용 |
+| `.pt-titleblock` > `.pt-tb-k` + `.pt-tb-v` | 도면 표시란(칸 나눈 표제란) — 전용 |
+| `.pt-path` > `.pt-wp`(`.on`) | 곡선 경로 경유지 점 — 전용 |
+
+drawing 제목·대형 글줄은 `--font-title`(Gowun Batang) 명조 400 — 계열 덱 빌드가 글꼴을 싣고, 본문·숫자는 계속 Pretendard 다. 도면 격자는 `.slide.g8`(밝은 면 opt-in)·`.slide.dark`(먹 전판+흰 격자 자동)가 칠한다.
+
+- 점 격자·tint 등 무대 표정은 families.css 가 `.slide` 에 직접 입힌다 — 조각이 배경을 그리지 않는다. 장마다 다른 무대(선언 파랑면 등)는 덱 전용 CSS로 그 장의 배경을 덮는다(`[data-family] .slide.<클래스>` — `[data-family] .slide` 보다 높은 특이도 필요).
+- `--gr-*` 원색은 그래픽 면 채움 전용이다 — 글자·테두리에는 `*-text`/`--danger` 등 대비 확보 역할을 쓴다. 24px 미만 보조 문구는 `--soft2`.
+
 ## 모형 창 `.win`
 
 모든 모형은 창 틀 안에 넣는다. 안쪽 글은 20~26px.

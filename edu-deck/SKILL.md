@@ -49,6 +49,15 @@ description: "Entry skill for education deck requests. Use FIRST when the user w
 4. 경로가 정해지면 해당 라우터를 돌린다: 팩은 `shared/scripts/pack_router.py`(디자인 8·흐름 8 후보 3종), legacy 는 `shared/scripts/tone_router.py`(테마 9·표지 16·arc 6). 라우터 점수는 후보를 좁히는 휴리스틱이므로 청중·수행 행동·평가 증거로 확인한다.
 5. 저작 중에 경로를 바꾸면 이미 쓴 장을 새 경로로 다시 써야 한다. 바꿔야 하는 이유가 생기면 진행을 멈추고 사용자에게 알린다.
 
+### 계열 선택 (0단계 — 경로와 별개로 덱의 모양 언어)
+
+새 덱은 저작 전에 **계열(family)** 을 하나 정한다 — 카드·꼬리표·아이콘·표지·도식이 어떤 모양 언어로 말할지의 결정이다. `deck.json` 의 `"family"` 에 `studio`·`vivid`·`drawing` 중 하나를 쓰고, 없으면 `classic`(오늘의 모습 — 테마 17·프리셋 16·표지 카탈로그는 이 계열 소속). 한 덱에 한 계열, 한 시리즈에 한 계열이다.
+
+- **studio**: 상아 지면 위 흰 둥근카드·부드러운 그림자 — 워크숍·온보딩·브랜드·제도 소개.
+- **vivid**: 밝음↔남색 밤 장면 리듬·색띠·글로우 — 론칭·선언·캠페인·전략 발표.
+- **drawing**: 도면지 위 헤어라인 선화·격자·치수선 — 기술 도면·매뉴얼·검수·기록.
+- 계열 추천은 `tone_router.py` 의 `family` 필드가 후보를 준다(사용자 지정이 우선). 계열 팔레트는 `shared/presets/<계열>-*.yaml` 의 색 전용 프리셋만 쓴다 — `family` 덱에 `theme`·classic 프리셋을 섞지 않는다(적용 단계가 거부한다). 부품 해석은 `shared/references/layouts.md` "계열 해석", 계열별 금지·원칙은 `shared/references/design.md` "스타일 계열"을 따른다.
+
 ### 자유 모드와 가이드 모드
 
 기본은 **자유 모드**다. 조각·팩 템플릿·arc 메뉴·아키타입 표는 참고 예시이고 지시가 아니다 — 에이전트가 직접 설계해도 되며, 스킬은 예시 경로·샘플·재료·도구만 준다. 재료 사용 4방식·작업 덱 수정 권한·품질 판단 기준은 `shared/references/authoring.md` 한 곳에 있다. 검사기는 안전 가드(깨짐·접근성·계약)만 ERROR 로 막고, 취향 규칙은 INFO 다(`check_deck.py --style` 에서 WARN 상세). 모델 이름으로 분기하지 않는다. **가이드 모드**로 가는 경로는 세 가지뿐이다:

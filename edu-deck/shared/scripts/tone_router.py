@@ -163,6 +163,14 @@ PRESETS = {
     "seoul-editorial": {"axes": {"energy": .45, "playful": .35, "technical": .4,  "serious": .55, "warm": .6,  "formal": .8}},
 }
 
+# 스타일 계열 시그니처(P1). id = families.css 의 [data-family="…"] 블록·deck.json 의 family 키 허용값.
+# classic 은 후보에 없다 — 계열을 고르지 않으면 family 키를 쓰지 않는 것이 classic 이다.
+FAMILIES = {
+    "studio":  {"axes": {"energy": .55, "playful": .5, "technical": .5,  "serious": .45, "warm": .7,  "formal": .35}},
+    "vivid":   {"axes": {"energy": .85, "playful": .6, "technical": .45, "serious": .4,  "warm": .5,  "formal": .3}},
+    "drawing": {"axes": {"energy": .3,  "playful": .2, "technical": .9,  "serious": .7,  "warm": .3,  "formal": .8}},
+}
+
 WEAK_REASON = "톤 신호어가 약해 제목 기준으로 순서를 돌렸습니다(같은 제목은 항상 같은 결과)"
 
 
@@ -253,6 +261,17 @@ def route(title, outcomes="", audience="", extra="", seed="0",
                           (" (최근 사용이라 감점)" if row["recent_penalty"] else ""))
     result["preset"] = {"recommend": preset_top[0]["id"],
                         "candidates": [{"id": r["id"], "score": r["score"], "because": r["because"]} for r in preset_top]}
+    # 계열 후보(P1 추가 필드 — 기존 필드는 위와 같은 구조·값 그대로).
+    # family 는 deck.json 의 "family" 키 후보를, family_palette 는 계열 팔레트 오버레이
+    # 제안을 담는다(P1 에는 아직 없으므로 항상 빈 목록 — 빈 목록이 정상).
+    family_rows = _score(FAMILIES, ax, title, "family", (), seed, jit_scale)
+    for row in family_rows:
+        near = sorted(AXES, key=lambda a: abs(ax[a] - FAMILIES[row["id"]]["axes"][a]))[:3]
+        row["because"] = f"계열 제안 — 축 근접: {', '.join(near)}"
+    result["family"] = {"recommend": family_rows[0]["id"],
+                        "candidates": [{"id": r["id"], "score": r["score"], "because": r["because"]}
+                                       for r in family_rows]}
+    result["family_palette"] = []
     if not signal_words:
         result["note"] = WEAK_REASON
     return result

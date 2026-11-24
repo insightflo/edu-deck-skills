@@ -13,6 +13,10 @@ def common_css():
         +base64.b64encode(font).decode('ascii')+") format('woff2')}\n"
         +(BASE/'css/tokens.css').read_text(encoding='utf-8')+'\n'
         +(BASE/'css/themes.css').read_text(encoding='utf-8')+'\n'
+        # 계열 토큰(families)이 부품(parts)보다 먼저 — 부품은 families 가 덮은
+        # 역할·레시피 토큰을 소비한다. 순서는 tokens → themes → families → parts.
+        +(BASE/'css/families.css').read_text(encoding='utf-8')+'\n'
+        +(BASE/'css/parts.css').read_text(encoding='utf-8')+'\n'
         +(BASE/'css/visual-motion.css').read_text(encoding='utf-8')+'\n'
         +(BASE/'css/responsive.css').read_text(encoding='utf-8')+'\n'
         +(BASE/'css/viewer.css').read_text(encoding='utf-8')+'\n'
@@ -40,6 +44,27 @@ FONTS={
     'gowun-batang':{'family':'Gowun Batang','file':'GowunBatang-Regular.woff2',
                     'license':'OFL-GowunBatang.txt','weight':'400'},
 }
+def font_face_css(key):
+    """[목적] deck.json font 키가 고른 글꼴의 @font-face 등록 블록만 만든다.
+    [입력] key: FONTS 목록 키('pretendard' 이면 빈 문자열 — 셸 기본 내장 사용)
+    [출력] 라이선스 주석 + @font-face CSS 조각. 본문·팩 스택 덮어쓰기는 하지 않는다 —
+      계열 덱(family)처럼 글꼴 등록만 필요하고 본문 스택은 계열 토큰이 정하는 경로용.
+      실패 시 ValueError — 호출부에서 사용자 메시지로 바꾼다.
+    """
+    if key in (None,'pretendard'):
+        return ''
+    spec=FONTS.get(key)
+    if spec is None:
+        raise ValueError(f"알 수 없는 font 키입니다: {key}")
+    font=(BASE/'fonts'/spec['file']).read_bytes()
+    if font[:4]!=b'wOF2':
+        raise ValueError(f"{spec['file']} is not a WOFF2 font")
+    license=(BASE/'fonts'/spec['license']).read_text(encoding='utf-8')
+    fam=spec['family']
+    return ('/* deck.json font="'+key+'" — Embedded unmodified '+fam+'.\n'+license.replace('*/','* /')+'\n*/\n'
+        +f"@font-face{{font-family:'{fam}';font-style:normal;font-weight:{spec['weight']};font-display:block;src:url(data:font/woff2;base64,"
+        +base64.b64encode(font).decode('ascii')+f") format('woff2')}}\n")
+
 def font_css(key):
     """[목적] deck.json font 키가 고른 글꼴을 임베드하는 CSS 조각을 만든다.
     [입력] key: FONTS 목록 키('pretendard' 이면 빈 문자열 — 셸 기본 내장 사용)
@@ -54,15 +79,9 @@ def font_css(key):
     spec=FONTS.get(key)
     if spec is None:
         raise ValueError(f"알 수 없는 font 키입니다: {key}")
-    font=(BASE/'fonts'/spec['file']).read_bytes()
-    if font[:4]!=b'wOF2':
-        raise ValueError(f"{spec['file']} is not a WOFF2 font")
-    license=(BASE/'fonts'/spec['license']).read_text(encoding='utf-8')
     fam=spec['family']
     fall="'Apple SD Gothic Neo','Malgun Gothic','맑은 고딕','Noto Sans KR','Noto Sans CJK KR',sans-serif"
-    return ('/* deck.json font="'+key+'" — Embedded unmodified '+fam+'.\n'+license.replace('*/','* /')+'\n*/\n'
-        +f"@font-face{{font-family:'{fam}';font-style:normal;font-weight:{spec['weight']};font-display:block;src:url(data:font/woff2;base64,"
-        +base64.b64encode(font).decode('ascii')+f") format('woff2')}}\n"
+    return (font_face_css(key)
         # visual-motion.css 의 'body,.slide,.pack' 스택과 같은 선택자로 덮어 쓴다 —
         # 셸 도움말·토스트 같은 발표 도구 요소는 자체 스택(Pretendard)을 유지한다.
         +f"body,.slide,.pack{{font-family:'{fam}',{fall}}}\n"

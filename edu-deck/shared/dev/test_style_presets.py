@@ -83,6 +83,8 @@ class TestPresetFiles(unittest.TestCase):
         known = set(sp.THEMES)
         for pid, p in self.presets.items():
             with self.subTest(preset=pid):
+                if p.get('family'):
+                    continue  # 계열 프리셋은 recommended_theme 을 쓰지 않는다(P3)
                 self.assertIn(p['recommended_theme'], known)
 
 
@@ -295,7 +297,9 @@ class TestToneRouterPreset(unittest.TestCase):
     ]
 
     def test_preset_ids_match_style_preset_list(self):
-        yaml_ids = set(sp.load_all(PRESETS))
+        # 라우터의 classic 테이블은 family 없는 프리셋과만 1:1 이다 — 계열 프리셋 후보는
+        # 별도 필드(family_palette)로 흐른다(계열 스키마는 dev/test_family_presets.py 가 본다).
+        yaml_ids = {pid for pid, p in sp.load_all(PRESETS).items() if not p.get('family')}
         self.assertEqual(set(tr.PRESETS), yaml_ids, 'tone_router.PRESETS 와 shared/presets/*.yaml 불일치')
         for pid, spec in tr.PRESETS.items():
             self.assertEqual(set(spec['axes']), set(tr.AXES), pid)

@@ -237,12 +237,19 @@ footer { margin-top:56px; color:#5a6b76; font-size:13.5px; border-top:1.5px soli
 
 </style></head><body>
 <h1>edu-deck <em>자산 갤러리</em></h1>
-<p class="sub">스킬이 조립에 쓰는 재료 전부 — 리소스팩 설계 <span class="count">8종</span>·흐름 8종(64조합 빌드 검증), 장 배치 <span class="count">52계열 253변형</span>,
+<p class="sub">스킬이 조립에 쓰는 재료 전부 — 스타일 계열 <span class="count">3종</span>(studio·vivid·drawing + 프리셋 6종), 리소스팩 설계 <span class="count">8종</span>·흐름 8종(64조합 빌드 검증), 장 배치 <span class="count">52계열 253변형</span>,
 테마 <span class="count">8종</span>, 모션 시그니처 <span class="count">42종 + 공통 기법 5종</span>. 모션 카드는 스크롤해 눈에 들어오면 <b>그 자리에서 실제 엔진이 그대로 재생</b>한다(클릭하면 크게 본다).</p>
 <nav>
- <a href="#packs">리소스팩 64</a><a href="#arch">장 배치 253</a><a href="#themes">테마 8</a>
+ <a href="#families">세 스타일 계열 3</a><a href="#packs">리소스팩 64</a><a href="#arch">장 배치 253</a><a href="#themes">테마 8</a>
  <a href="#motion">모션 47</a><a href="#archkit">아키텍처 키트</a><a href="#consult">컨설팅 차트</a><a href="gallery-archetypes.html">▶ 배치 전체 덱(253장 열람)</a>
 </nav>
+<section id="families"><h2>세 스타일 계열 — <span class="n">3종</span> (기본 classic 외)</h2>
+<p class="desc">같은 엔진·단계 공개·퀴즈 계약을 공유하면서 모양·질감·글꼴·도식 부품 언어를 바꾼다. 한 덱·한 시리즈에 한 계열만 쓰며, <code>deck.json</code>/<code>series.json</code>의 <code>"family"</code>로 선언한다.</p>
+<div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(340px,1fr))">
+ <figure class='card' data-full='gallery/family-studio.png' data-alt='스튜디오 계열 studio 실물 예시'><img loading='lazy' src='gallery/family-studio.png' alt='스튜디오 계열 표지'><figcaption><b>스튜디오</b> <code>studio</code> — 상아 점격자 · 흰 둥근 카드 · tint 알약 · 창틀 도식 <span class='simeta'><a href='../examples/family-studio/family-studio-deck.html' onclick='event.stopPropagation()'>실물 덱 열기(7장) →</a></span></figcaption></figure>
+ <figure class='card' data-full='gallery/family-vivid.png' data-alt='비비드 계열 vivid 실물 예시'><img loading='lazy' src='gallery/family-vivid.png' alt='비비드 계열 표지'><figcaption><b>비비드</b> <code>vivid</code> — 남색 글로우·밝음 리듬 · 6px 색띠 카드 · 원형 메달 <span class='simeta'><a href='../examples/family-vivid/family-vivid-deck.html' onclick='event.stopPropagation()'>실물 덱 열기(7장) →</a></span></figcaption></figure>
+ <figure class='card' data-full='gallery/family-drawing.png' data-alt='도면 계열 drawing 실물 예시'><img loading='lazy' src='gallery/family-drawing.png' alt='도면 계열 표지'><figcaption><b>도면</b> <code>drawing</code> — 도면 격자 · hairline 선화 · 치수선 · 고운바탕 제목 <span class='simeta'><a href='../examples/family-drawing/family-drawing-deck.html' onclick='event.stopPropagation()'>실물 덱 열기(7장) →</a></span></figcaption></figure>
+</div></section>
 <section id="packs"><h2>리소스팩 — 설계 <span class="n">8종</span> × 학습 흐름 <span class="n">8종</span></h2>
 <p class="desc">눈에 보이는 다양함은 <b>설계</b>가 만든다 — 워크북의 마주본 면, 사례철의 기록A/B, 잡지의 편집 지면처럼 배치 문법 자체가 다르다.
 <b>흐름</b>은 수업의 뼈대(단계 구성·문안)를 바꾼다. 8×8=64조합을 전수 빌드·검사했다(64/64 PASS).</p>

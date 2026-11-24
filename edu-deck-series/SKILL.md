@@ -32,6 +32,7 @@ description: "Use when the user wants a multi-episode education or training seri
 - 시리즈 제작 전에 경로(팩/legacy)를 `edu-deck/SKILL.md` 의 "경로 결정"으로 시리즈 단위로 한 번 정한다(기본값 없음, 애매하면 사용자에게 한 번 묻고, 물을 수 없으면 추천으로 진행해 근거를 남긴다). 한 시리즈의 편들이 같은 경로를 쓰는 것을 원칙으로 하며, 편마다 경로를 바꾸려면 이유를 구성안에 적는다.
   - 팩이면: `python3 <base>/scripts/pack_router.py --title "<시리즈 제목>" --outcomes … --audience …` 로 후보 3종·추천·흐름을 계산하고 `<base>/references/resource-packs.md` 를 읽어 디자인 1종·주흐름 1종·필요시 다른 보조활동 최대 2종을 정한다. 기본은 에이전트가 청중·수행 행동 근거로 확정해 구성안에 남기고(authoring.md 5절), 시안 3종 비교는 사용자가 요청할 때 쓰는 선택적 절차다(물을 수 없으면 추천으로 진행하며 근거를 남긴다). 팩 선택은 시리즈 제작 전 1회만 하고 모든 편이 같은 선택을 공유한다(같은 시리즈 안에서 다양성을 만들려고 편마다 바꾸지 않는다. 시리즈끼리는 `--recent` 로 최근 쓴 디자인을 넘겨 반복을 줄인다).
   - legacy 면: `<base>/references/composition.md` 의 유형표·줄거리, `layouts.md`·`snippets/` 로 편을 만들고 편마다 `theme`(시리즈 안에서는 같은 테마를 권장) 을 `tone_router.py` 추천으로 정한다.
+  - 시리즈 계열(family)을 쓰려면: series.json 의 `family`(studio·vivid·drawing, 생략·`classic`=계열 없음)와 각 편 deck.json 의 `family` 를 같은 값으로 맞춘다 — **한 시리즈에는 한 계열만** 온다(조립기가 다른 편을 거부한다). `family` 는 `theme` 과 함께 쓸 수 없다. 계열을 쓰면 허브·편이 그 계열 스킨으로 바뀌고 check_series 의 화면 렌더 검증이 필수가 된다.
   - 편별 수행 행동·평가 증거와 선택 이유를 구성안에 적는다. 시리즈의 디자인 일관성을 우선하되 편의 학습 목적에 맞춰 흐름은 달리할 수 있다. 이유 없는 무작위 디자인 전환은 하지 않는다.
 - 허브 유형을 정한다(선택 규칙은 series.md 3절): ①경로형(map — 단계·흐름이 있는 과정) ②책장형(shelf — 편이 독립적·고르는 맛) ③목록형(list — 편이 많고 정보 위주). 애매하면 추천과 근거를 구성안에 적고 진행한다(허브 유형은 구성안 승인 1회에서 함께 본다).
 - **구성안을 사용자에게 보여 승인을 한 번 받는다.** 승인 후 편 추가·삭제는 변경 이유와 함께 다시 확인한다.
@@ -54,7 +55,7 @@ description: "Use when the user wants a multi-episode education or training seri
 - 편 단위 말투 교정: 3단계 포털 조립 전에 각 편이 solo 4.5단계 대본 검토 게이트(`<base>/references/copyedit.md`·`<base>/skills/{red-pen,humanize-korean}`)를 끝낸다. 어느 편이든 교정을 건너뛰면 그 사실을 보고한다.
 
 ### 3. series.json → 포털 조립
-- `<작업 폴더>/series.json` 을 series.md 4절 양식으로 쓴다: 시리즈 제목·소개·허브 유형(map 은 단계 묶음 groups)·편 목록(폴더·라벨·제목·소개·색·태그)·시리즈 공통 용어집(선택).
+- `<작업 폴더>/series.json` 을 series.md 4절 양식으로 쓴다: 시리즈 제목·소개·허브 유형(map 은 단계 묶음 groups)·편 목록(폴더·라벨·제목·소개·색·태그)·시리즈 공통 용어집(선택)·계열 `family`(선택 — studio·vivid·drawing·classic, 생략=classic. 지정하면 모든 편 deck.json `family` 가 같은 값이어야 한다).
 - 조립:
 ```bash
 python3 <series>/scripts/build_series.py <작업 폴더>
@@ -68,10 +69,11 @@ python3 <series>/scripts/check_series.py <작업 폴더>/<결과 파일> --sheet
 - 정적: 표식·id 중복·외부 자원·허브 카드↔편 일치·목차 칩·EDU_STUDY 메타 + **편마다 check_deck 정적 규칙 그대로**(아키타입·확인 문제·노트 분량).
 - talk 편이면 check_deck talk 경고(예상 시간·시간 합계·대본 분량·제목 줄 수)가 0이고 `V` 발표자 보기를 열어 확인한다.
 - 렌더: Chrome 으로 목차 시작 화면 확인 + 각 편의 모든 장·단계를 그려 넘침·글자 크기·대비·겹침 측정(solo check_deck 과 같은 기준).
+- 계열 시리즈(family 지정): `<html data-family>`·편 래퍼 `data-ep-family` 표식을 다시 확인하고(변조하면 ERROR) 허브 스킨 글자 대비 ≥4.5:1 도 잰다. 계열 포털은 화면 렌더가 필수라 `--no-render` 나 브라우저 기동 실패면 FAIL(classic 은 종전대로 NOT_RUN·WARN).
 - 허브 유형을 바꿨으면 그 유형으로도 1회 빌드해 check_series 를 돌린다(허브 3종 모두 같은 검사기를 쓴다).
 - 최종 포털을 공통 반응형 계약의 6개 화면 조건에서 검사한다. 허브 3종, 편 열기·복귀·진도, 노트·퀴즈·회전·인쇄를 확인하고 실제 기기·다른 브라우저 미검증을 구분한다.
 - WARN 은 읽고 판단한다. 편마다 "어떤 도식이 어디에 들어가는지"를 저작 때 정해 두고, 축소판·목차 화면 PNG(`--sheets`)을 직접 본다(solo 6단계와 같은 육안 기준). check_series·check_deck 통과는 디자인 승인이 아니다 — 배치 판단은 축소판을 직접 보고 내린다.
-- **심미 크리틱 — 티어제(solo 6단계와 같은 기준)**: 편마다 **기본 게이트**(check_deck·자기 점검 3문 — 표지·대표 장이 기준 샘플 `references/samples/ko-cover-regression.html` 과 나란히 동급 이상인지 확인 포함, authoring.md "덱 고유성")로 검사한다. 시리즈 전체 크리틱(포털 표지·목록 카드·편 간 난이도 리듬, `<base>/references/design-critique.md` 9항목·독립 에이전트)은 **심화 조건**(대외 발표·규정 준수·사용자 요청)이나 편이 5편 이상일 때 1회 돌린다. 심화에서 Blocker 는 필수 수정, Major 는 개선 또는 수용 사유 기록.
+- **심미 크리틱 — 티어제(solo 6단계와 같은 기준)**: 편마다 **기본 게이트**(check_deck·자기 점검 3문 — 표지·대표 장이 기준 샘플 `references/samples/ko-cover-regression.html` 과 나란히 동급 이상인지 확인 포함, authoring.md "덱 고유성")로 검사한다. 시리즈 전체 크리틱(포털 표지·목록 카드·편 간 난이도 리듬, `<base>/references/design-critique.md` 10항목·독립 에이전트)은 **심화 조건**(대외 발표·규정 준수·사용자 요청)이나 편이 5편 이상일 때 1회 돌린다. 심화에서 Blocker 는 필수 수정, Major 는 개선 또는 수용 사유 기록.
 - `외국어 문장`·글자 크기 경고는 `<base>/references/expression.md` 1·4절 기준으로 고친다.
 
 ### 5. 보고

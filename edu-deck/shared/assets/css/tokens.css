@@ -20,3 +20,25 @@
 .slide.pack-lab{--accent:#28674f;--accent-text:#23533f;--paper:#f4f8f5;--light:#e4eee7}
 .slide.pack-seminar{--accent:#7d4b39;--accent-text:#693e30;--paper:#fcf5ee;--light:#efe3d8}
 .slide.pack-workbook{--accent:#375b88;--accent-text:#29466b;--paper:#fbf8ed;--light:#eae7dd}
+
+/* ── 계열 시스템 토큰 (P1) ──────────────────────────────────
+   세 스타일 계열(studio·vivid·drawing, 기본 classic)을 위한 추가 역할·레시피·글꼴
+   기본값. 여기 값은 classic 이 그대로 쓸 수 있는 고전 계열 표정이다 —
+   families.css 의 [data-family="…"] 블록이 계열별로 덮어쓴다.
+   기존 15역할·톤·팩 오버라이드는 위에 있고 건드리지 않는다. */
+:root{
+  /* 신규 색 역할 기본값 — 계열 팔레트의 보조 색군(보라·금·도면 청).
+     classic 은 이 역할을 쓰는 부품이 없으므로 화면은 바뀌지 않는다. */
+  --violet:#6b4fa8;--violet-text:#593e92;
+  --gold:#8a6b12;--gold-text:#715708;
+  --blueprint:#285f87;
+  /* 부품 레시피 토큰 — parts.css 의 .pt-* 가 소비한다. classic 기본은 기존
+     .card/.pill/.win 의 표정과 같다(곡률·그림자·띠·점). */
+  --card-r:var(--r2);--card-sh:none;--card-bd:2px solid var(--line);--card-band:8px solid var(--ink);
+  --pill-r:999px;--tile-r:var(--r1);--node-r:var(--r2);--win-r:var(--r2);
+  --arrow-w:3px;--label-track:3px;
+  /* 글꼴 레시피 — 제목·숫자 전용 스택. classic 기본은 본문 스택과 동일. */
+  --font-title:'Pretendard Variable','Apple SD Gothic Neo','Malgun Gothic','맑은 고딕','Noto Sans KR','Noto Sans CJK KR',sans-serif;
+  --title-weight:800;
+  --num-font:'Pretendard Variable','Apple SD Gothic Neo','Malgun Gothic','맑은 고딕','Noto Sans KR','Noto Sans CJK KR',sans-serif;
+}

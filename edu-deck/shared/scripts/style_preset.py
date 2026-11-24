@@ -21,6 +21,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import pathlib
 import re
 import sys
@@ -28,6 +29,8 @@ import sys
 PRESET_DIR = pathlib.Path(__file__).resolve().parent.parent / "presets"
 MARKER = "preset-css"
 THEMES = ("ocean", "cobalt", "forest", "berry", "cocoa", "graphite", "midnight", "solar")
+# 스타일 계열(deck.json "family"). family 없는 프리셋은 classic — 테마 17·기존 16종이 사는 계열.
+FAMILIES = ("studio", "vivid", "drawing")
 
 # YAML 필수 토큰 — 순서가 --list/생성 CSS 의 출력 순서다. 값은 모두 "#rrggbb".
 COLOR_KEYS = (
@@ -161,6 +164,11 @@ def load_preset(path: pathlib.Path) -> dict:
     return out
 
 
+def preset_family(preset: dict) -> str:
+    """프리셋의 계열 — `family` 필드가 없으면 'classic'(기존 16종 계약)."""
+    return str(preset.get("family") or "classic")
+
+
 def load_all(folder: pathlib.Path | None = None) -> dict[str, dict]:
     """presets 폴더의 *.yaml 을 id 순으로 모두 읽는다. 파일이 없으면 빈 dict."""
     folder = pathlib.Path(folder or PRESET_DIR)
@@ -169,12 +177,26 @@ def load_all(folder: pathlib.Path | None = None) -> dict[str, dict]:
 
 # ---------------------------------------------------------------- 검증
 def validate(preset: dict) -> list[str]:
-    """한 프리셋의 필수 키·형식·대비를 검사해 문제 문자열 목록을 돌려준다(빈 목록 = 통과)."""
+    """한 프리셋의 필수 키·형식·대비를 검사해 문제 문자열 목록을 돌려준다(빈 목록 = 통과).
+
+    [계열 분기] `family` 가 달린 프리셋은 색 전용이다 — `recommended_theme`·반경·규칙은
+    요구하지 않는다(반경·그림자·밤 면 규칙은 계열 소유라 프리셋이 바꾸지 않는다).
+    달려 있으면 형식은 같은 기준으로 검사한다.
+    """
     bad: list[str] = []
+    family = preset.get("family")
+    is_family = family is not None
+    if is_family and family not in FAMILIES:
+        bad.append(f"family 는 {'|'.join(FAMILIES)} 중 하나여야 합니다")
     for key in TEXT_KEYS:
+        if key == "recommended_theme" and is_family:
+            continue
         if not str(preset.get(key, "")).strip():
             bad.append(f"{key} 값이 비었습니다")
-    if preset.get("recommended_theme") not in THEMES:
+    if not is_family and preset.get("recommended_theme") not in THEMES:
+        bad.append(f"recommended_theme 은 {'|'.join(THEMES)} 중 하나여야 합니다")
+    elif is_family and preset.get("recommended_theme") is not None \
+            and preset["recommended_theme"] not in THEMES:
         bad.append(f"recommended_theme 은 {'|'.join(THEMES)} 중 하나여야 합니다")
     if preset.get("id") != preset.get("stem"):
         bad.append(f"id({preset.get('id')})와 파일명({preset.get('stem')})이 다릅니다")
@@ -185,12 +207,14 @@ def validate(preset: dict) -> list[str]:
             bad.append(f"tokens.{key} 는 '#rrggbb' 여야 합니다 (지금: {value!r})")
     for key in RADIUS_KEYS:
         value = tokens.get(key)
+        if is_family and value is None:
+            continue
         m = PX_RE.match(str(value or ""))
         if not m or not 0 < int(m.group(1)) <= 96:
             bad.append(f"tokens.{key} 는 '1~96px' 여야 합니다 (지금: {value!r})")
     rules = preset["rules"]
     for key in RULE_KEYS:
-        if key not in rules:
+        if key not in rules and not is_family:
             bad.append(f"rules.{key} 가 없습니다")
     for key in ("no-shadow", "hairline"):
         if key in rules and not isinstance(rules[key], bool):
@@ -284,6 +308,48 @@ def deck_css(preset: dict) -> str:
     return "\n".join(lines)
 
 
+def family_css(preset: dict) -> str:
+    """계열 프리셋용 preset.css — 색 역할 토큰만 덮어쓴다(색 전용 템플릿).
+
+    [연결] deck_css() 와 달리 반경(--r-*)·그림자(--shadow-*)·--preset-* 플래그·
+           .slide.dark 구조 규칙을 내지 않는다 — 모양은 계열(families.css·parts.css)이
+           소유하므로 프리셋이 색만 바꾼다. 상단 주석에 `family: <계열id>` 표식을 남겨
+           적용·조립 단계가 덱의 계열과 맞는지 검사할 수 있게 한다.
+    """
+    lines = [
+        f"/* preset.css — \"{preset['name']}\" ({preset['id']}) · {MARKER} 자동 생성물 "
+        f"· family: {preset_family(preset)}",
+        "   [역할] 계열(family) 덱의 색 역할만 바꾼다 — 모서리·그림자·밤 면 규칙은 계열이 소유한다.",
+        "   [연결] :root 가 tokens.css 의 색 역할을 덮고, .slide 가 장마다 다시 계산되는",
+        "          파생 색 토큰(--accent-soft·--light 등)을 이 프리셋 값으로 고정한다.",
+        f"   [주의] 직접 고치지 않는다 — 원본은 shared/presets/{preset['id']}.yaml 이다.",
+        "          다시 적용하면 이 파일은 통째로 덮어써진다. 같은 family 의 덱에만 적용된다. */",
+        ":root{",
+        f"  --bg:{_tok(preset, 'paper')};--bg-2:{_tok(preset, 'tint')};"
+        f"--paper:{_tok(preset, 'surface')};--line:{_tok(preset, 'line')};",
+        f"  --ink:{_tok(preset, 'ink')};--soft:{_tok(preset, 'ink-2')};--mut:{_tok(preset, 'ink-3')};",
+        f"  --blue:{_tok(preset, 'brand')};--blue-text:{_tok(preset, 'brand-text')};"
+        f"--blue-soft:{_tok(preset, 'brand-tint')};",
+        f"  --accent:{_tok(preset, 'accent')};--accent-text:{_tok(preset, 'accent-text')};"
+        f"--accent-soft:{_tok(preset, 'accent-tint')};",
+        f"  --night:{_tok(preset, 'night')};--night-2:{_tok(preset, 'night-2')};"
+        f"--night-line:{_tok(preset, 'night-line')};",
+        f"  --on-night:{_tok(preset, 'on-night')};--on-night-2:{_tok(preset, 'on-night-2')};",
+        "}",
+        ".slide{",
+        "  --light:var(--bg);--chip:var(--bg-2);",
+        "  /* 엔진의 --muted 는 글자가 아니라 '옅은 선·면'이고, 밤 장 안에서도 글자로 쓰인다.",
+        "     그래서 캡션 잉크(--mut)를 그대로 넣지 않고, 옅은 바탕과 섞어 양쪽에서 읽히게 한다. */",
+        "  --muted:color-mix(in srgb,var(--bg-2) 70%,var(--mut));",
+        f"  --accent-light:{_tok(preset, 'accent-tint')};"
+        f"--accent-soft:{_tok(preset, 'accent-tint')};",
+        f"  --blue-light:{_tok(preset, 'ink-3')};",
+        "}",
+        "",
+    ]
+    return "\n".join(lines)
+
+
 def book_css(preset: dict) -> str:
     """책(bookstyle-html)용 오버레이 — book.css 의 토큰 이름으로 같은 팔레트를 옮긴다.
 
@@ -342,8 +408,10 @@ def cmd_list() -> int:
         t = p["tokens"]
         worst, failed = gate_summary(p)
         note = "실패 " + ", ".join(failed) if failed else f"×{worst:.2f}"
+        # 계열 프리셋은 추천 테마가 없다 — 계열 칸에 family id 를 대신 보여 준다.
+        theme_cell = str(p.get("recommended_theme") or (f"f:{p['family']}" if p.get("family") else ""))
         print(f"{_w(pid, 18)}{_w(str(p.get('name', '')), 20)}{_w(str(p.get('genre', '')), 26)}"
-              f"{_w(str(p.get('recommended_theme', '')), 12)}{_w(t.get('brand', '?'), 9)}"
+              f"{_w(theme_cell, 12)}{_w(t.get('brand', '?'), 9)}"
               f"{_w(t.get('accent', '?'), 9)}{_w(str(p['rules'].get('min-font', '?')), 6)}{note}")
     print(f"\n프리셋 {len(presets)}종 · 검증은 --verify")
     return 0
@@ -395,7 +463,37 @@ def cmd_apply(args) -> int:
             print(f"        - {line}", file=sys.stderr)
         return 2
     out, mode = _pick(args)
-    text = deck_css(preset) if mode == "deck" else book_css(preset)
+    # 계열 방어(P1 확장): 프리셋 계열과 덱 deck.json 의 family 가 다르면 파일을 쓰기 전에
+    # 거부한다. 표식 없는 프리셋은 classic 취급 — classic×신계열·신계열×classic·
+    # 신계열×다른 신계열 조합 모두 차단(책은 계열이 없어 계열 프리셋을 받지 않는다).
+    p_family = preset_family(preset)
+    if mode == "book":
+        if p_family != "classic":
+            print(f"ERROR   '{args.apply}' 는 family '{p_family}' 프리셋입니다 — "
+                  "책(--book)에는 classic 프리셋만 쓸 수 있습니다.", file=sys.stderr)
+            return 2
+    else:
+        d_family = "classic"
+        cfg_path = pathlib.Path(args.deck).resolve() / "deck.json"
+        if cfg_path.is_file():
+            try:
+                d_family = str(json.loads(cfg_path.read_text(encoding="utf-8-sig")).get("family") or "classic")
+            except json.JSONDecodeError:
+                d_family = "classic"
+        if p_family != d_family:
+            if p_family == "classic":
+                msg = (f"'{args.apply}' 는 classic 프리셋입니다 — "
+                       f"family '{d_family}' 덱에는 쓸 수 없습니다.")
+            else:
+                where = f"family '{d_family}'" if d_family != "classic" else "classic(family 미지정)"
+                msg = (f"'{args.apply}' 는 family '{p_family}' 프리셋입니다 — "
+                       f"{where} 덱에는 쓸 수 없습니다.")
+            print(f"ERROR   {msg}", file=sys.stderr)
+            return 2
+    if mode == "deck":
+        text = family_css(preset) if p_family != "classic" else deck_css(preset)
+    else:
+        text = book_css(preset)
     try:
         write_generated(out, text, force=args.force)
     except FileExistsError as e:

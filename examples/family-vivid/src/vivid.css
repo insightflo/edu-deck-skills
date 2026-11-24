@@ -1,0 +1,145 @@
+/* family-vivid — 비비드 계열 예시 덱 전용 배치 CSS.
+   부품 모양은 parts.css(.pt-*)와 families.css 토큰이 정한다 — 여기서는 장별
+   위치·크기와 덱 고유 일러스트·도식 클래스만 둔다(direction-d2 좌표). */
+.slide{padding:0;gap:0}
+.pt-pill.pos{position:absolute}
+.pt-win{position:relative}
+
+/* ── T1 표지(어두운 면) ── */
+.s1-kicker{position:absolute;left:120px;top:230px;font-size:24px;font-weight:700;
+  color:rgba(246,244,239,.7);letter-spacing:.06em}
+.s1-title{position:absolute;left:120px;top:308px;font-size:112px;font-weight:800;
+  line-height:1.16;letter-spacing:-.01em;color:#F6F4EF}
+.s1-title span{color:#F2A36B}
+.s1-lead{position:absolute;left:120px;top:646px;font-size:36px;font-weight:600;color:#F6F4EF}
+.s1-body{position:absolute;left:120px;top:712px;font-size:28px;font-weight:500;
+  color:rgba(246,244,239,.8)}
+.s1-date{position:absolute;left:120px;top:800px;font-size:24px;font-weight:500;
+  color:rgba(246,244,239,.6);font-variant-numeric:tabular-nums}
+.s1-art{position:absolute;left:1150px;top:150px;width:650px;height:780px}
+
+/* ── T2 개념 ── */
+.s2-tag{position:absolute;left:120px;top:106px}
+.s2-title{position:absolute;left:120px;top:146px;font-size:68px;font-weight:var(--title-weight);
+  line-height:1.15;color:var(--ink)}
+.s2-ex{position:absolute;left:120px;top:250px;font-size:22px;font-weight:700;color:var(--soft)}
+.s2-card{position:absolute;top:308px;width:480px;height:372px;padding:0}
+.s2-card .pt-medal{position:absolute;left:32px;top:36px}
+.s2-card .s2-name{position:absolute;left:148px;top:66px;font-size:30px;font-weight:700}
+.s2-card .s2-num{position:absolute;left:32px;top:182px;font-size:128px;font-weight:800;
+  line-height:1.2;font-variant-numeric:tabular-nums}
+.s2-op{position:absolute;top:337px;width:120px;text-align:center;
+  font-size:96px;font-weight:800;color:var(--ink)}
+.s2-bar{position:absolute;left:120px;top:724px;width:1680px;height:94px}
+.s2-bar .lab{position:absolute;top:0;font-size:24px;font-weight:700}
+.s2-bar .seg{position:absolute;top:46px;height:44px}
+.s2-bar .tick{position:absolute;top:62px;width:2px;height:12px;background:rgba(246,244,239,.5)}
+.s2-cap{position:absolute;top:858px;width:500px}
+.s2-cap b{display:block;font-size:28px;font-weight:700;color:var(--accent-text)}
+.s2-cap p{margin-top:10px;font-size:28px;font-weight:500;line-height:1.5}
+.s2-foot{position:absolute;left:120px;top:1024px;font-size:20px;font-weight:500;color:var(--soft)}
+
+/* ── T3 수치(어두운 면) ── */
+.s3-tag{position:absolute;left:120px;top:88px;color:#82CFA6}
+.s3-title{position:absolute;left:120px;top:150px;font-size:68px;font-weight:var(--title-weight);
+  line-height:1.15;color:#F6F4EF}
+.s3-eq{position:absolute;left:120px;top:320px;font-size:96px;font-weight:800;line-height:1.2;
+  white-space:nowrap;color:#F6F4EF;font-variant-numeric:tabular-nums}
+.s3-ex{position:absolute;left:124px;top:448px;font-size:28px;font-weight:500;
+  color:rgba(246,244,239,.6)}
+.s3-cap{position:absolute;left:120px;top:514px;font-size:22px;font-weight:700;
+  color:rgba(246,244,239,.7)}
+.s3-rows{position:absolute;left:120px;top:550px;width:700px}
+.s3-row{position:relative;height:80px;border-top:1px solid rgba(246,244,239,.12)}
+.s3-row:first-child{border-top:none}
+.s3-row .dot{position:absolute;left:0;top:33px;width:14px;height:14px;border-radius:50%}
+.s3-row .nm{position:absolute;left:36px;top:24px;font-size:28px;font-weight:700;color:#F6F4EF}
+.s3-row .amt{position:absolute;left:310px;top:2px;width:140px;text-align:right;
+  font-size:56px;font-weight:800;line-height:1.2;font-variant-numeric:tabular-nums}
+.s3-row .pt{position:absolute;left:470px;top:27px;font-size:26px;font-weight:500;
+  color:rgba(246,244,239,.85)}
+.s3-pills{position:absolute;left:120px;top:888px;display:flex;gap:14px}
+.s3-pill2{position:absolute;left:120px;top:942px}
+.s3-wl{position:absolute;top:834px;width:150px;text-align:center;font-size:22px;
+  font-weight:500;color:rgba(246,244,239,.8)}
+.s3-close{position:absolute;left:900px;top:900px;width:880px;font-size:26px;font-weight:600;
+  color:#F6F4EF}
+
+/* ── T4 흐름 ── */
+.s4-tag{position:absolute;left:120px;top:106px}
+.s4-title{position:absolute;left:120px;top:146px;font-size:68px;font-weight:var(--title-weight);
+  line-height:1.15;color:var(--ink)}
+.s4-link{position:absolute;top:310px;width:222px;height:0;
+  border-top:2px dashed rgba(27,36,51,.35)}
+.s4-link::after{content:"";position:absolute;right:-6px;top:-9px;
+  border-top:9px solid transparent;border-bottom:9px solid transparent;
+  border-left:12px solid rgba(27,36,51,.35)}
+.s4-node{position:absolute;top:262px;width:320px}
+.s4-node .pt-numring{position:absolute;left:112px;top:0;width:96px;height:96px;font-size:32px}
+.s4-node .pt-medal{position:absolute;left:72px;top:137px;width:176px;height:176px}
+.s4-node .pt-medal svg{width:80px;height:80px}
+.s4-node .kw{position:absolute;left:0;top:354px;width:320px;text-align:center;
+  font-size:44px;font-weight:800;color:var(--ink)}
+.s4-node .qs{position:absolute;left:0;top:437px;width:320px;text-align:center;
+  font-size:30px;font-weight:500;line-height:1.5;color:var(--soft)}
+.s4-strip{position:absolute;left:120px;top:836px;width:1680px;height:120px;
+  display:flex;align-items:center;justify-content:center;gap:24px}
+.s4-strip p{font-size:32px;font-weight:600}
+.s4-strip svg{width:52px;height:52px;flex:none}
+
+/* ── T5 퀴즈 — .chk 계약 안에 A·B 카드 ── */
+.s5 .pt-pill.tq{left:120px;top:106px}
+.s5 .chk{position:absolute;inset:0;padding:0;border:none;background:none;box-shadow:none}
+.s5 .chk-q{position:absolute;left:120px;top:146px;font-size:88px;
+  font-weight:var(--title-weight);line-height:1.15;color:var(--ink);margin:0}
+.s5 .chk-opts{position:absolute;left:120px;top:298px;display:flex;gap:40px}
+.s5 .chk-o{position:relative;width:820px;height:588px;text-align:left;
+  padding:0;font-family:inherit;cursor:pointer;
+  border:none;border-top:var(--card-band);gap:0;box-shadow:var(--card-sh)}
+.s5 .chk-o .pt-medal{position:absolute;left:44px;top:88px;width:128px;height:128px;
+  font-size:52px;font-weight:800}
+.s5 .chk-o .txt{position:absolute;left:44px;top:291px;width:732px;
+  font-size:38px;font-weight:500;line-height:1.55;color:var(--ink)}
+.s5 .chk-o .ex{position:absolute;left:44px;top:502px;font-size:24px;font-weight:500;
+  color:var(--soft)}
+.s5 .chk-o .illu{position:absolute;left:476px;top:50px;width:300px;height:205px}
+.s5 .chk-o:hover:not(:disabled){box-shadow:var(--card-sh),0 10px 28px rgba(27,36,51,.16)}
+.s5 .chk-o:disabled{cursor:default}
+.s5 .chk-o.chk-right{box-shadow:var(--card-sh),inset 0 0 0 3px var(--gr-green)}
+.s5 .chk-o.chk-picked:not(.chk-right){box-shadow:var(--card-sh),inset 0 0 0 3px var(--danger)}
+.s5 .chk-done .chk-o:not(.chk-right):not(.chk-picked){opacity:.55}
+.s5-ok{position:absolute;top:-24px;right:32px;height:48px;border-radius:var(--pill-r);
+  padding:0 22px;display:flex;align-items:center;font-size:24px;font-weight:700;
+  color:#fff;background:var(--success);z-index:2}
+.s5-strip{position:absolute;left:120px;top:914px;font-size:32px;font-weight:600;color:var(--ink)}
+.s5-strip b{color:var(--success);font-weight:800}
+.s5 .chk-why{display:none}
+
+/* ── T6 선언(어두운 면) ── */
+.s6-mark{position:absolute;left:120px;top:140px;width:56px;height:56px}
+.s6-tag{position:absolute;left:196px;top:156px}
+.s6-big{position:absolute;left:120px;top:257px;font-size:128px;font-weight:800;
+  line-height:1.2;letter-spacing:-.01em;color:#F6F4EF}
+.s6-big2{position:absolute;left:120px;top:419px;font-size:128px;font-weight:800;
+  line-height:1.2;letter-spacing:-.01em;color:#F2A36B}
+.s6-sub{position:absolute;left:120px;font-size:34px;font-weight:500;
+  color:rgba(246,244,239,.85)}
+.s6-art{position:absolute;left:1180px;top:230px;width:620px;height:690px}
+
+/* ── T7 실천 ── */
+.s7-tag{position:absolute;left:120px;top:116px}
+.s7-title{position:absolute;left:120px;top:176px;font-size:68px;
+  font-weight:var(--title-weight);line-height:1.15;color:var(--ink)}
+.s7-cal{position:absolute;left:150px;top:490px;width:420px;height:420px}
+.s7 .pt-card{position:absolute;left:820px;width:980px;height:188px;padding:0}
+.s7 .pt-card .cbox{position:absolute;left:32px;top:72px;width:44px;height:44px;
+  border-radius:10px;background:#fff;border:2px solid var(--blue);
+  display:flex;align-items:center;justify-content:center}
+.s7 .pt-card .cbox.on{background:var(--gr-blue);border-color:var(--gr-blue)}
+.s7 .pt-card .cbox svg{width:26px;height:26px}
+.s7 .pt-card .pt-medal{position:absolute;left:104px;top:50px;width:88px;height:88px}
+.s7 .pt-card .pt-medal svg{width:44px;height:44px}
+.s7 .pt-card b{position:absolute;left:224px;top:52px;font-size:34px;font-weight:800;
+  line-height:1.2}
+.s7 .pt-card p{position:absolute;left:224px;top:97px;font-size:26px;font-weight:500;
+  line-height:1.5;color:var(--ink)}

@@ -31,8 +31,8 @@ import sys
 from pathlib import Path
 
 from resource_packs import PackError, validate_selection
-from tone_router import ARCS, THEMES
-from visual_assets import FONTS, font_css
+from tone_router import ARCS, THEMES, FAMILIES
+from visual_assets import FONTS, font_css, font_face_css
 
 BASE = Path(__file__).resolve().parent.parent  # edu-deck/shared (공통 자산 폴더)
 MARK_TITLE = "{{TITLE}}"
@@ -86,7 +86,10 @@ def collect_css(dirs):
             continue
         for f in sorted(d.glob("*.css"), key=natural_key):
             # Pack runtime is loaded explicitly, never into an existing legacy deck.
-            if f.name in {"pack-runtime.css", "core.css", "tokens.css", "themes.css", "visual-motion.css", "responsive.css", "viewer.css"}:
+            # families.css·parts.css 도 셸 공통층(visual_assets.common_css)에 실린다 —
+            # 덱 폴더 자산 glob 에 잡혀 두 번 들어가면 안 되므로 여기서 뺀다.
+            if f.name in {"pack-runtime.css", "core.css", "tokens.css", "themes.css",
+                          "families.css", "parts.css", "visual-motion.css", "responsive.css", "viewer.css"}:
                 continue
             parts.append(f"/* ---- {f.name} ---- */\n" + read_utf8(f))
     return "\n".join(parts)
@@ -199,7 +202,7 @@ def propagate_part_tones(slides_html):
 
 
 def build(title, slide_files, css_dirs, icon_dirs, out_path, study=None, resource_pack=None,
-          theme=None, arc=None, font=None):
+          theme=None, arc=None, font=None, family=None):
     """
     [목적] 셸에 제목·CSS·아이콘·슬라이드를 채워 단일 HTML 파일을 쓴다.
     [입력] 제목, 슬라이드 조각 목록, CSS 폴더 목록, 아이콘 폴더 목록, 출력 경로,
@@ -220,6 +223,13 @@ def build(title, slide_files, css_dirs, icon_dirs, out_path, study=None, resourc
     # font 선택 키(TASK-tools G6): 셸 기본(Pretendard) 외 OFL 글꼴을 실명 @font-face 로 임베드한다.
     if font is not None and (not isinstance(font, str) or font not in FONTS):
         raise BuildError(f"deck.json 'font' 는 다음 중 하나입니다: {', '.join(FONTS)}")
+    # 계열(family) 선택 키(P1): <html data-family> 로 심어 families.css 블록이 덮는다.
+    # 미지정은 classic — 속성 자체를 심지 않는다(classic 렌더는 그대로).
+    # theme 은 classic 경로 전용이라 계열 덱과 함께 쓸 수 없다.
+    if family is not None and (not isinstance(family, str) or family not in FAMILIES):
+        raise BuildError(f"deck.json 'family' 는 다음 중 하나입니다: {', '.join(FAMILIES)}")
+    if family is not None and theme is not None:
+        raise BuildError("deck.json 'theme' 은 classic 경로 전용입니다 (family 와 함께 쓸 수 없습니다)")
     if resource_pack is not None:
         if theme is not None or arc is not None:
             raise BuildError("deck.json 'theme'·'arc' 는 legacy 경로 전용입니다 (resource_pack 과 함께 쓸 수 없습니다)")
@@ -237,8 +247,21 @@ def build(title, slide_files, css_dirs, icon_dirs, out_path, study=None, resourc
     else:
         shell_path = assets / "shell.html"
         css = collect_css(css_dirs)
+    # 프리셋/계열 불일치 방어(P1): style_preset.py 가 만든 classic 프리셋 CSS(preset-css 표식,
+    # 계열 표식 없음 = classic 취급)가 non-classic 계열 덱 src/ 에 들어와 있으면 거부한다.
+    if family is not None and "preset-css" in css:
+        m = re.search(r"preset-css[^\n]*?family\s*=\s*\"?([\w-]+)", css)
+        preset_family = m.group(1) if m else "classic"
+        if preset_family != family:
+            raise BuildError(
+                f"classic 전용 프리셋 CSS(src 의 preset-css 생성물)는 family '{family}' 덱에 쓸 수 없습니다 — "
+                "style_preset.py --apply 는 classic 덱에만 적용하세요")
     try:
         css += font_css(font)
+        if family == "drawing":
+            # drawing 계열 제목·키워드 전용 글꼴 — 등록용 @font-face 만 싣는다
+            # (본문·숫자 스택은 Pretendard 유지 → font_css 가 아닌 font_face_css).
+            css += font_face_css("gowun-batang")
     except ValueError as exc:
         raise BuildError(str(exc)) from exc
     slides_html, count = collect_slides(slide_files)
@@ -302,6 +325,12 @@ def build(title, slide_files, css_dirs, icon_dirs, out_path, study=None, resourc
         out, n = re.subn(r'<html\b([^>]*)>', rf'<html\1 data-font="{html.escape(font, quote=True)}">', out, count=1)
         if n != 1:
             raise BuildError("셸의 <html> 태그에 data-font 를 심지 못했습니다")
+    if family is not None:
+        # classic(family 미지정)은 속성을 심지 않는다 — 속성 없는 덱은 families.css 의
+        # [data-family] 블록이 아무것도 덮지 않으므로 기존 결과와 완전히 같다.
+        out, n = re.subn(r'<html\b([^>]*)>', rf'<html\1 data-family="{html.escape(family, quote=True)}">', out, count=1)
+        if n != 1:
+            raise BuildError("셸의 <html> 태그에 data-family 를 심지 못했습니다")
     # 조각 머리 주석 안의 설명 글자는 세지 않는다(화면에 나오지 않으므로)
     holders = len(re.findall(r"«[^»]*»", strip_comments(slides_html)))
     holder_files = [f.name for f in slide_files if PLACEHOLDER in strip_comments(read_utf8(f))]
@@ -402,11 +431,13 @@ def load_deck(deck_dir: Path):
         study["talk"] = cfg["talk"]
     # legacy 다양성 키: theme(팔레트)·arc(줄거리 인지). 조립 단계에서 구체값을 다시 검증하지만
     # 여기서도 검사해 잘못된 키가 조각 작성 뒤에야 드러나지 않게 한다.
-    for key, table in (("theme", THEMES), ("arc", ARCS), ("font", FONTS)):
+    for key, table in (("theme", THEMES), ("arc", ARCS), ("font", FONTS), ("family", FAMILIES)):
         if cfg.get(key) is not None and (not isinstance(cfg[key], str) or cfg[key] not in table):
             raise BuildError(f"deck.json '{key}' 은 다음 중 하나입니다: {', '.join(table)}")
     if "resource_pack" in cfg and (cfg.get("theme") or cfg.get("arc")):
         raise BuildError("deck.json 'theme'·'arc' 는 legacy 경로 전용입니다 (resource_pack 과 함께 쓸 수 없습니다)")
+    if cfg.get("family") is not None and cfg.get("theme") is not None:
+        raise BuildError("deck.json 'theme' 은 classic 경로 전용입니다 (family 와 함께 쓸 수 없습니다)")
     return cfg["title"].strip(), name, study
 
 
@@ -450,7 +481,7 @@ def main(argv=None):
             result = build(title, files, css_dirs, icon_dirs, out_path,
                            study=study, resource_pack=pack,
                            theme=cfg.get("theme"), arc=cfg.get("arc"),
-                           font=cfg.get("font"))
+                           font=cfg.get("font"), family=cfg.get("family"))
             if args.notes:
                 write_notes(files, args.notes, cfg.get("talk") or study.get("talk"))
     except (BuildError, OSError) as e:

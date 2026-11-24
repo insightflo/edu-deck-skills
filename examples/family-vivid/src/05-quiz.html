@@ -1,0 +1,47 @@
+<!-- T5 퀴즈 — .chk 계약: 질문 + A/B 보기 카드 + 해설. B 카드의 '정답' 배지는
+     data-step 1 로 진행자가 열고, 카드 클릭으로는 엔진이 채점 표시한다. -->
+<section class="slide s5" data-archetype="check" data-sec="60" id="s5">
+  <div class="pt-pill pos tq">퀴즈 1</div>
+  <div class="chk" data-review="cash-flow">
+    <p class="chk-q">어느 회사가 더 건강할까요?</p>
+    <div class="chk-opts">
+      <button class="chk-o pt-card" type="button" style="--card-band:6px solid var(--gr-blue)">
+        <span class="pt-medal" style="--medal-bg:var(--gr-blue);--medal-fg:#fff">A</span>
+        <svg class="illu" viewBox="0 0 220 150" fill="none" aria-hidden="true">
+          <line x1="20" y1="128" x2="100" y2="128" stroke="#8B96AD" stroke-width="3" stroke-linecap="round"/>
+          <rect x="32" y="28" width="34" height="100" rx="5" fill="#2F6FB0" opacity=".18" stroke="#245A92" stroke-width="3"/>
+          <line x1="49" y1="20" x2="49" y2="8" stroke="#245A92" stroke-width="3" stroke-linecap="round"/>
+          <path d="M43 14 49 7 55 14" fill="none" stroke="#245A92" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="150" cy="84" r="17" fill="#E8772E" opacity=".2" stroke="#A84B14" stroke-width="3"/>
+          <circle cx="150" cy="84" r="8" stroke="#A84B14" stroke-width="2.5" stroke-dasharray="2.5 3"/>
+          <path d="M132 106 118 122M126 96 106 112M120 88 96 96" stroke="#A84B14" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 9"/>
+          <path d="M166 100 180 116" stroke="#A84B14" stroke-width="3" stroke-linecap="round"/>
+          <path d="M180 116l-8-1M180 116l-1-8" stroke="#A84B14" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <p class="txt">매출과 이익이 큰 회사입니다.<br>그런데 영업현금은 계속<br>빠져나가고 있습니다.</p>
+        <p class="ex">(예시)</p>
+      </button>
+      <button class="chk-o pt-card" type="button" data-ok style="--card-band:6px solid var(--gr-orange)">
+        <span class="s5-ok" data-step="1">정답</span>
+        <span class="pt-medal" style="--medal-bg:#A84B14;--medal-fg:#fff">B</span>
+        <svg class="illu" viewBox="0 0 220 150" fill="none" aria-hidden="true">
+          <line x1="18" y1="128" x2="70" y2="128" stroke="#8B96AD" stroke-width="3" stroke-linecap="round"/>
+          <rect x="26" y="76" width="28" height="52" rx="5" fill="#2F6FB0" opacity=".18" stroke="#245A92" stroke-width="3"/>
+          <rect x="86" y="86" width="118" height="52" rx="12" fill="#2E9E6B" opacity=".14" stroke="#1F7A50" stroke-width="3"/>
+          <path d="M100 86v-8a14 14 0 0 1 14-14h62a14 14 0 0 1 14 14v8" stroke="#1F7A50" stroke-width="3"/>
+          <rect x="178" y="78" width="14" height="22" rx="6" fill="#1F7A50" opacity=".2" stroke="#1F7A50" stroke-width="3"/>
+          <circle cx="116" cy="66" r="11" fill="#E8772E" opacity=".25" stroke="#A84B14" stroke-width="2.5"/>
+          <circle cx="142" cy="58" r="11" fill="#E8772E" opacity=".25" stroke="#A84B14" stroke-width="2.5"/>
+          <circle cx="168" cy="64" r="11" fill="#E8772E" opacity=".25" stroke="#A84B14" stroke-width="2.5"/>
+          <path d="M126 112h40" stroke="#1F7A50" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <p class="txt">매출은 평범합니다.<br>그런데 이익만큼 현금이 들어오고,<br>빚도 적습니다.</p>
+        <p class="ex">(예시)</p>
+      </button>
+    </div>
+    <p class="chk-why">답은 B — 숫자의 크기보다 현금 흐름과 빚의 무게를 먼저 봅니다.</p>
+  </div>
+
+  <div class="s5-strip" data-step="1"><b>답은 B</b> — 숫자의 크기보다 현금 흐름과 빚의 무게를 먼저 봅니다.</div>
+  <aside class="notes">퀴즈입니다. 먼저 두 카드를 읽고 손을 들어 고르게 하세요. A는 크지만 현금이 새는 회사, B는 평범하지만 이익만큼 현금이 들어오고 빚이 적은 회사입니다. 발표자는 →를 눌러 정답 배지와 아래 답을 열고, 화면을 직접 쓰는 학생은 카드를 눌러 채점을 봅니다. 틀리면 '다시 보기' 단추로 앞의 현금흐름 장으로 돌아갑니다 — 이익과 현금이 다르다는 점만 남기면 됩니다.</aside>
+</section>

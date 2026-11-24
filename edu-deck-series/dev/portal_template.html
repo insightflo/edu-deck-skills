@@ -144,6 +144,207 @@ tr.fin .lt-tx{color:var(--success);font-weight:700}
 #homebtn{position:fixed;top:18px;right:24px;z-index:7;font:inherit;font-size:16px;font-weight:700;color:var(--blue-soft);background:color-mix(in srgb,var(--ink) 72%,transparent);border:1px solid color-mix(in srgb,var(--paper) 25%,transparent);border-radius:var(--r3);padding:8px 16px;cursor:pointer;display:none}
 body:not(.in-hub) #homebtn{display:block}
 #homebtn:hover,#homebtn:focus-visible{background:color-mix(in srgb,var(--ink) 90%,transparent)}
+
+/* ---------- 시리즈 계열 스킨 (series.json family → <html data-family>) ----------
+   허브(목차)만 재색한다. 편 슬라이드의 계열 스타일은 공용 families.css 몫.
+   map·shelf·list 세 유형 모두 같은 계열 언어로 덮고, 글자 쌍 대비는 ≥4.5:1 을 지킨다.
+   (classic 은 data-family 를 심지 않으므로 아래 규칙이 하나도 적용되지 않는다) */
+
+/* ===== studio — 상아 캔버스 + 점격자, 흰 카드와 색 테두리 진도 고리 ===== */
+[data-family="studio"] body.in-hub{background:#F5F3ED radial-gradient(#D9D2C2 1.2px,transparent 1.3px) 0 0/24px 24px}
+[data-family="studio"] #hub .cx-blob{opacity:.14}
+[data-family="studio"] #hub .hub-head{border-bottom-color:color-mix(in srgb,#1E2A44 16%,transparent)}
+[data-family="studio"] #hub .hub-eyebrow{color:#A84B14}
+[data-family="studio"] #hub .hub-upd{color:#5A6274}
+[data-family="studio"] #hub .hub-title{color:#1E2A44}
+[data-family="studio"] #hub .hub-sub{color:#44506B}
+[data-family="studio"] #hub .hub-btn{color:#1E2A44;background:#FFFFFF;border-color:color-mix(in srgb,#1E2A44 20%,transparent)}
+[data-family="studio"] #hub .hub-btn:hover,[data-family="studio"] #hub .hub-btn:focus-visible{background:#F0EDE4}
+[data-family="studio"] #hub .hub-total{color:#5A6274}
+[data-family="studio"] #hub .hub-reset{color:#5A6274;border-color:color-mix(in srgb,#1E2A44 20%,transparent)}
+[data-family="studio"] #hub .hub-reset:hover,[data-family="studio"] #hub .hub-reset:focus-visible{color:#1E2A44}
+[data-family="studio"] #hub .hub-reset.arm{color:#A84B14;border-color:#E8772E}
+/* 계열 표식색 — 위쪽 공통 규칙(#hub .mn-no … var(--accent-light))은 어두운 허브용이라 덮어 쓴다 */
+[data-family="studio"] #hub .mn-no,[data-family="studio"] #hub .lt-no,[data-family="studio"] #hub .mn-in,
+[data-family="studio"] #hub .mn.fin .mn-cnt,[data-family="studio"] #hub .mn.fin .mn-ring i,
+[data-family="studio"] #hub .bk-fin,[data-family="studio"] #hub tr.fin .lt-tx{color:#A84B14}
+[data-family="studio"] #hub .map-sh{color:#5A6274}
+[data-family="studio"] #hub .map-sh span{color:#245A92;background:color-mix(in srgb,#2F6FB0 12%,#FFFFFF)}
+[data-family="studio"] #hub .mn{background:#FFFFFF;border:1px solid color-mix(in srgb,#1E2A44 10%,transparent);border-left:4px solid var(--c,#2F6FB0);border-radius:20px;box-shadow:0 10px 30px color-mix(in srgb,#1E2A44 10%,transparent);color:#44506B}
+[data-family="studio"] #hub .mn:hover,[data-family="studio"] #hub .mn:focus-visible,[data-family="studio"] #hub .mn.sel{background:#FFFFFF;border-color:color-mix(in srgb,#1E2A44 18%,transparent);border-left-color:var(--c,#2F6FB0)}
+[data-family="studio"] #hub .mn-ring{background:conic-gradient(var(--c,#2F6FB0) calc(var(--p,0)*1%),color-mix(in srgb,var(--c,#2F6FB0) 16%,#FFFFFF) 0);box-shadow:0 0 0 3px var(--c,#2F6FB0),0 8px 18px color-mix(in srgb,#1E2A44 8%,transparent)}
+[data-family="studio"] #hub .mn-ring i{background:#FFFFFF;color:#1E2A44}
+[data-family="studio"] #hub .mn-title{color:#1E2A44}
+[data-family="studio"] #hub .mn-met{color:#5A6274}
+[data-family="studio"] #hub .mn-cnt{color:#5A6274;background:color-mix(in srgb,#1E2A44 6%,#FFFFFF)}
+[data-family="studio"] #hub .bk{background:#FFFFFF;color:#1E2A44;border:1px solid color-mix(in srgb,#1E2A44 10%,transparent);border-radius:12px;box-shadow:0 10px 30px color-mix(in srgb,#1E2A44 12%,transparent)}
+[data-family="studio"] #hub .bk-no{color:#A84B14}
+[data-family="studio"] #hub .bk-title{color:#1E2A44}
+[data-family="studio"] #hub .bk-prog{background:color-mix(in srgb,#1E2A44 10%,transparent)}
+[data-family="studio"] #hub .bk-prog i{background:#2F6FB0}
+[data-family="studio"] #hub .shelf-gap span{color:#5A6274}
+[data-family="studio"] #hub .shelf-gap i{background:color-mix(in srgb,#1E2A44 25%,transparent)}
+[data-family="studio"] #hub .plank{background:#DCD5C4;box-shadow:none}
+[data-family="studio"] #hub .pv{background:#FFFFFF;border-color:color-mix(in srgb,#1E2A44 10%,transparent);box-shadow:0 10px 30px color-mix(in srgb,#1E2A44 10%,transparent)}
+[data-family="studio"] #hub .pv-thumb{background:linear-gradient(160deg,color-mix(in srgb,var(--c,#2F6FB0) 18%,#FFFFFF),color-mix(in srgb,var(--c,#2F6FB0) 10%,#FFFFFF))}
+[data-family="studio"] #hub .pv-tno{color:#1E2A44}
+[data-family="studio"] #hub .pv-no{color:#A84B14}
+[data-family="studio"] #hub .pv-tag{color:#5A6274;border-color:color-mix(in srgb,#1E2A44 18%,transparent)}
+[data-family="studio"] #hub .pv-met{color:#5A6274}
+[data-family="studio"] #hub .pv-title{color:#1E2A44}
+[data-family="studio"] #hub .pv-sub{color:#44506B}
+[data-family="studio"] #hub .pv-bar{background:color-mix(in srgb,#1E2A44 10%,transparent)}
+[data-family="studio"] #hub .pv-bar i{background:#2F6FB0}
+[data-family="studio"] #hub .pv-meta{color:#5A6274}
+[data-family="studio"] #hub .pv-open{background:#E8772E;color:#1E2A44}
+[data-family="studio"] #hub .pv-open:hover,[data-family="studio"] #hub .pv-open:focus-visible{background:#D96A24}
+[data-family="studio"] #hub .pv-resume{background:#FFFFFF;border-color:color-mix(in srgb,#1E2A44 20%,transparent);color:#1E2A44}
+[data-family="studio"] #hub .pv-resume:hover,[data-family="studio"] #hub .pv-resume:focus-visible{background:#F0EDE4}
+[data-family="studio"] #hub .pv-pbtn{color:#1E2A44;border-color:color-mix(in srgb,#1E2A44 20%,transparent)}
+[data-family="studio"] #hub .pv-pbtn:hover,[data-family="studio"] #hub .pv-pbtn:focus-visible{color:#1E2A44;background:color-mix(in srgb,#1E2A44 6%,transparent)}
+[data-family="studio"] #hub .hub-table{color:#44506B}
+[data-family="studio"] #hub .hub-table th{color:#5A6274;border-bottom-color:color-mix(in srgb,#1E2A44 18%,transparent)}
+[data-family="studio"] #hub .hub-table td{border-bottom-color:color-mix(in srgb,#1E2A44 10%,transparent)}
+[data-family="studio"] #hub .hub-table tr[data-ep]:hover,[data-family="studio"] #hub .hub-table tr[data-ep]:focus-visible,[data-family="studio"] #hub .hub-table tr[data-ep].sel{background:#FFFFFF}
+[data-family="studio"] #hub .lt-t{color:#1E2A44}
+[data-family="studio"] #hub .lt-s,[data-family="studio"] #hub .lt-n,[data-family="studio"] #hub .lt-tx{color:#5A6274}
+[data-family="studio"] #hub .lt-bar{background:color-mix(in srgb,#1E2A44 12%,transparent)}
+[data-family="studio"] #hub .lt-bar i{background:#2F6FB0}
+[data-family="studio"] #hub .lt-open{color:#1E2A44;background:#FFFFFF;border-color:color-mix(in srgb,#1E2A44 20%,transparent)}
+[data-family="studio"] #hub .lt-open:hover,[data-family="studio"] #hub .lt-open:focus-visible{background:#F0EDE4}
+
+/* ===== vivid — 남색 밤 캔버스 + 글로브 글로우 링·카드 ===== */
+[data-family="vivid"] body.in-hub{background:radial-gradient(1200px 700px at 75% -10%,color-mix(in srgb,#2F6FB0 34%,#0E1A33) 0%,#0E1A33 62%),radial-gradient(900px 600px at 8% 110%,color-mix(in srgb,#E8772E 16%,#0E1A33) 0%,#0E1A33 58%),#0E1A33}
+[data-family="vivid"] #hub .cx-b1{border-color:#F2A36B;opacity:.4}
+[data-family="vivid"] #hub .cx-b2{background:#2F6FB0;opacity:.3;box-shadow:0 0 120px 60px color-mix(in srgb,#2F6FB0 30%,transparent)}
+[data-family="vivid"] #hub .hub-head{border-bottom-color:color-mix(in srgb,#9CBFF7 24%,transparent)}
+[data-family="vivid"] #hub .hub-eyebrow{color:#F2A36B}
+[data-family="vivid"] #hub .hub-upd{color:#8FA6D6}
+[data-family="vivid"] #hub .hub-title{color:#F6F4EF}
+[data-family="vivid"] #hub .hub-sub{color:#9CBFF7}
+[data-family="vivid"] #hub .hub-btn{color:#DCE8FF;background:color-mix(in srgb,#9CBFF7 12%,#0E1A33);border-color:color-mix(in srgb,#9CBFF7 30%,transparent)}
+[data-family="vivid"] #hub .hub-btn:hover,[data-family="vivid"] #hub .hub-btn:focus-visible{background:color-mix(in srgb,#9CBFF7 20%,#0E1A33)}
+[data-family="vivid"] #hub .hub-total{color:#8FA6D6}
+[data-family="vivid"] #hub .hub-reset{color:#8FA6D6;border-color:color-mix(in srgb,#9CBFF7 22%,transparent)}
+[data-family="vivid"] #hub .hub-reset:hover,[data-family="vivid"] #hub .hub-reset:focus-visible{color:#DCE8FF}
+[data-family="vivid"] #hub .hub-reset.arm{color:#F2A36B;border-color:#E8772E}
+[data-family="vivid"] #hub .mn-no,[data-family="vivid"] #hub .lt-no,[data-family="vivid"] #hub .mn-in,
+[data-family="vivid"] #hub .mn.fin .mn-cnt,[data-family="vivid"] #hub .mn.fin .mn-ring i,
+[data-family="vivid"] #hub .bk-fin,[data-family="vivid"] #hub tr.fin .lt-tx{color:#F2A36B}
+[data-family="vivid"] #hub .map-sh{color:#8FA6D6}
+[data-family="vivid"] #hub .map-sh span{color:#9CBFF7;background:color-mix(in srgb,#2F6FB0 26%,#0E1A33)}
+[data-family="vivid"] #hub .mn{background:color-mix(in srgb,#9CBFF7 7%,#17264B);border:1px solid color-mix(in srgb,var(--c,#2F6FB0) 45%,transparent);border-left:4px solid var(--c,#2F6FB0);border-radius:16px;box-shadow:0 0 22px color-mix(in srgb,var(--c,#2F6FB0) 30%,transparent);color:#9CBFF7}
+[data-family="vivid"] #hub .mn:hover,[data-family="vivid"] #hub .mn:focus-visible,[data-family="vivid"] #hub .mn.sel{background:color-mix(in srgb,#9CBFF7 11%,#17264B);border-color:color-mix(in srgb,var(--c,#2F6FB0) 70%,transparent);border-left-color:var(--c,#2F6FB0);box-shadow:0 0 30px color-mix(in srgb,var(--c,#2F6FB0) 42%,transparent)}
+[data-family="vivid"] #hub .mn-ring{background:conic-gradient(var(--c,#2F6FB0) calc(var(--p,0)*1%),color-mix(in srgb,var(--c,#2F6FB0) 22%,#0E1A33) 0);box-shadow:0 0 14px color-mix(in srgb,var(--c,#2F6FB0) 55%,transparent)}
+[data-family="vivid"] #hub .mn-ring i{background:#0E1A33;color:#DCE8FF}
+[data-family="vivid"] #hub .mn-title{color:#F6F4EF}
+[data-family="vivid"] #hub .mn-met{color:#8FA6D6}
+[data-family="vivid"] #hub .mn-cnt{color:#9CBFF7;background:color-mix(in srgb,#9CBFF7 10%,#0E1A33)}
+[data-family="vivid"] #hub .bk{background:linear-gradient(180deg,color-mix(in srgb,var(--c,#2F6FB0) 55%,#0E1A33),color-mix(in srgb,var(--c,#2F6FB0) 34%,#0E1A33));color:#F6F4EF;box-shadow:0 0 24px color-mix(in srgb,var(--c,#2F6FB0) 32%,transparent)}
+[data-family="vivid"] #hub .bk:hover,[data-family="vivid"] #hub .bk:focus-visible,[data-family="vivid"] #hub .bk.sel{box-shadow:0 0 34px color-mix(in srgb,var(--c,#2F6FB0) 48%,transparent)}
+[data-family="vivid"] #hub .bk-no{color:color-mix(in srgb,#F6F4EF 88%,transparent)}
+[data-family="vivid"] #hub .bk-title{color:#F6F4EF}
+[data-family="vivid"] #hub .bk-prog{background:color-mix(in srgb,#0E1A33 55%,transparent)}
+[data-family="vivid"] #hub .bk-prog i{background:#82CFA6}
+[data-family="vivid"] #hub .shelf-gap span{color:#8FA6D6}
+[data-family="vivid"] #hub .shelf-gap i{background:color-mix(in srgb,#9CBFF7 30%,transparent)}
+[data-family="vivid"] #hub .plank{background:linear-gradient(180deg,#1B2C54,#0B142A);box-shadow:0 0 18px color-mix(in srgb,#2F6FB0 30%,transparent)}
+[data-family="vivid"] #hub .pv{background:color-mix(in srgb,#9CBFF7 7%,#17264B);border-color:color-mix(in srgb,#9CBFF7 26%,transparent);box-shadow:0 0 26px color-mix(in srgb,#2F6FB0 22%,transparent)}
+[data-family="vivid"] #hub .pv-thumb{background:linear-gradient(160deg,color-mix(in srgb,var(--c,#2F6FB0) 55%,#0E1A33),color-mix(in srgb,var(--c,#2F6FB0) 32%,#0E1A33))}
+[data-family="vivid"] #hub .pv-tno{color:#F6F4EF}
+[data-family="vivid"] #hub .pv-no{color:#F2A36B}
+[data-family="vivid"] #hub .pv-tag{color:#9CBFF7;border-color:color-mix(in srgb,#9CBFF7 28%,transparent)}
+[data-family="vivid"] #hub .pv-met{color:#8FA6D6}
+[data-family="vivid"] #hub .pv-title{color:#F6F4EF}
+[data-family="vivid"] #hub .pv-sub{color:#9CBFF7}
+[data-family="vivid"] #hub .pv-bar{background:color-mix(in srgb,#9CBFF7 16%,#0E1A33)}
+[data-family="vivid"] #hub .pv-bar i{background:#82CFA6}
+[data-family="vivid"] #hub .pv-meta{color:#8FA6D6}
+[data-family="vivid"] #hub .pv-open{background:#E8772E;color:#0E1A33}
+[data-family="vivid"] #hub .pv-open:hover,[data-family="vivid"] #hub .pv-open:focus-visible{background:#F28B4A}
+[data-family="vivid"] #hub .pv-resume{background:color-mix(in srgb,#9CBFF7 12%,#0E1A33);border-color:color-mix(in srgb,#9CBFF7 32%,transparent);color:#DCE8FF}
+[data-family="vivid"] #hub .pv-resume:hover,[data-family="vivid"] #hub .pv-resume:focus-visible{background:color-mix(in srgb,#9CBFF7 20%,#0E1A33)}
+[data-family="vivid"] #hub .pv-pbtn{color:#DCE8FF;border-color:color-mix(in srgb,#9CBFF7 26%,transparent)}
+[data-family="vivid"] #hub .pv-pbtn:hover,[data-family="vivid"] #hub .pv-pbtn:focus-visible{color:#F6F4EF;background:color-mix(in srgb,#9CBFF7 12%,#0E1A33)}
+[data-family="vivid"] #hub .hub-table{color:#9CBFF7}
+[data-family="vivid"] #hub .hub-table th{color:#8FA6D6;border-bottom-color:color-mix(in srgb,#9CBFF7 26%,transparent)}
+[data-family="vivid"] #hub .hub-table td{border-bottom-color:color-mix(in srgb,#9CBFF7 12%,transparent)}
+[data-family="vivid"] #hub .hub-table tr[data-ep]:hover,[data-family="vivid"] #hub .hub-table tr[data-ep]:focus-visible,[data-family="vivid"] #hub .hub-table tr[data-ep].sel{background:color-mix(in srgb,#9CBFF7 8%,#0E1A33)}
+[data-family="vivid"] #hub .lt-t{color:#F6F4EF}
+[data-family="vivid"] #hub .lt-s,[data-family="vivid"] #hub .lt-n,[data-family="vivid"] #hub .lt-tx{color:#8FA6D6}
+[data-family="vivid"] #hub .lt-bar{background:color-mix(in srgb,#9CBFF7 16%,#0E1A33)}
+[data-family="vivid"] #hub .lt-bar i{background:#82CFA6}
+[data-family="vivid"] #hub .lt-open{color:#DCE8FF;background:color-mix(in srgb,#9CBFF7 12%,#0E1A33);border-color:color-mix(in srgb,#9CBFF7 30%,transparent)}
+[data-family="vivid"] #hub .lt-open:hover,[data-family="vivid"] #hub .lt-open:focus-visible{background:color-mix(in srgb,#9CBFF7 20%,#0E1A33)}
+
+/* ===== drawing — 도면 격자 위 헤어라인 상자 + 치수선 눈금 진도 ===== */
+[data-family="drawing"] body.in-hub{background:linear-gradient(color-mix(in srgb,#2F6FB0 7%,transparent) 1px,transparent 1px) 0 0/64px 64px,linear-gradient(90deg,color-mix(in srgb,#2F6FB0 7%,transparent) 1px,transparent 1px) 0 0/64px 64px,#FAF8F3}
+[data-family="drawing"] #hub .cx-blob{display:none}
+[data-family="drawing"] #hub .hub-head{border-bottom:1px solid #1C2530}
+[data-family="drawing"] #hub .hub-eyebrow{color:#B83A1F;letter-spacing:.14em;font-size:20px}
+[data-family="drawing"] #hub .hub-upd{color:#4A5560;letter-spacing:0}
+[data-family="drawing"] #hub .hub-title{color:#1C2530;font-family:'Gowun Batang',serif;font-weight:400}
+[data-family="drawing"] #hub .hub-sub{color:#4A5560}
+[data-family="drawing"] #hub .hub-btn{color:#1C2530;background:transparent;border:1px solid #1C2530;border-radius:0}
+[data-family="drawing"] #hub .hub-btn:hover,[data-family="drawing"] #hub .hub-btn:focus-visible{background:color-mix(in srgb,#1C2530 6%,transparent)}
+[data-family="drawing"] #hub .hub-total{color:#4A5560}
+[data-family="drawing"] #hub .hub-reset{color:#4A5560;border:1px solid #1C2530;border-radius:0}
+[data-family="drawing"] #hub .hub-reset:hover,[data-family="drawing"] #hub .hub-reset:focus-visible{color:#1C2530}
+[data-family="drawing"] #hub .hub-reset.arm{color:#B83A1F;border-color:#B83A1F}
+[data-family="drawing"] #hub .mn-no,[data-family="drawing"] #hub .lt-no,[data-family="drawing"] #hub .mn-in,
+[data-family="drawing"] #hub .mn.fin .mn-cnt,[data-family="drawing"] #hub .mn.fin .mn-ring i,
+[data-family="drawing"] #hub .bk-fin,[data-family="drawing"] #hub tr.fin .lt-tx{color:#B83A1F}
+[data-family="drawing"] #hub .map-sh{color:#4A5560}
+[data-family="drawing"] #hub .map-sh span{color:#2F6FB0;background:transparent;border:1px solid #2F6FB0;border-radius:0}
+[data-family="drawing"] #hub .mn{background:transparent;border:1px solid #1C2530;border-radius:0;box-shadow:none;color:#4A5560;position:relative}
+[data-family="drawing"] #hub .mn::before{content:"+";position:absolute;top:-9px;left:10px;font-size:14px;color:#2F6FB0;background:#FAF8F3;padding:0 4px}
+[data-family="drawing"] #hub .mn:hover,[data-family="drawing"] #hub .mn:focus-visible,[data-family="drawing"] #hub .mn.sel{background:color-mix(in srgb,#2F6FB0 5%,transparent);border-color:#1C2530}
+/* 진도 = 고리 대신 치수선: 잉크 눈금 위를 주홍이 --p% 만큼 채운다 */
+[data-family="drawing"] #hub .mn-ring{width:64px;height:26px;border-radius:0;position:relative;background:linear-gradient(#9AA3AD,#9AA3AD) 0 15px/100% 1px no-repeat,linear-gradient(#E34D2E,#E34D2E) 0 13px/calc(var(--p,0)*1%) 3px no-repeat}
+[data-family="drawing"] #hub .mn-ring::before,[data-family="drawing"] #hub .mn-ring::after{content:"";position:absolute;top:9px;width:1px;height:13px;background:#1C2530}
+[data-family="drawing"] #hub .mn-ring::before{left:0}
+[data-family="drawing"] #hub .mn-ring::after{right:0}
+[data-family="drawing"] #hub .mn-ring i{position:absolute;inset:auto;left:0;right:0;top:-5px;height:auto;background:none;font-size:14px;color:#1C2530;font-style:normal}
+[data-family="drawing"] #hub .mn-title{color:#1C2530}
+[data-family="drawing"] #hub .mn-met{color:#4A5560}
+[data-family="drawing"] #hub .mn-cnt{color:#4A5560;background:transparent;border:1px solid #4A5560;border-radius:0}
+[data-family="drawing"] #hub .bk{background:transparent;color:#1C2530;border:1px solid #1C2530;border-radius:0;box-shadow:none}
+[data-family="drawing"] #hub .bk:hover,[data-family="drawing"] #hub .bk:focus-visible,[data-family="drawing"] #hub .bk.sel{box-shadow:none;background:color-mix(in srgb,#2F6FB0 5%,transparent)}
+[data-family="drawing"] #hub .bk-no{color:#B83A1F}
+[data-family="drawing"] #hub .bk-title{color:#1C2530}
+[data-family="drawing"] #hub .bk-prog{background:transparent;border-top:1px solid #9AA3AD;border-radius:0;height:9px}
+[data-family="drawing"] #hub .bk-prog i{background:#E34D2E}
+[data-family="drawing"] #hub .shelf-gap span{color:#4A5560}
+[data-family="drawing"] #hub .shelf-gap i{background:#4A5560}
+[data-family="drawing"] #hub .plank{height:2px;background:#1C2530;border-radius:0;box-shadow:none}
+[data-family="drawing"] #hub .pv{background:transparent;border:1px solid #1C2530;border-radius:0;box-shadow:none}
+[data-family="drawing"] #hub .pv-thumb{background:color-mix(in srgb,#2F6FB0 7%,#FAF8F3) linear-gradient(color-mix(in srgb,#2F6FB0 10%,transparent) 1px,transparent 1px) 0 0/16px 16px;border:1px solid #1C2530;border-radius:0}
+[data-family="drawing"] #hub .pv-tno{color:#1C2530}
+[data-family="drawing"] #hub .pv-no{color:#B83A1F}
+[data-family="drawing"] #hub .pv-tag{color:#4A5560;border:1px solid #4A5560;border-radius:0}
+[data-family="drawing"] #hub .pv-met{color:#4A5560}
+[data-family="drawing"] #hub .pv-title{color:#1C2530;font-family:'Gowun Batang',serif;font-weight:400}
+[data-family="drawing"] #hub .pv-sub{color:#4A5560}
+[data-family="drawing"] #hub .pv-bar{background:transparent;border:1px solid #9AA3AD;border-radius:0}
+[data-family="drawing"] #hub .pv-bar i{background:#E34D2E}
+[data-family="drawing"] #hub .pv-meta{color:#4A5560}
+[data-family="drawing"] #hub .pv-open{background:#1C2530;color:#FAF8F3;border-radius:0}
+[data-family="drawing"] #hub .pv-open:hover,[data-family="drawing"] #hub .pv-open:focus-visible{background:#33404D}
+[data-family="drawing"] #hub .pv-resume{background:transparent;border:1px solid #1C2530;color:#1C2530;border-radius:0}
+[data-family="drawing"] #hub .pv-resume:hover,[data-family="drawing"] #hub .pv-resume:focus-visible{background:color-mix(in srgb,#1C2530 6%,transparent)}
+[data-family="drawing"] #hub .pv-pbtn{color:#1C2530;border:1px solid #1C2530;border-radius:0}
+[data-family="drawing"] #hub .pv-pbtn:hover,[data-family="drawing"] #hub .pv-pbtn:focus-visible{color:#1C2530;background:color-mix(in srgb,#1C2530 6%,transparent)}
+[data-family="drawing"] #hub .hub-table{color:#4A5560}
+[data-family="drawing"] #hub .hub-table th{color:#4A5560;border-bottom:1px solid #1C2530;letter-spacing:.14em}
+[data-family="drawing"] #hub .hub-table td{border-bottom-color:#9AA3AD}
+[data-family="drawing"] #hub .hub-table tr[data-ep]:hover,[data-family="drawing"] #hub .hub-table tr[data-ep]:focus-visible,[data-family="drawing"] #hub .hub-table tr[data-ep].sel{background:color-mix(in srgb,#2F6FB0 5%,transparent)}
+[data-family="drawing"] #hub .lt-t{color:#1C2530}
+[data-family="drawing"] #hub .lt-s,[data-family="drawing"] #hub .lt-n,[data-family="drawing"] #hub .lt-tx{color:#4A5560}
+[data-family="drawing"] #hub .lt-bar{background:transparent;border:1px solid #9AA3AD;border-radius:0}
+[data-family="drawing"] #hub .lt-bar i{background:#E34D2E}
+[data-family="drawing"] #hub .lt-open{color:#1C2530;background:transparent;border:1px solid #1C2530;border-radius:0}
+[data-family="drawing"] #hub .lt-open:hover,[data-family="drawing"] #hub .lt-open:focus-visible{background:color-mix(in srgb,#1C2530 6%,transparent)}
+
 /* ---------- 목차(허브) 등장 모션: 공용 모션 층 규칙과 같다(transform·opacity, ease-out, 스태거) ---------- */
 @media (prefers-reduced-motion: no-preference){
   #hub .mn,#hub .bk,#hub .hub-table tbody tr[data-ep]{}

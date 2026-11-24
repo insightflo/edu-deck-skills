@@ -1,0 +1,53 @@
+<!-- T5 퀴즈 — .chk 계약: 질문 + A/B 보기 카드 + 해설. B 카드의 '정답' 배지·아래 띠는
+     data-step 1 로 진행자가 열고, 카드 클릭으로는 엔진이 채점 표시한다. -->
+<section class="slide s5" data-archetype="check" data-sec="60" id="s5">
+  <div class="pt-pill pos tq p-v">퀴즈 1</div>
+  <div class="chk" data-review="cash-flow">
+    <p class="chk-q">어느 회사가 더 건강할까요?</p>
+    <div class="chk-opts">
+      <button class="chk-o" type="button">
+        <span class="pt-qb">A</span>
+        <svg class="s5-illu" viewBox="0 0 200 150" fill="none" aria-hidden="true">
+          <g stroke="#2F6FB0" stroke-width="3" fill="#E6EEF6">
+            <rect x="22" y="62" width="26" height="64" rx="4"/>
+            <rect x="58" y="34" width="26" height="92" rx="4"/>
+            <rect x="94" y="14" width="26" height="112" rx="4"/>
+          </g>
+          <line x1="12" y1="126.5" x2="114" y2="126.5" stroke="rgba(30,42,68,.25)" stroke-width="2"/>
+          <path d="M112 108c20 12 28 2 42 14" stroke="#A84B14" stroke-width="3.5" stroke-dasharray="1 9" stroke-linecap="round"/>
+          <polygon points="158,132 148,116 164,116" fill="#A84B14"/>
+          <circle cx="144" cy="94" r="9" fill="#D9A21B" stroke="#A84B14" stroke-width="3.5"/>
+          <circle cx="166" cy="134" r="9" fill="#D9A21B" stroke="#A84B14" stroke-width="3.5"/>
+        </svg>
+        <p class="s5-text"><span>매출과 이익이 큰 회사입니다. 그런데 영업현금은 계속 빠져나가고 있습니다. <span class="s5-ex">(예시)</span></span></p>
+      </button>
+      <button class="chk-o" type="button" data-ok>
+        <span class="s5-ok" data-step="1"><svg viewBox="0 0 48 48"><use href="#fs-check"/></svg>정답</span>
+        <span class="pt-qb" style="--qb-bg:var(--tint-orange);--qb-fg:var(--accent-text)">B</span>
+        <svg class="s5-illu" viewBox="0 0 200 150" fill="none" aria-hidden="true">
+          <g stroke="#2E9E6B" stroke-width="3" fill="#E6F3ED">
+            <rect x="16" y="70" width="22" height="40" rx="4"/>
+            <rect x="46" y="58" width="22" height="52" rx="4"/>
+            <rect x="76" y="76" width="22" height="34" rx="4"/>
+          </g>
+          <line x1="8" y1="110.5" x2="102" y2="110.5" stroke="rgba(30,42,68,.25)" stroke-width="2"/>
+          <circle cx="112" cy="56" r="11" fill="#D9A21B" stroke="#A84B14" stroke-width="3"/>
+          <circle cx="130" cy="52" r="11" fill="#D9A21B" stroke="#A84B14" stroke-width="3"/>
+          <circle cx="148" cy="56" r="11" fill="#D9A21B" stroke="#A84B14" stroke-width="3"/>
+          <rect x="96" y="62" width="92" height="58" rx="16" fill="#E8772E" stroke="#A84B14" stroke-width="3.5"/>
+          <path d="M96 80h92" stroke="#A84B14" stroke-width="3.5"/>
+          <path d="M166 80v12" stroke="#A84B14" stroke-width="4.5" stroke-linecap="round"/>
+          <circle cx="166" cy="99" r="6.5" fill="#A84B14"/>
+        </svg>
+        <p class="s5-text"><span>매출은 평범합니다. 그런데 이익만큼 현금이 들어오고, 빚도 적습니다. <span class="s5-ex">(예시)</span></span></p>
+      </button>
+    </div>
+    <p class="chk-why">답은 B — 숫자의 크기보다 현금 흐름과 빚의 무게를 먼저 봅니다.</p>
+  </div>
+
+  <div class="pt-note s5-strip" style="--note-bg:var(--tint-green)" data-step="1">
+    <svg style="width:32px;height:32px;flex:none;color:var(--success)" viewBox="0 0 48 48"><use href="#fs-check"/></svg>
+    <p><b>답은 B</b> — 숫자의 크기보다 현금 흐름과 빚의 무게를 먼저 봅니다.</p>
+  </div>
+  <aside class="notes">퀴즈입니다. 먼저 두 카드를 읽고 손을 들어 고르게 하세요. A는 크지만 현금이 새는 회사, B는 평범하지만 이익만큼 현금이 들어오고 빚이 적은 회사입니다. 발표자는 →를 눌러 정답 배지와 아래 띠를 열고, 화면을 직접 쓰는 학생은 카드를 눌러 채점을 봅니다. 틀리면 '다시 보기' 단추로 앞의 현금흐름 장으로 돌아갑니다 — 이익과 현금이 다르다는 점만 남기면 됩니다.</aside>
+</section>
