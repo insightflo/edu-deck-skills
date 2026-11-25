@@ -1,94 +1,115 @@
 <section class="slide" data-archetype="arch-diagram" style="gap:20px">
   <div class="head"><p class="eyebrow">SI 유형 A3 · 연계 아키텍처 — 허브 패턴</p><h2 class="title">연계 허브 — IF ID·프로토콜·주기를 한 곳에서 통제</h2></div>
-  <svg class="dg" data-lint="svg-diagram" viewBox="0 0 1664 738" role="img" aria-label="연계 구성도: 업무포털이 연계 허브를 통해 그룹웨어·ERP·전사DB와 붙고, 허브가 외부기관과 실시간 연계한다. 각 연결에 IF 번호와 프로토콜·주기가 표기된다">
+  <svg class="dg" data-lint="svg-diagram" viewBox="0 0 1664 782" role="img" aria-label="연계 구성도: 업무포털이 연계 허브를 통해 그룹웨어·ERP·전사DB와 붙고, 허브가 외부기관과 실시간 연계한다. 각 연결에 IF 번호와 프로토콜·주기가 표기된다">
   <title>연계 구성 — EAI 허브·IF 라벨·동기/비동기 구분</title>
   <g data-step="1">
-    <rect class="k-paper" x="158" y="30" width="1348" height="560" style="rx:12px;fill-opacity:0.55"/>
-    <text class="k-t-tag" x="174" y="64">내부망</text>
+    <rect class="k-paper" x="158" y="52" width="1348" height="560" style="rx:12px;fill-opacity:0.55"/>
+    <text class="k-t-tag" x="174" y="86">내부망</text>
   </g>
   <g data-step="1">
-    <rect class="k-paper" x="158" y="434" width="1348" height="218" style="rx:12px;fill-opacity:0.55"/>
-    <text class="k-t-tag" x="174" y="638">대외</text>
+    <rect class="k-paper" x="158" y="456" width="1348" height="218" style="rx:12px;fill-opacity:0.55"/>
+    <text class="k-t-tag" x="174" y="660">대외</text>
   </g>
   <g data-step="1">
-    <polyline points="832,48 832,662" fill="none" stroke="var(--accent)" stroke-width="3.5" stroke-dasharray="11 9"/>
-    <text class="k-t-tag" x="832" y="26" text-anchor="middle" style="fill:var(--accent)">신뢰 경계</text>
+    <polyline points="832,56 832,684" fill="none" stroke="var(--accent)" stroke-width="3.5" stroke-dasharray="11 9"/>
+    <text class="k-t-tag" x="832" y="34" text-anchor="middle" style="fill:var(--accent)">신뢰 경계</text>
   </g>
   <g data-step="3">
-      <path class="k-ln-b dash-flow" d="M640 190 L640 268" marker-end="url(#ah-b)"/>
-      <rect class="k-paper" x="514.5" y="211" width="251" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="640" y="237" text-anchor="middle">IF-01·REST·상시</text>
+      <path class="k-casing" d="M640 212 L640 221 Q640 230 640 239 L640 263 Q640 272 640 281 L640 290" style="fill:none;stroke:var(--paper);stroke-width:9;stroke-linecap:round;stroke-linejoin:round;opacity:.96"/>
+      <path class="k-ln-b dash-flow" d="M640 212 L640 221 Q640 230 640 239 L640 263 Q640 272 640 281 L640 290" marker-end="url(#ah-b)"/>
     </g>
   <g data-step="3">
-      <path class="k-ln-b" d="M720 324 L720 502 Q720 514 732 514 L922 514" marker-end="url(#ah-b)"/>
-      <rect class="k-paper" x="148" y="100" width="251" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="273.5" y="126" text-anchor="middle">IF-01·REST·상시</text>
+      <path class="k-casing" d="M720 328 L729 328 Q738 328 747 328 L892 328 Q904 328 904 340 L904 518 Q904 527 913 527 L922 527" style="fill:none;stroke:var(--paper);stroke-width:9;stroke-linecap:round;stroke-linejoin:round;opacity:.96"/>
+      <path class="k-ln-b" d="M720 328 L729 328 Q738 328 747 328 L892 328 Q904 328 904 340 L904 518 Q904 527 913 527 L922 527" marker-end="url(#ah-b)"/>
     </g>
   <g data-step="3">
-      <path class="k-ln-g" d="M922 514 L922 336 Q922 324 910 324 L720 324" stroke-dasharray="8 8" marker-end="url(#ah-open)"/>
-      <rect class="k-paper" x="833" y="332" width="166" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="916" y="358" text-anchor="middle">IF-01·응답</text>
+      <path class="k-casing" d="M922 545 L913 545 Q904 545 904 554 L904 684 Q904 696 892 696 L750 696 Q738 696 738 684 L738 355 Q738 346 729 346 L720 346" style="fill:none;stroke:var(--paper);stroke-width:7;stroke-linecap:round;stroke-linejoin:round;opacity:.96"/>
+      <path class="k-ln-g" d="M922 545 L913 545 Q904 545 904 554 L904 684 Q904 696 892 696 L750 696 Q738 696 738 684 L738 355 Q738 346 729 346 L720 346" stroke-dasharray="8 8" marker-end="url(#ah-open)"/>
     </g>
   <g data-step="4">
-      <path class="k-ln-g" d="M720 324 L1302 324 Q1314 324 1314 336 L1314 514" marker-end="url(#ahg)"/>
-      <rect class="k-paper" x="1030.5" y="306" width="251" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="1156" y="332" text-anchor="middle">IF-02·파일·일 1회</text>
+      <path class="k-casing" d="M720 364 L738 364 L897 364 A7 7 0 0 1 911 364 L1296 364 L1296 536 L1314 536" style="fill:none;stroke:var(--paper);stroke-width:7;stroke-linecap:round;stroke-linejoin:round;opacity:.96"/>
+      <path class="k-ln-g" d="M720 364 L738 364 L897 364 A7 7 0 0 1 911 364 L1296 364 L1296 536 L1314 536" marker-end="url(#ahg)"/>
     </g>
   <g data-step="4">
-      <path class="k-ln-g" d="M640 380 L640 446 Q640 458 628 458 L610 458" marker-end="url(#ahg)"/>
-      <rect class="k-paper" x="409.5" y="416" width="285" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="552" y="442" text-anchor="middle">IF-04·JDBC·시 1회</text>
+      <path class="k-casing" d="M640 402 L640 411 Q640 420 631 420 L622 420 Q610 420 610 432 L610 453 Q610 462 610 471 L610 480" style="fill:none;stroke:var(--paper);stroke-width:7;stroke-linecap:round;stroke-linejoin:round;opacity:.96"/>
+      <path class="k-ln-g" d="M640 402 L640 411 Q640 420 631 420 L622 420 Q610 420 610 432 L610 453 Q610 462 610 471 L610 480" marker-end="url(#ahg)"/>
     </g>
   <g data-step="5">
-      <path class="k-ln-b dash-flow" d="M560 324 L310 324 Q298 324 298 336 L298 514" marker-end="url(#ah-b)"/>
-      <rect class="k-paper" x="191.5" y="280" width="285" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="334" y="306" text-anchor="middle">IF-03·HTTPS·실시간</text>
+      <path class="k-casing" d="M560 337 L551 337 Q542 337 542 328 L542 42 Q542 30 530 30 L328 30 Q316 30 316 42 L316 518 Q316 527 307 527 L298 527" style="fill:none;stroke:var(--paper);stroke-width:9;stroke-linecap:round;stroke-linejoin:round;opacity:.96"/>
+      <path class="k-ln-b dash-flow" d="M560 337 L551 337 Q542 337 542 328 L542 42 Q542 30 530 30 L328 30 Q316 30 316 42 L316 518 Q316 527 307 527 L298 527" marker-end="url(#ah-b)"/>
     </g>
   <g data-step="5">
-      <path class="k-ln-g" d="M298 514 L298 336 Q298 324 310 324 L560 324" stroke-dasharray="8 8" marker-end="url(#ah-open)"/>
-      <rect class="k-paper" x="339" y="332" width="166" height="36" style="rx:9px"/>
-      <text class="k-t-tag" x="422" y="358" text-anchor="middle">IF-03·응답</text>
+      <path class="k-casing" d="M298 545 L307 545 Q316 545 325 545 L417 545 Q429 545 429 533 L429 367 Q429 355 441 355 L533 355 Q542 355 551 355 L560 355" style="fill:none;stroke:var(--paper);stroke-width:7;stroke-linecap:round;stroke-linejoin:round;opacity:.96"/>
+      <path class="k-ln-g" d="M298 545 L307 545 Q316 545 325 545 L417 545 Q429 545 429 533 L429 367 Q429 355 441 355 L533 355 Q542 355 551 355 L560 355" stroke-dasharray="8 8" marker-end="url(#ah-open)"/>
     </g>
   
   <g data-step="2">
-    <rect class="k-blue" x="560" y="78" width="160" height="112" style="rx:9px"/>
-    <use aria-hidden="true" href="#i-window" x="620" y="94" width="40" height="40" style="color:var(--blue)"/>
-    <text class="t-l" x="640" y="158" text-anchor="middle">업무포털</text>
-    <text class="k-t-tag" x="640" y="186" text-anchor="middle">대내 서비스</text>
+    <rect class="k-blue" x="560" y="100" width="160" height="112" style="rx:9px"/>
+    <use aria-hidden="true" href="#i-window" x="620" y="116" width="40" height="40" style="color:var(--blue)"/>
+    <text class="t-l" x="640" y="180" text-anchor="middle">업무포털</text>
+    <text class="k-t-tag" x="640" y="208" text-anchor="middle">대내 서비스</text>
     </g>
   <g data-step="2">
-    <rect class="k-blue" x="560" y="268" width="160" height="112" style="rx:9px"/>
-    <use aria-hidden="true" href="#i-globe" x="620" y="284" width="40" height="40" style="color:var(--blue)"/>
-    <text class="t-l" x="640" y="348" text-anchor="middle">연계 허브</text>
-    <text class="k-t-tag" x="640" y="376" text-anchor="middle">EAI·변환</text>
+    <rect class="k-blue" x="560" y="290" width="160" height="112" style="rx:9px"/>
+    <use aria-hidden="true" href="#i-globe" x="620" y="306" width="40" height="40" style="color:var(--blue)"/>
+    <text class="t-l" x="640" y="370" text-anchor="middle">연계 허브</text>
+    <text class="k-t-tag" x="640" y="398" text-anchor="middle">EAI·변환</text>
     </g>
   <g data-step="2">
-    <rect class="k-paper" x="922" y="458" width="160" height="112" style="rx:9px"/>
-    <use aria-hidden="true" href="#i-mail" x="982" y="474" width="40" height="40" style="color:var(--ink)"/>
-    <text class="t-l" x="1002" y="538" text-anchor="middle">그룹웨어</text>
-    <text class="k-t-tag" x="1002" y="566" text-anchor="middle">결재·메일</text>
+    <rect class="k-paper" x="922" y="480" width="160" height="112" style="rx:9px"/>
+    <use aria-hidden="true" href="#i-mail" x="982" y="496" width="40" height="40" style="color:var(--ink)"/>
+    <text class="t-l" x="1002" y="560" text-anchor="middle">그룹웨어</text>
+    <text class="k-t-tag" x="1002" y="588" text-anchor="middle">결재·메일</text>
     </g>
   <g data-step="2">
-    <rect class="k-paper" x="1314" y="458" width="160" height="112" style="rx:9px"/>
-    <use aria-hidden="true" href="#i-calc" x="1374" y="474" width="40" height="40" style="color:var(--ink)"/>
-    <text class="t-l" x="1394" y="538" text-anchor="middle">ERP</text>
-    <text class="k-t-tag" x="1394" y="566" text-anchor="middle">회계·인사</text>
+    <rect class="k-paper" x="1314" y="480" width="160" height="112" style="rx:9px"/>
+    <use aria-hidden="true" href="#i-calc" x="1374" y="496" width="40" height="40" style="color:var(--ink)"/>
+    <text class="t-l" x="1394" y="560" text-anchor="middle">ERP</text>
+    <text class="k-t-tag" x="1394" y="588" text-anchor="middle">회계·인사</text>
     </g>
   <g data-step="2">
-    <rect class="k-paper" x="530" y="458" width="160" height="112" style="rx:9px"/>
-    <use aria-hidden="true" href="#i-db" x="590" y="474" width="40" height="40" style="color:var(--ink)"/>
-    <text class="t-l" x="610" y="538" text-anchor="middle">전사 DB</text>
-    <text class="k-t-tag" x="610" y="566" text-anchor="middle">공통 코드·마스터</text>
+    <rect class="k-paper" x="530" y="480" width="160" height="112" style="rx:9px"/>
+    <use aria-hidden="true" href="#i-db" x="590" y="496" width="40" height="40" style="color:var(--ink)"/>
+    <text class="t-l" x="610" y="560" text-anchor="middle">전사 DB</text>
+    <text class="k-t-tag" x="610" y="588" text-anchor="middle">공통 코드·마스터</text>
     </g>
   <g data-step="2">
-    <circle class="k-orange" cx="242" cy="514" r="56"/>
-    <use aria-hidden="true" href="#i-building" x="220" y="484" width="44" height="44" style="color:var(--accent)"/>
-    <text class="k-t-tag" x="242" y="548" text-anchor="middle" style="fill:var(--accent)">외부기관</text>
-    <text class="k-t-tag" x="242" y="596" text-anchor="middle">공공 연계</text>
+    <circle class="k-orange" cx="242" cy="536" r="56"/>
+    <use aria-hidden="true" href="#i-building" x="220" y="506" width="44" height="44" style="color:var(--accent)"/>
+    <text class="k-t-tag" x="242" y="570" text-anchor="middle" style="fill:var(--accent)">외부기관</text>
+    <text class="k-t-tag" x="242" y="618" text-anchor="middle">공공 연계</text>
     </g>
-  <g><polyline class="k-ln-b" points="34,698 104,698"/><text class="k-t-tag" x="118" y="706">동기 호출</text>
-    <polyline class="k-ln-g" stroke-dasharray="8 8" points="268.71999999999997,698 338.71999999999997,698"/><text class="k-t-tag" x="352.71999999999997" y="706">응답</text>
-    <polyline class="k-ln-g" points="454.47999999999996,698 524.48,698"/><text class="k-t-tag" x="538.48" y="706">보조·연계</text></g>
+  <g data-step="3">
+      <rect class="k-paper" x="591.8" y="233" width="184.4" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="684" y="259" text-anchor="middle">IF-01·REST·상시</text>
+    </g>
+  <g data-step="3">
+      <rect class="k-paper" x="811.8" y="383.5" width="184.4" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="904" y="409.5" text-anchor="middle">IF-01·REST·상시</text>
+    </g>
+  <g data-step="3">
+      <rect class="k-paper" x="718.8" y="529" width="126.4" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="782" y="555" text-anchor="middle">IF-01·응답</text>
+    </g>
+  <g data-step="4">
+      <rect class="k-paper" x="921.8" y="346" width="190.4" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="1017" y="372" text-anchor="middle">IF-02·파일·일 1회</text>
+    </g>
+  <g data-step="4">
+      <rect class="k-paper" x="509" y="423" width="202" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="610" y="449" text-anchor="middle">IF-04·JDBC·시 1회</text>
+    </g>
+  <g data-step="5">
+      <rect class="k-paper" x="209.3" y="234.5" width="213.4" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="316" y="260.5" text-anchor="middle">IF-03·HTTPS·실시간</text>
+    </g>
+  <g data-step="5">
+      <rect class="k-paper" x="365.8" y="458" width="126.4" height="36" style="rx:9px"/>
+      <text class="k-t-tag" x="429" y="484" text-anchor="middle">IF-03·응답</text>
+    </g>
+  <g><polyline class="k-ln-b" points="34,742 104,742"/><text class="k-t-tag" x="118" y="750">동기 호출</text>
+    <polyline class="k-ln-g" stroke-dasharray="8 8" points="268.71999999999997,742 338.71999999999997,742"/><text class="k-t-tag" x="352.71999999999997" y="750">응답</text>
+    <polyline class="k-ln-g" points="454.47999999999996,742 524.48,742"/><text class="k-t-tag" x="538.48" y="750">보조·연계</text></g>
 </svg>
   <p class="small">인수인계 포인트 — 신규 연동은 허브 없이 직접 붙이지 않는다. IF 등록 후 허브 경로로만 낸다.</p>
   <aside class="notes">P0 연계 아키텍처. 허브(EAI) 매개 패턴으로 IF 번호·프로토콜·주기를 일관된 3토큰 라벨에 싣고 동기/비동기는 선 종류로 구분한다. 외부기관은 내부망 존 바깥 아래 대외 영역에 별도 존으로 분리된다. 1단계 존·경계, 2단계 시스템(온라인 허브=청색, 내부 기간계=기본, 대외 기관=주황), 3단계 IF-01 대내 동기 호출·응답, 4단계 IF-02·IF-04 내부 배치 연계, 5단계 IF-03 대외 실시간 연계.</aside>

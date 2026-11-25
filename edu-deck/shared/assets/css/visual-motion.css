@@ -58,10 +58,18 @@ body,.slide,.pack{font-family:'Pretendard Variable',sans-serif}
 .k-solid-o{fill:var(--accent)}
 .k-solid-b{fill:var(--blue)}
 .k-solid-n{fill:var(--ink)}
-.k-ln-o{fill:none;stroke:var(--accent);stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
-.k-ln-b{fill:none;stroke:var(--blue);stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+.k-ln-o{fill:none;stroke:var(--accent);stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
+.k-ln-b{fill:none;stroke:var(--blue);stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
 .k-ln-n{fill:none;stroke:var(--ink);stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
-.k-ln-g{fill:none;stroke:var(--line);stroke-width:3;stroke-dasharray:6 8}
+.k-ln-g{fill:none;stroke:var(--line);stroke-width:2.4;stroke-dasharray:6 8}
+.k-casing{fill:none;stroke:var(--light);stroke-width:9;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+.dark .k-casing{stroke:var(--ink)}
+.arch-blueprint .k-casing,.slide.pack .k-casing{stroke:var(--paper)}
+.k-glow{filter:drop-shadow(0 0 5px var(--accent))}
+.dark .k-glow{filter:drop-shadow(0 0 8px var(--accent-light))}
+@keyframes k-pulse{0%,100%{opacity:1}12%{opacity:.45}24%{opacity:1}36%{opacity:.62}48%{opacity:1}}
+.k-pulse{animation:k-pulse 2.8s var(--e-inout) infinite}
+@media(prefers-reduced-motion:reduce){.k-pulse{animation:none!important}}
 .k-t-hero{font-size:48px;font-weight:800;fill:var(--ink)}
 .k-t-tag{font-size:22px;font-weight:700;fill:var(--soft)}
 .k-t-w{fill:var(--paper)}

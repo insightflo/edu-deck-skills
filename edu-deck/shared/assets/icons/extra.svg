@@ -62,9 +62,11 @@
 <symbol id="i-stop" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M34 10H66L90 34V66L66 90H34L10 66V34Z"/><path d="M32 50H68"/></g></symbol>
 <symbol id="i-robot" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="18" y="30" width="64" height="50" rx="14"/><path d="M50 30V17"/><circle cx="50" cy="12" r="5"/><path d="M10 48V62M90 48V62"/><path d="M38 67H62"/></g><g fill="currentColor"><circle cx="37" cy="52" r="5"/><circle cx="63" cy="52" r="5"/></g></symbol>
 <!-- 도식용 화살촉 marker 3종(20261103-agent-communication 덱에서 승격, 색은 의미 토큰): ah-o 주황 · ah-b 파랑 · ah-n 먹색 -->
-<marker id="ah-o" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="var(--accent)"/></marker>
-<marker id="ah-b" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="var(--blue)"/></marker>
-<marker id="ah-n" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="var(--ink)"/></marker>
+<marker id="ah-o" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M1 1L11 6L1 11Z" fill="var(--accent)"/></marker>
+<marker id="ah-b" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M1 1L11 6L1 11Z" fill="var(--blue)"/></marker>
+<marker id="ah-n" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M1 1L11 6L1 11Z" fill="var(--ink)"/></marker>
 <!-- 응답선용 open(속빈) 화살촉 — 호출 블록촉과 대비되는 회선 방향 표기(회색 선) -->
-<marker id="ah-open" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1.5 1L9 5L1.5 9" fill="none" stroke="var(--soft)" stroke-width="1.8"/></marker>
+<marker id="ah-open" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M2 1.6L10 6L2 10.4" fill="none" stroke="var(--soft)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></marker>
+<marker id="ah-dot" viewBox="0 0 12 12" refX="6" refY="6" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><circle cx="6" cy="6" r="3.5" fill="var(--accent)"/></marker>
+<marker id="ah-chev" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M3.5 1.6L9 6L3.5 10.4" fill="none" stroke="var(--soft)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></marker>
 </defs></svg>

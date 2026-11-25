@@ -298,10 +298,15 @@ function buildProcess() {
     const cy = round(L.y0 + C.padT + (n.row || 0) * C.rowH + C.rowH / 2);
     N[n.id] = { ...n, cx, cy, ...geometry(n.type, cx, cy) };
   }
-  const P = (id, side) => {
+  const opts = model.options || {};
+  const portOffsets = planPorts(model.edges, N, opts);
+  const P = (id, side, edgeId = null, end = null) => {
     const n = N[id];
     const m = { left: [n.l, n.cy], right: [n.r, n.cy], top: [n.cx, n.t], bottom: [n.cx, n.b] }[side];
-    return { x: round(m[0]), y: round(m[1]) };
+    const off = edgeId && end ? portOffsets[`${edgeId}:${end}`] || 0 : 0;
+    const x = side === 'top' || side === 'bottom' ? m[0] + off : m[0];
+    const y = side === 'left' || side === 'right' ? m[1] + off : m[1];
+    return { x: round(x), y: round(y) };
   };
   /**
    * 대조 모드 전용 경로 — 카드 사이 '채널'(행 사이 여백)로만 꺾는다.
@@ -318,7 +323,6 @@ function buildProcess() {
     const y = b.row > a.row ? round(bandY(a.row) + ROW - 16) : round(bandY(a.row) + 16);
     return [P(e.from, b.row > a.row ? 'bottom' : 'top'), { x: a.cx, y }, { x: b.cx, y }, P(e.to, b.row > a.row ? 'top' : 'bottom')];
   };
-  const opts = model.options || {};
   const routeOf = (e) => routeEdge(e, N, P, laneOf, opts);
   // 칩 배치 순서: 흐름 라벨(모델 순서). 겹치면 자동으로 위/아래/좌/우를 옮긴다.
   // 판정(마름모) 이름은 알약이 아니라 마름모 위 잉크 글자로 찍는다 — 같은 흰색
@@ -370,6 +374,7 @@ function buildProcess() {
     const cls = loop ? 'k-ln-o' : 'k-ln-b';
     const dash = loop ? ' style="stroke-dasharray:14 10"' : '';
     svg.push(`    <g data-step="${st}">`);
+    svg.push(`      <polyline class="k-casing" fill="none" points="${casingPoints(pts)}"/>`);
     svg.push(`      <path class="${cls}" d="${pathD(pts)}"${dash} marker-end="url(#${loop ? 'ah-o' : 'ah-b'})"/>`);
     if (e.label) {
       const c = chips[e.id];
@@ -439,26 +444,92 @@ function geometry(type, cx, cy) {
   return { l: round(cx - w / 2), r: round(cx + w / 2), t: round(cy - h / 2), b: round(cy + h / 2), w, h };
 }
 
+function edgeRouteSides(e, N, opts = {}) {
+  const a = N[e.from], b = N[e.to];
+  const side = (opts.route || {})[e.id];
+  if (side === 'straight' || side === 'h') return ['right', 'left'];
+  if (side === 'fromBottom') return ['bottom', 'left'];
+  if (side === 'toBottom') return ['right', 'bottom'];
+  if (side === 'toTop') return ['right', 'top'];
+  if (side === 'loop' || side === 'up') return ['top', 'top'];
+  if (Math.abs(a.cy - b.cy) < 1) return ['right', 'left'];
+  if (Math.abs(a.cx - b.cx) < 1) return ['bottom', 'top'];
+  return ['right', 'left'];
+}
+
+function planPorts(edges, N, opts = {}) {
+  const groups = new Map();
+  for (const e of edges) {
+    const [fromSide, toSide] = edgeRouteSides(e, N, opts);
+    for (const end of [
+      { node: e.from, side: fromSide, key: `${e.id}:from`, other: e.to },
+      { node: e.to, side: toSide, key: `${e.id}:to`, other: e.from },
+    ]) {
+      const gk = `${end.node}:${end.side}`;
+      if (!groups.has(gk)) groups.set(gk, { node: end.node, side: end.side, items: [] });
+      const other = N[end.other];
+      const at = end.side === 'left' || end.side === 'right' ? other.cy : other.cx;
+      groups.get(gk).items.push({ key: end.key, at });
+    }
+  }
+  const offsets = {};
+  for (const g of groups.values()) {
+    const n = N[g.node];
+    const dim = g.side === 'left' || g.side === 'right' ? n.h : n.w;
+    const usable = Math.max(0, dim - 18);
+    const count = g.items.length;
+    const step = count > 1 ? Math.min(14, usable / (count - 1)) : 0;
+    const items = [...g.items].sort((x, y) => x.at - y.at || x.key.localeCompare(y.key));
+    items.forEach((item, i) => {
+      offsets[item.key] = round((i - (count - 1) / 2) * step);
+    });
+  }
+  return offsets;
+}
+
 function routeEdge(e, N, P, laneOf, opts) {
   const a = N[e.from], b = N[e.to];
   const side = (opts.route || {})[e.id];
-  if (side === 'straight') return [P(e.from, 'right'), P(e.to, 'left')];
-  if (side === 'h') return [P(e.from, 'right'), P(e.to, 'left')];
-  if (side === 'fromBottom') return [P(e.from, 'bottom'), { x: a.cx, y: b.cy }, P(e.to, 'left')];
-  if (side === 'toBottom') return [P(e.from, 'right'), { x: b.cx, y: a.cy }, P(e.to, 'bottom')];
-  if (side === 'toTop') return [P(e.from, 'right'), { x: b.cx, y: a.cy }, P(e.to, 'top')];
+  const pf = (portSide) => P(e.from, portSide, e.id, 'from');
+  const pt = (portSide) => P(e.to, portSide, e.id, 'to');
+  if (side === 'straight' || side === 'h') return [pf('right'), pt('left')];
+  if (side === 'fromBottom') {
+    const p1 = pf('bottom'), p2 = pt('left');
+    return [p1, { x: p1.x, y: p2.y }, p2];
+  }
+  if (side === 'toBottom') {
+    const p1 = pf('right'), p2 = pt('bottom');
+    return [p1, { x: p2.x, y: p1.y }, p2];
+  }
+  if (side === 'toTop') {
+    const p1 = pf('right'), p2 = pt('top');
+    return [p1, { x: p2.x, y: p1.y }, p2];
+  }
   if (side === 'loop') {
-    const top = laneOf[a.lane].y0 + 13;
-    return [P(e.from, 'top'), { x: a.cx, y: round(top) }, { x: b.cx, y: round(top) }, P(e.to, 'top')];
+    const top = round(laneOf[a.lane].y0 + 13);
+    const p1 = pf('top'), p2 = pt('top');
+    return [p1, { x: p1.x, y: top }, { x: p2.x, y: top }, p2];
   }
   if (side === 'up') { // 오른쪽 위로: 위 → 오른쪽 → 위
     const yy = round(Math.min(a.cy, b.cy) - (opts.upGap || 78));
-    return [P(e.from, 'top'), { x: a.cx, y: yy }, { x: b.cx, y: yy }, P(e.to, 'top')];
+    const p1 = pf('top'), p2 = pt('top');
+    return [p1, { x: p1.x, y: yy }, { x: p2.x, y: yy }, p2];
   }
-  if (Math.abs(a.cy - b.cy) < 1) return [P(e.from, 'right'), P(e.to, 'left')];
-  if (Math.abs(a.cx - b.cx) < 1) return [P(e.from, 'bottom'), P(e.to, 'top')];
+  if (Math.abs(a.cy - b.cy) < 1) {
+    const p1 = pf('right'), p2 = pt('left');
+    if (Math.abs(p1.y - p2.y) < 1) return [p1, p2];
+    const x = round((p1.x + p2.x) / 2);
+    return [p1, { x, y: p1.y }, { x, y: p2.y }, p2];
+  }
+  if (Math.abs(a.cx - b.cx) < 1) {
+    const p1 = pf('bottom'), p2 = pt('top');
+    if (Math.abs(p1.x - p2.x) < 1) return [p1, p2];
+    const y = round((p1.y + p2.y) / 2);
+    return [p1, { x: p1.x, y }, { x: p2.x, y }, p2];
+  }
   const x = round(b.l - 26);
-  return [P(e.from, 'right'), { x, y: a.cy }, { x, y: b.cy }, P(e.to, 'left')];
+  const p1 = pf('right'), p2 = pt('left');
+  return [p1, { x, y: p1.y }, { x, y: p2.y }, p2];
 }
 
 function pathD(pts, r = 10) {
@@ -474,6 +545,29 @@ function pathD(pts, r = 10) {
     d += ` L${round(ax)} ${round(ay)} Q${p.x} ${p.y} ${round(bx)} ${round(by)}`;
   }
   return d;
+}
+
+function casingPoints(pts, r = 10) {
+  const out = [pts[0]];
+  for (let i = 1; i < pts.length; i++) {
+    const p = pts[i], q = pts[i - 1], nx = pts[i + 1];
+    if (!nx) { out.push(p); break; }
+    const l1 = Math.hypot(p.x - q.x, p.y - q.y), l2 = Math.hypot(nx.x - p.x, nx.y - p.y);
+    const k = Math.min(r, l1 / 2, l2 / 2);
+    if (!l1 || !l2) { out.push(p); continue; }
+    const ax = p.x - ((p.x - q.x) / l1) * k, ay = p.y - ((p.y - q.y) / l1) * k;
+    const bx = p.x + ((nx.x - p.x) / l2) * k, by = p.y + ((nx.y - p.y) / l2) * k;
+    out.push({ x: round(ax), y: round(ay) });
+    for (const t of [0.25, 0.5, 0.75]) {
+      const u = 1 - t;
+      out.push({
+        x: round(u * u * ax + 2 * u * t * p.x + t * t * bx),
+        y: round(u * u * ay + 2 * u * t * p.y + t * t * by),
+      });
+    }
+    out.push({ x: round(bx), y: round(by) });
+  }
+  return out.map((pt) => `${round(pt.x)},${round(pt.y)}`).join(' ');
 }
 
 /** 칩이 노드·이미 놓인 칩과 겹치는지. */
@@ -576,6 +670,7 @@ function buildSequence() {
     const lw = round(textW(m.label, 22)) + 20;
     const nb = round(x1 + dir * 36);
     svg.push(`    <g data-step="${step}">`);
+    svg.push(`      <polyline class="k-casing" fill="none" points="${x1e},${round(y)} ${x2e},${round(y)}"/>`);
     svg.push(`      <path class="${cls}" d="M${x1e} ${round(y)} L${x2e} ${round(y)}"${style} marker-end="url(#${mk})"/>`);
     svg.push(`      <rect class="k-paper" x="${round((x1 + x2) / 2 - lw / 2)}" y="${round(y - 40)}" width="${lw}" height="32" style="rx:9px"/>`);
     svg.push(`      <text class="k-t-tag" x="${round((x1 + x2) / 2)}" y="${round(y - 16)}" text-anchor="middle">${esc(m.label)}</text>`);
@@ -699,6 +794,7 @@ function buildCompare() {
     const pts = routeC(e);
     const st = e.state === 'remove' ? ' data-until="1"' : ` data-step="${e.state === 'new' ? 3 : 1}"`;
     svg.push(`    <g${st}>`);
+    svg.push(`      <polyline class="k-casing" fill="none" points="${casingPoints(pts)}"/>`);
     svg.push(`      <path class="k-ln-b" d="${pathD(pts)}" marker-end="url(#ah-b)"/>`);
     if (e.label) {
       const c = chips[e.id];

@@ -237,50 +237,257 @@ const auxClear = (pts, skip) => {
     for (const r of rs) if (auxSegRect(pts[i - 1], pts[i], r)) return false;
   return true;
 };
-// 맨해튼 직교 라우팅 — 포트는 상대편을 향하는 면 중점(수평·수직 세그먼트만).
+// 맨해튼 직교 라우팅 — 포트 면 선택·순서·분산 + 18px 스텁 + 비용 최소 직교 경로.
 // dagre 웨이포인트 사선은 쓰지 않는다(원본 대조 분석: SI 도식은 100% 직교).
-const portOf = (a, b) => {
+const STUB = 18;
+const FACE_DIR = { right: { x: 1, y: 0 }, left: { x: -1, y: 0 }, bottom: { x: 0, y: 1 }, top: { x: 0, y: -1 } };
+const faceOf = (a, b) => {
   const ra = nRect(a), rb = nRect(b);
-  if (rb.x0 > ra.x1) return { x: ra.x1, y: a.cy };                    // b 가 오른쪽
-  if (rb.x1 < ra.x0) return { x: ra.x0, y: a.cy };                    // b 가 왼쪽
-  return rb.y0 > ra.y1 ? { x: a.cx, y: ra.y1 } : { x: a.cx, y: ra.y0 }; // 위·아래
+  if (rb.x0 > ra.x1) return 'right';
+  if (rb.x1 < ra.x0) return 'left';
+  return rb.y0 > ra.y1 ? 'bottom' : 'top';
 };
-const orthoRoute = (ea, eb, lane = 0) => {
-  const fa = nodes[ea], fb = nodes[eb], skip = new Set([ea, eb]);
-  const p0 = portOf(fa, fb), p1 = portOf(fb, fa);
-  const lanesX = [], lanesY = [];
-  for (const [id, n] of Object.entries(nodes)) {
-    if (skip.has(id)) continue;
+// 모든 엣지의 출발·도착 면을 먼저 고정하고, 같은 (node, face) 그룹 안에서는
+// 상대 노드 좌표(y for left/right, x for top/bottom) 순으로 포트를 벌린다.
+const boundaryCenter = (n, face) => {
+  if (face === 'right') return { x: n.cx + n.w / 2, y: n.cy };
+  if (face === 'left') return { x: n.cx - n.w / 2, y: n.cy };
+  if (face === 'bottom') return { x: n.cx, y: n.cy + n.h / 2 };
+  return { x: n.cx, y: n.cy - n.h / 2 };
+};
+// 상대편을 향하는 면이 기본이지만, 그 면의 18px 스텁이 제3자 노드에 곧장
+// 박히면 그 면은 포트로 쓸 수 없다. 이 경우 수평·수직 인접면을 결정적 순서로
+// 검사해 스텁이 열린 첫 면을 고른다(⑨ 포트 면 선택).
+const chooseFace = (selfId, otherId) => {
+  const self = nodes[selfId], other = nodes[otherId];
+  const preferred = faceOf(self, other);
+  const dx = other.cx - self.cx, dy = other.cy - self.cy;
+  const horizontal = dx >= 0 ? ['right', 'left'] : ['left', 'right'];
+  const vertical = dy >= 0 ? ['bottom', 'top'] : ['top', 'bottom'];
+  const ordered = [...new Set([preferred, ...horizontal, ...vertical])];
+  const clear = (face) => {
+    const p = boundaryCenter(self, face);
+    const q = { x: p.x + FACE_DIR[face].x * STUB, y: p.y + FACE_DIR[face].y * STUB };
+    return !Object.entries(nodes).some(([id, n]) => {
+      if (id === selfId || id === otherId) return false;
+      const r0 = nRect(n), r = { x0: r0.x0 - AUX_M, y0: r0.y0 - AUX_M, x1: r0.x1 + AUX_M, y1: r0.y1 + AUX_M };
+      return auxSegRect(p, q, r);
+    });
+  };
+  return ordered.find(clear) || preferred;
+};
+const portPlans = (() => {
+  const groups = new Map();
+  const keyOf = (node, face) => `${node}|${face}`;
+  const addRef = (node, face, edge, end, other) => {
+    const key = keyOf(node, face);
+    if (!groups.has(key)) groups.set(key, { node, face, refs: [] });
+    groups.get(key).refs.push({ edge, end, other, face });
+  };
+  const plans = EDGES.map((e, i) => {
+    const aFace = chooseFace(e.a, e.b);
+    const bFace = chooseFace(e.b, e.a);
+    addRef(e.a, aFace, i, 'a', e.b);
+    addRef(e.b, bFace, i, 'b', e.a);
+    return { edge: i, aFace, bFace };
+  });
+  const coordOf = (r) => (r.face === 'left' || r.face === 'right') ? nodes[r.other].cy : nodes[r.other].cx;
+  for (const g of groups.values())
+    g.refs.sort((p, q) => (coordOf(p) - coordOf(q)) || (p.edge - q.edge) || p.end.localeCompare(q.end));
+  const portPos = (nodeId, face, edge, end) => {
+    const n = nodes[nodeId], g = groups.get(keyOf(nodeId, face));
+    const k = Math.max(0, g.refs.findIndex((r) => r.edge === edge && r.end === end));
+    const count = g.refs.length;
+    const faceLen = (face === 'left' || face === 'right') ? n.h : n.w;
+    const spread = Math.min(18, (faceLen - 28) / Math.max(1, count - 1));
+    const off = (k - (count - 1) / 2) * spread;
+    if (face === 'right') return { x: n.cx + n.w / 2, y: n.cy + off };
+    if (face === 'left') return { x: n.cx - n.w / 2, y: n.cy + off };
+    if (face === 'bottom') return { x: n.cx + off, y: n.cy + n.h / 2 };
+    return { x: n.cx + off, y: n.cy - n.h / 2 };
+  };
+  return plans.map((p) => ({
+    ...p,
+    p0: portPos(EDGES[p.edge].a, p.aFace, p.edge, 'a'),
+    p1: portPos(EDGES[p.edge].b, p.bFace, p.edge, 'b'),
+  }));
+})();
+const outward = (p, face, dist = STUB) => ({ x: p.x + FACE_DIR[face].x * dist, y: p.y + FACE_DIR[face].y * dist });
+const cleanPts = (pts) => {
+  const ded = [];
+  for (const p of pts)
+    if (!ded.length || Math.abs(p.x - ded[ded.length - 1].x) > 0.5 || Math.abs(p.y - ded[ded.length - 1].y) > 0.5) ded.push(p);
+  if (ded.length < 3) return ded;
+  const out = [ded[0]];
+  for (let i = 1; i < ded.length - 1; i++) {
+    const a = out[out.length - 1], p = ded[i], q = ded[i + 1];
+    const sameX = Math.abs(p.x - a.x) < 0.5 && Math.abs(q.x - p.x) < 0.5;
+    const sameY = Math.abs(p.y - a.y) < 0.5 && Math.abs(q.y - p.y) < 0.5;
+    const forwardX = (p.x - a.x) * (q.x - p.x) > 0;
+    const forwardY = (p.y - a.y) * (q.y - p.y) > 0;
+    const collinear = (sameX && forwardX) || (sameY && forwardY);
+    if (!collinear) out.push(p);
+  }
+  out.push(ded[ded.length - 1]);
+  return out;
+};
+// endpoint 스텁(첫·마지막 세그먼트)만 자기 노드와 닿을 수 있다. 그 이후 중간
+// 세그먼트가 출발·도착 노드로 되돌아 들어가는 후보는 장애물 충돌로 본다.
+const routeClear = (pts, ea, eb) => {
+  const rs = Object.entries(nodes).map(([id, n]) => {
+    const r = nRect(n);
+    return { id, r: { x0: r.x0 - AUX_M, y0: r.y0 - AUX_M, x1: r.x1 + AUX_M, y1: r.y1 + AUX_M } };
+  });
+  for (let i = 1; i < pts.length; i++)
+    for (const q of rs) {
+      const endpoint = q.id === ea || q.id === eb;
+      if (endpoint && (i === 1 || i === pts.length - 1)) continue;
+      if (auxSegRect(pts[i - 1], pts[i], q.r)) return false;
+    }
+  return true;
+};
+const zoneCrossCount = (pts) => {
+  let count = 0;
+  for (let i = 1; i < pts.length; i++) {
+    const p = pts[i - 1], q = pts[i];
+    const horiz = Math.abs(p.y - q.y) < 0.5;
+    for (const z of zones) {
+      const r = z.r;
+      if (horiz) {
+        const x0 = Math.min(p.x, q.x), x1 = Math.max(p.x, q.x), y = p.y;
+        if (y > r.y0 + 0.5 && y < r.y1 - 0.5) {
+          if (x0 + 1 < r.x0 && r.x0 < x1 - 1) count++;
+          if (x0 + 1 < r.x1 && r.x1 < x1 - 1) count++;
+        } else if ((Math.abs(y - r.y0) < 0.5 || Math.abs(y - r.y1) < 0.5)
+          && Math.min(x1, r.x1) - Math.max(x0, r.x0) > 8) count++;
+      } else {
+        const y0 = Math.min(p.y, q.y), y1 = Math.max(p.y, q.y), x = p.x;
+        if (x > r.x0 + 0.5 && x < r.x1 - 0.5) {
+          if (y0 + 1 < r.y0 && r.y0 < y1 - 1) count++;
+          if (y0 + 1 < r.y1 && r.y1 < y1 - 1) count++;
+        } else if ((Math.abs(x - r.x0) < 0.5 || Math.abs(x - r.x1) < 0.5)
+          && Math.min(y1, r.y1) - Math.max(y0, r.y0) > 8) count++;
+      }
+    }
+  }
+  return count;
+};
+// 직전까지 확정된 엣지·버스·HA 선분과 같은 방향 복도를 8px 미만 거리에서
+// 8px 이상 공유하면 corridorOverlap 1건으로 센다(평행 노선 분리 비용).
+const corridorOverlapCount = (pts) => {
+  const hitCorridors = new Set();
+  for (let i = 1; i < pts.length; i++) {
+    const p = pts[i - 1], q = pts[i];
+    const horiz = Math.abs(p.y - q.y) < 0.5;
+    for (let ci = 0; ci < usedCorridors.length; ci++) {
+      const c = usedCorridors[ci];
+      if (c.horiz !== horiz) continue;
+      let overlap = 0;
+      if (horiz) {
+        if (Math.abs(c.p.y - p.y) >= 8) continue;
+        overlap = Math.min(Math.max(p.x, q.x), Math.max(c.p.x, c.q.x)) - Math.max(Math.min(p.x, q.x), Math.min(c.p.x, c.q.x));
+      } else {
+        if (Math.abs(c.p.x - p.x) >= 8) continue;
+        overlap = Math.min(Math.max(p.y, q.y), Math.max(c.p.y, c.q.y)) - Math.max(Math.min(p.y, q.y), Math.min(c.p.y, c.q.y));
+      }
+      if (overlap >= 8) hitCorridors.add(ci);
+    }
+  }
+  return hitCorridors.size;
+};
+const measurePts = (pts) => {
+  let length = 0, bends = 0;
+  for (let i = 1; i < pts.length; i++) length += Math.hypot(pts[i].x - pts[i - 1].x, pts[i].y - pts[i - 1].y);
+  for (let i = 1; i < pts.length - 1; i++) {
+    const a = pts[i - 1], p = pts[i], q = pts[i + 1];
+    const h1 = Math.abs(p.y - a.y) < 0.5, h2 = Math.abs(q.y - p.y) < 0.5;
+    if (h1 !== h2) bends++;
+  }
+  const overlap = corridorOverlapCount(pts), zc = zoneCrossCount(pts);
+  return { pts, length, bends, overlap, zc, cost: length + bends * 45 + overlap * 180 + zc * 35 };
+};
+const pushCorridors = (pts) => {
+  for (let i = 1; i < pts.length; i++) {
+    const p = pts[i - 1], q = pts[i];
+    if (Math.hypot(q.x - p.x, q.y - p.y) < 1) continue;
+    usedCorridors.push({ p: { ...p }, q: { ...q }, horiz: Math.abs(p.y - q.y) < 0.5 });
+  }
+};
+const uniqNums = (vals) => {
+  const out = [];
+  for (const v of vals) if (!out.some((u) => Math.abs(u - v) < 0.5)) out.push(v);
+  return out;
+};
+const laneOrder = (vals, anchor, lane = 0, offsets = true) => {
+  const base = uniqNums(vals).sort((a, b) => (Math.abs(a - anchor) - Math.abs(b - anchor)) || (a - b));
+  const ds = offsets ? uniqNums([0, lane, 10, -10, 20, -20]) : [0];
+  const out = [];
+  for (const v of base) for (const d of ds) if (!out.some((u) => Math.abs(u - (v + d)) < 0.5)) out.push(v + d);
+  return out;
+};
+const orthoRoute = (ea, eb, lane = 0, idx = 0) => {
+  const plan = portPlans[idx];
+  const p0 = plan.p0, p1 = plan.p1;
+  const s = outward(p0, plan.aFace), t = outward(p1, plan.bFace);
+  const lanesX = [(s.x + t.x) / 2], lanesY = [(s.y + t.y) / 2];
+  for (const n of Object.values(nodes)) {
     const r = nRect(n);
     lanesX.push(r.x0 - AUX_M - 4, r.x1 + AUX_M + 4);
     lanesY.push(r.y0 - AUX_M - 4, r.y1 + AUX_M + 4);
   }
-  const ux = [...new Set(lanesX)].sort((a, b) => a - b), uy = [...new Set(lanesY)].sort((a, b) => a - b);
-  const shx = (x) => lane ? x + lane : x, shy = (y) => lane ? y + lane : y;
-  const tryC = (mid) => {
-    const pts = [p0, ...mid, p1];
-    // 축 정렬이 아닌 세그먼트는 후보에서 배제(순수 직교 보장)
+  const worldRs = [...Object.values(nodes).map(nRect), ...zones.map((z) => z.r)];
+  const world = {
+    x0: Math.min(...worldRs.map((r) => r.x0)), x1: Math.max(...worldRs.map((r) => r.x1)),
+    y0: Math.min(...worldRs.map((r) => r.y0)), y1: Math.max(...worldRs.map((r) => r.y1)),
+  };
+  const ax = (s.x + t.x) / 2, ay = (s.y + t.y) / 2;
+  const uxBase = laneOrder(lanesX, ax, 0, false), uyBase = laneOrder(lanesY, ay, 0, false);
+  const ux = laneOrder(lanesX, ax, lane, true), uy = laneOrder(lanesY, ay, lane, true);
+  const evalMid = (mid) => {
+    const pts = cleanPts([p0, s, ...mid, t, p1]);
     for (let i = 1; i < pts.length; i++)
       if (Math.abs(pts[i].x - pts[i - 1].x) > 0.5 && Math.abs(pts[i].y - pts[i - 1].y) > 0.5) return null;
-    return auxClear(pts, skip) ? pts : null;
+    // 같은 축에서 곧바로 방향을 뒤집는 후보는 스텁을 접고 돌아가는 자기겹침이다.
+    // 길이만 길어지고 회피 이득이 없으므로 경로 후보에서 제외한다.
+    for (let i = 1; i < pts.length - 1; i++) {
+      const a = pts[i - 1], p = pts[i], q = pts[i + 1];
+      if (Math.abs(p.x - a.x) < 0.5 && Math.abs(q.x - p.x) < 0.5 && (p.x - a.x) * (q.x - p.x) < 0) return null;
+      if (Math.abs(p.y - a.y) < 0.5 && Math.abs(q.y - p.y) < 0.5 && (p.y - a.y) * (q.y - p.y) < 0) return null;
+    }
+    return routeClear(pts, ea, eb) ? measurePts(pts) : null;
   };
-  const cands = [
-    [[], [{ x: p0.x, y: p1.y }], [{ x: p1.x, y: p0.y }]],
-    ux.map((x) => [{ x: shx(x), y: p0.y }, { x: shx(x), y: p1.y }]),
-    uy.map((y) => [{ x: p0.x, y: shy(y) }, { x: p1.x, y: shy(y) }]),
-    ux.flatMap((x) => uy.map((y) => [{ x: shx(x), y: p0.y }, { x: shx(x), y: shy(y) }, { x: p1.x, y: shy(y) }])),
-    uy.flatMap((y) => ux.map((x) => [{ x: p0.x, y: shy(y) }, { x: shx(x), y: shy(y) }, { x: shx(x), y: p1.y }])),
-  ];
-  for (const group of cands) for (const c of group) { const p = tryC(c); if (p) return p; }
-  return [p0, { x: p1.x, y: p0.y }, p1];                            // 최종 폴백 — L자 직교
+  // 역방향 루프백은 먼저 노드 그룹 바깥 위/아래 전용 레인 후보만 평가한다.
+  // 유효 레인이 있으면 본류를 가로지르는 더 짧은 후보보다 그 레인을 우선한다.
+  if (nodes[eb].cx < nodes[ea].cx) {
+    let loopBest = null;
+    const loopYs = [];
+    for (const y of [world.y0 - 42, world.y1 + 42]) for (const d of [0, 10, -10, 20, -20])
+      if (!loopYs.some((u) => Math.abs(u - (y + d)) < 0.5)) loopYs.push(y + d);
+    for (const y of loopYs) {
+      const cand = evalMid([{ x: s.x, y }, { x: t.x, y }]);
+      if (cand && (!loopBest || cand.cost < loopBest.cost)) loopBest = cand;
+    }
+    if (loopBest) { pushCorridors(loopBest.pts); return loopBest.pts; }
+  }
+  let best = null;
+  const consider = (mid) => {
+    const cand = evalMid(mid);
+    if (cand && (!best || cand.cost < best.cost - 1e-9)) best = cand;
+  };
+  consider([]);
+  consider([{ x: t.x, y: s.y }]);
+  consider([{ x: s.x, y: t.y }]);
+  for (const x of ux) consider([{ x, y: s.y }, { x, y: t.y }]);
+  for (const y of uy) consider([{ x: s.x, y }, { x: t.x, y }]);
+  for (const x of uxBase) for (const y of uyBase) {
+    consider([{ x, y: s.y }, { x, y }, { x: t.x, y }]);
+    consider([{ x: s.x, y }, { x, y }, { x, y: t.y }]);
+  }
+  if (best) { pushCorridors(best.pts); return best.pts; }
+  const fallback = cleanPts([p0, s, { x: t.x, y: s.y }, t, p1]);
+  pushCorridors(fallback);
+  return fallback;
 };
-const edges = EDGES.map((e, i) => {
-  // 병렬 쌍(a→b·b→a)은 가운데 차선을 ±edgesep/2 만큼 벌려 겹침 방지
-  const pair = EDGES.findIndex((q, j) => j !== i && q.a === e.b && q.b === e.a);
-  const sep = (L.edgesep ?? 24) / 2;
-  const lane = pair < 0 ? 0 : pair < i ? sep : -sep;
-  return { ...e, pts: orthoRoute(e.a, e.b, lane) };
-});
 
 /* ── 2. 정규화: 존 패딩 포함 전체 bbox → 1664 폭·여백 안 가운데 ── */
 const zoneRects = ZONES.filter((z) => !z.between);
@@ -372,6 +579,26 @@ const haGeom = HAPAIRS.map((p) => {
     : { x0: mx - 14, x1: mx + 14 + labW, y0: my - 14, y1: my + 14 };
   return { ...p, s, e: e2, horiz, badgeBox };
 });
+// 확정된 버스·HA 복도를 초기 사용 복도로 등록하고, 점대점 엣지는 입력 순서대로
+// 비용 최소 경로를 고른다. 입력 순서는 모델 JSON 순서라 결정적이다.
+const usedCorridors = [];
+for (const b of busGeom) {
+  if (b.vert) {
+    pushCorridors([{ x: b.bx, y: b.y0 }, { x: b.bx, y: b.y1 }]);
+    for (const d of [...b.ups, ...b.downs]) pushCorridors([{ x: d.x0, y: d.y }, { x: d.x1, y: d.y }]);
+  } else {
+    pushCorridors([{ x: b.x0, y: b.by }, { x: b.x1, y: b.by }]);
+    for (const d of [...b.ups, ...b.downs]) pushCorridors([{ x: d.x, y: d.y0 }, { x: d.x, y: d.y1 }]);
+  }
+}
+for (const h of haGeom) pushCorridors([h.s, h.e]);
+const edges = EDGES.map((e, i) => {
+  // 병렬 쌍(a→b·b→a)은 포트 분산에 더해 가운데 차선 후보도 ±edgesep/2 만큼 벌린다
+  const pair = EDGES.findIndex((q, j) => j !== i && q.a === e.b && q.b === e.a);
+  const sep = (L.edgesep ?? 24) / 2;
+  const lane = pair < 0 ? 0 : pair < i ? sep : -sep;
+  return { ...e, pts: orthoRoute(e.a, e.b, lane, i) };
+});
 // 범례: 명시 우선, 없고 사용 kind 2종↑이면 자동 유도
 const legBar = model.legendStyle === 'bar' || model.legend === 'bar';
 const usedKinds = [...new Set(EDGES.map((e) => e.kind))];
@@ -419,6 +646,66 @@ function midPoint(pts) {
   }
   return pts[0];
 }
+function longestMidPoint(pts) {
+  let best = 0, bl = -1;
+  for (let i = 1; i < pts.length; i++) {
+    const l = Math.hypot(pts[i].x - pts[i - 1].x, pts[i].y - pts[i - 1].y);
+    if (l > bl) { bl = l; best = i; }
+  }
+  const a = pts[best - 1] || pts[0], b = pts[best] || pts[pts.length - 1];
+  return { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
+}
+// 보조·점선 엣지의 수평 구간이 다른 엣지의 수직 구간과 직교 교차하면 r=7 반원 홉을 넣는다.
+// 교차점이 수평 끝점 16px·수직 끝점 8px 안쪽이면 T자 연결/포트 근처로 보고 홉을 생략한다.
+const hopsFor = (e, idx) => {
+  const out = new Map();
+  if (!(e.aux || e.kind === 'g' || e.kind === 'r')) return out;
+  for (let si = 0; si < e.pts.length - 1; si++) {
+    const p = e.pts[si], q = e.pts[si + 1];
+    if (Math.abs(p.y - q.y) > 0.5) continue;
+    const x0 = Math.min(p.x, q.x), x1 = Math.max(p.x, q.x), y = p.y;
+    if (x1 - x0 < 48) continue;
+    const centers = [];
+    for (let oi = 0; oi < edges.length; oi++) {
+      if (oi === idx) continue;
+      const other = edges[oi], main = other.kind === 'b' || other.kind === 'o';
+      for (let vi = 0; vi < other.pts.length - 1; vi++) {
+        const a = other.pts[vi], b = other.pts[vi + 1];
+        if (Math.abs(a.x - b.x) > 0.5) continue;
+        const vy0 = Math.min(a.y, b.y), vy1 = Math.max(a.y, b.y), x = a.x;
+        if (x < x0 + 16 || x > x1 - 16 || y < vy0 + 16 || y > vy1 - 16) continue;
+        centers.push({ x, y, main });
+      }
+    }
+    centers.sort((a, b) => (a.x - b.x) || ((b.main ? 1 : 0) - (a.main ? 1 : 0)));
+    const uniq = [];
+    for (const c of centers) if (!uniq.some((u) => Math.abs(u.x - c.x) < 3)) uniq.push(c);
+    if (uniq.length) out.set(si, uniq);
+  }
+  return out;
+};
+function hopPath(pts, hops) {
+  pts = pts.filter((p, i) => !i || Math.abs(p.x - pts[i - 1].x) > 0.5 || Math.abs(p.y - pts[i - 1].y) > 0.5);
+  let d = `M${r2(X(pts[0].x))} ${r2(Y(pts[0].y))}`;
+  for (let i = 1; i < pts.length; i++) {
+    const p = pts[i - 1], q = pts[i];
+    const len = Math.hypot(q.x - p.x, q.y - p.y);
+    const dx = len ? (q.x - p.x) / len : 0, dy = len ? (q.y - p.y) / len : 0;
+    const centers = (hops.get(i - 1) || []).slice()
+      .sort((a, b) => (((a.x - p.x) * dx + (a.y - p.y) * dy) - ((b.x - p.x) * dx + (b.y - p.y) * dy)));
+    let last = -Infinity;
+    for (const c of centers) {
+      const dist = (c.x - p.x) * dx + (c.y - p.y) * dy;
+      if (dist < 16 || len - dist < 16 || dist - last < 18) continue;
+      const bx = p.x + dx * (dist - 7), by = p.y + dy * (dist - 7);
+      const ax = p.x + dx * (dist + 7), ay = p.y + dy * (dist + 7);
+      d += ` L${r2(X(bx))} ${r2(Y(by))} A7 7 0 0 ${dx >= 0 ? 1 : 0} ${r2(X(ax))} ${r2(Y(ay))}`;
+      last = dist;
+    }
+    d += ` L${r2(X(q.x))} ${r2(Y(q.y))}`;
+  }
+  return d;
+}
 // 기배치 라벨 칩 bbox — 칩끼리의 상호 충돌은 항상 회피한다(agy 이슈-5: 알약끼리
 // 겹치는 것 자체가 결함). layout.chipAvoid 는 레거시 플래그로 남기되 기본 켜짐과 같다.
 const placedChips = [];
@@ -462,7 +749,7 @@ const corridorOf = (e) => {
            y0: Math.min(...parts.map((r) => r.y0)) - 10, y1: Math.max(...parts.map((r) => r.y1)) + 10 };
 };
 const labelPos = (e, idx) => {
-  const m = midPoint(e.pts), w = e.label.length * 17 + 30, corr = corridorOf(e);
+  const m = longestMidPoint(e.pts), w = labelPx(e.label, 20) + 22, corr = corridorOf(e);
   const inside = (r) => r.x0 >= corr.x0 && r.x1 <= corr.x1 && r.y0 >= corr.y0 && r.y1 <= corr.y1;
   const pair = edges.findIndex((q) => q.a === e.b && q.b === e.a);
   const off = pair >= 0 && pair < idx ? 26 : pair >= 0 ? -26 : 0;
@@ -685,15 +972,21 @@ const nodeMarkup = (id, n) => {
 const edgeMarkup = (e, idx) => {
   const k = KIND[e.kind], cls = `k-ln-${k.cls || e.kind}${e.flow ? ' dash-flow' : ''}`;
   const dash = k.dash ? ` stroke-dasharray="${k.dash}"` : '';
-  const o = [e.aux ? '<g>' : `<g data-step="${e.step ?? STEP.edges}">`,
-    `  <path class="${cls}" d="${pathOf(e.pts, 12)}"${dash} marker-end="url(#${k.mk})"/>`];
-  if (e.label) {
-    const lp = labelPos(e, idx);
-    o.push(`  <rect class="k-paper" x="${r2(X(lp.x - lp.w / 2))}" y="${r2(Y(lp.y - 18))}" width="${lp.w}" height="36" style="rx:9px"/>`);
-    o.push(`  <text class="k-t-tag" x="${r2(X(lp.x))}" y="${r2(Y(lp.y) + 8)}" text-anchor="middle">${esc(e.label)}</text>`);
-  }
-  o.push('</g>');
-  return o.join('\n    ');
+  const hops = hopsFor(e, idx);
+  const d = hops.size ? hopPath(e.pts, hops) : pathOf(e.pts, 12);
+  const casingW = (e.kind === 'g' || e.kind === 'r') ? 7 : 9;
+  return [e.aux ? '<g>' : `<g data-step="${e.step ?? STEP.edges}">`,
+    `  <path class="k-casing" d="${d}" style="fill:none;stroke:var(--paper);stroke-width:${casingW};stroke-linecap:round;stroke-linejoin:round;opacity:.96"/>`,
+    `  <path class="${cls}" d="${d}"${dash} marker-end="url(#${k.mk})"/>`,
+    '</g>'].join('\n    ');
+};
+const edgeLabelMarkup = (e, idx) => {
+  if (!e.label) return '';
+  const lp = labelPos(e, idx);
+  return [e.aux ? '<g>' : `<g data-step="${e.step ?? STEP.edges}">`,
+    `  <rect class="k-paper" x="${r2(X(lp.x - lp.w / 2))}" y="${r2(Y(lp.y - 18))}" width="${r2(lp.w)}" height="36" style="rx:9px"/>`,
+    `  <text class="k-t-tag" x="${r2(X(lp.x))}" y="${r2(Y(lp.y) + 8)}" text-anchor="middle">${esc(e.label)}</text>`,
+    '</g>'].join('\n    ');
 };
 
 const busMarkup = (b) => {
@@ -782,6 +1075,7 @@ const svg = `<svg class="dg" data-lint="svg-diagram" viewBox="0 0 ${VBW} ${Math.
   ${edges.map(edgeMarkup).join('\n  ')}
   ${busGeom.map(busMarkup).join('\n  ')}${haGeom.length ? '\n  ' + haGeom.map(haMarkup).join('\n  ') : ''}
   ${Object.entries(nodes).map(([id, n]) => nodeMarkup(id, n)).join('\n  ')}
+  ${edges.map(edgeLabelMarkup).filter(Boolean).join('\n  ')}
   ${legendMarkup(legendItems)}
 </svg>`;
 
