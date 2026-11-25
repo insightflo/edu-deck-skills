@@ -24,10 +24,10 @@
 
 /* ocean — 차분한 청록. 기술·원리 계열. shape: round .55 / motion .45 / density .5 / spring .5 */
 [data-theme="ocean"]{
-  --ink:#15272f; --paper:#f4f9fa; --light:#e6f0f2; --soft:#3f5a63; --line:#6f858b;
-  --accent:#0e7a86; --accent-text:#0a5c66; --accent-light:#9fd8dd;
-  --blue:#2a5f8c; --blue-text:#1f4a6e; --blue-soft:#dcebf4;
-  --success:#1f6a4a; --danger:#a12624; --muted:#c4d6da; --chip:#dbe7e9;
+  --ink:#0d2229; --paper:#ffffff; --light:#e8f4f6; --soft:#35525c; --line:#7a9aa3;
+  --accent:#0b7285; --accent-text:#085968; --accent-light:#7ad0dc;
+  --blue:#226f94; --blue-text:#1a5876; --blue-soft:#d9edf5;
+  --success:#1d7048; --danger:#a62b25; --muted:#bedde2; --chip:#d7ebee;
   --r1:9px; --r2:17px; --r3:25px;
   --m1:143ms; --m2:288ms; --m3:480ms; --m4:770ms;
   --e-spring:cubic-bezier(.34,1.28,.64,1);
@@ -35,10 +35,10 @@
 
 /* cobalt — 정돈된 짙은 파랑. 격식·분석 계열. shape: .15/.35/.25/.2 */
 [data-theme="cobalt"]{
-  --ink:#1b2433; --paper:#f5f7fb; --light:#e8edf6; --soft:#45536b; --line:#707e96;
-  --accent:#2c50b0; --accent-text:#23408c; --accent-light:#a9bdf0;
-  --blue:#1f5e9e; --blue-text:#184a7e; --blue-soft:#dbe9f7;
-  --success:#226344; --danger:#a12624; --muted:#c2cde0; --chip:#dde4ef;
+  --ink:#111c33; --paper:#ffffff; --light:#edf2fb; --soft:#3c4966; --line:#7285aa;
+  --accent:#2148c8; --accent-text:#19389e; --accent-light:#9bb4f8;
+  --blue:#146f9f; --blue-text:#0f587f; --blue-soft:#dceaf7;
+  --success:#1e6a45; --danger:#a62531; --muted:#c0cbe4; --chip:#dfe6f5;
   --r1:4px; --r2:10px; --r3:16px;
   --m1:129ms; --m2:264ms; --m3:440ms; --m4:710ms;
   --e-spring:cubic-bezier(.34,1.14,.64,1);
@@ -48,10 +48,10 @@
 
 /* forest — 자연 녹. 환경·성장 계열. shape: .7/.55/.5/.6 */
 [data-theme="forest"]{
-  --ink:#1c2a1e; --paper:#f7faf4; --light:#eaf1e4; --soft:#45594a; --line:#75897a;
-  --accent:#33713c; --accent-text:#275a2f; --accent-light:#b5d8b4;
-  --blue:#2e6b57; --blue-text:#245445; --blue-soft:#dcebe2;
-  --success:#236344; --danger:#a12624; --muted:#c3d4c0; --chip:#dfe9da;
+  --ink:#132419; --paper:#fcfdfb; --light:#e9f2ea; --soft:#3e5344; --line:#748a79;
+  --accent:#1f6f43; --accent-text:#175634; --accent-light:#8fd1a8;
+  --blue:#2c6f73; --blue-text:#22585c; --blue-soft:#dcebe6;
+  --success:#1f6c3e; --danger:#9e2d24; --muted:#bdd7c2; --chip:#d7e9d9;
   --r1:10px; --r2:19px; --r3:29px;
   --m1:157ms; --m2:312ms; --m3:520ms; --m4:830ms;
   --e-spring:cubic-bezier(.34,1.32,.64,1);
@@ -59,10 +59,10 @@
 
 /* solar — 뜨거운 주황. 현장·안전·활동 계열. shape: .85/.75/.85/.9 */
 [data-theme="solar"]{
-  --ink:#2f2415; --paper:#fdf8ee; --light:#f6ecda; --soft:#5d5140; --line:#8d8271;
-  --accent:#b85c0f; --accent-text:#96490c; --accent-light:#f2c184;
-  --blue:#3a6a8c; --blue-text:#2d5470; --blue-soft:#e4edf3;
-  --success:#256545; --danger:#a12624; --muted:#d9cdb4; --chip:#efe5d2;
+  --ink:#261a0e; --paper:#fffdf8; --light:#fbf0dc; --soft:#5d4a34; --line:#967c57;
+  --accent:#c8520a; --accent-text:#9c3e06; --accent-light:#f7b972;
+  --blue:#356f8c; --blue-text:#2a5871; --blue-soft:#e4edf0;
+  --success:#286a3e; --danger:#a52c21; --muted:#e0c9a2; --chip:#f2dfbd;
   --r1:12px; --r2:22px; --r3:32px;
   --m1:185ms; --m2:360ms; --m3:600ms; --m4:950ms;
   --e-spring:cubic-bezier(.34,1.46,.64,1);
@@ -72,10 +72,10 @@
 
 /* berry — 선명한 자주. 사례·고객·서비스 계열. shape: .75/.65/.5/.8 */
 [data-theme="berry"]{
-  --ink:#2c1d27; --paper:#fbf4f7; --light:#f4e6ec; --soft:#5d4a56; --line:#8d7482;
-  --accent:#a62f63; --accent-text:#85264f; --accent-light:#edaec8;
-  --blue:#5a4f96; --blue-text:#473e78; --blue-soft:#e8e4f4;
-  --success:#256344; --danger:#a12624; --muted:#d9c4d0; --chip:#eedfe7;
+  --ink:#291322; --paper:#fffbfc; --light:#f7e8ef; --soft:#5a4354; --line:#9b7288;
+  --accent:#b0235f; --accent-text:#8a1a4a; --accent-light:#f29ec0;
+  --blue:#5c5198; --blue-text:#49407a; --blue-soft:#e8e4f5;
+  --success:#286445; --danger:#a62631; --muted:#e0bdd0; --chip:#f1d8e4;
   --r1:11px; --r2:20px; --r3:30px;
   --m1:171ms; --m2:336ms; --m3:560ms; --m4:890ms;
   --e-spring:cubic-bezier(.34,1.41,.64,1);
@@ -83,10 +83,10 @@
 
 /* cocoa — 따뜻한 갈색. 실무·경험 계열. shape: .3/.4/.85/.3 */
 [data-theme="cocoa"]{
-  --ink:#2b2018; --paper:#faf5ee; --light:#f1e8db; --soft:#5a4c3e; --line:#8a7b6b;
-  --accent:#8a4b1f; --accent-text:#6e3b18; --accent-light:#e0af82;
-  --blue:#4a5f7e; --blue-text:#3a4b64; --blue-soft:#e4e9f0;
-  --success:#256344; --danger:#a12624; --muted:#d3c5b3; --chip:#e9dfcf;
+  --ink:#261911; --paper:#fdfaf5; --light:#f2e7d8; --soft:#594a3a; --line:#927156;
+  --accent:#964419; --accent-text:#753310; --accent-light:#e5a97a;
+  --blue:#4f627b; --blue-text:#3f4f63; --blue-soft:#e6e8e6;
+  --success:#2a6140; --danger:#9d2e23; --muted:#d6bd9e; --chip:#ead8c0;
   --r1:6px; --r2:13px; --r3:19px;
   --m1:136ms; --m2:276ms; --m3:460ms; --m4:740ms;
   --e-spring:cubic-bezier(.34,1.19,.64,1);
@@ -96,10 +96,10 @@
 
 /* graphite — 중성 회청. 규정·절차 계열(빽빽한 배치). shape: .2/.3/.15/.15 */
 [data-theme="graphite"]{
-  --ink:#20262d; --paper:#f7f8f9; --light:#eceff2; --soft:#4a545e; --line:#75808a;
-  --accent:#41586e; --accent-text:#334657; --accent-light:#aec2d4;
-  --blue:#33567e; --blue-text:#284464; --blue-soft:#dfe9f2;
-  --success:#256344; --danger:#a12624; --muted:#c3ccd4; --chip:#dfe4e8;
+  --ink:#171c22; --paper:#ffffff; --light:#eceff3; --soft:#48545f; --line:#6f8091;
+  --accent:#37516d; --accent-text:#293e54; --accent-light:#a3bdd6;
+  --blue:#2f5d88; --blue-text:#254a6c; --blue-soft:#dfe9f2;
+  --success:#256244; --danger:#a32a28; --muted:#bdc9d3; --chip:#dfe5eb;
   --r1:4px; --r2:11px; --r3:17px;
   --m1:122ms; --m2:252ms; --m3:420ms; --m4:680ms;
   --e-spring:cubic-bezier(.34,1.12,.64,1);
@@ -109,10 +109,10 @@
 
 /* midnight — 어두운 화면. 야간·집중·격식 계열. shape: .4/.5/.85/.4 */
 [data-theme="midnight"]{
-  --ink:#e8edf2; --paper:#232a33; --light:#1a2027; --soft:#a9b7c4; --line:#75808d;
-  --accent:#d19a4a; --accent-text:#c99e63; --accent-light:#8a6420;
-  --blue:#6e9cc4; --blue-text:#9dc0e0; --blue-soft:#2d3a4a;
-  --success:#6cb08a; --danger:#d97a72; --muted:#4a5663; --chip:#323b46;
+  --ink:#f0f4fa; --paper:#162033; --light:#0d131f; --soft:#aebdd0; --line:#6f829a;
+  --accent:#e2a84b; --accent-text:#f0bc68; --accent-light:#7a561a;
+  --blue:#6aa4e8; --blue-text:#9cc4f5; --blue-soft:#1e2e47;
+  --success:#73c995; --danger:#ec8c7f; --muted:#3c4a5e; --chip:#263349;
   --r1:7px; --r2:14px; --r3:22px;
   --m1:150ms; --m2:300ms; --m3:500ms; --m4:800ms;
   --e-spring:cubic-bezier(.34,1.23,.64,1);

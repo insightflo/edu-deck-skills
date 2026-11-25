@@ -36,7 +36,7 @@ setTimeout(function(){ if(!deckRoot.classList.contains('ed-ready'))deckRoot.clas
 <style>
 /* core.css — 무대·문자·기본 부품·모의 창·커버 (P2 클린룸 재작성)
    셀렉터는 스니펫/motion.js/check_deck.py 가 쓰는 공개 API — 이름을 바꾸지 않는다.
-   시각은 새 설계: 장부(ledger)식 직선 가장자리·먹줄 띠·짙은 창 크롬·밑줄 토큰.
+   시각은 스튜디오 에디토리얼 설계: 얇은 헤어라인·정교한 액센트 레일·부드러운 입체 그림자.
    색·간격·곡률 값은 tokens.css 의 변수만 쓴다. 단계·등장 연출은 motion.js 가 맡는다. */
 
 *{margin:0;padding:0;box-sizing:border-box}
@@ -51,8 +51,14 @@ body{
 .slide{
   position:absolute;inset:0;width:1920px;height:1080px;
   padding:128px;display:none;flex-direction:column;gap:48px;
-  background:var(--light);color:var(--ink);overflow:hidden;
+  background-color:var(--light);
+  color:var(--ink);overflow:hidden;isolation:isolate;
 }
+.slide::before{
+  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:linear-gradient(180deg,color-mix(in srgb,var(--paper) 30%,transparent) 0%,color-mix(in srgb,var(--ink) 4%,transparent) 100%);
+}
+.dark::before,.orange::before,.cx::before{content:none}
 .slide.active{display:flex}
 .dark{background:var(--ink);color:var(--light)}
 .orange{background:var(--accent-light);color:var(--ink)}
@@ -61,13 +67,13 @@ body{
 
 /* ── 제목·본문 규모 ─────────────────────────────────────── */
 .head{display:flex;flex-direction:column;gap:16px}
-.eyebrow{font-size:28px;font-weight:700;color:var(--part-tone,var(--soft));letter-spacing:3px}
-.eyebrow::before{content:"";display:inline-block;width:36px;height:5px;background:var(--part-tone,currentColor);margin-right:18px;vertical-align:.18em}
+.eyebrow{font-size:28px;font-weight:700;color:var(--part-tone,var(--soft));letter-spacing:.12em;display:inline-flex;align-items:center}
+.eyebrow::before{content:"";display:inline-block;flex:none;width:24px;height:3px;border-radius:999px;background:var(--part-tone,currentColor);margin-right:16px}
 .dark .eyebrow,.dark .num{color:var(--accent-light)}
 .dark.center{--accent:var(--accent-light)}
 .orange .eyebrow{color:var(--ink)}
-.title{font-size:72px;font-weight:800;line-height:1.15}
-.big{font-size:96px;font-weight:800;line-height:1.12}
+.title{font-size:72px;font-weight:800;line-height:1.15;letter-spacing:-.03em;text-wrap:pretty}
+.big{font-size:96px;font-weight:800;line-height:1.12;letter-spacing:-.03em;text-wrap:pretty}
 .big em.t2{color:var(--accent-text);font-style:normal}
 .dark .big em.t2{color:var(--accent-light)}
 
@@ -77,13 +83,14 @@ body{
 .f1{flex:1}.f2{flex:2}.f3{flex:3}
 .card{
   color:var(--ink);background:var(--paper);
-  border:2px solid var(--line);border-top:8px solid var(--ink);
+  border:1px solid color-mix(in srgb,var(--ink) 12%,transparent);border-top:5px solid var(--accent);
   border-radius:var(--r2);padding:40px;
   display:flex;flex-direction:column;gap:16px;
+  box-shadow:0 14px 34px color-mix(in srgb,var(--ink) 8%,transparent),0 2px 8px color-mix(in srgb,var(--ink) 4%,transparent);
 }
 .card h3{font-size:44px;font-weight:700;line-height:1.2}
 /* 강도 분리(glm-vs-ours §4-1): 시끄러운 것은 장에 하나. 조용한 상자는 헤어라인 하나로. */
-.card--quiet{border:1px solid var(--line);border-top:1px solid var(--line);box-shadow:none}
+.card--quiet{border:1px solid color-mix(in srgb,var(--ink) 12%,transparent);border-top:1px solid color-mix(in srgb,var(--ink) 12%,transparent);box-shadow:none}
 .body{font-size:32px;color:var(--soft);line-height:1.45}
 .dark .body,.dark .small{color:var(--muted)}
 .small{font-size:28px;color:var(--soft);line-height:1.5}
@@ -92,15 +99,16 @@ ul.list{font-size:32px;line-height:1.65;padding-left:1.2em}
 ul.list li::marker{color:var(--accent)}
 .bar{width:240px;height:8px;background:linear-gradient(90deg,var(--accent) 0 62%,var(--line) 62% 100%)}
 .notes{display:none}
-.num{font-size:96px;font-weight:800;color:var(--accent);line-height:1}
+.num{font-size:96px;font-weight:800;color:var(--accent);line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.04em}
 .flow{display:flex;align-items:center;gap:24px}
 .arrow{flex:none;width:0;height:0;border-top:14px solid transparent;border-bottom:14px solid transparent;border-left:20px solid var(--accent)}
 
 /* ── 인용 블록·알약·아이콘 ───────────────────────────────── */
 .callout{
   background:var(--ink);color:var(--light);
-  border-left:10px solid var(--accent);border-radius:0 var(--r2) var(--r2) 0;
+  border-left:6px solid var(--accent);border-radius:var(--r2);
   padding:32px 48px;font-size:36px;font-weight:700;line-height:1.4;
+  box-shadow:0 14px 32px color-mix(in srgb,var(--ink) 20%,transparent);
 }
 .callout b{color:var(--accent-light)}
 /* 결론 띠를 카드 밖 한 줄로 내리는 조용한 변형 — 인라인 텍스트, 면·띠 없음 */
@@ -110,16 +118,17 @@ ul.list li::marker{color:var(--accent)}
 .ico{width:56px;height:56px;color:var(--accent)}
 .pill{
   background:var(--ink);color:var(--light);
-  border-radius:999px;padding:16px 36px;font-size:32px;font-weight:500;
+  border-radius:999px;padding:14px 32px;font-size:32px;font-weight:600;
+  box-shadow:0 8px 22px color-mix(in srgb,var(--ink) 12%,transparent);
 }
-.dark .pill{background:transparent;color:var(--light);border:2px solid var(--accent-light)}
+.dark .pill{background:transparent;color:var(--light);border:1px solid color-mix(in srgb,var(--accent-light) 70%,transparent);box-shadow:none}
 .cover-date{position:absolute;left:128px;bottom:64px;font-size:28px;color:var(--soft)}
 .mock-tag{font-size:24px;color:var(--soft)}
 
 /* ── 모의 창 .win : 짙은 크롬 + 밝은 본문 ─────────────────── */
-.win{background:var(--paper);border:2px solid var(--ink);border-radius:var(--r2);overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow-2)}
+.win{background:var(--paper);border:1px solid color-mix(in srgb,var(--ink) 20%,transparent);border-radius:var(--r2);overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 52px color-mix(in srgb,var(--ink) 13%,transparent),0 3px 10px color-mix(in srgb,var(--ink) 6%,transparent)}
 .win-bar{height:52px;flex:none;display:flex;align-items:center;gap:10px;padding:0 20px;background:var(--ink)}
-.win-bar i{display:block;width:12px;height:12px;border-radius:4px;background:color-mix(in srgb,var(--paper) 32%,transparent)}
+.win-bar i{display:block;width:12px;height:12px;border-radius:50%;background:color-mix(in srgb,var(--paper) 42%,transparent)}
 .win-bar .wt{margin-left:12px;font-size:20px;font-weight:500;color:var(--muted);background:color-mix(in srgb,var(--paper) 10%,transparent);border-radius:var(--r1);padding:6px 20px}
 .win-body{flex:1;display:flex;min-height:0}
 
@@ -143,7 +152,7 @@ ul.list li::marker{color:var(--accent)}
 .at th{background:var(--light);font-weight:700}
 .at th,.at td{border:1px solid var(--line);padding:8px 16px;text-align:left}
 
-.input{flex:none;display:flex;align-items:center;gap:12px;border:2px solid var(--line);border-radius:999px;padding:10px 16px 10px 24px}
+.input{flex:none;display:flex;align-items:center;gap:12px;border:1px solid color-mix(in srgb,var(--ink) 14%,transparent);border-radius:999px;padding:10px 16px 10px 24px;box-shadow:0 6px 18px color-mix(in srgb,var(--ink) 6%,transparent)}
 .input:has(.mk){gap:8px}
 .input .ph{flex:1;min-width:0;font-size:22px;color:var(--soft)}
 .input .model{min-width:0;flex-shrink:1;font-size:20px;font-weight:700;color:var(--soft);background:var(--light);border-radius:999px;padding:8px 20px}
@@ -152,7 +161,7 @@ ul.list li::marker{color:var(--accent)}
 .modes span{font-size:20px;font-weight:700;color:var(--soft);border-radius:999px;padding:8px 20px}
 .modes span.on{background:var(--ink);color:var(--paper)}
 .folder{font-size:20px;font-weight:700;color:var(--blue-text);background:var(--blue-soft);border-radius:999px;padding:8px 20px;white-space:nowrap}
-.filechip{display:inline-flex;align-items:center;gap:8px;font-size:22px;font-weight:700;color:var(--ink);background:var(--paper);border:2px solid var(--line);border-radius:var(--r1);padding:10px 16px;margin:8px 0}
+.filechip{display:inline-flex;align-items:center;gap:8px;font-size:22px;font-weight:700;color:var(--ink);background:var(--paper);border:1px solid color-mix(in srgb,var(--ink) 14%,transparent);border-radius:999px;padding:10px 16px;margin:8px 0;box-shadow:0 4px 14px color-mix(in srgb,var(--ink) 5%,transparent)}
 .welcome{margin:auto;text-align:center;display:flex;flex-direction:column;gap:24px;align-items:center}
 .welcome .w1{font-size:40px;font-weight:700;color:var(--ink)}
 .welcome .w2{font-size:22px;color:var(--soft)}
@@ -176,10 +185,10 @@ ul.list li::marker{color:var(--accent)}
 }
 .add.new{background:var(--blue-soft);color:var(--ink);border-radius:var(--r1);box-shadow:var(--shadow-1)}
 .add.new b{color:var(--accent-text)}
-.qtag{display:inline-block;font-size:26px;font-weight:800;color:var(--paper);background:var(--blue);border-radius:var(--r1);padding:8px 20px}
-.badge{align-self:flex-start;font-size:26px;font-weight:800;color:var(--paper);background:var(--blue);border-radius:var(--r1);padding:8px 20px}
+.qtag{display:inline-block;font-size:26px;font-weight:800;color:var(--paper);background:var(--blue);border-radius:999px;padding:8px 22px;box-shadow:0 5px 14px color-mix(in srgb,var(--blue) 18%,transparent)}
+.badge{align-self:flex-start;font-size:26px;font-weight:800;color:var(--paper);background:var(--blue);border-radius:999px;padding:8px 22px;box-shadow:0 5px 14px color-mix(in srgb,var(--blue) 18%,transparent)}
 .en{display:inline;font-size:24px;font-weight:500;vertical-align:4px;margin-left:6px;color:var(--soft)}
-.ex{font-size:26px;line-height:1.5;color:var(--ink);background:var(--light);border-left:4px solid var(--line);border-radius:0 var(--r1) var(--r1) 0;padding:16px 20px}
+.ex{font-size:26px;line-height:1.5;color:var(--ink);background:var(--light);border-left:4px solid color-mix(in srgb,var(--ink) 18%,transparent);border-radius:0 var(--r1) var(--r1) 0;padding:16px 20px}
 
 /* ── 인라인 SVG 그림 문자 ────────────────────────────────── */
 .dg{width:100%;height:auto;display:block;overflow:visible}
@@ -198,42 +207,45 @@ ul.list li::marker{color:var(--accent)}
 
 /* ── 커버 .cx : 청색 후광 + 고리 장식 + 밑줄 토큰 ──────────── */
 .cx{
-  background:radial-gradient(circle at 76% 48%,color-mix(in srgb,var(--blue) 24%,var(--ink)) 0,var(--ink) 58%);
+  background-color:var(--ink);
+  background-image:
+    radial-gradient(circle at 74% 42%,color-mix(in srgb,var(--blue) 36%,transparent) 0,color-mix(in srgb,var(--blue) 12%,transparent) 42%,transparent 70%),
+    radial-gradient(circle at 18% 86%,color-mix(in srgb,var(--accent) 18%,transparent) 0,transparent 52%);
   color:var(--paper);
 }
 .cx .cover-date{color:var(--muted)}
 .cx-blob{position:absolute;border-radius:50%}
-.cx-b1{width:900px;height:900px;left:-340px;top:520px;border:2px solid var(--accent);opacity:.3}
+.cx-b1{width:900px;height:900px;left:-340px;top:520px;border:1px solid color-mix(in srgb,var(--accent) 72%,transparent);opacity:.34}
 .cx-b2{width:520px;height:520px;left:1430px;top:-230px;background:var(--blue);opacity:.18}
-.cx-b3{width:340px;height:340px;left:1040px;top:740px;border:3px dashed var(--accent-light);opacity:.32}
+.cx-b3{width:340px;height:340px;left:1040px;top:740px;border:2px dashed color-mix(in srgb,var(--accent-light) 72%,transparent);opacity:.34}
 #cx-net{position:absolute;inset:0;width:1920px;height:1080px}
 .cx-orbit{position:absolute;inset:0;width:1920px;height:1080px}
 .cx-spin{transform-box:view-box;transform-origin:1440px 520px}
 .cx-text{position:absolute;left:128px;top:252px;width:980px;display:flex;flex-direction:column;gap:32px;z-index:3}
-.cx-eyebrow{font-size:30px;font-weight:700;color:var(--accent-light);letter-spacing:6px}
-.cx-eyebrow::before{content:"";display:inline-block;width:44px;height:4px;background:currentColor;margin-right:20px;vertical-align:.2em}
-.cx-title{font-size:160px;font-weight:800;line-height:1.04;letter-spacing:-3px;min-height:170px;color:var(--paper)}
+.cx-eyebrow{font-size:30px;font-weight:700;color:var(--accent-light);letter-spacing:.16em;display:inline-flex;align-items:center}
+.cx-eyebrow::before{content:"";display:inline-block;flex:none;width:24px;height:3px;border-radius:999px;background:currentColor;margin-right:16px}
+.cx-title{font-size:160px;font-weight:800;line-height:1.04;letter-spacing:-.045em;min-height:170px;color:var(--paper);text-wrap:pretty}
 .cx-caret{display:inline-block;width:10px;height:132px;margin-left:10px;background:var(--accent-light);vertical-align:-6px}
 .cx-tokens{display:flex;flex-wrap:wrap;gap:16px 20px;align-items:center}
-.cx-tokens span{font-size:38px;font-weight:700;color:var(--paper);border-bottom:4px solid var(--accent-light);padding:2px 4px 10px}
+.cx-tokens span{font-size:38px;font-weight:700;color:var(--paper);border-bottom:2px solid color-mix(in srgb,var(--accent-light) 78%,transparent);padding:2px 4px 8px}
 .cx-tokens span:nth-child(even){border-bottom:none;padding:0;color:var(--muted)}
 .cx-sub{font-size:38px;color:var(--muted)}
-.cx-badge{display:inline-flex;align-self:flex-start;align-items:center;gap:16px;font-size:26px;font-weight:700;color:var(--light);border:2px solid var(--accent-light);border-radius:var(--r1);padding:14px 24px}
+.cx-badge{display:inline-flex;align-self:flex-start;align-items:center;gap:16px;font-size:26px;font-weight:700;color:var(--light);background:color-mix(in srgb,var(--paper) 8%,transparent);border:1px solid color-mix(in srgb,var(--paper) 26%,transparent);border-radius:999px;padding:13px 24px;box-shadow:0 10px 28px color-mix(in srgb,var(--ink) 24%,transparent)}
 .cx-badge svg{width:30px;height:30px}
 .cx.play .cx-tokens span{}
 .cx.play .cx-sub{}
 .cx.play .cx-badge{}
 
 /* ── 사실 칩·체크 행 ────────────────────────────────────── */
-.fact{font-size:23px;font-weight:700;color:var(--blue-text);background:var(--blue-soft);border-left:6px solid var(--blue);border-radius:0 var(--r1) var(--r1) 0;padding:10px 20px;align-self:flex-start;margin-top:8px}
+.fact{font-size:23px;font-weight:700;color:var(--blue-text);background:var(--blue-soft);border:1px solid color-mix(in srgb,var(--blue) 18%,transparent);border-radius:999px;padding:8px 18px;align-self:flex-start;margin-top:8px}
 /* 출처를 본문과 경쟁시키지 않는 조용한 행 — 면·띠 없이 작은 글자만 남긴다 */
-.fact--quiet{font-size:23px;font-weight:400;color:var(--soft);background:none;border-left:none;
+.fact--quiet{font-size:23px;font-weight:400;color:var(--soft);background:none;border:none;
   border-radius:0;padding:0;align-self:flex-start;margin-top:auto}
 .dark .fact--quiet{color:var(--light)}
-.todo{display:flex;align-items:center;gap:32px;background:var(--paper);border:2px solid var(--line);border-radius:var(--r2);padding:24px 32px;cursor:pointer}
+.todo{display:flex;align-items:center;gap:32px;background:var(--paper);border:1px solid color-mix(in srgb,var(--ink) 12%,transparent);border-left:5px solid color-mix(in srgb,var(--ink) 18%,transparent);border-radius:var(--r2);padding:24px 32px;cursor:pointer;box-shadow:0 8px 24px color-mix(in srgb,var(--ink) 7%,transparent),0 1px 4px color-mix(in srgb,var(--ink) 4%,transparent)}
 .todo h4{font-size:36px;font-weight:800}
 .todo p{font-size:28px;color:var(--soft)}
-.tbox{width:52px;height:52px;flex:none;border:2px solid var(--soft);border-radius:12px;display:flex;align-items:center;justify-content:center}
+.tbox{width:52px;height:52px;flex:none;border:1.5px solid color-mix(in srgb,var(--soft) 70%,transparent);border-radius:14px;display:flex;align-items:center;justify-content:center}
 .todo.done{border-color:var(--accent);background:var(--accent-soft)}
 .todo.done .tbox{background:var(--accent);border-color:var(--accent)}
 .todo.done .tbox::after{content:"✓";color:var(--paper);font-size:34px;font-weight:800}
@@ -417,10 +429,10 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
 /* ocean — 차분한 청록. 기술·원리 계열. shape: round .55 / motion .45 / density .5 / spring .5 */
 [data-theme="ocean"]{
-  --ink:#15272f; --paper:#f4f9fa; --light:#e6f0f2; --soft:#3f5a63; --line:#6f858b;
-  --accent:#0e7a86; --accent-text:#0a5c66; --accent-light:#9fd8dd;
-  --blue:#2a5f8c; --blue-text:#1f4a6e; --blue-soft:#dcebf4;
-  --success:#1f6a4a; --danger:#a12624; --muted:#c4d6da; --chip:#dbe7e9;
+  --ink:#0d2229; --paper:#ffffff; --light:#e8f4f6; --soft:#35525c; --line:#7a9aa3;
+  --accent:#0b7285; --accent-text:#085968; --accent-light:#7ad0dc;
+  --blue:#226f94; --blue-text:#1a5876; --blue-soft:#d9edf5;
+  --success:#1d7048; --danger:#a62b25; --muted:#bedde2; --chip:#d7ebee;
   --r1:9px; --r2:17px; --r3:25px;
   --m1:143ms; --m2:288ms; --m3:480ms; --m4:770ms;
   --e-spring:cubic-bezier(.34,1.28,.64,1);
@@ -428,10 +440,10 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
 /* cobalt — 정돈된 짙은 파랑. 격식·분석 계열. shape: .15/.35/.25/.2 */
 [data-theme="cobalt"]{
-  --ink:#1b2433; --paper:#f5f7fb; --light:#e8edf6; --soft:#45536b; --line:#707e96;
-  --accent:#2c50b0; --accent-text:#23408c; --accent-light:#a9bdf0;
-  --blue:#1f5e9e; --blue-text:#184a7e; --blue-soft:#dbe9f7;
-  --success:#226344; --danger:#a12624; --muted:#c2cde0; --chip:#dde4ef;
+  --ink:#111c33; --paper:#ffffff; --light:#edf2fb; --soft:#3c4966; --line:#7285aa;
+  --accent:#2148c8; --accent-text:#19389e; --accent-light:#9bb4f8;
+  --blue:#146f9f; --blue-text:#0f587f; --blue-soft:#dceaf7;
+  --success:#1e6a45; --danger:#a62531; --muted:#c0cbe4; --chip:#dfe6f5;
   --r1:4px; --r2:10px; --r3:16px;
   --m1:129ms; --m2:264ms; --m3:440ms; --m4:710ms;
   --e-spring:cubic-bezier(.34,1.14,.64,1);
@@ -441,10 +453,10 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
 /* forest — 자연 녹. 환경·성장 계열. shape: .7/.55/.5/.6 */
 [data-theme="forest"]{
-  --ink:#1c2a1e; --paper:#f7faf4; --light:#eaf1e4; --soft:#45594a; --line:#75897a;
-  --accent:#33713c; --accent-text:#275a2f; --accent-light:#b5d8b4;
-  --blue:#2e6b57; --blue-text:#245445; --blue-soft:#dcebe2;
-  --success:#236344; --danger:#a12624; --muted:#c3d4c0; --chip:#dfe9da;
+  --ink:#132419; --paper:#fcfdfb; --light:#e9f2ea; --soft:#3e5344; --line:#748a79;
+  --accent:#1f6f43; --accent-text:#175634; --accent-light:#8fd1a8;
+  --blue:#2c6f73; --blue-text:#22585c; --blue-soft:#dcebe6;
+  --success:#1f6c3e; --danger:#9e2d24; --muted:#bdd7c2; --chip:#d7e9d9;
   --r1:10px; --r2:19px; --r3:29px;
   --m1:157ms; --m2:312ms; --m3:520ms; --m4:830ms;
   --e-spring:cubic-bezier(.34,1.32,.64,1);
@@ -452,10 +464,10 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
 /* solar — 뜨거운 주황. 현장·안전·활동 계열. shape: .85/.75/.85/.9 */
 [data-theme="solar"]{
-  --ink:#2f2415; --paper:#fdf8ee; --light:#f6ecda; --soft:#5d5140; --line:#8d8271;
-  --accent:#b85c0f; --accent-text:#96490c; --accent-light:#f2c184;
-  --blue:#3a6a8c; --blue-text:#2d5470; --blue-soft:#e4edf3;
-  --success:#256545; --danger:#a12624; --muted:#d9cdb4; --chip:#efe5d2;
+  --ink:#261a0e; --paper:#fffdf8; --light:#fbf0dc; --soft:#5d4a34; --line:#967c57;
+  --accent:#c8520a; --accent-text:#9c3e06; --accent-light:#f7b972;
+  --blue:#356f8c; --blue-text:#2a5871; --blue-soft:#e4edf0;
+  --success:#286a3e; --danger:#a52c21; --muted:#e0c9a2; --chip:#f2dfbd;
   --r1:12px; --r2:22px; --r3:32px;
   --m1:185ms; --m2:360ms; --m3:600ms; --m4:950ms;
   --e-spring:cubic-bezier(.34,1.46,.64,1);
@@ -465,10 +477,10 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
 /* berry — 선명한 자주. 사례·고객·서비스 계열. shape: .75/.65/.5/.8 */
 [data-theme="berry"]{
-  --ink:#2c1d27; --paper:#fbf4f7; --light:#f4e6ec; --soft:#5d4a56; --line:#8d7482;
-  --accent:#a62f63; --accent-text:#85264f; --accent-light:#edaec8;
-  --blue:#5a4f96; --blue-text:#473e78; --blue-soft:#e8e4f4;
-  --success:#256344; --danger:#a12624; --muted:#d9c4d0; --chip:#eedfe7;
+  --ink:#291322; --paper:#fffbfc; --light:#f7e8ef; --soft:#5a4354; --line:#9b7288;
+  --accent:#b0235f; --accent-text:#8a1a4a; --accent-light:#f29ec0;
+  --blue:#5c5198; --blue-text:#49407a; --blue-soft:#e8e4f5;
+  --success:#286445; --danger:#a62631; --muted:#e0bdd0; --chip:#f1d8e4;
   --r1:11px; --r2:20px; --r3:30px;
   --m1:171ms; --m2:336ms; --m3:560ms; --m4:890ms;
   --e-spring:cubic-bezier(.34,1.41,.64,1);
@@ -476,10 +488,10 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
 /* cocoa — 따뜻한 갈색. 실무·경험 계열. shape: .3/.4/.85/.3 */
 [data-theme="cocoa"]{
-  --ink:#2b2018; --paper:#faf5ee; --light:#f1e8db; --soft:#5a4c3e; --line:#8a7b6b;
-  --accent:#8a4b1f; --accent-text:#6e3b18; --accent-light:#e0af82;
-  --blue:#4a5f7e; --blue-text:#3a4b64; --blue-soft:#e4e9f0;
-  --success:#256344; --danger:#a12624; --muted:#d3c5b3; --chip:#e9dfcf;
+  --ink:#261911; --paper:#fdfaf5; --light:#f2e7d8; --soft:#594a3a; --line:#927156;
+  --accent:#964419; --accent-text:#753310; --accent-light:#e5a97a;
+  --blue:#4f627b; --blue-text:#3f4f63; --blue-soft:#e6e8e6;
+  --success:#2a6140; --danger:#9d2e23; --muted:#d6bd9e; --chip:#ead8c0;
   --r1:6px; --r2:13px; --r3:19px;
   --m1:136ms; --m2:276ms; --m3:460ms; --m4:740ms;
   --e-spring:cubic-bezier(.34,1.19,.64,1);
@@ -489,10 +501,10 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
 /* graphite — 중성 회청. 규정·절차 계열(빽빽한 배치). shape: .2/.3/.15/.15 */
 [data-theme="graphite"]{
-  --ink:#20262d; --paper:#f7f8f9; --light:#eceff2; --soft:#4a545e; --line:#75808a;
-  --accent:#41586e; --accent-text:#334657; --accent-light:#aec2d4;
-  --blue:#33567e; --blue-text:#284464; --blue-soft:#dfe9f2;
-  --success:#256344; --danger:#a12624; --muted:#c3ccd4; --chip:#dfe4e8;
+  --ink:#171c22; --paper:#ffffff; --light:#eceff3; --soft:#48545f; --line:#6f8091;
+  --accent:#37516d; --accent-text:#293e54; --accent-light:#a3bdd6;
+  --blue:#2f5d88; --blue-text:#254a6c; --blue-soft:#dfe9f2;
+  --success:#256244; --danger:#a32a28; --muted:#bdc9d3; --chip:#dfe5eb;
   --r1:4px; --r2:11px; --r3:17px;
   --m1:122ms; --m2:252ms; --m3:420ms; --m4:680ms;
   --e-spring:cubic-bezier(.34,1.12,.64,1);
@@ -502,10 +514,10 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
 /* midnight — 어두운 화면. 야간·집중·격식 계열. shape: .4/.5/.85/.4 */
 [data-theme="midnight"]{
-  --ink:#e8edf2; --paper:#232a33; --light:#1a2027; --soft:#a9b7c4; --line:#75808d;
-  --accent:#d19a4a; --accent-text:#c99e63; --accent-light:#8a6420;
-  --blue:#6e9cc4; --blue-text:#9dc0e0; --blue-soft:#2d3a4a;
-  --success:#6cb08a; --danger:#d97a72; --muted:#4a5663; --chip:#323b46;
+  --ink:#f0f4fa; --paper:#162033; --light:#0d131f; --soft:#aebdd0; --line:#6f829a;
+  --accent:#e2a84b; --accent-text:#f0bc68; --accent-light:#7a561a;
+  --blue:#6aa4e8; --blue-text:#9cc4f5; --blue-soft:#1e2e47;
+  --success:#73c995; --danger:#ec8c7f; --muted:#3c4a5e; --chip:#263349;
   --r1:7px; --r2:14px; --r3:22px;
   --m1:150ms; --m2:300ms; --m3:500ms; --m4:800ms;
   --e-spring:cubic-bezier(.34,1.23,.64,1);
