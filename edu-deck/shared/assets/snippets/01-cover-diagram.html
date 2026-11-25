@@ -1,26 +1,82 @@
 <!--
   아키타입 cover (변형: diagram)
-  언제: 표지. 오른쪽 cover-art 자리에 주제의 개념 도식을 다시 그리는 도식형. 구조·관계·원리를 다루는 주제에 어울린다.
+  언제: 표지. 오른쪽에 정교한 시스템 도해를 두는 기술 교육형. 구조·관계·원리를 다루는 주제에 어울린다.
   단계: 단계 없음
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
   자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
-  .cover-art = 표지 그림 자리 — «그림: …» 안내를 지우고 주제 개념 도식을 다시 그린다(layouts.md "표지 그림 자리").
+  이 변형은 노드·연결 곡선·신호 흐름이 정체성 — 뼈대 기하는 유지하고 글자 자리표시만 채운다.
   배치 설명: references/layouts.md · 클래스: references/classes.md
 -->
-<section class="slide cx" data-archetype="cover" data-variant="diagram" id="cover-diagram" style="padding:0">
+<section class="slide cx" data-archetype="cover" data-variant="diagram" id="cover-diagram" style="padding:0;background:var(--paper)">
 
-<div class="cover-art" aria-hidden="true" style="position:absolute;left:1180px;top:170px;width:700px;height:740px;border:2px dashed var(--muted);border-radius:var(--r3);display:flex;align-items:center;justify-content:center">
-<span style="font-size:24px;font-weight:700;color:var(--soft);text-align:center;max-width:560px">«그림: 주제 개념 도식 — «핵심 관계»»</span>
+<svg aria-hidden="true" style="position:absolute;inset:0" viewBox="0 0 1920 1080">
+<defs>
+<pattern id="cvdg-grid" width="48" height="48" patternUnits="userSpaceOnUse"><path d="M48 0H0V48" fill="none" stroke="var(--line)" stroke-width="1" opacity=".18"/></pattern>
+<linearGradient id="cvdg-flow" x1="0" x2="1" y1="0" y2="1"><stop stop-color="var(--blue)"/><stop offset=".55" stop-color="var(--accent)"/><stop offset="1" stop-color="var(--blue-text)"/></linearGradient>
+<radialGradient id="cvdg-core" cx=".5" cy=".42" r=".62"><stop stop-color="var(--accent-light)"/><stop offset=".58" stop-color="var(--accent)"/><stop offset="1" stop-color="var(--accent-text)"/></radialGradient>
+</defs>
+<rect x="0" y="0" width="1920" height="1080" fill="var(--paper)"/>
+<rect x="1040" y="104" width="784" height="872" rx="38" fill="var(--light)"/>
+<rect x="1040" y="104" width="784" height="872" rx="38" fill="url(#cvdg-grid)"/>
+<rect x="1040" y="104" width="784" height="872" rx="38" fill="none" stroke="color-mix(in srgb,var(--ink) 18%,transparent)" stroke-width="2"/>
+<path d="M1076 180h712M1076 904h712" stroke="var(--line)" stroke-width="1.5" opacity=".55"/>
+<path d="M1096 180v724M1788 180v724" stroke="var(--line)" stroke-width="1" opacity=".32"/>
+<g font-size="21" font-weight="700" fill="var(--soft)" letter-spacing="2">
+<text x="1098" y="158">SYSTEM / SIGNAL</text><text x="1698" y="158">01—04</text><text x="1098" y="890">INPUT</text><text x="1698" y="890">OUTPUT</text>
+</g>
+<g fill="none" stroke-linecap="round">
+<path d="M1196 314C1288 314 1308 432 1364 475" stroke="var(--blue)" stroke-width="7"/>
+<path d="M1196 754C1294 754 1305 618 1364 575" stroke="var(--blue-text)" stroke-width="7"/>
+<path d="M1468 475C1538 424 1573 353 1644 353" stroke="var(--accent)" stroke-width="7"/>
+<path d="M1468 575C1541 628 1571 704 1644 704" stroke="url(#cvdg-flow)" stroke-width="7"/>
+<path d="M1416 309V426" stroke="var(--accent-text)" stroke-width="6" stroke-dasharray="2 18"/>
+</g>
+<g fill="none" stroke="color-mix(in srgb,var(--blue) 42%,transparent)">
+<circle cx="1416" cy="525" r="176" stroke-width="2" stroke-dasharray="4 16"/>
+<circle cx="1416" cy="525" r="130" stroke-width="2"/>
+<circle cx="1416" cy="525" r="205" stroke-width="1.5" opacity=".5"/>
+</g>
+<g>
+<rect x="1110" y="266" width="172" height="88" rx="22" fill="var(--paper)" stroke="var(--blue-text)" stroke-width="3"/>
+<rect x="1110" y="704" width="172" height="88" rx="22" fill="var(--paper)" stroke="var(--blue-text)" stroke-width="3"/>
+<rect x="1328" y="218" width="176" height="88" rx="22" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="3"/>
+<rect x="1642" y="304" width="150" height="88" rx="22" fill="var(--paper)" stroke="var(--accent-text)" stroke-width="3"/>
+<rect x="1642" y="656" width="150" height="88" rx="22" fill="var(--paper)" stroke="var(--accent-text)" stroke-width="3"/>
+<rect x="1330" y="451" width="172" height="148" rx="34" fill="url(#cvdg-core)"/>
+<rect x="1352" y="473" width="128" height="104" rx="24" fill="none" stroke="color-mix(in srgb,var(--paper) 70%,transparent)" stroke-width="2"/>
+</g>
+<g font-size="25" font-weight="800" text-anchor="middle" fill="var(--ink)">
+<text x="1196" y="319">입력</text><text x="1196" y="757">맥락</text><text x="1416" y="271">원리</text><text x="1717" y="357">처리</text><text x="1717" y="709">출력</text>
+</g>
+<g font-size="28" font-weight="900" text-anchor="middle" fill="var(--paper)">
+<text x="1416" y="518">CORE</text><text x="1416" y="552">MODEL</text>
+</g>
+<g fill="var(--accent)">
+<circle cx="1276" cy="354" r="10"/><circle cx="1301" cy="704" r="10"/><circle cx="1548" cy="396" r="10"/><circle cx="1552" cy="652" r="10"/>
+</g>
+<g fill="none" stroke="var(--accent-light)" stroke-width="3" opacity=".8">
+<circle cx="1276" cy="354" r="22"/><circle cx="1548" cy="396" r="22"/><circle cx="1552" cy="652" r="22"/>
+</g>
+<g>
+<rect x="1110" y="820" width="584" height="48" rx="24" fill="var(--paper)" stroke="var(--line)" stroke-width="1.5"/>
+<path d="M1146 844h118l34-18 48 36 54-50 44 32h220" fill="none" stroke="var(--blue)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="1398" cy="812" r="7" fill="var(--accent)"/><circle cx="1442" cy="844" r="7" fill="var(--accent)"/>
+</g>
+<g fill="var(--soft)"><circle cx="1084" cy="216" r="5"/><circle cx="1084" cy="252" r="5"/><circle cx="1084" cy="288" r="5"/></g>
+<path d="M1000 128v824" stroke="var(--ink)" stroke-width="5"/>
+<path d="M1000 128v160" stroke="var(--accent)" stroke-width="10"/>
+</svg>
+<p class="cx-eyebrow" style="position:absolute;left:128px;top:128px;font-size:26px;font-weight:850;letter-spacing:4px;color:var(--accent-text)">«교육 이름 ≤10자»</p>
+<div style="position:absolute;left:128px;top:246px;width:880px;z-index:3">
+<h1 class="cx-title" style="font-size:112px;line-height:1.15;letter-spacing:-4px;font-weight:900;color:var(--ink)"><span data-text="«표지 제목 ≤12자»" id="cx-typed-diagram" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret" style="height:96px;background:var(--accent)"></span></h1>
+<p class="cx-sub" style="margin-top:46px;font-size:38px;line-height:1.45;font-weight:550;color:var(--soft)">«부제 한 문장 ≤29자»</p>
 </div>
-<div class="cx-text" style="top:290px;width:1000px">
-<p class="cx-eyebrow">«교육 이름 ≤10자»</p>
-<h1 class="cx-title"><span data-text="«표지 제목 ≤12자»" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret"></span></h1>
-<div class="cx-tokens">
-<span style="--d:0">«핵심어 ≤4자»</span><span style="--d:1">·</span><span style="--d:2">«핵심어 ≤5자»</span><span style="--d:3">·</span><span style="--d:4">«핵심어 ≤4자»</span><span style="--d:5">·</span><span style="--d:6">«핵심어 ≤4자»</span>
+<div style="position:absolute;left:128px;top:704px;display:flex;gap:14px;z-index:3">
+<span style="font-size:24px;font-weight:800;color:var(--blue-text);background:var(--blue-soft);border-radius:999px;padding:13px 24px">구조</span>
+<span style="font-size:24px;font-weight:800;color:var(--accent-text);background:var(--accent-soft);border-radius:999px;padding:13px 24px">흐름</span>
+<span style="font-size:24px;font-weight:800;color:var(--soft);background:var(--chip);border-radius:999px;padding:13px 24px">원리</span>
 </div>
-<p class="cx-badge"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 12h4l3-7 4 14 3-7h4" fill="none" stroke="var(--accent-light)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>«표지 배지(선택) ≤27자»</p>
-<p class="cx-sub">«부제 한 문장 ≤29자»</p>
-</div>
-<p class="cover-date" style="z-index:3">«날짜 YYYY. MM. DD ≤15자»</p>
-<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+<p style="position:absolute;left:128px;top:826px;width:740px;font-size:25px;line-height:1.55;color:var(--soft);margin:0;z-index:3">연결과 신호의 흐름으로 주제의 작동 원리를 한눈에 예고하는 기술 교육 표지</p>
+<p class="cover-date" style="z-index:3;left:128px;bottom:72px;font-size:25px;color:var(--soft);font-weight:700">«날짜 YYYY. MM. DD ≤15자»</p>
+<aside class="notes">표지를 보여 주며 교육의 목적과 대상, 오늘 다룰 핵심 범위를 차례로 소개합니다. «발표자 노트 보충 ≤180자» 이 화면의 시스템 도해가 왜 주제와 맞는지 한 문장으로 짚고, 다음 장에서 다룰 문제 의식으로 자연스럽게 연결합니다.</aside>
 </section>

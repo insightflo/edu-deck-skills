@@ -1,26 +1,60 @@
 <!--
   아키타입 cover (변형: center)
-  언제: 표지. 큰 제목이 정중앙에 오는 포스터형. 뒤쪽 cover-art 자리에 주제 장식을 다시 그린다. 선언·비전·주제 발표형 도입에 어울린다.
+  언제: 표지. 방사형 광원과 동심원 기하 위에 중앙 타이포를 정확히 세우는 럭셔리 키노트형. 선언·비전·주제 발표형 도입에 어울린다. 어두운 장.
   단계: 단계 없음
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
   자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
-  .cover-art = 표지 그림 자리 — «그림: …» 안내를 지우고 주제에 맞는 장식·상징으로 다시 그린다(layouts.md "표지 그림 자리").
+  .cover-art = 표지 그림 자리 — 방사형 동심원 장식을 주제에 맞게 다시 그린다(layouts.md "표지 그림 자리").
   배치 설명: references/layouts.md · 클래스: references/classes.md
 -->
-<section class="slide cx" data-archetype="cover" data-variant="center" id="cover-center" style="padding:0">
+<section class="slide cx dark" data-archetype="cover" data-variant="center" id="cover-center" style="padding:0;background:var(--ink)">
 
-<div class="cover-art" aria-hidden="true" style="position:absolute;left:520px;top:80px;width:880px;height:920px;border:2px dashed var(--muted);border-radius:var(--r3);display:flex;align-items:flex-end;justify-content:center;padding-bottom:36px">
-<span style="font-size:24px;font-weight:700;color:var(--soft);text-align:center">«그림: 제목 뒤 주제 장식 — «대상»»</span>
+<div class="cover-art" aria-hidden="true" style="position:absolute;inset:0">
+<svg viewBox="0 0 1920 1080" style="width:1920px;height:1080px;display:block">
+<defs>
+<radialGradient id="cov-center-glow" cx=".5" cy=".48" r=".58">
+<stop stop-color="var(--blue)" stop-opacity=".55"/><stop offset=".54" stop-color="var(--accent)" stop-opacity=".18"/><stop offset="1" stop-color="var(--ink)" stop-opacity="0"/>
+</radialGradient>
+<linearGradient id="cov-center-line" x1="0" x2="1" y1="0" y2="0">
+<stop stop-color="var(--accent-light)" stop-opacity="0"/><stop offset=".5" stop-color="var(--accent-light)" stop-opacity=".8"/><stop offset="1" stop-color="var(--accent-light)" stop-opacity="0"/>
+</linearGradient>
+</defs>
+<rect width="1920" height="1080" fill="url(#cov-center-glow)"/>
+<g fill="none" stroke="var(--accent-light)" opacity=".36">
+<circle cx="960" cy="520" r="158" stroke-width="1.4"/>
+<circle cx="960" cy="520" r="238" stroke-width="1.1" stroke-dasharray="2 12"/>
+<circle cx="960" cy="520" r="326" stroke-width="1.2"/>
+<circle cx="960" cy="520" r="430" stroke-width="1" stroke-dasharray="2 16"/>
+</g>
+<g fill="none" stroke="var(--blue-text)" opacity=".4">
+<circle cx="960" cy="520" r="520" stroke-width="1"/>
+<circle cx="960" cy="520" r="610" stroke-width=".8" stroke-dasharray="1 18"/>
+</g>
+<path d="M0 520h1920M960 0v1080" stroke="url(#cov-center-line)" stroke-width="1.2" opacity=".48"/>
+<path d="M405 155L1515 885M1515 155L405 885" stroke="var(--blue-text)" stroke-width="1" opacity=".26"/>
+<g fill="var(--accent-light)"><circle cx="960" cy="194" r="5"/><circle cx="960" cy="846" r="5"/><circle cx="634" cy="520" r="5"/><circle cx="1286" cy="520" r="5"/></g>
+<g fill="none" stroke="var(--paper)" opacity=".5"><circle cx="960" cy="520" r="18" stroke-width="1.4"/><path d="M960 484v-28M960 556v28M924 520h-28M996 520h28" stroke-width="1.4"/></g>
+<path d="M690 934h540" stroke="url(#cov-center-line)" stroke-width="3" opacity=".75"/>
+</svg>
 </div>
-<div class="cx-text" style="left:0;top:236px;width:1920px;align-items:center;text-align:center">
-<p class="cx-eyebrow">«교육 이름 ≤10자»</p>
-<h1 class="cx-title"><span data-text="«표지 제목 ≤12자»" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret"></span></h1>
-<div class="cx-tokens" style="justify-content:center">
-<span style="--d:0">«핵심어 ≤4자»</span><span style="--d:1">·</span><span style="--d:2">«핵심어 ≤5자»</span><span style="--d:3">·</span><span style="--d:4">«핵심어 ≤4자»</span><span style="--d:5">·</span><span style="--d:6">«핵심어 ≤4자»</span>
+<div style="position:absolute;left:0;top:72px;width:1920px;display:flex;justify-content:space-between;padding:0 128px;z-index:3">
+<span style="font-size:21px;font-weight:850;letter-spacing:4px;color:var(--muted)">KEYNOTE OPENING</span>
+<span style="font-size:21px;font-weight:850;letter-spacing:3px;color:var(--muted)">«연번 ≤8자»</span>
 </div>
-<p class="cx-badge" style="align-self:center"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 12h4l3-7 4 14 3-7h4" fill="none" stroke="var(--accent-light)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>«표지 배지(선택) ≤27자»</p>
-<p class="cx-sub">«부제 한 문장 ≤29자»</p>
+<div class="cx-text" style="left:0;top:170px;width:1920px;align-items:center;text-align:center;gap:28px;z-index:3">
+<p class="cx-eyebrow" style="font-size:24px;letter-spacing:5px;color:var(--accent-light);font-weight:850;margin:0">«교육 이름 ≤10자»</p>
+<p class="cx-badge" style="align-self:center;font-size:22px;font-weight:800;color:var(--light);background:color-mix(in srgb,var(--paper) 10%,var(--ink));border:1px solid color-mix(in srgb,var(--accent-light) 42%,transparent);padding:11px 20px;margin:10px 0 4px"><svg aria-hidden="true" viewBox="0 0 24 24" style="width:24px;height:24px"><path d="M12 2l2.5 6.5L21 11l-6.5 2.5L12 20l-2.5-6.5L3 11l6.5-2.5z" fill="none" stroke="var(--accent-light)" stroke-width="1.8" stroke-linejoin="round"></path></svg>«표지 배지(선택) ≤27자»</p>
+<h1 class="cx-title" style="font-size:124px;line-height:1.12;letter-spacing:-4px;font-weight:900;color:var(--light);min-height:0;margin-top:24px"><span data-text="«표지 제목 ≤12자»" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret" style="height:112px;background:var(--accent-light)"></span></h1>
+<div class="cx-tokens" style="justify-content:center;gap:14px;margin-top:6px">
+<span style="--d:0;font-size:23px;color:var(--light);border-bottom:1px solid var(--accent-light);padding:2px 3px 8px;font-weight:750">«핵심어 ≤4자»</span><span style="--d:1;font-size:23px;color:var(--muted);border:none;padding:0">·</span><span style="--d:2;font-size:23px;color:var(--light);border-bottom:1px solid var(--accent-light);padding:2px 3px 8px;font-weight:750">«핵심어 ≤5자»</span><span style="--d:3;font-size:23px;color:var(--muted);border:none;padding:0">·</span><span style="--d:4;font-size:23px;color:var(--light);border-bottom:1px solid var(--accent-light);padding:2px 3px 8px;font-weight:750">«핵심어 ≤4자»</span>
 </div>
-<p class="cover-date" style="z-index:3">«날짜 YYYY. MM. DD ≤15자»</p>
-<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+<p class="cx-sub" style="font-size:35px;line-height:1.45;color:var(--muted);margin-top:10px">«부제 한 문장 ≤29자»</p>
+</div>
+<div style="position:absolute;left:50%;bottom:112px;transform:translateX(-50%);display:flex;align-items:center;gap:22px;z-index:3">
+<span style="width:72px;height:1px;background:var(--accent-light)"></span>
+<p style="font-size:22px;font-weight:800;letter-spacing:3px;color:var(--light);margin:0">«부가 한 줄 ≤16자»</p>
+<span style="width:72px;height:1px;background:var(--accent-light)"></span>
+</div>
+<p class="cover-date" style="z-index:3;left:50%;bottom:50px;transform:translateX(-50%);font-size:22px;color:var(--muted);font-weight:700">«날짜 YYYY. MM. DD ≤15자»</p>
+<aside class="notes">화면 설명: «표지 제목 ≤12자»를 럭셔리 키노트처럼 중앙에서 여는 표지입니다. 진행 지시: 잠시 화면을 비운 채 제목만 읽고, 동심원이 하나의 중심 원리로 수렴하는 오늘의 구조를 상징한다고 설명합니다. 화면에 없는 보충 사실과 출처: «보충 설명 ≤80자». 다음 장 연결: 중심 질문과 학습 목표로 넘어갑니다.</aside>
 </section>

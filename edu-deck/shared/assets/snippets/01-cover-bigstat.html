@@ -1,27 +1,62 @@
 <!--
   아키타입 cover (변형: bigstat)
-  언제: 표지. 오른쪽에 핵심 단어를 아주 크게 보여 주는 강조형. 한 단어로 기억되길 바라는 주제.
+  언제: 표지. 초대형 배경 숫자와 데이터 리포트 패널을 대비시키는 에디토리얼 데이터형. 지표·성과·핵심 수치 중심 교육에 어울린다.
   단계: 단계 없음
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
   자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
+  이 변형은 배경 대형 숫자와 오른쪽 데이터 패널이 정체성 — 글자 자리표시만 채우고 기하 리듬은 유지한다.
   배치 설명: references/layouts.md · 클래스: references/classes.md
 -->
-<section class="slide cx" data-archetype="cover" data-variant="bigstat" id="cover-bigstat" style="padding:0">
+<section class="slide cx" data-archetype="cover" data-variant="bigstat" id="cover-bigstat" style="padding:0;background:var(--paper)">
 
-<div aria-hidden="true" style="position:absolute;left:1240px;top:0;width:680px;height:1080px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;background:color-mix(in srgb,var(--blue) 24%,var(--ink))">
-<p style="font-size:230px;font-weight:900;color:var(--accent-light);line-height:1;letter-spacing:-3px;margin:0">«핵심어 ≤4자»</p>
-<div style="width:200px;height:10px;background:var(--accent)"></div>
-<p style="font-size:30px;font-weight:700;color:var(--muted);margin:0">핵심어</p>
+<svg aria-hidden="true" style="position:absolute;inset:0;width:1920px;height:1080px" viewBox="0 0 1920 1080">
+<defs>
+<pattern id="cov-bigstat-grid" width="80" height="80" patternUnits="userSpaceOnUse"><path d="M80 0H0V80" fill="none" stroke="var(--line)" stroke-width="1" opacity=".22"/></pattern>
+</defs>
+<rect x="1000" y="0" width="920" height="1080" fill="url(#cov-bigstat-grid)" opacity=".55"/>
+<text x="960" y="930" font-size="690" font-weight="900" letter-spacing="-36" fill="var(--blue-soft)">01</text>
+<text x="990" y="930" font-size="690" font-weight="900" letter-spacing="-36" fill="none" stroke="var(--blue-text)" stroke-width="2" opacity=".36">01</text>
+<path d="M1040 0v1080" stroke="var(--ink)" stroke-width="2" opacity=".68"/>
+<path d="M1120 156h560M1120 916h560" stroke="var(--ink)" stroke-width="2" opacity=".58"/>
+<path d="M122 934h760" stroke="var(--line)" stroke-width="1.5" opacity=".5"/>
+<path d="M122 934h286" stroke="var(--accent)" stroke-width="7"/>
+<path d="M1106 890c82-110 152-82 214-150s128-142 196-98 102 36 150-74 104-124 172-84" fill="none" stroke="var(--accent)" stroke-width="8" stroke-linecap="round" opacity=".8"/>
+<path d="M1106 890c82-110 152-82 214-150s128-142 196-98 102 36 150-74 104-124 172-84" fill="none" stroke="var(--accent-light)" stroke-width="22" stroke-linecap="round" opacity=".22"/>
+<g fill="var(--blue-text)"><circle cx="1320" cy="740" r="9"/><circle cx="1516" cy="642" r="9"/><circle cx="1666" cy="568" r="9"/><circle cx="1838" cy="484" r="9"/></g>
+</svg>
+<div style="position:absolute;left:0;top:0;width:1920px;height:84px;border-bottom:1px solid color-mix(in srgb,var(--ink) 26%,transparent);display:flex;align-items:center;justify-content:space-between;padding:0 128px;z-index:2">
+<span style="font-size:21px;font-weight:850;letter-spacing:4px;color:var(--soft)">DATA REPORT COVER</span>
+<span style="font-size:21px;font-weight:750;letter-spacing:2px;color:var(--soft)">«연번 ≤8자»</span>
 </div>
-<div class="cx-text" style="top:290px;width:1010px">
-<p class="cx-eyebrow">«교육 이름 ≤10자»</p>
-<h1 class="cx-title"><span data-text="«표지 제목 ≤12자»" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret"></span></h1>
-<div class="cx-tokens">
-<span style="--d:0">«핵심어 ≤4자»</span><span style="--d:1">·</span><span style="--d:2">«핵심어 ≤5자»</span><span style="--d:3">·</span><span style="--d:4">«핵심어 ≤4자»</span><span style="--d:5">·</span><span style="--d:6">«핵심어 ≤4자»</span>
+<div style="position:absolute;left:128px;top:178px;width:850px;z-index:3">
+<p class="cx-eyebrow" style="font-size:25px;letter-spacing:4px;color:var(--blue-text);font-weight:850;margin:0 0 42px">«교육 이름 ≤10자»</p>
+<h1 class="cx-title" style="font-size:116px;line-height:1.15;letter-spacing:-4px;font-weight:900;color:var(--ink);min-height:0"><span data-text="«표지 제목 ≤12자»" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret" style="height:108px;background:var(--accent)"></span></h1>
+<p class="cx-sub" style="font-size:36px;line-height:1.44;color:var(--soft);margin-top:44px">«부제 한 문장 ≤29자»</p>
+<div class="cx-tokens" style="margin-top:42px;gap:12px">
+<span style="--d:0;font-size:23px;border:none;border-radius:999px;padding:9px 16px;background:var(--blue-soft);color:var(--blue-text);font-weight:800">«핵심어 ≤4자»</span>
+<span style="--d:1;font-size:23px;border:none;border-radius:999px;padding:9px 16px;background:var(--chip);color:var(--ink);font-weight:800">«핵심어 ≤5자»</span>
+<span style="--d:2;font-size:23px;border:none;border-radius:999px;padding:9px 16px;background:var(--accent-soft);color:var(--accent-text);font-weight:800">«핵심어 ≤4자»</span>
 </div>
-<p class="cx-badge"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 12h4l3-7 4 14 3-7h4" fill="none" stroke="var(--accent-light)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>«표지 배지(선택) ≤27자»</p>
-<p class="cx-sub">«부제 한 문장 ≤29자»</p>
 </div>
-<p class="cover-date" style="z-index:3">«날짜 YYYY. MM. DD ≤15자»</p>
-<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+<div style="position:absolute;left:1164px;top:190px;width:628px;height:690px;border-radius:var(--r3);background:var(--paper);border:1px solid color-mix(in srgb,var(--ink) 14%,transparent);box-shadow:0 30px 76px color-mix(in srgb,var(--ink) 13%,transparent),0 2px 8px color-mix(in srgb,var(--ink) 5%,transparent);padding:42px 44px;z-index:3;display:flex;flex-direction:column">
+<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding-bottom:28px;border-bottom:1px solid color-mix(in srgb,var(--ink) 18%,transparent)">
+<div><p style="font-size:20px;font-weight:850;letter-spacing:3px;color:var(--soft);margin:0 0 8px">KEY SIGNAL</p><p style="font-size:25px;font-weight:850;color:var(--ink);margin:0">«라벨 ≤8자»</p></div>
+<span style="font-size:20px;font-weight:850;color:var(--blue-text);background:var(--blue-soft);border-radius:999px;padding:8px 15px;white-space:nowrap">LIVE</span>
+</div>
+<p style="font-size:66px;line-height:1.05;letter-spacing:-2px;font-weight:900;color:var(--accent-text);margin:40px 0 8px;min-height:76px">«핵심 수치 ≤7자»</p>
+<p style="font-size:23px;line-height:1.4;color:var(--soft);margin:0 0 32px">«수치 설명 ≤22자»</p>
+<svg aria-hidden="true" viewBox="0 0 520 170" style="width:100%;height:176px;margin-bottom:30px">
+<path d="M0 140H520M0 98H520M0 56H520" stroke="var(--line)" stroke-width="1" opacity=".32"/>
+<path d="M12 132l64-28 54 18 64-58 58 10 62-34 58 4 64-38 70 20" fill="none" stroke="var(--blue-text)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M12 132l64-28 54 18 64-58 58 10 62-34 58 4 64-38 70 20" fill="none" stroke="var(--accent-light)" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" opacity=".2"/>
+<circle cx="436" cy="6" r="10" fill="var(--accent)"/>
+</svg>
+<div style="margin-top:auto;display:grid;gap:16px">
+<div style="display:grid;grid-template-columns:128px 1fr 62px;align-items:center;gap:14px"><span style="font-size:20px;font-weight:800;color:var(--soft)">«항목 ≤5자»</span><div style="height:12px;border-radius:999px;background:var(--chip);overflow:hidden"><div style="width:72%;height:100%;background:var(--blue-text);border-radius:999px"></div></div><span style="font-size:20px;font-weight:850;color:var(--ink);text-align:right">72</span></div>
+<div style="display:grid;grid-template-columns:128px 1fr 62px;align-items:center;gap:14px"><span style="font-size:20px;font-weight:800;color:var(--soft)">«항목 ≤5자»</span><div style="height:12px;border-radius:999px;background:var(--chip);overflow:hidden"><div style="width:54%;height:100%;background:var(--accent);border-radius:999px"></div></div><span style="font-size:20px;font-weight:850;color:var(--ink);text-align:right">54</span></div>
+<div style="display:grid;grid-template-columns:128px 1fr 62px;align-items:center;gap:14px"><span style="font-size:20px;font-weight:800;color:var(--soft)">«항목 ≤5자»</span><div style="height:12px;border-radius:999px;background:var(--chip);overflow:hidden"><div style="width:86%;height:100%;background:var(--blue);border-radius:999px"></div></div><span style="font-size:20px;font-weight:850;color:var(--ink);text-align:right">86</span></div>
+</div>
+</div>
+<p class="cover-date" style="z-index:3;left:128px;bottom:52px;font-size:24px;color:var(--soft);font-weight:700">«날짜 YYYY. MM. DD ≤15자»</p>
+<aside class="notes">화면 설명: «표지 제목 ≤12자»를 데이터 리포트처럼 여는 표지입니다. 진행 지시: 배경의 큰 01은 오늘 다룰 첫 번째 핵심 단위라고 소개하고 오른쪽 수치 패널을 함께 읽습니다. 화면에 없는 보충 사실과 출처: «보충 설명 ≤80자». 다음 장 연결: 수치가 나온 배경과 학습 질문으로 넘어갑니다.</aside>
 </section>

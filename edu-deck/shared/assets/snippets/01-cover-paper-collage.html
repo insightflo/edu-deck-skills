@@ -1,33 +1,83 @@
 <!--
   아키타입 cover (변형: paper-collage)
-  언제: 표지. 회전·겹친 색지 스택으로 생동감을 주는 콜라주형. 워크숍·창의 교육에 어울린다.
+  언제: 표지. 서로 다른 질감·각도의 종이 레이어와 테이프·클립이 겹친 아날로그-모던 콜라주형. 워크숍·창의 교육에 어울린다.
   단계: 단계 없음
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
   자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
-  .cover-art = 표지 그림 자리 — 맨 위 색지의 «그림: …» 안내를 지우고 주제 스탬프·낙서를 다시 그린다(layouts.md "표지 그림 자리").
+  .cover-art = 표지 그림 자리 — 종이 결·테이프·클립·스탬프를 겹친 완성형 SVG 콜라주다(layouts.md "표지 그림 자리").
   배치 설명: references/layouts.md · 클래스: references/classes.md
 -->
-<section class="slide cx" data-archetype="cover" data-variant="paper-collage" id="cover-paper-collage" style="padding:0;background:var(--paper)">
+<section class="slide cx" data-archetype="cover" data-variant="paper-collage" id="cover-paper-collage" style="padding:0;background:var(--paper);color:var(--ink)">
 
-<svg aria-hidden="true" style="position:absolute;inset:0" viewBox="0 0 1920 1080">
-<path d="M0 85l1300-60-70 170-1230 60z" fill="var(--accent-light)"/>
-<circle cx="1652" cy="398" r="285" fill="var(--accent)"/>
-<path d="M1122 182l668 130-167 653-707-143z" fill="var(--accent-light)"/>
-<path d="M1167 211l510 80-110 565-510-88z" fill="var(--chip)"/>
-<path d="M1280 360l390-75M1259 411l392-57M1237 467l391-40" stroke="var(--ink)" stroke-width="15" stroke-linecap="square"/>
-<path d="M113 224h210" stroke="var(--blue)" stroke-width="10"/>
-<rect x="1768" y="75" width="81" height="81" rx="15" fill="var(--blue)"/>
-<path d="M1791 115h35m-17-17v35" stroke="var(--accent-light)" stroke-width="6"/>
+<svg aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;z-index:0" viewBox="0 0 1920 1080">
+<defs>
+<pattern id="covpc-paper" width="72" height="72" patternUnits="userSpaceOnUse"><circle cx="8" cy="8" r="2" fill="var(--line)" opacity=".18"/><path d="M0 71h72" stroke="var(--line)" stroke-width="1" opacity=".1"/></pattern>
+<pattern id="covpc-grid" width="44" height="44" patternUnits="userSpaceOnUse"><path d="M44 0H0v44" fill="none" stroke="var(--blue)" stroke-width="1.2" opacity=".16"/></pattern>
+</defs>
+<rect x="0" y="0" width="1920" height="1080" fill="url(#covpc-paper)"/>
+<path d="M0 86l1130-72 54 142L0 238z" fill="var(--accent-light)" opacity=".42"/>
+<path d="M1490 0h430v1080h-360z" fill="var(--blue-soft)" opacity=".52"/>
+<circle cx="1814" cy="128" r="54" fill="var(--accent-light)" opacity=".7"/>
+<path d="M1840 905c-60 38-121 38-183 0" fill="none" stroke="var(--accent)" stroke-width="12" stroke-linecap="round" opacity=".38"/>
 </svg>
-<div class="cover-art" aria-hidden="true" style="position:absolute;left:1330px;top:430px;width:340px;height:340px;border:2px dashed var(--ink);border-radius:50%;display:flex;align-items:center;justify-content:center">
-<span style="font-size:24px;font-weight:700;color:var(--ink);text-align:center;max-width:260px">«그림: 주제 스탬프·낙서 — «대상»»</span>
+<div class="cover-art" aria-hidden="true" style="position:absolute;left:1056px;top:116px;width:742px;height:858px;z-index:1">
+<svg aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;overflow:visible" viewBox="0 0 742 858">
+<defs>
+<pattern id="covpc-lines" width="52" height="52" patternUnits="userSpaceOnUse"><path d="M0 51h52" stroke="var(--line)" stroke-width="1.5" opacity=".22"/></pattern>
+<pattern id="covpc-cross" width="38" height="38" patternUnits="userSpaceOnUse"><path d="M10 10l8 8m0-8-8 8" stroke="var(--blue)" stroke-width="2" opacity=".18"/></pattern>
+</defs>
+<g transform="rotate(-7 372 428)">
+<rect x="78" y="66" width="568" height="704" rx="24" fill="var(--ink)" opacity=".14" transform="translate(22 26)"/>
+<rect x="78" y="66" width="568" height="704" rx="24" fill="var(--chip)"/>
+<rect x="110" y="98" width="504" height="640" rx="14" fill="url(#covpc-lines)"/>
+</g>
+<g transform="rotate(5 382 420)">
+<rect x="142" y="90" width="506" height="660" rx="20" fill="var(--ink)" opacity=".13" transform="translate(18 24)"/>
+<rect x="142" y="90" width="506" height="660" rx="20" fill="var(--accent-light)"/>
+<rect x="176" y="128" width="438" height="586" rx="12" fill="url(#covpc-cross)"/>
+</g>
+<g transform="rotate(-2 386 470)">
+<rect x="116" y="172" width="548" height="596" rx="18" fill="var(--ink)" opacity=".16" transform="translate(18 22)"/>
+<rect x="116" y="172" width="548" height="596" rx="18" fill="var(--paper)" stroke="var(--line)" stroke-width="3"/>
+<path d="M116 230l36-58 36 58 36-58 36 58 36-58 36 58 36-58 36 58 36-58 36 58 36-58 36 58 36-58 36 58 36-58" fill="none" stroke="var(--chip)" stroke-width="7" opacity=".8"/>
+<rect x="166" y="254" width="448" height="252" rx="10" fill="var(--blue-soft)"/>
+<circle cx="388" cy="378" r="98" fill="var(--accent)"/>
+<path d="M388 280a98 98 0 0 1 98 98h-98z" fill="var(--accent-light)"/>
+<path d="M388 378a98 98 0 0 1-98-98h98z" fill="var(--blue)"/>
+<circle cx="388" cy="378" r="38" fill="var(--paper)"/>
+<path d="M210 548h360M210 592h286M210 636h330" stroke="var(--line)" stroke-width="12" stroke-linecap="round" opacity=".58"/>
+<path d="M210 548h178" stroke="var(--accent)" stroke-width="12" stroke-linecap="round"/>
+</g>
+<g transform="rotate(-9 226 122)">
+<rect x="142" y="82" width="174" height="66" rx="10" fill="color-mix(in srgb,var(--paper) 64%,var(--accent-light))" opacity=".82"/>
+<path d="M154 106h150M154 126h150" stroke="var(--accent-text)" stroke-width="3" opacity=".22"/>
+</g>
+<g transform="rotate(8 574 166)">
+<rect x="496" y="126" width="164" height="62" rx="10" fill="color-mix(in srgb,var(--paper) 68%,var(--blue-soft))" opacity=".86"/>
+<path d="M510 148h136M510 168h136" stroke="var(--blue-text)" stroke-width="3" opacity=".2"/>
+</g>
+<path d="M638 220c38-72 106-72 106 0 0 58-56 74-56 128" fill="none" stroke="var(--soft)" stroke-width="13" stroke-linecap="round" opacity=".72"/>
+<path d="M638 220c38-72 106-72 106 0" fill="none" stroke="var(--paper)" stroke-width="4" stroke-linecap="round" opacity=".65"/>
+<g transform="rotate(13 604 654)">
+<rect x="510" y="588" width="176" height="126" rx="16" fill="var(--accent)"/>
+<circle cx="598" cy="650" r="41" fill="var(--paper)" opacity=".92"/>
+<path d="M581 650l14 14 29-34" fill="none" stroke="var(--accent-text)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<path d="M128 744c78-32 153-31 226 4" fill="none" stroke="var(--blue)" stroke-width="7" stroke-linecap="round" opacity=".55"/>
+<path d="M354 748l-36-16 7 43" fill="none" stroke="var(--blue)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity=".55"/>
+</svg>
 </div>
-<p class="cx-eyebrow" style="position:absolute;left:114px;top:110px;font-size:29px;font-weight:900;color:var(--blue);letter-spacing:2px">«교육 이름 ≤10자»</p>
-<div style="position:absolute;left:85px;top:296px;width:1180px;height:585px;transform:rotate(-4deg);background:var(--blue);padding:93px 40px 0 79px">
-<h1 class="cx-title" style="font-size:133px;font-weight:900;line-height:1.15;letter-spacing:-4px;color:var(--paper)"><span data-text="«표지 제목 ≤12자»" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret"></span></h1>
-<p class="cx-sub" style="font-size:40px;font-weight:650;margin-top:31px;color:var(--light)">«부제 한 문장 ≤29자»</p>
+<div aria-hidden="true" style="position:absolute;left:86px;top:270px;width:905px;height:500px;background:var(--ink);opacity:.14;transform:rotate(-1.5deg);border-radius:18px;z-index:1"></div>
+<div style="position:absolute;left:104px;top:244px;width:900px;height:506px;background:var(--blue);transform:rotate(-2deg);border-radius:18px;z-index:2;box-shadow:0 24px 56px color-mix(in srgb,var(--ink) 20%,transparent)">
+<div aria-hidden="true" style="position:absolute;left:66px;top:-30px;width:178px;height:58px;background:color-mix(in srgb,var(--paper) 66%,var(--accent-light));opacity:.84;transform:rotate(-6deg);border-radius:8px"></div>
+<div aria-hidden="true" style="position:absolute;right:82px;top:-26px;width:150px;height:54px;background:color-mix(in srgb,var(--paper) 70%,var(--blue-soft));opacity:.86;transform:rotate(7deg);border-radius:8px"></div>
 </div>
-<p class="cover-date" style="z-index:3;left:121px;bottom:79px;font-size:27px;color:var(--blue);font-weight:800">«부가 한 줄 ≤16자»</p>
-<p style="position:absolute;right:121px;bottom:75px;font-size:27px;color:var(--blue);font-weight:800;margin:0;z-index:3">«연번 ≤8자»</p>
-<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+<p class="cx-eyebrow" style="position:absolute;left:126px;top:132px;font-size:30px;font-weight:850;color:var(--blue-text);letter-spacing:.14em;z-index:3">«교육 이름 ≤10자»</p>
+<div style="position:absolute;left:158px;top:324px;width:790px;transform:rotate(-2deg);background:var(--blue);z-index:3">
+<h1 class="cx-title" style="font-size:112px;font-weight:900;line-height:1.12;letter-spacing:-.035em;min-height:142px;color:var(--paper)"><span data-text="«표지 제목 ≤12자»" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret" style="width:8px;height:1em"></span></h1>
+<p class="cx-sub" style="font-size:37px;font-weight:650;margin-top:34px;color:color-mix(in srgb,var(--paper) 88%,transparent)">«부제 한 문장 ≤29자»</p>
+</div>
+<p class="cover-date" style="z-index:3;left:126px;bottom:78px;font-size:27px;color:var(--blue-text);font-weight:800">«부가 한 줄 ≤16자»</p>
+<p style="position:absolute;right:128px;bottom:78px;font-size:27px;color:var(--blue-text);font-weight:800;margin:0;z-index:3">«연번 ≤8자»</p>
+<aside class="notes">겹친 종이 레이어와 제목 판을 먼저 보여 주고, 워크숍처럼 손으로 만지는 학습 분위기를 소개합니다. 이어서 «발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결» 내용을 실제 발표 흐름에 맞게 채워 조정합니다.</aside>
 </section>

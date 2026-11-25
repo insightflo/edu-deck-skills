@@ -1,38 +1,76 @@
 <!--
   아키타입 cover (변형: modular-cards)
-  언제: 표지. 지식 카드 3층이 기울어 쌓인 모듈형. 기술 실무·조직 협업에 어울린다.
+  언제: 표지. 서로 다른 비율의 모듈 카드가 스튜디오 그리드 위에 놓이는 형. 기술 실무·조직 협업·도구 교육에 어울린다.
   단계: 단계 없음
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
   자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
-  이 변형은 카드 3층 스택이 정체성 — 뼈대는 유지하고 카드 라벨·글자 자리표시만 채운다.
+  이 변형은 겹치지 않는 입체 카드 4장의 리듬이 정체성 — 뼈대는 유지하고 글자 자리표시만 채운다.
   배치 설명: references/layouts.md · 클래스: references/classes.md
 -->
 <section class="slide cx" data-archetype="cover" data-variant="modular-cards" id="cover-modular-cards" style="padding:0;background:var(--paper)">
 
 <svg aria-hidden="true" style="position:absolute;inset:0" viewBox="0 0 1920 1080">
-<rect x="0" width="44" height="1080" fill="var(--accent)"/>
-<rect x="62" y="60" width="1795" height="955" rx="10" fill="none" stroke="var(--line)" stroke-width="2"/>
-<path d="M103 192h1715M104 905h1714" stroke="var(--line)" stroke-width="2"/>
-<g>
-<g transform="rotate(-16 1436 399)"><rect x="1190" y="220" width="520" height="365" rx="24" fill="var(--ink)"/><rect x="1221" y="251" width="455" height="298" rx="16" fill="none" stroke="var(--muted)" stroke-width="3"/></g>
-<g transform="rotate(7 1458 558)"><rect x="1177" y="402" width="562" height="330" rx="24" fill="var(--accent-light)"/><rect x="1207" y="434" width="501" height="268" rx="18" fill="none" stroke="var(--accent-text)" stroke-width="3"/></g>
-<g transform="rotate(-5 1460 755)"><rect x="1163" y="605" width="587" height="322" rx="22" fill="var(--light)" stroke="var(--blue-text)" stroke-width="4"/><rect x="1197" y="641" width="520" height="255" rx="14" fill="none" stroke="var(--blue-text)" stroke-width="2"/></g>
+<defs>
+<pattern id="cvmc-grid" width="56" height="56" patternUnits="userSpaceOnUse"><path d="M56 0H0V56" fill="none" stroke="var(--line)" stroke-width="1" opacity=".14"/></pattern>
+<linearGradient id="cvmc-deep" x1="0" x2="1" y1="0" y2="1"><stop stop-color="var(--ink)"/><stop offset="1" stop-color="var(--blue-text)"/></linearGradient>
+</defs>
+<rect width="1920" height="1080" fill="var(--paper)"/>
+<rect x="940" y="92" width="900" height="902" fill="url(#cvmc-grid)"/>
+<path d="M940 92v902M940 992h900" stroke="var(--ink)" stroke-width="3"/>
+<path d="M92 112h760M92 934h760" stroke="var(--line)" stroke-width="2" opacity=".58"/>
+<g font-size="21" font-weight="750" fill="var(--soft)" letter-spacing="2.5">
+<text x="968" y="153">GRID / 4UNITS</text><text x="968" y="952">SCALE 1:1</text>
 </g>
-<circle cx="1719" cy="433" r="22" fill="var(--paper)" stroke="var(--soft)" stroke-width="4"/>
-<path d="M1813 542l-40 20m40-20-12 50" fill="none" stroke="var(--soft)" stroke-width="5"/>
-<circle cx="1105" cy="704" r="28" fill="var(--accent)"/>
-<path d="M1080 704h50m-25-25v50" stroke="var(--ink)" stroke-width="5"/>
-<g fill="var(--soft)"><circle cx="1050" cy="340" r="9"/><circle cx="1116" cy="320" r="9"/><circle cx="1034" cy="380" r="9"/></g>
+<g opacity=".28" fill="var(--soft)">
+<rect x="1026" y="190" width="360" height="470" rx="28"/><rect x="1416" y="190" width="430" height="270" rx="28"/><rect x="1416" y="500" width="430" height="360" rx="28"/><rect x="1026" y="700" width="360" height="260" rx="28"/>
+</g>
+<g>
+<rect x="1000" y="160" width="360" height="470" rx="28" fill="url(#cvmc-deep)"/>
+<rect x="1028" y="190" width="304" height="62" rx="18" fill="color-mix(in srgb,var(--paper) 12%,transparent)"/>
+<path d="M1058 514V316M1058 316h210M1058 402h162M1058 488h116" stroke="var(--blue-soft)" stroke-width="5" stroke-linecap="round" opacity=".82"/>
+<circle cx="1288" cy="316" r="18" fill="var(--accent-light)"/><circle cx="1240" cy="402" r="14" fill="var(--paper)"/><circle cx="1194" cy="488" r="14" fill="var(--accent)"/>
+<rect x="1028" y="542" width="154" height="52" rx="26" fill="var(--accent)"/>
+</g>
+<g>
+<rect x="1390" y="160" width="430" height="270" rx="28" fill="var(--accent-light)"/>
+<rect x="1424" y="194" width="168" height="44" rx="22" fill="color-mix(in srgb,var(--paper) 54%,transparent)"/>
+<path d="M1430 366l54-62 52 34 62-92 54 54 62-20 58-72" fill="none" stroke="var(--ink)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M1430 392h330" stroke="color-mix(in srgb,var(--ink) 34%,transparent)" stroke-width="2"/>
+<circle cx="1732" cy="280" r="13" fill="var(--paper)"/><circle cx="1732" cy="280" r="25" fill="none" stroke="var(--paper)" stroke-width="3" opacity=".8"/>
+</g>
+<g>
+<rect x="1390" y="470" width="430" height="360" rx="28" fill="var(--paper)" stroke="var(--blue-text)" stroke-width="4"/>
+<path d="M1430 540h328M1430 622h328M1430 704h328" stroke="var(--line)" stroke-width="2" opacity=".7"/>
+<circle cx="1470" cy="540" r="20" fill="var(--blue)"/><circle cx="1470" cy="622" r="20" fill="var(--accent)"/><circle cx="1470" cy="704" r="20" fill="var(--ink)"/>
+<path d="M1518 540h170M1518 622h238M1518 704h132" stroke="var(--ink)" stroke-width="8" stroke-linecap="round"/>
+<rect x="1428" y="762" width="220" height="38" rx="19" fill="var(--blue-soft)"/>
+</g>
+<g>
+<rect x="1000" y="670" width="360" height="260" rx="28" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="3"/>
+<path d="M1038 858h284" stroke="var(--blue-text)" stroke-width="2"/>
+<rect x="1038" y="724" width="64" height="108" rx="14" fill="var(--blue)"/>
+<rect x="1126" y="764" width="64" height="68" rx="14" fill="var(--accent)"/>
+<rect x="1214" y="700" width="64" height="132" rx="14" fill="var(--ink)"/>
+<path d="M1038 704c70-28 142-28 240 0" fill="none" stroke="var(--blue-text)" stroke-width="3" stroke-dasharray="4 9"/>
+</g>
+<g font-size="24" font-weight="850" text-anchor="middle">
+<text x="1180" y="226" fill="var(--paper)">핵심</text><text x="1110" y="576" fill="var(--paper)">FRAME</text>
+<text x="1508" y="222" fill="var(--ink)">흐름</text>
+<text x="1728" y="514" fill="var(--blue-text)">점검</text>
+<text x="1180" y="884" fill="var(--blue-text)">측정</text>
+</g>
+<g fill="var(--accent)"><circle cx="966" cy="196" r="8"/><circle cx="966" cy="232" r="8"/><circle cx="966" cy="268" r="8"/></g>
 </svg>
-<p aria-hidden="true" style="position:absolute;left:1305px;top:365px;transform:rotate(-16deg);font-size:62px;font-weight:900;color:var(--paper);margin:0">«역할1 ≤4자»</p>
-<p aria-hidden="true" style="position:absolute;left:1360px;top:545px;transform:rotate(7deg);font-size:62px;font-weight:900;color:var(--ink);margin:0">«역할2 ≤4자»</p>
-<p aria-hidden="true" style="position:absolute;left:1305px;top:733px;transform:rotate(-5deg);font-size:65px;font-weight:900;color:var(--ink);margin:0">«역할3 ≤4자»</p>
-<p class="cx-eyebrow" style="position:absolute;left:150px;top:111px;font-size:28px;letter-spacing:4px;color:var(--blue-text);font-weight:850">«교육 이름 ≤10자»</p>
-<div style="position:absolute;left:145px;top:299px;width:1060px">
-<h1 class="cx-title" style="font-size:125px;line-height:1.19;letter-spacing:-4px;font-weight:900;color:var(--ink)"><span data-text="«표지 제목 ≤12자»" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret"></span></h1>
-<p class="cx-sub" style="margin-top:46px;font-size:43px;font-weight:550;color:var(--soft)">«부제 한 문장 ≤29자»</p>
+<p class="cx-eyebrow" style="position:absolute;left:128px;top:124px;font-size:26px;letter-spacing:4px;color:var(--blue-text);font-weight:850">«교육 이름 ≤10자»</p>
+<div style="position:absolute;left:128px;top:248px;width:760px;z-index:3">
+<p style="font-size:25px;font-weight:850;letter-spacing:5px;color:var(--accent-text);margin:0 0 38px">PRACTICAL MODULES</p>
+<h1 class="cx-title" style="font-size:112px;line-height:1.15;letter-spacing:-4px;font-weight:900;color:var(--ink)"><span data-text="«표지 제목 ≤12자»" id="cx-typed-modular" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret" style="height:96px;background:var(--accent)"></span></h1>
+<p class="cx-sub" style="margin-top:46px;font-size:38px;line-height:1.45;font-weight:550;color:var(--soft)">«부제 한 문장 ≤29자»</p>
 </div>
-<p class="cover-date" style="z-index:3;left:149px;bottom:112px;font-size:27px;color:var(--soft);font-weight:700">«부가 한 줄 ≤16자»</p>
-<p style="position:absolute;right:145px;bottom:112px;font-size:27px;color:var(--soft);font-weight:700;margin:0;z-index:3">«날짜 YYYY. MM. DD ≤15자»</p>
-<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+<div style="position:absolute;left:128px;top:724px;width:720px;z-index:3;border-left:8px solid var(--accent);padding-left:28px">
+<p style="font-size:27px;line-height:1.48;font-weight:750;color:var(--ink);margin:0">카드별 역할을 나눠 핵심 개념, 진행 흐름, 점검 기준, 측정 방법을 한 화면에 예고합니다.</p>
+</div>
+<p class="cover-date" style="z-index:3;left:128px;bottom:78px;font-size:25px;color:var(--soft);font-weight:700">«부가 한 줄 ≤16자»</p>
+<p style="position:absolute;right:128px;bottom:118px;font-size:25px;color:var(--soft);font-weight:800;margin:0;z-index:3">«날짜 YYYY. MM. DD ≤15자»</p>
+<aside class="notes">표지를 보여 주며 교육의 목적과 대상, 오늘 다룰 핵심 범위를 차례로 소개합니다. «발표자 노트 보충 ≤180자» 이 화면의 모듈 카드 구성이 왜 주제와 맞는지 한 문장으로 짚고, 다음 장에서 다룰 문제 의식으로 자연스럽게 연결합니다.</aside>
 </section>

@@ -1,41 +1,66 @@
 <!--
   아키타입 cover (변형: future-portal)
-  언제: 표지. 빛의 포털과 길이 전환을 상징하는 형. 비전·변화관리 교육에 어울린다. 어두운 장.
+  언제: 표지. 깊은 어둠 속 빛의 포털이 전환을 상징하는 형. 비전·변화관리·미래 전략 교육에 어울린다. 어두운 장.
   단계: 단계 없음
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
   자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
-  이 변형은 포털·태양·길 구도가 정체성(전환 상징) — 뼈대는 유지하고 글자 자리표시만 채운다.
+  이 변형은 동심 아치·포털 빛줄기·원근 바닥이 정체성 — 뼈대는 유지하고 글자 자리표시만 채운다.
   배치 설명: references/layouts.md · 클래스: references/classes.md
 -->
 <section class="slide cx dark" data-archetype="cover" data-variant="future-portal" id="cover-future-portal" style="padding:0">
 
 <svg aria-hidden="true" style="position:absolute;inset:0" viewBox="0 0 1920 1080">
 <defs>
-<linearGradient id="cov8-portal" x1="0" x2="1" y1="0" y2=".8"><stop stop-color="var(--accent-light)"/><stop offset=".48" stop-color="var(--accent)"/><stop offset="1" stop-color="var(--blue)"/></linearGradient>
-<radialGradient id="cov8-sun" cx=".5" cy=".5" r=".5"><stop stop-color="var(--accent-light)"/><stop offset="1" stop-color="var(--accent)"/></radialGradient>
+<linearGradient id="cvfp-gate" x1="0" x2="1" y1="0" y2="1"><stop stop-color="var(--accent-light)"/><stop offset=".48" stop-color="var(--accent)"/><stop offset="1" stop-color="var(--blue)"/></linearGradient>
+<linearGradient id="cvfp-core" x1="0" x2="0" y1="0" y2="1"><stop stop-color="var(--paper)" stop-opacity=".95"/><stop offset=".42" stop-color="var(--accent-light)" stop-opacity=".72"/><stop offset="1" stop-color="var(--blue)" stop-opacity=".18"/></linearGradient>
+<radialGradient id="cvfp-halo" cx=".5" cy=".5" r=".5"><stop stop-color="var(--accent-light)" stop-opacity=".48"/><stop offset=".55" stop-color="var(--blue)" stop-opacity=".16"/><stop offset="1" stop-color="var(--blue)" stop-opacity="0"/></radialGradient>
 </defs>
-<path d="M1008 1080L1224 239 1715 239 1920 1080Z" fill="var(--soft)" opacity=".35"/>
-<path d="M1115 1080L1295 290 1664 290 1860 1080Z" fill="var(--soft)" opacity=".29"/>
-<rect x="1172" y="126" width="592" height="824" rx="293" fill="var(--blue)"/>
-<rect x="1210" y="163" width="516" height="746" rx="258" fill="url(#cov8-portal)"/>
-<circle cx="1472" cy="450" r="133" fill="var(--accent-light)" opacity=".86"/>
-<path d="M1210 671 Q1461 540 1726 673V909H1210z" fill="var(--blue)" opacity=".72"/>
-<path d="M1210 751Q1474 613 1726 756V908H1210Z" fill="var(--ink)" opacity=".55"/>
-<path d="M1167 940l225-303h167l222 303" fill="var(--accent-light)" opacity=".83"/>
-<path d="M1070 1080l280-140h252l280 140" fill="var(--blue)" opacity=".3"/>
-<path d="M1361 940l-76 140M1583 940l68 140M1475 942v138" stroke="var(--ink)" stroke-width="4" opacity=".7"/>
-<path d="M1312 991h322M1256 1040h437" stroke="var(--ink)" stroke-width="5"/>
-<path d="M1190 820l-190-45M1194 730l-199-60" stroke="var(--soft)" stroke-width="2"/>
-<g fill="var(--muted)"><circle cx="1120" cy="220" r="7"/><circle cx="1790" cy="330" r="5"/><circle cx="1040" cy="560" r="4"/><circle cx="1870" cy="760" r="6"/></g>
-<path d="M180 940h790" stroke="var(--soft)" stroke-width="2"/>
-<path d="M180 940h202" stroke="var(--accent-light)" stroke-width="7"/>
+<circle cx="1428" cy="552" r="520" fill="url(#cvfp-halo)"/>
+<g opacity=".5" stroke="var(--blue)" stroke-width="2">
+<path d="M1428 560L1920 282M1428 560L1920 528M1428 560L1920 792M1428 560L1010 1080M1428 560L1840 1080"/>
+</g>
+<g fill="none" stroke-linecap="round">
+<path d="M1116 934V506Q1116 222 1428 222T1740 506V934" stroke="var(--blue)" stroke-width="34" opacity=".16"/>
+<path d="M1154 934V514Q1154 262 1428 262T1702 514V934" stroke="var(--accent-light)" stroke-width="18" opacity=".22"/>
+<path d="M1192 934V526Q1192 304 1428 304T1664 526V934" stroke="url(#cvfp-gate)" stroke-width="8"/>
+<path d="M1236 934V540Q1236 350 1428 350T1620 540V934" stroke="var(--paper)" stroke-width="2.5" opacity=".75"/>
+<path d="M1282 934V556Q1282 404 1428 404T1574 556V934" stroke="var(--accent-light)" stroke-width="4" opacity=".82"/>
+</g>
+<path d="M1282 934V556Q1282 404 1428 404T1574 556V934Z" fill="url(#cvfp-core)" opacity=".56"/>
+<ellipse cx="1428" cy="866" rx="168" ry="42" fill="var(--accent-light)" opacity=".25"/>
+<ellipse cx="1428" cy="890" rx="278" ry="42" fill="var(--blue)" opacity=".18"/>
+<g fill="none" stroke="var(--muted)" stroke-width="2" opacity=".58">
+<path d="M980 934h896M1048 982h760M1134 1026h588"/>
+<path d="M1428 934v146M1306 934l-116 146M1550 934l116 146M1210 934l-268 146M1646 934l274 146"/>
+</g>
+<g fill="none" stroke="var(--accent-light)" stroke-width="3" opacity=".72">
+<path d="M1048 982h142M1732 982h140"/>
+<path d="M1134 1026h96M1626 1026h98"/>
+</g>
+<g fill="var(--paper)">
+<circle cx="1064" cy="222" r="4"/><circle cx="1148" cy="168" r="3"/><circle cx="1794" cy="176" r="4"/><circle cx="1830" cy="432" r="3"/><circle cx="1016" cy="512" r="3"/><circle cx="1860" cy="720" r="4"/>
+</g>
+<g fill="none" stroke="var(--accent-light)" opacity=".8">
+<circle cx="1058" cy="340" r="18" stroke-width="2"/><circle cx="1808" cy="594" r="22" stroke-width="2"/><circle cx="1714" cy="250" r="12" stroke-width="2"/>
+</g>
+<g font-size="21" font-weight="750" fill="var(--muted)" letter-spacing="3">
+<text x="1014" y="154">TRANSIT GATE</text><text x="1628" y="154">NEXT / 01</text><text x="1016" y="884">THRESHOLD</text>
+</g>
+<path d="M132 928h748" stroke="var(--soft)" stroke-width="2" opacity=".7"/>
+<path d="M132 928h236" stroke="var(--accent-light)" stroke-width="8"/>
 </svg>
-<p class="cx-eyebrow" style="position:absolute;left:140px;top:128px;font-size:27px;color:var(--accent-light);letter-spacing:4px;font-weight:800">«교육 이름 ≤10자»</p>
-<div style="position:absolute;left:140px;top:321px;width:1030px">
-<h1 class="cx-title" style="font-size:118px;line-height:1.2;letter-spacing:-3px;color:var(--light);font-weight:900"><span data-text="«표지 제목 ≤12자»" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret"></span></h1>
-<p class="cx-sub" style="font-size:42px;color:var(--muted);margin-top:59px">«부제 한 문장 ≤29자»</p>
+<p class="cx-eyebrow" style="position:absolute;left:140px;top:128px;font-size:26px;color:var(--accent-light);letter-spacing:4px;font-weight:850">«교육 이름 ≤10자»</p>
+<div style="position:absolute;left:140px;top:304px;width:920px;z-index:3">
+<p style="display:inline-block;width:auto;font-size:25px;font-weight:800;letter-spacing:5px;color:var(--muted);margin:0 0 38px">NEXT PRACTICE PORTAL</p>
+<h1 class="cx-title" style="font-size:112px;line-height:1.16;letter-spacing:-4px;color:var(--paper);font-weight:900"><span data-text="«표지 제목 ≤12자»" id="cx-typed-future" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret" style="height:96px;background:var(--accent-light)"></span></h1>
+<p class="cx-sub" style="display:inline-block;width:auto;max-width:900px;font-size:39px;line-height:1.45;color:var(--muted);margin-top:50px">«부제 한 문장 ≤29자»</p>
 </div>
-<p class="cover-date" style="z-index:3;left:141px;bottom:76px;font-size:27px;color:var(--muted)">«부가 한 줄 ≤16자»</p>
-<p style="position:absolute;right:147px;bottom:72px;font-size:29px;color:var(--muted);font-weight:700;margin:0;z-index:3">«연번 ≤8자»</p>
-<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+<div style="position:absolute;left:140px;top:756px;width:780px;display:flex;gap:18px;z-index:3">
+<span style="font-size:24px;font-weight:800;color:var(--paper);border:1px solid color-mix(in srgb,var(--paper) 42%,transparent);border-radius:999px;padding:13px 24px">전환</span>
+<span style="font-size:24px;font-weight:800;color:var(--paper);border:1px solid color-mix(in srgb,var(--paper) 42%,transparent);border-radius:999px;padding:13px 24px">통과</span>
+<span style="font-size:24px;font-weight:800;color:var(--paper);border:1px solid color-mix(in srgb,var(--paper) 42%,transparent);border-radius:999px;padding:13px 24px">도약</span>
+</div>
+<p class="cover-date" style="z-index:3;left:140px;bottom:72px;font-size:25px;color:var(--muted);font-weight:700">«부가 한 줄 ≤16자»</p>
+<p style="position:absolute;right:142px;bottom:64px;font-size:25px;color:var(--muted);font-weight:800;margin:0;z-index:3;background:var(--ink);border:1px solid color-mix(in srgb,var(--muted) 42%,transparent);border-radius:999px;padding:7px 16px">«연번 ≤8자»</p>
+<aside class="notes">표지를 보여 주며 교육의 목적과 대상, 오늘 다룰 핵심 범위를 차례로 소개합니다. «발표자 노트 보충 ≤180자» 이 화면의 포털 이미지가 왜 주제와 맞는지 한 문장으로 짚고, 다음 장에서 다룰 문제 의식으로 자연스럽게 연결합니다.</aside>
 </section>

@@ -1,31 +1,56 @@
 <!--
   아키타입 cover (변형: monograph)
-  언제: 표지. 명조 활자·북커버형 절제. 경영·정책·인문 교육에 어울린다. font=gowun-batang 과 잘 어울린다.
+  언제: 표지. 미술관 도록·단행본 표지처럼 넉넉한 여백과 명조 활자를 쓰는 형. 경영·정책·인문 교육에 어울린다.
   단계: 단계 없음
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
   자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
-  .cover-art = 표지 그림 자리 — 책 안 메달리온 «그림: …» 안내를 지우고 주제 상징 문양을 다시 그린다(layouts.md "표지 그림 자리").
+  이 변형은 수평선 프레임·도록 여백·명조 세리프·절제된 컬러 띠가 정체성 — 뼈대는 유지하고 글자 자리표시만 채운다.
   배치 설명: references/layouts.md · 클래스: references/classes.md
 -->
 <section class="slide cx" data-archetype="cover" data-variant="monograph" id="cover-monograph" style="padding:0;background:var(--paper)">
 
 <svg aria-hidden="true" style="position:absolute;inset:0" viewBox="0 0 1920 1080">
-<rect x="79" y="78" width="1762" height="924" fill="none" stroke="var(--soft)" stroke-width="2"/>
-<line x1="600" y1="78" x2="600" y2="1002" stroke="var(--line)" stroke-width="2"/>
-<rect x="171" y="170" width="540" height="713" fill="var(--ink)"/>
-<rect x="199" y="200" width="484" height="650" fill="none" stroke="var(--chip)" stroke-width="2"/>
-<path d="M1659 119h118M1771 119v118" stroke="var(--accent)" stroke-width="7" fill="none"/>
+<defs>
+<linearGradient id="cvmn-band" x1="0" x2="1" y1="0" y2="0"><stop stop-color="var(--accent)"/><stop offset="1" stop-color="var(--blue)"/></linearGradient>
+</defs>
+<rect width="1920" height="1080" fill="var(--paper)"/>
+<rect x="104" y="88" width="1712" height="904" fill="none" stroke="var(--ink)" stroke-width="2"/>
+<path d="M104 156h1712M104 918h1712" stroke="var(--ink)" stroke-width="2"/>
+<path d="M650 156v762" stroke="var(--line)" stroke-width="2"/>
+<path d="M1768 156v762" stroke="var(--line)" stroke-width="1.5" opacity=".55"/>
+<rect x="162" y="210" width="398" height="604" fill="var(--light)" stroke="var(--ink)" stroke-width="2"/>
+<rect x="184" y="232" width="354" height="560" fill="none" stroke="var(--line)" stroke-width="1.5"/>
+<g fill="none" stroke="var(--soft)" stroke-width="1.4" opacity=".58">
+<path d="M220 294h282M220 334h282M220 374h282M220 414h282M220 454h282M220 494h282M220 534h282M220 574h282M220 614h282M220 654h282M220 694h282"/>
+</g>
+<circle cx="361" cy="494" r="142" fill="var(--paper)" stroke="var(--ink)" stroke-width="2"/>
+<circle cx="361" cy="494" r="103" fill="none" stroke="var(--blue-text)" stroke-width="2" stroke-dasharray="5 9"/>
+<path d="M259 494a102 102 0 0 1 204 0a102 102 0 0 1-204 0" fill="var(--blue-soft)" opacity=".65"/>
+<path d="M250 494h222M361 383v222" stroke="var(--accent-text)" stroke-width="3"/>
+<circle cx="361" cy="494" r="28" fill="var(--accent)"/>
+<rect x="184" y="742" width="354" height="20" fill="url(#cvmn-band)"/>
+<g font-size="21" font-weight="700" fill="var(--soft)" letter-spacing="2.5">
+<text x="142" y="132">MONOGRAPH SERIES</text><text x="1614" y="132">PLATE 01</text><text x="142" y="950">CURATED EDITION</text>
+</g>
+<g font-size="22" font-weight="750" fill="var(--ink)" text-anchor="middle">
+<text x="361" y="832">주제 상징 도판</text>
+</g>
+<path d="M706 232h420M706 842h420" stroke="var(--ink)" stroke-width="2"/>
+<path d="M706 232h116M706 842h116" stroke="var(--accent)" stroke-width="7"/>
 </svg>
-<div class="cover-art" aria-hidden="true" style="position:absolute;left:250px;top:250px;width:382px;height:560px;border:2px dashed var(--muted);border-radius:var(--r3);display:flex;align-items:center;justify-content:center">
-<span style="font-size:24px;font-weight:700;color:var(--muted);text-align:center;max-width:290px">«그림: 주제 상징 문양 — «대상»»</span>
+<p class="cx-eyebrow" style="position:absolute;left:728px;top:112px;font-family:'Gowun Batang','AppleMyungjo',serif;font-size:25px;font-weight:700;letter-spacing:4px;color:var(--accent-text)">«교육 이름 ≤10자»</p>
+<div style="position:absolute;left:728px;top:264px;width:980px;z-index:3">
+<p style="font-family:'Gowun Batang','AppleMyungjo',serif;font-size:25px;font-weight:650;letter-spacing:5px;color:var(--soft);margin:0 0 42px">선정된 지식, 정제된 실천</p>
+<h1 class="cx-title" style="font-family:'Gowun Batang','AppleMyungjo',serif;font-weight:900;font-size:106px;line-height:1.3;letter-spacing:-3px;color:var(--ink)"><span data-text="«표지 제목 ≤12자»" id="cx-typed-monograph" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret" style="height:88px;background:var(--accent)"></span></h1>
+<div style="width:154px;height:10px;background:var(--accent);margin-top:42px"></div>
+<p class="cx-sub" style="font-family:'Gowun Batang','AppleMyungjo',serif;font-size:36px;font-weight:550;margin-top:46px;line-height:1.52;color:var(--soft)">«부제 한 문장 ≤29자»</p>
 </div>
-<p class="cx-eyebrow" style="position:absolute;left:819px;top:166px;font-family:'Gowun Batang','Noto Serif CJK KR',serif;font-size:29px;font-weight:650;letter-spacing:4px;color:var(--accent-text)">«교육 이름 ≤10자»</p>
-<div style="position:absolute;left:815px;top:296px;width:1000px">
-<h1 class="cx-title" style="font-family:'Gowun Batang','Noto Serif CJK KR',serif;font-weight:900;font-size:120px;line-height:1.33;letter-spacing:-3px;color:var(--ink)"><span data-text="«표지 제목 ≤12자»" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret"></span></h1>
-<div style="width:126px;height:8px;background:var(--accent);margin-top:35px"></div>
-<p class="cx-sub" style="font-size:43px;font-weight:550;margin-top:51px;line-height:1.5;color:var(--soft)">«부제 한 문장 ≤29자»</p>
+<div style="position:absolute;left:728px;top:762px;width:860px;display:flex;gap:46px;z-index:3;font-family:'Gowun Batang','AppleMyungjo',serif">
+<p style="font-size:23px;line-height:1.55;color:var(--soft);margin:0"><span style="font-weight:800;color:var(--ink)">서문</span><br>개념의 정면을 봅니다</p>
+<p style="font-size:23px;line-height:1.55;color:var(--soft);margin:0"><span style="font-weight:800;color:var(--ink)">본문</span><br>사례와 원리를 엮습니다</p>
+<p style="font-size:23px;line-height:1.55;color:var(--soft);margin:0"><span style="font-weight:800;color:var(--ink)">주석</span><br>근거와 출처를 남깁니다</p>
 </div>
-<p class="cover-date" style="z-index:3;left:820px;bottom:112px;font-size:25px;color:var(--soft)">«부가 한 줄 ≤16자»</p>
-<p style="position:absolute;right:142px;bottom:112px;font-size:25px;font-weight:700;color:var(--soft);margin:0;z-index:3">«날짜 YYYY. MM. DD ≤15자»</p>
-<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+<p class="cover-date" style="z-index:3;left:728px;top:934px;bottom:auto;font-family:'Gowun Batang','AppleMyungjo',serif;font-size:24px;color:var(--soft)">«부가 한 줄 ≤16자»</p>
+<p style="position:absolute;right:142px;top:934px;font-family:'Gowun Batang','AppleMyungjo',serif;font-size:24px;font-weight:700;color:var(--soft);margin:0;z-index:3">«날짜 YYYY. MM. DD ≤15자»</p>
+<aside class="notes">표지를 보여 주며 교육의 목적과 대상, 오늘 다룰 핵심 범위를 차례로 소개합니다. «발표자 노트 보충 ≤180자» 이 화면의 도록형 구성이 왜 주제와 맞는지 한 문장으로 짚고, 다음 장에서 다룰 문제 의식으로 자연스럽게 연결합니다.</aside>
 </section>

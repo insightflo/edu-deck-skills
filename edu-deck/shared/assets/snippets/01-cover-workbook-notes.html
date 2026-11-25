@@ -1,34 +1,81 @@
 <!--
   아키타입 cover (변형: workbook-notes)
-  언제: 표지. 필기·체크박스·줄노트 문법의 학습지형. 자습·학습지·실습에 어울린다. font=gowun-dodum 과 잘 어울린다.
+  언제: 표지. 노트 괘선·인덱스 탭·형광펜·연필·체크 마크가 어우러진 실물 워크북형. 자습·학습지·실습에 어울린다. font=gowun-dodum 과 잘 어울린다.
   단계: 단계 없음
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
   자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
-  이 변형은 줄노트·체크리스트·연필 기하가 정체성 — 뼈대는 유지하고 글자 자리표시만 채운다.
+  이 변형은 줄노트·인덱스 탭·체크리스트·연필 기하가 정체성 — 뼈대는 유지하고 글자 자리표시만 채운다.
   배치 설명: references/layouts.md · 클래스: references/classes.md
 -->
-<section class="slide cx" data-archetype="cover" data-variant="workbook-notes" id="cover-workbook-notes" style="padding:0;background:var(--paper)">
+<section class="slide cx" data-archetype="cover" data-variant="workbook-notes" id="cover-workbook-notes" style="padding:0;background:var(--paper);color:var(--ink)">
 
-<svg aria-hidden="true" style="position:absolute;inset:0" viewBox="0 0 1920 1080">
-<defs><pattern id="cov7-lines" width="100" height="57" patternUnits="userSpaceOnUse"><path d="M0 56H100" fill="none" stroke="var(--line)" stroke-width="2" opacity=".55"/></pattern></defs>
-<rect x="155" y="0" width="1765" height="1080" fill="url(#cov7-lines)" opacity=".9"/>
-<path d="M172 0v1080" stroke="var(--danger)" stroke-width="4" opacity=".8"/>
-<g fill="var(--ink)"><circle cx="83" cy="190" r="30"/><circle cx="83" cy="540" r="30"/><circle cx="83" cy="890" r="30"/></g>
-<rect x="218" y="335" width="970" height="155" rx="8" fill="var(--accent-light)" transform="rotate(-1 218 335)" opacity=".85"/>
-<g transform="rotate(8 1463 597)"><rect x="1238" y="180" width="473" height="740" rx="6" fill="var(--light)"/><line x1="1270" y1="300" x2="1678" y2="300" stroke="var(--soft)" stroke-width="3"/>
-<g stroke="var(--ink)" fill="none" stroke-width="5" stroke-linejoin="round"><rect x="1300" y="358" width="52" height="52"/><path d="M1311 379l19 18 41-45"/><rect x="1300" y="473" width="52" height="52"/><path d="M1310 495l20 20 42-47"/><rect x="1300" y="588" width="52" height="52"/></g>
-<path d="M1385 377h235M1385 405h147M1385 486h230M1385 515h163M1385 600h230M1385 631h173" stroke="var(--line)" stroke-width="9"/></g>
-<path d="M1651 75l80 129" stroke="var(--ink)" stroke-width="18" stroke-linecap="round"/><path d="M1732 204l-19 30-34-7z" fill="var(--ink)"/><path d="M1644 67l19-11 80 132-19 11z" fill="var(--accent)"/>
-<path d="M1121 776l91-33 24 49-91 33" fill="none" stroke="var(--accent)" stroke-width="9"/>
-<g stroke="var(--blue)" fill="none" stroke-width="6"><path d="M227 787c72 22 147 26 227 9"/><path d="M454 796l-32-19 10 44"/></g>
-<path d="M977 846l26-42m-5 42 22-31" stroke="var(--accent)" stroke-width="8" stroke-linecap="round"/>
+<svg aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;z-index:0" viewBox="0 0 1920 1080">
+<defs>
+<pattern id="covwb-lines" width="96" height="58" patternUnits="userSpaceOnUse"><path d="M0 57h96" fill="none" stroke="var(--line)" stroke-width="1.6" opacity=".34"/></pattern>
+<pattern id="covwb-dots" width="42" height="42" patternUnits="userSpaceOnUse"><circle cx="6" cy="6" r="2.5" fill="var(--blue)" opacity=".13"/></pattern>
+<linearGradient id="covwb-pencil" x1="0" x2="1"><stop stop-color="var(--accent-light)"/><stop offset=".58" stop-color="var(--accent)"/><stop offset="1" stop-color="var(--accent-text)"/></linearGradient>
+</defs>
+<rect x="0" y="0" width="1920" height="1080" fill="var(--paper)"/>
+<rect x="0" y="0" width="1920" height="1080" fill="url(#covwb-dots)"/>
+<rect x="142" y="84" width="1080" height="918" rx="34" fill="var(--ink)" opacity=".13" transform="translate(18 18)"/>
+<rect x="142" y="84" width="1080" height="918" rx="34" fill="var(--light)" stroke="var(--line)" stroke-width="3"/>
+<rect x="142" y="84" width="96" height="918" rx="34" fill="var(--chip)"/>
+<path d="M238 84v918" stroke="var(--line)" stroke-width="3" opacity=".7"/>
+<rect x="238" y="84" width="984" height="918" fill="url(#covwb-lines)" opacity=".9"/>
+<path d="M304 84v918" stroke="var(--accent)" stroke-width="5" opacity=".62"/>
+<g fill="var(--paper)" stroke="var(--soft)" stroke-width="5">
+<circle cx="190" cy="180" r="26"/><circle cx="190" cy="330" r="26"/><circle cx="190" cy="480" r="26"/><circle cx="190" cy="630" r="26"/><circle cx="190" cy="780" r="26"/><circle cx="190" cy="930" r="26"/>
+</g>
+<g fill="none" stroke="var(--soft)" stroke-width="7" stroke-linecap="round">
+<path d="M162 180c-30-26-30 26 0 0"/><path d="M162 330c-30-26-30 26 0 0"/><path d="M162 480c-30-26-30 26 0 0"/><path d="M162 630c-30-26-30 26 0 0"/><path d="M162 780c-30-26-30 26 0 0"/><path d="M162 930c-30-26-30 26 0 0"/>
+</g>
+<rect x="344" y="356" width="728" height="142" rx="12" fill="var(--accent-light)" opacity=".66" transform="rotate(-1 344 356)"/>
+<path d="M360 520h580" stroke="var(--accent)" stroke-width="9" stroke-linecap="round" opacity=".48"/>
+<path d="M360 520h250" stroke="var(--accent-text)" stroke-width="9" stroke-linecap="round" opacity=".75"/>
+<g transform="rotate(-4 920 756)">
+<rect x="760" y="704" width="250" height="126" rx="14" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="3"/>
+<path d="M792 752h156M792 790h116" stroke="var(--blue-text)" stroke-width="9" stroke-linecap="round" opacity=".6"/>
+<path d="M780 736l20 20 38-44" fill="none" stroke="var(--accent-text)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<g transform="rotate(3 1510 540)">
+<rect x="1274" y="164" width="510" height="782" rx="30" fill="var(--ink)" opacity=".14" transform="translate(18 20)"/>
+<rect x="1274" y="164" width="510" height="782" rx="30" fill="var(--paper)" stroke="var(--line)" stroke-width="3"/>
+<rect x="1766" y="248" width="76" height="124" rx="12" fill="var(--accent)"/>
+<rect x="1766" y="438" width="76" height="124" rx="12" fill="var(--blue)"/>
+<rect x="1766" y="628" width="76" height="124" rx="12" fill="var(--accent-light)"/>
+<rect x="1310" y="204" width="438" height="92" rx="14" fill="var(--chip)"/>
+<path d="M1342 250h230" stroke="var(--ink)" stroke-width="11" stroke-linecap="round" opacity=".72"/>
+<path d="M1604 250h96" stroke="var(--accent)" stroke-width="11" stroke-linecap="round"/>
+<g stroke-linecap="round" stroke-linejoin="round">
+<rect x="1336" y="360" width="54" height="54" rx="8" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="4"/>
+<path d="M1347 386l16 17 34-39" fill="none" stroke="var(--accent-text)" stroke-width="7"/>
+<rect x="1336" y="492" width="54" height="54" rx="8" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="4"/>
+<path d="M1347 518l16 17 34-39" fill="none" stroke="var(--accent-text)" stroke-width="7"/>
+<rect x="1336" y="624" width="54" height="54" rx="8" fill="var(--paper)" stroke="var(--line)" stroke-width="4"/>
+</g>
+<path d="M1428 386h244M1428 418h160M1428 518h238M1428 550h174M1428 650h238M1428 682h150" stroke="var(--line)" stroke-width="10" stroke-linecap="round" opacity=".58"/>
+<path d="M1428 650h142" stroke="var(--accent-light)" stroke-width="13" stroke-linecap="round"/>
+<rect x="1332" y="774" width="354" height="86" rx="14" fill="var(--accent-light)" opacity=".6"/>
+<path d="M1362 818h236" stroke="var(--accent-text)" stroke-width="11" stroke-linecap="round"/>
+<path d="M1618 818h42" stroke="var(--ink)" stroke-width="11" stroke-linecap="round"/>
+</g>
+<g transform="rotate(-24 1140 858)">
+<rect x="965" y="832" width="360" height="46" rx="20" fill="url(#covwb-pencil)"/>
+<path d="M1325 832l72 23-72 23z" fill="var(--chip)"/>
+<path d="M1380 848l17 7-17 7z" fill="var(--ink)"/>
+<rect x="935" y="832" width="52" height="46" rx="18" fill="var(--blue)"/>
+<path d="M987 832h22v46h-22z" fill="var(--paper)" opacity=".62"/>
+</g>
+<path d="M1112 724c54 28 98 26 132-6" fill="none" stroke="var(--blue)" stroke-width="7" stroke-linecap="round"/>
+<path d="M1244 718l-31-20 6 43" fill="none" stroke="var(--blue)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M1094 884l28-46m-4 46 24-34" stroke="var(--accent-text)" stroke-width="8" stroke-linecap="round"/>
 </svg>
-<p class="cx-eyebrow" style="position:absolute;left:241px;top:148px;font-family:'Gowun Dodum','Nanum Pen','Noto Sans CJK KR';font-weight:800;font-size:48px;color:var(--blue-text)">«교육 이름 ≤10자»</p>
-<div style="position:absolute;left:234px;top:329px;width:1060px">
-<h1 class="cx-title" style="font-size:118px;line-height:1.33;letter-spacing:-4px;font-weight:900;color:var(--ink)"><span data-text="«표지 제목 ≤12자»" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret"></span></h1>
-<p class="cx-sub" style="font-family:'Gowun Dodum','Nanum Pen','Noto Sans CJK KR';font-size:53px;margin-top:47px;color:var(--soft)">«부제 한 문장 ≤29자»</p>
+<p class="cx-eyebrow" style="position:absolute;left:344px;top:158px;font-family:'Gowun Dodum','Nanum Pen','Noto Sans CJK KR';font-weight:850;font-size:43px;color:var(--blue-text);letter-spacing:.02em;z-index:3">«교육 이름 ≤10자»</p>
+<div style="position:absolute;left:340px;top:326px;width:790px;z-index:3">
+<h1 class="cx-title" style="font-size:108px;line-height:1.16;letter-spacing:-.035em;min-height:136px;font-weight:900;color:var(--ink)"><span data-text="«표지 제목 ≤12자»" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret" style="width:8px;height:1em"></span></h1>
+<p class="cx-sub" style="font-family:'Gowun Dodum','Nanum Pen','Noto Sans CJK KR';font-size:43px;margin-top:58px;line-height:1.32;color:var(--soft)">«부제 한 문장 ≤29자»</p>
 </div>
-<p class="cover-date" style="z-index:3;left:242px;bottom:97px;font-size:27px;font-weight:800;color:var(--soft)">«부가 한 줄 ≤16자»</p>
-<p style="position:absolute;right:248px;top:105px;font-size:29px;font-weight:850;color:var(--ink);margin:0;z-index:3">«연번 ≤8자»</p>
-<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+<p class="cover-date" style="z-index:3;left:344px;bottom:92px;font-size:27px;font-weight:800;color:var(--soft)">«부가 한 줄 ≤16자»</p>
+<p style="position:absolute;right:122px;top:96px;font-size:28px;font-weight:850;color:var(--soft);margin:0;z-index:3">«연번 ≤8자»</p>
+<aside class="notes">워크북의 괘선과 체크리스트를 보여 주며, 오늘 학습이 읽기만 하는 강의가 아니라 직접 표시하고 완성하는 실습임을 소개합니다. 이어서 «발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결» 내용을 실제 발표 흐름에 맞게 채워 조정합니다.</aside>
 </section>

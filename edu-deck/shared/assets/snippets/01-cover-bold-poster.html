@@ -1,33 +1,53 @@
 <!--
   아키타입 cover (변형: bold-poster)
-  언제: 표지. 강한 타이포 대비·캠페인형 임팩트. 오리엔테이션·대규모 특강에 어울린다.
+  언제: 표지. 초대형 디스플레이 타이포와 비대칭 컬러 블록이 만드는 스위스 전시 포스터형. 오리엔테이션·대규모 특강에 어울린다.
   단계: 단계 없음
   쓰는 법: 필요한 section 하나만 복사해 덱 src/NN-이름.html 로 저장하고 겹꺾쇠 자리표시를 모두 실제 내용으로 바꾼다.
   자리표시 안의 ≤N자 는 이 배치에서 넘치지 않는 최대 글자 수다(공백 포함). 항목 수를 바꾸면 check_deck.py 로 넘침을 확인한다.
-  .cover-art = 표지 그림 자리 — 오른쪽 «그림: …» 안내를 지우고 주제 상징(대문자·도형)을 크게 다시 그린다(layouts.md "표지 그림 자리").
+  .cover-art = 표지 그림 자리 — 기하 포스터 마크를 주제에 맞게 다시 그린다(layouts.md "표지 그림 자리").
   배치 설명: references/layouts.md · 클래스: references/classes.md
 -->
-<section class="slide cx" data-archetype="cover" data-variant="bold-poster" id="cover-bold-poster" style="padding:0;background:var(--accent)">
+<section class="slide cx" data-archetype="cover" data-variant="bold-poster" id="cover-bold-poster" style="padding:0;background:var(--paper)">
 
-<svg aria-hidden="true" style="position:absolute;inset:0" viewBox="0 0 1920 1080">
-<path d="M0 0h1200l-130 215H0z" fill="var(--accent-light)"/>
-<path d="M1400 0h520v1080h-550l-120-175 140-300-100-180z" fill="var(--accent-text)"/>
-<path d="M1375 188l334 345" stroke="var(--ink)" stroke-width="16"/>
-<path d="M1692 175l-307 360" stroke="var(--accent-light)" stroke-width="20"/>
-<rect x="0" y="1000" width="1920" height="80" fill="var(--ink)"/>
-<g fill="var(--ink)" opacity=".5"><circle cx="1260" cy="240" r="3"/><circle cx="1290" cy="270" r="3"/><circle cx="1320" cy="300" r="3"/><circle cx="1350" cy="330" r="3"/><circle cx="1380" cy="360" r="3"/><circle cx="1410" cy="390" r="3"/><circle cx="1290" cy="210" r="3"/><circle cx="1350" cy="270" r="3"/><circle cx="1410" cy="330" r="3"/></g>
-<path d="M1004 545h72m-36-35v70" stroke="var(--accent-light)" stroke-width="11"/>
+<svg aria-hidden="true" style="position:absolute;inset:0;width:1920px;height:1080px" viewBox="0 0 1920 1080">
+<path d="M1176 0h332l-210 1080H996z" fill="var(--accent)" opacity=".94"/>
+<path d="M1300 0h138L1228 1080h-138z" fill="var(--accent-light)" opacity=".86"/>
+<path d="M96 78h1120M96 112h1120" stroke="var(--ink)" stroke-width="2" opacity=".78"/>
+<g stroke="var(--ink)" stroke-width="2" opacity=".72">
+<path d="M128 78v34M208 78v22M288 78v22M368 78v22M448 78v34M528 78v22M608 78v22M688 78v22M768 78v34M848 78v22M928 78v22M1008 78v22M1088 78v34"/>
+</g>
+<path d="M1216 0v996" stroke="var(--paper)" stroke-width="2" opacity=".65"/>
+<path d="M1370 152h420M1370 884h420" stroke="var(--muted)" stroke-width="1.5" opacity=".48"/>
+<g fill="var(--paper)" opacity=".9"><circle cx="1370" cy="152" r="5"/><circle cx="1790" cy="152" r="5"/><circle cx="1370" cy="884" r="5"/><circle cx="1790" cy="884" r="5"/></g>
 </svg>
-<div class="cover-art" aria-hidden="true" style="position:absolute;left:1450px;top:160px;width:420px;height:800px;border:2px dashed var(--paper);border-radius:var(--r3);display:flex;align-items:center;justify-content:center">
-<span style="font-size:24px;font-weight:700;color:var(--paper);text-align:center;max-width:320px">«그림: 주제 상징 대문자·도형 — «핵심 글자»»</span>
+<div style="position:absolute;left:1328px;top:0;width:592px;height:1080px;background:var(--ink);z-index:2">
+<p style="position:absolute;right:102px;top:86px;font-size:21px;font-weight:850;letter-spacing:3px;color:var(--accent-light);margin:0">POSTER / «연번 ≤8자»</p>
+<div class="cover-art" aria-hidden="true" style="position:absolute;left:84px;top:196px;width:390px;height:640px">
+<svg viewBox="0 0 390 640" style="width:390px;height:640px;display:block">
+<circle cx="196" cy="206" r="164" fill="none" stroke="var(--paper)" stroke-width="2" opacity=".7"/>
+<circle cx="196" cy="206" r="112" fill="var(--accent-light)"/>
+<path d="M196 94a112 112 0 0 1 112 112H196z" fill="var(--blue)"/>
+<rect x="82" y="374" width="226" height="150" fill="var(--paper)"/>
+<rect x="112" y="404" width="166" height="90" fill="var(--ink)"/>
+<path d="M66 560h260M118 590h154" stroke="var(--accent-light)" stroke-width="8"/>
+<path d="M42 92L350 548M350 92L42 548" stroke="var(--paper)" stroke-width="1.6" opacity=".45"/>
+</svg>
 </div>
-<p class="cx-eyebrow" style="position:absolute;left:112px;top:75px;font-size:30px;font-weight:900;letter-spacing:2px;color:var(--light)">«교육 이름 ≤10자»</p>
-<div style="position:absolute;left:108px;top:272px;width:1110px">
-<p style="font-size:31px;font-weight:900;letter-spacing:9px;color:var(--paper);margin:0 0 34px">«핵심 가치 3어 ≤12자»</p>
-<h1 class="cx-title" style="font-size:144px;font-weight:900;line-height:1.11;letter-spacing:-4px;color:var(--paper)"><span data-text="«표지 제목 ≤12자»" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret"></span></h1>
-<p class="cx-sub" style="font-size:41px;margin-top:55px;font-weight:700;color:var(--paper)">«부제 한 문장 ≤29자»</p>
 </div>
-<p class="cover-date" style="z-index:3;left:115px;bottom:26px;color:var(--paper);font-size:27px;font-weight:800">«부가 한 줄 ≤16자»</p>
-<p style="position:absolute;right:109px;bottom:25px;color:var(--paper);font-size:27px;font-weight:700;margin:0;z-index:3">«연번 ≤8자»</p>
-<aside class="notes">«발표자 노트 110~450자: 화면 설명 → 진행 지시(→ 누를 때마다…) → 화면에 없는 보충 사실과 출처 → 다음 장 연결»</aside>
+<div style="position:absolute;left:104px;top:150px;width:1110px;z-index:3">
+<p class="cx-eyebrow" style="font-size:25px;letter-spacing:4px;color:var(--blue-text);font-weight:900;margin:0 0 40px">«교육 이름 ≤10자»</p>
+<p style="font-size:24px;font-weight:900;letter-spacing:8px;color:var(--accent-text);margin:0 0 28px">«핵심 가치 3어 ≤12자»</p>
+<h1 class="cx-title" style="font-size:142px;font-weight:900;line-height:1.04;letter-spacing:-5px;color:var(--ink);min-height:0"><span data-text="«표지 제목 ≤12자»" id="cx-typed" data-fx="scatter-gather"></span><span class="cx-caret" style="height:126px;background:var(--accent)"></span></h1>
+<p class="cx-sub" style="font-size:38px;line-height:1.42;margin-top:48px;font-weight:650;color:var(--soft)">«부제 한 문장 ≤29자»</p>
+</div>
+<div style="position:absolute;left:104px;top:858px;width:1010px;display:grid;grid-template-columns:220px 1fr 190px;gap:28px;align-items:end;border-top:2px solid var(--ink);padding-top:20px;z-index:3">
+<p style="font-size:21px;font-weight:850;letter-spacing:2px;color:var(--soft);margin:0">EXHIBITION TYPE</p>
+<p style="font-size:24px;font-weight:800;color:var(--ink);margin:0">«부가 설명 ≤18자»</p>
+<p style="font-size:21px;font-weight:850;color:var(--accent-text);margin:0;text-align:right">SWISS GRID</p>
+</div>
+<div style="position:absolute;left:0;bottom:0;width:1920px;height:84px;background:var(--ink);z-index:4">
+<p class="cover-date" style="position:absolute;left:104px;bottom:24px;color:var(--paper);font-size:23px;font-weight:800">«부가 한 줄 ≤16자»</p>
+<p style="position:absolute;right:104px;bottom:24px;color:var(--paper);font-size:23px;font-weight:800;margin:0">«날짜 YYYY. MM. DD ≤15자»</p>
+</div>
+<aside class="notes">화면 설명: «표지 제목 ≤12자»를 스위스 전시 포스터처럼 크고 대담하게 여는 표지입니다. 진행 지시: 큰 제목을 먼저 읽고 오른쪽 기하 마크가 오늘 주제의 상징이라고 짧게 소개합니다. 화면에 없는 보충 사실과 출처: «보충 설명 ≤80자». 다음 장 연결: 오늘의 핵심 질문과 일정으로 넘어갑니다.</aside>
 </section>
