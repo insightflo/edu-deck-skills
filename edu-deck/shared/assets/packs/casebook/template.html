@@ -1,12 +1,40 @@
-<section class="slide pack pack-casebook" data-design="casebook" data-archetype="before-after">
-  <header class="casebook-dossier"><div class="casebook-fold"><svg class="casebook-fold-ic" viewBox="0 0 40 40" role="img" aria-label="서류철 폴더 아이콘"><path d="M9 5h14l8 8v19a3 3 0 0 1-3 3H9a3 3 0 0 1-3-3V8a3 3 0 0 1 3-3Z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/><path d="M23 5v8h8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/><path d="M12 21h14M12 27h10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg><span class="pack-mark">CASE FILE</span></div><div class="casebook-headrow"><p class="pack-topic">{{TITLE}}</p><p class="pack-kicker">{{KICKER}}</p></div></header>
-  <!-- t2 2톤 문법: 핵심 어절(주로 마지막 어절, 문장당 1회·1~2 어절)을 <em class="t2">…</em>로 감싸면 강조색이 붙는다. flows.json 토큰 값엔 태그를 넣지 않는다(이스케이프됨). 규칙: references/expression.md 1절 -->
-  <h1 class="pack-prompt casebook-question">{{PROMPT}}</h1>
-  <div class="casebook-file">
-    <article class="casebook-narrative"><span class="pack-label">기록 A · 상황과 맥락</span><p class="pack-body">{{BODY}}</p></article>
-    <aside class="casebook-exhibit"><span class="casebook-clip" aria-hidden="true"><svg viewBox="0 0 36 36"><path d="m23 7-9.5 9.5a4.3 4.3 0 0 0 6.1 6.1l9-9a2.9 2.9 0 0 0-4.1-4.1l-9 9a1.6 1.6 0 0 0 2.3 2.3l7.2-7.2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="casebook-stamp">EXHIBIT · 기록 B / 근거</span><p class="pack-evidence">{{EVIDENCE}}</p><p class="casebook-caution">기록된 사실과 나의 해석을 구분합니다.</p></aside>
+<section class="slide pack pack-casebook" data-design="casebook" data-archetype="build-up">
+  <div class="casebook-stage">
+    <article class="casebook-file">
+      <div class="casebook-folder-tab" aria-hidden="true"><svg viewBox="0 0 36 36"><path d="M8 5h13l7 7v17a2.5 2.5 0 0 1-2.5 2.5h-17A2.5 2.5 0 0 1 6 29V7.5A2.5 2.5 0 0 1 8.5 5Z" fill="none" stroke="currentColor" stroke-width="2.3"/><path d="M21 5v7h7" fill="none" stroke="currentColor" stroke-width="2.3"/><path d="M11 20h12M11 25h8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>CASE FILE #01</span></div>
+      <div class="casebook-paper-inner">
+        <header class="casebook-meta-row"><p class="pack-topic">{{TITLE}}</p><p class="pack-kicker">{{KICKER}}</p></header>
+        <div class="casebook-meta-small" aria-hidden="true"><span>OBSERVATION RECORD</span><span>OPEN / UNRESOLVED</span></div>
+        <!-- t2 2톤 문법: 핵심 어절(주로 마지막 어절, 문장당 1회·1~2 어절)을 <em class="t2">…</em>로 감싸면 강조색이 붙는다. flows.json 토큰 값엔 태그를 넣지 않는다(이스케이프됨). 규칙: references/expression.md 1절 -->
+        <h1 class="pack-prompt casebook-question">{{PROMPT}}</h1>
+        <section class="casebook-record" aria-label="기록 A">
+          <div class="casebook-record-label">기록 A · 상황과 맥락</div>
+          <div class="casebook-record-note" aria-hidden="true">FIELD<br>TYPEWRITTEN<br>LOG</div>
+          <p class="pack-body">{{BODY}}</p>
+        </section>
+        <footer class="pack-footer casebook-verdict">
+          <div class="casebook-vlabel"><strong>이 사례에서 내릴 판단</strong><span aria-hidden="true">DECISION STRIP</span></div>
+          <p class="pack-action">{{ACTION}}</p>
+          <svg class="casebook-check" viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="17" fill="none" stroke="currentColor" stroke-width="2.8"/><path d="M13.5 22.4 19.3 28 31 16.2" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </footer>
+      </div>
+    </article>
+    <aside class="casebook-evidence-sheet">
+      <svg class="casebook-metal-clip" viewBox="0 0 96 118" aria-hidden="true"><path d="M48 13c18 0 28 12 28 29v50c0 14-10 23-23 23H42c-13 0-23-9-23-23V44c0-18 10-29 28-29h1c15 0 24 10 24 24v47c0 9-7 15-15 15h-8c-8 0-15-6-15-15V47c0-12 7-20 18-20" fill="none" stroke="#C8CCC8" stroke-width="9" stroke-linecap="round"/><path d="M48 13c18 0 28 12 28 29v50c0 14-10 23-23 23H42c-13 0-23-9-23-23V44c0-18 10-29 28-29h1c15 0 24 10 24 24v47c0 9-7 15-15 15h-8c-8 0-15-6-15-15V47c0-12 7-20 18-20" fill="none" stroke="#F2F4EF" stroke-width="3" stroke-linecap="round" opacity=".75"/></svg>
+      <div class="casebook-sheet-inner">
+        <div class="casebook-sheet-meta" aria-hidden="true"><b>EXHIBIT A</b><span>VERIFICATION FILE / 01</span></div>
+        <div class="casebook-stamp-wrap" aria-hidden="true">
+          <svg class="casebook-rubber-stamp" viewBox="0 0 372 106"><rect class="cream-patch" x="8" y="8" width="356" height="90" rx="2"/><rect x="13" y="13" width="346" height="80" rx="4" fill="none" stroke="#C83E2B" stroke-width="4" opacity=".92"/><rect x="22" y="22" width="328" height="62" rx="2" fill="none" stroke="#C83E2B" stroke-width="1.6" opacity=".78"/><circle cx="54" cy="53" r="25" fill="none" stroke="#C83E2B" stroke-width="3" opacity=".88"/><path d="M41 53h26M54 40v26" stroke="#C83E2B" stroke-width="2" opacity=".8"/><text x="92" y="47" font-size="23" fill="#1A1F1D">EXHIBIT A ·</text><text x="92" y="75" font-size="21" fill="#1A1F1D">검증 기록</text><path d="M18 19l32-5M282 88l55-7M226 18l69 5" stroke="#C83E2B" stroke-width="1" opacity=".35"/></svg>
+          <div class="casebook-tape"></div>
+        </div>
+        <div class="casebook-exhibit-label"><strong>기록 B · 곁에 두는 근거</strong><span aria-hidden="true">CHAIN OF NOTE</span></div>
+        <p class="pack-evidence">{{EVIDENCE}}</p>
+        <div class="casebook-divider" aria-hidden="true"></div>
+        <svg class="casebook-forensics" viewBox="0 0 610 178" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="95" cy="76" r="47"/><path d="M130 112l58 50"/><path d="M75 74c10-22 35-28 52-13M68 91c18 22 52 19 64-6M84 52c24-10 49 7 52 32" opacity=".65"/><path d="M258 36c38-20 88-8 111 28M244 73c26-31 80-36 113-8M240 111c33-23 83-20 112 8M264 147c28-15 65-13 88 7" opacity=".78"/><path d="M302 51c22 3 40 19 45 41M287 83c20-8 43 1 54 20M286 119c20-6 39 2 50 18" opacity=".62"/><path d="M431 43h132M431 78h106M431 113h132M431 148h82"/></g><g fill="none" stroke="#C83E2B" stroke-width="3" stroke-linecap="round"><path d="M28 146h122"/><path d="M431 24h86"/></g></svg>
+        <div class="casebook-caution">기록된 사실과 해석을 구분합니다.</div>
+      </div>
+    </aside>
   </div>
-  <footer class="pack-footer casebook-decision"><svg class="casebook-check" viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="18" fill="none" stroke="currentColor" stroke-width="3"/><path d="M13 22.5 19.5 29 32 16" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div><span class="pack-label">이 사례에서 내릴 판단</span><p class="pack-action">{{ACTION}}</p></div></footer>
   <aside class="notes">{{KICKER}}
 상황을 읽은 뒤 바로 정답을 설명하지 마세요. 학습자가 기록된 사실과 해석을 구분하고 판단의 근거를 말하게 하세요.
 {{BODY}}

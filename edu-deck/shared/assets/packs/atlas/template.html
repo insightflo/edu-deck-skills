@@ -1,40 +1,126 @@
-<section class="slide pack pack-atlas" data-design="atlas" data-archetype="map">
-  <header class="pack-topline atlas-head">
-    <div class="atlas-id">
-      <span class="atlas-ico" aria-hidden="true"><svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="28" cy="28" r="22"/><path d="M28 6v6M28 44v6M6 28h6M44 28h6"/><path d="M28 14l5.5 14-5.5 14-5.5-14z" fill="currentColor" stroke="none" opacity=".9"/><circle cx="28" cy="28" r="3.2" stroke-width="2.2"/></svg></span>
-      <span class="atlas-idtext"><span class="atlas-word">ATLAS</span><span class="atlas-sub">개념의 위치 · 좌표도</span></span>
+<section class="slide pack pack-atlas" data-design="atlas" data-archetype="build-up">
+  <div class="atlas-stage">
+    <div class="atlas-graticule" aria-hidden="true"></div>
+    <svg class="atlas-terrain" viewBox="0 0 1920 1080" preserveAspectRatio="none" aria-hidden="true">
+      <g fill="none" stroke="#5E8792" stroke-width="1.25" stroke-linecap="round">
+        <path d="M-60 172 C170 78 318 226 536 142 C704 78 856 62 1038 154 C1248 260 1418 236 1588 130 C1712 54 1846 58 1980 118" opacity=".26"></path>
+        <path d="M-60 248 C180 156 360 284 566 218 C760 156 902 132 1070 216 C1270 316 1458 294 1628 194 C1762 114 1854 132 1980 186" opacity=".20"></path>
+        <path d="M-60 360 C164 286 348 386 570 326 C790 266 930 238 1118 320 C1338 418 1518 386 1690 282 C1800 216 1888 230 1980 270" opacity=".18"></path>
+        <path d="M-80 836 C160 750 362 864 590 798 C804 736 968 730 1160 806 C1378 894 1550 858 1716 754 C1838 678 1908 706 1990 748" opacity=".25"></path>
+        <path d="M-80 916 C178 838 386 942 624 878 C830 824 1000 812 1196 884 C1418 966 1586 934 1744 842 C1854 778 1920 796 1990 832" opacity=".18"></path>
+        <path d="M124 1120 C338 1014 510 1030 676 954 C806 896 944 894 1082 958 C1236 1030 1410 1022 1548 934 C1646 872 1750 868 1848 916" opacity=".14"></path>
+        <path d="M1110 96 C1194 40 1332 46 1408 122 C1480 194 1470 296 1394 344 C1302 402 1168 366 1118 272 C1076 194 1058 130 1110 96Z" opacity=".23"></path>
+        <path d="M1152 134 C1218 92 1320 96 1372 154 C1424 212 1410 282 1352 312 C1284 348 1196 324 1164 258 C1138 206 1126 154 1152 134Z" opacity=".19"></path>
+        <path d="M1198 174 C1244 146 1314 152 1344 192 C1374 232 1358 274 1318 290 C1272 308 1222 288 1204 246 C1190 214 1184 186 1198 174Z" opacity=".16"></path>
+        <path d="M286 596 C344 548 448 548 506 604 C560 656 552 730 492 764 C420 804 318 776 284 704 C258 650 256 620 286 596Z" opacity=".20"></path>
+        <path d="M328 636 C368 606 432 610 466 646 C498 682 488 724 446 742 C398 762 344 744 326 704 C310 672 310 650 328 636Z" opacity=".16"></path>
+      </g>
+      <g stroke="#0F2C38" stroke-width="1.4" opacity=".34">
+        <path d="M72 96v18M63 105h18M1848 96v18M1839 105h18M72 958v18M63 967h18M1848 958v18M1839 967h18"></path>
+        <path d="M960 22v18M951 31h18M960 1040v18M951 1049h18"></path>
+      </g>
+      <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="12" font-weight="700" letter-spacing="2" fill="#315B6A" opacity=".62">
+        <text x="82" y="38">N37°00′</text>
+        <text x="1788" y="38">N38°00′</text>
+        <text x="82" y="994">E126°00′</text>
+        <text x="1778" y="994">E128°00′</text>
+      </g>
+    </svg>
+    <header class="atlas-header">
+      <div class="atlas-kicker-row">
+        <span class="atlas-route-label" data-label="ATLAS // LEARNING ROUTE" aria-hidden="true"></span>
+        <span class="rule" aria-hidden="true"></span>
+        <p class="pack-kicker">{{KICKER}}</p>
+        <span class="atlas-sheet" data-label="MAP SHEET 01" aria-hidden="true"></span>
+      </div>
+      <p class="pack-topic">{{TITLE}}</p>
+      <!-- t2 2톤 문법: 핵심 어절(주로 마지막 어절, 문장당 1회·1~2 어절)을 <em class="t2">…</em>로 감싸면 강조색이 붙는다. flows.json 토큰 값엔 태그를 넣지 않는다(이스케이프됨). 규칙: references/expression.md 1절 -->
+      <h1 class="pack-prompt">{{PROMPT}}</h1>
+      <div class="atlas-header-note" aria-hidden="true"><span data-label="GRID N37° / E127°"></span><span data-label="ROUTE SCALE · CONCEPTUAL"></span></div>
+    </header>
+    <div class="atlas-coordbox" aria-hidden="true">
+      <span class="coord-title" data-label="ROUTING INDEX"></span>
+      <span data-label="DEPARTURE A · 개념"></span>
+      <span data-label="ARRIVAL B/C · 근거와 적용"></span>
+      <span data-label="PROJECTION · LOCAL GRID"></span>
     </div>
-    <p class="pack-topic">{{TITLE}}</p>
-  </header>
-  <!-- t2 2톤 문법: 핵심 어절(주로 마지막 어절, 문장당 1회·1~2 어절)을 <em class="t2">…</em>로 감싸면 강조색이 붙는다. flows.json 토큰 값엔 태그를 넣지 않는다(이스케이프됨). 규칙: references/expression.md 1절 -->
-  <div class="atlas-heading">
-    <div class="atlas-kicker"><svg class="atlas-cross" viewBox="0 0 26 26" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="13" cy="13" r="7.5"/><path d="M13 1v5M13 20v5M1 13h5M20 13h5"/></svg><p class="pack-kicker">{{KICKER}}</p></div>
-    <h1 class="pack-prompt">{{PROMPT}}</h1>
-  </div>
-  <div class="atlas-map">
-    <svg class="atlas-contours" viewBox="0 0 1688 560" preserveAspectRatio="none" aria-hidden="true" fill="none" stroke="currentColor">
-      <path d="M-40 118 C 240 40, 540 196, 880 122 S 1480 62, 1730 132" stroke-width="1.6" opacity=".30"/>
-      <path d="M-40 192 C 280 112, 580 252, 920 184 S 1520 122, 1730 202" stroke-width="1.6" opacity=".24"/>
-      <path d="M-40 428 C 280 348, 620 486, 940 416 S 1540 354, 1730 436" stroke-width="1.6" opacity=".27"/>
-      <path d="M-40 506 C 320 436, 660 542, 1010 486 S 1560 434, 1730 510" stroke-width="1.6" opacity=".2"/>
-      <circle cx="1460" cy="96" r="27" stroke-width="1.4" opacity=".3"/>
-      <circle cx="1460" cy="96" r="42" stroke-width="1.4" opacity=".18"/>
-      <path d="M214 62v20M204 72h20M1474 478v20M1464 488h20" stroke-width="1.6" opacity=".35"/>
+    <svg class="atlas-route-layer" viewBox="0 0 1920 1080" aria-hidden="true">
+      <path d="M430 780 C610 780 724 714 846 654 C912 622 954 602 990 590" fill="none" stroke="#EEF4F5" stroke-width="17" stroke-linecap="round" opacity=".92"></path>
+      <path d="M990 590 C1120 525 1235 480 1355 460" fill="none" stroke="#EEF4F5" stroke-width="17" stroke-linecap="round" opacity=".92"></path>
+      <path d="M990 590 C1130 520 1330 365 1512 285" fill="none" stroke="#EEF4F5" stroke-width="17" stroke-linecap="round" opacity=".92"></path>
+      <path d="M430 780 C610 780 724 714 846 654 C912 622 954 602 990 590" fill="none" stroke="#1D63B8" stroke-width="7" stroke-linecap="round"></path>
+      <path d="M990 590 C1120 525 1235 480 1355 460" fill="none" stroke="#1D63B8" stroke-width="7" stroke-linecap="round"></path>
+      <path d="M990 590 C1130 520 1330 365 1512 285" fill="none" stroke="#E0523A" stroke-width="7" stroke-linecap="round" stroke-dasharray="18 10"></path>
+      <path d="M1355 460 1322 454 1334 484Z" fill="#1D63B8"></path>
+      <path d="M1512 285 1480 291 1496 319Z" fill="#E0523A"></path>
+      <g fill="#EEF4F5" stroke="#1D63B8" stroke-width="4">
+        <circle cx="690" cy="724" r="13"></circle>
+        <circle cx="1168" cy="512" r="13"></circle>
+      </g>
+      <g fill="#E0523A" stroke="#EEF4F5" stroke-width="4">
+        <circle cx="1248" cy="410" r="10"></circle>
+      </g>
+      <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="12" font-weight="850" letter-spacing="1.8" fill="#315B6A">
+        <text x="666" y="758">WP-01</text>
+        <text x="1144" y="546">WP-02</text>
+        <text x="1224" y="444">LEG C</text>
+      </g>
+      <g fill="#E0523A" stroke="#EEF4F5" stroke-width="5">
+        <circle cx="1355" cy="460" r="15"></circle>
+        <circle cx="1512" cy="285" r="15"></circle>
+      </g>
     </svg>
-    <article class="atlas-origin"><span class="atlas-coordinate">A · 개념</span><p class="pack-body">{{BODY}}</p></article>
-    <svg class="atlas-route" viewBox="0 0 220 560" preserveAspectRatio="none" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round">
-      <path class="rb" d="M8 280 C 116 280 116 140 208 140"/>
-      <path class="ra" d="M8 280 C 116 280 116 420 208 420"/>
-      <path class="rb ah" d="M194 128 212 140 194 152"/>
-      <path class="ra ah" d="M194 408 212 420 194 432"/>
-      <circle class="wp wpb" cx="118" cy="210" r="7"/>
-      <circle class="wp wpa" cx="118" cy="350" r="7"/>
-      <circle class="port" cx="8" cy="280" r="8"/>
-    </svg>
-    <aside class="atlas-source"><span class="atlas-coordinate">B · 근거와 연결</span><p class="pack-evidence">{{EVIDENCE}}</p></aside>
-    <div class="atlas-destination"><span class="atlas-coordinate">C · 적용할 곳</span><p class="pack-action">{{ACTION}}</p></div>
+    <div class="atlas-origin-wrap">
+      <div class="atlas-origin-ring" aria-hidden="true"></div>
+      <section class="atlas-origin" aria-label="출발 지점 A 개념">
+        <div class="atlas-origin-mark" data-label="A · 개념" aria-hidden="true"></div>
+        <p class="pack-body">{{BODY}}</p>
+        <div class="atlas-origin-coord" data-label="START · N37°31′ E127°02′" aria-hidden="true"></div>
+      </section>
+    </div>
+    <div class="atlas-compass" aria-hidden="true">
+      <svg viewBox="0 0 330 330">
+        <circle cx="165" cy="165" r="151" fill="rgba(238,244,245,.78)" stroke="#0F2C38" stroke-width="2"></circle>
+        <circle cx="165" cy="165" r="126" fill="none" stroke="#1D63B8" stroke-width="1.5" stroke-dasharray="4 8"></circle>
+        <circle cx="165" cy="165" r="82" fill="none" stroke="#0F2C38" stroke-width="1" opacity=".38"></circle>
+        <g stroke="#0F2C38" stroke-width="2" opacity=".72">
+          <path d="M165 18v34M165 278v34M18 165h34M278 165h34"></path>
+          <path d="M61 61l24 24M245 245l24 24M269 61l-24 24M85 245l-24 24" stroke-width="1.4"></path>
+        </g>
+        <path d="M165 52 L190 165 L165 278 L140 165 Z" fill="#1D63B8" opacity=".95"></path>
+        <path d="M52 165 L165 140 L278 165 L165 190 Z" fill="#E0523A" opacity=".88"></path>
+        <path d="M165 91 L181 165 L165 239 L149 165 Z" fill="#0F2C38" opacity=".88"></path>
+        <circle cx="165" cy="165" r="18" fill="#EEF4F5" stroke="#0F2C38" stroke-width="2"></circle>
+        <circle cx="165" cy="165" r="6" fill="#E0523A"></circle>
+        <g font-family="var(--pack-sans)" font-size="15" font-weight="850" fill="#0F2C38" text-anchor="middle">
+          <text x="165" y="43">N</text>
+          <text x="165" y="303">S</text>
+          <text x="302" y="171">E</text>
+          <text x="28" y="171">W</text>
+        </g>
+      </svg>
+    </div>
+    <section class="atlas-destination atlas-evidence" aria-label="도착 지점 B 근거">
+      <div class="atlas-pin-label" data-label="B · 근거" aria-hidden="true"></div>
+      <p class="pack-evidence">{{EVIDENCE}}</p>
+      <span class="atlas-fix" data-label="EVIDENCE FIX · OBSERVED RECORD" aria-hidden="true"></span>
+    </section>
+    <section class="atlas-destination atlas-action" aria-label="도착 지점 C 적용">
+      <div class="atlas-pin-label" data-label="C · 적용" aria-hidden="true"></div>
+      <p class="pack-action">{{ACTION}}</p>
+      <span class="atlas-fix" data-label="ACTION FIX · WRITE ONE SENTENCE" aria-hidden="true"></span>
+    </section>
+    <div class="atlas-map-note" aria-hidden="true">관계도 · 거리와 면적은 수치를 나타내지 않습니다. 항로는 개념에서 근거와 적용으로 이동하는 학습 순서를 뜻합니다.</div>
+    <footer class="atlas-legend" aria-hidden="true">
+      <span class="item"><i class="dot"></i><em data-label="개념·목적지 랜드마크"></em></span>
+      <span class="item"><i class="swatch"></i><em data-label="근거 연결 항로"></em></span>
+      <span class="item"><i class="swatch dash"></i><em data-label="적용 항로"></em></span>
+      <span class="spacer"></span>
+      <span data-label="SCALE"></span>
+      <span class="scale"><span class="zero">0</span><span class="mid">1</span><span class="end">2</span><span class="bar"><i></i><i></i><i></i><i></i></span></span>
+      <span data-label="CONCEPTUAL UNITS"></span>
+    </footer>
   </div>
-  <footer class="pack-footer atlas-legend"><span><i class="atlas-dot" aria-hidden="true"></i>개념</span><span><i class="atlas-solid" aria-hidden="true"></i>근거 연결</span><span><i class="atlas-dash" aria-hidden="true"></i>적용 경로</span><p class="pack-hint">관계도 · 거리와 면적은 수치를 나타내지 않습니다.</p></footer>
   <aside class="notes">{{KICKER}}
 도해는 수치 지도가 아니라 개념, 근거, 적용 사이의 관계를 나타냅니다. 왼쪽 개념에서 오른쪽 근거와 적용으로 연결을 따라 설명하세요.
 {{BODY}}

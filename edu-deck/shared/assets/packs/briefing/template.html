@@ -1,16 +1,83 @@
-<section class="slide pack pack-briefing" data-design="briefing" data-archetype="compare-table">
-  <header class="briefing-header">
-    <span class="briefing-brand"><svg class="briefing-ico" viewBox="0 0 44 44" aria-hidden="true"><rect x="5" y="5" width="21" height="27" rx="3"/><path d="M10 12h11M10 17h11M10 22h6"/><circle cx="27" cy="26" r="8"/><path d="M32.5 31.5 39 38"/></svg><span class="pack-mark">BRIEFING / 판단을 위한 자료</span></span>
-    <p class="pack-topic">{{TITLE}}</p>
-  </header>
-  <!-- t2 2톤 문법: 핵심 어절(주로 마지막 어절, 문장당 1회·1~2 어절)을 <em class="t2">…</em>로 감싸면 강조색이 붙는다. flows.json 토큰 값엔 태그를 넣지 않는다(이스케이프됨). 규칙: references/expression.md 1절 -->
-  <div class="briefing-thesis"><p class="pack-kicker">{{KICKER}}</p><h1 class="pack-prompt">{{PROMPT}}</h1></div>
-  <dl class="briefing-ledger">
-    <div class="briefing-row"><dt><span class="briefing-medal" aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="11" y="7" width="26" height="34" rx="3"/><path d="M17 17h14M17 23h14M17 29h9"/></svg></span><span class="briefing-dt"><span class="pack-index">01</span>핵심 내용</span></dt><dd class="pack-body">{{BODY}}</dd><dd class="briefing-readout">무엇을 알아야 하는가</dd></div>
-    <div class="briefing-row"><dt><span class="briefing-medal" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="21" cy="20" r="12"/><path d="M30 29l9 9"/><path d="M15.5 20l4 4 8-8"/></svg></span><span class="briefing-dt"><span class="pack-index">02</span>판단 근거</span></dt><dd class="pack-evidence">{{EVIDENCE}}</dd><dd class="briefing-readout">무엇으로 확인할 것인가</dd></div>
-    <div class="briefing-row briefing-decision"><dt><span class="briefing-medal" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M11 24h23M25 14l10 10-10 10"/></svg></span><span class="briefing-dt"><span class="pack-index">03</span>다음 행동</span></dt><dd class="pack-action">{{ACTION}}</dd><dd class="briefing-readout">무엇을 할 것인가</dd></div>
-  </dl>
-  <footer class="pack-footer briefing-footnote"><span>자료 → 해석 → 행동</span><p>수치가 있다면 단위 · 기간 · 비교 기준을 함께 확인하세요.</p></footer>
+<section class="slide pack pack-briefing" data-design="briefing" data-archetype="build-up">
+  <div class="briefing-stage">
+    <div class="briefing-board">
+      <section class="briefing-left" aria-label="브리핑 명제">
+        <header class="briefing-head"><span>Executive Briefing</span><span class="briefing-rule" aria-hidden="true"></span><span>Decision first</span></header>
+        <p class="pack-kicker">{{KICKER}}</p>
+        <p class="pack-topic briefing-topic">{{TITLE}}</p>
+        <p class="briefing-note">해결책보다 관찰을 먼저 놓는 임원용 판단 보드</p>
+        <div class="briefing-art" aria-hidden="true">
+          <svg viewBox="0 0 680 314">
+            <g opacity=".48" stroke="#253C61" stroke-width="1">
+              <path d="M0 276H680M0 226H680M0 176H680M0 126H680M0 76H680"/>
+              <path d="M80 20V300M180 20V300M280 20V300M380 20V300M480 20V300M580 20V300"/>
+            </g>
+            <path d="M78 262L340 42L604 262Z" fill="#4F8BFF" fill-opacity=".07" stroke="#4F8BFF" stroke-width="2.4"/>
+            <path d="M340 42L340 262M78 262L238 150L604 262M238 150L340 42" fill="none" stroke="#759FFF" stroke-width="1.35" opacity=".72"/>
+            <path d="M112 262C176 220 216 220 274 184S362 118 438 132S548 199 604 154" fill="none" stroke="#6FA2FF" stroke-width="4" stroke-linecap="round"/>
+            <g opacity=".92">
+              <circle cx="112" cy="262" r="8" fill="#4F8BFF"/>
+              <circle cx="274" cy="184" r="8" fill="#F2B84B"/>
+              <circle cx="438" cy="132" r="8" fill="#4F8BFF"/>
+              <circle cx="604" cy="154" r="8" fill="#F2B84B"/>
+            </g>
+            <g transform="translate(590 38)">
+              <rect x="0" y="0" width="42" height="112" rx="21" fill="#0D1930" stroke="#42608F" stroke-width="1.4"/>
+              <circle cx="21" cy="23" r="8.5" fill="#F2B84B"/>
+              <circle cx="21" cy="56" r="8.5" fill="#4F8BFF"/>
+              <circle cx="21" cy="89" r="8.5" fill="#263B5B" stroke="#6F7F98" stroke-width="1"/>
+            </g>
+            <g fill="#AAB5C8" font-family="Pretendard, sans-serif" font-size="13" font-weight="700" letter-spacing="2.2">
+              <text x="78" y="296">OBSERVE</text>
+              <text x="286" y="296">VERIFY</text>
+              <text x="530" y="296">DECIDE</text>
+            </g>
+            <g stroke="#F2B84B" stroke-width="1.4" opacity=".9">
+              <path d="M36 262h24M48 250v24"/>
+              <path d="M628 132h24M640 120v24"/>
+            </g>
+          </svg>
+          <div class="briefing-caption"><span>signal geometry</span><span>evidence first</span></div>
+        </div>
+      </section>
+
+      <section class="briefing-stack" aria-label="근거와 실행 장부">
+        <header class="briefing-stack-head"><span>Evidence ledger</span><span>관찰 → 근거 → 실행</span></header>
+        <div class="briefing-rows">
+          <!-- t2 2톤 문법: 핵심 어절(주로 마지막 어절, 문장당 1회·1~2 어절)을 <em class="t2">…</em>로 감싸면 강조색이 붙는다. flows.json 토큰 값엔 태그를 넣지 않는다(이스케이프됨). 규칙: references/expression.md 1절 -->
+          <article class="briefing-row">
+            <div class="briefing-num">01</div>
+            <div class="briefing-copy">
+              <h2 class="briefing-label">핵심 <small>Core observation</small></h2>
+              <h1 class="pack-prompt">{{PROMPT}}</h1>
+              <p class="pack-body">{{BODY}}</p>
+            </div>
+          </article>
+          <article class="briefing-row">
+            <div class="briefing-num">02</div>
+            <div class="briefing-copy">
+              <h2 class="briefing-label">근거 <small>Evidence standard</small></h2>
+              <p class="pack-evidence">{{EVIDENCE}}</p>
+            </div>
+          </article>
+          <article class="briefing-row briefing-action-row">
+            <div class="briefing-num">03</div>
+            <div class="briefing-copy">
+              <h2 class="briefing-label">다음 행동 <small>Next move</small></h2>
+              <p class="pack-action">{{ACTION}}</p>
+            </div>
+            <div class="briefing-action-tail" aria-hidden="true">
+              <svg viewBox="0 0 72 72">
+                <path d="M8 38h38M34 22l16 16-16 16" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="square" stroke-linejoin="miter"/>
+                <text x="6" y="66">COMMIT</text>
+              </svg>
+            </div>
+          </article>
+        </div>
+        <footer class="briefing-footline"><span>BOARD READY</span><span>OBSIDIAN FORMAT</span></footer>
+      </section>
+    </div>
+  </div>
   <aside class="notes">{{KICKER}}
 핵심 내용과 그 근거를 구분해 읽으세요. 수치가 포함되면 단위, 측정 기간, 비교 대상을 확인하고 없는 값을 임의로 채우지 마세요.
 {{BODY}}

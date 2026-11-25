@@ -1,10 +1,72 @@
-<section class="slide pack pack-seminar" data-design="seminar" data-archetype="hub">
-  <header class="pack-topline"><span class="pack-mark">SEMINAR / 함께 생각하기</span><p class="pack-topic">{{TITLE}}</p><p class="pack-kicker">{{KICKER}}</p></header>
-  <div class="seminar-room">
-    <!-- t2 2톤 문법: 핵심 어절(주로 마지막 어절, 문장당 1회·1~2 어절)을 <em class="t2">…</em>로 감싸면 강조색이 붙는다. flows.json 토큰 값엔 태그를 넣지 않는다(이스케이프됨). 규칙: references/expression.md 1절 -->
-    <div class="seminar-floor"><svg class="seminar-quote" viewBox="0 0 100 74" aria-hidden="true"><path d="M8 66V38C8 20 20 10 40 8l4 12C32 24 26 30 25 38h15v28H8V66zm56 0V38c0-18 12-28 32-30l4 12c-12 4-18 10-19 18h15v28H56V66z"/></svg><h1 class="pack-prompt">{{PROMPT}}</h1><p class="pack-body">{{BODY}}</p><div class="seminar-turns" aria-label="생각하기, 나누기, 연결하기"><span>혼자 생각</span><b aria-hidden="true">/</b><span>서로 듣기</span><b aria-hidden="true">/</b><span>함께 연결</span></div></div>
+<section class="slide pack pack-seminar" data-design="seminar" data-archetype="build-up">
+  <div class="seminar-stage">
+    <section class="seminar-left" aria-label="세미나 질문">
+      <div class="seminar-quote-mark" aria-hidden="true">“</div>
+      <div class="seminar-left-inner">
+        <header class="seminar-salon-head"><span>Philosophy Salon</span><span class="seminar-line" aria-hidden="true"></span><span>Seminar</span></header>
+        <p class="pack-kicker">{{KICKER}}</p>
+        <div class="seminar-question-zone">
+          <!-- t2 2톤 문법: 핵심 어절(주로 마지막 어절, 문장당 1회·1~2 어절)을 <em class="t2">…</em>로 감싸면 강조색이 붙는다. flows.json 토큰 값엔 태그를 넣지 않는다(이스케이프됨). 규칙: references/expression.md 1절 -->
+          <h1 class="pack-prompt">{{PROMPT}}</h1>
+          <p class="seminar-question-rule">해결책보다 질문을 먼저 오래 바라보기</p>
+        </div>
+        <footer class="seminar-left-bottom">
+          <p class="seminar-side-label">오늘의 세미나</p>
+          <p class="pack-topic">{{TITLE}}</p>
+          <div class="seminar-turns" aria-label="혼자 생각, 서로 듣기, 함께 연결"><span>혼자 생각</span><i aria-hidden="true"></i><span>서로 듣기</span><i aria-hidden="true"></i><span>함께 연결</span></div>
+        </footer>
+      </div>
+    </section>
+
+    <section class="seminar-right" aria-label="세미나 본문과 발화 초대">
+      <div class="seminar-right-inner">
+        <header class="seminar-editorial-head"><span>Gallery catalogue</span><span>Dialogue notes</span></header>
+        <div class="seminar-intro">
+          <p class="seminar-section-label">대화를 시작하기 전에</p>
+          <p class="pack-body">{{BODY}}</p>
+        </div>
+        <section class="seminar-preparation" aria-label="대화에 가져올 근거">
+          <h2>대화에 가져올 근거</h2>
+          <p class="pack-evidence">{{EVIDENCE}}</p>
+        </section>
+        <section class="seminar-pull" aria-label="진행 원칙">
+          <div class="seminar-mark" aria-hidden="true">“</div>
+          <blockquote>질문을 먼저 오래 바라보기<cite>Silent first</cite></blockquote>
+        </section>
+        <section class="seminar-invitation" aria-label="발화 초대">
+          <div class="seminar-call">
+            <p class="seminar-section-label">이제, 여러분의 차례</p>
+            <p class="pack-action">{{ACTION}}</p>
+            <p class="seminar-cue">먼저 적고, 그 다음에 서로의 문장을 듣습니다</p>
+          </div>
+          <div class="seminar-dialogue-art" aria-hidden="true">
+            <svg viewBox="0 0 372 176">
+              <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M38 118c18-36 48-55 82-48 26 5 39 24 58 24s34-19 58-22c34-4 66 18 82 46" stroke="#5E1924" stroke-width="2.4"/>
+                <path d="M62 116c10-18 28-29 48-25M260 91c22-4 40 7 52 25" stroke="#C89B54" stroke-width="1.8" opacity=".9"/>
+                <path d="M116 48c-12 10-19 23-20 39M256 48c12 10 19 23 20 39" stroke="#5E1924" stroke-width="2" opacity=".75"/>
+                <path d="M96 46c18-16 44-20 68-10M208 36c24-10 50-6 68 10" stroke="#C89B54" stroke-width="2.2"/>
+                <path d="M143 34c13 7 25 14 43 14s30-7 43-14" stroke="#C89B54" stroke-width="1.6" stroke-dasharray="2 7"/>
+              </g>
+              <g>
+                <circle cx="116" cy="48" r="8" fill="#5E1924"/>
+                <circle cx="256" cy="48" r="8" fill="#5E1924"/>
+                <circle cx="186" cy="48" r="5" fill="#C89B54"/>
+                <circle cx="38" cy="118" r="5" fill="#C89B54"/>
+                <circle cx="318" cy="118" r="5" fill="#C89B54"/>
+              </g>
+              <g fill="#6E5B55" font-family="Pretendard, sans-serif" font-size="12" font-weight="800" letter-spacing="2">
+                <text x="70" y="154">LISTEN</text>
+                <text x="162" y="154">CONNECT</text>
+                <text x="270" y="154">SPEAK</text>
+              </g>
+            </svg>
+          </div>
+        </section>
+        <footer class="seminar-colophon"><span>Deep burgundy</span><span>Warm ivory</span></footer>
+      </div>
+    </section>
   </div>
-  <footer class="pack-footer seminar-preparation"><div class="seminar-source"><span class="pack-label">대화에 가져올 근거</span><p class="pack-evidence">{{EVIDENCE}}</p></div><div class="seminar-invitation"><svg class="seminar-bubble" viewBox="0 0 56 56" aria-hidden="true"><path class="b-b" d="M10 8h36a6 6 0 0 1 6 6v16a6 6 0 0 1-6 6H28L16 46v-10h-6a6 6 0 0 1-6-6V14a6 6 0 0 1 6-6z"/><circle class="b-d" cx="20" cy="22" r="2"/><circle class="b-d" cx="28" cy="22" r="2"/><circle class="b-d" cx="36" cy="22" r="2"/></svg><div class="seminar-call"><span class="pack-label">이제, 여러분의 차례</span><p class="pack-action">{{ACTION}}</p></div></div></footer>
   <aside class="notes">{{KICKER}}
 먼저 조용히 생각할 시간을 주세요. 서로 다른 답을 듣고, 각 답이 어떤 근거에 기대는지 질문하세요. 동의 여부보다 이유를 설명하도록 돕습니다.
 {{BODY}}

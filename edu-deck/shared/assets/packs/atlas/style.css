@@ -1,56 +1,68 @@
-/* 지도·도해형 — 좌표 격자·은은한 등고선 위 공간 관계 지도.
-   나침반 좌표 헤더 + 좌표 칩 질문 + 곡선 경로도(개념→근거·적용) + 범례. */
-.slide.pack-atlas{gap:24px}
-/* 좌표 헤더 — 나침반 아이콘 + ATLAS 워드 + 눈금자 */
-.atlas-head{position:relative;display:flex;align-items:center;gap:32px;padding-bottom:18px;border-bottom:1.5px solid var(--ink)}
-.atlas-head::after{content:"";position:absolute;left:0;right:0;top:100%;height:10px;
-  background-image:
-    repeating-linear-gradient(90deg,var(--ink) 0 1.5px,transparent 1.5px 120px),
-    repeating-linear-gradient(90deg,color-mix(in srgb,var(--ink) 55%,transparent) 0 1px,transparent 1px 24px);
-  background-size:auto 10px,auto 5px;background-repeat:repeat-x}
-.atlas-id{display:flex;align-items:center;gap:16px;flex:none}
-.atlas-ico{width:64px;height:64px;flex:none;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--paper);border:2px solid var(--accent);color:var(--accent-text);box-shadow:var(--shadow-1)}
-.atlas-ico svg{width:54px;height:54px}
-.atlas-idtext{display:flex;flex-direction:column;gap:2px}
-.atlas-word{font-family:var(--pack-serif);font-size:30px;font-weight:800;letter-spacing:.18em;line-height:1.1}
-.atlas-sub{font-size:20px;font-weight:700;letter-spacing:.1em;color:var(--soft);white-space:nowrap}
-.atlas-head .pack-topic{flex:1;min-width:0;text-align:right}
-/* 질문 행 — 좌표 칩 + 대형 질문 */
-.atlas-heading{display:flex;align-items:flex-start;gap:34px}
-.atlas-kicker{flex:none;max-width:560px;display:inline-flex;align-items:center;gap:12px;margin-top:10px;padding:12px 22px;background:var(--paper);border:1.5px solid color-mix(in srgb,var(--accent) 42%,transparent);border-radius:var(--r1);color:var(--accent-text);box-shadow:0 6px 16px color-mix(in srgb,var(--ink) 7%,transparent)}
-.atlas-kicker .atlas-cross{width:26px;height:26px;flex:none;color:var(--accent)}
-.atlas-kicker .pack-kicker{font-size:24px;color:var(--accent-text)}
-.atlas-heading .pack-prompt{flex:1;min-width:0;font-size:50px;font-weight:800;line-height:1.28}
-/* 지도 캔버스 — 좌표 격자 + 등고선, 3열: 출발 개념 | 전용 경로도 | 두 목적지 */
-.atlas-map{position:relative;display:grid;grid-template-columns:1.05fr 220px 1.35fr;grid-template-rows:1fr 1fr;flex:1;min-height:0;padding:34px;border:1.5px solid color-mix(in srgb,var(--line) 45%,transparent);border-radius:var(--r3);background-color:var(--paper);
-  background-image:
-    linear-gradient(color-mix(in srgb,var(--blue) 9%,transparent) 1px,transparent 1px),
-    linear-gradient(90deg,color-mix(in srgb,var(--blue) 9%,transparent) 1px,transparent 1px);
-  background-size:44px 44px;box-shadow:var(--shadow-1);overflow:hidden}
-.atlas-contours{position:absolute;inset:0;width:100%;height:100%;color:var(--blue)}
-.atlas-route{grid-column:2;grid-row:1/3;width:100%;height:100%;color:var(--accent)}
-.atlas-route .rb{stroke:var(--blue);stroke-width:3.5;fill:none}
-.atlas-route .ra{stroke:var(--accent);stroke-width:3.5;fill:none;stroke-dasharray:11 9}
-.atlas-route .ah{stroke-dasharray:none}
-.atlas-route .wp{fill:var(--paper);stroke-width:3}
-.atlas-route .wpb{stroke:var(--blue)}
-.atlas-route .wpa{stroke:var(--accent)}
-.atlas-route .port{fill:var(--accent);stroke:var(--paper);stroke-width:3}
-.atlas-origin{grid-column:1;grid-row:1/3;align-self:center;display:flex;flex-direction:column;gap:18px;min-width:0;padding:30px 34px;background:var(--paper);border:2.5px solid var(--accent);border-radius:var(--node-r,var(--r2));box-shadow:0 18px 44px color-mix(in srgb,var(--ink) 14%,transparent),0 0 0 6px var(--paper)}
-.atlas-source,.atlas-destination{grid-column:3;align-self:center;display:flex;flex-direction:column;gap:16px;min-width:0;padding:38px 34px 26px;background:var(--paper);border:1.5px solid color-mix(in srgb,var(--line) 40%,transparent);border-radius:var(--card-r,var(--r2));box-shadow:0 10px 26px color-mix(in srgb,var(--ink) 8%,transparent)}
-.atlas-source{grid-row:1;box-shadow:0 10px 26px color-mix(in srgb,var(--ink) 8%,transparent),inset 0 12px 0 var(--blue)}
-.atlas-destination{grid-row:2;background:color-mix(in srgb,var(--accent) 4%,var(--paper));box-shadow:0 10px 26px color-mix(in srgb,var(--ink) 8%,transparent),inset 0 12px 0 var(--accent)}
-.atlas-coordinate{display:flex;align-items:center;gap:12px;font-family:var(--pack-mono);font-size:22px;font-weight:800;letter-spacing:.08em}
-.atlas-coordinate::before{content:"";width:13px;height:13px;flex:none;border-radius:3px}
-.atlas-origin .atlas-coordinate{color:var(--accent-text)}.atlas-origin .atlas-coordinate::before{background:var(--accent)}
-.atlas-source .atlas-coordinate{color:var(--blue-text)}.atlas-source .atlas-coordinate::before{background:var(--blue)}
-.atlas-destination .atlas-coordinate{color:var(--accent-text)}.atlas-destination .atlas-coordinate::before{background:var(--accent)}
-.atlas-origin .pack-body{font-size:30px;line-height:1.6}
-.atlas-source .pack-evidence,.atlas-destination .pack-action{font-size:27px}
-/* 범례 — 노드·실선(근거)·점선(적용) */
-.atlas-legend{display:flex;align-items:center;gap:34px;font-size:22px}
-.atlas-legend>span{display:flex;align-items:center;gap:14px;white-space:nowrap}
-.atlas-legend .pack-hint{margin-left:auto}
-.atlas-dot{width:16px;height:16px;border:2.5px solid var(--accent);border-radius:50%;background:var(--paper)}
-.atlas-solid,.atlas-dash{width:44px;border-top:3px solid var(--blue)}
-.atlas-dash{border-top-color:var(--accent);border-top-style:dashed}
+/* 등고선 지형도 학습 항로 — 세리프 대형 질문, 나침반 로즈,
+   대각선 항로와 목적지 카드. 템플릿 래퍼가 있을 때만 풀블리드 지도를 연다. */
+.slide.pack-atlas:has(.atlas-stage){padding:0;background:#EEF4F5;color:#0F2C38}
+.atlas-stage{position:absolute;inset:0;overflow:hidden;background:#EEF4F5;color:#0F2C38;font-family:var(--pack-sans)}
+.atlas-stage::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 23% 78%,rgba(29,99,184,.08),transparent 25%),radial-gradient(circle at 84% 24%,rgba(224,82,58,.055),transparent 24%)}
+.atlas-graticule{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(108,141,152,.14) 1px,transparent 1px),linear-gradient(90deg,rgba(108,141,152,.14) 1px,transparent 1px);background-size:160px 160px}
+.atlas-terrain{position:absolute;inset:0;width:1920px;height:1080px;z-index:0}
+/* 좌상단 항로표 헤더 — 세리프 질문, 파란 규칙선, 좌표 각주 */
+.atlas-header{position:absolute;left:72px;top:56px;width:790px;z-index:7}
+.atlas-kicker-row{display:flex;align-items:center;gap:16px;min-height:32px;color:#315B6A;font-size:20px;font-weight:780;letter-spacing:.09em}
+.atlas-route-label{color:#315B6A;white-space:nowrap;font-family:ui-monospace,'SF Mono',Menlo,var(--pack-mono),monospace;font-size:14px;letter-spacing:.12em}
+.atlas-route-label::before,.atlas-sheet::before{content:attr(data-label)}
+.atlas-kicker-row .rule{width:128px;height:1px;flex:none;background:#1D63B8}
+.atlas-header .pack-kicker{color:#1D63B8;white-space:nowrap;font-size:20px;font-weight:780;letter-spacing:.06em}
+.atlas-sheet{margin-left:auto;color:#B73A28;letter-spacing:.09em;white-space:nowrap;font-family:ui-monospace,'SF Mono',Menlo,var(--pack-mono),monospace;font-size:14px;font-weight:800}
+.atlas-header .pack-topic{margin:30px 0 0;font-size:24px;line-height:1.35;font-weight:720;color:#315B6A;letter-spacing:-.025em;max-width:790px}
+.atlas-header .pack-prompt{margin:16px 0 0;font-family:'Gowun Batang','AppleMyungjo','NanumMyeongjo',var(--pack-serif),serif;font-size:68px;line-height:1.14;font-weight:400;letter-spacing:-.045em;color:#0F2C38;max-width:790px;text-wrap:pretty}
+.atlas-header .pack-prompt em.t2{color:#1D63B8}
+.atlas-header-note{display:flex;align-items:flex-end;gap:18px;margin-top:24px;color:#406774;font-family:ui-monospace,'SF Mono',Menlo,var(--pack-mono),monospace;font-size:14px;font-weight:650;letter-spacing:.08em}
+.atlas-header-note span:first-child{border-top:2px solid #0F2C38;padding-top:8px}
+.atlas-header-note span::before{content:attr(data-label)}
+.atlas-coordbox{position:absolute;right:64px;top:56px;z-index:7;text-align:right;color:#315B6A;font-family:ui-monospace,'SF Mono',Menlo,var(--pack-mono),monospace;font-size:13px;line-height:1.55;font-weight:720;letter-spacing:.1em}
+.atlas-coordbox span{display:block}
+.atlas-coordbox span::before{content:attr(data-label)}
+.atlas-coordbox .coord-title{color:#0F2C38;font-size:18px;letter-spacing:.12em;margin-bottom:4px}
+/* 대각선 학습 항로 — 개념 원에서 근거·적용 목적지로 */
+.atlas-route-layer{position:absolute;inset:0;z-index:2;width:1920px;height:1080px}
+.atlas-origin-wrap{position:absolute;left:210px;top:590px;width:420px;height:420px;z-index:5}
+.atlas-origin-ring{position:absolute;inset:0;border:1px solid rgba(29,99,184,.48);border-radius:50%}
+.atlas-origin-ring::before{content:"";position:absolute;inset:14px;border:1px dashed rgba(224,82,58,.52);border-radius:50%}
+.atlas-origin-ring::after{content:"";position:absolute;left:50%;top:-9px;width:18px;height:18px;margin-left:-9px;background:#E0523A;transform:rotate(45deg)}
+.atlas-origin{position:absolute;left:36px;top:36px;width:348px;height:348px;border-radius:50%;background:#0F2C38;color:#F4F8FC;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:38px 36px;box-shadow:0 22px 54px rgba(15,44,56,.20),inset 0 0 0 1px rgba(244,248,252,.16)}
+.atlas-origin-mark{font-size:20px;font-weight:850;letter-spacing:.12em;color:#7EC7E8;margin-bottom:14px}
+.atlas-origin-mark::before,.atlas-origin-coord::before{content:attr(data-label)}
+.atlas-origin .pack-body{margin:0;width:270px;font-size:20px;line-height:1.43;font-weight:560;letter-spacing:-.022em;color:#F4F8FC;text-align:center}
+.atlas-origin-coord{margin-top:14px;font-family:ui-monospace,'SF Mono',Menlo,var(--pack-mono),monospace;font-size:12px;font-weight:760;letter-spacing:.12em;color:#9BC6D8}
+.atlas-compass{position:absolute;left:818px;top:424px;width:330px;height:330px;z-index:4}
+.atlas-compass svg{width:330px;height:330px;overflow:visible;filter:drop-shadow(0 16px 24px rgba(15,44,56,.14))}
+.atlas-destination{position:absolute;z-index:6;color:#0F2C38;background:rgba(238,244,245,.96);border-top:1px solid rgba(15,44,56,.34);border-bottom:1px solid rgba(15,44,56,.34);padding:20px 24px 18px 28px;box-shadow:0 15px 34px rgba(15,44,56,.12)}
+.atlas-destination::before{content:"";position:absolute;left:-6px;top:0;bottom:0;width:6px;background:#1D63B8}
+.atlas-destination::after{content:"";position:absolute;left:-17px;top:31px;width:11px;height:11px;background:#E0523A;transform:rotate(45deg);box-shadow:0 0 0 5px rgba(224,82,58,.13)}
+.atlas-pin-label{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:850;letter-spacing:.1em;color:#1D63B8;margin-bottom:8px}
+.atlas-pin-label::before{content:attr(data-label);white-space:nowrap}
+.atlas-pin-label::after{content:"";height:1px;flex:1;background:rgba(29,99,184,.34)}
+.atlas-destination .pack-evidence,.atlas-destination .pack-action{margin:0;font-size:20px;line-height:1.43;font-weight:620;letter-spacing:-.02em;color:#0F2C38}
+.atlas-fix{display:block;margin-top:9px;color:#315B6A;font-family:ui-monospace,'SF Mono',Menlo,var(--pack-mono),monospace;font-size:12px;font-weight:720;letter-spacing:.1em}
+.atlas-fix::before{content:attr(data-label)}
+.atlas-evidence{left:1360px;top:418px;width:430px}
+.atlas-action{left:1498px;top:196px;width:354px}
+.atlas-action::before{background:#E0523A}
+.atlas-action .atlas-pin-label{color:#B73A28}
+.atlas-action .atlas-pin-label::after{background:rgba(224,82,58,.36)}
+.atlas-map-note{position:absolute;left:690px;bottom:64px;z-index:7;color:#315B6A;font-size:13px;font-weight:700;letter-spacing:.06em}
+.atlas-legend{position:absolute;left:0;right:0;bottom:0;height:42px;z-index:9;border-top:1px solid rgba(15,44,56,.25);background:rgba(238,244,245,.96);display:flex;align-items:center;gap:26px;padding:0 72px;color:#315B6A;font-family:ui-monospace,'SF Mono',Menlo,var(--pack-mono),monospace;font-size:12px;font-weight:720;letter-spacing:.08em}
+.atlas-legend .item{display:flex;align-items:center;gap:9px;white-space:nowrap}
+.atlas-legend em{font-style:normal}
+.atlas-legend em::before,.atlas-legend span[data-label]::before{content:attr(data-label)}
+.atlas-legend .swatch{display:inline-block;width:36px;height:0;border-top:5px solid #1D63B8}
+.atlas-legend .swatch.dash{border-top-style:dashed;border-color:#E0523A}
+.atlas-legend .dot{width:11px;height:11px;background:#E0523A;transform:rotate(45deg)}
+.atlas-legend .spacer{flex:1}
+.atlas-legend .scale{position:relative;width:205px;height:20px;margin-right:4px}
+.atlas-legend .scale .bar{position:absolute;left:0;bottom:4px;width:200px;height:8px;display:flex;border:1px solid #0F2C38}
+.atlas-legend .scale .bar i{flex:1}.atlas-legend .scale .bar i:nth-child(odd){background:#0F2C38}.atlas-legend .scale .bar i:nth-child(even){background:#EEF4F5}
+.atlas-legend .scale span{position:absolute;top:-1px;font-size:10px;color:#315B6A;letter-spacing:.04em}
+.atlas-legend .scale .zero{left:0}.atlas-legend .scale .mid{left:96px}.atlas-legend .scale .end{right:0}
+/* 래퍼 없는 .chk 퀴즈 슬라이드는 기본 팩 밝은 면을 그대로 쓴다. */
+@media print{.slide.pack-atlas:has(.atlas-stage){padding:0}.atlas-stage{position:absolute;inset:0}}

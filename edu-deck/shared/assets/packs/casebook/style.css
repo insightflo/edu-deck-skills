@@ -1,35 +1,75 @@
-/* Case dossier: protruding folder tab + manila document headrow, paper record
-   card with accent spine, tinted exhibit card with clip badge, ink decision band.
-   All surfaces ride on family tokens (paper/ink/accent/light/soft/line + tint/chip),
-   so the deck recolors itself under every data-family. */
+/* Evidence desk: a deep-forest tabletop carries a cream three-hole case file
+   and an overlapping manila exhibit sheet.  Metal clip, red rubber stamp,
+   typewritten rules and physical rotation are the identity; there are no
+   generic cards.  Stage rules are scoped by :has(.casebook-stage), so runtime
+   quiz slides without the template wrapper keep the safe base pack layout. */
 .slide.pack-casebook{gap:26px}
+.slide.pack-casebook:has(.casebook-stage){padding:0;gap:0;background:#182420;color:#1A1F1D}
+.slide.pack-casebook:has(.casebook-stage) .casebook-stage{position:relative;width:1920px;height:1080px;overflow:hidden;color:#1A1F1D;background:
+  radial-gradient(circle at 24% 18%,rgba(255,255,255,.055),transparent 30%),
+  radial-gradient(circle at 78% 82%,rgba(0,0,0,.20),transparent 38%),
+  repeating-linear-gradient(94deg,rgba(255,255,255,.018) 0 1px,transparent 1px 7px),
+  repeating-linear-gradient(-3deg,rgba(0,0,0,.035) 0 2px,transparent 2px 13px),
+  #182420}
+.slide.pack-casebook .casebook-stage::before{content:"";position:absolute;inset:28px;border:1px solid rgba(251,247,238,.10);pointer-events:none}
+.slide.pack-casebook .casebook-stage::after{content:"WORKING EVIDENCE DESK · FILE 01";position:absolute;right:54px;bottom:34px;font-family:Menlo,Consolas,monospace;font-size:12px;letter-spacing:.18em;color:rgba(251,247,238,.5)}
 
-/* Folder header — tab protrudes into the top margin, headrow is the folder body. */
-.casebook-dossier{display:flex;flex-direction:column;margin-top:-14px}
-.casebook-fold{align-self:flex-start;display:inline-flex;align-items:center;gap:14px;margin:0 0 -1px 14px;padding:14px 34px 12px;background:var(--light);border:1px solid var(--line);border-bottom:none;border-radius:18px 18px 0 0;box-shadow:0 -10px 22px color-mix(in srgb,var(--ink) 9%,transparent);color:var(--ink)}
-.casebook-fold-ic{width:34px;height:34px;color:var(--accent-text)}
-.casebook-fold .pack-mark{font-family:var(--pack-mono);font-size:22px;font-weight:800;letter-spacing:.18em}
-.casebook-headrow{display:flex;align-items:baseline;gap:32px;background:var(--light);border:1px solid var(--line);border-radius:0 22px 22px 22px;padding:22px 36px;box-shadow:0 14px 36px color-mix(in srgb,var(--ink) 10%,transparent)}
-.casebook-headrow .pack-topic{flex:1;min-width:0;color:var(--ink);font-weight:700}
-.casebook-headrow .pack-kicker{flex:none;max-width:520px;border:2px solid var(--accent-text);color:var(--accent-text);border-radius:10px;padding:8px 18px;font-size:20px;letter-spacing:.08em}
+/* Cream case file — rotated paper, red margin line, three dark punched holes. */
+.slide.pack-casebook .casebook-file{position:absolute;left:78px;top:105px;width:990px;height:888px;transform:rotate(-.65deg);transform-origin:48% 46%;background:
+  linear-gradient(90deg,rgba(200,62,43,.20) 0 2px,transparent 2px 100%),
+  repeating-linear-gradient(0deg,rgba(26,31,29,.025) 0 1px,transparent 1px 7px),
+  radial-gradient(circle at 10% 8%,rgba(255,255,255,.48),transparent 24%),
+  #FBF7EE;box-shadow:0 28px 55px rgba(0,0,0,.34),0 7px 15px rgba(0,0,0,.22),inset 0 0 0 1px rgba(26,31,29,.09)}
+.slide.pack-casebook .casebook-file::before{content:"";position:absolute;left:50px;top:0;bottom:0;border-left:2px solid rgba(200,62,43,.34)}
+.slide.pack-casebook .casebook-file::after{content:"";position:absolute;left:28px;top:142px;width:18px;height:18px;border-radius:50%;background:#182420;box-shadow:0 148px 0 #182420,0 296px 0 #182420,0 444px 0 #182420;opacity:.88}
+.slide.pack-casebook .casebook-folder-tab{position:absolute;left:70px;top:-46px;width:338px;height:66px;background:#FBF7EE;box-shadow:0 -8px 20px rgba(0,0,0,.18),inset 0 0 0 1px rgba(26,31,29,.10);display:flex;align-items:center;gap:14px;padding:0 26px;font-family:Menlo,Consolas,monospace;font-size:18px;font-weight:700;letter-spacing:.13em;color:#1A1F1D}
+.slide.pack-casebook .casebook-folder-tab svg{width:28px;height:28px;color:#C83E2B;flex:none}
+.slide.pack-casebook .casebook-paper-inner{position:absolute;inset:0;padding:54px 58px 48px 104px;display:flex;flex-direction:column;min-height:0}
+.slide.pack-casebook .casebook-meta-row{flex:none;min-height:62px;display:flex;align-items:flex-end;gap:34px;border-bottom:2px solid #1A1F1D;padding-bottom:14px}
+.slide.pack-casebook .casebook-meta-row .pack-topic{flex:0 1 auto;min-width:0;font-size:22px;line-height:1.3;font-weight:760;letter-spacing:-.02em;color:#1A1F1D}
+.slide.pack-casebook .casebook-meta-row .pack-kicker{flex:0 1 auto;max-width:360px;font-family:Menlo,Consolas,monospace;font-size:20px;line-height:1.3;letter-spacing:.04em;color:#37413C;white-space:normal;text-align:left}
+.slide.pack-casebook .casebook-meta-small{flex:none;display:flex;justify-content:space-between;padding-right:118px;margin-top:9px;font-family:Menlo,Consolas,monospace;font-size:11px;letter-spacing:.17em;color:#68716C}
+.slide.pack-casebook .casebook-question{flex:none;margin:34px 0 0;max-width:800px;font-family:'Gowun Batang','AppleMyungjo',serif;font-size:67px;line-height:1.14;font-weight:400;letter-spacing:-.045em;color:#1A1F1D;text-wrap:balance}
+.slide.pack-casebook .casebook-question em.t2{font-style:normal;color:#C83E2B;position:relative}
+.slide.pack-casebook .casebook-question em.t2::after{content:"";position:absolute;left:2px;right:0;bottom:2px;border-bottom:5px solid rgba(200,62,43,.30);z-index:-1}
+.slide.pack-casebook .casebook-record{flex:1 1 auto;min-height:210px;margin-top:30px;position:relative;padding:24px 30px 20px 0;border-top:1px solid rgba(26,31,29,.48)}
+.slide.pack-casebook .casebook-record::before{content:"";position:absolute;left:0;right:0;top:66px;height:1px;background:rgba(26,31,29,.18);box-shadow:0 42px 0 rgba(26,31,29,.18),0 84px 0 rgba(26,31,29,.18),0 126px 0 rgba(26,31,29,.18),0 168px 0 rgba(26,31,29,.18)}
+.slide.pack-casebook .casebook-record-label{position:relative;display:inline-block;background:#FBF7EE;padding-right:18px;font-family:Menlo,Consolas,monospace;font-size:20px;font-weight:700;letter-spacing:.08em;color:#39423D}
+.slide.pack-casebook .casebook-record .pack-body{position:relative;margin:22px 0 0;width:760px;max-width:calc(100% - 120px);font-family:Menlo,'Courier New',monospace;font-size:24px;line-height:40px;letter-spacing:-.018em;color:#202623}
+.slide.pack-casebook .casebook-record-note{position:absolute;right:118px;top:24px;width:104px;font-family:Menlo,Consolas,monospace;font-size:11px;line-height:1.8;letter-spacing:.15em;color:#6B746F;text-align:right}
+.slide.pack-casebook .casebook-verdict{flex:none;min-height:104px;margin:18px 0 2px;background:#1A1F1D;color:#FBF7EE;display:grid;grid-template-columns:182px minmax(0,1fr) 58px;align-items:center;column-gap:28px;padding:18px 30px;box-shadow:0 9px 0 rgba(26,31,29,.16);border-radius:0}
+.slide.pack-casebook .casebook-vlabel{font-family:Menlo,Consolas,monospace;font-size:12px;line-height:1.55;letter-spacing:.16em;color:rgba(251,247,238,.66)}
+.slide.pack-casebook .casebook-vlabel strong{display:block;font-family:var(--pack-sans);font-size:20px;line-height:1.3;letter-spacing:.02em;color:#FBF7EE;margin-bottom:5px}
+.slide.pack-casebook .casebook-vlabel span{display:block}
+.slide.pack-casebook .casebook-verdict .pack-action{font-size:24px;line-height:1.42;font-weight:680;letter-spacing:-.025em;color:#FBF7EE}
+.slide.pack-casebook .casebook-check{width:38px;height:38px;color:#FBF7EE}
 
-/* Question row. */
-.casebook-question{font-family:var(--pack-serif);font-size:52px;line-height:1.3;font-weight:800;max-width:1620px}
+/* Manila exhibit sheet — overlapping physical evidence page with metal clip,
+   rubber stamp, short chain-of-note label and forensic line drawing. */
+.slide.pack-casebook .casebook-evidence-sheet{position:absolute;left:994px;top:177px;width:752px;height:792px;transform:rotate(1.15deg);transform-origin:50% 40%;background:
+  repeating-linear-gradient(0deg,rgba(26,31,29,.022) 0 1px,transparent 1px 8px),
+  radial-gradient(circle at 82% 12%,rgba(255,255,255,.34),transparent 24%),
+  linear-gradient(135deg,rgba(122,86,42,.05),transparent 42%),
+  #F3E7C9;box-shadow:0 31px 58px rgba(0,0,0,.38),0 8px 18px rgba(0,0,0,.24),inset 0 0 0 1px rgba(26,31,29,.10)}
+.slide.pack-casebook .casebook-evidence-sheet::before{content:"";position:absolute;left:0;right:0;top:66px;border-top:1px solid rgba(26,31,29,.20)}
+.slide.pack-casebook .casebook-evidence-sheet::after{content:"";position:absolute;inset:18px;border:1px solid rgba(26,31,29,.09);pointer-events:none}
+.slide.pack-casebook .casebook-metal-clip{position:absolute;left:330px;top:-42px;width:96px;height:118px;transform:rotate(-4deg);z-index:3;filter:drop-shadow(0 5px 5px rgba(0,0,0,.26))}
+.slide.pack-casebook .casebook-sheet-inner{position:absolute;inset:0;padding:54px 54px 34px 56px;display:flex;flex-direction:column;min-height:0}
+.slide.pack-casebook .casebook-sheet-meta{flex:none;display:flex;justify-content:space-between;align-items:flex-start;font-family:Menlo,Consolas,monospace;font-size:13px;letter-spacing:.16em;color:#5B5545}
+.slide.pack-casebook .casebook-sheet-meta b{font-size:16px;color:#393526}
+.slide.pack-casebook .casebook-stamp-wrap{position:relative;flex:none;height:132px;margin-top:12px}
+.slide.pack-casebook .casebook-rubber-stamp{position:absolute;left:22px;top:5px;width:372px;height:106px;transform:rotate(-6deg)}
+.slide.pack-casebook .casebook-rubber-stamp .cream-patch{fill:rgba(251,247,238,.78)}
+.slide.pack-casebook .casebook-rubber-stamp text{font-family:Menlo,Consolas,monospace;font-weight:700;letter-spacing:.12em}
+.slide.pack-casebook .casebook-tape{position:absolute;right:58px;top:18px;width:152px;height:34px;background:rgba(251,247,238,.42);transform:rotate(4deg);box-shadow:inset 0 0 0 1px rgba(255,255,255,.24)}
+.slide.pack-casebook .casebook-exhibit-label{flex:none;margin-top:8px;padding-top:18px;border-top:2px solid rgba(26,31,29,.55);display:flex;align-items:center;justify-content:space-between;gap:20px}
+.slide.pack-casebook .casebook-exhibit-label strong{font-size:20px;line-height:1.35;letter-spacing:.02em;color:#1A1F1D}
+.slide.pack-casebook .casebook-exhibit-label span{font-family:Menlo,Consolas,monospace;font-size:11px;letter-spacing:.16em;color:#675F4D;white-space:nowrap}
+.slide.pack-casebook .casebook-sheet-inner .pack-evidence{flex:none;margin:22px 0 0;max-width:630px;font-size:25px;line-height:1.55;font-weight:590;letter-spacing:-.024em;color:#202623}
+.slide.pack-casebook .casebook-divider{flex:none;margin-top:22px;height:1px;background:rgba(26,31,29,.24);position:relative}
+.slide.pack-casebook .casebook-divider::after{content:"";position:absolute;left:0;top:-4px;width:88px;border-top:7px solid #C83E2B}
+.slide.pack-casebook .casebook-forensics{flex:none;width:610px;max-width:100%;height:150px;margin-top:16px;color:#39423D}
+.slide.pack-casebook .casebook-caution{flex:none;margin-top:auto;display:flex;align-items:center;gap:14px;font-family:Menlo,Consolas,monospace;font-size:20px;line-height:1.35;letter-spacing:.02em;color:#4F594F}
+.slide.pack-casebook .casebook-caution::before{content:"";width:34px;height:1px;background:#C83E2B;flex:none}
 
-/* Two records — paper narrative card (accent spine) + tinted exhibit card (clip badge). */
-.casebook-file{display:grid;grid-template-columns:1.32fr 1fr;gap:40px;align-items:stretch;flex:1;min-height:0}
-.casebook-narrative{background:color-mix(in srgb,var(--paper) 55%,#ffffff);border-left:10px solid var(--accent);border-radius:var(--r3);box-shadow:0 16px 40px color-mix(in srgb,var(--ink) 12%,transparent),0 3px 10px color-mix(in srgb,var(--ink) 7%,transparent);padding:40px 46px 36px 48px}
-.casebook-narrative .pack-label{color:var(--accent-text);margin-bottom:18px}
-.casebook-narrative .pack-body{font-size:30px;line-height:1.72}
-.casebook-exhibit{position:relative;background:var(--accent-soft);border-radius:var(--r3);padding:40px 44px 34px;box-shadow:0 16px 40px color-mix(in srgb,var(--ink) 12%,transparent),0 3px 10px color-mix(in srgb,var(--ink) 7%,transparent)}
-.casebook-clip{position:absolute;top:20px;right:22px;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--paper);box-shadow:0 6px 16px color-mix(in srgb,var(--ink) 15%,transparent);color:var(--accent-text)}
-.casebook-clip svg{width:30px;height:30px}
-.casebook-stamp{display:inline-block;border:2px solid var(--accent-text);color:var(--accent-text);font-family:var(--pack-mono);font-size:20px;font-weight:700;letter-spacing:.1em;border-radius:8px;padding:8px 18px;margin-bottom:20px}
-.casebook-exhibit .pack-evidence{font-size:26px;line-height:1.65}
-.casebook-caution{font-size:22px;line-height:1.5;color:var(--soft);margin-top:26px;border-top:1px solid color-mix(in srgb,var(--ink) 18%,transparent);padding-top:16px}
-
-/* Decision band — deep ink strip with check-roundel. */
-.casebook-decision{display:flex;align-items:center;gap:28px;background:var(--ink);border-radius:20px;padding:26px 40px;color:var(--paper);box-shadow:0 16px 40px color-mix(in srgb,var(--ink) 26%,transparent)}
-.casebook-check{width:58px;height:58px;flex:none;color:var(--accent-light)}
-.casebook-decision .pack-label{color:var(--accent-light);margin:0 0 6px}
-.casebook-decision .pack-action{color:var(--paper);font-size:27px}
+@media print{.slide.pack-casebook:has(.casebook-stage){padding:0}.slide.pack-casebook .casebook-stage{display:block}}

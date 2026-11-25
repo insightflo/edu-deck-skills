@@ -1,36 +1,42 @@
-/* Field manual: a dark operations sign rail beside a numbered work board. */
-.slide.pack-field{flex-direction:row;gap:48px;padding:56px 64px;background:var(--light)}
-.field-sign{width:496px;flex:none;display:flex;flex-direction:column;background:var(--ink);color:var(--light);border-radius:var(--r3);padding:44px 48px 40px;box-shadow:var(--shadow-2)}
-.field-brand{display:flex;align-items:center;gap:20px}
-.field-emblem{width:72px;height:72px;color:var(--accent-light);flex:none}
-.field-mark{font-size:23px;font-weight:800;letter-spacing:.17em;color:var(--muted)}
-.field-sign .field-badge{align-self:flex-start;margin-top:40px;padding:10px 24px;border-radius:999px;background:var(--accent-light);color:var(--ink);font-size:22px;line-height:1.4;font-weight:800;letter-spacing:.03em}
-.field-sign .field-title{font-size:38px;line-height:1.42;font-weight:700;color:var(--paper);max-width:none;margin-top:30px}
-.field-map{list-style:none;margin:36px 0 0;padding:24px 0 0;border-top:2px solid color-mix(in srgb,var(--light) 22%,transparent);display:grid;gap:14px}
-.field-map li{display:flex;align-items:baseline;gap:18px;font-size:24px;color:var(--light)}
-.field-map b{font-family:var(--pack-mono);font-size:22px;font-variant-numeric:tabular-nums;color:var(--accent-light)}
-.field-map li+li{padding-top:14px;border-top:1px solid color-mix(in srgb,var(--light) 14%,transparent)}
-.field-rail-foot{margin-top:auto;padding-top:32px}
-.field-wayline{display:flex;align-items:center;gap:16px;color:var(--accent-light);margin-bottom:20px}
-.field-wayline>span{flex:1;height:3px;border-radius:2px;background:color-mix(in srgb,var(--light) 26%,transparent)}
-.field-wayline svg{width:36px;height:36px;flex:none}
-.field-caption{font-size:24px;line-height:1.55;color:var(--muted)}
-.field-board{flex:1;min-width:0;display:flex;flex-direction:column;gap:34px}
-.field-board .pack-prompt{font-size:52px;font-weight:800;letter-spacing:-.03em}
-.field-board .pack-prompt em.t2{color:var(--accent-text);font-style:normal}
-.field-steps{flex:1;display:flex;flex-direction:column;gap:24px}
-.field-row{flex:1;display:grid;grid-template-columns:76px 1fr;gap:28px;align-items:center;background:var(--paper);border:3px solid transparent;border-radius:var(--r2);padding:24px 32px;box-shadow:var(--shadow-1)}
-.field-num{width:76px;height:76px;border-radius:50%;display:grid;place-items:center;background:color-mix(in srgb,var(--accent) 12%,var(--paper));color:var(--accent-text);font-family:var(--pack-mono);font-size:29px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1}
-.field-cell{min-width:0}
-.field-row .pack-label{margin-bottom:10px}
-.field-row .pack-body{font-size:29px;line-height:1.58}
-.field-row .pack-evidence{font-size:27px;line-height:1.58}
-.field-do{border-color:var(--accent);box-shadow:0 14px 34px color-mix(in srgb,var(--accent) 18%,transparent)}
-.field-do .field-num{background:var(--accent);color:var(--paper)}
-.field-do .pack-label{color:var(--accent-text)}
-.field-do .pack-action{font-size:28px;line-height:1.55;font-weight:600}
+/* Field safety poster: signal-yellow industrial poster, hazard stripe and matte-black work board.
+   Full-bleed only when the template's .field-stage wrapper exists; wrapperless quiz slides keep the base bright pack layout. */
+.slide.pack-field:has(.field-stage){padding:0;gap:0;background:#121417;color:#fff}
+.field-stage{position:relative;width:100%;height:100%;flex:none;overflow:hidden;background:#121417;color:#fff;font-family:var(--pack-sans)}
+.field-poster{position:relative;height:410px;padding:32px 72px 0;background:#F5C518;color:#121417;overflow:hidden}
+.field-poster:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(18,20,23,.055) 1px,transparent 1px);background-size:72px 100%;pointer-events:none}
+.field-poster:after{content:"";position:absolute;right:-120px;top:-170px;width:520px;height:520px;border:42px solid rgba(18,20,23,.09);transform:rotate(45deg);pointer-events:none}
+.field-topline{position:relative;z-index:2;display:flex;align-items:flex-start;justify-content:space-between;gap:36px}
+.field-topline .field-kicker{display:inline-block;max-width:980px;border:3px solid #121417;padding:8px 16px 7px;background:#F5C518;color:#121417;font-size:22px;line-height:1.15;font-weight:900;letter-spacing:.02em}
+.field-ops{flex:none;padding-top:7px;color:#121417;font-size:24px;font-weight:900;letter-spacing:.095em;line-height:1;text-align:right}
+.field-ops small{display:block;margin-top:8px;font-size:18px;letter-spacing:.24em;font-weight:850}
+.field-header-grid{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1fr) 430px;gap:42px;align-items:end;margin-top:28px}
+.field-titlebox{min-width:0}
+.field-header-grid .pack-prompt{max-width:1180px;padding-bottom:4px;color:#121417;font-size:76px;line-height:1.06;letter-spacing:-.052em;font-weight:900;text-wrap:balance}
+.field-header-grid .pack-topic{display:inline-block;max-width:1180px;margin-top:13px;padding:10px 15px 9px;background:#121417;color:#F5C518;font-size:24px;line-height:1.15;font-weight:900;letter-spacing:-.02em}
+.field-emblem{width:430px;height:241px;position:relative;z-index:3;overflow:visible}
+.field-poster-meta{position:absolute;z-index:2;left:72px;bottom:11px;color:#121417;font-size:18px;font-weight:900;letter-spacing:.22em}
+.field-hazard{height:22px;background:repeating-linear-gradient(135deg,#121417 0 23px,#F5C518 23px 46px);border-top:4px solid #121417;border-bottom:4px solid #F5C518}
+.field-board{position:relative;height:648px;padding:28px 72px 25px;background:#121417;overflow:hidden}
+.field-board:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(245,197,24,.055) 1px,transparent 1px),linear-gradient(0deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:96px 100%,100% 72px;pointer-events:none}
+.field-board-head{position:relative;z-index:1;height:63px;display:flex;align-items:flex-start;justify-content:space-between;gap:36px;border-bottom:5px solid #F5C518;color:#fff}
+.field-board-head span{padding-top:8px;color:#F5C518;font-size:18px;font-weight:900;letter-spacing:.24em;white-space:nowrap}
+.field-board-head strong{padding-top:2px;color:#fff;font-size:24px;font-weight:900;letter-spacing:-.02em;line-height:1.15;text-align:right}
+.field-steps{position:relative;z-index:1;height:452px;display:grid;grid-template-rows:repeat(3,1fr)}
+.field-step{display:grid;grid-template-columns:128px 170px minmax(0,1fr) 198px;column-gap:24px;align-items:center;border-bottom:2px solid rgba(245,197,24,.38);padding:0 0 0 2px;min-height:0}
+.field-step:last-child{border-bottom:0}
+.field-num{padding-bottom:3px;color:#F5C518;font-size:68px;line-height:1.1;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-.04em}
+.field-label{color:#fff;font-size:30px;line-height:1.1;font-weight:900;letter-spacing:-.04em}
+.field-step .field-text{max-width:1120px;color:#E9EDEF;font-size:27px;line-height:1.42;font-weight:650;letter-spacing:-.03em}
+.field-step .pack-evidence{color:#E9EDEF}
+.field-tag{justify-self:end;width:182px;border-top:2px solid rgba(255,255,255,.55);border-bottom:2px solid rgba(255,255,255,.55);padding:8px 0;color:#D8DDE0;font-size:18px;font-weight:850;letter-spacing:.16em;line-height:1.15;text-align:center}
+.field-step.field-action{border-left:16px solid #FF5A1F;padding-left:24px;background:#1B1716}
+.field-step.field-action .field-label{color:#FF5A1F}
+.field-step.field-action .field-text{color:#fff;font-weight:800}
+.field-step.field-action .field-tag{border-color:#FF5A1F;color:#F5C518}
+.field-orange-tick{position:absolute;right:72px;top:118px;width:13px;height:392px;background:repeating-linear-gradient(180deg,#FF5A1F 0 42px,transparent 42px 69px);pointer-events:none}
+.field-board-foot{position:relative;z-index:1;height:47px;display:flex;align-items:flex-end;justify-content:space-between;gap:36px;border-top:2px solid rgba(255,255,255,.22);padding-top:11px;color:#AEB6BA;font-size:18px;font-weight:800;letter-spacing:.14em;line-height:1.15}
+.field-board-foot b{color:#F5C518;font-weight:900}
 @media print{
-  .slide.pack-field{flex-direction:column}
-  .field-sign{width:auto}
-  .field-wayline{display:none}
+  .slide.pack-field:has(.field-stage){padding:0;background:#121417}
+  .field-stage{width:1920px;height:1080px}
 }

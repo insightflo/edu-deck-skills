@@ -1,14 +1,57 @@
 <section class="slide pack pack-editorial" data-design="editorial" data-archetype="build-up">
-  <header class="editorial-masthead"><div class="editorial-brand"><svg class="editorial-emblem" viewBox="0 0 44 44" role="img" aria-label="편집 잡지 엠블럼"><rect x="5" y="9" width="30" height="29" rx="3" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M12 17h16M12 22h16M12 27h10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M27 4h9v15l-4.5-3.6L27 19z" fill="var(--accent)"/></svg><span class="pack-mark">EDITORIAL</span></div><div class="editorial-issue"><p class="pack-topic">{{TITLE}}</p><span class="editorial-edition">읽고 · 연결하고 · 적용하기</span></div></header>
-  <div class="editorial-lead editorial-hero">
-    <!-- t2 2톤 문법: 핵심 어절(주로 마지막 어절, 문장당 1회·1~2 어절)을 <em class="t2">…</em>로 감싸면 강조색이 붙는다. flows.json 토큰 값엔 태그를 넣지 않는다(이스케이프됨). 규칙: references/expression.md 1절 -->
-    <p class="pack-kicker">{{KICKER}}</p><h1 class="pack-prompt">{{PROMPT}}</h1>
+  <div class="editorial-stage">
+    <div class="editorial-left">
+      <header class="editorial-masthead">
+        <div class="editorial-brand"><span class="editorial-mark" aria-hidden="true">E</span><span class="pack-mark">EDITORIAL · ISSUE 01</span></div>
+        <p class="pack-topic">{{TITLE}}</p>
+      </header>
+      <div class="editorial-subrow" aria-hidden="true"><span>PRACTICE JOURNAL</span><span>OBSERVATION / EVIDENCE / ACTION</span></div>
+      <div class="editorial-kicker-row">
+        <span class="editorial-no" aria-hidden="true"></span>
+        <p class="pack-kicker">{{KICKER}}</p>
+        <span class="editorial-kicker-tag" aria-hidden="true">FIELD NOTE</span>
+      </div>
+      <div class="editorial-lead editorial-hero">
+        <!-- t2 2톤 문법: 핵심 어절(주로 마지막 어절, 문장당 1회·1~2 어절)을 <em class="t2">…</em>로 감싸면 강조색이 붙는다. flows.json 토큰 값엔 태그를 넣지 않는다(이스케이프됨). 규칙: references/expression.md 1절 -->
+        <h1 class="pack-prompt">{{PROMPT}}</h1>
+      </div>
+      <div class="editorial-hero-rule" aria-hidden="true"><i></i><b></b></div>
+      <section class="editorial-copy-zone" aria-label="본문">
+        <div class="editorial-copy-label" aria-hidden="true"><strong>본문<br>맥락 읽기</strong><span>READ<br>BEFORE<br>SOLVING</span></div>
+        <article class="editorial-story"><p class="pack-body">{{BODY}}</p></article>
+      </section>
+      <div class="editorial-micro-index" aria-hidden="true"><span>RECORD</span><span>COMPARE</span><span>THEN ACT</span></div>
+      <footer class="pack-footer editorial-bottom">
+        <i class="editorial-action-tick" aria-hidden="true"></i>
+        <div class="editorial-action-label"><strong>읽기에서 실천으로</strong><span aria-hidden="true">ACTION RULE</span></div>
+        <p class="pack-action">{{ACTION}}</p>
+        <svg class="editorial-arrow-ic" viewBox="0 0 52 52" aria-hidden="true"><path d="M9 43 43 9M18 9h25v25" fill="none" stroke="currentColor" stroke-width="4.6" stroke-linecap="square"/></svg>
+      </footer>
+    </div>
+    <aside class="editorial-right editorial-margin">
+      <i class="editorial-redline" aria-hidden="true"></i>
+      <div class="editorial-watermark" aria-hidden="true"></div>
+      <div class="editorial-right-meta" aria-hidden="true"><span>EVIDENCE <b>곁에 두는 기록</b></span><span>ISSUE 01</span></div>
+      <section class="editorial-evidence" aria-label="곁에 두는 근거">
+        <div class="editorial-evidence-kicker">곁에 두는 근거</div>
+        <div class="editorial-evidence-rule" aria-hidden="true"></div>
+        <p class="pack-evidence">{{EVIDENCE}}</p>
+        <small aria-hidden="true">OBSERVED SCENE / FIELD NOTE<br>FICTION IS LABELLED AS FICTION</small>
+      </section>
+      <svg class="editorial-geometry" viewBox="0 0 566 334" aria-hidden="true">
+        <g fill="none" stroke="currentColor" stroke-width="1.6">
+          <path d="M18 28h238v260H18z"/><path d="M256 28h238v260H256z"/><path d="M256 28v260"/>
+          <path d="M48 74h150M48 105h178M48 136h132M48 202h166M48 233h118"/>
+          <path d="M294 74h150M294 105h116M294 202h166M294 233h142"/>
+          <path d="M18 28 70 0h238l186 28"/><path d="M494 28v260"/>
+          <circle cx="520" cy="62" r="28"/><path d="M520 34v56M492 62h56"/>
+        </g>
+        <g fill="none" stroke-width="5" class="red"><path d="M354 28v118l-30-26-30 26V28"/><path d="M62 288h442"/></g>
+        <g fill="currentColor"><circle cx="62" cy="288" r="4"/><circle cx="504" cy="288" r="4"/></g>
+      </svg>
+      <div class="editorial-folio" aria-hidden="true"><span>EDITORIAL EVIDENCE MARGIN</span><span class="editorial-page"></span></div>
+    </aside>
   </div>
-  <div class="editorial-spread">
-    <article class="editorial-story"><span class="pack-label">본문 / 맥락 읽기</span><p class="pack-body">{{BODY}}</p></article>
-    <aside class="editorial-margin"><svg class="editorial-quote" viewBox="0 0 44 32" role="img" aria-label="근거 인용 부호"><path d="M16 4v4c-4 1-7 4-7 8h7v14H4V21C4 13 9 7 16 4Z" fill="currentColor"/><path d="M40 4v4c-4 1-7 4-7 8h7v14H28V21c0-8 5-14 12-17Z" fill="currentColor"/></svg><span class="pack-label">곁에 두는 근거</span><p class="pack-evidence">{{EVIDENCE}}</p></aside>
-  </div>
-  <footer class="pack-footer editorial-bottom"><span class="pack-label">읽기에서 실천으로</span><p class="pack-action">{{ACTION}}</p><svg class="editorial-arrow-ic" viewBox="0 0 48 48" aria-hidden="true"><path d="M12 36 36 12M18 12h18v18" fill="none" stroke="currentColor" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"/></svg></footer>
   <aside class="notes">{{KICKER}}
 질문을 먼저 읽고 잠시 생각할 시간을 주세요. 본문과 곁의 근거를 연결해 설명하세요.
 {{BODY}}

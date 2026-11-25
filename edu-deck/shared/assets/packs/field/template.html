@@ -1,32 +1,54 @@
-<section class="slide pack pack-field" data-design="field" data-archetype="sequence">
-  <div class="field-sign">
-    <div class="field-brand">
-      <svg class="field-emblem" viewBox="0 0 72 72" aria-hidden="true">
-        <path d="M36 7 L58 15 V36 C58 51 48 60 36 66 C24 60 14 51 14 36 V15 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
-        <path d="M26 37 L33 45 L48 29" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      <span class="field-mark">FIELD OPS</span>
-    </div>
-    <p class="pack-kicker field-badge">{{KICKER}}</p>
-    <p class="pack-topic field-title">{{TITLE}}</p>
-    <ol class="field-map" aria-hidden="true">
-      <li><b>01</b><span>이해</span></li>
-      <li><b>02</b><span>확인</span></li>
-      <li><b>03</b><span>실행</span></li>
-    </ol>
-    <div class="field-rail-foot">
-      <div class="field-wayline" aria-hidden="true"><span></span><svg viewBox="0 0 40 40"><path d="M20 6 V28 M10 20 L20 30 L30 20" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <p class="field-caption">이해한 뒤 현장에서 확인하고, 기준대로 실행합니다.</p>
-    </div>
-  </div>
-  <div class="field-board">
-    <!-- t2 2톤 문법: 핵심 어절(주로 마지막 어절, 문장당 1회·1~2 어절)을 <em class="t2">…</em>로 감싸면 강조색이 붙는다. flows.json 토큰 값엔 태그를 넣지 않는다(이스케이프됨). 규칙: references/expression.md 1절 -->
-    <h1 class="pack-prompt">{{PROMPT}}</h1>
-    <div class="field-steps">
-      <article class="field-row"><span class="field-num">01</span><div class="field-cell"><span class="pack-label">먼저 이해하기</span><p class="pack-body">{{BODY}}</p></div></article>
-      <aside class="field-row"><span class="field-num">02</span><div class="field-cell"><span class="pack-label">확인할 기준</span><p class="pack-evidence">{{EVIDENCE}}</p></div></aside>
-      <div class="field-row field-do"><span class="field-num">03</span><div class="field-cell"><span class="pack-label">현장에서 실행</span><p class="pack-action">{{ACTION}}</p></div></div>
-    </div>
+<section class="slide pack pack-field" data-design="field" data-archetype="build-up">
+  <div class="field-stage">
+    <section class="field-poster">
+      <div class="field-topline">
+        <p class="pack-kicker field-kicker">{{KICKER}}</p>
+        <div class="field-ops" aria-hidden="true">FIELD OPS · 01<small>OBSERVE / VERIFY / APPLY</small></div>
+      </div>
+      <div class="field-header-grid">
+        <div class="field-titlebox">
+          <h1 class="pack-prompt">{{PROMPT}}</h1>
+          <p class="pack-topic field-title-strip">{{TITLE}}</p>
+        </div>
+        <svg class="field-emblem" viewBox="0 0 455 255" aria-hidden="true">
+          <path d="M44 34h210l38 38v132l-38 38H44l-38-38V72z" fill="#121417"/>
+          <path d="M69 58h177l27 27v108l-27 27H69l-27-27V85z" fill="#fff"/>
+          <path d="M92 131l48 48 104-104" fill="none" stroke="#FF5A1F" stroke-width="34" stroke-linecap="square" stroke-linejoin="miter"/>
+          <path d="M327 26l108 188H219z" fill="#F5C518" stroke="#121417" stroke-width="16" stroke-linejoin="round"/>
+          <rect x="315" y="83" width="24" height="73" fill="#121417"/>
+          <rect x="315" y="169" width="24" height="24" fill="#121417"/>
+          <path d="M20 224h122" stroke="#F5C518" stroke-width="11"/>
+          <path d="M345 224h88" stroke="#121417" stroke-width="11"/>
+        </svg>
+      </div>
+      <div class="field-poster-meta" aria-hidden="true">SAFETY POSTER SYSTEM · EVIDENCE BEFORE SOLUTION</div>
+    </section>
+    <div class="field-hazard" aria-hidden="true"></div>
+    <section class="field-board">
+      <div class="field-board-head"><span aria-hidden="true">WORK BOARD / FIELD CHECK</span><strong>관찰한 사실을 절차로 옮기는 3단계</strong></div>
+      <div class="field-steps">
+        <article class="field-row field-step">
+          <div class="field-num" aria-hidden="true">01</div>
+          <div class="field-label">이해</div>
+          <p class="pack-body field-text">{{BODY}}</p>
+          <div class="field-tag" aria-hidden="true">SCENE SPLIT</div>
+        </article>
+        <article class="field-row field-step">
+          <div class="field-num" aria-hidden="true">02</div>
+          <div class="field-label">확인</div>
+          <p class="pack-evidence field-text">{{EVIDENCE}}</p>
+          <div class="field-tag" aria-hidden="true">EVIDENCE</div>
+        </article>
+        <article class="field-row field-step field-action">
+          <div class="field-num" aria-hidden="true">03</div>
+          <div class="field-label">실행</div>
+          <p class="pack-action field-text">{{ACTION}}</p>
+          <div class="field-tag" aria-hidden="true">WRITE NOW</div>
+        </article>
+      </div>
+      <div class="field-orange-tick" aria-hidden="true"></div>
+      <div class="field-board-foot"><span>NO ASSUMED CAUSE</span><span><b>FIELD NOTE</b> · 한 장면 · 한 관찰 · 한 문장</span></div>
+    </section>
   </div>
   <aside class="notes">{{KICKER}}
 설명, 근거 확인, 실행 순서로 안내하세요. 실제 현장의 조건이 예시와 다르면 적용 전에 차이를 확인하게 하세요.

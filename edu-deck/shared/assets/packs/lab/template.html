@@ -1,38 +1,126 @@
-<section class="slide pack pack-lab" data-design="lab" data-archetype="mechanism">
-  <header class="pack-topline lab-head">
-    <div class="lab-id">
-      <span class="lab-ico" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18.5 5h11"/><path d="M21 5v11.5L9.8 37.6A4 4 0 0 0 13.3 43h21.4a4 4 0 0 0 3.5-5.4L27 16.5V5"/><path d="M14.5 30h19"/><path d="M19.5 36.5h.01M24.5 39.5h.01M29.5 35.5h.01" stroke-width="3.6"/></svg></span>
-      <span class="lab-idtext"><span class="lab-logtag">실험 로그</span><span class="lab-logsub">LAB RECORD · 탐구 기록</span></span>
-    </div>
-    <p class="pack-topic">{{TITLE}}</p>
-    <p class="pack-kicker lab-pill">{{KICKER}}</p>
-  </header>
-  <!-- t2 2톤 문법: 핵심 어절(주로 마지막 어절, 문장당 1회·1~2 어절)을 <em class="t2">…</em>로 감싸면 강조색이 붙는다. flows.json 토큰 값엔 태그를 넣지 않는다(이스케이프됨). 규칙: references/expression.md 1절 -->
-  <div class="lab-question"><h1 class="pack-prompt">{{PROMPT}}</h1></div>
-  <div class="lab-pipe">
-    <article class="lab-card lab-observation">
-      <header class="lab-cardhead"><span class="lab-badge">01</span><span class="lab-stage">관찰 · 설명</span></header>
+<section class="slide pack pack-lab" data-design="lab" data-archetype="build-up">
+  <div class="lab-stage">
+    <div class="lab-grid" aria-hidden="true"></div>
+    <div class="lab-scanline" aria-hidden="true"></div>
+    <section class="lab-left" aria-label="학습 질문과 실행 행동">
+      <div class="lab-spec-row" data-spec="LAB-01 // OBSERVATION">
+        <span class="lab-spec-rule" aria-hidden="true"></span>
+        <p class="pack-kicker">{{KICKER}}</p>
+      </div>
+      <p class="pack-topic">{{TITLE}}</p>
+      <!-- t2 2톤 문법: 핵심 어절(주로 마지막 어절, 문장당 1회·1~2 어절)을 <em class="t2">…</em>로 감싸면 강조색이 붙는다. flows.json 토큰 값엔 태그를 넣지 않는다(이스케이프됨). 규칙: references/expression.md 1절 -->
+      <h1 class="pack-prompt">{{PROMPT}}</h1>
       <p class="pack-body">{{BODY}}</p>
-      <div class="lab-field"><span class="lab-field-tag">기록</span><span class="lab-fl" aria-hidden="true"></span><span class="lab-fl" aria-hidden="true"></span></div>
-    </article>
-    <svg class="lab-join" viewBox="0 0 72 96" aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="48" r="5" stroke-width="3"/><path d="M18 48h30" stroke-width="4" stroke-dasharray="0.5 11"/><path d="M46 36 62 48 46 60" stroke-width="3.5"/></svg>
-    <aside class="lab-card lab-evidence">
-      <header class="lab-cardhead"><span class="lab-badge">02</span><span class="lab-stage">검증 근거</span></header>
-      <p class="pack-evidence">{{EVIDENCE}}</p>
-      <div class="lab-field"><span class="lab-field-tag">기록</span><span class="lab-fl" aria-hidden="true"></span><span class="lab-fl" aria-hidden="true"></span></div>
-    </aside>
-    <svg class="lab-join" viewBox="0 0 72 96" aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="48" r="5" stroke-width="3"/><path d="M18 48h30" stroke-width="4" stroke-dasharray="0.5 11"/><path d="M46 36 62 48 46 60" stroke-width="3.5"/></svg>
-    <div class="lab-card lab-next">
-      <header class="lab-cardhead"><span class="lab-badge">03</span><span class="lab-stage">수정 · 실행</span></header>
-      <p class="pack-action">{{ACTION}}</p>
-      <div class="lab-field"><span class="lab-field-tag">기록</span><span class="lab-fl" aria-hidden="true"></span><span class="lab-fl" aria-hidden="true"></span></div>
-    </div>
+      <div class="lab-metrics" aria-hidden="true">
+        <span data-label="OBSERVE" data-value="장면 분리"></span>
+        <span data-label="EVIDENCE" data-value="기록 대조"></span>
+        <span data-label="REVISE" data-value="다음 행동"></span>
+      </div>
+      <svg class="lab-signal" viewBox="0 0 790 124" aria-hidden="true">
+        <g stroke="#56CCF2" stroke-width="1" opacity=".22">
+          <path d="M0 42H790M0 74H790M0 106H790"></path>
+          <path d="M88 28V118M250 28V118M412 28V118M574 28V118M736 28V118"></path>
+        </g>
+        <path d="M18 74H110L130 63L150 86L172 74H280L300 57L324 94L344 74H472L492 67L514 84L536 74H772" fill="none" stroke="#56CCF2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" opacity=".82"></path>
+        <path d="M18 80H140L162 73L184 90L206 80H324L344 65L368 97L390 80H520L544 71L566 88L588 80H772" fill="none" stroke="#7CE89A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" opacity=".9"></path>
+        <g fill="#7CE89A"><circle cx="344" cy="65" r="4"></circle><circle cx="566" cy="88" r="4"></circle></g>
+        <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="12" font-weight="800" letter-spacing="2" fill="#56CCF2">
+          <text x="18" y="18">FIELD NOTE // SIGNAL SAMPLE</text>
+          <text x="704" y="18" fill="#7CE89A">Δ 0.72</text>
+          <text x="18" y="120">EXPECT TRACE</text>
+          <text x="170" y="120" fill="#7CE89A">OBSERVED TRACE</text>
+          <text x="690" y="120">T+04.8ms</text>
+        </g>
+      </svg>
+      <div class="lab-action-strip">
+        <span class="lab-action-label" data-label="ACTION // WRITE ONE SENTENCE" aria-hidden="true"></span>
+        <p class="pack-action">{{ACTION}}</p>
+        <div class="lab-ticks" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      </div>
+    </section>
+    <div class="lab-divider" aria-hidden="true"></div>
+    <section class="lab-right" aria-label="관찰 검증 수정 순환 계층 계측기">
+      <div class="lab-corner" data-title="SIGNAL PATH" data-line1="OBSERVE → VERIFY → REVISE" data-line2="CALIBRATION LOCKED · 1920×1080" aria-hidden="true"></div>
+      <svg class="lab-instrument" viewBox="0 0 970 900" aria-hidden="true">
+        <g opacity=".42" stroke="#56CCF2" stroke-width="1">
+          <path d="M36 80H930" opacity=".32"></path>
+          <path d="M36 820H930" opacity=".2"></path>
+          <path d="M78 40V850" opacity=".18"></path>
+          <path d="M900 40V850" opacity=".18"></path>
+          <path d="M36 80h18M36 180h10M36 280h10M36 380h18M36 480h10M36 580h10M36 680h18M36 780h10" opacity=".65"></path>
+          <path d="M930 120h-18M930 220h-10M930 320h-10M930 420h-18M930 520h-10M930 620h-10M930 720h-18" opacity=".65"></path>
+        </g>
+        <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="12" font-weight="700" letter-spacing="2" fill="#56CCF2" opacity=".76">
+          <text x="48" y="66">CH-A // FIELD INPUT</text>
+          <text x="742" y="66">CH-B // EVIDENCE BUS</text>
+          <text x="48" y="864">TIME BASE 04.80ms</text>
+          <text x="410" y="864">LOOP GAIN +0.72</text>
+        </g>
+        <circle cx="500" cy="450" r="330" fill="none" stroke="#56CCF2" stroke-width="8" stroke-dasharray="1 18" opacity=".24"></circle>
+        <circle cx="500" cy="450" r="292" fill="none" stroke="#56CCF2" stroke-width="1.4" stroke-dasharray="7 10" opacity=".55"></circle>
+        <circle cx="500" cy="450" r="214" fill="none" stroke="#56CCF2" stroke-width="1" opacity=".24"></circle>
+        <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M262 596 C188 438 250 260 410 180 C500 135 610 150 686 208" stroke="#56CCF2" stroke-width="12" opacity=".18"></path>
+          <path d="M686 208 C812 300 812 520 666 668" stroke="#7CE89A" stroke-width="12" opacity=".18"></path>
+          <path d="M666 668 C520 780 340 750 262 596" stroke="#56CCF2" stroke-width="12" opacity=".18"></path>
+          <path d="M262 596 C188 438 250 260 410 180 C500 135 610 150 686 208" stroke="#56CCF2" stroke-width="5"></path>
+          <path d="M686 208 C812 300 812 520 666 668" stroke="#7CE89A" stroke-width="5"></path>
+          <path d="M666 668 C520 780 340 750 262 596" stroke="#56CCF2" stroke-width="5"></path>
+          <path d="M675 194 699 207 680 224" stroke="#56CCF2" stroke-width="5"></path>
+          <path d="M678 654 664 678 642 662" stroke="#7CE89A" stroke-width="5"></path>
+          <path d="M276 610 254 602 264 580" stroke="#56CCF2" stroke-width="5"></path>
+        </g>
+        <path d="M110 450 H178 L196 405 L224 510 L246 450 H336 L356 386 L386 540 L410 450 H522 L544 418 L568 486 L592 450 H706 L728 398 L754 514 L780 450 H884" fill="none" stroke="#7CE89A" stroke-width="6" stroke-linejoin="round" stroke-linecap="round" opacity=".16"></path>
+        <path d="M110 450 H178 L196 405 L224 510 L246 450 H336 L356 386 L386 540 L410 450 H522 L544 418 L568 486 L592 450 H706 L728 398 L754 514 L780 450 H884" fill="none" stroke="#7CE89A" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round" opacity=".95"></path>
+        <path d="M500 120V780M170 450H830" stroke="#F4F8FC" stroke-width="1" opacity=".18"></path>
+        <g stroke="#56CCF2" stroke-width="2" fill="#0B192C">
+          <circle cx="262" cy="596" r="18"></circle>
+          <circle cx="686" cy="208" r="18"></circle>
+          <circle cx="666" cy="668" r="18"></circle>
+        </g>
+        <g fill="#7CE89A">
+          <circle cx="262" cy="596" r="6"></circle>
+          <circle cx="686" cy="208" r="6"></circle>
+          <circle cx="666" cy="668" r="6"></circle>
+        </g>
+        <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="12" font-weight="800" letter-spacing="2" fill="#F4F8FC">
+          <text x="218" y="642">01 OBSERVE</text>
+          <text x="642" y="164">02 VERIFY</text>
+          <text x="622" y="714">03 REVISE</text>
+        </g>
+        <g stroke="#56CCF2" stroke-width="1.4" opacity=".6">
+          <path d="M262 596L146 560"></path>
+          <path d="M686 208L746 116"></path>
+          <path d="M666 668L714 724"></path>
+        </g>
+        <g fill="none" stroke="#F4F8FC" stroke-width="1.2" opacity=".34">
+          <circle cx="500" cy="450" r="72"></circle>
+          <path d="M428 450h144M500 378v144"></path>
+        </g>
+        <text x="500" y="456" text-anchor="middle" font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="13" font-weight="850" letter-spacing="3" fill="#F4F8FC" opacity=".9">Δ SIGNAL</text>
+      </svg>
+      <div class="lab-readout lab-readout-a">
+        <span class="lab-readout-label" data-label="01 / OBSERVE" aria-hidden="true"></span>
+        <p>기대와 관찰을 같은 장면에서 나눕니다.</p>
+      </div>
+      <div class="lab-readout lab-readout-b">
+        <span class="lab-readout-label" data-label="02 / EVIDENCE BUS" aria-hidden="true"></span>
+        <p class="pack-evidence">{{EVIDENCE}}</p>
+      </div>
+      <div class="lab-readout lab-readout-c">
+        <span class="lab-readout-label" data-label="03 / REVISE LOOP" aria-hidden="true"></span>
+        <p>차이를 다음 시도의 수정 신호로 바꿉니다.</p>
+      </div>
+    </section>
+    <footer class="lab-console" aria-hidden="true">
+      <span class="status" data-label="● LOOP ACTIVE"></span>
+      <span data-label="OBSERVATION CHANNEL 01"></span>
+      <span data-label="NO EXTERNAL ASSET"></span>
+      <span class="spacer"></span>
+      <span data-label="SIGNAL"></span><span class="bar" aria-hidden="true"><i></i></span>
+      <span data-label="LAT 37.532 / LON 127.024"></span>
+    </footer>
   </div>
-  <footer class="pack-footer lab-memo">
-    <span class="lab-memo-tag">실험 메모</span>
-    <span class="lab-memo-line" aria-hidden="true"></span>
-    <p class="pack-hint">관찰한 사실과 미검증 가정을 구분해 기록하고, 다음 시도로 이어지는 순환을 유지합니다.</p>
-  </footer>
   <aside class="notes">{{KICKER}}
 관찰한 사실과 아직 확인하지 않은 가정을 구분해 설명하세요. 자료가 결론을 지지하는지 학습자에게 물어보세요.
 {{BODY}}

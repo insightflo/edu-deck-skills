@@ -1,31 +1,51 @@
-/* Executive intelligence board: dark ink header, pill thesis, three banded medal cards. */
-.slide.pack-briefing{gap:28px}
-.briefing-header{display:flex;align-items:center;justify-content:space-between;gap:48px;margin:-64px -80px 0;padding:24px 80px;background:var(--ink);color:var(--paper)}
-.briefing-brand{display:flex;align-items:center;gap:20px;flex:none}
-.briefing-header .briefing-ico{width:44px;height:44px;color:var(--accent-light)}
-.briefing-ico *{stroke:currentColor;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
-.briefing-header .pack-mark{color:var(--accent-light);border:1.5px solid var(--accent-light);border-radius:999px;padding:9px 26px}
-.briefing-header .pack-topic{color:var(--paper);max-width:1140px;text-align:right}
-.briefing-thesis{display:flex;flex-direction:column;align-items:flex-start;gap:20px;padding-top:8px}
-.briefing-thesis .pack-kicker{display:inline-flex;align-items:center;gap:12px;background:var(--light);color:var(--accent-text);border-radius:999px;padding:10px 28px}
-.briefing-thesis .pack-kicker::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--accent)}
-.briefing-thesis .pack-prompt{font-size:52px;font-weight:800}
-.briefing-ledger{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;flex:1;min-height:0}
-.briefing-row{display:flex;flex-direction:column;gap:22px;background:#fff;border-radius:var(--r2);padding:34px 36px 30px;box-shadow:inset 0 6px 0 var(--blue),0 10px 28px rgba(32,43,50,.09)}
-.briefing-row:nth-child(2){box-shadow:inset 0 6px 0 var(--line),0 10px 28px rgba(32,43,50,.09)}
-.briefing-decision{background:var(--accent-soft);box-shadow:inset 0 6px 0 var(--accent),0 10px 28px rgba(32,43,50,.12)}
-.briefing-row dt{display:flex;align-items:center;gap:22px}
-.briefing-medal{width:76px;height:76px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;background:var(--blue-soft);color:var(--blue-text)}
-.briefing-medal svg{width:40px;height:40px;stroke:currentColor;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
-.briefing-row:nth-child(2) .briefing-medal{background:var(--light);color:var(--soft)}
-.briefing-decision .briefing-medal{background:var(--accent);color:#fff}
-.briefing-dt{display:flex;flex-direction:column;gap:5px;font-size:26px;font-weight:750;line-height:1.3}
-.briefing-dt .pack-index{color:var(--accent-text);font-size:21px}
-.briefing-row:nth-child(2) .briefing-dt .pack-index{color:var(--soft)}
-.briefing-row .pack-body{font-size:29px;line-height:1.6}
-.briefing-row .pack-evidence{font-size:28px;line-height:1.6}
-.briefing-decision .pack-action{color:var(--accent-text);font-weight:650}
-.briefing-readout{margin-top:auto;padding-left:18px;color:var(--soft);font-size:22px;line-height:1.55}
-.briefing-footnote{display:flex;justify-content:space-between;align-items:center;gap:40px;background:var(--light);border-radius:12px;padding:16px 36px;font-size:22px;color:var(--soft)}
-.briefing-footnote>span{font-weight:700;color:var(--accent-text);white-space:nowrap}
-.briefing-footnote>p{text-align:right}
+/* Deep obsidian executive board: prism signal art, divided thesis panel,
+   and a three-row evidence ledger scoped only to template slides. */
+.slide.pack-briefing:has(.briefing-stage){padding:0;gap:0;background:#0B111E;color:#F6F8FC;overflow:hidden}
+.briefing-stage{position:relative;width:100%;height:100%;min-height:0;overflow:hidden;isolation:isolate;background:#0B111E;color:#F6F8FC;font-family:var(--pack-sans)}
+.briefing-stage::before{content:"";position:absolute;inset:0;z-index:0;background:
+  radial-gradient(880px 520px at 18% 18%,rgba(79,139,255,.16),rgba(79,139,255,0) 66%),
+  radial-gradient(720px 420px at 85% 84%,rgba(242,184,75,.10),rgba(242,184,75,0) 68%),
+  linear-gradient(135deg,#0B111E 0%,#0D1524 46%,#08101C 100%)}
+.briefing-stage::after{content:"";position:absolute;inset:0;z-index:0;opacity:.34;background-image:
+  linear-gradient(rgba(79,139,255,.08) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(79,139,255,.07) 1px,transparent 1px);
+  background-size:96px 96px;mask-image:linear-gradient(90deg,rgba(0,0,0,.85),rgba(0,0,0,.24) 52%,rgba(0,0,0,.58))}
+.briefing-board{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,804px) minmax(0,1fr);gap:64px;width:100%;height:100%;min-height:0;padding:54px 72px 50px 76px}
+.briefing-left{position:relative;display:flex;flex-direction:column;min-width:0;min-height:0;padding-right:58px;border-right:1px solid rgba(246,248,252,.18)}
+.briefing-head{display:flex;align-items:center;justify-content:space-between;gap:24px;color:#C7D2E4;font-size:18px;font-weight:750;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap}
+.briefing-rule{width:82px;height:1px;background:linear-gradient(90deg,#4F8BFF,rgba(79,139,255,0));flex:none}
+.briefing-left .pack-kicker{margin-top:48px;color:#6FA2FF;font-size:21px;font-weight:800;letter-spacing:.055em}
+.briefing-left .pack-topic{margin-top:22px;max-width:690px;color:#F6F8FC;font-size:64px;line-height:1.1;letter-spacing:-.052em;font-weight:850;text-wrap:balance}
+.briefing-left .pack-topic em.t2,.briefing-copy .pack-prompt em.t2{color:#F2B84B;font-style:normal}
+.briefing-note{margin-top:26px;display:flex;align-items:center;gap:18px;color:#C7D2E4;font-size:20px;font-weight:650;letter-spacing:.01em;line-height:1.45}
+.briefing-note::before{content:"";width:46px;height:2px;background:#F2B84B;flex:none}
+.briefing-art{margin-top:auto;padding-top:28px;width:100%;min-height:0}
+.briefing-art svg{display:block;width:100%;height:min(314px,32vh)}
+.briefing-caption{display:flex;justify-content:space-between;align-items:center;margin-top:12px;color:#AAB5C8;font-size:18px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.briefing-stack{display:flex;flex-direction:column;min-width:0;min-height:0;padding-top:2px}
+.briefing-stack-head{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;padding-bottom:22px;border-bottom:2px solid rgba(246,248,252,.62);color:#F6F8FC;font-size:20px;font-weight:760;letter-spacing:-.01em}
+.briefing-stack-head span:first-child{color:#C7D2E4;font-size:18px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+.briefing-rows{flex:1;min-height:0;display:grid;grid-template-rows:minmax(0,1.12fr) minmax(0,.82fr) minmax(0,1.02fr)}
+.briefing-row{position:relative;display:grid;grid-template-columns:142px minmax(0,1fr);column-gap:40px;align-content:center;min-height:0;padding:24px 0 22px;border-bottom:1px solid rgba(246,248,252,.22)}
+.briefing-row+.briefing-row{border-top:1px solid rgba(246,248,252,.22)}
+.briefing-num{align-self:start;padding-top:4px;color:#4F8BFF;font-size:62px;line-height:1;font-weight:850;letter-spacing:-.055em;font-variant-numeric:tabular-nums}
+.briefing-row:nth-child(2) .briefing-num{color:#6FA2FF}
+.briefing-copy{min-width:0;max-width:780px;min-height:0}
+.briefing-label{display:flex;align-items:baseline;flex-wrap:wrap;gap:16px;margin:0 0 10px;color:#F2B84B;font-size:20px;font-weight:850;letter-spacing:.045em;line-height:1.3}
+.briefing-label small{color:#AAB5C8;font-size:18px;font-weight:760;letter-spacing:.1em;text-transform:uppercase}
+.briefing-copy .pack-prompt{margin:0 0 12px;color:#F6F8FC;font-size:31px;line-height:1.28;letter-spacing:-.035em;font-weight:820}
+.briefing-copy .pack-body{color:#F6F8FC;font-size:24px;line-height:1.46;letter-spacing:-.02em;font-weight:620}
+.briefing-copy .pack-evidence{color:#F6F8FC;font-size:25px;line-height:1.46;letter-spacing:-.02em;font-weight:630}
+.briefing-action-row{grid-template-columns:142px minmax(0,1fr) 118px;margin-right:-24px;padding:24px 24px 22px 30px;border-top:2px solid #4F8BFF;border-bottom:0;border-left:8px solid #4F8BFF;background:linear-gradient(96deg,rgba(79,139,255,.27),rgba(16,36,73,.94) 48%,rgba(242,184,75,.16));box-shadow:inset 3px 0 0 rgba(242,184,75,.78)}
+.briefing-action-row .briefing-num{color:#F2B84B}
+.briefing-action-row .pack-action{color:#F6F8FC;font-size:26px;line-height:1.45;font-weight:750;letter-spacing:-.02em}
+.briefing-action-tail{align-self:center;justify-self:end;width:104px;height:104px;border-left:1px solid rgba(242,184,75,.52);display:flex;align-items:center;justify-content:center;color:#F2B84B}
+.briefing-action-tail svg{width:72px;height:72px;overflow:visible}
+.briefing-action-tail text{font-size:12px;font-weight:800;letter-spacing:.18em;fill:currentColor}
+.briefing-footline{display:flex;align-items:center;justify-content:space-between;gap:32px;margin-top:16px;color:#AAB5C8;font-size:18px;font-weight:700;letter-spacing:.08em;line-height:1.3}
+.briefing-footline span:first-child{display:flex;align-items:center;gap:10px;color:#F2B84B;white-space:nowrap}
+.briefing-footline span:first-child::before{content:"";width:8px;height:8px;background:#F2B84B;box-shadow:16px 0 0 #4F8BFF}
+@media print{
+  .slide.pack-briefing:has(.briefing-stage){padding:0}
+  .briefing-art svg{height:260px}
+}

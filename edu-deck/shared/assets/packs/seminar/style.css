@@ -1,23 +1,55 @@
-/* Seminar dialogue floor: minimal header, large quiet quote hero, reference rail and speaking card. */
-.slide.pack-seminar{gap:34px}
-.pack-seminar>.pack-topline{display:flex;align-items:center;gap:40px;padding-bottom:24px;border-bottom:1px solid var(--line)}
-.pack-seminar .pack-topline .pack-mark{flex:none}
-.pack-seminar .pack-topline .pack-topic{flex:1;min-width:0}
-.pack-seminar .pack-kicker{display:inline-flex;align-items:center;gap:11px;flex:none;background:var(--light);color:var(--accent-text);border-radius:999px;padding:9px 26px;white-space:nowrap}
-.pack-seminar .pack-kicker::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--accent)}
-.seminar-room{flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0}
-.seminar-floor{display:flex;flex-direction:column;gap:24px}
-.seminar-quote{width:110px;height:82px;color:var(--accent);opacity:.14}
-.seminar-quote path{fill:currentColor}
-.seminar-floor .pack-prompt{font-family:var(--pack-serif);font-size:56px;line-height:1.38;font-weight:750;letter-spacing:-.03em;max-width:1580px}
-.seminar-floor .pack-body{font-size:30px;line-height:1.65;color:var(--soft);max-width:1360px}
-.seminar-turns{display:flex;align-items:center;gap:26px;margin-top:14px;font-size:24px;color:var(--accent-text)}
-.seminar-turns b{color:var(--line);font-weight:400}
-.seminar-preparation{display:grid;grid-template-columns:.9fr 1.1fr;gap:32px;align-items:stretch}
-.seminar-source{display:flex;flex-direction:column;background:var(--light);border-radius:var(--r1);box-shadow:inset 4px 0 0 var(--accent);padding:28px 40px}
-.seminar-source .pack-evidence{font-size:26px;line-height:1.6;color:var(--ink)}
-.seminar-invitation{display:flex;align-items:center;gap:30px;background:#fff;border-radius:var(--r2);box-shadow:0 12px 32px rgba(32,43,50,.10);padding:28px 42px}
-.seminar-invitation .seminar-bubble{width:66px;height:66px;flex:none;color:var(--accent)}
-.seminar-bubble .b-b{stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
-.seminar-bubble .b-d{fill:currentColor}
-.seminar-invitation .pack-label{color:var(--accent-text);margin-bottom:8px}
+/* Deep burgundy philosophy salon: left full-bleed serif question panel and
+   warm ivory gallery-catalogue dialogue notes, scoped only to template slides. */
+.slide.pack-seminar:has(.seminar-stage){padding:0;gap:0;background:#F8F4EC;color:#1F1A1B;overflow:hidden}
+.seminar-stage{display:grid;grid-template-columns:minmax(0,768px) minmax(0,1fr);width:100%;height:100%;min-height:0;overflow:hidden;background:#F8F4EC;color:#1F1A1B;font-family:var(--pack-sans)}
+.seminar-left{position:relative;min-width:0;min-height:0;overflow:hidden;background:#5E1924;color:#F8F4EC;padding:54px 62px 48px 70px}
+.seminar-left::before{content:"";position:absolute;inset:0;background:
+  radial-gradient(620px 520px at 16% 18%,rgba(200,155,84,.20),rgba(200,155,84,0) 66%),
+  linear-gradient(160deg,rgba(255,255,255,.055),rgba(255,255,255,0) 42%),
+  linear-gradient(90deg,rgba(0,0,0,.18),rgba(0,0,0,0) 42%)}
+.seminar-left::after{content:"";position:absolute;top:0;right:35px;width:1px;height:100%;background:linear-gradient(rgba(248,244,236,0),rgba(248,244,236,.34),rgba(248,244,236,0))}
+.seminar-left-inner{position:relative;z-index:2;display:flex;flex-direction:column;height:100%;min-height:0}
+.seminar-salon-head{display:flex;align-items:center;justify-content:space-between;gap:22px;color:#E9D9C6;font-size:18px;font-weight:760;letter-spacing:.15em;text-transform:uppercase;white-space:nowrap}
+.seminar-line{width:88px;height:1px;background:#C89B54;flex:none}
+.seminar-left .pack-kicker{margin-top:38px;color:#D9B979;font-size:20px;font-weight:800;letter-spacing:.055em}
+.seminar-quote-mark{position:absolute;z-index:1;top:104px;left:38px;font-family:'Gowun Batang','AppleMyungjo','NanumMyeongjo',var(--pack-serif),serif;font-size:330px;line-height:.8;color:rgba(248,244,236,.135);pointer-events:none}
+.seminar-question-zone{position:relative;z-index:2;margin-top:96px;min-height:0}
+.seminar-question-zone .pack-prompt{max-width:600px;color:#F8F4EC;font-family:'Gowun Batang','AppleMyungjo','NanumMyeongjo',var(--pack-serif),serif;font-size:66px;line-height:1.2;letter-spacing:-.045em;font-weight:400;text-wrap:balance}
+.seminar-question-zone .pack-prompt em.t2{color:#E5C987;font-style:normal}
+.seminar-question-rule{display:flex;align-items:center;gap:18px;margin:34px 0 0;color:#E9D9C6;font-size:19px;font-weight:680;letter-spacing:.03em;line-height:1.45}
+.seminar-question-rule::before{content:"";width:72px;height:2px;background:#C89B54;flex:none}
+.seminar-left-bottom{margin-top:auto;padding-top:32px;border-top:1px solid rgba(248,244,236,.30)}
+.seminar-side-label{margin:0 0 10px;color:#D9B979;font-size:18px;font-weight:820;letter-spacing:.13em;text-transform:uppercase}
+.seminar-left-bottom .pack-topic{margin:0;color:#F8F4EC;font-family:'Gowun Batang','AppleMyungjo','NanumMyeongjo',var(--pack-serif),serif;font-size:31px;line-height:1.38;letter-spacing:-.025em;font-weight:400}
+.seminar-turns{display:flex;align-items:center;flex-wrap:wrap;gap:15px;margin-top:24px;color:#F1E5D3;font-size:20px;font-weight:650;letter-spacing:-.01em}
+.seminar-turns i{width:5px;height:5px;border-radius:50%;background:#C89B54;flex:none}
+.seminar-right{position:relative;min-width:0;min-height:0;overflow:hidden;background:#F8F4EC;padding:56px 78px 50px 88px}
+.seminar-right::before{content:"";position:absolute;inset:0;background:
+  linear-gradient(90deg,rgba(94,25,36,.045),rgba(94,25,36,0) 18%),
+  repeating-linear-gradient(0deg,rgba(31,26,27,.025) 0 1px,transparent 1px 92px)}
+.seminar-right-inner{position:relative;z-index:1;display:flex;flex-direction:column;height:100%;min-height:0}
+.seminar-editorial-head{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;padding-bottom:20px;border-bottom:2px solid rgba(94,25,36,.76);color:#5E1924;font-size:18px;font-weight:850;letter-spacing:.15em;text-transform:uppercase}
+.seminar-editorial-head span:last-child{color:#6E5B55;font-size:18px;letter-spacing:.1em}
+.seminar-intro{margin-top:34px;max-width:900px;min-height:0}
+.seminar-section-label{margin:0 0 10px;color:#5E1924;font-size:18px;font-weight:860;letter-spacing:.13em;text-transform:uppercase;line-height:1.35}
+.seminar-intro .pack-body{color:#1F1A1B;font-size:30px;line-height:1.5;letter-spacing:-.032em;font-weight:540}
+.seminar-preparation{display:grid;grid-template-columns:240px minmax(0,1fr);gap:38px;margin-top:30px;padding-top:24px;border-top:1px solid rgba(31,26,27,.22);min-height:0}
+.seminar-preparation h2{margin:0;color:#5E1924;font-family:'Gowun Batang','AppleMyungjo','NanumMyeongjo',var(--pack-serif),serif;font-size:27px;line-height:1.36;font-weight:400;letter-spacing:-.03em}
+.seminar-preparation .pack-evidence{margin:0;max-width:720px;color:#2A2425;font-size:25px;line-height:1.5;letter-spacing:-.025em}
+.seminar-pull{display:grid;grid-template-columns:76px minmax(0,1fr);gap:24px;align-items:start;margin-top:26px;padding:24px 0 26px;border-top:1px solid rgba(31,26,27,.22);border-bottom:1px solid rgba(31,26,27,.22)}
+.seminar-mark{font-family:'Gowun Batang','AppleMyungjo','NanumMyeongjo',var(--pack-serif),serif;font-size:76px;line-height:.78;color:#9A5B2E}
+.seminar-pull blockquote{margin:0;color:#47111A;font-family:'Gowun Batang','AppleMyungjo','NanumMyeongjo',var(--pack-serif),serif;font-size:36px;line-height:1.32;letter-spacing:-.04em}
+.seminar-pull cite{display:block;margin-top:10px;color:#9A5B2E;font-family:var(--pack-sans);font-style:normal;font-size:18px;font-weight:820;letter-spacing:.11em;text-transform:uppercase}
+.seminar-invitation{margin-top:auto;padding-top:26px;border-top:2px solid #5E1924;display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:40px;align-items:center;min-height:0}
+.seminar-call{min-width:0}
+.seminar-invitation .pack-action{margin:0;max-width:680px;color:#47111A;font-size:28px;line-height:1.45;letter-spacing:-.03em;font-weight:700}
+.seminar-cue{display:flex;align-items:center;gap:14px;margin:16px 0 0;color:#9A5B2E;font-size:18px;font-weight:780;letter-spacing:.04em;line-height:1.4}
+.seminar-cue::before{content:"";width:42px;height:2px;background:#C89B54;flex:none}
+.seminar-dialogue-art{width:360px;height:170px;color:#5E1924}
+.seminar-dialogue-art svg{display:block;width:100%;height:100%;overflow:visible}
+.seminar-colophon{display:flex;justify-content:space-between;gap:32px;margin-top:14px;color:#6E5B55;font-size:18px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;line-height:1.3}
+@media print{
+  .slide.pack-seminar:has(.seminar-stage){padding:0}
+  .seminar-question-zone{margin-top:72px}
+  .seminar-pull blockquote{font-size:32px}
+}

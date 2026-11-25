@@ -1,37 +1,70 @@
-/* Magazine spread: masthead with double rule + emblem, hero question with
-   kicker pill, paper reading card + outset tinted evidence card, ink action band.
-   All surfaces ride on family tokens (paper/ink/accent/light/soft/line + tint/chip),
-   so the deck recolors itself under every data-family. */
+/* Swiss magazine split: pure-white editorial page on the left (60%) and a
+   full-bleed deep-charcoal evidence margin on the right (40%).  Vermilion is
+   used as the only loud accent; there are no cards, radii, glows or panels.
+   The stage rules are scoped by :has(.editorial-stage) so runtime quiz slides
+   built without the template wrapper keep the safe base pack layout. */
 .slide.pack-editorial{gap:32px}
+.slide.pack-editorial:has(.editorial-stage){padding:0;gap:0;background:#FFFFFF;color:#141619}
+.slide.pack-editorial:has(.editorial-stage) .editorial-stage{width:1920px;height:1080px;display:grid;grid-template-columns:1152px 768px;background:#FFFFFF;color:#141619;overflow:hidden}
 
-/* Masthead — thick+thin double rule, brand emblem left, issue label right. */
-.editorial-masthead{position:relative;display:flex;align-items:center;gap:28px;padding:26px 4px 18px;border-bottom:1px solid var(--ink)}
-.editorial-masthead::before{content:"";position:absolute;left:0;right:0;top:0;border-top:4px solid var(--ink)}
-.editorial-masthead::after{content:"";position:absolute;left:0;right:0;top:10px;border-top:1px solid var(--ink)}
-.editorial-brand{display:flex;align-items:center;gap:16px;flex:none}
-.editorial-brand .pack-mark{font-family:var(--pack-serif);font-size:30px;font-weight:800;letter-spacing:.18em;color:var(--ink)}
-.editorial-emblem{width:46px;height:46px;color:var(--accent-text)}
-.editorial-issue{margin-left:auto;display:flex;align-items:baseline;gap:24px;min-width:0;text-align:right}
-.editorial-issue .pack-topic{max-width:880px}
-.editorial-edition{font-size:20px;white-space:nowrap;color:var(--soft)}
+/* Left page — masthead, giant question, editorial columns and bottom action rule. */
+.slide.pack-editorial .editorial-left{position:relative;height:1080px;padding:44px 74px 36px 76px;display:flex;flex-direction:column;min-height:0;overflow:hidden;background:#FFFFFF;color:#141619}
+.slide.pack-editorial .editorial-left::after{content:"";position:absolute;left:76px;right:74px;bottom:36px;border-bottom:1px solid rgba(20,22,25,.35);pointer-events:none}
+.slide.pack-editorial .editorial-masthead{position:relative;flex:none;min-height:69px;display:flex;align-items:flex-start;justify-content:space-between;gap:28px;border-top:7px solid #141619;padding-top:13px}
+.slide.pack-editorial .editorial-masthead::after{content:"";position:absolute;left:0;right:0;top:3px;border-top:1px solid #141619}
+.slide.pack-editorial .editorial-brand{display:flex;align-items:center;gap:18px;flex:none;white-space:nowrap}
+.slide.pack-editorial .editorial-brand .pack-mark{font-size:20px;font-weight:780;letter-spacing:.14em;color:#141619}
+.slide.pack-editorial .editorial-mark{width:28px;height:28px;display:grid;place-items:center;background:#D9381E;color:#FFFFFF;font-family:var(--pack-serif);font-size:18px;font-weight:700;line-height:1;letter-spacing:0}
+.slide.pack-editorial .editorial-masthead .pack-topic{max-width:650px;padding-top:1px;font-size:22px;line-height:1.2;font-weight:640;letter-spacing:-.02em;color:#141619;text-align:right}
+.slide.pack-editorial .editorial-subrow{flex:none;height:32px;display:flex;align-items:flex-end;justify-content:space-between;border-bottom:1px solid #141619;font-family:Menlo,Consolas,monospace;font-size:13px;letter-spacing:.16em;color:rgba(20,22,25,.72)}
+.slide.pack-editorial .editorial-kicker-row{flex:none;height:46px;margin-top:28px;display:grid;grid-template-columns:92px minmax(0,1fr) auto;align-items:center;column-gap:18px;border-top:1px solid rgba(20,22,25,.65);border-bottom:1px solid rgba(20,22,25,.22)}
+.slide.pack-editorial .editorial-no::before{content:"01";display:block;font-family:'Gowun Batang','AppleMyungjo',serif;font-size:30px;line-height:1;color:#D9381E}
+.slide.pack-editorial .editorial-kicker-row .pack-kicker{font-size:22px;line-height:1.35;font-weight:700;letter-spacing:.015em;color:#141619}
+.slide.pack-editorial .editorial-kicker-tag{font-family:Menlo,Consolas,monospace;font-size:13px;letter-spacing:.18em;color:rgba(20,22,25,.64);white-space:nowrap}
+.slide.pack-editorial .editorial-hero{flex:none;margin-top:32px;padding:0}
+.slide.pack-editorial .editorial-hero .pack-prompt{max-width:1000px;font-family:var(--pack-sans);font-size:88px;line-height:1.055;font-weight:850;letter-spacing:-.052em;color:#141619;text-wrap:balance}
+.slide.pack-editorial .editorial-hero .pack-prompt em.t2{color:#D9381E;font-style:normal}
+.slide.pack-editorial .editorial-hero-rule{flex:none;height:16px;margin-top:28px;display:grid;grid-template-columns:168px 1fr;align-items:start}
+.slide.pack-editorial .editorial-hero-rule i{display:block;height:8px;background:#D9381E}
+.slide.pack-editorial .editorial-hero-rule b{display:block;height:1px;background:#141619;margin-top:4px}
+.slide.pack-editorial .editorial-copy-zone{flex:1 1 auto;min-height:170px;margin-top:28px;display:grid;grid-template-columns:132px minmax(0,1fr);column-gap:34px;position:relative}
+.slide.pack-editorial .editorial-copy-zone::before{content:"";position:absolute;left:132px;top:4px;bottom:8px;border-left:1px solid rgba(20,22,25,.24)}
+.slide.pack-editorial .editorial-copy-label{padding-top:4px;font-family:Menlo,Consolas,monospace;font-size:13px;letter-spacing:.18em;line-height:1.9;color:rgba(20,22,25,.7)}
+.slide.pack-editorial .editorial-copy-label strong{display:block;font-family:var(--pack-sans);font-size:20px;line-height:1.35;letter-spacing:.02em;color:#141619;margin-bottom:10px}
+.slide.pack-editorial .editorial-copy-label span{display:block}
+.slide.pack-editorial .editorial-story{min-width:0;position:relative;padding-left:34px}
+.slide.pack-editorial .editorial-story::after{content:"";position:absolute;left:50%;top:6px;bottom:14px;border-left:1px solid rgba(20,22,25,.18)}
+.slide.pack-editorial .editorial-story .pack-body{max-width:840px;column-count:2;column-gap:48px;column-rule:0 solid transparent;font-family:var(--pack-serif);font-size:27px;line-height:1.62;letter-spacing:-.022em;color:#181B1E}
+.slide.pack-editorial .editorial-micro-index{flex:none;height:28px;margin-top:8px;display:flex;gap:26px;align-items:center;font-family:Menlo,Consolas,monospace;font-size:12px;letter-spacing:.15em;color:rgba(20,22,25,.64)}
+.slide.pack-editorial .editorial-micro-index::before{content:"";width:54px;border-top:1px solid #D9381E}
+.slide.pack-editorial .editorial-bottom{position:relative;flex:none;min-height:112px;margin-top:10px;border-top:5px solid #141619;display:grid;grid-template-columns:210px minmax(0,1fr) 72px;align-items:center;column-gap:34px;padding:10px 0 0;color:#141619;background:transparent;box-shadow:none;border-radius:0}
+.slide.pack-editorial .editorial-action-tick{position:absolute;left:0;top:14px;width:92px;border-top:7px solid #D9381E}
+.slide.pack-editorial .editorial-action-label{padding-top:10px;font-family:Menlo,Consolas,monospace;font-size:13px;line-height:1.55;letter-spacing:.16em;color:rgba(20,22,25,.68)}
+.slide.pack-editorial .editorial-action-label strong{display:block;font-family:var(--pack-sans);font-size:20px;letter-spacing:-.01em;color:#141619;margin-bottom:5px}
+.slide.pack-editorial .editorial-action-label span{display:block}
+.slide.pack-editorial .editorial-bottom .pack-action{padding-top:8px;font-size:27px;line-height:1.42;font-weight:690;letter-spacing:-.026em;color:#141619}
+.slide.pack-editorial .editorial-arrow-ic{width:52px;height:52px;color:#D9381E;margin-top:6px}
 
-/* Hero — kicker as a color pill, then the big two-tone question. */
-.editorial-hero{display:flex;flex-direction:column;align-items:flex-start;gap:24px;padding:6px 0 2px}
-.editorial-hero .pack-kicker{display:inline-flex;align-items:center;background:var(--accent-chip);color:var(--accent-text);border-radius:var(--pill-r);padding:10px 26px;font-size:23px;letter-spacing:.04em}
-.editorial-hero .pack-prompt{font-family:var(--pack-serif);font-size:56px;line-height:1.28;font-weight:800;letter-spacing:-.03em;max-width:1600px}
+/* Right evidence margin — full-bleed charcoal with vermilion edge, watermark,
+   red rule, evidence copy, geometric editorial drawing and folio line. */
+.slide.pack-editorial .editorial-right{position:relative;min-width:0;height:1080px;overflow:hidden;background:#141619;color:#F4EEDD;padding:0;margin:0;border-radius:0;box-shadow:none}
+.slide.pack-editorial .editorial-right::after{content:"";position:absolute;left:43px;top:206px;bottom:190px;width:1px;background:rgba(217,56,30,.76)}
+.slide.pack-editorial .editorial-redline{position:absolute;left:0;top:0;bottom:0;width:14px;background:#D9381E;z-index:1}
+.slide.pack-editorial .editorial-watermark{position:absolute;right:4px;top:28px;width:500px;height:390px;overflow:hidden;user-select:none;pointer-events:none}
+.slide.pack-editorial .editorial-watermark::before{content:"01";position:absolute;right:-24px;top:-26px;font-family:'Gowun Batang','AppleMyungjo',serif;font-size:470px;line-height:.8;font-weight:700;color:rgba(244,238,221,.07);letter-spacing:-.08em}
+.slide.pack-editorial .editorial-right-meta{position:absolute;left:92px;top:55px;right:58px;display:flex;justify-content:space-between;gap:24px;font-family:Menlo,Consolas,monospace;font-size:13px;letter-spacing:.19em;color:rgba(244,238,221,.72)}
+.slide.pack-editorial .editorial-right-meta b{font-weight:500;color:#F4EEDD}
+.slide.pack-editorial .editorial-evidence{position:absolute;left:92px;top:210px;width:548px;min-height:280px;color:#F4EEDD}
+.slide.pack-editorial .editorial-evidence-kicker{display:flex;align-items:center;gap:18px;font-size:20px;font-weight:730;letter-spacing:.04em;color:#F4EEDD}
+.slide.pack-editorial .editorial-evidence-kicker::before{content:"";width:36px;height:8px;background:#D9381E;flex:none}
+.slide.pack-editorial .editorial-evidence-rule{height:1px;background:rgba(244,238,221,.36);margin:28px 0 30px;position:relative}
+.slide.pack-editorial .editorial-evidence-rule::after{content:"";position:absolute;right:0;top:-5px;width:88px;border-top:7px solid #D9381E}
+.slide.pack-editorial .editorial-evidence .pack-evidence{font-size:30px;line-height:1.6;font-weight:520;letter-spacing:-.029em;color:#F4EEDD;max-width:548px}
+.slide.pack-editorial .editorial-evidence small{display:block;margin-top:24px;font-family:Menlo,Consolas,monospace;font-size:13px;line-height:1.7;letter-spacing:.15em;color:rgba(244,238,221,.58)}
+.slide.pack-editorial .editorial-geometry{position:absolute;left:92px;bottom:126px;width:566px;height:334px;color:rgba(244,238,221,.82)}
+.slide.pack-editorial .editorial-geometry .red{stroke:#D9381E}
+.slide.pack-editorial .editorial-folio{position:absolute;left:92px;right:54px;bottom:44px;display:flex;align-items:flex-end;justify-content:space-between;border-top:1px solid rgba(244,238,221,.34);padding-top:16px;font-family:Menlo,Consolas,monospace;font-size:13px;letter-spacing:.17em;color:rgba(244,238,221,.64)}
+.slide.pack-editorial .editorial-page::before{content:"p. 01";display:block;font-family:'Gowun Batang','AppleMyungjo',serif;font-size:28px;letter-spacing:-.02em;color:#F4EEDD}
 
-/* Spread — wide paper reading card + outset tinted evidence card. */
-.editorial-spread{display:grid;grid-template-columns:1.55fr .72fr;gap:44px;align-items:stretch;flex:1;min-height:0}
-.editorial-story{background:color-mix(in srgb,var(--paper) 55%,#ffffff);border-radius:var(--r3);border-top:10px solid var(--accent);box-shadow:0 18px 44px color-mix(in srgb,var(--ink) 12%,transparent),0 3px 10px color-mix(in srgb,var(--ink) 7%,transparent);padding:46px 56px 42px}
-.editorial-story .pack-label{color:var(--accent-text);margin-bottom:20px}
-.editorial-story .pack-body{font-size:31px;line-height:1.75}
-.editorial-margin{position:relative;margin-top:-14px;background:var(--accent-soft);border-radius:var(--r3);padding:42px 42px 38px;box-shadow:0 22px 50px color-mix(in srgb,var(--ink) 16%,transparent),0 4px 12px color-mix(in srgb,var(--ink) 8%,transparent)}
-.editorial-quote{width:50px;height:36px;color:var(--accent);margin-bottom:18px}
-.editorial-margin .pack-label{color:var(--accent-text)}
-.editorial-margin .pack-evidence{font-size:27px;line-height:1.68}
-
-/* Action band — deep ink strip with arrow. */
-.editorial-bottom{display:flex;align-items:center;gap:32px;background:var(--ink);border-radius:20px;padding:26px 44px;color:var(--paper);box-shadow:0 16px 40px color-mix(in srgb,var(--ink) 26%,transparent)}
-.editorial-bottom .pack-label{color:var(--accent-light);margin:0;white-space:nowrap}
-.editorial-bottom .pack-action{flex:1;min-width:0;color:var(--paper);font-size:28px}
-.editorial-arrow-ic{width:52px;height:52px;flex:none;color:var(--accent-light)}
+/* Print/compact safety: keep the exact split rather than flattening the design. */
+@media print{.slide.pack-editorial:has(.editorial-stage){padding:0}.slide.pack-editorial .editorial-stage{display:grid}}
