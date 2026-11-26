@@ -13,3 +13,4 @@ edu-deck/shared/dev/TASK-*.md
 outputs/
 qa/
 workspace/
+node_modules/

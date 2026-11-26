@@ -1,0 +1,8 @@
+{
+  "name": "keynote-3d-phase1-qa",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "playwright": "1.65.1"
+  }
+}

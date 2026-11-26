@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>keynote-3d — Phase 1 Representative Sample</title>
+<style>
+:root{--bg:#0e1118;--paper:#eceae4;--amber:#e5b869;--ice:#7aa2f7;--dim:rgba(236,234,228,.58);--line:rgba(236,234,228,.14)}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--paper);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR","Apple SD Gothic Neo",sans-serif}
+#stage{position:fixed;inset:0;width:100vw;height:100vh;display:block;background:var(--bg)}
+body.blackout{background:#000}body.blackout>*:not(#stage){visibility:hidden}body.blackout #stage{visibility:hidden}
+#typography{position:fixed;left:7vw;top:18vh;width:min(780px,58vw);z-index:4;pointer-events:none;perspective:900px;transform-style:preserve-3d}
+#typography.right{left:auto;right:7vw;text-align:right}
+.kicker{font-size:13px;letter-spacing:.19em;text-transform:uppercase;color:var(--amber);margin-bottom:18px;opacity:.88}
+#headline{margin:0;font-size:clamp(42px,5.6vw,92px);line-height:1.02;letter-spacing:-.055em;font-weight:760;color:var(--paper)}
+#headline .w{display:inline-block;opacity:0;transform:translate3d(0,42px,72px) rotateX(22deg);filter:blur(8px);animation:wordrise .82s cubic-bezier(.19,.78,.22,1) forwards;animation-delay:calc(var(--i)*95ms)}
+#subline{margin:24px 0 0;font-size:clamp(17px,1.55vw,25px);line-height:1.46;color:rgba(122,162,247,.92);font-weight:560;opacity:0;animation:fadeup .7s .42s ease forwards}
+#points{list-style:none;margin:34px 0 0;padding:0;font-size:clamp(14px,1.05vw,18px);line-height:1.72;color:var(--dim)}
+#points li{opacity:0;transform:translateY(18px);animation:fadeup .62s ease forwards;animation-delay:calc(.62s + var(--i)*130ms)}
+#points li:before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--amber);margin-right:12px;vertical-align:2px}
+body.quick #headline .w,body.quick #subline,body.quick #points li{animation-duration:.01s!important;animation-delay:0s!important}
+@keyframes wordrise{to{opacity:1;transform:translate3d(0,0,0) rotateX(0);filter:blur(0)}}
+@keyframes fadeup{to{opacity:1;transform:translateY(0)}}
+.hud{position:fixed;z-index:5;color:rgba(236,234,228,.72);font-size:12px;letter-spacing:.06em;pointer-events:none}
+#sceneNo{top:24px;left:28px;font-variant-numeric:tabular-nums}
+#beatDots{top:27px;right:30px;display:flex;gap:8px;pointer-events:none}
+#beatDots i{width:6px;height:6px;border-radius:50%;background:rgba(236,234,228,.22);transition:background .25s,transform .25s}
+#beatDots i.on{background:var(--amber);transform:scale(1.35)}
+#progress{position:fixed;left:0;bottom:0;height:2px;width:100%;z-index:6;background:rgba(236,234,228,.08)}
+#progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--amber),var(--ice));transition:width .18s linear}
+#controls{position:fixed;right:22px;bottom:20px;z-index:8;display:flex;align-items:center;gap:3px;padding:6px 8px;border:1px solid rgba(236,234,228,.13);border-radius:999px;background:rgba(14,17,24,.42);backdrop-filter:blur(12px);color:rgba(236,234,228,.72);font-size:12px;line-height:1}
+#controls button{border:0;background:transparent;color:inherit;font:inherit;padding:6px 7px;border-radius:99px;cursor:pointer}
+#controls button:hover{background:rgba(236,234,228,.1);color:var(--paper)}
+#controls .sep{opacity:.35;padding:0 3px}
+#controls #pos{min-width:34px;text-align:center;font-variant-numeric:tabular-nums}
+.panel{position:fixed;z-index:9;background:rgba(10,13,20,.84);border:1px solid rgba(236,234,228,.13);box-shadow:0 24px 70px rgba(0,0,0,.38);backdrop-filter:blur(18px);border-radius:20px;color:var(--paper);transition:opacity .2s,transform .2s}
+.hidden{opacity:0;pointer-events:none;transform:translateY(12px)}
+#notes{top:70px;right:26px;width:min(390px,86vw);max-height:70vh;overflow:auto;padding:22px}
+#notes h2,#overview h2{font-size:14px;margin:0 0 14px;color:var(--amber);letter-spacing:.04em}
+#notes li{margin:0 0 11px 18px;line-height:1.55;font-size:13px;color:rgba(236,234,228,.78)}
+#overview{inset:7vh 8vw;padding:26px;overflow:auto}
+#overview .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+#overview button{text-align:left;border:1px solid rgba(236,234,228,.12);border-radius:16px;background:rgba(236,234,228,.045);padding:16px;color:var(--paper);cursor:pointer}
+#overview button:hover{border-color:var(--ice)}
+#overview b{display:block;font-size:15px;margin-bottom:7px}
+#overview span{font-size:12px;color:var(--dim);line-height:1.45}
+#help{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:5;color:rgba(236,234,228,.35);font-size:11px;letter-spacing:.03em;pointer-events:none;white-space:nowrap}
+#fallback{position:fixed;inset:0;display:none;place-items:center;background:var(--bg);z-index:20;padding:32px;text-align:center;line-height:1.7}
+@media(max-width:820px){#typography{left:7vw;width:86vw;top:13vh}#help{display:none}#overview .grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<canvas id="stage"></canvas>
+<main id="typography" aria-live="polite">
+<div class="kicker" id="kicker"></div>
+<h1 id="headline"></h1>
+<p id="subline"></p>
+<ul id="points"></ul>
+</main>
+<div class="hud" id="sceneNo">01 / 03</div>
+<div class="hud" id="beatDots"><i></i><i></i><i></i></div>
+<div id="progress"><i></i></div>
+<nav id="controls" aria-label="deck controls">
+<button id="prevBtn" aria-label="이전">‹</button><span id="pos">1/3</span><button id="nextBtn" aria-label="다음">›</button><span class="sep">·</span><button id="ovBtn">개요</button><span class="sep">·</span><button id="noteBtn">노트</button><span class="sep">·</span><button id="muteBtn">음</button><span class="sep">·</span><button id="helpBtn">?</button>
+</nav>
+<aside id="notes" class="panel hidden"><h2>발표자 노트</h2><ul id="notesList"></ul></aside>
+<section id="overview" class="panel hidden"><h2>개요</h2><div class="grid" id="ovGrid"></div></section>
+<div id="help">→/Space 다음 · ← 이전 · O 개요 · N 노트 · M 음 · A 자동 · F 전체화면 · . 블랙 · ? 도움말</div>
+<div id="fallback"><div><h2>WebGL2를 사용할 수 없습니다</h2><p>이 샘플은 실시간 3D 렌더링을 위해 WebGL2가 필요합니다.</p></div></div>
+<script>
+'use strict';
+const Q=new URLSearchParams(location.search),QUICK=Q.has('quick'),HEADLESS=Q.has('headless')||Q.get('headless')==='1'||navigator.webdriver;
+if(QUICK)document.body.classList.add('quick');
+const TAU=Math.PI*2,DEG=Math.PI/180;
+const STORYBOARD=[
+{id:'lamp',title:'Studio Desk Lamp',enterWith:'fade',cameraRig:{type:'dolly',beats:[
+{from:[7.8,4.2,9.4],to:[6.2,3.5,7.2],target:[0,1.15,0],fov:[46,43]},
+{from:[6.2,3.5,7.2],to:[4.7,2.8,5.6],target:[.1,1.35,0],fov:[43,40]},
+{from:[4.7,2.8,5.6],to:[3.6,2.25,4.45],target:[.25,1.45,0],fov:[40,37]}]},beats:[
+{duration:7,headline:'빛이 켜지는 순간',sub:'한 개의 조명이 어두운 스튜디오를 무대로 바꿉니다',points:['실제 WebGL2 원근 투영과 카메라 돌리','따뜻한 스포트라이트와 입체적인 부피 광원','먼지 입자가 공간의 깊이를 드러냅니다']},
+{duration:7,headline:'장면은 시간 위에 세워집니다',sub:'비트마다 카메라가 조금 더 가까이 다가갑니다',points:['3개 비트가 하나의 연속 동선을 만듭니다','키네틱 한국어 타이포는 단어 단위로 떠오릅니다','해시와 키보드가 모든 발표 위치를 기억합니다']},
+{duration:8,headline:'어둠은 메시지를 선명하게 합니다',sub:'낮은 눈부심, 절제된 앰버, 부드러운 여백',points:['매트한 다크 스튜디오 팔레트','섬광 없는 저강도 모션','발표자 노트와 개요는 얇은 크롬으로 분리']}],notes:['램프가 켜지는 장면으로 몰입을 만든다.','카메라는 비트 1에서 3으로 갈수록 천천히 돌리인한다.','조명은 따뜻하게 유지하고 텍스트와 겹치지 않게 한다.']},
+{id:'monoliths',title:'Architectural Monoliths',enterWith:'wash',cameraRig:{type:'crane',beats:[
+{from:[-8.8,4.8,9.8],to:[-4.8,4.1,8.2],target:[0,1.6,0],fov:[47,44]},
+{from:[-4.8,4.1,8.2],to:[1.8,5.3,9.0],target:[.2,1.7,-.5],fov:[44,42]},
+{from:[1.8,5.3,9.0],to:[7.4,3.5,6.4],target:[.2,1.5,-.4],fov:[42,39]}]},beats:[
+{duration:7,headline:'구조는 리듬을 만든다',sub:'60개 이상의 입체 모노리스가 파도처럼 솟습니다',points:['InstancedMesh 방식의 실제 3D 기둥 배열','시간 위상이 높이 변화를 결정합니다','림 라이트가 오브시디언 표면을 분리합니다']},
+{duration:7,headline:'크레인 카메라가 곡선을 그립니다',sub:'한 장면 안에서도 시점은 계속 이동합니다',points:['카메라 리그는 궤적과 목표점을 함께 보정','원근감 있는 기둥 배열이 공간을 측정하게 합니다','차가운 아이스 블루가 구조의 윤곽을 강조']},
+{duration:8,headline:'질서는 반복에서 드러납니다',sub:'같은 규칙이 쌓일수록 장면은 더 또렷해집니다',points:['절차 생성 지오메트리만 사용해 외부 자산이 없습니다','단일 HTML 안에서 조명·입자·타이포가 함께 동작','오프라인 발표 환경을 전제로 설계되었습니다']}],notes:['모노리스는 데이터와 아키텍처의 반복 구조를 상징한다.','크레인 이동이 빠르지 않도록 절제한다.','기둥의 높이 파형은 부드럽게 유지한다.']},
+{id:'orbital',title:'Kinetic Core',enterWith:'portal-in',cameraRig:{type:'orbit',beats:[
+{from:[7.0,3.8,7.0],to:[5.7,3.0,5.7],target:[0,1.35,0],fov:[45,42]},
+{from:[5.7,3.0,5.7],to:[-4.8,2.7,6.1],target:[0,1.4,0],fov:[42,40]},
+{from:[-4.8,2.7,6.1],to:[0.2,2.25,7.2],target:[0,1.42,0],fov:[40,36]}]},beats:[
+{duration:7,headline:'핵심은 하나로 수렴합니다',sub:'발광하는 3D 코어 주위를 고리와 노드가 공전합니다',points:['아이코사히드론 코어와 3개의 궤도 링','반대 방향으로 회전하는 입체 궤도','Instanced data nodes가 흐름을 시각화']},
+{duration:7,headline:'움직임은 결국 정돈됩니다',sub:'카메라는 공전하며 마지막 구도를 찾습니다',points:['카메라 오빗이 장면의 중심을 계속 응시','앰버 코어와 아이스 링의 색 대비','전환은 프레임버퍼 텍스처 사이에서 합성']},
+{duration:8,headline:'마지막 장면은 고요해야 합니다',sub:'모든 에너지가 하나의 영웅 구도에 멈춥니다',points:['여운을 남기는 클로징 앵글','무리한 반짝임 없이 낮은 대비로 마감','keynote-3d Phase 1의 대표 샘플']}],notes:['코어는 제품 비전의 중심을 의미한다.','링은 서로 다른 이해관계와 데이터 흐름을 의미한다.','마지막 비트에서는 카메라를 정면에 가깝게 안정시킨다.']}];
+const $=s=>document.querySelector(s),canvas=$('#stage');
+const gl=canvas.getContext('webgl2',{preserveDrawingBuffer:HEADLESS,antialias:true,alpha:false,powerPreference:'high-performance'});
+if(!gl){$('#fallback').style.display='grid';throw new Error('WebGL2 unavailable')}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v))}function lerp(a,b,t){return a+(b-a)*t}function ease(t){return t*t*(3-2*t)}function fract(v){return v-Math.floor(v)}
+function v3(x,y,z){return [x,y,z]}function add3(a,b){return [a[0]+b[0],a[1]+b[1],a[2]+b[2]]}function sub3(a,b){return [a[0]-b[0],a[1]-b[1],a[2]-b[2]]}function mul3(a,s){return [a[0]*s,a[1]*s,a[2]*s]}function dot3(a,b){return a[0]*b[0]+a[1]*b[1]+a[2]*b[2]}function cross3(a,b){return [a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]]}function norm3(a){const l=Math.hypot(a[0],a[1],a[2])||1;return [a[0]/l,a[1]/l,a[2]/l]}
+function mix3(a,b,t){return [lerp(a[0],b[0],t),lerp(a[1],b[1],t),lerp(a[2],b[2],t)]}
+function m4mul(a,b){const o=new Array(16);for(let c=0;c<4;c++)for(let r=0;r<4;r++)o[c*4+r]=a[r]*b[c*4]+a[4+r]*b[c*4+1]+a[8+r]*b[c*4+2]+a[12+r]*b[c*4+3];return o}
+function m4T(x,y,z){return [1,0,0,0,0,1,0,0,0,0,1,0,x,y,z,1]}
+function m4S(x,y,z){return [x,0,0,0,0,y,0,0,0,0,z,0,0,0,0,1]}
+function m4RX(a){const c=Math.cos(a),s=Math.sin(a);return [1,0,0,0,0,c,s,0,0,-s,c,0,0,0,0,1]}
+function m4RY(a){const c=Math.cos(a),s=Math.sin(a);return [c,0,-s,0,0,1,0,0,s,0,c,0,0,0,0,1]}
+function m4RZ(a){const c=Math.cos(a),s=Math.sin(a);return [c,s,0,0,-s,c,0,0,0,0,1,0,0,0,0,1]}
+function trs(x,y,z,rx,ry,rz,sx,sy,sz){let m=m4T(x,y,z);m=m4mul(m,m4RY(ry));m=m4mul(m,m4RX(rx));m=m4mul(m,m4RZ(rz));m=m4mul(m,m4S(sx,sy,sz));return m}
+function perspective(fov,aspect,near,far){const f=1/Math.tan(fov*DEG/2),nf=1/(near-far);return [f/aspect,0,0,0,0,f,0,0,0,0,(far+near)*nf,-1,0,0,2*far*near*nf,0]}
+function lookAt(eye,target,up){const z=norm3(sub3(eye,target)),x=norm3(cross3(up,z)),y=cross3(z,x);return [x[0],y[0],z[0],0,x[1],y[1],z[1],0,x[2],y[2],z[2],0,-dot3(x,eye),-dot3(y,eye),-dot3(z,eye),1]}
+function compile(type,src){const s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw new Error(gl.getShaderInfoLog(s)||'shader compile failed');return s}
+function program(vs,fs){const p=gl.createProgram();gl.attachShader(p,compile(gl.VERTEX_SHADER,vs));gl.attachShader(p,compile(gl.FRAGMENT_SHADER,fs));gl.linkProgram(p);if(!gl.getProgramParameter(p,gl.LINK_STATUS))throw new Error(gl.getProgramInfoLog(p)||'program link failed');return p}
+const meshVS=`#version 300 es
+precision highp float;
+layout(location=0) in vec3 aPos;
+layout(location=1) in vec3 aNormal;
+layout(location=2) in vec3 iOffset;
+layout(location=3) in vec3 iScale;
+layout(location=4) in vec3 iColor;
+layout(location=5) in float iPhase;
+uniform mat4 uModel,uView,uProj;
+uniform vec3 uColor;
+uniform float uTime,uBeat,uAlpha,uInstanced,uWaveMode;
+out vec3 vNormal;out vec3 vWorld;out vec3 vColor;out float vAlpha;
+void main(){
+ vec3 pos=aPos,n=aNormal,col=uColor;
+ if(uInstanced>.5){
+  vec3 sc=iScale;
+  if(uWaveMode>.5&&uWaveMode<1.5){
+   pos.y+=.5;
+   sc.y*= .78+.28*sin(iPhase+uTime*.72+uBeat*1.15)+uBeat*.05;
+  }
+  vec3 off=iOffset;
+  if(uWaveMode>1.5){
+   float ang=uTime*(.18+fract(iPhase*.37)*.12)+iPhase;
+   float ca=cos(ang),sa=sin(ang);
+   off.xz=mat2(ca,sa,-sa,ca)*off.xz;
+   off.y+=sin(uTime*.8+iPhase)*.08;
+  }
+  pos=pos*sc+off;
+  col=iColor;
+ }
+ vec4 world=uModel*vec4(pos,1.);
+ vWorld=world.xyz;
+ vNormal=mat3(uModel)*n;
+ vColor=col;
+ vAlpha=uAlpha;
+ gl_Position=uProj*uView*world;
+}`;
+const meshFS=`#version 300 es
+precision highp float;
+in vec3 vNormal;in vec3 vWorld;in vec3 vColor;in float vAlpha;
+uniform vec3 uCamPos,uDirDir,uDirColor,uRimColor,uSpotPos,uSpotDir,uSpotColor,uAmbient;
+uniform float uSpotInner,uSpotOuter,uEmissive,uVolume,uTime;
+out vec4 outColor;
+float hash(vec3 p){return fract(sin(dot(p,vec3(17.1,31.7,11.3)))*43758.5453);}
+float noise(vec3 p){vec3 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);float a=hash(i),b=hash(i+vec3(1,0,0)),c=hash(i+vec3(0,1,0)),d=hash(i+vec3(1,1,0));float e=hash(i+vec3(0,0,1)),f2=hash(i+vec3(1,0,1)),g=hash(i+vec3(0,1,1)),h=hash(i+vec3(1,1,1));return mix(mix(mix(a,b,f.x),mix(c,d,f.x),f.y),mix(mix(e,f2,f.x),mix(g,h,f.x),f.y),f.z);}
+void main(){
+ vec3 N=normalize(vNormal);
+ vec3 V=normalize(uCamPos-vWorld);
+ vec3 base=vColor;
+ vec3 lit=base*uAmbient;
+ float nd=max(dot(N,normalize(-uDirDir)),0.);
+ lit+=base*uDirColor*nd;
+ vec3 Ls=uSpotPos-vWorld;
+ float dist=max(length(Ls),.001);
+ vec3 ld=Ls/dist;
+ float cone=dot(-ld,normalize(uSpotDir));
+ float spotMask=smoothstep(uSpotOuter,uSpotInner,cone);
+ float attenuation=spotMask/(1.+dist*dist*.045);
+ float sd=max(dot(N,ld),0.);
+ lit+=base*uSpotColor*sd*attenuation;
+ float rim=pow(1.-max(dot(N,V),0.),2.6);
+ lit+=uRimColor*rim*.42;
+ if(uVolume>.5){
+  float facing=pow(1.-abs(dot(N,V)),1.35);
+  float n=noise(vWorld*2.2+vec3(0.,uTime*.12,0.));
+  float vertical=smoothstep(-1.8,2.8,vWorld.y);
+  lit=uSpotColor*(.28+.5*n)+uRimColor*.08;
+  float alpha=vAlpha*facing*(.58+.42*n)*vertical;
+  outColor=vec4(lit,alpha);
+  return;
+ }
+ lit+=base*uEmissive;
+ outColor=vec4(lit,vAlpha);
+}`;
+const particleVS=`#version 300 es
+precision highp float;
+layout(location=0) in vec3 aPos;
+layout(location=1) in float aSeed;
+layout(location=2) in float aSize;
+layout(location=3) in vec3 aColor;
+uniform mat4 uView,uProj;
+uniform float uTime,uDrift,uPointScale;
+out vec3 vColor;out float vSeed;
+void main(){
+ vec3 p=aPos;
+ p.x+=sin(uTime*.31+aSeed*3.1)*uDrift;
+ p.y+=sin(uTime*.43+aSeed*5.7)*uDrift*.8;
+ p.z+=cos(uTime*.27+aSeed*4.3)*uDrift;
+ vec4 mv=uView*vec4(p,1.);
+ gl_Position=uProj*mv;
+ gl_PointSize=clamp(aSize*uPointScale/max(-mv.z,.5),1.,18.);
+ vColor=aColor;vSeed=aSeed;
+}`;
+const particleFS=`#version 300 es
+precision highp float;
+in vec3 vColor;in float vSeed;
+uniform float uTime,uAlpha;
+out vec4 outColor;
+void main(){
+ vec2 c=gl_PointCoord-.5;
+ float d=length(c)*2.;
+ float a=smoothstep(1.,.15,d)*uAlpha*(.65+.35*sin(uTime+vSeed*9.));
+ if(a<.01)discard;
+ outColor=vec4(vColor,a);
+}`;
+const compVS=`#version 300 es
+layout(location=0) in vec2 aPos;
+out vec2 vUv;
+void main(){vUv=aPos*.5+.5;gl_Position=vec4(aPos,0.,1.);}`;
+const compFS=`#version 300 es
+precision highp float;
+uniform sampler2D uTexA,uTexB;
+uniform float uProgress,uTime,uTx;
+uniform vec2 uRes;
+in vec2 vUv;
+out vec4 outColor;
+float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(hash(i),hash(i+vec2(1,0)),f.x),mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),f.x),f.y);}
+vec3 aces(vec3 x){return clamp((x*(2.51*x+.03))/(x*(2.43*x+.59)+.14),0.,1.);}
+vec4 TA(vec2 uv){return texture(uTexA,clamp(uv,0.,1.));}
+vec4 TB(vec2 uv){return texture(uTexB,clamp(uv,0.,1.));}
+void main(){
+ vec2 uv=vUv,c=uv-.5;
+ float p=smoothstep(0.,1.,uProgress);
+ int tx=int(uTx+.5);
+ vec4 a=TA(uv),b=TB(uv),col;
+ if(tx==0){
+  col=mix(a,b,p);
+ }else if(tx==1){
+  float d=(uv.x+uv.y)*.5+(noise(uv*7.+uTime*.08)-.5)*.12;
+  float m=smoothstep(p-.15,p+.15,d);
+  float wash=sin(3.14159*p)*(1.-abs(m*2.-1.));
+  col=mix(b,a,m);
+  col.rgb+=wash*vec3(.24,.18,.08);
+ }else if(tx==2){
+  float y=abs(uv.y-.5)*2.;
+  float m=1.-smoothstep(p-.025,p+.025,y);
+  vec2 shifted=uv+vec2(sign(uv.x-.5)*p*.07*(1.-p),0.);
+  col=mix(TA(shifted),TB(uv),m);
+  col.rgb+=(1.-abs(m*2.-1.))*sin(3.14159*p)*vec3(.18,.32,.58);
+ }else if(tx==3){
+  float sp=1.-p;
+  if(uv.x<sp){float uu=uv.x/max(sp,.001);col=TA(vec2(uu,uv.y))*(1.-.35*p*(1.-uu));}
+  else{float uu=(uv.x-sp)/max(p,.001);col=TB(vec2(uu,uv.y));}
+  col=mix(col,TB(uv),smoothstep(.88,1.,p));
+ }else{
+  float d=length(c*vec2(uRes.x/uRes.y,1.));
+  float r=p*.92;
+  float m=smoothstep(r-.05,r+.05,d);
+  vec2 zoom=c*(1.+p*.18)+.5;
+  col=mix(TB(zoom),a,m);
+  float ring=exp(-abs(d-r)*34.)*sin(3.14159*p);
+  col.rgb+=ring*vec3(.18,.28,.55);
+ }
+ col.rgb=aces(col.rgb*1.08);
+ float vig=1.-smoothstep(.28,1.08,length(c*vec2(1.12,1.0)));
+ col.rgb*=mix(.72,1.,vig);
+ col.rgb+=(hash(uv*uRes+uTime)-.5)*.012;
+ outColor=vec4(col.rgb,1.);
+}`;
+const meshProg=program(meshVS,meshFS),particleProg=program(particleVS,particleFS),compProg=program(compVS,compFS);
+function uniforms(p,names){const o={};for(const n of names)o[n]=gl.getUniformLocation(p,n);return o}
+const MU=uniforms(meshProg,['uModel','uView','uProj','uColor','uTime','uBeat','uAlpha','uInstanced','uWaveMode','uCamPos','uDirDir','uDirColor','uRimColor','uSpotPos','uSpotDir','uSpotColor','uAmbient','uSpotInner','uSpotOuter','uEmissive','uVolume']);
+const PU=uniforms(particleProg,['uView','uProj','uTime','uDrift','uPointScale','uAlpha']);
+const CU=uniforms(compProg,['uTexA','uTexB','uProgress','uTime','uTx','uRes']);
+function makeCube(){const p=[],n=[],ix=[];const faces=[[[0,0,1],[[-1,-1,1],[1,-1,1],[1,1,1],[-1,1,1]]],[[0,0,-1],[[1,-1,-1],[-1,-1,-1],[-1,1,-1],[1,1,-1]]],[[1,0,0],[[1,-1,1],[1,-1,-1],[1,1,-1],[1,1,1]]],[[-1,0,0],[[-1,-1,-1],[-1,-1,1],[-1,1,1],[-1,1,-1]]],[[0,1,0],[[-1,1,1],[1,1,1],[1,1,-1],[-1,1,-1]]],[[0,-1,0],[[-1,-1,-1],[1,-1,-1],[1,-1,1],[-1,-1,1]]]];for(const [nn,vs] of faces){const base=p.length/3;for(const v of vs){p.push(v[0]*.5,v[1]*.5,v[2]*.5);n.push(...nn)}ix.push(base,base+1,base+2,base,base+2,base+3)}return {p,n,ix}}
+function makePlane(w,d){const x=w/2,z=d/2;return{p:[-x,0,-z,x,0,-z,x,0,z,-x,0,z],n:[0,1,0,0,1,0,0,1,0,0,1,0],ix:[0,1,2,0,2,3]}}
+function makeCylinder(seg=32,r=.5,h=1,caps=true){const p=[],n=[],ix=[];for(let i=0;i<=seg;i++){const a=i/seg*TAU,c=Math.cos(a),s=Math.sin(a);p.push(c*r,-h/2,s*r,c*r,h/2,s*r);n.push(c,0,s,c,0,s)}for(let i=0;i<seg;i++){const b=i*2;ix.push(b,b+2,b+3,b,b+3,b+1)}if(caps){let base=p.length/3;p.push(0,-h/2,0);n.push(0,-1,0);for(let i=0;i<=seg;i++){const a=i/seg*TAU;p.push(Math.cos(a)*r,-h/2,Math.sin(a)*r);n.push(0,-1,0)}for(let i=0;i<seg;i++)ix.push(base,base+i+2,base+i+1);base=p.length/3;p.push(0,h/2,0);n.push(0,1,0);for(let i=0;i<=seg;i++){const a=i/seg*TAU;p.push(Math.cos(a)*r,h/2,Math.sin(a)*r);n.push(0,1,0)}for(let i=0;i<seg;i++)ix.push(base,base+i+1,base+i+2)}return{p,n,ix}}
+function makeCone(seg=48,r=.6,h=1,cap=false){const p=[],n=[],ix=[];for(let i=0;i<=seg;i++){const a=i/seg*TAU,c=Math.cos(a),s=Math.sin(a);p.push(0,h/2,0,c*r,-h/2,s*r);const nx=c,ny=r/h,nz=s,l=Math.hypot(nx,ny,nz);n.push(nx/l,ny/l,nz/l,nx/l,ny/l,nz/l)}for(let i=0;i<seg;i++){const b=i*2;ix.push(b,b+1,b+2,b+1,b+3,b+2)}if(cap){const base=p.length/3;p.push(0,-h/2,0);n.push(0,-1,0);for(let i=0;i<=seg;i++){const a=i/seg*TAU;p.push(Math.cos(a)*r,-h/2,Math.sin(a)*r);n.push(0,-1,0)}for(let i=0;i<seg;i++)ix.push(base,base+i+1,base+i+2)}return{p,n,ix}}
+function makeIcosahedron(){const t=(1+Math.sqrt(5))/2,vs=[[-1,t,0],[1,t,0],[-1,-t,0],[1,-t,0],[0,-1,t],[0,1,t],[0,-1,-t],[0,1,-t],[t,0,-1],[t,0,1],[-t,0,-1],[-t,0,1]],fs=[[0,11,5],[0,5,1],[0,1,7],[0,7,10],[0,10,11],[1,5,9],[5,11,4],[11,10,2],[10,7,6],[7,1,8],[3,9,4],[3,4,2],[3,2,6],[3,6,8],[3,8,9],[4,9,5],[2,4,11],[6,2,10],[8,6,7],[9,8,1]];const p=[],n=[];for(const v of vs){const q=norm3(v);p.push(...q);n.push(...q)}return{p,n,ix:fs.flat()}}
+function makeTorus(seg=64,tube=10,R=1,r=.035){const p=[],n=[],ix=[];for(let i=0;i<=seg;i++){const u=i/seg*TAU,cu=Math.cos(u),su=Math.sin(u);for(let j=0;j<=tube;j++){const v=j/tube*TAU,cv=Math.cos(v),sv=Math.sin(v);p.push((R+r*cv)*cu,r*sv,(R+r*cv)*su);n.push(cv*cu,sv,cv*su)}}for(let i=0;i<seg;i++)for(let j=0;j<tube;j++){const a=i*(tube+1)+j,b=(i+1)*(tube+1)+j;ix.push(a,b,a+1,b,b+1,a+1)}return{p,n,ix}}
+function mergeBoxes(items){const cube=makeCube(),p=[],n=[],ix=[];for(const it of items){const base=p.length/3;for(let i=0;i<cube.p.length;i+=3)p.push(cube.p[i]*it.s[0]+it.c[0],cube.p[i+1]*it.s[1]+it.c[1],cube.p[i+1]*it.s[2]+it.c[2]);n.push(...cube.n);for(const q of cube.ix)ix.push(q+base)}return{p,n,ix}}
+function createMesh(g){const vao=gl.createVertexArray();gl.bindVertexArray(vao);const pb=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,pb);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(g.p),gl.STATIC_DRAW);gl.enableVertexAttribArray(0);gl.vertexAttribPointer(0,3,gl.FLOAT,false,0,0);const nb=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,nb);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(g.n),gl.STATIC_DRAW);gl.enableVertexAttribArray(1);gl.vertexAttribPointer(1,3,gl.FLOAT,false,0,0);const ib=gl.createBuffer();gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,ib);gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,new Uint16Array(g.ix),gl.STATIC_DRAW);gl.bindVertexArray(null);return{vao,count:g.ix.length,instances:0}}
+function cloneMeshWithInstances(mesh,geometry,data){const vao=gl.createVertexArray();gl.bindVertexArray(vao);const pb=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,pb);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(geometry.p),gl.STATIC_DRAW);gl.enableVertexAttribArray(0);gl.vertexAttribPointer(0,3,gl.FLOAT,false,0,0);const nb=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,nb);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(geometry.n),gl.STATIC_DRAW);gl.enableVertexAttribArray(1);gl.vertexAttribPointer(1,3,gl.FLOAT,false,0,0);const ib=gl.createBuffer();gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,ib);gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,new Uint16Array(geometry.ix),gl.STATIC_DRAW);const vb=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,vb);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(data),gl.STATIC_DRAW);const stride=40;gl.enableVertexAttribArray(2);gl.vertexAttribPointer(2,3,gl.FLOAT,false,stride,0);gl.vertexAttribDivisor(2,1);gl.enableVertexAttribArray(3);gl.vertexAttribPointer(3,3,gl.FLOAT,false,stride,12);gl.vertexAttribDivisor(3,1);gl.enableVertexAttribArray(4);gl.vertexAttribPointer(4,3,gl.FLOAT,false,stride,24);gl.vertexAttribDivisor(4,1);gl.enableVertexAttribArray(5);gl.vertexAttribPointer(5,1,gl.FLOAT,false,stride,36);gl.vertexAttribDivisor(5,1);gl.bindVertexArray(null);return{vao,count:geometry.ix.length,instances:data.length/10}}
+function createParticles(list){const arr=[];for(const q of list)arr.push(q.p[0],q.p[1],q.p[2],q.seed,q.size,q.color[0],q.color[1],q.color[2]);const vao=gl.createVertexArray();gl.bindVertexArray(vao);const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(arr),gl.STATIC_DRAW);gl.enableVertexAttribArray(0);gl.vertexAttribPointer(0,3,gl.FLOAT,false,32,0);gl.enableVertexAttribArray(1);gl.vertexAttribPointer(1,1,gl.FLOAT,false,32,12);gl.enableVertexAttribArray(2);gl.vertexAttribPointer(2,1,gl.FLOAT,false,32,16);gl.enableVertexAttribArray(3);gl.vertexAttribPointer(3,3,gl.FLOAT,false,32,20);gl.bindVertexArray(null);return{vao,count:list.length}}
+function rand(i){return fract(Math.sin(i*127.1+311.7)*43758.5453)}
+const cubeG=makeCube(),planeG=makePlane(16,16),cylG=makeCylinder(40,.5,1,true),coneG=makeCone(48,.5,1,true),beamG=makeCone(64,.5,1,false),icoG=makeIcosahedron(),torusG=makeTorus(72,12,1,.035);
+const M={
+plane:createMesh(planeG),cyl:createMesh(cylG),cone:createMesh(coneG),beam:createMesh(beamG),ico:createMesh(icoG),torus:createMesh(torusG),
+grid:createMesh(mergeBoxes((()=>{const a=[];for(let i=-8;i<=8;i++){a.push({c:[i,.012,0],s:[.018,.012,16]});a.push({c:[0,.012,i],s:[16,.012,.018]})}return a})()))
+};
+M.monoliths=cloneMeshWithInstances(null,cubeG,(()=>{const arr=[];let k=0;for(let x=-4;x<=4;x++)for(let z=-4;z<=4;z++){if(Math.abs(x)<1&&Math.abs(z)<1)continue;const h=1.15+rand(k)*2.8+Math.max(0,2.4-Math.hypot(x,z))*.36,amber=rand(k+40)>.78;arr.push(x*1.15,0,z*.92,.42,h,.36,amber?.62:.18,amber?.48:.24,amber?.22:.34,k*.71);k++}return arr})());
+M.nodes=cloneMeshWithInstances(null,cubeG,(()=>{const arr=[];for(let i=0;i<72;i++){const ring=i%3,a=i/72*TAU*3+ring*.7,R=1.75+ring*.58,y=1.35+Math.sin(a*2+ring)*.34,ice=i%4!==0;arr.push(Math.cos(a)*R,y,Math.sin(a)*R,.055,.055,.055,ice?.34:.9,ice?.55:.62,ice?.98:.34,i*.53+ring)}return arr})());
+M.dust=createParticles((()=>{const arr=[];for(let i=0;i<120;i++){const rr=Math.sqrt(rand(i))*1.35,a=rand(i+50)*TAU;arr.push({p:[.15+Math.cos(a)*rr,.25+rand(i+90)*2.6,Math.sin(a)*rr],seed:rand(i+100)*10,size:1.1+rand(i+20)*2.4,color:[.92,.72,.38]})}return arr})());
+M.motes=createParticles((()=>{const arr=[];for(let i=0;i<80;i++){const a=rand(i)*TAU,r=2+rand(i+20)*3.5;arr.push({p:[Math.cos(a)*r,.4+rand(i+30)*3.4,Math.sin(a)*r],seed:rand(i+100)*10,size:1+rand(i+40)*2,color:i%3?[.38,.56,.95]:[.9,.65,.3]})}return arr})());
+function makeRT(w,h){const tex=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,tex);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,w,h,0,gl.RGBA,gl.UNSIGNED_BYTE,null);const depth=gl.createRenderbuffer();gl.bindRenderbuffer(gl.RENDERBUFFER,depth);gl.renderbufferStorage(gl.RENDERBUFFER,gl.DEPTH_COMPONENT24,w,h);const fb=gl.createFramebuffer();gl.bindFramebuffer(gl.FRAMEBUFFER,fb);gl.framebufferTexture2D(gl.FRAMEBUFFER,gl.COLOR_ATTACHMENT0,gl.TEXTURE_2D,tex,0);gl.framebufferRenderbuffer(gl.FRAMEBUFFER,gl.DEPTH_ATTACHMENT,gl.RENDERBUFFER,depth);gl.bindFramebuffer(gl.FRAMEBUFFER,null);return{fb,tex,depth,w,h}}
+let rtA=null,rtB=null;
+function resizeTargets(){if(rtA){gl.deleteTexture(rtA.tex);gl.deleteRenderbuffer(rtA.depth);gl.deleteFramebuffer(rtA.fb);gl.deleteTexture(rtB.tex);gl.deleteRenderbuffer(rtB.depth);gl.deleteFramebuffer(rtB.fb)}rtA=makeRT(canvas.width,canvas.height);rtB=makeRT(canvas.width,canvas.height)}
+const quadVao=gl.createVertexArray();gl.bindVertexArray(quadVao);const qb=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,qb);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);gl.enableVertexAttribArray(0);gl.vertexAttribPointer(0,2,gl.FLOAT,false,0,0);gl.bindVertexArray(null);
+function resize(){const d=Math.min(devicePixelRatio||1,2),w=Math.max(1,Math.floor(innerWidth*d)),h=Math.max(1,Math.floor(innerHeight*d));if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;resizeTargets()}gl.viewport(0,0,w,h)}
+window.addEventListener('resize',resize);resize();
+function setLights(cfg){gl.uniform3fv(MU.uDirDir,cfg.dirDir);gl.uniform3fv(MU.uDirColor,cfg.dirColor);gl.uniform3fv(MU.uRimColor,cfg.rimColor);gl.uniform3fv(MU.uSpotPos,cfg.spotPos);gl.uniform3fv(MU.uSpotDir,cfg.spotDir);gl.uniform3fv(MU.uSpotColor,cfg.spotColor);gl.uniform3fv(MU.uAmbient,cfg.ambient);gl.uniform1f(MU.uSpotInner,cfg.inner);gl.uniform1f(MU.uSpotOuter,cfg.outer)}
+function drawMesh(mesh,model,color,opt={}){gl.uniformMatrix4fv(MU.uModel,false,new Float32Array(model));gl.uniform3fv(MU.uColor,color);gl.uniform1f(MU.uAlpha,opt.alpha??1);gl.uniform1f(MU.uEmissive,opt.emissive??0);gl.uniform1f(MU.uVolume,opt.volume?1:0);gl.uniform1f(MU.uInstanced,mesh.instances?1:0);gl.uniform1f(MU.uWaveMode,opt.waveMode||0);gl.bindVertexArray(mesh.vao);if(mesh.instances)gl.drawElementsInstanced(gl.TRIANGLES,mesh.count,gl.UNSIGNED_SHORT,0,mesh.instances);else gl.drawElements(gl.TRIANGLES,mesh.count,gl.UNSIGNED_SHORT,0);gl.bindVertexArray(null)}
+function beginMesh(view,proj,cam,time,beat,cfg){gl.useProgram(meshProg);gl.uniformMatrix4fv(MU.uView,false,new Float32Array(view));gl.uniformMatrix4fv(MU.uProj,false,new Float32Array(proj));gl.uniform3fv(MU.uCamPos,cam);gl.uniform1f(MU.uTime,time);gl.uniform1f(MU.uBeat,beat);setLights(cfg);gl.enable(gl.DEPTH_TEST);gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA)}
+function drawParticles(mesh,view,proj,time,drift,alpha){gl.useProgram(particleProg);gl.uniformMatrix4fv(PU.uView,false,new Float32Array(view));gl.uniformMatrix4fv(PU.uProj,false,new Float32Array(proj));gl.uniform1f(PU.uTime,time);gl.uniform1f(PU.uDrift,drift);gl.uniform1f(PU.uPointScale,canvas.height*.11);gl.uniform1f(PU.uAlpha,alpha);gl.depthMask(false);gl.blendFunc(gl.SRC_ALPHA,gl.ONE);gl.bindVertexArray(mesh.vao);gl.drawArrays(gl.POINTS,0,mesh.count);gl.bindVertexArray(null);gl.depthMask(true);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);gl.useProgram(meshProg)}
+function cameraFor(si,bi,phase){const c=STORYBOARD[si].cameraRig.beats[bi];const e=ease(phase);return{pos:mix3(c.from,c.to,e),target:c.target,fov:lerp(c.fov[0],c.fov[1],e)}}
+const floorColor=[.075,.085,.105],gridColor=[.14,.18,.24],amber=[.90,.66,.28],ice=[.35,.55,.95],paper=[.82,.81,.76];
+function renderLamp(view,proj,cam,time,beat){
+beginMesh(view,proj,cam,time,beat,{dirDir:norm3([-.45,-.8,-.3]),dirColor:[.18,.23,.34],rimColor:[.22,.34,.65],spotPos:[.55,2.55,0],spotDir:norm3([-.18,-1,.08]),spotColor:[1.0,.55,.20],ambient:[.09,.095,.11],inner:Math.cos(18*DEG),outer:Math.cos(34*DEG)});
+drawMesh(M.plane,trs(0,0,0,0,0,0,1,1,1),floorColor);
+drawMesh(M.grid,trs(0,0,0,0,0,0,1,1,1),gridColor,{emissive:.12});
+drawMesh(M.cyl,trs(-1.35,.08,0,0,0,0,1.05,.16,1.05),[.10,.11,.14],{emissive:.03});
+drawMesh(M.cyl,trs(-1.02,.86,0,0,0,-.34,.13,1.65,.13),[.12,.13,.16]);
+drawMesh(M.ico,trs(-.82,1.58,0,0,0,0,.17,.17,.17),[.18,.18,.19],{emissive:.05});
+drawMesh(M.cyl,trs(-.16,2.03,0,0,0,-.93,.12,1.68,.12),[.12,.13,.16]);
+drawMesh(M.ico,trs(.48,2.46,0,time*.1,0,0,.21,.21,.21),[.22,.18,.12],{emissive:.12});
+drawMesh(M.cone,trs(.58,2.35,0,0,0,2.72,.58,.52,.58),[.15,.13,.10],{emissive:.05});
+drawMesh(M.cyl,trs(.58,2.14,0,0,0,0,.18,.06,.18),[1.0,.52,.18],{emissive:1.4});
+drawParticles(M.dust,view,proj,time,.055,.34);
+gl.useProgram(meshProg);gl.depthMask(false);gl.blendFunc(gl.SRC_ALPHA,gl.ONE);
+drawMesh(M.beam,trs(.40,1.25,0,.03,0,.12,2.65,2.65,2.65),[1,.54,.18],{alpha:.20,volume:true});
+gl.depthMask(true);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);
+}
+function renderMonoliths(view,proj,cam,time,beat){
+beginMesh(view,proj,cam,time,beat,{dirDir:norm3([-.55,-.7,-.25]),dirColor:[.28,.34,.48],rimColor:[.25,.48,1.0],spotPos:[-2.8,5.0,4.0],spotDir:norm3([.35,-1,-.3]),spotColor:[.28,.42,.82],ambient:[.055,.065,.085],inner:Math.cos(24*DEG),outer:Math.cos(46*DEG)});
+drawMesh(M.plane,trs(0,-.01,0,0,0,0,1.1,1,1.1),[.055,.065,.082]);
+drawMesh(M.grid,trs(0,0,0,0,0,0,1,1,1),[.08,.12,.17],{emissive:.16});
+drawMesh(M.monoliths,trs(0,0,0,0,0,0,1,1,1),[.2,.24,.32],{waveMode:1});
+drawMesh(M.ico,trs(0,.16,0,time*.18,time*.22,0,.32,.08,.32),[.18,.28,.52],{emissive:.45});
+drawParticles(M.motes,view,proj,time,.04,.20);
+}
+function renderOrbital(view,proj,cam,time,beat){
+beginMesh(view,proj,cam,time,beat,{dirDir:norm3([.35,-.72,-.45]),dirColor:[.22,.26,.36],rimColor:[.28,.48,1.0],spotPos:[0,4.6,2.8],spotDir:norm3([0,-1,-.18]),spotColor:[.95,.48,.18],ambient:[.06,.065,.08],inner:Math.cos(20*DEG),outer:Math.cos(42*DEG)});
+drawMesh(M.plane,trs(0,-.02,0,0,0,0,1,1,1),[.045,.052,.068]);
+drawMesh(M.grid,trs(0,0,0,0,0,0,1,1,1),[.07,.10,.15],{emissive:.12});
+drawMesh(M.ico,trs(.95,1.42,0,time*.32,time*.47,time*.18,.46,.46,.46),[1.0,.49,.16],{emissive:.58});
+drawMesh(M.torus,trs(.95,1.42,0,.85,time*.32,.2,1.25,1.25,1.25),[.32,.55,1.0],{emissive:.22});
+drawMesh(M.torus,trs(.95,1.42,0,-.65,-time*.26,.65,1.65,1.65,1.65),[.72,.48,.20],{emissive:.16});
+drawMesh(M.torus,trs(.95,1.42,0,.22,-time*.18,-1.0,2.05,2.05,2.05),[.28,.42,.88],{emissive:.18});
+drawMesh(M.nodes,trs(.95,0,0,0,0,0,1,1,1),[.4,.55,1],{waveMode:2,emissive:.35});
+drawParticles(M.motes,view,proj,time,.025,.15);
+}
+function renderScene(si,bi,phase,time,target){gl.bindFramebuffer(gl.FRAMEBUFFER,target.fb);gl.viewport(0,0,target.w,target.h);gl.clearColor(.055,.067,.094,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);const c=cameraFor(si,bi,phase),proj=perspective(c.fov,target.w/target.h,.08,80),view=lookAt(c.pos,c.target,[0,1,0]);if(si===0)renderLamp(view,proj,c.pos,time,bi);else if(si===1)renderMonoliths(view,proj,c.pos,time,bi);else renderOrbital(view,proj,c.pos,time,bi);gl.bindFramebuffer(gl.FRAMEBUFFER,null)}
+const txIndex={fade:0,wash:1,line:2,fold:3,'portal-in':4};
+function composite(texA,texB,p,tx,time){gl.bindFramebuffer(gl.FRAMEBUFFER,null);gl.viewport(0,0,canvas.width,canvas.height);gl.disable(gl.DEPTH_TEST);gl.useProgram(compProg);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,texA);gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,texB);gl.uniform1i(CU.uTexA,0);gl.uniform1i(CU.uTexB,1);gl.uniform1f(CU.uProgress,p);gl.uniform1f(CU.uTime,time);gl.uniform1f(CU.uTx,tx);gl.uniform2f(CU.uRes,canvas.width,canvas.height);gl.bindVertexArray(quadVao);gl.drawArrays(gl.TRIANGLE_STRIP,0,4);gl.bindVertexArray(null);gl.enable(gl.DEPTH_TEST)}
+let state={si:0,bi:0},beatStart=performance.now()/1000,trans=null,auto=false,blackout=false,firstFrame=false;
+function flatCount(){return STORYBOARD.reduce((n,s)=>n+s.beats.length,0)}
+function flatIndex(si,bi){let n=0;for(let i=0;i<si;i++)n+=STORYBOARD[i].beats.length;return n+bi}
+function unflat(idx){idx=((idx%flatCount())+flatCount())%flatCount();for(let i=0;i<STORYBOARD.length;i++){if(idx<STORYBOARD[i].beats.length)return{si:i,bi:idx};idx-=STORYBOARD[i].beats.length}return{si:0,bi:0}}
+function phase(time=performance.now()/1000){if(QUICK)return 1;const d=STORYBOARD[state.si].beats[state.bi].duration*.55;return clamp((time-beatStart)/d,0,1)}
+function setHash(){const h='#'+(state.si+1)+'-'+(state.bi+1);if(location.hash!==h)history.replaceState(null,'',h)}
+function updateText(){const sc=STORYBOARD[state.si],b=sc.beats[state.bi];$('#kicker').textContent=sc.id+' · '+sc.cameraRig.type+' rig';$('#headline').innerHTML=b.headline.split(' ').map((w,i)=>'<span class="w" style="--i:'+i+'">'+w+'</span>').join(' ');$('#subline').textContent=b.sub;$('#points').innerHTML=b.points.map((p,i)=>'<li style="--i:'+i+'">'+p+'</li>').join('');$('#typography').classList.toggle('right',state.si===1);$('#sceneNo').textContent=String(state.si+1).padStart(2,'0')+' / 03';[...$('#beatDots').children].forEach((d,i)=>d.classList.toggle('on',i===state.bi));$('#pos').textContent=(state.bi+1)+'/3';$('#notesList').innerHTML=sc.notes.map(n=>'<li>'+n+'</li>').join('');setHash()}
+function buildOverview(){$('#ovGrid').innerHTML=STORYBOARD.map((s,i)=>'<button data-s="'+i+'"><b>'+String(i+1).padStart(2,'0')+' · '+s.title+'</b><span>'+s.beats[0].sub+'</span></button>').join('');document.querySelectorAll('#ovGrid button').forEach(btn=>btn.addEventListener('click',()=>{toggle('#overview',false);go(+btn.dataset.s,0)}))}
+function toggle(sel,force){const el=$(sel);const show=force??el.classList.contains('hidden');el.classList.toggle('hidden',!show)}
+function go(si,bi,opts={}){si=clamp(si,0,STORYBOARD.length-1);bi=clamp(bi,0,STORYBOARD[si].beats.length-1);if(si===state.si&&bi===state.bi){updateText();return}const now=performance.now()/1000;if(si!==state.si&&!trans){trans={fromSi:state.si,fromBi:state.bi,fromPhase:phase(now),tx:txIndex[STORYBOARD[si].enterWith]??0,start:now,dur:QUICK?.12:.92}}state={si,bi};beatStart=now;updateText()}
+function goFlat(idx){const q=unflat(idx);go(q.si,q.bi)}
+function next(){goFlat(flatIndex(state.si,state.bi)+1)}function prev(){goFlat(flatIndex(state.si,state.bi)-1)}
+function applyHash(){const m=location.hash.match(/^#(\d+)-(\d+)/);if(m)go(+m[1]-1,+m[2]-1)}
+let AC=null,master=null,audioOn=false;
+function initAudio(){if(AC)return;AC=new (window.AudioContext||window.webkitAudioContext)();master=AC.createGain();master.gain.value=0;const filt=AC.createBiquadFilter();filt.type='lowpass';filt.frequency.value=900;filt.connect(master);master.connect(AC.destination);const osc=AC.createOscillator();osc.type='sine';osc.frequency.value=54;const og=AC.createGain();og.gain.value=.025;osc.connect(og);og.connect(filt);osc.start()}
+function blip(freq=220,dur=.09,vol=.045){if(!AC||!audioOn)return;const o=AC.createOscillator(),g=AC.createGain();o.type='triangle';o.frequency.setValueAtTime(freq,AC.currentTime);o.frequency.exponentialRampToValueAtTime(freq*.55,AC.currentTime+dur);g.gain.setValueAtTime(vol,AC.currentTime);g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+dur);o.connect(g);g.connect(master);o.start();o.stop(AC.currentTime+dur)}
+function toggleAudio(){initAudio();audioOn=!audioOn;AC.resume();master.gain.linearRampToValueAtTime(audioOn?.7:0,AC.currentTime+.18);$('#muteBtn').style.color=audioOn?'#e5b869':''}
+window.addEventListener('keydown',e=>{
+ const k=e.key.toLowerCase();
+ if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();next();blip(240)}
+ else if(e.key==='ArrowLeft'){e.preventDefault();prev();blip(180)}
+ else if(k==='o')toggle('#overview')
+ else if(k==='n')toggle('#notes')
+ else if(k==='m')toggleAudio()
+ else if(k==='a'){auto=!auto;$('#help').textContent=auto?'자동 재생 켜짐 · A로 해제':'→/Space 다음 · ← 이전 · O 개요 · N 노트 · M 음 · A 자동 · F 전체화면 · . 블랙 · ? 도움말'}
+ else if(k==='f'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen?.()}
+ else if(k==='.'){blackout=!blackout;document.body.classList.toggle('blackout',blackout)}
+ else if(k==='?'){toggle('#overview',false);toggle('#notes',false);$('#help').style.color=$('#help').style.color?'':'rgba(236,234,228,.68)'}
+});
+$('#nextBtn').addEventListener('click',e=>{e.stopPropagation();next()});$('#prevBtn').addEventListener('click',e=>{e.stopPropagation();prev()});$('#ovBtn').addEventListener('click',e=>{e.stopPropagation();toggle('#overview')});$('#noteBtn').addEventListener('click',e=>{e.stopPropagation();toggle('#notes')});$('#muteBtn').addEventListener('click',e=>{e.stopPropagation();toggleAudio()});$('#helpBtn').addEventListener('click',e=>{e.stopPropagation();toggle('#notes');toggle('#overview')});
+document.addEventListener('click',e=>{if(e.target.closest('#controls,.panel'))return;const x=e.clientX/innerWidth;if(x>.55)next();else if(x<.45)prev()});
+let wheelAcc=0,wheelLock=0;window.addEventListener('wheel',e=>{const now=performance.now();wheelAcc+=e.deltaY;if(now<wheelLock)return;if(Math.abs(wheelAcc)>60){wheelAcc>0?next():prev();wheelAcc=0;wheelLock=now+420}},{passive:true});
+window.addEventListener('hashchange',applyHash);
+window.kn3d={go:(s,b)=>go(s-1,b-1),next,prev,state:()=>({scene:state.si+1,beat:state.bi+1}),scenes:STORYBOARD.map(s=>({id:s.id,title:s.title,enterWith:s.enterWith,cameraRig:s.cameraRig.type,beats:s.beats.length,notes:s.notes}))};
+buildOverview();applyHash();updateText();
+let last=performance.now()/1000;
+function loop(){const now=performance.now()/1000;if(trans){const p=clamp((now-trans.start)/trans.dur,0,1);renderScene(trans.fromSi,trans.fromBi,trans.fromPhase,now,rtA);renderScene(state.si,state.bi,phase(now),now,rtB);composite(rtA.tex,rtB.tex,p,trans.tx,now);if(p>=1)trans=null}else{renderScene(state.si,state.bi,phase(now),now,rtB);composite(rtB.tex,rtB.tex,1,0,now)}$('#progress i').style.width=(flatIndex(state.si,state.bi)+phase(now))/flatCount()*100+'%';if(auto&&phase(now)>=1&&now-last>.6){last=now;next()}if(!firstFrame){firstFrame=true;window.ready=true}requestAnimationFrame(loop)}
+window.ready=false;requestAnimationFrame(loop);
+</script>
+</body>
+</html>
