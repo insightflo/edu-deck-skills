@@ -1,0 +1,144 @@
+<section class="slide" data-archetype="cover" data-variant="center" data-sec="30" style="gap:40px">
+  <div class="col" style="gap:20px;align-items:center;text-align:center">
+    <p class="eyebrow">장면 전환 가이드</p>
+    <h1 class="big">장이 바뀔 때<br><em class="t2">화면은 어떻게 바뀌는가</em></h1>
+    <p class="body" style="font-size:30px;max-width:900px"><code>data-tx</code> 장면 전환 10종 — 이 덱은 들어가는 장마다 그 전환으로 직접 넘어갑니다.</p>
+  </div>
+  <div class="row" style="flex-wrap:wrap;gap:14px;justify-content:center;max-width:1100px">
+    <p class="pill">fade</p><p class="pill">fold</p><p class="pill">wash</p><p class="pill">flaps</p><p class="pill">slam</p><p class="pill">daybreak</p><p class="pill">line</p><p class="pill">tear</p><p class="pill">portal-in</p><p class="pill">portal-out</p>
+  </div>
+  <p class="small" style="color:var(--ink)">→ 를 누르면 첫 전환(fold)이 시작됩니다</p>
+  <aside class="notes">장면 전환 10종을 몸으로 익히는 덱입니다. 각 장에는 전환 이름과 그 장으로 들어올 때 쓰인 data-tx 값이 적혀 있으니, 설명을 읽기 전에 먼저 화면이 어떻게 바뀌었는지 관찰하게 하세요. 여기서는 아무 전환도 걸지 않아 기본 넘김으로 시작합니다.</aside>
+</section>
+
+<style>.slide .ln{stroke:var(--ink);stroke-width:4}.slide .ac{stroke:var(--accent);stroke-width:5}.slide .mu{stroke:var(--muted);stroke-width:3}</style>
+<section class="slide" data-tx="fold" data-sec="60" style="gap:40px">
+  <div class="head"><p class="eyebrow">01 / 10 · data-tx="fold"</p><h2 class="title"><code>fold</code> — 책장 넘기기</h2></div>
+  <div class="row" style="flex:1;gap:36px;align-items:stretch">
+    <figure style="width:440px;flex:none;margin:0;display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center"><svg viewBox="0 0 320 200" role="img" aria-label="fold 전환 도식" width="440" height="275"><g fill="none" stroke-linecap="round" stroke-linejoin="round"><rect class="ln" x="30" y="50" width="150" height="100"/><path class="ac" d="M180 50l80-36v100l-80 36z"/><path class="mu" d="M180 50l-80-36M180 150l-80-36M180 100l-80-36" stroke-dasharray="6 6"/><path class="ac" d="M110 100h50M148 92l14 8-14 8"/></g></svg><figcaption style="font-size:22px;color:var(--ink)">fold — 움직임 도식</figcaption></figure>
+    
+    <div class="card" style="flex:1;padding:36px;gap:14px"><h3 style="font-size:34px;margin:0">화면</h3><p class="body">지난 장이 세로축을 중심으로 접히듯 물러나고, 새 장이 반대쪽에서 펼쳐 집니다.</p></div>
+    <div class="card" style="flex:1;padding:36px;gap:14px"><h3 style="font-size:34px;margin:0">언제</h3><p class="body">같은 주제 안에서 논지가 다음 단계로 넘어갈 때. 교재·강의처럼 쪽을 넘는 느낌이 필요한 흐름.</p></div>
+    <div class="card" style="flex:1;padding:36px;gap:14px"><h3 style="font-size:34px;margin:0">피할 때</h3><p class="body">뒤로 갈 때 방향이 뒤집히므로 복기가 잦은 복습 장에서는 과할 수 있습니다.</p></div>
+  </div>
+  <aside class="notes">fold — 방금 첫 장이 왼쪽으로 접히며 사라지고 이 장이 펼쳐진 것을 확인시킵니다. 책장 넘김이라는 은유가 그대로 통하는 전환이라 가장 무난합니다. 되돌리기(←)를 눌러 반대 방향으로도 접히는지 한 번 보여 주세요.</aside>
+</section>
+
+<section class="slide" data-tx="fade" data-sec="50" style="gap:40px">
+  <div class="head"><p class="eyebrow">02 / 10 · data-tx="fade"</p><h2 class="title"><code>fade</code> — 조용한 겹바꿈</h2></div>
+  <div class="row" style="flex:1;gap:36px;align-items:stretch">
+    <figure style="width:440px;flex:none;margin:0;display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center"><svg viewBox="0 0 320 200" role="img" aria-label="fade 전환 도식" width="440" height="275"><g fill="none" stroke-linecap="round" stroke-linejoin="round"><rect class="ln" x="60" y="50" width="150" height="100" opacity=".25"/><rect class="ln" x="100" y="50" width="150" height="100" opacity=".8"/><path class="ac" d="M45 100h40M83 92l14 8-14 8"/></g></svg><figcaption style="font-size:22px;color:var(--ink)">fade — 움직임 도식</figcaption></figure>
+    
+    <div class="card" style="flex:1;padding:36px;gap:14px"><h3 style="font-size:34px;margin:0">화면</h3><p class="body">지난 장이 서서히 옅어지고 새 장이 같은 자리에서 서서히 진해집니다. 위치 이동은 없습니다.</p></div>
+    <div class="card" style="flex:1;padding:36px;gap:14px"><h3 style="font-size:34px;margin:0">언제</h3><p class="body">자료·그림·인용처럼 같은 형태의 장을 이어 보일 때. 화면 구조가 같아 장이 바뀌어도 시선을 옮길 필요가 없을 때.</p></div>
+    <div class="card" style="flex:1;padding:36px;gap:14px"><h3 style="font-size:34px;margin:0">피할 때</h3><p class="body">장이 바뀌었다는 신호가 약해 초보 청중은 아직 같은 장인 줄 알 수 있습니다. 쉬움 설명과 함께 쓰세요.</p></div>
+  </div>
+  <aside class="notes">fade — 앞장과 이 장의 구조가 같아서 내용만 바뀐 것처럼 보였습니다. 전환 자체가 말을 걸지 않는 것이 장점이자 단점입니다. 자료를 여러 장에 걸쳐 바꿔 보여줄 때 가장 좋고, 파트가 바뀌는 지점에는 쓰지 않습니다.</aside>
+</section>
+
+<section class="slide" data-tx="wash" data-sec="55" style="gap:40px">
+  <div class="head"><p class="eyebrow">03 / 10 · data-tx="wash"</p><h2 class="title"><code>wash</code> — 빛이 쓸고 지나감</h2></div>
+  <div class="row" style="flex:1;gap:36px;align-items:stretch">
+    <figure style="width:440px;flex:none;margin:0;display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center"><svg viewBox="0 0 320 200" role="img" aria-label="wash 전환 도식" width="440" height="275"><g fill="none" stroke-linecap="round" stroke-linejoin="round"><rect class="ln" x="60" y="50" width="200" height="100"/><path class="ac" d="M100 50h70l-40 100H60z" opacity=".55"/><path class="ac" d="M60 100h-5M240 100h10M242 92l12 8-12 8"/></g></svg><figcaption style="font-size:22px;color:var(--ink)">wash — 움직임 도식</figcaption></figure>
+    
+    <div class="card" style="flex:1;padding:36px;gap:14px"><h3 style="font-size:34px;margin:0">화면</h3><p class="body">비스듬한 밝은 면이 왼쪽에서 오른쪽으로 번지며 지난 장을 덮고 새 장을 드러냅니다.</p></div>
+    <div class="card" style="flex:1;padding:36px;gap:14px"><h3 style="font-size:34px;margin:0">언제</h3><p class="body">정의·원리처럼 차분하게 읽는 장. 부드럽지만 fade 보다는 장이 바뀌었다는 느낌이 남습니다.</p></div>
+    <div class="card" style="flex:1;padding:36px;gap:14px"><h3 style="font-size:34px;margin:0">피할 때</h3><p class="body">밝은 순간에 대비가 잠시 약해지므로 흐린 사진·옅은 글자만 쓴 장과는 겹치지 않게 합니다.</p></div>
+  </div>
+  <aside class="notes">wash — 빛이 비스듬히 스치듯 이 장이 나타났습니다. fade 보다 흐름이 있어 산문형 설명 장을 이을 때 좋습니다. 인쇄물·정적 화면에는 전환이 걸리지 않고 내용만 보인다는 점도 함께 알려 주세요.</aside>
+</section>
+
+<section class="slide" data-tx="line" data-sec="55" style="gap:40px">
+  <div class="head"><p class="eyebrow">04 / 10 · data-tx="line"</p><h2 class="title"><code>line</code> — 한 가닥에서 열림</h2></div>
+  <div class="row" style="flex:1;gap:36px;align-items:stretch">
+    <figure style="width:440px;flex:none;margin:0;display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center"><svg viewBox="0 0 320 200" role="img" aria-label="line 전환 도식" width="440" height="275"><g fill="none" stroke-linecap="round" stroke-linejoin="round"><rect class="ln" x="60" y="86" width="200" height="28"/><rect class="mu" x="60" y="50" width="200" height="100"/><path class="ac" d="M160 86V60M152 68l8-10 8 10M160 114v26M152 132l8 10 8-10"/></g></svg><figcaption style="font-size:22px;color:var(--ink)">line — 움직임 도식</figcaption></figure>
+    
+    <div class="card" style="flex:1;padding:36px;gap:14px"><h3 style="font-size:34px;margin:0">화면</h3><p class="body">가운데 가는 한 줄이 위아래로 벌어나며 새 장이 열립니다. 시선이 제목 줄에서 시작됩니다.</p></div>
+    <div class="card" style="flex:1;padding:36px;gap:14px"><h3 style="font-size:34px;margin:0">언제</h3><p class="body">제목·핵심 문장이 한 줄로 정리되는 장. 요점을 꺼내 보이는 순간에 어울립니다.</p></div>
+    <div class="card" style="flex:1;padding:36px;gap:14px"><h3 style="font-size:34px;margin:0">피할 때</h3><p class="body">위아래 가장자리에 중요한 정보(표 머리, 각주)가 있으면 도드라지는 동안 잘 보이지 않습니다.</p></div>
+  </div>
+  <aside class="notes">line — 화면 한가운데서 좁은 띠가 열리며 이 장이 나타났습니다. 가로 줄이 기준인 콘텐츠, 즉 문장 하나가 중심인 장과 잘 맞습니다. 핵심 문구를 던지기 직전에 쓰면 시선이 문장에 모입니다.</aside>
+</section>
+
+<section class="slide" data-tx="flaps" data-sec="55" style="gap:40px">
+  <div class="head"><p class="eyebrow">05 / 10 · data-tx="flaps"</p><h2 class="title"><code>flaps</code> — 판 넘기기</h2></div>
+  <div class="row" style="flex:1;gap:36px;align-items:stretch">
+    <figure style="width:440px;flex:none;margin:0;display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center"><svg viewBox="0 0 320 200" role="img" aria-label="flaps 전환 도식" width="440" height="275"><g fill="none" stroke-linecap="round" stroke-linejoin="round"><rect class="mu" x="60" y="50" width="200" height="100" stroke-dasharray="6 6"/><path class="ac" d="M100 50h120l30 100H70z"/><path class="ac" d="M280 60v60M272 110l8 12 8-12"/></g></svg><figcaption style="font-size:22px;color:var(--ink)">flaps — 움직임 도식</figcaption></figure>
+    
+    <div class="card" style="flex:1;padding:36px;gap:14px"><h3 style="font-size:34px;margin:0">화면</h3><p class="body">지난 장이 위 걸이를 중심으로 넘어가 떨어지고, 새 장이 아래에서 올라와 섭니다.</p></div>
+    <div class="card" style="flex:1;padding:36px;gap:14px"><h3 style="font-size:34px;margin:0">언제</h3><p class="body">달력·수첩·게시판처럼 위에서 아래로 걸린 느낌의 주제. 간판을 갈아 끼우는 순간.</p></div>
+    <div class="card" style="flex:1;padding:36px;gap:14px"><h3 style="font-size:34px;margin:0">피할 때</h3><p class="body">세로로 긴 표나 그래프가 있는 장. 꺾이는 동안 비율이 일그러져 보입니다.</p></div>
+  </div>
+  <aside class="notes">flaps — fold 의 세로축을 가로축으로 바꾼 전환입니다. 앞장이 위로 접혀 넘어갔습니다. 달력이나 알림판처럼 위에 걸어 둔 물건을 갈아 끼우는 느낌이라 일정·공지 계열 주제와 잘 어울립니다.</aside>
+</section>
+
+<section class="slide" data-tx="slam" data-sec="55" style="gap:40px">
+  <div class="head"><p class="eyebrow">06 / 10 · data-tx="slam"</p><h2 class="title"><code>slam</code> — 쾅 하고 들이밀기</h2></div>
+  <div class="row" style="flex:1;gap:36px;align-items:stretch">
+    <figure style="width:440px;flex:none;margin:0;display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center"><svg viewBox="0 0 320 200" role="img" aria-label="slam 전환 도식" width="440" height="275"><g fill="none" stroke-linecap="round" stroke-linejoin="round"><rect class="ac" x="70" y="45" width="180" height="110"/><path class="ln" d="M50 40l-16-16M250 40l16-16M50 160l-16 16M250 160l16 16" stroke-width="6"/></g></svg><figcaption style="font-size:22px;color:var(--ink)">slam — 움직임 도식</figcaption></figure>
+    
+    <div class="card" style="flex:1;padding:36px;gap:14px"><h3 style="font-size:34px;margin:0">화면</h3><p class="body">새 장이 크게 튀어나와 화면에 부딪힌 뒤 잠시 덜덜 떨리며 멈춥니다.</p></div>
+    <div class="card" style="flex:1;padding:36px;gap:14px"><h3 style="font-size:34px;margin:0">언제</h3><p class="body">결론·경고·수치 하나로 승부하는 장. 잠든 청중을 깨워야 하는 순간에 한 번.</p></div>
+    <div class="card" style="flex:1;padding:36px;gap:14px"><h3 style="font-size:34px;margin:0">피할 때</h3><p class="body">연속 사용. 두 번째부터는 강조가 아니라 소음이 됩니다. 덱에서 한두 장만 쓰세요.</p></div>
+  </div>
+  <aside class="notes">slam — 방금 이 장이 화면에 부딪히듯 나타났습니다. 10종 중 가장 강한 전환이라 강조 효과가 큰 만큼 남발하면 무뎌집니다. 한 덱에 결론 장 하나 정도에만 쓰는 것을 권합니다.</aside>
+</section>
+
+<section class="slide" data-tx="tear" data-sec="55" style="gap:40px">
+  <div class="head"><p class="eyebrow">07 / 10 · data-tx="tear"</p><h2 class="title"><code>tear</code> — 종이 찢기</h2></div>
+  <div class="row" style="flex:1;gap:36px;align-items:stretch">
+    <figure style="width:440px;flex:none;margin:0;display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center"><svg viewBox="0 0 320 200" role="img" aria-label="tear 전환 도식" width="440" height="275"><g fill="none" stroke-linecap="round" stroke-linejoin="round"><path class="ln" d="M60 50h170l-24 30 20 26-30 44H60z"/><path class="ac" d="M250 36l-26 40 20 28-28 46" stroke-width="5"/><path class="ac" d="M262 70l14 16M268 120l-14 16"/></g></svg><figcaption style="font-size:22px;color:var(--ink)">tear — 움직임 도식</figcaption></figure>
+    
+    <div class="card" style="flex:1;padding:36px;gap:14px"><h3 style="font-size:34px;margin:0">화면</h3><p class="body">지난 장이 비스듬한 찢어진 자국을 남기며 밀려나고, 새 장이 그 자리를 채웁니다.</p></div>
+    <div class="card" style="flex:1;padding:36px;gap:14px"><h3 style="font-size:34px;margin:0">언제</h3><p class="body">가정을 부수거나 기존 답을 고치는 장. "방금까지의 설명은 여기까지"라고 끊을 때.</p></div>
+    <div class="card" style="flex:1;padding:36px;gap:14px"><h3 style="font-size:34px;margin:0">피할 때</h3><p class="body">차분한 흐름·경조사 발표·보고 자료. 손으로 종이를 찢는 촉감이라 다소 거칩니다.</p></div>
+  </div>
+  <aside class="notes">tear — 앞장이 비스듬히 찢겨 나가며 이 장이 들어왔습니다. 오해나 잘못된 상식을 걷어내는 장면에 어울립니다. 표현이 거칠어 격식 있는 자리에서는 쓰지 않습니다.</aside>
+</section>
+
+<section class="slide" data-tx="portal-out" data-sec="60" style="gap:40px">
+  <div class="head"><p class="eyebrow">08 / 10 · data-tx="portal-out"</p><h2 class="title"><code>portal-out</code> — 원이 닫히며 나가기</h2></div>
+  <div class="row" style="flex:1;gap:36px;align-items:stretch">
+    <figure style="width:440px;flex:none;margin:0;display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center"><svg viewBox="0 0 320 200" role="img" aria-label="portal-out 전환 도식" width="440" height="275"><g fill="none" stroke-linecap="round" stroke-linejoin="round"><rect class="ln" x="60" y="50" width="200" height="100"/><circle class="ac" cx="160" cy="100" r="22"/><circle class="mu" cx="160" cy="100" r="60" stroke-dasharray="5 7"/><path class="ac" d="M160 100h-70M100 92l-12 8 12 8"/></g></svg><figcaption style="font-size:22px;color:var(--ink)">portal-out — 움직임 도식</figcaption></figure>
+    
+    <div class="card" style="flex:1;padding:36px;gap:14px"><h3 style="font-size:34px;margin:0">화면</h3><p class="body">지난 장이 가운데 원으로 좁아지며 사라지고, 새 장은 조용히 떠오릅니다. 무게가 나가는 쪽에 있습니다.</p></div>
+    <div class="card" style="flex:1;padding:36px;gap:14px"><h3 style="font-size:34px;margin:0">언제</h3><p class="body">하나의 이야기가 끝나고 밖으로 나오는 순간. 사례·시나리오가 마무리되고 정리로 빠져나올 때.</p></div>
+    <div class="card" style="flex:1;padding:36px;gap:14px"><h3 style="font-size:34px;margin:0">피할 때</h3><p class="body">뒤로 가기. 거꾸로 재생하면 가벼운 장면이 무거운 장면을 덮는 꼴이 되어 의도가 반대가 됩니다.</p></div>
+  </div>
+  <aside class="notes">portal-out — 앞장이 원형으로 좁아지며 빠져나갔고 이 장은 가볍게 떠올랐습니다. 나가는 장이 주인공인 전환입니다. 짝인 portal-in 과 이어 쓰면 한 장면에 들어갔다 나왔다 하는 구조가 됩니다.</aside>
+</section>
+
+<section class="slide" data-tx="portal-in" data-sec="60" style="gap:40px">
+  <div class="head"><p class="eyebrow">09 / 10 · data-tx="portal-in"</p><h2 class="title"><code>portal-in</code> — 원이 열리며 들어가기</h2></div>
+  <div class="row" style="flex:1;gap:36px;align-items:stretch">
+    <figure style="width:440px;flex:none;margin:0;display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center"><svg viewBox="0 0 320 200" role="img" aria-label="portal-in 전환 도식" width="440" height="275"><g fill="none" stroke-linecap="round" stroke-linejoin="round"><circle class="ac" cx="160" cy="100" r="60"/><circle class="ln" cx="160" cy="100" r="16" fill="var(--paper)"/><circle class="mu" cx="160" cy="100" r="92" stroke-dasharray="5 7"/><path class="ac" d="M160 100v-40M152 70l8-12 8 12"/></g></svg><figcaption style="font-size:22px;color:var(--ink)">portal-in — 움직임 도식</figcaption></figure>
+    
+    <div class="card" style="flex:1;padding:36px;gap:14px"><h3 style="font-size:34px;margin:0">화면</h3><p class="body">새 장이 가운데 작은 원에서 시작해 바깥으로 커지며 화면을 가득 채웁니다. 무게가 들어오는 쪽에 있습니다.</p></div>
+    <div class="card" style="flex:1;padding:36px;gap:14px"><h3 style="font-size:34px;margin:0">언제</h3><p class="body">사례·현장·시나리오 속으로 청중을 데려갈 때. 앞 장의 결론을 확대해 들여다보는 순간.</p></div>
+    <div class="card" style="flex:1;padding:36px;gap:14px"><h3 style="font-size:34px;margin:0">피할 때</h3><p class="body">가장자리에 핵심 정보를 둔 장. 전환 후반까지 가장자리가 드러나지 않습니다.</p></div>
+  </div>
+  <aside class="notes">portal-in — 가운데 원에서 이 장이 열렸습니다. portal-out 과 짝을 이루며, 한 사례로 들어갈 때 in, 사례를 끝내고 나올 때 out을 씁니다. 두 전환의 차이를 되돌리기로 한 번 더 비교해 보세요.</aside>
+</section>
+
+<section class="slide" data-tx="daybreak" data-sec="60" style="gap:40px">
+  <div class="head"><p class="eyebrow">10 / 10 · data-tx="daybreak"</p><h2 class="title"><code>daybreak</code> — 아래에서 밝아옴</h2></div>
+  <div class="row" style="flex:1;gap:36px;align-items:stretch">
+    <figure style="width:440px;flex:none;margin:0;display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center"><svg viewBox="0 0 320 200" role="img" aria-label="daybreak 전환 도식" width="440" height="275"><g fill="none" stroke-linecap="round" stroke-linejoin="round"><rect class="mu" x="60" y="50" width="200" height="100"/><path class="ac" d="M60 150v-40a100 100 0 0 1 200 0v40z"/><path class="ln" d="M160 40v-14M110 56l-10-12M210 56l10-12"/></g></svg><figcaption style="font-size:22px;color:var(--ink)">daybreak — 움직임 도식</figcaption></figure>
+    
+    <div class="card" style="flex:1;padding:36px;gap:14px"><h3 style="font-size:34px;margin:0">화면</h3><p class="body">지난 장이 어두워지고, 새 장이 밝은 빛을 머금은 채 아래에서 위로 차오릅니다.</p></div>
+    <div class="card" style="flex:1;padding:36px;gap:14px"><h3 style="font-size:34px;margin:0">언제</h3><p class="body">새 파트의 시작. 문제 제기 뒤 답이 드러나는 장, 암흑 뒤 동트는 느낌의 전환점.</p></div>
+    <div class="card" style="flex:1;padding:36px;gap:14px"><h3 style="font-size:34px;margin:0">피할 때</h3><p class="body">어두운 테마의 덱. 어두워지는 구간이 길게 느껴지고 밝아지는 효과가 약합니다.</p></div>
+  </div>
+  <aside class="notes">daybreak — 아래에서 위로 밝아오며 이 장이 열렸습니다. 파트 구분 장이나 해답을 꺼내는 장에 어울립니다. 밝은 테마에서 효과가 살아나고 어두운 테마에서는 약합니다. 이제 마지막 마무리 장으로 넘어갑니다.</aside>
+</section>
+
+<section class="slide dark center" data-archetype="closing" data-sec="45" style="gap:36px">
+  <div class="head" style="align-items:center;text-align:center"><p class="eyebrow">마무리</p><h2 class="title">발표 중에 쓰는 세 가지 조작</h2></div>
+  <div class="row" style="flex-wrap:wrap;gap:24px;justify-content:center;max-width:1320px">
+    <div class="card" style="flex:1;min-width:340px;padding:32px;gap:10px;text-align:center"><p class="num" style="font-size:72px;margin:0;color:var(--ink)">U</p><h3 style="font-size:30px;margin:0">소리 켜고 끄기</h3><p class="body" style="font-size:24px">전환 효과음을 켜고 끕니다. 조용한 강의실에서는 꺼 두세요.</p></div>
+    <div class="card" style="flex:1;min-width:340px;padding:32px;gap:10px;text-align:center"><p class="num" style="font-size:48px;margin:0;color:var(--ink)">#장-단계</p><h3 style="font-size:30px;margin:0">주소로 바로 가기</h3><p class="body" style="font-size:24px"><code>#8-2</code> 처럼 쓰면 8번 장 2단계로 바로 열립니다.</p></div>
+    <div class="card" style="flex:1;min-width:340px;padding:32px;gap:10px;text-align:center"><p class="num" style="font-size:72px;margin:0;color:var(--ink)">.</p><h3 style="font-size:30px;margin:0">화면 끄기</h3><p class="body" style="font-size:24px">마침표 키로 화면을 깜니다. 질문 받을 때 청중에게 시선을 돌리세요.</p></div>
+  </div>
+  <p class="small" style="color:var(--muted)">전환은 장마다 하나 — <code>&lt;section data-tx="이름"&gt;</code> 에 적으면 그 장으로 들어올 때 걸립니다.</p>
+  <aside class="notes">마무리 — 전환 10종을 다 보았습니다. 발표 중 쓸 수 있는 조작 세 가지를 정리합니다. U 키는 전환 효과음을 켜고 끕니다. 주소 뒤에 #장번호-단계번호를 붙이면 원하는 장의 원하는 단계로 바로 열 수 있어 복습·링크 공유에 쓰입니다. 마침표 키는 화면을 꺼서 청중과 이야기할 때 씁니다. 사용법은 data-tx 를 section 에 적는 것 하나뿐이고, 되돌릴 때는 같은 전환이 반대 방향으로 재생됩니다.</aside>
+</section>
