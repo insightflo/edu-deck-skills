@@ -153,6 +153,49 @@ body,.slide,.pack{font-family:'Pretendard Variable',sans-serif}
 :root[data-ed-direction="fwd"]{--ed-in:96px;--ed-out:-96px}
 @keyframes ed-enter{from{transform:translateX(var(--ed-in,96px)) scale(.985);opacity:0}to{transform:translateX(0) scale(1);opacity:1}}
 @keyframes ed-exit{from{transform:translateX(0) scale(1);opacity:1}to{transform:translateX(var(--ed-out,-96px)) scale(.985);opacity:0}}
+:root[data-ed-tx] .slide.active :is(.title,.cx-title,.big,.pack-prompt){view-transition-name:none}
+@media (prefers-reduced-motion: no-preference){
+@keyframes edtx-fade-out{from{opacity:1}to{opacity:0}}
+@keyframes edtx-fade-in{from{opacity:0}to{opacity:1}}
+@keyframes edtx-fold-out{from{transform:perspective(1400px) rotateY(0deg) translateX(0);opacity:1}to{transform:perspective(1400px) rotateY(-72deg) translateX(-80px);opacity:0}}
+@keyframes edtx-fold-in{from{transform:perspective(1400px) rotateY(68deg) translateX(80px);opacity:0}to{transform:perspective(1400px) rotateY(0deg) translateX(0);opacity:1}}
+@keyframes edtx-wash-out{from{opacity:1;filter:brightness(1)}to{opacity:.2;filter:brightness(1.35)}}
+@keyframes edtx-wash-in{0%{clip-path:polygon(0% 0%,0% 0%,-18% 100%,-18% 100%);opacity:0;filter:brightness(1.65)}68%{clip-path:polygon(0% 0%,72% 0%,48% 100%,0% 100%);opacity:1;filter:brightness(1.28)}100%{clip-path:polygon(0% 0%,100% 0%,100% 100%,0% 100%);opacity:1;filter:brightness(1)}}
+@keyframes edtx-flaps-out{from{transform:perspective(1200px) rotateX(0deg);opacity:1}to{transform:perspective(1200px) rotateX(78deg);opacity:0}}
+@keyframes edtx-flaps-in{from{transform:perspective(1200px) rotateX(-78deg);opacity:0}to{transform:perspective(1200px) rotateX(0deg);opacity:1}}
+@keyframes edtx-slam-out{from{transform:scale(1);opacity:1}to{transform:scale(.94);opacity:0}}
+@keyframes edtx-slam-in{0%{transform:scale(1.18);opacity:0}72%{transform:scale(.985);opacity:1}88%{transform:scale(1.012);opacity:1}100%{transform:scale(1);opacity:1}}
+@keyframes edtx-daybreak-out{from{opacity:1;filter:brightness(1)}to{opacity:.18;filter:brightness(.58)}}
+@keyframes edtx-daybreak-in{0%{clip-path:inset(100% 0% 0% 0%);opacity:.35;filter:brightness(2.1)}68%{clip-path:inset(22% 0% 0% 0%);opacity:1;filter:brightness(1.35)}100%{clip-path:inset(0% 0% 0% 0%);opacity:1;filter:brightness(1)}}
+@keyframes edtx-line-out{from{transform:scale(1);opacity:1}to{transform:scale(.98);opacity:0}}
+@keyframes edtx-line-in{0%{clip-path:inset(50% 0 50% 0);opacity:.55}62%{clip-path:inset(18% 0% 18% 0%);opacity:1}100%{clip-path:inset(0% 0% 0% 0%);opacity:1}}
+@keyframes edtx-tear-out{0%{clip-path:polygon(0% 0%,100% 0%,100% 100%,0% 100%);transform:translate(0,0) rotate(0deg);opacity:1}100%{clip-path:polygon(0% 0%,100% 0%,82% 100%,0% 100%);transform:translate(-92px,-58px) rotate(-2deg);opacity:0}}
+@keyframes edtx-tear-in{0%{clip-path:polygon(100% 0%,100% 0%,100% 100%,100% 100%);transform:translate(92px,58px) rotate(2deg);opacity:0}68%{clip-path:polygon(0% 0%,100% 0%,82% 100%,0% 100%);transform:translate(0,0) rotate(0deg);opacity:1}100%{clip-path:polygon(0% 0%,100% 0%,100% 100%,0% 100%);transform:translate(0,0) rotate(0deg);opacity:1}}
+@keyframes edtx-portal-in-out{from{transform:scale(1);opacity:1}to{transform:scale(.9);opacity:0}}
+@keyframes edtx-portal-in-in{0%{clip-path:circle(0% at 50% 50%);opacity:.45;transform:scale(.96)}76%{clip-path:circle(72% at 50% 50%);opacity:1;transform:scale(1)}100%{clip-path:circle(100% at 50% 50%);opacity:1;transform:scale(1)}}
+@keyframes edtx-portal-out-out{from{clip-path:circle(100% at 50% 50%);opacity:1;transform:scale(1)}to{clip-path:circle(0% at 50% 50%);opacity:.9;transform:scale(1.04)}}
+@keyframes edtx-portal-out-in{from{opacity:0;transform:scale(.985)}to{opacity:1;transform:scale(1)}}
+:root[data-ed-tx="fade"]::view-transition-old(root),:root[data-ed-tx="fade"]::view-transition-old(edu-stage){animation:edtx-fade-out var(--m3) var(--e-inout) both}
+:root[data-ed-tx="fade"]::view-transition-new(root),:root[data-ed-tx="fade"]::view-transition-new(edu-stage){animation:edtx-fade-in var(--m3) var(--e-out) both}
+:root[data-ed-tx="fold"]::view-transition-old(root),:root[data-ed-tx="fold"]::view-transition-old(edu-stage){animation:edtx-fold-out var(--m3) var(--e-inout) both;transform-origin:left center}
+:root[data-ed-tx="fold"]::view-transition-new(root),:root[data-ed-tx="fold"]::view-transition-new(edu-stage){animation:edtx-fold-in var(--m3) var(--e-out) both;transform-origin:right center}
+:root[data-ed-tx="wash"]::view-transition-old(root),:root[data-ed-tx="wash"]::view-transition-old(edu-stage){animation:edtx-wash-out var(--m3) var(--e-inout) both}
+:root[data-ed-tx="wash"]::view-transition-new(root),:root[data-ed-tx="wash"]::view-transition-new(edu-stage){animation:edtx-wash-in var(--m3) var(--e-out) both}
+:root[data-ed-tx="flaps"]::view-transition-old(root),:root[data-ed-tx="flaps"]::view-transition-old(edu-stage){animation:edtx-flaps-out var(--m3) var(--e-inout) both;transform-origin:center top}
+:root[data-ed-tx="flaps"]::view-transition-new(root),:root[data-ed-tx="flaps"]::view-transition-new(edu-stage){animation:edtx-flaps-in var(--m3) var(--e-out) both;transform-origin:center bottom}
+:root[data-ed-tx="slam"]::view-transition-old(root),:root[data-ed-tx="slam"]::view-transition-old(edu-stage){animation:edtx-slam-out var(--m4) var(--e-inout) both}
+:root[data-ed-tx="slam"]::view-transition-new(root),:root[data-ed-tx="slam"]::view-transition-new(edu-stage){animation:edtx-slam-in var(--m4) var(--e-out) both}
+:root[data-ed-tx="daybreak"]::view-transition-old(root),:root[data-ed-tx="daybreak"]::view-transition-old(edu-stage){animation:edtx-daybreak-out var(--m3) var(--e-inout) both}
+:root[data-ed-tx="daybreak"]::view-transition-new(root),:root[data-ed-tx="daybreak"]::view-transition-new(edu-stage){animation:edtx-daybreak-in var(--m3) var(--e-out) both}
+:root[data-ed-tx="line"]::view-transition-old(root),:root[data-ed-tx="line"]::view-transition-old(edu-stage){animation:edtx-line-out var(--m3) var(--e-inout) both}
+:root[data-ed-tx="line"]::view-transition-new(root),:root[data-ed-tx="line"]::view-transition-new(edu-stage){animation:edtx-line-in var(--m3) var(--e-out) both}
+:root[data-ed-tx="tear"]::view-transition-old(root),:root[data-ed-tx="tear"]::view-transition-old(edu-stage){animation:edtx-tear-out var(--m3) var(--e-inout) both}
+:root[data-ed-tx="tear"]::view-transition-new(root),:root[data-ed-tx="tear"]::view-transition-new(edu-stage){animation:edtx-tear-in var(--m3) var(--e-out) both}
+:root[data-ed-tx="portal-in"]::view-transition-old(root),:root[data-ed-tx="portal-in"]::view-transition-old(edu-stage){animation:edtx-portal-in-out var(--m3) var(--e-inout) both}
+:root[data-ed-tx="portal-in"]::view-transition-new(root),:root[data-ed-tx="portal-in"]::view-transition-new(edu-stage){animation:edtx-portal-in-in var(--m3) var(--e-out) both}
+:root[data-ed-tx="portal-out"]::view-transition-old(root),:root[data-ed-tx="portal-out"]::view-transition-old(edu-stage){animation:edtx-portal-out-out var(--m3) var(--e-inout) both}
+:root[data-ed-tx="portal-out"]::view-transition-new(root),:root[data-ed-tx="portal-out"]::view-transition-new(edu-stage){animation:edtx-portal-out-in var(--m3) var(--e-out) both}
+}
 body.st-self *,body.st-self *::before,body.st-self *::after,body.st-printing *{animation:none!important;transition:none!important}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}
 @media print{*,*::before,*::after{animation:none!important;transition:none!important}.ed-particle,.ed-number-reel{display:none!important}.ed-letter{opacity:1!important;transform:none!important;filter:none!important}}

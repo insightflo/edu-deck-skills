@@ -10,13 +10,14 @@
   if(!stage) return;
   const reduce=matchMedia('(prefers-reduced-motion: reduce)');
   const mediaPrint=matchMedia('print');
-  let printing=false, still=false, seen=new WeakMap(), animations=new Set(), cleanups=new Set(), active=null, priorStep=-1, queued=false, transition=null, navigation=0;
+  const quickMode=new URLSearchParams(location.search).has('quick');
+  let printing=false, still=false, seen=new WeakMap(), animations=new Set(), cleanups=new Set(), active=null, priorStep=-1, queued=false, transition=null, navigation=0, txSeq=0;
   // P0-2 silent-slide audit: every real signature firing is recorded here as a
   // frozen {slide,step,sig} entry (bounded window; audit needs recency, not history).
   const sigLog=[];
   const all=(q,r=document)=>Array.from(r.querySelectorAll(q));
   const current=()=>document.body.classList.contains('in-hub')?null:stage.querySelector('.deck.on>.slide.active,:scope>.slide.active');
-  const staticMode=()=>reduce.matches||printing||mediaPrint.matches||document.body.classList.contains('st-self')||document.body.classList.contains('st-printing')||document.body.classList.contains('st-presenter')||document.body.classList.contains('st-sheet');
+  const staticMode=()=>quickMode||reduce.matches||printing||mediaPrint.matches||document.body.classList.contains('st-self')||document.body.classList.contains('st-printing')||document.body.classList.contains('st-presenter')||document.body.classList.contains('st-sheet');
   function token(name,el=stage){return getComputedStyle(el).getPropertyValue(name).trim()||getComputedStyle(document.documentElement).getPropertyValue(name).trim();}
   function duration(name,el){const v=token('--'+name,el);return parseFloat(v)*(v.endsWith('ms')?1:1000);}
   function shown(el){return !!el&&!el.closest('.step-hide,.gone,.notes')&&getComputedStyle(el).display!=='none'&&getComputedStyle(el).visibility!=='hidden';}
@@ -1172,11 +1173,95 @@
   }
   function schedule(){if(!queued){queued=true;queueMicrotask(sync);}}
   function settle(){cancel(true);if(current())marks(current());}
+  const TRANSITIONS=['fade','fold','wash','flaps','slam','daybreak','line','tear','portal-in','portal-out'];
+  const TX_SET=new Set(TRANSITIONS);
+  function predictedTarget(old){
+    const info=window.deckInfo?window.deckInfo():null;
+    if(!info||typeof info.slide!=='number')return null;
+    const scope=old&&old.parentElement?old.parentElement:stage;
+    const pages=Array.from(scope.children).filter(e=>e.classList&&e.classList.contains('slide'));
+    return pages[info.slide]||null;
+  }
+  function transitionChoice(){
+    const target=predictedTarget(current());
+    return [target&&target.dataset?target.dataset.tx:'',document.documentElement.dataset.tx||'',stage.dataset.tx||'']
+      .map(v=>(v||'').trim().toLowerCase()).find(v=>TX_SET.has(v))||'';
+  }
+  function txSpec(tx,dir){
+    const back=dir==='back',side=back?-1:1;
+    if(tx==='fade')return{
+      exit:[{opacity:1},{opacity:0}],
+      enter:[{opacity:0},{opacity:1}]
+    };
+    if(tx==='fold')return{
+      exit:[{transform:'perspective(1400px) rotateY(0deg) translateX(0px)',opacity:1},{transform:`perspective(1400px) rotateY(${-72*side}deg) translateX(${-80*side}px)`,opacity:0}],
+      enter:[{transform:`perspective(1400px) rotateY(${68*side}deg) translateX(${80*side}px)`,opacity:0},{transform:'perspective(1400px) rotateY(0deg) translateX(0px)',opacity:1}],
+      exitOrigin:back?'right center':'left center',enterOrigin:back?'left center':'right center'
+    };
+    if(tx==='wash')return{
+      exit:[{opacity:1,filter:'brightness(1)'},{opacity:.2,filter:'brightness(1.35)'}],
+      enter:[{clipPath:'polygon(0% 0%,0% 0%,-18% 100%,-18% 100%)',opacity:0,filter:'brightness(1.65)'},{clipPath:'polygon(0% 0%,72% 0%,48% 100%,0% 100%)',opacity:1,filter:'brightness(1.28)',offset:.68},{clipPath:'polygon(0% 0%,100% 0%,100% 100%,0% 100%)',opacity:1,filter:'brightness(1)'}]
+    };
+    if(tx==='flaps')return{
+      exit:[{transform:'perspective(1200px) rotateX(0deg)',opacity:1},{transform:'perspective(1200px) rotateX(78deg)',opacity:0}],
+      enter:[{transform:'perspective(1200px) rotateX(-78deg)',opacity:0},{transform:'perspective(1200px) rotateX(0deg)',opacity:1}],
+      exitOrigin:'center top',enterOrigin:'center bottom'
+    };
+    if(tx==='slam')return{
+      exit:[{transform:'scale(1)',opacity:1},{transform:'scale(.94)',opacity:0}],
+      enter:[{transform:'scale(1.18)',opacity:0},{transform:'scale(.985)',opacity:1,offset:.72},{transform:'scale(1.012)',opacity:1,offset:.88},{transform:'scale(1)',opacity:1}],
+      m:'m4',ease:'e-out'
+    };
+    if(tx==='daybreak')return{
+      exit:[{opacity:1,filter:'brightness(1)'},{opacity:.18,filter:'brightness(.58)'}],
+      enter:[{clipPath:'inset(100% 0% 0% 0%)',opacity:.35,filter:'brightness(2.1)'},{clipPath:'inset(22% 0% 0% 0%)',opacity:1,filter:'brightness(1.35)',offset:.68},{clipPath:'inset(0% 0% 0% 0%)',opacity:1,filter:'brightness(1)'}]
+    };
+    if(tx==='line')return{
+      exit:[{transform:'scale(1)',opacity:1},{transform:'scale(.98)',opacity:0}],
+      enter:[{clipPath:'inset(50% 0% 50% 0%)',opacity:.55},{clipPath:'inset(18% 0% 18% 0%)',opacity:1,offset:.62},{clipPath:'inset(0% 0% 0% 0%)',opacity:1}]
+    };
+    if(tx==='tear')return{
+      exit:[{clipPath:'polygon(0% 0%,100% 0%,100% 100%,0% 100%)',transform:'translate(0px,0px) rotate(0deg)',opacity:1},{clipPath:'polygon(0% 0%,100% 0%,82% 100%,0% 100%)',transform:`translate(${-92*side}px,${-58}px) rotate(${-2*side}deg)`,opacity:0}],
+      enter:[{clipPath:'polygon(100% 0%,100% 0%,100% 100%,100% 100%)',transform:`translate(${92*side}px,58px) rotate(${2*side}deg)`,opacity:0},{clipPath:'polygon(0% 0%,100% 0%,82% 100%,0% 100%)',transform:'translate(0px,0px) rotate(0deg)',opacity:1,offset:.68},{clipPath:'polygon(0% 0%,100% 0%,100% 100%,0% 100%)',transform:'translate(0px,0px) rotate(0deg)',opacity:1}]
+    };
+    if(tx==='portal-in')return{
+      exit:[{transform:'scale(1)',opacity:1},{transform:'scale(.9)',opacity:0}],
+      enter:[{clipPath:'circle(0% at 50% 50%)',opacity:.45,transform:'scale(.96)'},{clipPath:'circle(72% at 50% 50%)',opacity:1,transform:'scale(1)',offset:.76},{clipPath:'circle(100% at 50% 50%)',opacity:1,transform:'scale(1)'}]
+    };
+    if(tx==='portal-out')return{
+      exit:[{clipPath:'circle(100% at 50% 50%)',opacity:1,transform:'scale(1)'},{clipPath:'circle(0% at 50% 50%)',opacity:.9,transform:'scale(1.04)'}],
+      enter:[{opacity:0,transform:'scale(.985)'},{opacity:1,transform:'scale(1)'}]
+    };
+    return null;
+  }
+  function playSceneTx(ghost,s,tx,dir,done){
+    const spec=txSpec(tx,dir);
+    if(!spec){if(done)done();return;}
+    let pending=0,started=false,finished=false;
+    const complete=()=>{if(finished)return;finished=true;if(done)done();};
+    const maybe=()=>{if(started&&!pending)complete();};
+    const run=(el,frames,origin,after)=>{
+      if(!el)return;
+      pending++;
+      const oldOrigin=el.style.transformOrigin;
+      if(origin)el.style.transformOrigin=origin;
+      let cleaned=false;
+      const cleanup=()=>{if(cleaned)return;cleaned=true;if(origin)el.style.transformOrigin=oldOrigin;if(after)after();pending--;maybe();};
+      const a=animate(el,frames,spec.m||'m3',spec.ease||'e-inout',0,cleanup);
+      if(!a)cleanup();
+    };
+    run(ghost,spec.exit,spec.exitOrigin,()=>ghost.remove());
+    run(s,spec.enter,spec.enterOrigin,null);
+    started=true;maybe();
+  }
   function navigate(update,dir){
     cancel(true);const id=++navigation;
     // Reading pages can be much taller than the viewport. Keep semantic entry
     // signatures, but avoid full-page snapshots / 1920px ghosts on narrow screens.
     if(document.documentElement.classList.contains('ed-compact')){update();return;}
+    const tx=transitionChoice(),txId=++txSeq;
+    const clearTx=()=>{if(tx&&txId===txSeq&&document.documentElement.dataset.edTx===tx)delete document.documentElement.dataset.edTx;};
+    if(tx)document.documentElement.dataset.edTx=tx;
     if(staticMode()||!document.startViewTransition){
       const old=current();let ghost=null;
       if(old&&!staticMode()){
@@ -1186,25 +1271,28 @@
       }
       update();const s=current();
       // Schedule after the semantic event's microtask, so it cannot cancel this pair.
-      queueMicrotask(()=>{if(id!==navigation||staticMode()){if(ghost)ghost.remove();return;}
-        if(ghost)animate(ghost,[{transform:'translateX(0px)',opacity:1},{transform:`translateX(${dir==='back'?96:-96}px)`,opacity:0}],'m3','e-inout',0,()=>ghost.remove());
-        if(s)move(s,[`translateX(${dir==='back'?-96:96}px) scale(.985)`,'translateX(0px) scale(1)'],'m3');
+      queueMicrotask(()=>{if(id!==navigation||staticMode()){if(ghost)ghost.remove();clearTx();return;}
+        if(!tx){
+          if(ghost)animate(ghost,[{transform:'translateX(0px)',opacity:1},{transform:`translateX(${dir==='back'?96:-96}px)`,opacity:0}],'m3','e-inout',0,()=>ghost.remove());
+          if(s)move(s,[`translateX(${dir==='back'?-96:96}px) scale(.985)`,'translateX(0px) scale(1)'],'m3');
+        }else playSceneTx(ghost,s,tx,dir,clearTx);
       });return;
     }
     document.documentElement.dataset.edDirection=dir;
     transition=document.startViewTransition(()=>{if(id===navigation)update();});
     transition.ready.catch(()=>{});
     transition.updateCallbackDone.catch(()=>{});
-    transition.finished.catch(()=>{}).finally(()=>{if(id===navigation)transition=null;});
+    transition.finished.catch(()=>{}).finally(()=>{if(id===navigation)transition=null;clearTx();});
   }
   function init(){
     all('.slide',stage).forEach(s=>{adapt(s);all('[data-text]',s).forEach(e=>{if(!e.textContent)e.textContent=e.dataset.text;});});
     document.fonts.ready.then(()=>{
       all('.cx-title',stage).forEach(t=>{const room=t.parentElement.clientWidth-40;for(const n of [160,128,104]){t.style.fontSize=n+'px';if(t.scrollWidth<=room)break;}});
       schedule();
+      queueMicrotask(()=>{if(!window.ready){window.ready=true;document.dispatchEvent(new Event('edready'));}});
     });
   }
-  window.eduMotion={navigate,mark,unmark,verdict,settle,signatures:Object.keys(recipes),sigLog};
+  window.eduMotion={navigate,mark,unmark,verdict,settle,signatures:Object.keys(recipes),sigLog,transitions:TRANSITIONS};
   document.addEventListener('deckslide',schedule);document.addEventListener('deckstep',schedule);
   // draft-loop 완주 — 뷰어 finishSteps(dblclick·G키)와 같은 가드·같은 영역에서
   // 순환을 멈추고 완료 프레임(실물 이미지)에 정착한다(뷰어 수정 없이 여기서 해결).

@@ -178,4 +178,8 @@ html.ed-compact .ed-toc-item{font-size:18px}
 html.ed-compact .ed-sch-in input{font-size:18px}
 html.ed-compact .ed-sch-item{min-height:56px}
 
-@media print{.ed-topbar,.ed-top,.ed-bot,.ed-chrome-pop,.ed-help-modal,.ed-sch,.ed-toc,.ed-toast,.ed-pres{display:none!important}}
+/* ---------- 무대 암전(. 키) ---------- */
+.ed-blackout{position:fixed;inset:0;background:#000;z-index:9999}
+.ed-blackout[hidden]{display:none!important}
+
+@media print{.ed-topbar,.ed-top,.ed-bot,.ed-chrome-pop,.ed-help-modal,.ed-sch,.ed-toc,.ed-toast,.ed-pres,.ed-blackout{display:none!important}}
